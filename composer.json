@@ -1,0 +1,10 @@
+{
+    "name": "qundg/sloth",
+    "authors": [
+        {
+            "name": "Ben Kremer",
+            "email": "bk@qundg.de"
+        }
+    ],
+    "require": {}
+}
