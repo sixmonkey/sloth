@@ -24,6 +24,11 @@ class Plugin {
 	}
 
 	public function __construct() {
+		$this->add_filters();
+	}
+
+	private function add_filters() {
+		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 	}
 
 	public function plugin() {
@@ -41,5 +46,14 @@ class Plugin {
 
 				return $fixed_uploads_array;
 			} );
+	}
+
+	public function fix_network_admin_url( $url ) {
+		$url_info = parse_url( $url );
+		if ( ! preg_match( '/^\/cms/', $url_info['path'] ) ) {
+			$url = $url_info['scheme'] . '://' . $url_info['host'] . '/cms' . $url_info['path'];
+		}
+
+		return $url;
 	}
 }
