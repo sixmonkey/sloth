@@ -11,12 +11,12 @@ class Installer {
 
 	public static function config( Event $event ) {
 		$vendor_dir     = $event->getComposer()->getConfig()->get( 'vendor-dir' );
-		self::$base_dir = dirname( $vendor_dir );
+		self::$base_dir = $vendor_dir;
 		self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
 
 		self::rebuildIndex();
 		self::initializeSalts();
-		#self::initializeDotenv();
+		self::initializeDotenv();
 		#self::initializeWpconfig();
 		#self::installMustUsePlugins();
 	}
