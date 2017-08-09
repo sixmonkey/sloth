@@ -50,8 +50,12 @@ class Plugin {
 
 	public function fix_network_admin_url( $url ) {
 		$url_info = parse_url( $url );
+
 		if ( ! preg_match( '/^\/cms/', $url_info['path'] ) ) {
 			$url = $url_info['scheme'] . '://' . $url_info['host'] . '/cms' . $url_info['path'];
+			if ( isset( $url_info['query'] ) && ! empty( $url_info['query'] ) ) {
+				$url .= '?' . $url_info['query'];
+			}
 		}
 
 		return $url;
