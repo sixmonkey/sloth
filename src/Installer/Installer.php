@@ -10,7 +10,7 @@ class Installer {
 	static $base_dir;
 
 	public static function config( Event $event ) {
-		$vendor_dir     = $event->getComposer()->getConfig()->get( 'vendor-dir' );
+		$vendor_dir     = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
 		self::$base_dir = $vendor_dir;
 		self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
 
