@@ -17,7 +17,8 @@ class Installer {
 		self::rebuildIndex();
 		self::initializeSalts();
 		self::initializeDotenv();
-		#self::initializeWpconfig();
+		self::initializeWpconfig();
+		self::initializeHtaccess();
 		#self::installMustUsePlugins();
 	}
 
@@ -52,7 +53,7 @@ class Installer {
 	}
 
 	protected static function initializeWpconfig() {
-		copy( self::mkPath( [ self::$base_dir, 'src', 'config', 'wp-config-base.php' ] ),
+		copy( self::mkPath( [ dirname(__DIR__),  'wp-config.php' ] ),
 			self::mkPath( [ self::$http_dir, 'wp-config.php' ] ) );
 	}
 
@@ -62,6 +63,10 @@ class Installer {
 			self::mkPath( [ self::$http_dir, 'must', 'uploads_to_media.php' ] ) );
 	}
 
+	protected static function initializeHtaccess() {
+		copy( self::mkPath( [ dirname(__DIR__),  '.htaccess' ] ),
+			self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
+	}
 	public static function mkPath( $parts ) {
 		return implode( DIRECTORY_SEPARATOR, $parts );
 	}
