@@ -6,7 +6,9 @@
             "email": "bk@qundg.de"
         }
     ],
-    "require": {},
+    "require": {
+        "jover/singleton": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "Sloth\\": "src/"

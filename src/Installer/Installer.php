@@ -19,7 +19,7 @@ class Installer {
 		self::initializeDotenv();
 		self::initializeWpconfig();
 		self::initializeHtaccess();
-		#self::installMustUsePlugins();
+		self::installMustUsePlugins();
 	}
 
 	protected static function rebuildIndex() {
@@ -53,20 +53,23 @@ class Installer {
 	}
 
 	protected static function initializeWpconfig() {
-		copy( self::mkPath( [ dirname(__DIR__),  'wp-config.php' ] ),
+		copy( self::mkPath( [ dirname( __DIR__ ), 'wp-config.php' ] ),
 			self::mkPath( [ self::$http_dir, 'wp-config.php' ] ) );
 	}
 
 	protected static function installMustUsePlugins() {
-		mkdir( self::mkPath( [ self::$http_dir, 'must' ] ), 0775 );
-		copy( self::mkPath( [ self::$base_dir, 'src', 'config', 'fixed_uploads_to_media.php' ] ),
-			self::mkPath( [ self::$http_dir, 'must', 'uploads_to_media.php' ] ) );
+		if ( !is_dir( self::mkPath( [ self::$http_dir, 'extensions', 'components' ] ) ) ) {
+			mkdir( self::mkPath( [ self::$http_dir, 'extensions', 'components' ] ), 0775 );
+		}
+		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth.php' ] ),
+			self::mkPath( [ self::$http_dir, 'extensions', 'components', 'sloth.php' ] ) );
 	}
 
 	protected static function initializeHtaccess() {
-		copy( self::mkPath( [ dirname(__DIR__),  '.htaccess' ] ),
+		copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
 			self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
 	}
+
 	public static function mkPath( $parts ) {
 		return implode( DIRECTORY_SEPARATOR, $parts );
 	}

@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a5f0abda81e6668ebbd44e04af1292c4",
+    "packages": [
+        {
+            "name": "jover/singleton",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joverthegrey/singleton.git",
+                "reference": "4f06504af839d6acfaca58a5c3141dd37e3f6c4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joverthegrey/singleton/zipball/4f06504af839d6acfaca58a5c3141dd37e3f6c4e",
+                "reference": "4f06504af839d6acfaca58a5c3141dd37e3f6c4e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joost Vermeulen",
+                    "email": "joost@jover.net"
+                }
+            ],
+            "description": "A simple Singleton implementation",
+            "time": "2017-06-29T09:31:27+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

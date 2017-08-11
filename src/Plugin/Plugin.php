@@ -2,26 +2,7 @@
 
 namespace Sloth\Plugin;
 
-class Plugin {
-	/**
-	 * Sloth\Plugin instance.
-	 *
-	 * @var \Sloth\Core\Sloth
-	 */
-	protected static $instance = null;
-
-	/**
-	 * Retrieve Sloth class instance.
-	 *
-	 * @return \Sloth\Core\Sloth
-	 */
-	public static function instance() {
-		if ( is_null( static::$instance ) ) {
-			static::$instance = new static();
-		}
-
-		return static::$instance;
-	}
+class Plugin extends \Singleton {
 
 	public function __construct() {
 		$this->add_filters();
