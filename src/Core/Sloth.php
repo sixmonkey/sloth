@@ -70,7 +70,6 @@ class Sloth extends \Singleton {
 	 * theme default templates.
 	 */
 	public function setRouter() {
-		var_dump( 'HALLO' );
 		$this->container['route']->setRewrite();
 	}
 

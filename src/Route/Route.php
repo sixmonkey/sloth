@@ -79,7 +79,7 @@ final class Route {
 		},
 			[
 				'cacheFile'     => DIR_CACHE . DS . 'Route' . DS . 'route.php',
-				'cacheDisabled' => WP_DEBUG
+				'cacheDisabled' => WP_DEBUG,
 			] );
 	}
 
@@ -197,11 +197,12 @@ final class Route {
 	 * dispatch it!
 	 */
 	public function dispatch() {
-		global $wp_query, $wp;
+
+		global $wp;
 
 		self::$dispatched = true;
 
-		// Fetch method and URI from somewhere
+		// Fetch method and URI from $_SERVER
 		$httpMethod = $_SERVER['REQUEST_METHOD'];
 		$uri        = $_SERVER['REQUEST_URI'];
 
@@ -260,7 +261,7 @@ final class Route {
 			call_user_func_array( [ $myController, 'render' ], [ $routeTarget ] );
 		}
 
-		#dump( $routeInfo, get_queried_object(), $routeTarget, $wp->query_vars );
+		dump( $routeInfo, get_queried_object(), $routeTarget, $wp->query_vars );
 	}
 
 	/**

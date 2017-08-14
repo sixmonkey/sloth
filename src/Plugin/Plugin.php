@@ -6,13 +6,14 @@ use Sloth\Core\Sloth;
 class Plugin extends \Singleton {
 
 	public function __construct() {
+		var_dump(12);
 		$this->add_filters();
 		\Route::instance()->boot();
 	}
 
 	private function add_filters() {
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
-		add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
+		add_action( 'init', [ Sloth::getInstance(), 'g' ], 20 );
 		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 	}
 

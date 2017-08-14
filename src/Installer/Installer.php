@@ -63,7 +63,10 @@ class Installer {
 	}
 
 	protected static function makeCacheDir() {
-		mkdir( self::mkPath( [ self::$base_dir, 'app', 'cache' ] ), 0755 );
+		$dir_cache = self::mkPath( [ self::$base_dir, 'app', 'cache' ] );
+		if ( ! is_dir( $dir_cache ) ) {
+			mkdir( $dir_cache, 0755 );
+		}
 	}
 
 	public static function mkPath( $parts ) {
