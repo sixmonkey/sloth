@@ -19,6 +19,7 @@ class Installer {
 		self::initializeDotenv();
 		self::initializeWpconfig();
 		self::initializeHtaccess();
+		self::makeCacheDir();
 	}
 
 	protected static function rebuildIndex() {
@@ -59,6 +60,10 @@ class Installer {
 	protected static function initializeHtaccess() {
 		copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
 			self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
+	}
+
+	protected static function makeCacheDir() {
+		mkdir( self::mkPath( [ self::$base_dir, 'app', 'cache' ] ), 0755 );
 	}
 
 	public static function mkPath( $parts ) {

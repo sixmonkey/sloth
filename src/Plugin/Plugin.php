@@ -2,14 +2,18 @@
 
 namespace Sloth\Plugin;
 
+use Sloth\Core\Sloth;
 class Plugin extends \Singleton {
 
 	public function __construct() {
 		$this->add_filters();
+		\Route::instance()->boot();
 	}
 
 	private function add_filters() {
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
+		add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
+		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 	}
 
 	public function plugin() {
