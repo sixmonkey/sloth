@@ -19,7 +19,6 @@ class Installer {
 		self::initializeDotenv();
 		self::initializeWpconfig();
 		self::initializeHtaccess();
-		self::installMustUsePlugins();
 	}
 
 	protected static function rebuildIndex() {
@@ -55,14 +54,6 @@ class Installer {
 	protected static function initializeWpconfig() {
 		copy( self::mkPath( [ dirname( __DIR__ ), 'wp-config.php' ] ),
 			self::mkPath( [ self::$http_dir, 'wp-config.php' ] ) );
-	}
-
-	protected static function installMustUsePlugins() {
-		if ( !is_dir( self::mkPath( [ self::$http_dir, 'extensions', 'components' ] ) ) ) {
-			mkdir( self::mkPath( [ self::$http_dir, 'extensions', 'components' ] ), 0775 );
-		}
-		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth.php' ] ),
-			self::mkPath( [ self::$http_dir, 'extensions', 'components', 'sloth.php' ] ) );
 	}
 
 	protected static function initializeHtaccess() {
