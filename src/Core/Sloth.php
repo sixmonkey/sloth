@@ -5,6 +5,7 @@ namespace Sloth\Core;
 use Sloth\Route\Route;
 use Tracy\Debugger;
 use Tracy\Dumper;
+use Corcel\Database;
 
 class Sloth extends \Singleton {
 
@@ -43,6 +44,11 @@ class Sloth extends \Singleton {
 		 * enable debugging where needed
 		 */
 		$this->setDebugging();
+
+		/**
+		 * open database connection for corcel
+		 */
+		$this->connectCorcel();
 	}
 
 	/**
@@ -103,5 +109,15 @@ class Sloth extends \Singleton {
 		if ( WP_DEBUG ) {
 			\Tracy\Debugger::enable( $mode );
 		}
+	}
+
+	private function connectCorcel() {
+		$params = array(
+			'database'  => DB_NAME,
+			'username'  => DB_USER,
+			'password'  => DB_PASSWORD,
+			'prefix'    => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
+		);
+		\Corcel\Database::connect($params);
 	}
 }

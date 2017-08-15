@@ -8,12 +8,20 @@ class Plugin extends \Singleton {
 	public function __construct() {
 		$this->add_filters();
 		$this->loadControllers();
+		$this->loadModels();
 		#\Route::instance()->boot();
 	}
 
 	private function loadControllers() {
 		foreach(glob(\get_template_directory() . DS . 'Controller' . DS . '*Controller.php') as $file) {
 			include($file);
+		}
+	}
+
+	private function loadModels() {
+		foreach(glob(DIR_APP . 'Model' . DS . '*.php') as $file) {
+			include($file);
+			bdump($file);
 		}
 	}
 
