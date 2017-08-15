@@ -2,6 +2,7 @@
 
 namespace Sloth\Route;
 
+use Brain\Hierarchy\Hierarchy;
 
 final class Route {
 	/**
@@ -88,16 +89,16 @@ final class Route {
 	 *
 	 * @param array|string httpMethod
 	 * @param string $route
-	 * @param string $template
+	 * @param array $action
 	 */
-	private static function addRoute( Array $httpMethod, $route, $template ) {
+	private static function addRoute( $httpMethod, $route, Array $action ) {
 		if ( self::$dispatched ) {
 			throw new Exception( 'Adding Routes is no longer possible. Please use your template\'s routes.php to define Routes.' );
 		}
 		self::$routes[] = [
 			'httpMethod' => $httpMethod,
 			'route'      => self::normalize( $route ),
-			'template'   => $template,
+			'template'   => $action,
 		];
 	}
 
@@ -105,80 +106,80 @@ final class Route {
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function add( $route, $template ) {
-		self::addRoute( [ 'GET', 'POST' ], $route, $template );
+	public static function add( $route, $action ) {
+		self::addRoute( [ 'GET', 'POST' ], $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function get( $route, $template ) {
-		self::addRoute( 'GET', $route, $template );
+	public function get( $route, $action ) {
+		self::addRoute( 'GET', $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function post( $route, $template ) {
-		self::addRoute( 'POST', $route, $template );
+	public static function post( $route, $action ) {
+		self::addRoute( 'POST', $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function put( $route, $template ) {
-		self::addRoute( 'PUT', $route, $template );
+	public static function put( $route, $action ) {
+		self::addRoute( 'PUT', $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function patch( $route, $template ) {
-		self::addRoute( 'PATCH', $route, $template );
+	public static function patch( $route, $action ) {
+		self::addRoute( 'PATCH', $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function delete( $route, $template ) {
-		self::addRoute( 'DELETE', $route, $template );
+	public static function delete( $route, $action ) {
+		self::addRoute( 'DELETE', $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function head( $route, $template ) {
-		self::addRoute( 'HEAD', $route, $template );
+	public static function head( $route, $action ) {
+		self::addRoute( 'HEAD', $route, $action );
 	}
 
 	/**
 	 * add ad a 'default' Route for GET AND POST
 	 *
 	 * @param array|string $route
-	 * @param string $template
+	 * @param string $action
 	 */
-	public function any( $route, $template ) {
-		self::addRoute( [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD' ], $route, $template );
+	public static function any( $route, $action ) {
+		self::addRoute( [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD' ], $route, $action );
 	}
 
 	/**
@@ -190,7 +191,14 @@ final class Route {
 		/*
 		 * prevent routes from breaking when redirected to trailingslash
 		 */
-		return rtrim( $route, '/' ) . '[/]';
+
+		if ( substr( $route, - 1 ) == ']' ) {
+			$route = substr( $route, 0, strlen( $route ) - 1 ) . '[/]]';
+		} else {
+			$route = rtrim( $route, '/' ) . '[/]';
+		}
+
+		return $route;
 	}
 
 	/**
@@ -198,7 +206,7 @@ final class Route {
 	 */
 	public function dispatch() {
 
-		global $wp;
+		global $wp_query, $wp;
 
 		self::$dispatched = true;
 
@@ -210,58 +218,65 @@ final class Route {
 		if ( false !== $pos = strpos( $uri, '?' ) ) {
 			$uri = substr( $uri, 0, $pos );
 		}
-		$uri          = rawurldecode( $uri );
-		$template_dir = realpath( get_template_directory() . DS . 'views' . DS . 'public' );
+		$uri = rawurldecode( $uri );
+
+		$routeTarget = [];
 
 		$routeInfo = self::$dispatcher->dispatch( $httpMethod, $uri );
 
 		switch ( $routeInfo[0] ) {
 			case \FastRoute\Dispatcher::NOT_FOUND:
-				// This will look for Twig files first, and fall back to standard PHP files if
-				// no matching Twig file was found.
-				$finder = new \Brain\Hierarchy\Finder\FoldersTemplateFinder( [
-					$template_dir,
-				], [ 'twig' ] );
+				$hierarchy = new Hierarchy();
+				$templates = $hierarchy->getTemplates( $wp_query );
+				if ( $templates[0] != 404 ) {
+					foreach ( $templates as $template ) {
+						$myController = $this->getController( $template );
+						if ( class_exists( $myController ) ) {
+							$routeTarget = [
+								'controller' => $myController,
+								'action'     => 'index',
+							];
+							break;
+						}
+					}
+				}
 
-				$queryTemplate = new \Brain\Hierarchy\QueryTemplate( $finder );
-
-				$path        = $queryTemplate->findTemplate();
-				$routeTarget = ! empty( $path ) ? basename( $path, '.twig' ) : '404';
+				#$path        = $queryTemplate->findTemplate();
 				break;
 			case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
 				$allowedMethods = $routeInfo[1];
 				break;
 			case \FastRoute\Dispatcher::FOUND:
-				$routeTarget    = $routeInfo[1];
-				$wp->query_vars = $routeInfo[2];
+				$routeTarget               = $routeInfo[1];
+				$routeTarget['controller'] = $this->getController( $routeTarget['controller'] );
+				$wp->query_vars            = $routeInfo[2];
 				break;
 		}
 
-		/**
-		 * if an array was given we assume that an explicit controller and action were given
-		 *
-		 * otherwise we assume that it's a simple rule and a simple name of a template was given
-		 *
-		 */
-		if ( is_array( $routeTarget ) ) {
-			/*
-			 * merge with defaults to prevent missing data
-			 */
-			$routeTarget = array_merge( $this->routeTargetDefaults, $routeTarget );
-			/**
-			 * instantiate controller and call action
-			 */
-			$myController = new $routeTarget['controller'];
-			if ( ! is_a( $myController, '\Sloth\Controller\Controller' ) ) {
-				throw new \ErrorException( 'Controllers must extend \Sloth\Controller\Controller' );
-			}
-			call_user_func_array( [ $myController, $routeTarget['action'] ], $routeInfo[2] );
-		} else {
-			$myController = new $this->routeTargetDefaults['controller'];
-			call_user_func_array( [ $myController, 'render' ], [ $routeTarget ] );
+		if ( ! isset( $routeTarget['action'] ) ) {
+			$routeTarget['action'] = 'index';
 		}
 
-		dump( $routeInfo, get_queried_object(), $routeTarget, $wp->query_vars );
+		if ( ! isset( $routeInfo[2] ) ) {
+			$routeInfo[2] = [];
+		}
+
+		if(!isset($routeTarget['controller']) || !class_exists($routeTarget['controller'])) {
+			# @TODO
+			throw new \Exception('404');
+		}
+
+
+		$controller = new $routeTarget['controller'];
+		call_user_func( [ $controller, 'beforeRender' ] );
+		call_user_func_array( [ $controller, $routeTarget['action'] ], $routeInfo[2] );
+		call_user_func( [ $controller, 'afterRender' ] );
+	}
+
+	private function getController( $name ) {
+		return 'Theme\Controller\\' . \Cake\Utility\Inflector::camelize( str_replace( '-',
+				'_',
+				$name ) ) . 'Controller';
 	}
 
 	/**
