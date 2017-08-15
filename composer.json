@@ -13,7 +13,9 @@
         "illuminate/view": "^5.4",
         "twig/twig": "^2.4",
         "illuminate/filesystem": "^5.4",
-        "brain/hierarchy": "^2.3"
+        "brain/hierarchy": "^2.3",
+        "jjgrainger/posttypes": "^1.1",
+        "jgrossi/corcel": "^2.4"
     },
     "autoload": {
         "psr-4": {
