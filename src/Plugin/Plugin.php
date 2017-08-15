@@ -6,15 +6,21 @@ use Sloth\Core\Sloth;
 class Plugin extends \Singleton {
 
 	public function __construct() {
-		var_dump(12);
 		$this->add_filters();
-		\Route::instance()->boot();
+		$this->loadControllers();
+		#\Route::instance()->boot();
+	}
+
+	private function loadControllers() {
+		foreach(glob(\get_template_directory() . DS . 'Controller' . DS . '*Controller.php') as $file) {
+			include($file);
+		}
 	}
 
 	private function add_filters() {
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ Sloth::getInstance(), 'g' ], 20 );
-		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
+		#add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 	}
 
 	public function plugin() {
