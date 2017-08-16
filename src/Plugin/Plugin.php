@@ -2,32 +2,76 @@
 
 namespace Sloth\Plugin;
 
+use PostTypes\PostType;
+
 use Sloth\Core\Sloth;
+
 class Plugin extends \Singleton {
+	public $current_theme_path;
+	private $container;
 
 	public function __construct() {
 		$this->add_filters();
 		$this->loadControllers();
 		$this->loadModels();
 		#\Route::instance()->boot();
+
+		/**
+		 * set current_theme_path
+		 */
+		$this->current_theme_path = realpath( get_template_directory() );
+		/**
+		 * tell container about current theme oath
+		 */
+		$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
+
+		/**
+		 * add templates to viewFinder
+		 */
+		$this->addTemplates();
+		/*
+		 * we need the possibility to use @extends in twig, so we resolve this one as regular path
+		 */
+		$twigLoader = $GLOBALS['sloth']->container['twig.loader'];
+		$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
+
 	}
 
 	private function loadControllers() {
-		foreach(glob(\get_template_directory() . DS . 'Controller' . DS . '*Controller.php') as $file) {
-			include($file);
+		foreach ( glob( \get_template_directory() . DS . 'Controller' . DS . '*Controller.php' ) as $file ) {
+			include( $file );
 		}
 	}
 
-	private function loadModels() {
-		foreach(glob(DIR_APP . 'Model' . DS . '*.php') as $file) {
-			include($file);
-			bdump($file);
+	public function loadModels() {
+
+		foreach ( glob( DIR_APP . 'Model' . DS . '*.php' ) as $file ) {
+			include( $file );
+			$classes    = get_declared_classes();
+			$model_name = array_pop( $classes );
+
+			$model = new $model_name;
+			$model->register();
+		}
+	}
+
+	public function loadModules() {
+		foreach ( glob( get_template_directory() . DS . 'Module' . DS . '*Module.php' ) as $file ) {
+			include( $file );
+			$classes     = get_declared_classes();
+			$module_name = array_pop( $classes );
+
+			if ( is_array( $module_name::$layotter ) && class_exists( '\Layotter' ) ) {
+				\Layotter::register_element( strtolower( substr( strrchr( $module_name, "\\" ), 1 ) ), $module_name );
+			}
 		}
 	}
 
 	private function add_filters() {
+
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
-		add_action( 'init', [ Sloth::getInstance(), 'g' ], 20 );
+		add_action( 'init', [ $this, 'loadModules' ], 20 );
+		#add_action( 'init', [ Sloth::getInstance(), 'g' ], 20 );
 		#add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 	}
 
@@ -59,5 +103,19 @@ class Plugin extends \Singleton {
 		}
 
 		return $url;
+	}
+
+
+	/*
+	 *  add required templates
+	 */
+	private function addTemplates() {
+		$viewFinder = $GLOBALS['sloth']->container['view.finder'];
+
+		$viewFinder->addNamespace( 'module',
+			$GLOBALS['sloth']->container['path.theme'] . DS . 'View' . DS . 'Module' . DS );
+		$viewFinder->addNamespace( 'module_backend',
+			$GLOBALS['sloth']->container['path.theme'] . DS . 'View' . DS . 'Module' . DS . 'backend' );
+
 	}
 }

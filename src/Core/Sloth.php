@@ -18,6 +18,7 @@ class Sloth extends \Singleton {
 	 */
 	private $class_aliases = [
 		'Route' => '\Sloth\Facades\Route',
+		'View'  => '\Sloth\Facades\View',
 	];
 
 	public function __construct() {
@@ -25,6 +26,8 @@ class Sloth extends \Singleton {
 		 * Instantiate the service container for the project.
 		 */
 		$this->container = new \Sloth\Core\Application();
+
+		$this->container->addPath( 'cache', DIR_CACHE );
 
 		/*
          * Setup the facade.
@@ -60,8 +63,8 @@ class Sloth extends \Singleton {
 		 */
 		$providers = [
 			\Sloth\Route\RouteServiceProvider::class,
-			#\Sloth\Finder\FinderServiceProvider::class,
-			#\Sloth\View\ViewServiceProvider::class,
+			\Sloth\Finder\FinderServiceProvider::class,
+			\Sloth\View\ViewServiceProvider::class,
 			#\Sloth\Module\ModuleServiceProvider::class,
 		];
 
@@ -91,6 +94,17 @@ class Sloth extends \Singleton {
 		$this->container['route']->dispatch();
 	}
 
+	/*
+	 * automagically add all subdirs off [theme]/views to viewFinder
+	 */
+	private function addTemplates() {
+		$viewFinder = $this->container['view.finder'];
+		$view_paths = glob( $this->container['path.theme'] . DS . 'views' . DS . '*' );
+		foreach ( $view_paths as $path ) {
+			$viewFinder->addNamespace( basename( $path ), $path );
+		}
+	}
+
 	/**
 	 * Set some aliases for commonly used classes
 	 */
@@ -106,18 +120,19 @@ class Sloth extends \Singleton {
 	private function setDebugging() {
 		$mode                   = WP_DEBUG ? Debugger::DEVELOPMENT : \Tracy\Debugger::PRODUCTION;
 		Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
-		if ( WP_DEBUG ) {
-			\Tracy\Debugger::enable( $mode );
+		/* TODO: could be nicer? */
+		if ( WP_DEBUG && basename( $_SERVER['PHP_SELF'] ) != 'admin-ajax.php' ) {
+			Debugger::enable( $mode );
 		}
 	}
 
 	private function connectCorcel() {
 		$params = array(
-			'database'  => DB_NAME,
-			'username'  => DB_USER,
-			'password'  => DB_PASSWORD,
-			'prefix'    => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
+			'database' => DB_NAME,
+			'username' => DB_USER,
+			'password' => DB_PASSWORD,
+			'prefix'   => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
 		);
-		\Corcel\Database::connect($params);
+		\Corcel\Database::connect( $params );
 	}
 }

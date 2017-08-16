@@ -7,7 +7,7 @@ use Illuminate\Container\Container;
 class Application extends Container {
 	/**
 	 * Project paths.
-	 * Same as $GLOBALS['themosis.paths'].
+	 * Same as $GLOBALS['sloth.paths'].
 	 *
 	 * @var array
 	 */
