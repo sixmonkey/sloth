@@ -62,7 +62,12 @@ class Plugin extends \Singleton {
 			$module_name = array_pop( $classes );
 
 			if ( is_array( $module_name::$layotter ) && class_exists( '\Layotter' ) ) {
-				\Layotter::register_element( strtolower( substr( strrchr( $module_name, "\\" ), 1 ) ), $module_name );
+
+				$class_name = substr( strrchr( $module_name, "\\" ), 1 );
+
+				eval( "class $class_name extends \Sloth\Module\LayotterElement {}" );
+				$class_name::$module = new $module_name;
+				\Layotter::register_element( strtolower( substr( strrchr( $module_name, "\\" ), 1 ) ), $class_name );
 			}
 		}
 	}

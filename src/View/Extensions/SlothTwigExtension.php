@@ -34,7 +34,6 @@ class SlothTwigExtension extends Twig_Extension {
 	public function getGlobals() {
 		return [
 			'fn'   => $this,
-			'Form' => $this->container['form'],
 		];
 	}
 
@@ -59,6 +58,10 @@ class SlothTwigExtension extends Twig_Extension {
 	 */
 	public function getFunctions() {
 		return [
+			new Twig_SimpleFunction( 'module',
+				function ( $name ) {
+					return $name;
+				} ),
 			/*
 			 * WordPress theme functions.
 			 */
@@ -135,5 +138,9 @@ class SlothTwigExtension extends Twig_Extension {
 					return translate_nooped_plural( $nooped_plural, $count, $domain );
 				} ),
 		];
+	}
+
+	public function initRuntime(\Twig_Environment $environment) {
+
 	}
 }

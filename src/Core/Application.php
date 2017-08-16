@@ -68,4 +68,18 @@ class Application extends Container {
 	public function addPath( $key, $path ) {
 		$this->instance( 'path.' . $key, $path );
 	}
+
+	/**
+	 *
+	 */
+	public function callModule( $name, $data = [] ) {
+		$module_name = 'Theme\Module\\' . \Cake\Utility\Inflector::camelize( str_replace( '-',
+				'_',
+				$name ) ) . 'Module';
+		$myModule    = new $module_name( [] );
+		foreach ( $data as $k => $v ) {
+			$myModule->set( $k, $v );
+		}
+		$myModule->render();
+	}
 }

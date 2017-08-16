@@ -22,6 +22,11 @@ class Sloth extends \Singleton {
 	];
 
 	public function __construct() {
+		/**
+		 * enable debugging where needed
+		 */
+		$this->setDebugging();
+
 		/*
 		 * Instantiate the service container for the project.
 		 */
@@ -41,12 +46,6 @@ class Sloth extends \Singleton {
 		 * Set aliases for common classes
 		 */
 		$this->setAliases();
-
-
-		/**
-		 * enable debugging where needed
-		 */
-		$this->setDebugging();
 
 		/**
 		 * open database connection for corcel

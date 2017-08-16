@@ -78,15 +78,15 @@ class ViewServiceProvider extends ServiceProvider {
 			} );
 
 		// Add the dump Twig extension.
-		#$container['twig']->addExtension( new \Twig_Extension_Debug() );
+		$container['twig']->addExtension( new \Twig_Extension_Debug() );
 
 		// Check if debug constant exists and set to true.
-		#if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		#	$container['twig']->enableDebug();
-		#}
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$container['twig']->enableDebug();
+		}
 
 		// Provides WordPress functions and more to Twig templates.
-		#$container['twig']->addExtension( new SlothTwigExtension( $container ) );
+		$container['twig']->addExtension( new SlothTwigExtension( $container ) );
 	}
 
 	/**
