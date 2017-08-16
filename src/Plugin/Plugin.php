@@ -14,7 +14,7 @@ class Plugin extends \Singleton {
 		$this->add_filters();
 		$this->loadControllers();
 		$this->loadModels();
-		#\Route::instance()->boot();
+		\Route::instance()->boot();
 
 		/**
 		 * set current_theme_path
@@ -76,8 +76,8 @@ class Plugin extends \Singleton {
 
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
-		#add_action( 'init', [ Sloth::getInstance(), 'g' ], 20 );
-		#add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
+		add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
+		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 	}
 
 	public function plugin() {
