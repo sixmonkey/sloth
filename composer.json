@@ -11,7 +11,7 @@
         "nikic/fast-route": "^1.2",
         "illuminate/container": "^5.4",
         "illuminate/view": "^5.4",
-        "twig/twig": "^2.4",
+        "twig/twig": "^1.0",
         "illuminate/filesystem": "^5.4",
         "brain/hierarchy": "^2.3",
         "jjgrainger/posttypes": "^1.1",
