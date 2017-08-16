@@ -20,6 +20,9 @@
     "autoload": {
         "psr-4": {
             "Sloth\\": "src/"
-        }
+        },
+        "files" : [
+            "src/functions.php"
+        ]
     }
 }
