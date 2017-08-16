@@ -56,6 +56,9 @@ trait BaseModule {
 	final protected function set( $key, $value ) {
 		$this->viewVars[ $key ] = $value;
 	}
+	final protected function _get( $key ) {
+		return $this->viewVars[ $key ];
+	}
 
 	protected function beforeRender() {
 
