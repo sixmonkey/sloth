@@ -206,7 +206,7 @@ final class Route {
 	 */
 	public function dispatch() {
 
-		global $wp_query, $wp;
+		global $wp_query, $wp, $post;
 
 		self::$dispatched = true;
 
@@ -261,16 +261,21 @@ final class Route {
 			$routeInfo[2] = [];
 		}
 
-		if(!isset($routeTarget['controller']) || !class_exists($routeTarget['controller'])) {
+		if ( ! isset( $routeTarget['controller'] ) || ! class_exists( $routeTarget['controller'] ) ) {
 			# @TODO
-			throw new \Exception('404');
+			throw new \Exception( '404' );
 		}
 
 
+		$request         = new \stdClass();
+		$request->params = [
+			'action' => $routeTarget['action'],
+			'pass'   => (array) $routeInfo[2],
+		];
+
 		$controller = new $routeTarget['controller'];
-		call_user_func( [ $controller, 'beforeRender' ] );
-		call_user_func_array( [ $controller, $routeTarget['action'] ], $routeInfo[2] );
-		call_user_func( [ $controller, 'afterRender' ] );
+		call_user_func_array( [ $controller, 'invokeAction' ], [ $request ] );
+		die();
 	}
 
 	private function getController( $name ) {
