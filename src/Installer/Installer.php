@@ -57,6 +57,15 @@ class Installer {
 			self::mkPath( [ self::$http_dir, 'wp-config.php' ] ) );
 	}
 
+	protected static function initializePlugin() {
+		$dir_components = self::mkPath( [ self::$http_dir, 'extensions', 'components' ] );
+		if ( ! is_dir( $dir_components ) ) {
+			mkdir( $dir_components, 0755 );
+		}
+		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth.php' ] ),
+			self::mkPath( [ $dir_components, 'sloth.php' ] ) );
+	}
+
 	protected static function initializeHtaccess() {
 		copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
 			self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
