@@ -15,7 +15,9 @@ class LayotterElement extends \Layotter_Element {
 
 	public function frontend_view( $fields ) {
 		self::$module->set( $fields );
-		self::$module->render();
+		if ( ! is_admin() ) {
+			self::$module->render();
+		}
 	}
 
 	public function backend_view( $fields ) {

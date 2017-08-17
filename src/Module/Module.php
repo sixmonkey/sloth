@@ -8,6 +8,7 @@ class Module {
 	public static $layotter = false;
 	private $view;
 	private $viewVars = [];
+	protected $render = true;
 
 	protected function beforeRender() {
 
@@ -15,7 +16,9 @@ class Module {
 
 	final private function getTemplate() {
 		$class = get_class( $this );
-		$name  = strtolower( preg_replace( '/Module$/', '', substr( strrchr( $class, "\\" ), 1 ) ) );
+		$name  = \Cake\Utility\Inflector::dasherize( preg_replace( '/Module$/',
+			'',
+			substr( strrchr( $class, "\\" ), 1 ) ) );
 
 		return $name;
 	}
@@ -32,9 +35,11 @@ class Module {
 	}
 
 	final public function render() {
-		$this->makeView();
-		$this->beforeRender();
-		echo $this->view->with( $this->viewVars )->render();
+		if($this->render) {
+			$this->makeView();
+			$this->beforeRender();
+			echo $this->view->with( $this->viewVars )->render();
+		}
 	}
 
 	final public function set( $key, $value = null ) {
