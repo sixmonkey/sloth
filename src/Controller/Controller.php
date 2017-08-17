@@ -9,8 +9,11 @@
 namespace Sloth\Controller;
 
 
-abstract class Controller {
+class Controller {
 	protected $viewVars = [];
+	protected $template;
+	protected $layout = 'default';
+	protected $request;
 
 	public function __construct() {
 	}
@@ -22,9 +25,11 @@ abstract class Controller {
 		return $output;
 	}
 
-	public function invokeAction( $request ) {
+	public function invokeAction( &$request ) {
+		$this->request = $request;
 		$method = new \ReflectionMethod( $this, $request->params['action'] );
 		$this->beforeRender();
+		$this->template = $request->params['action'];
 		$method->invokeArgs( $this, $request->params['pass'] );
 		$output = $this->_render();
 		$output = $this->afterRender( $output );

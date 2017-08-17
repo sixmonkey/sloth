@@ -3,6 +3,7 @@
 namespace Sloth\Route;
 
 use Brain\Hierarchy\Hierarchy;
+use Corcel\Model\Post as Post;
 
 final class Route {
 	/**
@@ -268,14 +269,17 @@ final class Route {
 
 
 		$request         = new \stdClass();
+		$myPost = clone $post;
+		$myPost->post_content = apply_filters('the_content', $myPost->post_content);
 		$request->params = [
 			'action' => $routeTarget['action'],
 			'pass'   => (array) $routeInfo[2],
+			'post'   => $myPost,
 		];
 
 		$controller = new $routeTarget['controller'];
-		call_user_func_array( [ $controller, 'invokeAction' ], [ $request ] );
-		die();
+		call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
+		#die();
 	}
 
 	private function getController( $name ) {
