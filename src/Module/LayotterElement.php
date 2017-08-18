@@ -6,7 +6,11 @@ class LayotterElement extends \Layotter_Element {
 	public static $module;
 
 	public function attributes() {
-		$layotter_data     = self::$module->get_layotter_attributes();
+		$class_name  = get_class( $this );
+		$module_name = $class_name::$module;
+		$module      = new $module_name;
+
+		$layotter_data     = $module->get_layotter_attributes();
 		$this->field_group = $layotter_data['field_group'];
 		$this->title       = $layotter_data['title'];
 		$this->description = $layotter_data['description'];
@@ -14,9 +18,12 @@ class LayotterElement extends \Layotter_Element {
 	}
 
 	public function frontend_view( $fields ) {
-		self::$module->set( $fields );
+		$class_name  = get_class( $this );
+		$module_name = $class_name::$module;
+		$module      = new $module_name;
+		$module->set( $fields );
 		if ( ! is_admin() ) {
-			self::$module->render();
+			$module->render();
 		}
 	}
 
