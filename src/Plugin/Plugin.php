@@ -21,14 +21,20 @@ class Plugin extends \Singleton {
 		 */
 		$this->current_theme_path = realpath( get_template_directory() );
 		/**
-		 * tell container about current theme oath
+		 * tell container about current theme path
 		 */
 		$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
+
+		/**
+		 * tell ViewFinder about current theme's view path
+		 */
+		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
 
 		/**
 		 * add templates to viewFinder
 		 */
 		$this->addTemplates();
+
 		/*
 		 * we need the possibility to use @extends in twig, so we resolve this one as regular path
 		 */
