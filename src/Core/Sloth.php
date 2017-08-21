@@ -21,6 +21,8 @@ class Sloth extends \Singleton {
 		'View'  => '\Sloth\Facades\View',
 	];
 
+	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
+
 	public function __construct() {
 		/**
 		 * enable debugging where needed
@@ -120,7 +122,7 @@ class Sloth extends \Singleton {
 		$mode                   = WP_DEBUG ? Debugger::DEVELOPMENT : \Tracy\Debugger::PRODUCTION;
 		Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
 		/* TODO: could be nicer? */
-		if ( WP_DEBUG && basename( $_SERVER['PHP_SELF'] ) != 'admin-ajax.php' ) {
+		if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
 			Debugger::enable( $mode );
 		}
 	}
