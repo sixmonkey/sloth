@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d64941c14f79574b4232208f79d87bc",
+    "content-hash": "56365cc00e7e1e8a689b865ab5af94d5",
     "packages": [
         {
             "name": "brain/hierarchy",
@@ -230,6 +230,48 @@
                 "zikula"
             ],
             "time": "2017-08-09T07:53:48+00:00"
+        },
+        {
+            "name": "corcel/acf",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/corcel/acf.git",
+                "reference": "a8ee2f9d1cef6928c0edab756a51de78bf7a6306"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/corcel/acf/zipball/a8ee2f9d1cef6928c0edab756a51de78bf7a6306",
+                "reference": "a8ee2f9d1cef6928c0edab756a51de78bf7a6306",
+                "shasum": ""
+            },
+            "require": {
+                "jgrossi/corcel": "~2.1",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Corcel\\Acf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Junior Grossi",
+                    "email": "juniorgro@gmail.com",
+                    "homepage": "http://jgrossi.com"
+                }
+            ],
+            "description": "Advanced Custom Field (ACF) plugin for Corcel",
+            "homepage": "http://github.com/corcel/acf",
+            "time": "2017-08-07T00:35:40+00:00"
         },
         {
             "name": "doctrine/inflector",
