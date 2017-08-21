@@ -14,7 +14,7 @@ class Plugin extends \Singleton {
 		$this->add_filters();
 		$this->loadControllers();
 		$this->loadModels();
-		#\Route::instance()->boot();
+		\Route::instance()->boot();
 
 		/**
 		 * set current_theme_path
@@ -29,11 +29,6 @@ class Plugin extends \Singleton {
 		 * tell ViewFinder about current theme's view path
 		 */
 		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
-
-		/**
-		 * add templates to viewFinder
-		 */
-		$this->addTemplates();
 
 		/*
 		 * we need the possibility to use @extends in twig, so we resolve this one as regular path
@@ -83,8 +78,8 @@ class Plugin extends \Singleton {
 
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
-		#add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
-		#add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
+		add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
+		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 	}
 
 	public function plugin() {
@@ -117,17 +112,4 @@ class Plugin extends \Singleton {
 		return $url;
 	}
 
-
-	/*
-	 *  add required templates
-	 */
-	private function addTemplates() {
-		$viewFinder = $GLOBALS['sloth']->container['view.finder'];
-
-		$viewFinder->addNamespace( 'module',
-			$GLOBALS['sloth']->container['path.theme'] . DS . 'View' . DS . 'Module' . DS );
-		$viewFinder->addNamespace( 'module_backend',
-			$GLOBALS['sloth']->container['path.theme'] . DS . 'View' . DS . 'Module' . DS . 'backend' );
-
-	}
 }

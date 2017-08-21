@@ -17,8 +17,8 @@ class Sloth extends \Singleton {
 	 * @var array
 	 */
 	private $class_aliases = [
-		'Route' => '\Sloth\Facades\Route',
-		'View'  => '\Sloth\Facades\View',
+		'Route'                                      => '\Sloth\Facades\Route',
+		'View'                                       => '\Sloth\Facades\View',
 	];
 
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
@@ -66,7 +66,8 @@ class Sloth extends \Singleton {
 			\Sloth\Route\RouteServiceProvider::class,
 			\Sloth\Finder\FinderServiceProvider::class,
 			\Sloth\View\ViewServiceProvider::class,
-			#\Sloth\Module\ModuleServiceProvider::class,
+			\Sloth\Module\ModuleServiceProvider::class,
+			\Sloth\Pagination\PaginationServiceProvider::class,
 		];
 
 		foreach ( $providers as $provider ) {

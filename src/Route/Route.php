@@ -268,17 +268,28 @@ final class Route {
 		}
 
 
-		$request         = new \stdClass();
-		$myPost = clone $post;
-		$myPost->post_content = apply_filters('the_content', $myPost->post_content);
-		$request->params = [
+		$request              = new \stdClass();
+		$myPost               = clone $post;
+		$myPost->post_content = apply_filters( 'the_content', $myPost->post_content );
+		$request->params      = [
 			'action' => $routeTarget['action'],
 			'pass'   => (array) $routeInfo[2],
 			'post'   => $myPost,
 		];
 
+		/**
+		 * hand current page from wp_query to Illuminate
+		 */
+		if ( isset( $wp_query->query['page'] ) ) {
+			$currentPage = $wp_query->query['page'];
+			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
+				return $currentPage;
+			} );
+		}
+
+
 		$controller = new $routeTarget['controller'];
-		call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
+		#call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
 		#die();
 	}
 

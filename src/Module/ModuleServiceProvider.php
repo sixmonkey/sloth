@@ -1,10 +1,10 @@
 <?php
 
-namespace Sloth\Finder;
+namespace Sloth\Module;
 
 use Sloth\Core\ServiceProvider;
 
-class FinderServiceProvider extends ServiceProvider {
+class ModuleServiceProvider extends ServiceProvider {
 	public function register() {
 		$this->app->bind( 'module',
 			function () {

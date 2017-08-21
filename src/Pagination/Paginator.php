@@ -1,17 +1,24 @@
-<?php namespace Sloth\Paginator;
+<?php
 
-use Illuminate\Pagination\Paginator as BasePaginator;
+namespace Sloth\Pagination;
+
+use Illuminate\Pagination\LengthAwarePaginator as BasePaginator;
 
 class Paginator extends BasePaginator {
 
 	/**
-	 * Get a URL for a given page number.
+	 * @TODO: This one seems very insecure?
 	 *
-	 * @param integer $page
+	 * @param int $page
+	 *
 	 * @return string
 	 */
-	public function getUrl($page) {
-		return 'Fucker';
+	public function url( $page ) {
+		$parts = [ rtrim( get_permalink(), '/' ) ];
+		if ( $page > 1 ) {
+			$parts[] = $page;
+		}
+		return rtrim( implode( '/', $parts ), '/' ) . '/';
 	}
 
 }
