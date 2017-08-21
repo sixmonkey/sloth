@@ -8,24 +8,29 @@ class Module {
 	public static $layotter = false;
 	private $view;
 	private $viewVars = [];
+	protected $viewPrefix = 'module';
 	protected $render = true;
+	protected $template;
 
 	protected function beforeRender() {
 
 	}
 
 	final private function getTemplate() {
-		$class = get_class( $this );
-		$name  = \Cake\Utility\Inflector::dasherize( preg_replace( '/Module$/',
-			'',
-			substr( strrchr( $class, "\\" ), 1 ) ) );
-
-		return $name;
+		if ( is_null( $this->template ) ) {
+			$class          = get_class( $this );
+			$this->template = \Cake\Utility\Inflector::dasherize( preg_replace( '/Module$/',
+				'',
+				substr( strrchr( $class, "\\" ), 1 ) ) );
+		}
+		if ( ! strstr( $this->template, '.' ) ) {
+			$this->template = $this->viewPrefix . '.' . $this->template;
+		}
 	}
 
 	final private function makeView() {
-		$template   = $this->getTemplate();
-		$this->view = View::make( 'module::' . $template );
+		$this->getTemplate();
+		$this->view = View::make( $this->template );
 	}
 
 	final public function get_layotter_attributes() {
@@ -35,7 +40,7 @@ class Module {
 	}
 
 	final public function render() {
-		if($this->render) {
+		if ( $this->render ) {
 			$this->makeView();
 			$this->beforeRender();
 			echo $this->view->with( $this->viewVars )->render();
