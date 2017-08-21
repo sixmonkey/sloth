@@ -66,10 +66,14 @@ class Sloth extends \Singleton {
 			\Sloth\Route\RouteServiceProvider::class,
 			\Sloth\Finder\FinderServiceProvider::class,
 			\Sloth\View\ViewServiceProvider::class,
+			\Sloth\Paginator\PaginationServiceProvider::class,
 			#\Sloth\Module\ModuleServiceProvider::class,
 		];
 
+		bdump(\Sloth\Paginator\PaginationServiceProvider::class);
+
 		foreach ( $providers as $provider ) {
+			bdump($provider);
 			$this->container->register( $provider );
 		}
 	}

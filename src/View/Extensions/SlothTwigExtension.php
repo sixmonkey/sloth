@@ -3,6 +3,7 @@
 namespace Sloth\View\Extensions;
 
 use Sloth\Core\Application;
+use Twig_SimpleTest;
 use Twig_SimpleFunction;
 use Twig_Extension;
 
@@ -25,6 +26,14 @@ class SlothTwigExtension extends Twig_Extension {
 		return 'sloth';
 	}
 
+	public function getTests() {
+		return [
+			new Twig_SimpleTest( 'string', function ( $value ) {
+				return is_string( $value );
+			} ),
+		];
+	}
+
 	/**
 	 * Register a global "fn" which can be used
 	 * to call any WordPress or core PHP functions.
@@ -33,7 +42,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 */
 	public function getGlobals() {
 		return [
-			'fn'   => $this,
+			'fn' => $this,
 		];
 	}
 
@@ -140,7 +149,7 @@ class SlothTwigExtension extends Twig_Extension {
 		];
 	}
 
-	public function initRuntime(\Twig_Environment $environment) {
+	public function initRuntime( \Twig_Environment $environment ) {
 
 	}
 }
