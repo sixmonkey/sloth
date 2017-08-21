@@ -71,8 +71,6 @@ class Plugin extends \Singleton {
 				\Layotter::register_element( strtolower( substr( strrchr( $module_name, "\\" ), 1 ) ), $class_name );
 			}
 		}
-		#global $post;
-		#bdump(\Layotter::get_filtered_element_types($post->ID));
 	}
 
 	private function add_filters() {
