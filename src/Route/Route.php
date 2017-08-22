@@ -262,21 +262,20 @@ final class Route {
 			$routeInfo[2] = [];
 		}
 
-		if ( ! isset( $routeTarget['controller'] ) || ! class_exists( $routeTarget['controller'] ) ) {
-			# @TODO
-			throw new \Exception( '404' );
+		if ( isset( $routeTarget['controller'] ) && class_exists( $routeTarget['controller'] ) ) {
+
+
+			$request              = new \stdClass();
+			$myPost               = clone $post;
+			$myPost->post_content = apply_filters( 'the_content', $myPost->post_content );
+			$request->params      = [
+				'action' => $routeTarget['action'],
+				'pass'   => (array) $routeInfo[2],
+				'post'   => $myPost,
+			];
+			$controller = new $routeTarget['controller'];
+			#call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
 		}
-
-
-		$request              = new \stdClass();
-		$myPost               = clone $post;
-		$myPost->post_content = apply_filters( 'the_content', $myPost->post_content );
-		$request->params      = [
-			'action' => $routeTarget['action'],
-			'pass'   => (array) $routeInfo[2],
-			'post'   => $myPost,
-		];
-
 		/**
 		 * hand current page from wp_query to Illuminate
 		 */
@@ -288,8 +287,6 @@ final class Route {
 		}
 
 
-		$controller = new $routeTarget['controller'];
-		#call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
 		#die();
 	}
 
