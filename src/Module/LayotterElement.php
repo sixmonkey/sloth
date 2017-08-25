@@ -18,6 +18,17 @@ class LayotterElement extends \Layotter_Element {
 	}
 
 	public function frontend_view( $fields ) {
+
+		$options = func_get_args();
+
+		$fields['_layotter.passed'] = [
+			'class' => $options[1],
+			'col_options' => $options[2],
+			'row_options' => $options[3],
+			'post_options' => $options[4]
+		];
+
+
 		$class_name  = get_class( $this );
 		$module_name = $class_name::$module;
 		$module      = new $module_name;
