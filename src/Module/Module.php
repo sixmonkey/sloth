@@ -58,6 +58,10 @@ class Module {
 	}
 
 	final protected function get( $k ) {
+		if ( ! isset( $this->viewVars[ $k ] ) ) {
+			$this->viewVars[ $k ] = null;
+		}
+
 		return $this->viewVars[ $k ];
 	}
 
