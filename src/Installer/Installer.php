@@ -20,7 +20,7 @@ class Installer {
 		self::initializeWpconfig();
 		self::initializeHtaccess();
 		self::makeCacheDir();
-		self::initializePlugin();
+		# self::initializePlugin();
 	}
 
 	protected static function rebuildIndex() {
