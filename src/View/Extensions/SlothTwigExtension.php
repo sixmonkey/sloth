@@ -4,8 +4,10 @@ namespace Sloth\View\Extensions;
 
 use Sloth\Core\Application;
 use Twig_SimpleTest;
+use Twig_SimpleFilter;
 use Twig_SimpleFunction;
 use Twig_Extension;
+use \Org\Heigl\Hyphenator as h;
 
 class SlothTwigExtension extends Twig_Extension {
 	/**
@@ -52,12 +54,36 @@ class SlothTwigExtension extends Twig_Extension {
 	 * Linked to the global call only...
 	 *
 	 * @param string $name
-	 * @param array $arguments
+	 * @param array  $arguments
 	 *
 	 * @return mixed
 	 */
 	public function __call( $name, array $arguments ) {
 		return call_user_func_array( $name, $arguments );
+	}
+
+
+	/**
+	 * Register a list of filters available into Twig templates.
+	 *
+	 * @return array|\Twig_SimpleFunction[]
+	 */
+	public function getFilters() {
+		return [
+			new Twig_SimpleFilter( 'hyphenate', function ( $input ) {
+				$input = ' ' . $input;
+				$o     = new h\Options();
+				$o->setHyphen('&shy;')
+				  ->setDefaultLocale('de_DE')
+				  ->setFilters('Simple')
+				  ->setTokenizers('Whitespace','Punctuation');
+				$h = new h\Hyphenator();
+				$h->setOptions($o);
+				$hyphenate_string = $h->hyphenate($input);
+				return new \Twig_Markup( $hyphenate_string, 'UTF-8' );
+			} ),
+		];
+
 	}
 
 	/**
