@@ -17,8 +17,8 @@ class Sloth extends \Singleton {
 	 * @var array
 	 */
 	private $class_aliases = [
-		'Route'                                      => '\Sloth\Facades\Route',
-		'View'                                       => '\Sloth\Facades\View',
+		'Route' => '\Sloth\Facades\Route',
+		'View'  => '\Sloth\Facades\View',
 	];
 
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
@@ -129,12 +129,13 @@ class Sloth extends \Singleton {
 	}
 
 	private function connectCorcel() {
-		$params = array(
+		$params = [
+			'host'     => DB_HOST,
 			'database' => DB_NAME,
 			'username' => DB_USER,
 			'password' => DB_PASSWORD,
 			'prefix'   => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
-		);
+		];
 		\Corcel\Database::connect( $params );
 	}
 }
