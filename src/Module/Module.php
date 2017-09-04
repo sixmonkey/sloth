@@ -40,9 +40,9 @@ class Module {
 	}
 
 	final public function render() {
+		$this->beforeRender();
 		if ( $this->render ) {
 			$this->makeView();
-			$this->beforeRender();
 			echo $this->view->with( $this->viewVars )->render();
 		}
 	}
