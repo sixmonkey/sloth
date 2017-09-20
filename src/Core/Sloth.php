@@ -120,7 +120,7 @@ class Sloth extends \Singleton {
 	 * Set Debugging
 	 */
 	private function setDebugging() {
-		$mode                   = WP_DEBUG ? Debugger::DEVELOPMENT : \Tracy\Debugger::PRODUCTION;
+		$mode                   = WP_DEBUG === true ? Debugger::DEVELOPMENT : \Tracy\Debugger::PRODUCTION;
 		Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
 		/* TODO: could be nicer? */
 		if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
