@@ -80,6 +80,10 @@ class Plugin extends \Singleton {
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
 		add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
 		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
+
+		if ( getenv( 'FORCE_SSL' ) ) {
+			add_action( 'template_redirect', [$this, 'force_ssl'], 30 );
+		}
 	}
 
 	public function plugin() {
@@ -112,4 +116,10 @@ class Plugin extends \Singleton {
 		return $url;
 	}
 
+	public function force_ssl() {
+		if ( getenv( 'FORCE_SSL' ) && ! is_ssl() ) {
+			wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301 );
+			exit();
+		}
+	}
 }
