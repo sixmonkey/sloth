@@ -91,7 +91,7 @@ class Application extends Container {
 	 *
 	 * @return mixed
 	 */
-	public function makeWith( $abstract, array $parameters ) {
+	public function makeWith( $abstract, array $parameters = array() ) {
 		if($abstract == 'Illuminate\Pagination\LengthAwarePaginator'){
 			$abstract = 'Sloth\Pagination\Paginator';
 		}
