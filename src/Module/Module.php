@@ -26,6 +26,7 @@ class Module {
 		if ( ! strstr( $this->template, '.' ) ) {
 			$this->template = $this->viewPrefix . '.' . $this->template;
 		}
+		$this->template = str_replace('.', DS, ucfirst($this->template));
 	}
 
 	final private function makeView() {
