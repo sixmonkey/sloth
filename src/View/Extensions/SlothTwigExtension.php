@@ -84,6 +84,9 @@ class SlothTwigExtension extends Twig_Extension {
 
 				return new \Twig_Markup( $hyphenate_string, 'UTF-8' );
 			} ),
+			new Twig_SimpleFilter( 'debug', function ( $input ) {
+				return debug($input);
+			} ),
 		];
 
 	}
