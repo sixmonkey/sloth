@@ -31,10 +31,15 @@ class Plugin extends \Singleton {
 		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
 
 		/*
-		 * we need the possibility to use @extends in twig, so we resolve this one as regular path
+		 * we need the possibility to use @extends in twig, so we resolve all subdirectories of Layouts
 		 */
 		$twigLoader = $GLOBALS['sloth']->container['twig.loader'];
-		$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
+
+		$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . 'Layout' . DS . '*' ), 'is_dir' );
+
+		foreach ( $dirs as $dir ) {
+			$twigLoader->addPath( $dir, basename( $dir ) );
+		}
 
 	}
 
@@ -82,7 +87,7 @@ class Plugin extends \Singleton {
 		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 
 		if ( getenv( 'FORCE_SSL' ) ) {
-			add_action( 'template_redirect', [$this, 'force_ssl'], 30 );
+			add_action( 'template_redirect', [ $this, 'force_ssl' ], 30 );
 		}
 	}
 
