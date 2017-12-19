@@ -44,9 +44,7 @@ class Plugin extends \Singleton {
 			$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
 		}
 
-		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' . DS . 'Layout' );
-
-		$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . 'Layout' . DS . '*' ), 'is_dir' );
+		$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . '*' ), 'is_dir' );
 
 		foreach ( $dirs as $dir ) {
 			$twigLoader->addPath( $dir, basename( $dir ) );
@@ -147,11 +145,38 @@ class Plugin extends \Singleton {
 	}
 
 	public function getTemplate() {
+		global $post;
+
 		$finder = new FoldersTemplateFinder( [ $this->current_theme_path . DS . 'View' . DS . 'Layout' ], [ 'twig' ] );
 
 		$queryTemplate = new QueryTemplate( $finder );
 
-		$view = View::make(basename($queryTemplate->findTemplate(), '.twig'));
-		echo $view->with([])->render();
+		$view = View::make( 'Layout.' . basename( $queryTemplate->findTemplate(), '.twig' ) );
+
+		echo $view
+			->with( [
+				'post'     => $post,
+				'wp_title' => wp_title( '', false ),
+				'site'     => [
+					'url'         => home_url(),
+					'rdf'         => get_bloginfo( 'rdf_url' ),
+					'rss'         => get_bloginfo( 'rss_url' ),
+					'rss2'        => get_bloginfo( 'rss2_url' ),
+					'atom'        => get_bloginfo( 'atom_url' ),
+					'language'    => get_bloginfo( 'language' ),
+					'charset'     => get_bloginfo( 'charset' ),
+					'pingback'    => $this->pingback_url = get_bloginfo( 'pingback_url' ),
+					'admin_email' => get_bloginfo( 'admin_email' ),
+					'name'        => get_bloginfo( 'name' ),
+					'title'       => get_bloginfo( 'name' ),
+					'description' => get_bloginfo( 'description' ),
+				],
+				'globals'  => [
+					'home_url'   => home_url( '/' ),
+					'theme_url'  => get_template_directory_uri(),
+					'images_url' => get_template_directory_uri() . '/assets/img',
+				],
+			] )
+			->render();
 	}
 }
