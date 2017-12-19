@@ -2,9 +2,14 @@
 
 namespace Sloth\Plugin;
 
+use Sloth\Facades\View;
+
 use PostTypes\PostType;
 
 use Sloth\Core\Sloth;
+
+use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use \Brain\Hierarchy\QueryTemplate;
 
 class Plugin extends \Singleton {
 	public $current_theme_path;
@@ -14,7 +19,7 @@ class Plugin extends \Singleton {
 		$this->add_filters();
 		$this->loadControllers();
 		$this->loadModels();
-		\Route::instance()->boot();
+		#\Route::instance()->boot();
 
 		/**
 		 * set current_theme_path
@@ -35,11 +40,18 @@ class Plugin extends \Singleton {
 		 */
 		$twigLoader = $GLOBALS['sloth']->container['twig.loader'];
 
+		if ( is_dir( $this->current_theme_path . DS . 'views' . DS . 'partials' ) ) {
+			$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
+		}
+
+		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' . DS . 'Layout' );
+
 		$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . 'Layout' . DS . '*' ), 'is_dir' );
 
 		foreach ( $dirs as $dir ) {
 			$twigLoader->addPath( $dir, basename( $dir ) );
 		}
+
 
 	}
 
@@ -83,8 +95,14 @@ class Plugin extends \Singleton {
 
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
-		add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
-		add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
+
+		/**
+		 * For now we give up Controllers an Routing
+		 */
+		#add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
+		# add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
+
+		add_action( 'template_redirect', [ $this, 'getTemplate' ], 20 );
 
 		if ( getenv( 'FORCE_SSL' ) ) {
 			add_action( 'template_redirect', [ $this, 'force_ssl' ], 30 );
@@ -126,5 +144,14 @@ class Plugin extends \Singleton {
 			wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301 );
 			exit();
 		}
+	}
+
+	public function getTemplate() {
+		$finder = new FoldersTemplateFinder( [ $this->current_theme_path . DS . 'View' . DS . 'Layout' ], [ 'twig' ] );
+
+		$queryTemplate = new QueryTemplate( $finder );
+
+		$view = View::make(basename($queryTemplate->findTemplate(), '.twig'));
+		echo $view->with([])->render();
 	}
 }

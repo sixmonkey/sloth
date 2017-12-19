@@ -96,17 +96,6 @@ class Sloth extends \Singleton {
 		$this->container['route']->dispatch();
 	}
 
-	/*
-	 * automagically add all subdirs off [theme]/views to viewFinder
-	 */
-	private function addTemplates() {
-		$viewFinder = $this->container['view.finder'];
-		$view_paths = glob( $this->container['path.theme'] . DS . 'views' . DS . '*' );
-		foreach ( $view_paths as $path ) {
-			$viewFinder->addNamespace( basename( $path ), $path );
-		}
-	}
-
 	/**
 	 * Set some aliases for commonly used classes
 	 */
