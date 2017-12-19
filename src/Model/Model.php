@@ -8,11 +8,12 @@ use PostTypes\PostType;
 class Model extends Corcel {
 	protected $names = [];
 	protected $options = [];
+	protected $labels = [];
 
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {
-			$reflection = new \ReflectionClass($this);
-			$this->postType = strtolower($reflection->getShortName());
+			$reflection     = new \ReflectionClass( $this );
+			$this->postType = strtolower( $reflection->getShortName() );
 		}
 		if ( $this->icon == null ) {
 			$this->icon = 'admin-post';
@@ -21,10 +22,11 @@ class Model extends Corcel {
 	}
 
 	public function register() {
-		$names = array_merge( $this->names, [ 'name' => $this->getPostType() ] );
+		$names   = array_merge( $this->names, [ 'name' => $this->getPostType() ] );
 		$options = array_merge( $this->options,
 			[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
+		$labels  = $this->labels;
 
-		new PostType( $names, $options );
+		new PostType( $names, $options, $labels );
 	}
 }
