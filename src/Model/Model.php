@@ -12,7 +12,10 @@ class Model extends Corcel {
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {
 			$reflection = new \ReflectionClass($this);
-			$this->postType = $reflection->getShortName();
+			$this->postType = strtolower($reflection->getShortName());
+		}
+		if ( $this->icon == null ) {
+			$this->icon = 'admin-post';
 		}
 		parent::__construct( $attributes );
 	}
