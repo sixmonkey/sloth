@@ -18,6 +18,11 @@ class Model extends Corcel {
 		if ( $this->icon == null ) {
 			$this->icon = 'admin-post';
 		}
+		if(is_array($this->labels) && count($this->labels)) {
+			foreach ($this->labels as &$label) {
+				$label = __($label);
+			}
+		}
 		parent::__construct( $attributes );
 	}
 
