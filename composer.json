@@ -22,7 +22,8 @@
         "vlucas/phpdotenv": "^2.4",
         "roots/wp-password-bcrypt": "^1.0",
         "corcel/acf": "^1.0",
-        "org_heigl/hyphenator": "^2.2"
+        "org_heigl/hyphenator": "^2.2",
+        "league/climate": "^3.2"
     },
     "autoload": {
         "psr-4": {
