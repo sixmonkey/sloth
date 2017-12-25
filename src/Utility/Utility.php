@@ -54,7 +54,7 @@ class Utility {
 	 *
 	 * @return string
 	 */
-	public function viewize( $name ) {
+	public static function viewize( $name ) {
 		$name = self::normalize( $name );
 
 		$name = \Cake\Utility\Inflector::dasherize( $name );
@@ -67,7 +67,7 @@ class Utility {
 	 *
 	 * @return string
 	 */
-	public function acfize( $name ) {
+	public static function acfize( $name ) {
 		$name = self::normalize( $name );
 
 		$name = \Cake\Utility\Inflector::underscore( $name );
