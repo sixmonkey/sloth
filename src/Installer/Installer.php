@@ -14,6 +14,8 @@ class Installer {
 		self::$base_dir = $vendor_dir;
 		self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
 
+		self::copyCLI();
+		self::copyBootstrap();
 		self::rebuildIndex();
 		self::initializeSalts();
 		self::initializeDotenv();
@@ -21,6 +23,16 @@ class Installer {
 		self::initializeHtaccess();
 		self::makeCacheDir();
 		self::initializePlugin();
+	}
+
+	protected static function copyCLI() {
+		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth-cli.php' ] ),
+			self::mkPath( [ self::$base_dir, 'sloth.php' ] ) );
+	}
+
+	protected static function copyBootstrap() {
+		copy( self::mkPath( [ dirname( __DIR__ ), 'bootstrap.php' ] ),
+			self::mkPath( [ self::$base_dir, 'bootstrap.php' ] ) );
 	}
 
 	protected static function rebuildIndex() {
