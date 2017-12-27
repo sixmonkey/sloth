@@ -30,6 +30,8 @@ class Scaffolder {
 	}
 
 	/**
+	 * Create a module with all necessary files
+	 *
 	 * @throws \Exception
 	 */
 	public function create_module() {
@@ -125,9 +127,21 @@ class Scaffolder {
 		) );
 	}
 
+	/**
+	 * guess what!
+	 */
 	public function help() {
-		$docblock = new Docblock( new \ReflectionClass( 'MyClass' ) );
+		$this->climate->green( "Sloth CLI currently supports the following commands:\r\n" );
+		$r = new \ReflectionClass( __CLASS__ );
 
+		$methods = $r->getMethods( \ReflectionMethod::IS_PUBLIC );
+		foreach ( $methods as $method ) {
+			if ( preg_match( '/^_/', $method->name ) ) {
+				continue;
+			}
+			$docblock = new Docblock( $r->getMethod( $method->name )->getDocComment() );
+			$this->climate->green()->bold( $method->name )->tab()->green( $docblock->getShortDescription() );
+		}
 	}
 
 	/**
