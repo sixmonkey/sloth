@@ -28,7 +28,7 @@ class Plugin extends \Singleton {
 		/**
 		 * tell container about current theme path
 		 */
-		#$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
+		$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
 
 		/**
 		 * tell ViewFinder about current theme's view path
@@ -173,8 +173,8 @@ class Plugin extends \Singleton {
 
 		$queryTemplate = new QueryTemplate( $finder );
 
-		$view = View::make( 'Layout.' . basename( $queryTemplate->findTemplate(), '.twig' ) );
-
+		$view          = View::make( 'Layout.' . basename( $queryTemplate->findTemplate(), '.twig' ) );
+		$post->content = apply_filters( 'the_content', $post->post_content );
 		echo $view
 			->with(
 				[
