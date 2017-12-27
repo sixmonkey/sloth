@@ -72,7 +72,7 @@ class SlothTwigExtension extends Twig_Extension {
 		return [
 			new Twig_SimpleFilter( 'hyphenate', function ( $input ) {
 				$input = ' ' . $input;
-				$o = new h\Options();
+				$o     = new h\Options();
 				$o->setHyphen( '&shy;' )
 				  ->setMinWordLength( 10 )
 				  ->setDefaultLocale( 'de_DE' )
@@ -85,7 +85,10 @@ class SlothTwigExtension extends Twig_Extension {
 				return new \Twig_Markup( $hyphenate_string, 'UTF-8' );
 			} ),
 			new Twig_SimpleFilter( 'debug', function ( $input ) {
-				return debug($input);
+				return debug( $input );
+			} ),
+			new Twig_SimpleFilter( 'print_r', function ( $input ) {
+				return debug( $input );
 			} ),
 		];
 
