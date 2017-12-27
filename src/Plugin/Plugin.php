@@ -35,6 +35,12 @@ class Plugin extends \Singleton {
 		 */
 		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
 
+		/**
+		 * tell ViewFinder about sloths's view path
+		 */
+
+		$GLOBALS['sloth']->container['view.finder']->addLocation( dirname( __DIR__ ) . DS . '_view' );
+
 		/*
 		 * we need the possibility to use @extends in twig, so we resolve all subdirectories of Layouts
 		 */
@@ -53,7 +59,7 @@ class Plugin extends \Singleton {
 		/*
 		 * Update Twig Loaded registered paths.
 		 */
-		$GLOBALS['sloth']->container['twig.loader']->setPaths($GLOBALS['sloth']->container['view.finder']->getPaths());
+		$GLOBALS['sloth']->container['twig.loader']->setPaths( $GLOBALS['sloth']->container['view.finder']->getPaths() );
 
 	}
 
@@ -100,6 +106,7 @@ class Plugin extends \Singleton {
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
 
+		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
 		/**
 		 * For now we give up Controllers an Routing
 		 */
@@ -158,8 +165,11 @@ class Plugin extends \Singleton {
 			return;
 		}
 		global $post;
-
-		$finder = new FoldersTemplateFinder( [ $this->current_theme_path . DS . 'View' . DS . 'Layout' ], [ 'twig' ] );
+		$layoutPaths = [];
+		foreach ( $GLOBALS['sloth']->container['view.finder']->getPaths() as $path ) {
+			$layoutPaths[] = $path . DS . 'Layout';
+		}
+		$finder = new FoldersTemplateFinder( $layoutPaths, [ 'twig' ] );
 
 		$queryTemplate = new QueryTemplate( $finder );
 
@@ -194,10 +204,9 @@ class Plugin extends \Singleton {
 			->render();
 	}
 
-	public
-	function jp_sync_acf_fields() {
-		if(!function_exists('acf_get_field_groups') || WP_E) {
-
+	public function auto_sync_acf_fields() {
+		if ( ! function_exists( 'acf_get_field_groups' ) || WP_ENV != 'development' ) {
+			return false;
 		}
 
 		// vars
