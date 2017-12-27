@@ -7,15 +7,16 @@
 
 namespace Sloth\Utility;
 
+use \Cake\Utility\Inflector;
 
-class Utility {
+class Utility extends Inflector {
 
 	/**
 	 * @param $name
 	 *
 	 * @return bool|mixed|string
 	 */
-	private static function normalize( $name ) {
+	public static function normalize( $name ) {
 		if ( strstr( '\\', $name ) ) {
 			$name = substr( strrchr( $name, "\\" ), 1 );
 		}
@@ -38,7 +39,7 @@ class Utility {
 	public static function modulize( $name, $namespaced = false ) {
 		$name = self::normalize( $name );
 
-		$name = \Cake\Utility\Inflector::camelize( str_replace( '-',
+		$name = self::camelize( str_replace( '-',
 				'_',
 				$name ) ) . 'Module';
 
@@ -57,20 +58,24 @@ class Utility {
 	public static function viewize( $name ) {
 		$name = self::normalize( $name );
 
-		$name = \Cake\Utility\Inflector::dasherize( $name );
+		$name = self::dasherize( $name );
 
 		return $name;
 	}
 
 	/**
 	 * @param $name
+	 * @param $prefixed
 	 *
 	 * @return string
 	 */
-	public static function acfize( $name ) {
+	public static function acfize( $name, $prefixed = true ) {
 		$name = self::normalize( $name );
 
-		$name = \Cake\Utility\Inflector::underscore( $name );
+		$name = self::underscore( $name );
+		if ( $prefixed ) {
+			$name = 'group_module_' . $name;
+		}
 
 		return $name;
 	}
