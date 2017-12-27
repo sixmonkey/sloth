@@ -28,7 +28,7 @@ class Plugin extends \Singleton {
 		/**
 		 * tell container about current theme path
 		 */
-		$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
+		#$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
 
 		/**
 		 * tell ViewFinder about current theme's view path
@@ -38,18 +38,22 @@ class Plugin extends \Singleton {
 		/*
 		 * we need the possibility to use @extends in twig, so we resolve all subdirectories of Layouts
 		 */
-		$twigLoader = $GLOBALS['sloth']->container['twig.loader'];
+		/* $twigLoader = $GLOBALS['sloth']->container['twig.loader'];
 
 		if ( is_dir( $this->current_theme_path . DS . 'views' . DS . 'partials' ) ) {
 			$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
 		}
-
-		$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . '*' ), 'is_dir' );
+				$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . '*' ), 'is_dir' );
 
 		foreach ( $dirs as $dir ) {
-			$twigLoader->addPath( $dir, basename( $dir ) );
-		}
+			$GLOBALS['sloth']->container['view.finder']->addNamespace( basename( $dir ), $dir );
+		}*/
 
+
+		/*
+		 * Update Twig Loaded registered paths.
+		 */
+		$GLOBALS['sloth']->container['twig.loader']->setPaths($GLOBALS['sloth']->container['view.finder']->getPaths());
 
 	}
 
@@ -102,9 +106,7 @@ class Plugin extends \Singleton {
 		#add_action( 'init', [ Sloth::getInstance(), 'setRouter' ], 20 );
 		# add_action( 'template_redirect', [ Sloth::getInstance(), 'dispatchRouter' ], 20 );
 
-		add_action( 'template_redirect', [ $this, 'get_template' ], 20 );
-
-		add_action( 'admin_init', [ $this, 'acf_auto_sync_fields' ] );
+		add_action( 'template_redirect', [ $this, 'getTemplate' ], 20 );
 
 		if ( getenv( 'FORCE_SSL' ) ) {
 			add_action( 'template_redirect', [ $this, 'force_ssl' ], 30 );
@@ -150,7 +152,7 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	public function get_template() {
+	public function getTemplate() {
 		//@TODO: fix for older themes structure
 		if ( ! is_dir( $this->current_theme_path . DS . 'View' . DS . 'Layout' ) ) {
 			return;
@@ -192,9 +194,10 @@ class Plugin extends \Singleton {
 			->render();
 	}
 
-	public function acf_auto_sync_fields() {
-		if ( ! function_exists( 'acf_get_field_groups' ) || WP_ENV != 'development' ) {
-			return false;
+	public
+	function jp_sync_acf_fields() {
+		if(!function_exists('acf_get_field_groups') || WP_E) {
+
 		}
 
 		// vars

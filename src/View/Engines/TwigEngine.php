@@ -31,15 +31,20 @@ class TwigEngine extends PhpEngine {
 	 * Return the evaluated template.
 	 *
 	 * @param string $path The file name with its file extension.
-	 * @param array $data Template data (view data)
+	 * @param array  $data Template data (view data)
 	 *
 	 * @return string
 	 */
 	public function get( $path, array $data = [] ) {
-		/**
-		 * get path relative from WWW_ROOT
-		 */
-		$path = ( preg_replace( '~^' . DIR_WWW . '~', '', $path ) );
+
+		foreach ( $this->finder->getPaths() as $realpath ) {
+			$pattern = '~^' . realpath( $realpath ) . '~';
+			if(preg_match($pattern, $path)) {
+				$path = preg_replace( $pattern, '', $path );
+				break;
+			}
+		}
+
 		return $this->environment->render( $path, $data );
 	}
 }
