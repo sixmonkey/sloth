@@ -68,6 +68,8 @@ class Sloth extends \Singleton {
 			\Sloth\View\ViewServiceProvider::class,
 			\Sloth\Module\ModuleServiceProvider::class,
 			\Sloth\Pagination\PaginationServiceProvider::class,
+			\Sloth\Layotter\LayotterServiceProvider::class,
+			\Sloth\Configure\ConfigureServiceProvider::class,
 		];
 
 		foreach ( $providers as $provider ) {

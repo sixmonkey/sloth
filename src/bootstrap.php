@@ -68,6 +68,7 @@ if ($vendor_directory === false) {
 
 require_once $vendor_directory . '/autoload.php'; */
 require_once( DIR_VENDOR . DS . 'autoload.php' );
+class_alias( 'Sloth\Facades\Configure', 'Configure' );
 
 /**
  * Use Dotenv to set required environment variables and load .env file in root
@@ -140,7 +141,7 @@ defined( 'DISALLOW_FILE_EDIT' ) ? DISALLOW_FILE_EDIT : define( 'DISALLOW_FILE_ED
 /**
  * Bootstrap WordPress
  */
-defined( 'ABSPATH' ) ? ABSPATH : define( 'ABSPATH', realpath(DIR_WWW . WP_PATH ) .DS );
+defined( 'ABSPATH' ) ? ABSPATH : define( 'ABSPATH', realpath( DIR_WWW . WP_PATH ) . DS );
 /**
  * Custom Media, Plugins and Theme paths
  *
