@@ -11,6 +11,7 @@ use League\CLImate\CLImate;
 use Sloth\Facades\View;
 use Sloth\Utility\Utility;
 use gossi\docblock\Docblock;
+use Spatie\Emoji\Emoji;
 
 
 class Scaffolder {
@@ -45,7 +46,7 @@ class Scaffolder {
 			$context['name'] = trim( $input->prompt() );
 
 			if ( $context['name'] == null ) {
-				$this->climate->error( 'Please give a name for this Module!' );
+				$this->climate->error( Emoji::pileOfPoo() . ' Please give a name for this Module!' );
 				continue;
 			}
 
@@ -56,7 +57,8 @@ class Scaffolder {
 
 			$filename_module = $GLOBALS['sloth']->container->get( 'path.theme' ) . DS . 'Module' . DS . $context['name'] . '.php';
 			if ( file_exists( $filename_module ) ) {
-				$this->climate->error( sprintf( 'A module called %s exists!', $context['name'] ) );
+				$this->climate->error( Emoji::pileOfPoo() . ' ' . sprintf( 'A module called %s exists!',
+						$context['name'] ) );
 			}
 		}
 
@@ -92,7 +94,7 @@ class Scaffolder {
 		if ( $context['layotter'] ) {
 			$filename_acf = $GLOBALS['sloth']->container->get( 'path.theme' ) . DS . 'acf-json' . DS . $context['name_acf'] . '.json';
 			if ( file_exists( $filename_acf ) ) {
-				$this->climate->info( sprintf( 'A Field Group %s exists. Skipping scaffolding!',
+				$this->climate->info( Emoji::thinkingFace() . ' ' . sprintf( 'A Field Group %s exists. Skipping scaffolding!',
 					$context['name_acf'] ) );
 			} else {
 				$view = View::make( 'Scaffold.Module.Acf' );
@@ -103,6 +105,7 @@ class Scaffolder {
 				file_put_contents( $filename_acf, json_encode( $data ) );
 			}
 		}
+
 		$this->climate->info( sprintf( 'Module %s created!', $context['name'] ) );
 	}
 
