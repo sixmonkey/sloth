@@ -16,7 +16,8 @@ class Plugin extends \Singleton {
 	private $container;
 
 	public function __construct() {
-		$this->add_filters();
+		$this->container = $GLOBALS['sloth']->container;
+		$this->addFilters();
 		$this->loadControllers();
 		$this->loadModels();
 		#\Route::instance()->boot();
@@ -28,23 +29,23 @@ class Plugin extends \Singleton {
 		/**
 		 * tell container about current theme path
 		 */
-		$GLOBALS['sloth']->container->addPath( 'theme', $this->current_theme_path );
+		$this->container->addPath( 'theme', $this->current_theme_path );
 
 		/**
 		 * tell ViewFinder about current theme's view path
 		 */
-		$GLOBALS['sloth']->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
+		$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
 
 		/**
 		 * tell ViewFinder about sloths's view path
 		 */
 
-		$GLOBALS['sloth']->container['view.finder']->addLocation( dirname( __DIR__ ) . DS . '_view' );
+		$this->container['view.finder']->addLocation( dirname( __DIR__ ) . DS . '_view' );
 
 		/*
 		 * we need the possibility to use @extends in twig, so we resolve all subdirectories of Layouts
 		 */
-		/* $twigLoader = $GLOBALS['sloth']->container['twig.loader'];
+		/* $twigLoader = $this->container['twig.loader'];
 
 		if ( is_dir( $this->current_theme_path . DS . 'views' . DS . 'partials' ) ) {
 			$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
@@ -52,14 +53,22 @@ class Plugin extends \Singleton {
 				$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . '*' ), 'is_dir' );
 
 		foreach ( $dirs as $dir ) {
-			$GLOBALS['sloth']->container['view.finder']->addNamespace( basename( $dir ), $dir );
+			$this->container['view.finder']->addNamespace( basename( $dir ), $dir );
 		}*/
 
 
 		/*
 		 * Update Twig Loaded registered paths.
 		 */
-		$GLOBALS['sloth']->container['twig.loader']->setPaths( $GLOBALS['sloth']->container['view.finder']->getPaths() );
+		$this->container['twig.loader']->setPaths( $this->container['view.finder']->getPaths() );
+
+		/*
+		 * include theme's config
+		 */
+		$theme_config = $this->current_theme_path . DS . 'config.php';
+		if ( file_exists( $theme_config ) ) {
+			#include_once $theme_config;
+		}
 
 	}
 
@@ -78,6 +87,18 @@ class Plugin extends \Singleton {
 
 			$model = new $model_name;
 			$model->register();
+
+			$post_type = $model->getPostType();
+
+			if ( $model::$layotter !== false ) {
+				$this->container['layotter']->enable_for_post_type( $post_type );
+				if ( is_array( $model::$layotter ) ) {
+					isset( $model::$layotter['allowed_row_layouts'] ) ? $this->container['layotter']->set_layouts_for_post_type( $post_type,
+						$model::$layotter['allowed_row_layouts'] ) : null;
+				}
+			} else {
+				$this->container['layotter']->disable_for_post_type( $post_type );
+			}
 		}
 	}
 
@@ -101,7 +122,7 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	private function add_filters() {
+	private function addFilters() {
 
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
@@ -118,6 +139,8 @@ class Plugin extends \Singleton {
 		if ( getenv( 'FORCE_SSL' ) ) {
 			add_action( 'template_redirect', [ $this, 'force_ssl' ], 30 );
 		}
+
+		$this->container['layotter']->addFilters();
 	}
 
 	public function plugin() {
@@ -165,16 +188,21 @@ class Plugin extends \Singleton {
 			return;
 		}
 		global $post;
+
+		$post = is_object( $post ) ? $post : new \StdClass;
+
 		$layoutPaths = [];
-		foreach ( $GLOBALS['sloth']->container['view.finder']->getPaths() as $path ) {
+		foreach ( $this->container['view.finder']->getPaths() as $path ) {
 			$layoutPaths[] = $path . DS . 'Layout';
 		}
 		$finder = new FoldersTemplateFinder( $layoutPaths, [ 'twig' ] );
 
 		$queryTemplate = new QueryTemplate( $finder );
 
-		$view          = View::make( 'Layout.' . basename( $queryTemplate->findTemplate(), '.twig' ) );
-		$post->content = apply_filters( 'the_content', $post->post_content );
+		$view = View::make( 'Layout.' . basename( $queryTemplate->findTemplate(), '.twig' ) );
+		if ( isset( $post->post_content ) ) {
+			$post->content = apply_filters( 'the_content', $post->post_content );
+		}
 		echo $view
 			->with(
 				[

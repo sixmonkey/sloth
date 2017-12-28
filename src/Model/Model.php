@@ -9,6 +9,7 @@ class Model extends Corcel {
 	protected $names = [];
 	protected $options = [];
 	protected $labels = [];
+	public static $layotter = false;
 
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {
@@ -33,5 +34,12 @@ class Model extends Corcel {
 		$labels  = $this->labels;
 
 		new PostType( $names, $options, $labels );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPostType() {
+		return $this->postType;
 	}
 }
