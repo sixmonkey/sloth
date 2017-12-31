@@ -1,0 +1,36 @@
+{% if paginator.hasPages %}
+
+    <ul class="pagination">
+        {% if paginator.onFirstPage %}
+            <li class="disabled no_border"><span>&nbsp;</span></li>
+            <li class="disabled no_border"><span>&nbsp;</span></li>
+        {% else %}
+            <li class="no_border"><a href="{{ paginator.url(1) }}" rel="first">&laquo;</a></li>
+            <li class="no_border"><a href="{{ paginator.previousPageUrl }}" rel="prev">&lsaquo;</a></li>
+        {% endif %}
+
+        {% for element in elements %}
+            {% if element is string %}
+                <li class="disabled"><span>{{ element }}</span></li>
+            {% endif %}
+
+            {% if element is iterable %}
+                {% for page, url in element %}
+                    {% if page == paginator.currentPage %}
+                        <li class="active number"><span>{{ page }}</span></li>
+                    {% else %}
+                        <li class="number"><a href="{{ url }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+        {% if paginator.hasMorePages %}
+            <li class="no_border"><a href="{{ paginator.nextPageUrl }}" rel="next">&rsaquo;</a></li>
+            <li class="no_border"><a href="{{ paginator.url(paginator.lastPage) }}" rel="last">&raquo;</a></li>
+        {% else %}
+            <li class="disabled no_border"><span>&nbsp;</span></li>
+            <li class="disabled no_border"><span>&nbsp;</span></li>
+        {% endif %}
+    </ul>
+{% endif %}

@@ -6,5 +6,33 @@
             "email": "bk@qundg.de"
         }
     ],
-    "require": {}
+    "require": {
+        "jover/singleton": "^1.0",
+        "nikic/fast-route": "^1.2",
+        "illuminate/container": "^5.4",
+        "illuminate/view": "^5.4",
+        "twig/twig": "^1.0",
+        "illuminate/filesystem": "^5.4",
+        "brain/hierarchy": "^2.3",
+        "jjgrainger/posttypes": "^1.1",
+        "jgrossi/corcel": "^2.4",
+        "illuminate/pagination": "^5.4",
+        "cakephp/utility": "^3.5",
+        "tracy/tracy": "^2.4",
+        "vlucas/phpdotenv": "^2.4",
+        "roots/wp-password-bcrypt": "^1.0",
+        "corcel/acf": "^1.0",
+        "org_heigl/hyphenator": "^2.2",
+        "league/climate": "^3.2",
+        "gossi/docblock": "^1.6",
+        "spatie/emoji": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sloth\\": "src/"
+        },
+        "files" : [
+            "src/functions.php"
+        ]
+    }
 }

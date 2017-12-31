@@ -1,0 +1,16 @@
+<?php
+
+namespace Theme\Module;
+
+use Sloth\Facades\Module as Module;
+
+class {{ name }} extends Module {
+{% if layotter %}
+    public static $layotter = [
+        'title'       => '{{ layotter.title }}',
+        'description' => '{{ layotter.description }}',
+        'icon'        => '{{ layotter.icon }}',
+        'field_group' => '{{ name_acf }}',
+    ];
+{% endif %}
+}
