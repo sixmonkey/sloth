@@ -2,6 +2,7 @@
 
 namespace Sloth\Plugin;
 
+use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
 use PostTypes\PostType;
@@ -17,7 +18,6 @@ class Plugin extends \Singleton {
 
 	public function __construct() {
 		$this->container = $GLOBALS['sloth']->container;
-		$this->addFilters();
 		$this->loadControllers();
 		$this->loadModels();
 		#\Route::instance()->boot();
@@ -67,9 +67,10 @@ class Plugin extends \Singleton {
 		 */
 		$theme_config = $this->current_theme_path . DS . 'config.php';
 		if ( file_exists( $theme_config ) ) {
-			#include_once $theme_config;
+			include_once $theme_config;
 		}
 
+		$this->addFilters();
 	}
 
 	private function loadControllers() {
@@ -126,6 +127,7 @@ class Plugin extends \Singleton {
 
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
+		add_action( 'init', [ $this, 'register_menus' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
 		/**
@@ -289,6 +291,33 @@ class Plugin extends \Singleton {
 				}
 				// import
 				$field_group = acf_import_field_group( $sync[ $key ] );
+			}
+		}
+	}
+
+	/**
+	 * register menus for the theme
+	 */
+	public function register_menus() {
+		$menus = Configure::read( 'theme.menus' );
+		if ( $menus && is_array( $menus ) ) {
+			foreach ( $menus as $menu => $title ) {
+				\register_nav_menu( $menu, __( $title ) );
+			}
+		}
+	}
+
+	public function register_image_sizes() {
+		$image_sizes = Configure::read( 'theme.image-sizes' );
+		if ( $image_sizes && is_array( $image_sizes ) ) {
+			foreach ( $image_sizes as $name => $options ) {
+				$options = array_merge( [
+					'width'  => 800,
+					'height' => 600,
+					'crop'   => false,
+				],
+					$options );
+				\add_image_size( $name, $options['width'], $options['height'], $options['crop'] );
 			}
 		}
 	}
