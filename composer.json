@@ -14,7 +14,7 @@
         "twig/twig": "^1.0",
         "illuminate/filesystem": "^5.4",
         "brain/hierarchy": "^2.3",
-        "jjgrainger/posttypes": "^1.1",
+        "jjgrainger/posttypes": "^2.0",
         "jgrossi/corcel": "^2.4",
         "illuminate/pagination": "^5.4",
         "cakephp/utility": "^3.5",
