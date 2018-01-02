@@ -2,6 +2,7 @@
 
 namespace Sloth\Plugin;
 
+use Corcel\Model\Menu;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
