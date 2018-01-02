@@ -26,7 +26,7 @@ class Module {
 		if ( ! strstr( $this->template, '.' ) ) {
 			$this->template = $this->viewPrefix . '.' . $this->template;
 		}
-		$this->template = str_replace('.', DS, ucfirst($this->template));
+		$this->template = str_replace( '.', DS, ucfirst( $this->template ) );
 	}
 
 	final private function makeView() {
@@ -40,11 +40,15 @@ class Module {
 		return $class::$layotter;
 	}
 
+	/**
+	 * render the view
+	 */
 	final public function render() {
 		$this->beforeRender();
 		if ( $this->render ) {
 			$this->makeView();
-			echo $this->view->with( $this->viewVars )->render();
+			$vars = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
+			echo $this->view->with( $vars )->render();
 		}
 	}
 

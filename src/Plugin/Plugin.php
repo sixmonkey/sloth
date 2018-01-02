@@ -184,6 +184,36 @@ class Plugin extends \Singleton {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getContext() {
+		global $post;
+		return [
+			'post'     => $post,
+			'wp_title' => wp_title( '', false ),
+			'site'     => [
+				'url'         => home_url(),
+				'rdf'         => get_bloginfo( 'rdf_url' ),
+				'rss'         => get_bloginfo( 'rss_url' ),
+				'rss2'        => get_bloginfo( 'rss2_url' ),
+				'atom'        => get_bloginfo( 'atom_url' ),
+				'language'    => get_bloginfo( 'language' ),
+				'charset'     => get_bloginfo( 'charset' ),
+				'pingback'    => $this->pingback_url = get_bloginfo( 'pingback_url' ),
+				'admin_email' => get_bloginfo( 'admin_email' ),
+				'name'        => get_bloginfo( 'name' ),
+				'title'       => get_bloginfo( 'name' ),
+				'description' => get_bloginfo( 'description' ),
+			],
+			'globals'  => [
+				'home_url'   => home_url( '/' ),
+				'theme_url'  => get_template_directory_uri(),
+				'images_url' => get_template_directory_uri() . '/assets/img',
+			],
+		];
+	}
+
 	public function getTemplate() {
 		//@TODO: fix for older themes structure
 		if ( ! is_dir( $this->current_theme_path . DS . 'View' . DS . 'Layout' ) ) {
@@ -207,29 +237,7 @@ class Plugin extends \Singleton {
 		}
 		echo $view
 			->with(
-				[
-					'post'     => $post,
-					'wp_title' => wp_title( '', false ),
-					'site'     => [
-						'url'         => home_url(),
-						'rdf'         => get_bloginfo( 'rdf_url' ),
-						'rss'         => get_bloginfo( 'rss_url' ),
-						'rss2'        => get_bloginfo( 'rss2_url' ),
-						'atom'        => get_bloginfo( 'atom_url' ),
-						'language'    => get_bloginfo( 'language' ),
-						'charset'     => get_bloginfo( 'charset' ),
-						'pingback'    => $this->pingback_url = get_bloginfo( 'pingback_url' ),
-						'admin_email' => get_bloginfo( 'admin_email' ),
-						'name'        => get_bloginfo( 'name' ),
-						'title'       => get_bloginfo( 'name' ),
-						'description' => get_bloginfo( 'description' ),
-					],
-					'globals'  => [
-						'home_url'   => home_url( '/' ),
-						'theme_url'  => get_template_directory_uri(),
-						'images_url' => get_template_directory_uri() . '/assets/img',
-					],
-				]
+				$this->getContext()
 			)
 			->render();
 	}
