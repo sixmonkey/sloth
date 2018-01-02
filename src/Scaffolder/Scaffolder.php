@@ -91,11 +91,25 @@ class Scaffolder {
 		$view          = View::make( 'Scaffold.Module.View' );
 		file_put_contents( $filename_view, $view->with( $context )->render() );
 
+
+		$filename_sass = DIR_ROOT . DS . 'src' . DS . 'sass' . DS . 'modules' . DS . '_' . $context['name_view'] . '.scss';
+		if ( ! is_dir( dirname( $filename_sass ) ) ) {
+			mkdir( dirname( $filename_sass ), 0777, true );
+		}
+		$view = View::make( 'Scaffold.Module.Sass' );
+		file_put_contents( $filename_sass, $view->with( $context )->render() );
+
+
+		$filename_sass_bundle = DIR_ROOT . DS . 'src' . DS . 'sass' . DS . 'bundle.scss';
+		file_put_contents( $filename_sass_bundle,
+			sprintf( "\n\t@import 'modules/%s';", $context['name_view'] ),
+			FILE_APPEND );
+
 		if ( $context['layotter'] ) {
 			$filename_acf = $GLOBALS['sloth']->container->get( 'path.theme' ) . DS . 'acf-json' . DS . $context['name_acf'] . '.json';
 			if ( file_exists( $filename_acf ) ) {
 				$this->climate->info( Emoji::thinkingFace() . ' ' . sprintf( 'A Field Group %s exists. Skipping scaffolding!',
-					$context['name_acf'] ) );
+						$context['name_acf'] ) );
 			} else {
 				$view = View::make( 'Scaffold.Module.Acf' );
 				$data = json_decode( $view->with( $context + [ 'now' => time() ] )->render() );
