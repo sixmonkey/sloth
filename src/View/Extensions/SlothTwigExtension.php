@@ -102,8 +102,8 @@ class SlothTwigExtension extends Twig_Extension {
 	public function getFunctions() {
 		return [
 			new Twig_SimpleFunction( 'module',
-				function ( $name ) {
-					return $name;
+				function ( $name, $values = [] ) {
+					$GLOBALS['sloth']->container->callModule( $name, $values );
 				} ),
 			/*
 			 * WordPress theme functions.
