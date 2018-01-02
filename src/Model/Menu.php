@@ -28,7 +28,7 @@ class Menu extends CorcelMenu {
 			}
 		}
 
-		$menu = parent::find( $id );
+		$menu = parent::where( 'term_taxonomy_id', $id );
 
 		return $menu;
 	}
@@ -36,10 +36,12 @@ class Menu extends CorcelMenu {
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function items()
-	{
+	public function items() {
 		return $this->belongsToMany(
-			MenuItem::class, 'term_relationships', 'term_taxonomy_id', 'object_id'
-		)->orderBy('menu_order');
+			MenuItem::class,
+			'term_relationships',
+			'term_taxonomy_id',
+			'object_id'
+		)->orderBy( 'menu_order' );
 	}
 }
