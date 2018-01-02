@@ -33,7 +33,8 @@ class Model extends Corcel {
 			[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
 		$labels  = $this->labels;
 
-		new PostType( $names, $options, $labels );
+		$pt = new PostType( $names, $options, $labels );
+		$pt->register();
 	}
 
 	/**

@@ -10,14 +10,16 @@ class Taxonomy extends Corcel {
 	protected $options = [];
 	protected $labels = [];
 	protected $postTypes = [];
+	/**
+	 * @var string
+	 */
+	protected $postType;
+	public $term_id;
 
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {
 			$reflection     = new \ReflectionClass( $this );
 			$this->postType = strtolower( $reflection->getShortName() );
-		}
-		if ( $this->icon == null ) {
-			$this->icon = 'admin-post';
 		}
 		if ( is_array( $this->labels ) && count( $this->labels ) ) {
 			foreach ( $this->labels as &$label ) {
@@ -37,8 +39,10 @@ class Taxonomy extends Corcel {
 		foreach ( $this->postTypes as $postType ) {
 			$tax->posttype( $postType );
 		}
+		$tax->register();
 
 	}
+
 
 	/**
 	 * @return string
