@@ -21,6 +21,7 @@ class Plugin extends \Singleton {
 		$this->container = $GLOBALS['sloth']->container;
 		$this->loadControllers();
 		$this->loadModels();
+		$this->loadTaxonomies();
 		#\Route::instance()->boot();
 
 		/**
@@ -101,6 +102,19 @@ class Plugin extends \Singleton {
 			} else {
 				$this->container['layotter']->disable_for_post_type( $post_type );
 			}
+		}
+	}
+
+
+	public function loadTaxonomies() {
+
+		foreach ( glob( DIR_APP . 'Taxonomy' . DS . '*.php' ) as $file ) {
+			include( $file );
+			$classes       = get_declared_classes();
+			$taxonomy_name = array_pop( $classes );
+
+			$taxonomy = new $taxonomy_name;
+			$taxonomy->register();
 		}
 	}
 
@@ -190,6 +204,7 @@ class Plugin extends \Singleton {
 	 */
 	public function getContext() {
 		global $post;
+
 		return [
 			'post'     => $post,
 			'wp_title' => wp_title( '', false ),
