@@ -238,7 +238,16 @@ final class Layotter extends \Singleton {
 	 *
 	 * @return string
 	 */
-	public function custom_row_view( $cols_html, $options, $post_options = null ) {
+	public function custom_row_view( $cols_html, $options = [], $post_options = null ) {
+		foreach ( $options as &$option ) {
+			if ( is_array( $option ) && empty( $option ) ) {
+				$option = null;
+			}
+			if ( is_array( $option ) && count( $option ) == 1 ) {
+				$option = reset($option);
+			}
+		}
+
 		$view = View::make( 'Layotter.row' );
 
 		return $view->with( [
