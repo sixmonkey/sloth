@@ -39,10 +39,13 @@ class TwigEngine extends PhpEngine {
 
 		foreach ( $this->finder->getPaths() as $realpath ) {
 			$pattern = '~^' . realpath( $realpath ) . '~';
-			if(preg_match($pattern, $path)) {
+			if ( preg_match( $pattern, $path ) ) {
 				$path = preg_replace( $pattern, '', $path );
 				break;
 			}
+		}
+		if ( substr( $path, - strlen( $this->extension ) ) != $this->extension ) {
+			$path .= $this->extension;
 		}
 
 		return $this->environment->render( $path, $data );
