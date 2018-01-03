@@ -6,11 +6,14 @@ use Sloth\Facades\View as View;
 
 class Module {
 	public static $layotter = false;
+	public static $json = false;
 	private $view;
 	private $viewVars = [];
 	protected $viewPrefix = 'module';
 	protected $render = true;
 	protected $template;
+	public static $ajax_url;
+	protected $doing_ajax = false;
 
 	protected function beforeRender() {
 
@@ -72,5 +75,13 @@ class Module {
 
 	final protected function _get( $k ) {
 		return $this->get( $k );
+	}
+
+	final public function getJSON() {
+		$this->doing_ajax = true;
+		$this->beforeRender();
+		header( 'Content-Type: application/json' );
+		echo json_encode( $this->viewVars, 1 );
+		die();
 	}
 }

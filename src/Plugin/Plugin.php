@@ -12,10 +12,12 @@ use Sloth\Core\Sloth;
 
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use \Brain\Hierarchy\QueryTemplate;
+use Sloth\Utility\Utility;
 
 class Plugin extends \Singleton {
 	public $current_theme_path;
 	private $container;
+	private $modules = [];
 
 	public function __construct() {
 		$this->container = $GLOBALS['sloth']->container;
@@ -23,6 +25,8 @@ class Plugin extends \Singleton {
 		$this->loadModels();
 		$this->loadTaxonomies();
 		#\Route::instance()->boot();
+
+		$this->fixPagination();
 
 		/**
 		 * set current_theme_path
@@ -135,6 +139,19 @@ class Plugin extends \Singleton {
 				);
 				\Layotter::register_element( strtolower( substr( strrchr( $module_name, "\\" ), 1 ) ), $class_name );
 			}
+
+			if ( $module_name::$json ) {
+				$action = 'module_' . Utility::underscore( class_basename( $module_name ) );
+				#$reflect = new ReflectionClass($object);
+				add_action( 'wp_ajax_nopriv_' . $action,
+					[ new $module_name, 'getJSON' ] );
+				add_action( 'wp_ajax_' . $action,
+					[ new $module_name, 'getJSON' ] );
+				$module_name::$ajax_url = \admin_url( 'admin-ajax.php?action=' . $action );
+			}
+
+			$this->modules[] = $module_name;
+
 		}
 	}
 
@@ -343,6 +360,28 @@ class Plugin extends \Singleton {
 					$options );
 				\add_image_size( $name, $options['width'], $options['height'], $options['crop'] );
 			}
+		}
+	}
+
+	protected function fixPagination() {
+		/**
+		 * hand current page from get to Illuminate
+		 */
+		if ( isset( $_GET['page'] ) ) {
+			$currentPage = $_GET['page'];
+			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
+				return $currentPage;
+			} );
+		}
+		global $wp_query;
+		/**
+		 * hand current page from wp_query to Illuminate
+		 */
+		if ( isset( $wp_query->query['page'] ) ) {
+			$currentPage = $wp_query->query['page'];
+			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
+				return $currentPage;
+			} );
 		}
 	}
 }
