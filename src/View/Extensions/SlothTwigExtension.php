@@ -125,6 +125,9 @@ class SlothTwigExtension extends Twig_Extension {
 			new Twig_SimpleFunction( 'wp_trim_words', function ( $text, $num_words = 55, $more = null ) {
 				return wp_trim_words( $text, $num_words, $more );
 			} ),
+			new Twig_SimpleFunction( 'get_field', function ( $field_name, $post = null ) {
+				return get_field($field_name, $post);
+			}),
 			/*
 			 * Use this to call any core, WordPress or user defined functions.
 			 */
