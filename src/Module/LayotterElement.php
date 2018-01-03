@@ -2,6 +2,8 @@
 
 namespace Sloth\Module;
 
+use Sloth\Facades\View;
+
 class LayotterElement extends \Layotter_Element {
 	public static $module;
 
@@ -22,10 +24,10 @@ class LayotterElement extends \Layotter_Element {
 		$options = func_get_args();
 
 		$fields['_layotter.passed'] = [
-			'class' => $options[1],
-			'col_options' => $options[2],
-			'row_options' => $options[3],
-			'post_options' => $options[4]
+			'class'        => $options[1],
+			'col_options'  => $options[2],
+			'row_options'  => $options[3],
+			'post_options' => $options[4],
 		];
 
 
@@ -40,6 +42,11 @@ class LayotterElement extends \Layotter_Element {
 
 	public function backend_view( $fields ) {
 		echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
-		echo '<p>' . $this->description . ' </p>';
+
+		$class_name  = get_class( $this );
+		$module_name = $class_name::$module;
+		$module      = new $module_name;
+		$module->set( $fields );
+		$module->render();
 	}
 }
