@@ -248,6 +248,8 @@ class Plugin extends \Singleton {
 	}
 
 	public function getTemplate() {
+
+		$this->fixPagination();
 		//@TODO: fix for older themes structure
 		if ( ! is_dir( $this->current_theme_path . DS . 'View' . DS . 'Layout' ) ) {
 			return;
