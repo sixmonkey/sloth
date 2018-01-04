@@ -88,9 +88,12 @@ class Plugin extends \Singleton {
 	public function loadModels() {
 
 		foreach ( glob( DIR_APP . 'Model' . DS . '*.php' ) as $file ) {
-			include( $file );
-			$classes    = get_declared_classes();
-			$model_name = array_pop( $classes );
+			$model_name = 'App\Model\\' . basename( $file, '.php' );
+			if ( ! class_exists( $model_name ) ) {
+				include( $file );
+				$classes    = get_declared_classes();
+				$model_name = array_pop( $classes );
+			}
 
 			$model = new $model_name;
 			$model->register();
