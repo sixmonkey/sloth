@@ -7,6 +7,7 @@
 
 namespace Sloth\Layotter;
 
+use Sloth\Facades\Configure;
 use Sloth\Utility\Utility;
 use Sloth\Facades\View;
 
@@ -104,7 +105,7 @@ final class Layotter extends \Singleton {
 			}
 		}
 
-		return $row_layouts; # else return defaults
+		return Configure::read( 'theme.layotter.row_layouts' ) ? Configure::read( 'theme.layotter.row_layouts' ) : $row_layouts; # else return defaults
 	}
 
 	/**
@@ -123,6 +124,12 @@ final class Layotter extends \Singleton {
 			if ( isset( self::${$setting}[ call_user_func( 'self::' . $getter ) ] ) ) {
 				return reset( self::${$setting}[ call_user_func( 'self::' . $getter ) ] );
 			}
+		}
+
+		$theme_layouts = Configure::read( 'theme.layotter.row_layouts' );
+
+		if ( is_array($theme_layouts) ) {
+			return reset( $theme_layouts );
 		}
 
 		return $row_layout;
@@ -244,7 +251,7 @@ final class Layotter extends \Singleton {
 				$option = null;
 			}
 			if ( is_array( $option ) && count( $option ) == 1 ) {
-				$option = reset($option);
+				$option = reset( $option );
 			}
 		}
 
