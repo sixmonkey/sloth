@@ -11,6 +11,7 @@ use Sloth\Core\ServiceProvider;
 use Sloth\View\Engines\TwigEngine;
 use Sloth\View\Extensions\SlothTwigExtension;
 use Illuminate\Events\Dispatcher;
+use Sloth\Configure\Configure;
 
 class ViewServiceProvider extends ServiceProvider {
 	public function register() {
@@ -41,7 +42,7 @@ class ViewServiceProvider extends ServiceProvider {
 	/**
 	 * Register the Twig engine to the EngineResolver.
 	 *
-	 * @param string $engine
+	 * @param string         $engine
 	 * @param EngineResolver $resolver
 	 */
 	protected function registerTwigEngine( $engine, EngineResolver $resolver ) {
@@ -65,7 +66,7 @@ class ViewServiceProvider extends ServiceProvider {
 		// Twig Filesystem loader.
 		$container->singleton( 'twig.loader',
 			function () {
-				return new \Twig_Loader_Filesystem(DS);
+				return new \Twig_Loader_Filesystem( DS );
 			} );
 
 		// Twig
@@ -73,7 +74,8 @@ class ViewServiceProvider extends ServiceProvider {
 			function ( $container ) {
 				return new \Twig_Environment( $container['twig.loader'], [
 					'auto_reload' => true,
-	                'cache' => $container['path.cache'].'Twig',
+					'cache'       => $container['path.cache'] . 'Twig',
+					'autoescape'  => Configure::read( 'twig.autoescape' ),
 				] );
 			} );
 
