@@ -10,6 +10,7 @@ class Model extends Corcel {
 	protected $options = [];
 	protected $labels = [];
 	public static $layotter = false;
+	protected $register = true;
 
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {
@@ -28,6 +29,9 @@ class Model extends Corcel {
 	}
 
 	public function register() {
+		if ( ! $this->register ) {
+			return false;
+		}
 		$names   = array_merge( $this->names, [ 'name' => $this->getPostType() ] );
 		$options = array_merge( $this->options,
 			[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
