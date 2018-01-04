@@ -19,6 +19,9 @@ class Module {
 
 	}
 
+	protected function beforeGetJSON() {
+	}
+
 	final private function getTemplate() {
 		if ( is_null( $this->template ) ) {
 			$class          = get_class( $this );
@@ -48,11 +51,14 @@ class Module {
 	 */
 	final public function render() {
 		$this->beforeRender();
+		$this->makeView();
+		$vars   = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
+		$output = $this->view->with( $vars )->render();;
 		if ( $this->render ) {
-			$this->makeView();
-			$vars = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
-			echo $this->view->with( $vars )->render();
+			echo $output;
 		}
+
+		return $output;
 	}
 
 	final public function set( $key, $value = null ) {
@@ -73,6 +79,10 @@ class Module {
 		return $this->viewVars[ $k ];
 	}
 
+	final public function unset( $key ) {
+		unset( $this->viewVars[ $key ] );
+	}
+
 	final protected function _get( $k ) {
 		return $this->get( $k );
 	}
@@ -80,6 +90,7 @@ class Module {
 	final public function getJSON() {
 		$this->doing_ajax = true;
 		$this->beforeRender();
+		$this->beforeGetJSON();
 		header( 'Content-Type: application/json' );
 		echo json_encode( $this->viewVars, 1 );
 		die();
