@@ -150,7 +150,7 @@ class Plugin extends \Singleton {
 					[ new $module_name, 'getJSON' ] );
 				add_action( 'wp_ajax_' . $action,
 					[ new $module_name, 'getJSON' ] );
-				$module_name::$ajax_url = \admin_url( 'admin-ajax.php?action=' . $action );
+				$module_name::$ajax_url = str_replace( home_url(), '', \admin_url( 'admin-ajax.php?action=' . $action ) );
 			}
 
 			$this->modules[] = $module_name;
