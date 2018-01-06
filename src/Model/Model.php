@@ -51,4 +51,12 @@ class Model extends Corcel {
 	public function getPermalinkAttribute() {
 		return \get_permalink( $this->ID );
 	}
+
+	final public function init() {
+		// fix post_type
+		$object = get_post_type_object( $this->postType );
+		foreach ( $this->options as $key => $option ) {
+			$object->{$key} = $option;
+		}
+	}
 }

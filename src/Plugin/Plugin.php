@@ -18,6 +18,8 @@ class Plugin extends \Singleton {
 	public $current_theme_path;
 	private $container;
 	private $modules = [];
+	private $models = [];
+	private $taxonomies = [];
 
 	public function __construct() {
 		$this->container = $GLOBALS['sloth']->container;
@@ -100,6 +102,8 @@ class Plugin extends \Singleton {
 
 			$post_type = $model->getPostType();
 
+			$this->models[ $post_type ] = $model_name;
+
 			if ( $model::$layotter !== false ) {
 				$this->container['layotter']->enable_for_post_type( $post_type );
 				if ( is_array( $model::$layotter ) ) {
@@ -114,7 +118,6 @@ class Plugin extends \Singleton {
 
 
 	public function loadTaxonomies() {
-
 		foreach ( glob( DIR_APP . 'Taxonomy' . DS . '*.php' ) as $file ) {
 			include( $file );
 			$classes       = get_declared_classes();
@@ -122,6 +125,7 @@ class Plugin extends \Singleton {
 
 			$taxonomy = new $taxonomy_name;
 			$taxonomy->register();
+			$this->taxonomies[ $taxonomy->getPostType() ] = $taxonomy_name;
 		}
 	}
 
@@ -150,7 +154,9 @@ class Plugin extends \Singleton {
 					[ new $module_name, 'getJSON' ] );
 				add_action( 'wp_ajax_' . $action,
 					[ new $module_name, 'getJSON' ] );
-				$module_name::$ajax_url = str_replace( home_url(), '', \admin_url( 'admin-ajax.php?action=' . $action ) );
+				$module_name::$ajax_url = str_replace( home_url(),
+					'',
+					\admin_url( 'admin-ajax.php?action=' . $action ) );
 			}
 
 			$this->modules[] = $module_name;
@@ -163,6 +169,8 @@ class Plugin extends \Singleton {
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
+		add_action( 'init', [ $this, 'initModels' ], 20 );
+		add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
 		/**
@@ -387,6 +395,22 @@ class Plugin extends \Singleton {
 			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
 				return $currentPage;
 			} );
+		}
+	}
+
+	public function initModels() {
+		foreach ( $this->models as $k => $v ) {
+			$model = new $v;
+			$model->init();
+			unset( $model );
+		}
+	}
+
+	public function initTaxonomies() {
+		foreach ( $this->taxonomies as $k => $v ) {
+			$tax = new $v;
+			$tax->init();
+			unset( $tax );
 		}
 	}
 }
