@@ -166,6 +166,7 @@ class Plugin extends \Singleton {
 
 	private function addFilters() {
 
+		$this->fixRoutes();
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
@@ -259,7 +260,7 @@ class Plugin extends \Singleton {
 	}
 
 	public function getTemplate() {
-
+		$template = null;
 		$this->fixPagination();
 		//@TODO: fix for older themes structure
 		if ( ! is_dir( $this->current_theme_path . DS . 'View' . DS . 'Layout' ) ) {
@@ -269,15 +270,41 @@ class Plugin extends \Singleton {
 
 		$post = is_object( $post ) ? $post : new \StdClass;
 
-		$layoutPaths = [];
-		foreach ( $this->container['view.finder']->getPaths() as $path ) {
-			$layoutPaths[] = $path . DS . 'Layout';
+		if ( Configure::read( 'theme.routes' ) && is_array( Configure::read( 'theme.routes' ) ) ) {
+			$uri = $_SERVER['REQUEST_URI'];
+
+			// Strip query string (?foo=bar) and decode URI
+			if ( false !== $pos = strpos( $uri, '?' ) ) {
+				$uri = substr( $uri, 0, $pos );
+			}
+			$uri = rawurldecode( $uri );
+
+			$routes = Configure::read( 'theme.routes' );
+
+			if ( isset( $routes[ $uri ] ) ) {
+				$template = basename( $routes[ $uri ]['Layout'], '.twig' );
+				if ( isset( $routes[ $uri ]['ContentType'] ) ) {
+					header( 'Content-Type: ' . $routes[ $uri ]['ContentType'] );
+				}
+			}
 		}
-		$finder = new FoldersTemplateFinder( $layoutPaths, [ 'twig' ] );
 
-		$queryTemplate = new QueryTemplate( $finder );
 
-		$view = View::make( 'Layout.' . basename( $queryTemplate->findTemplate(), '.twig' ) );
+		// Switch to regular WordPress Templates
+		if ( is_null( $template ) ) {
+
+			$layoutPaths = [];
+			foreach ( $this->container['view.finder']->getPaths() as $path ) {
+				$layoutPaths[] = $path . DS . 'Layout';
+			}
+			$finder = new FoldersTemplateFinder( $layoutPaths, [ 'twig' ] );
+
+			$queryTemplate = new QueryTemplate( $finder );
+			$template      = $queryTemplate->findTemplate();
+		}
+
+
+		$view = View::make( 'Layout.' . basename( $template, '.twig' ) );
 		if ( isset( $post->post_content ) ) {
 			$post->content = apply_filters( 'the_content', $post->post_content );
 		}
@@ -286,6 +313,7 @@ class Plugin extends \Singleton {
 				$this->getContext()
 			)
 			->render();
+		die();
 	}
 
 	public function auto_sync_acf_fields() {
@@ -352,7 +380,8 @@ class Plugin extends \Singleton {
 	/**
 	 * register menus for the theme
 	 */
-	public function register_menus() {
+	public
+	function register_menus() {
 		$menus = Configure::read( 'theme.menus' );
 		if ( $menus && is_array( $menus ) ) {
 			foreach ( $menus as $menu => $title ) {
@@ -361,7 +390,8 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	public function register_image_sizes() {
+	public
+	function register_image_sizes() {
 		$image_sizes = Configure::read( 'theme.image-sizes' );
 		if ( $image_sizes && is_array( $image_sizes ) ) {
 			foreach ( $image_sizes as $name => $options ) {
@@ -376,7 +406,8 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	protected function fixPagination() {
+	protected
+	function fixPagination() {
 		/**
 		 * hand current page from get to Illuminate
 		 */
@@ -398,7 +429,8 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	public function initModels() {
+	public
+	function initModels() {
 		foreach ( $this->models as $k => $v ) {
 			$model = new $v;
 			$model->init();
@@ -411,6 +443,23 @@ class Plugin extends \Singleton {
 			$tax = new $v;
 			$tax->init();
 			unset( $tax );
+		}
+	}
+
+	public function fixRoutes() {
+		$routes = Configure::read( 'theme.routes' );
+		if ( $routes && is_array( $routes ) ) {
+			foreach ( $routes as $route => $action ) {
+				$regex = trim( $route, '/' );
+
+				// Add the rewrite rule to the top
+				add_action( 'init',
+					function () use ( $regex ) {
+						add_rewrite_tag( '%is_some_route%', '(\d)' );
+						add_rewrite_rule( $regex, 'index.php?is_some_route=1', 'top' );
+						flush_rewrite_rules();
+					} );
+			}
 		}
 	}
 }
