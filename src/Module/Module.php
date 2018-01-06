@@ -49,11 +49,11 @@ class Module {
 	/**
 	 * render the view
 	 */
-	final public function render() {
+	public function render() {
 		$this->beforeRender();
 		$this->makeView();
 		$vars   = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
-		$output = $this->view->with( $vars )->render();;
+		$output = $this->view->with( $vars )->render();
 		if ( $this->render ) {
 			echo $output;
 		}
