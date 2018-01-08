@@ -24,6 +24,7 @@ class Sloth extends \Singleton {
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
 
 	public function __construct() {
+		@include (DIR_ROOT . DS . 'develop.config.php');
 		/**
 		 * enable debugging where needed
 		 */
@@ -111,7 +112,7 @@ class Sloth extends \Singleton {
 	 * Set Debugging
 	 */
 	private function setDebugging() {
-		$mode                   = WP_DEBUG === true ? Debugger::DEVELOPMENT : \Tracy\Debugger::PRODUCTION;
+		$mode                   = WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
 		Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
 		$logDirectoy            = DIR_ROOT . DS . 'logs';
 		if ( ! is_dir( $logDirectoy ) ) {

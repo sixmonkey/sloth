@@ -23,6 +23,7 @@ class Installer {
 		self::initializeHtaccess();
 		self::makeCacheDir();
 		self::initializePlugin();
+		self::makeDebuggerConfig();
 	}
 
 	protected static function copyCLI() {
@@ -88,6 +89,14 @@ class Installer {
 		$dir_cache = self::mkPath( [ self::$base_dir, 'app', 'cache' ] );
 		if ( ! is_dir( $dir_cache ) ) {
 			mkdir( $dir_cache, 0755 );
+		}
+	}
+
+	public static function makeDebuggerConfig() {
+		if ( ! file_exists( self::mkPath( [ self::$base_dir, 'develop.config.php' ] ) ) ) {
+			$cfg = file_get_contents( self::mkPath( [ dirname( __DIR__ ), 'develop.config.php' ] ) );
+			$cfg = str_replace( '[[ my path ]]', self::$base_dir, $cfg );
+			file_put_contents( self::mkPath( [ self::$base_dir, 'develop.config.php' ] ), $cfg );
 		}
 	}
 
