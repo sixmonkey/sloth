@@ -25,7 +25,14 @@
         "org_heigl/hyphenator": "^2.2",
         "league/climate": "^3.2",
         "gossi/docblock": "^1.6",
-        "spatie/emoji": "^1.0"
+        "spatie/emoji": "^1.0",
+        "milo/vendor-versions": "^1.1",
+        "nette/utils": "^2.4",
+        "kdyby/html-validator-panel": "^1.1",
+        "nofutur3/tracy-gitpanel": "^0.9"
+    },
+    "require-dev": {
+
     },
     "autoload": {
         "psr-4": {
