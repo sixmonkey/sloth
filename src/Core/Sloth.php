@@ -24,7 +24,7 @@ class Sloth extends \Singleton {
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
 
 	public function __construct() {
-		@include (DIR_ROOT . DS . 'develop.config.php');
+		@include( DIR_ROOT . DS . 'develop.config.php' );
 		/**
 		 * enable debugging where needed
 		 */
@@ -118,6 +118,9 @@ class Sloth extends \Singleton {
 		if ( ! is_dir( $logDirectoy ) ) {
 			mkdir( $logDirectoy );
 		}
+		Debugger::getBar()->addPanel( new \Nofutur3\GitPanel\Diagnostics\Panel() );
+		Debugger::getBar()->addPanel( new \Kdyby\Extension\Diagnostics\HtmlValidator\ValidatorPanel() );
+		Debugger::getBar()->addPanel( $panel = new \Milo\VendorVersions\Panel );
 		/* TODO: could be nicer? */
 		#if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
 		Debugger::enable( $mode, DIR_ROOT . DS . 'logs' );
