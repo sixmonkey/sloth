@@ -51,13 +51,13 @@ class Taxonomy extends Corcel {
 		if ( $this->unique ) {
 			$me = $this;
 			foreach ( $this->postTypes as $post_type ) {
-				\remove_meta_box( 'tagsdiv-' . $this->getPostType(), $post_type, null );
+				\remove_meta_box( 'tagsdiv-' . $this->getTaxonomy(), $post_type, null );
 			}
 
 			$post_types = $this->postTypes;
 			add_action( 'add_meta_boxes',
 				function () use ( $me, $post_types ) {
-					\add_meta_box( 'sloth-taxonomy-' . $me->getPostType(),
+					\add_meta_box( 'sloth-taxonomy-' . $me->getTaxonomy(),
 						$me->names['singular'],
 						[ $me, 'metabox' ],
 						$post_types,
@@ -71,9 +71,9 @@ class Taxonomy extends Corcel {
 	public function metabox( $wp_post ) {
 		$tax  = Post::find( $wp_post->ID )->taxonomies()->first();
 		$args = [
-			'taxonomy'    => $this->getPostType(),
+			'taxonomy'    => $this->getTaxonomy(),
 			'hide_empty'  => 0,
-			'name'        => 'tax_input[' . $this->getPostType() . '][0]',
+			'name'        => 'tax_input[' . $this->getTaxonomy() . '][0]',
 			'value_field' => 'slug',
 			'selected'    => $tax->slug,
 		];
