@@ -16,12 +16,17 @@ class Taxonomy extends Corcel {
 	 * @var string
 	 */
 	protected $postType;
+	protected $term;
 	public $term_id;
 
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {
 			$reflection     = new \ReflectionClass( $this );
 			$this->postType = strtolower( $reflection->getShortName() );
+		}
+		if ( $this->term == null ) {
+			$reflection     = new \ReflectionClass( $this );
+			$this->term = strtolower( $reflection->getShortName() );
 		}
 		if ( is_array( $this->labels ) && count( $this->labels ) ) {
 			foreach ( $this->labels as &$label ) {
