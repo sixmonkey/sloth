@@ -126,8 +126,10 @@ class Plugin extends \Singleton {
 			$taxonomy_name = array_pop( $classes );
 
 			$taxonomy = new $taxonomy_name;
-			$taxonomy->register();
-			$this->taxonomies[ $taxonomy->getPostType() ] = $taxonomy_name;
+			if ( method_exists( $taxonomy, 'register' ) ) {
+				$taxonomy->register();
+			}
+			$this->taxonomies[ $taxonomy->getTaxonomy() ] = $taxonomy_name;
 		}
 	}
 
