@@ -59,4 +59,15 @@ class Model extends Corcel {
 			$object->{$key} = $option;
 		}
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getContentAttribute() {
+		$post_content = $this->getAttribute('post_content');
+		if ( !is_null($post_content) ) {
+			$post_content =  \apply_filters( 'the_content', $post_content );
+		}
+		return (string)$post_content;
+	}
 }
