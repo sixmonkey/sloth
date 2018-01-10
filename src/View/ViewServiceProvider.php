@@ -75,7 +75,7 @@ class ViewServiceProvider extends ServiceProvider {
 				return new \Twig_Environment( $container['twig.loader'], [
 					'auto_reload' => true,
 					'cache'       => $container['path.cache'] . 'Twig',
-					'autoescape'  => Configure::read( 'twig.autoescape' ),
+					'autoescape'  => (bool) Configure::read( 'twig.autoescape' ),
 				] );
 			} );
 
