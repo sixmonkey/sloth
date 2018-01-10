@@ -12,21 +12,12 @@ class Taxonomy extends Corcel {
 	protected $labels = [];
 	protected $postTypes = [];
 	protected $unique = false;
-	/**
-	 * @var string
-	 */
-	protected $postType;
-	protected $term;
-	public $term_id;
+	protected $taxonomy;
 
 	public function __construct( array $attributes = [] ) {
-		if ( $this->postType == null ) {
+		if ( $this->taxonomy == null ) {
 			$reflection     = new \ReflectionClass( $this );
-			$this->postType = strtolower( $reflection->getShortName() );
-		}
-		if ( $this->term == null ) {
-			$reflection     = new \ReflectionClass( $this );
-			$this->term = strtolower( $reflection->getShortName() );
+			$this->taxonomy = strtolower( $reflection->getShortName() );
 		}
 		if ( is_array( $this->labels ) && count( $this->labels ) ) {
 			foreach ( $this->labels as &$label ) {
@@ -44,7 +35,7 @@ class Taxonomy extends Corcel {
 			$this->options['parent_item_colon'] = null;
 		}
 
-		$names   = array_merge( $this->names, [ 'name' => $this->getPostType() ] );
+		$names   = array_merge( $this->names, [ 'name' => $this->getTaxonomy() ] );
 		$options = array_merge( $this->options,
 			[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
 		$labels  = $this->labels;
@@ -93,7 +84,7 @@ class Taxonomy extends Corcel {
 	/**
 	 * @return string
 	 */
-	public function getPostType() {
-		return $this->postType;
+	public function getTaxonomy() {
+		return $this->taxonomy;
 	}
 }
