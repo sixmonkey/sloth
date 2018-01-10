@@ -21,6 +21,7 @@ class Plugin extends \Singleton {
 	private $models = [];
 	private $taxonomies = [];
 	private $currentModel;
+	private $currentTemplate;
 
 	public function __construct() {
 		$this->container = $GLOBALS['sloth']->container;
@@ -259,8 +260,9 @@ class Plugin extends \Singleton {
 		];
 
 		if ( is_single() || is_page() ) {
-			if(!isset($this->currentModel)) {
-				$a =  call_user_func( [ $this->getModelClass( $post->post_type ), 'find' ], [ $post->ID ] );
+			if ( ! isset( $this->currentModel ) ) {
+				$a                  = call_user_func( [ $this->getModelClass( $post->post_type ), 'find' ],
+					[ $post->ID ] );
 				$this->currentModel = $a->first();
 			}
 			$data['post'] = $this->currentModel;
@@ -311,8 +313,10 @@ class Plugin extends \Singleton {
 
 			$queryTemplate = new QueryTemplate( $finder );
 			$template      = $queryTemplate->findTemplate();
+
 		}
 
+		$this->currentTemplate = $template;
 
 		$view = View::make( 'Layout.' . basename( $template, '.twig' ) );
 		if ( isset( $post->post_content ) ) {
@@ -473,7 +477,11 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	private function getModelClass($key = '') {
-		return isset($this->models[$key]) ? $this->models[$key] : '\Sloth\Model\Post';
+	private function getModelClass( $key = '' ) {
+		return isset( $this->models[ $key ] ) ? $this->models[ $key ] : '\Sloth\Model\Post';
+	}
+
+	public function getCurrentTemplate() {
+		return $this->currentTemplate;
 	}
 }

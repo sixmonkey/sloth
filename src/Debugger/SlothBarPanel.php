@@ -5,17 +5,28 @@
  * Time: 21:41
  */
 
-namespace Sloth\Debbuger;
+namespace Sloth\Debugger;
 
 
+use Brain\Hierarchy\Hierarchy;
+use Sloth\Facades\View;
 use Tracy\IBarPanel;
 
 class SlothBarPanel implements IBarPanel {
 	function getPanel() {
-		// TODO: Implement getPanel() method.
+		global $wp_query;
+		$h               = new Hierarchy();
+		$currentTemplate = basename( $GLOBALS['sloth::plugin']->getCurrentTemplate(), '.twig' );
+
+		return View::make( 'Debugger.sloth-bar-panel' )->with( [
+			'templates'       => $h->getTemplates(),
+			'currentTemplate' => $currentTemplate,
+		] )->render();
 	}
 
 	function getTab() {
-		// TODO: Implement getTab() method.
+		$logo = base64_encode( file_get_contents( dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'logo.svg' ) );
+
+		return '<span title="SLOTH"><img src="data:image/svg+xml;base64,' . $logo . '" width="16" height="16"/></span>';
 	}
 }

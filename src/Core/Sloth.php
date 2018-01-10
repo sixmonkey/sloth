@@ -2,7 +2,7 @@
 
 namespace Sloth\Core;
 
-use Sloth\Debbuger\SlothBarPanel;
+use Sloth\Debugger\SlothBarPanel;
 use Sloth\Route\Route;
 use Tracy\Debugger;
 use Tracy\Dumper;
@@ -72,7 +72,6 @@ class Sloth extends \Singleton {
 			\Sloth\Pagination\PaginationServiceProvider::class,
 			\Sloth\Layotter\LayotterServiceProvider::class,
 			\Sloth\Configure\ConfigureServiceProvider::class,
-			\Sloth\Validation\ValidationServiceProvider::class,
 		];
 
 		foreach ( $providers as $provider ) {
