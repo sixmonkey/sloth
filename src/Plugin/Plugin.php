@@ -291,7 +291,8 @@ class Plugin extends \Singleton {
 			if ( false !== $pos = strpos( $uri, '?' ) ) {
 				$uri = substr( $uri, 0, $pos );
 			}
-			$uri = rawurldecode( $uri );
+			# @TODO this fix is ugly
+			$uri = rtrim(rawurldecode( $uri ), '/');
 
 			$routes = Configure::read( 'theme.routes' );
 
@@ -471,8 +472,8 @@ class Plugin extends \Singleton {
 				// Add the rewrite rule to the top
 				add_action( 'init',
 					function () use ( $regex ) {
-						add_rewrite_tag( '%is_some_route%', '(\d)' );
-						add_rewrite_rule( $regex, 'index.php?is_some_route=1', 'top' );
+						add_rewrite_tag( '%is_some_other_route%', '(\d)' );
+						add_rewrite_rule( $regex, 'index.php?is_some_other_route=1', 'top' );
 						flush_rewrite_rules();
 					} );
 			}
