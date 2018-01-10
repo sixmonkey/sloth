@@ -15,6 +15,10 @@ class Module {
 	public static $ajax_url;
 	protected $doing_ajax = false;
 
+	public function __construct() {
+		$this->set($GLOBALS['sloth::plugin']->getContext());
+	}
+
 	protected function beforeRender() {
 
 	}

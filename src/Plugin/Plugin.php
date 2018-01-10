@@ -20,6 +20,7 @@ class Plugin extends \Singleton {
 	private $modules = [];
 	private $models = [];
 	private $taxonomies = [];
+	private $currentModel;
 
 	public function __construct() {
 		$this->container = $GLOBALS['sloth']->container;
@@ -234,8 +235,7 @@ class Plugin extends \Singleton {
 	public function getContext() {
 		global $post;
 
-		return [
-			'post'     => $post,
+		$data = [
 			'wp_title' => wp_title( '', false ),
 			'site'     => [
 				'url'         => home_url(),
@@ -257,6 +257,16 @@ class Plugin extends \Singleton {
 				'images_url' => get_template_directory_uri() . '/assets/img',
 			],
 		];
+
+		if ( is_single() || is_page() ) {
+			if(!isset($this->currentModel)) {
+				$a =  call_user_func( [ $this->getModelClass( $post->post_type ), 'find' ], [ $post->ID ] );
+				$this->currentModel = $a->first();
+			}
+			$data['post'] = $this->currentModel;
+		}
+
+		return $data;
 	}
 
 	public function getTemplate() {
@@ -461,5 +471,9 @@ class Plugin extends \Singleton {
 					} );
 			}
 		}
+	}
+
+	private function getModelClass($key = '') {
+		return isset($this->models[$key]) ? $this->models[$key] : '\Sloth\Model\Post';
 	}
 }
