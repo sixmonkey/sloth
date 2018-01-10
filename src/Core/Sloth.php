@@ -2,6 +2,7 @@
 
 namespace Sloth\Core;
 
+use Sloth\Debbuger\SlothBarPanel;
 use Sloth\Route\Route;
 use Tracy\Debugger;
 use Tracy\Dumper;
@@ -71,6 +72,7 @@ class Sloth extends \Singleton {
 			\Sloth\Pagination\PaginationServiceProvider::class,
 			\Sloth\Layotter\LayotterServiceProvider::class,
 			\Sloth\Configure\ConfigureServiceProvider::class,
+			\Sloth\Validation\ValidationServiceProvider::class,
 		];
 
 		foreach ( $providers as $provider ) {
@@ -120,7 +122,8 @@ class Sloth extends \Singleton {
 		}
 		Debugger::getBar()->addPanel( new \Nofutur3\GitPanel\Diagnostics\Panel() );
 		Debugger::getBar()->addPanel( new \Kdyby\Extension\Diagnostics\HtmlValidator\ValidatorPanel() );
-		Debugger::getBar()->addPanel( $panel = new \Milo\VendorVersions\Panel );
+		Debugger::getBar()->addPanel( new \Milo\VendorVersions\Panel );
+		Debugger::getBar()->addPanel( new SlothBarPanel() );
 		/* TODO: could be nicer? */
 		#if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
 		Debugger::enable( $mode, DIR_ROOT . DS . 'logs' );
