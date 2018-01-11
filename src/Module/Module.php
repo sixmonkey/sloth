@@ -3,6 +3,7 @@
 namespace Sloth\Module;
 
 use Sloth\Facades\View as View;
+use Sloth\Utility\Utility;
 
 class Module {
 	public static $layotter = false;
@@ -52,6 +53,7 @@ class Module {
 	public function render() {
 		if ( ! $this->doing_ajax ) {
 			$this->set( $GLOBALS['sloth::plugin']->getContext() );
+			$this->set( 'ajax_url', $this->getAjaxUrl() );
 		}
 		$this->beforeRender();
 		$this->makeView();
@@ -97,5 +99,15 @@ class Module {
 		header( 'Content-Type: application/json' );
 		echo json_encode( $this->viewVars, 1 );
 		die();
+	}
+
+	final public function getAjaxUrl() {
+		return str_replace( home_url(),
+			'',
+			\admin_url( 'admin-ajax.php?action=' . $this->getAjaxAction() ) );
+	}
+
+	final public function getAjaxAction() {
+		return 'module_' . Utility::underscore( class_basename( $this ) );
 	}
 }

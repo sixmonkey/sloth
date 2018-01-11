@@ -152,15 +152,13 @@ class Plugin extends \Singleton {
 			}
 
 			if ( $module_name::$json ) {
-				$action = 'module_' . Utility::underscore( class_basename( $module_name ) );
+				$m = new $module_name;
 				#$reflect = new ReflectionClass($object);
-				add_action( 'wp_ajax_nopriv_' . $action,
+				add_action( 'wp_ajax_nopriv_' . $m->getAjaxAction(),
 					[ new $module_name, 'getJSON' ] );
-				add_action( 'wp_ajax_' . $action,
+				add_action( 'wp_ajax_' . $m->getAjaxAction(),
 					[ new $module_name, 'getJSON' ] );
-				$module_name::$ajax_url = str_replace( home_url(),
-					'',
-					\admin_url( 'admin-ajax.php?action=' . $action ) );
+				unset($m);
 			}
 
 			$this->modules[] = $module_name;
@@ -292,7 +290,7 @@ class Plugin extends \Singleton {
 				$uri = substr( $uri, 0, $pos );
 			}
 			# @TODO this fix is ugly
-			$uri = rtrim(rawurldecode( $uri ), '/');
+			$uri = rtrim( rawurldecode( $uri ), '/' );
 
 			$routes = Configure::read( 'theme.routes' );
 
