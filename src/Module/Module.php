@@ -62,7 +62,7 @@ class Module {
 		$output = $this->view->with( $vars )->render();
 		if ( $this->render ) {
 			if ( $this->wrapInRow ) {
-				$output = View::make( 'Layotter.row' )->with( [ 'content' => $output ] )->render();
+				$output = View::make( 'Layotter.row' )->with( [ 'content' => $output, 'options' => (array)$this->wrapInRow ] )->render();
 			}
 			echo $output;
 		}
