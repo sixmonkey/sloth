@@ -15,10 +15,6 @@ class Module {
 	public static $ajax_url;
 	protected $doing_ajax = false;
 
-	public function __construct() {
-		$this->set($GLOBALS['sloth::plugin']->getContext());
-	}
-
 	protected function beforeRender() {
 
 	}
@@ -54,6 +50,9 @@ class Module {
 	 * render the view
 	 */
 	public function render() {
+		if ( ! $this->doing_ajax ) {
+			$this->set( $GLOBALS['sloth::plugin']->getContext() );
+		}
 		$this->beforeRender();
 		$this->makeView();
 		$vars   = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
