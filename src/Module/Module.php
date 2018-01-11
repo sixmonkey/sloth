@@ -15,6 +15,7 @@ class Module {
 	protected $template;
 	public static $ajax_url;
 	protected $doing_ajax = false;
+	protected $wrapInRow = false;
 
 	protected function beforeRender() {
 
@@ -60,6 +61,9 @@ class Module {
 		$vars   = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
 		$output = $this->view->with( $vars )->render();
 		if ( $this->render ) {
+			if ( $this->wrapInRow ) {
+				$output = View::make( 'Layotter.row' )->with( [ 'content' => $output ] )->render();
+			}
 			echo $output;
 		}
 
