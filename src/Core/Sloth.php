@@ -72,6 +72,7 @@ class Sloth extends \Singleton {
 			\Sloth\Pagination\PaginationServiceProvider::class,
 			\Sloth\Layotter\LayotterServiceProvider::class,
 			\Sloth\Configure\ConfigureServiceProvider::class,
+			\Sloth\Validation\ValidationServiceProvider::class,
 		];
 
 		foreach ( $providers as $provider ) {
