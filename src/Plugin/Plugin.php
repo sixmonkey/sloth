@@ -158,7 +158,7 @@ class Plugin extends \Singleton {
 					[ new $module_name, 'getJSON' ] );
 				add_action( 'wp_ajax_' . $m->getAjaxAction(),
 					[ new $module_name, 'getJSON' ] );
-				unset($m);
+				unset( $m );
 			}
 
 			$this->modules[] = $module_name;
@@ -315,6 +315,11 @@ class Plugin extends \Singleton {
 			$queryTemplate = new QueryTemplate( $finder );
 			$template      = $queryTemplate->findTemplate();
 
+		}
+
+		if ( $template == '' ) {
+			$template = '404';
+			\status_header( 404 );
 		}
 
 		$this->currentTemplate = $template;
