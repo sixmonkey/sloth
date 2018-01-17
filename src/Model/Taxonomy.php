@@ -36,8 +36,7 @@ class Taxonomy extends Corcel {
 		}
 
 		$names   = array_merge( $this->names, [ 'name' => $this->getTaxonomy() ] );
-		$options = array_merge( $this->options,
-			[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
+		$options = $this->options;
 		$labels  = $this->labels;
 
 		$tax = new TaxonomyType( $names, $options, $labels );
