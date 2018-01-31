@@ -53,21 +53,6 @@ class Plugin extends \Singleton {
 		$this->container['view.finder']->addLocation( dirname( __DIR__ ) . DS . '_view' );
 
 		/*
-		 * we need the possibility to use @extends in twig, so we resolve all subdirectories of Layouts
-		 */
-		/* $twigLoader = $this->container['twig.loader'];
-
-		if ( is_dir( $this->current_theme_path . DS . 'views' . DS . 'partials' ) ) {
-			$twigLoader->addPath( $this->current_theme_path . DS . 'views' . DS . 'partials', 'partials' );
-		}
-				$dirs = array_filter( glob( $this->current_theme_path . DS . 'View' . DS . '*' ), 'is_dir' );
-
-		foreach ( $dirs as $dir ) {
-			$this->container['view.finder']->addNamespace( basename( $dir ), $dir );
-		}*/
-
-
-		/*
 		 * Update Twig Loaded registered paths.
 		 */
 		$this->container['twig.loader']->setPaths( $this->container['view.finder']->getPaths() );
@@ -176,6 +161,8 @@ class Plugin extends \Singleton {
 		add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
+
+		add_action( 'save_post', [ $this, 'trackDataChange' ], 20 );
 		/**
 		 * For now we give up Controllers an Routing
 		 */
@@ -187,6 +174,13 @@ class Plugin extends \Singleton {
 		if ( getenv( 'FORCE_SSL' ) ) {
 			add_action( 'template_redirect', [ $this, 'force_ssl' ], 30 );
 		}
+
+		/* @TODO add_filter( 'acf/fields/post_object/result',
+		 * function ( $title, $post, $field, $post_id ) {
+		 * debug( $post );
+		 * },
+		 * 10,
+		 * 4 ); */
 
 		$this->container['layotter']->addFilters();
 	}
@@ -234,8 +228,6 @@ class Plugin extends \Singleton {
 	 * @return array
 	 */
 	public function getContext() {
-		global $post;
-
 		$data = [
 			'wp_title' => wp_title( '', false ),
 			'site'     => [
@@ -260,12 +252,23 @@ class Plugin extends \Singleton {
 		];
 
 		if ( is_single() || is_page() ) {
+			global $post;
 			if ( ! isset( $this->currentModel ) ) {
 				$a                  = call_user_func( [ $this->getModelClass( $post->post_type ), 'find' ],
 					[ $post->ID ] );
 				$this->currentModel = $a->first();
 			}
 			$data['post'] = $this->currentModel;
+		}
+
+		if ( is_tax() ) {
+			global $taxonomy;
+			if ( ! isset( $this->currentModel ) ) {
+				$a                  = call_user_func( [ $this->getTaxonomyClass( $taxonomy ), 'find' ],
+					[ get_queried_object()->term_id ] );
+				$this->currentModel = $a->first();
+			}
+			$data['taxonomy'] = $this->currentModel;
 		}
 
 		return $data;
@@ -400,8 +403,7 @@ class Plugin extends \Singleton {
 	/**
 	 * register menus for the theme
 	 */
-	public
-	function register_menus() {
+	public function register_menus() {
 		$menus = Configure::read( 'theme.menus' );
 		if ( $menus && is_array( $menus ) ) {
 			foreach ( $menus as $menu => $title ) {
@@ -410,8 +412,7 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	public
-	function register_image_sizes() {
+	public function register_image_sizes() {
 		$image_sizes = Configure::read( 'theme.image-sizes' );
 		if ( $image_sizes && is_array( $image_sizes ) ) {
 			foreach ( $image_sizes as $name => $options ) {
@@ -426,8 +427,7 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	protected
-	function fixPagination() {
+	protected function fixPagination() {
 		/**
 		 * hand current page from get to Illuminate
 		 */
@@ -449,8 +449,7 @@ class Plugin extends \Singleton {
 		}
 	}
 
-	public
-	function initModels() {
+	public function initModels() {
 		foreach ( $this->models as $k => $v ) {
 			$model = new $v;
 			$model->init();
@@ -487,7 +486,22 @@ class Plugin extends \Singleton {
 		return isset( $this->models[ $key ] ) ? $this->models[ $key ] : '\Sloth\Model\Post';
 	}
 
+	private function getTaxonomyClass( $key = '' ) {
+		return isset( $this->taxonomies[ $key ] ) ? $this->taxonomies[ $key ] : '\Sloth\Model\Taxonomy';
+	}
+
 	public function getCurrentTemplate() {
 		return $this->currentTemplate;
+	}
+
+	public function trackDataChange() {
+		if ( WP_ENV != 'development' ) {
+			return false;
+		}
+		file_put_contents( DIR_CACHE . DS . 'reload', time() );
+	}
+
+	public function getPostTypeClass( $post_type ) {
+		return isset( $this->models[ $post_type ] ) ? $this->models[ $post_type ] : 'Sloth\Model\Post';
 	}
 }

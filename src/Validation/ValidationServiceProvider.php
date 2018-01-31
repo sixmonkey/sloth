@@ -14,7 +14,7 @@ class ValidationServiceProvider extends ServiceProvider {
 			function ( $container ) {
 				$loader  = new ArrayLoader();
 				$factory = new Factory(
-					new Translator( $loader ),
+					new Translator( $loader, \get_locale() ),
 					$container );
 
 				return $factory;
