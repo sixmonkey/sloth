@@ -72,11 +72,11 @@ class Application extends Container {
 	/**
 	 *
 	 */
-	public function callModule( $name, $data = [] ) {
+	public function callModule( $name, $data = [], $options = [] ) {
 		$module_name = 'Theme\Module\\' . \Cake\Utility\Inflector::camelize( str_replace( '-',
 				'_',
 				$name ) ) . 'Module';
-		$myModule    = new $module_name( [] );
+		$myModule    = new $module_name( $options );
 		foreach ( $data as $k => $v ) {
 			$myModule->set( $k, $v );
 		}

@@ -17,6 +17,12 @@ class Module {
 	protected $doing_ajax = false;
 	protected $wrapInRow = false;
 
+	public final function __construct( $options = [] ) {
+		if ( isset( $options['wrapInRow'] ) ) {
+			$this->wrapInRow = $options['wrapInRow'];
+		}
+	}
+
 	protected function beforeRender() {
 
 	}

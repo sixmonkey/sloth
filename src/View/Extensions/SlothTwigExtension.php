@@ -102,8 +102,8 @@ class SlothTwigExtension extends Twig_Extension {
 	public function getFunctions() {
 		return [
 			new Twig_SimpleFunction( 'module',
-				function ( $name, $values = [] ) {
-					$GLOBALS['sloth']->container->callModule( $name, $values );
+				function ( $name, $values = [], $options = [] ) {
+					$GLOBALS['sloth']->container->callModule( $name, $values, $options );
 				} ),
 			/*
 			 * WordPress theme functions.
@@ -126,8 +126,8 @@ class SlothTwigExtension extends Twig_Extension {
 				return wp_trim_words( $text, $num_words, $more );
 			} ),
 			new Twig_SimpleFunction( 'get_field', function ( $field_name, $post = null ) {
-				return get_field($field_name, $post);
-			}),
+				return get_field( $field_name, $post );
+			} ),
 			/*
 			 * Use this to call any core, WordPress or user defined functions.
 			 */
