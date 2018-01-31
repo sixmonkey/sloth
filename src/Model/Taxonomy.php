@@ -86,4 +86,9 @@ class Taxonomy extends Corcel {
 	public function getTaxonomy() {
 		return $this->taxonomy;
 	}
+
+	public function getTermLinkAttribute() {
+		return \get_term_link( $this->term_id );
+	}
+
 }
