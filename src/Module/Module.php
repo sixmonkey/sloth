@@ -62,7 +62,10 @@ class Module {
 		$output = $this->view->with( $vars )->render();
 		if ( $this->render ) {
 			if ( $this->wrapInRow ) {
-				$output = View::make( 'Layotter.row' )->with( [ 'content' => $output, 'options' => (array)$this->wrapInRow ] )->render();
+				$output = View::make( 'Layotter.row' )->with( [
+					'content' => $output,
+					'options' => (array) $this->wrapInRow,
+				] )->render();
 			}
 			echo $output;
 		}
@@ -76,7 +79,7 @@ class Module {
 				$this->set( $k, $v );
 			}
 		} else {
-			$this->viewVars[ $key ] = $value;
+			$this->viewVars[ $key ] = $this->_prepareValue( $value );
 		}
 	}
 
@@ -113,5 +116,15 @@ class Module {
 
 	final public function getAjaxAction() {
 		return 'module_' . Utility::underscore( class_basename( $this ) );
+	}
+
+	final protected function _prepareValue( $value ) {
+		if ( is_a( $value, 'WP_Post' ) ) {
+			$model_name = $GLOBALS['sloth::plugin']->getPostTypeClass( $value->post_type );
+			$post       = call_user_func( [ $model_name, 'find' ], $value->ID );
+			$value      = $post->first();
+		}
+
+		return $value;
 	}
 }
