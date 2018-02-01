@@ -64,10 +64,37 @@ class Model extends Corcel {
 	 * @return string
 	 */
 	public function getContentAttribute() {
-		$post_content = $this->getAttribute('post_content');
-		if ( !is_null($post_content) ) {
-			$post_content =  \apply_filters( 'the_content', $post_content );
+		$post_content = $this->getAttribute( 'post_content' );
+		if ( ! is_null( $post_content ) ) {
+			$post_content = \apply_filters( 'the_content', $post_content );
 		}
-		return (string)$post_content;
+
+		return (string) $post_content;
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function __isset( $key ) {
+		return $this->acf->boolean( $key );
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		$value = parent::__get( $key );
+
+		if ( $value === null && ! property_exists( $this, $key ) ) {
+			if ( $this->acf->boolean( $key ) ) {
+				return $this->acf->text( $key );
+			}
+		}
+
+		return $value;
 	}
 }
