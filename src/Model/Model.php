@@ -2,8 +2,10 @@
 
 namespace Sloth\Model;
 
+use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
 use PostTypes\PostType;
+use Sloth\Field\Image;
 
 class Model extends Corcel {
 	protected $names = [];
@@ -87,13 +89,15 @@ class Model extends Corcel {
 	 * @return mixed
 	 */
 	public function __get( $key ) {
-		$value = parent::__get( $key );
+		$acf = acf_maybe_get_field( $key, $this->getAttribute( 'ID' ), false );
 
-		if ( $value === null && ! property_exists( $this, $key ) ) {
-			if ( $this->acf->boolean( $key ) ) {
-				return $this->acf->text( $key );
-			}
+		if ( $acf && $acf['type'] === 'image' ) {
+			$attachement = Attachment::find( parent::__get( $key ) );
+
+			return new Image( $attachement->url );
 		}
+
+		$value = parent::__get( $key );
 
 		return $value;
 	}
