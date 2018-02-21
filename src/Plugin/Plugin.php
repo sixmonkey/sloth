@@ -327,7 +327,15 @@ class Plugin extends \Singleton {
 
 		$this->currentTemplate = $template;
 
-		$view = View::make( 'Layout.' . basename( $template, '.twig' ) );
+		$view_name = basename( $template, '.twig' );
+
+		if ( $this->isDevEnv() ) {
+			if( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),	[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
+				header('Location: http://lorempixel.com/g/1024/1024/');
+			}
+		}
+
+		$view = View::make( 'Layout.' . $view_name );
 		if ( isset( $post->post_content ) ) {
 			$post->content = apply_filters( 'the_content', $post->post_content );
 		}
@@ -503,5 +511,9 @@ class Plugin extends \Singleton {
 
 	public function getPostTypeClass( $post_type ) {
 		return isset( $this->models[ $post_type ] ) ? $this->models[ $post_type ] : 'Sloth\Model\Post';
+	}
+
+	public function isDevEnv() {
+		return WP_ENV == 'development';
 	}
 }
