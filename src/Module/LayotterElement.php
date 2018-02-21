@@ -44,20 +44,17 @@ class LayotterElement extends \Layotter_Element {
 		echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
 
 		echo '<table>';
-		foreach($this->get_fields() as $field) {
-			if(isset($fields[$field['name']])) {
+		foreach ( $this->get_fields() as $field ) {
+			if ( isset( $fields[ $field['name'] ] ) ) {
+				if ( is_object( $fields[ $field['name'] ] ) ) {
+					continue;
+				}
 				echo '<tr>';
 				echo "<th style='text-align: left;'>" . $field['label'] . ':</th>';
-				echo '<td>' . $fields[$field['name']] . '</td>';
+				echo '<td>' . $fields[ $field['name'] ] . '</td>';
 				echo '</tr>';
 			}
 		}
 		echo '</table>';
-
-		/* $class_name  = get_class( $this );
-		$module_name = $class_name::$module;
-		$module      = new $module_name;
-		$module->set( $fields );
-		$module->render(); */
 	}
 }
