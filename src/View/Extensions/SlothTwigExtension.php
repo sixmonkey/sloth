@@ -54,7 +54,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 * Linked to the global call only...
 	 *
 	 * @param string $name
-	 * @param array  $arguments
+	 * @param array $arguments
 	 *
 	 * @return mixed
 	 */
@@ -180,6 +180,8 @@ class SlothTwigExtension extends Twig_Extension {
 				function ( $nooped_plural, $count, $domain = 'default' ) {
 					return translate_nooped_plural( $nooped_plural, $count, $domain );
 				} ),
+			new Twig_SimpleFunction( 'pll_e', 'pll_e' ),
+			new Twig_SimpleFunction( 'pll_', 'pll_' ),
 		];
 	}
 
