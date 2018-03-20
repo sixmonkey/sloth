@@ -258,6 +258,7 @@ class Plugin extends \Singleton {
 					[ $post->ID ] );
 				$this->currentModel = $a->first();
 			}
+			$this->currentModel->post_content = apply_filters('the_content', $this->currentModel->post_content);
 			$data['post'] = $this->currentModel;
 		}
 
