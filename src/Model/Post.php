@@ -12,4 +12,11 @@ use Sloth\Facades\Configure;
 
 class Post extends CorcelPost {
 
+	/**
+	 * @return string
+	 */
+	public function getContentAttribute() {
+
+		return apply_filters( 'the_content', $this->post_content );
+	}
 }
