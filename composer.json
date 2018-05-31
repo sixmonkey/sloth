@@ -26,7 +26,8 @@
         "league/climate": "^3.2",
         "gossi/docblock": "^1.6",
         "spatie/emoji": "^1.0",
-        "nofutur3/tracy-gitpanel": "^0.9.4"
+        "nofutur3/tracy-gitpanel": "^0.9.4",
+        "kdyby/html-validator-panel": "^1.1"
     },
     "autoload": {
         "psr-4": {
