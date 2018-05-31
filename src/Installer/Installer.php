@@ -9,6 +9,11 @@ class Installer {
 	static $http_dir;
 	static $base_dir;
 	static $theme_name;
+	static $dirs_required = [
+		[ 'app' ],
+		[ 'app', 'config' ],
+		[ 'app', 'cache' ],
+	];
 
 	public static function config( Event $event ) {
 		$vendor_dir       = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
@@ -16,14 +21,26 @@ class Installer {
 		self::$http_dir   = self::mkPath( [ self::$base_dir, 'public' ] );
 		self::$theme_name = basename( $vendor_dir );
 
+		self::mkDirs();
+
 		self::rebuildIndex();
 		self::initializeSalts();
 		self::initializeDotenv();
 		self::initializeWpconfig();
 		self::initializeHtaccess();
-		self::makeCacheDir();
 		self::initializePlugin();
 		self::renameTheme();
+	}
+
+	protected static function mkDirs() {
+		foreach ( self::$dirs_required as $dir ) {
+			array_unshift( $dir, self::$base_dir );
+			$dir = self::mkPath( $dir );
+			if ( ! is_dir( $dir ) ) {
+				mkdir( $dir, 0755 );
+			}
+		}
+
 	}
 
 	protected static function rebuildIndex() {
@@ -73,13 +90,6 @@ class Installer {
 	protected static function initializeHtaccess() {
 		copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
 			self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
-	}
-
-	protected static function makeCacheDir() {
-		$dir_cache = self::mkPath( [ self::$base_dir, 'app', 'cache' ] );
-		if ( ! is_dir( $dir_cache ) ) {
-			mkdir( $dir_cache, 0755 );
-		}
 	}
 
 	public static function renameTheme() {
