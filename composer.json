@@ -27,7 +27,8 @@
         "gossi/docblock": "^1.6",
         "spatie/emoji": "^1.0",
         "nofutur3/tracy-gitpanel": "^0.9.4",
-        "kdyby/html-validator-panel": "^1.1"
+        "kdyby/html-validator-panel": "^1.1",
+        "milo/vendor-versions": "^1.1"
     },
     "autoload": {
         "psr-4": {
