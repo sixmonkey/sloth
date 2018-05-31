@@ -8,14 +8,14 @@ use Composer\Script\Event;
 class Installer {
 	static $http_dir;
 	static $base_dir;
+	static $theme_name;
 
 	public static function config( Event $event ) {
-		$vendor_dir     = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
-		self::$base_dir = $vendor_dir;
-		self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
+		$vendor_dir       = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
+		self::$base_dir   = $vendor_dir;
+		self::$http_dir   = self::mkPath( [ self::$base_dir, 'public' ] );
+		self::$theme_name = basename( $vendor_dir );
 
-		self::copyCLI();
-		self::copyBootstrap();
 		self::rebuildIndex();
 		self::initializeSalts();
 		self::initializeDotenv();
@@ -23,17 +23,7 @@ class Installer {
 		self::initializeHtaccess();
 		self::makeCacheDir();
 		self::initializePlugin();
-		self::makeDebuggerConfig();
-	}
-
-	protected static function copyCLI() {
-		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth-cli.php' ] ),
-			self::mkPath( [ self::$base_dir, 'sloth.php' ] ) );
-	}
-
-	protected static function copyBootstrap() {
-		copy( self::mkPath( [ dirname( __DIR__ ), 'bootstrap.php' ] ),
-			self::mkPath( [ self::$base_dir, 'bootstrap.php' ] ) );
+		self::renameTheme();
 	}
 
 	protected static function rebuildIndex() {
@@ -92,11 +82,11 @@ class Installer {
 		}
 	}
 
-	public static function makeDebuggerConfig() {
-		if ( ! file_exists( self::mkPath( [ self::$base_dir, 'develop.config.php' ] ) ) ) {
-			$cfg = file_get_contents( self::mkPath( [ dirname( __DIR__ ), 'develop.config.php' ] ) );
-			$cfg = str_replace( '[[ my path ]]', self::$base_dir, $cfg );
-			file_put_contents( self::mkPath( [ self::$base_dir, 'develop.config.php' ] ), $cfg );
+	public static function renameTheme() {
+		$dir_theme_default = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
+		$dir_theme_new     = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
+		if ( is_dir( $dir_theme_default ) ) {
+			rename( $dir_theme_default, $dir_theme_new );
 		}
 	}
 
