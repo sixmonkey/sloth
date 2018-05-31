@@ -68,7 +68,6 @@ if ($vendor_directory === false) {
 
 require_once $vendor_directory . '/autoload.php'; */
 require_once( DIR_VENDOR . DS . 'autoload.php' );
-class_alias( 'Sloth\Facades\Configure', 'Configure' );
 
 /**
  * Use Dotenv to set required environment variables and load .env file in root
@@ -83,9 +82,9 @@ $dotenv->required( [ 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL
 # get current environment
 if ( getenv( 'WP_ENV' ) !== false ) {
 	define( 'WP_ENV', getenv( 'WP_ENV' ) );
-} else if ( file_exists( DIR_ENVCFG . $_SERVER['HTTP_HOST'] . '.config.php' ) ) {
+} elseif ( file_exists( DIR_ENVCFG . $_SERVER['HTTP_HOST'] . '.config.php' ) ) {
 	define( 'WP_ENV', $_SERVER['HTTP_HOST'] );
-} else if ( file_exists( DIR_ENVCFG . '/config/' . gethostname() . '.config.php' ) ) {
+} elseif ( file_exists( DIR_ENVCFG . '/config/qundg-config.' . gethostname() . '.config.php' ) ) {
 	define( 'WP_ENV', gethostname() );
 } else {
 	define( 'WP_ENV', 'production' );
@@ -107,7 +106,7 @@ if ( file_exists( $app_config ) ) {
 /**
  * Make sure WP_DEBUG is defined
  */
-defined( 'WP_DEBUG' ) ? WP_DEBUG : define( 'WP_DEBUG', false );
+defined('WP_DEBUG') ? WP_DEBUG : define('WP_DEBUG', false);
 /**
  * URLs
  */
@@ -129,7 +128,7 @@ defined( 'DB_HOST' ) ? DB_HOST : define( 'DB_HOST', getenv( 'DB_HOST' ) ?: 'loca
 defined( 'DB_CHARSET' ) ? DB_CHARSET : define( 'DB_CHARSET', 'utf8mb4' );
 defined( 'DB_COLLATE' ) ? DB_COLLATE : define( 'DB_COLLATE', '' );
 $table_prefix = getenv( 'DB_PREFIX' ) ?: 'wp_';
-defined( 'DB_PREFIX' ) ? DB_PREFIX : define( 'DB_PREFIX', $table_prefix );
+defined( 'DB_PREFIX' ) ? DB_PREFIX : define('DB_PREFIX', $table_prefix);
 
 /*
  * Custom Settings
@@ -141,7 +140,8 @@ defined( 'DISALLOW_FILE_EDIT' ) ? DISALLOW_FILE_EDIT : define( 'DISALLOW_FILE_ED
 /**
  * Bootstrap WordPress
  */
-defined( 'ABSPATH' ) ? ABSPATH : define( 'ABSPATH', realpath( DIR_WWW . WP_PATH ) . DS );
+defined( 'ABSPATH' ) ? ABSPATH : define( 'ABSPATH', DIR_WWW . WP_PATH );
+
 /**
  * Custom Media, Plugins and Theme paths
  *

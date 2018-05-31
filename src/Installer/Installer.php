@@ -29,6 +29,7 @@ class Installer {
 		self::initializeWpconfig();
 		self::initializeHtaccess();
 		self::initializePlugin();
+		self::initializeBootstrap();
 		self::renameTheme();
 	}
 
@@ -85,6 +86,11 @@ class Installer {
 		}
 		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth.php' ] ),
 			self::mkPath( [ $dir_components, 'sloth.php' ] ) );
+	}
+
+	protected static function initializeBootstrap() {
+		copy( self::mkPath( [ dirname( __DIR__ ), 'bootstrap.php' ] ),
+			self::mkPath( [ self::$base_dir, 'bootstrap.php' ] ) );
 	}
 
 	protected static function initializeHtaccess() {
