@@ -1,2 +1,8 @@
 /vendor/
 composer.lock
+/.idea
+.DS_Store
+node_modules
+.sass-cache
+*.log
+/.vagrant
