@@ -85,7 +85,7 @@ if ( getenv( 'WP_ENV' ) !== false ) {
 	define( 'WP_ENV', getenv( 'WP_ENV' ) );
 } else if ( file_exists( DIR_ENVCFG . $_SERVER['HTTP_HOST'] . '.config.php' ) ) {
 	define( 'WP_ENV', $_SERVER['HTTP_HOST'] );
-} else if ( file_exists( DIR_ENVCFG . '/config/qundg-config.' . gethostname() . '.config.php' ) ) {
+} else if ( file_exists( DIR_ENVCFG . '/config/' . gethostname() . '.config.php' ) ) {
 	define( 'WP_ENV', gethostname() );
 } else {
 	define( 'WP_ENV', 'production' );
