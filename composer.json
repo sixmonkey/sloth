@@ -1,9 +1,9 @@
 {
-    "name": "qundg/sloth",
+    "name": "sixmonkey/sloth",
     "authors": [
         {
             "name": "Ben Kremer",
-            "email": "bk@qundg.de"
+            "email": "hallo@benkremer.de"
         }
     ],
     "require": {
@@ -11,11 +11,10 @@
         "nikic/fast-route": "^1.2",
         "illuminate/container": "^5.4",
         "illuminate/view": "^5.4",
-        "illuminate/validation": "^5.5",
         "twig/twig": "^1.0",
         "illuminate/filesystem": "^5.4",
         "brain/hierarchy": "^2.3",
-        "jjgrainger/posttypes": "^2.0",
+        "jjgrainger/posttypes": "^1.1",
         "jgrossi/corcel": "^2.4",
         "illuminate/pagination": "^5.4",
         "cakephp/utility": "^3.5",
@@ -26,14 +25,7 @@
         "org_heigl/hyphenator": "^2.2",
         "league/climate": "^3.2",
         "gossi/docblock": "^1.6",
-        "spatie/emoji": "^1.0",
-        "milo/vendor-versions": "^1.1",
-        "nette/utils": "^2.4",
-        "kdyby/html-validator-panel": "^1.1",
-        "nofutur3/tracy-gitpanel": "^0.9"
-    },
-    "require-dev": {
-
+        "spatie/emoji": "^1.0"
     },
     "autoload": {
         "psr-4": {
