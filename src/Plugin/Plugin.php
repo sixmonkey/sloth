@@ -26,7 +26,6 @@ class Plugin extends \Singleton {
 	public function __construct() {
 		$this->container = $GLOBALS['sloth']->container;
 		$this->loadControllers();
-		$this->loadModels();
 		$this->loadTaxonomies();
 		#\Route::instance()->boot();
 
@@ -155,6 +154,7 @@ class Plugin extends \Singleton {
 
 		$this->fixRoutes();
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
+		add_action( 'init', [ $this, 'loadModels' ], 20 );
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
 		add_action( 'init', [ $this, 'initModels' ], 20 );
@@ -330,8 +330,9 @@ class Plugin extends \Singleton {
 		$view_name = basename( $template, '.twig' );
 
 		if ( $this->isDevEnv() ) {
-			if( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),	[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
-				header('Location: http://lorempixel.com/g/1024/1024/');
+			if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
+				[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
+				header( 'Location: http://lorempixel.com/g/1024/1024/' );
 			}
 		}
 
