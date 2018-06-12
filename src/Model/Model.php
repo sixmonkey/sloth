@@ -40,7 +40,14 @@ class Model extends Corcel {
 		$labels  = $this->labels;
 
 		$pt = new PostType( $names, $options, $labels );
-		$pt->register();
+
+		# fix for newer version of jjgrainger/PostTypes
+		if ( method_exists( $pt, 'register' ) ) {
+			$pt->register();
+		}
+		if ( method_exists( $pt, 'registerPostType' ) ) {
+			$pt->registerPostType();
+		}
 	}
 
 	/**
