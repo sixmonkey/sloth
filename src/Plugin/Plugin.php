@@ -349,8 +349,10 @@ class Plugin extends \Singleton {
 	}
 
 	public function auto_sync_acf_fields() {
-		if ( ! function_exists( 'acf_get_field_groups' ) || WP_ENV != 'development' ) {
-			return false;
+		if ( ! function_exists( 'acf_get_field_groups' ) || ! in_array( WP_ENV, [ 'development', 'develop' ] ) ) {
+			{
+				return false;
+			}
 		}
 
 		// vars
