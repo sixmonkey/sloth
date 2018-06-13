@@ -29,6 +29,7 @@ class Installer {
 		self::initializeWpconfig();
 		self::initializeHtaccess();
 		self::initializePlugin();
+		self::addCLI();
 		self::initializeBootstrap();
 		self::renameTheme();
 	}
@@ -86,6 +87,11 @@ class Installer {
 		}
 		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth.php' ] ),
 			self::mkPath( [ $dir_components, 'sloth.php' ] ) );
+	}
+
+	protected static function addCLI() {
+		copy( self::mkPath( [ dirname( __DIR__ ), 'sloth-cli.php' ] ),
+			self::mkPath( [ self::$base_dir, 'sloth.php' ] ) );
 	}
 
 	protected static function initializeBootstrap() {
