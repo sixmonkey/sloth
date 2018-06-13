@@ -18,8 +18,9 @@ class Sloth extends \Singleton {
 	 * @var array
 	 */
 	private $class_aliases = [
-		'Route' => '\Sloth\Facades\Route',
-		'View'  => '\Sloth\Facades\View',
+		'Route'     => '\Sloth\Facades\Route',
+		'View'      => '\Sloth\Facades\View',
+		'Configure' => '\Sloth\Facades\Configure',
 	];
 
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
@@ -121,7 +122,7 @@ class Sloth extends \Singleton {
 			mkdir( $logDirectoy );
 		}
 		Debugger::getBar()->addPanel( new \Nofutur3\GitPanel\Diagnostics\Panel() );
-		Debugger::getBar()->addPanel( new \Kdyby\Extension\Diagnostics\HtmlValidator\ValidatorPanel([]) );
+		Debugger::getBar()->addPanel( new \Kdyby\Extension\Diagnostics\HtmlValidator\ValidatorPanel( [] ) );
 		Debugger::getBar()->addPanel( new \Milo\VendorVersions\Panel );
 		Debugger::getBar()->addPanel( new SlothBarPanel() );
 		/* TODO: could be nicer? */
