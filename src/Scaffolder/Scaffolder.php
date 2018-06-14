@@ -92,7 +92,12 @@ class Scaffolder {
 		file_put_contents( $filename_view, $view->with( $context )->render() );
 
 
-		$filename_sass = DIR_ROOT . DS . 'src' . DS . 'sass' . DS . 'modules' . DS . '_' . $context['name_view'] . '.scss';
+		$sass_dir = DIR_ROOT . DS . 'src' . DS . 'sass' . DS;
+		if ( ! is_dir( $sass_dir ) ) {
+			$sass_dir = DIR_ROOT . DS . 'src' . DS . 'scss' . DS;
+		}
+
+		$filename_sass = $sass_dir . 'modules' . DS . '_' . $context['name_view'] . '.scss';
 		if ( ! is_dir( dirname( $filename_sass ) ) ) {
 			mkdir( dirname( $filename_sass ), 0777, true );
 		}
@@ -100,7 +105,7 @@ class Scaffolder {
 		file_put_contents( $filename_sass, $view->with( $context )->render() );
 
 
-		$filename_sass_bundle = DIR_ROOT . DS . 'src' . DS . 'sass' . DS . 'bundle.scss';
+		$filename_sass_bundle = $sass_dir . 'bundle.scss';
 		file_put_contents( $filename_sass_bundle,
 			sprintf( "\n\t@import 'modules/%s';", $context['name_view'] ),
 			FILE_APPEND );
