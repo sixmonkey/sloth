@@ -44,6 +44,8 @@ class Taxonomy extends Corcel {
 			$tax->posttype( $postType );
 		}
 		$tax->register();
+		$tax->registerTaxonomy();
+		$tax->registerTaxonomyToObjects();
 	}
 
 	public function init() {
