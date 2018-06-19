@@ -46,7 +46,7 @@ class LayotterElement extends \Layotter_Element {
 		echo '<table>';
 		foreach ( $this->get_fields() as $field ) {
 			if ( isset( $fields[ $field['name'] ] ) ) {
-				if ( is_object( $fields[ $field['name'] ] ) ) {
+				if ( is_object( $fields[ $field['name'] ] ) || is_object( $fields[ $field['name'] ] )) {
 					continue;
 				}
 				echo '<tr>';
