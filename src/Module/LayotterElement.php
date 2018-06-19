@@ -23,6 +23,8 @@ class LayotterElement extends \Layotter_Element {
 
 	public function frontend_view( $fields ) {
 
+		$fields = $this->prepare_fields( $fields );
+
 
 		$options = func_get_args();
 
