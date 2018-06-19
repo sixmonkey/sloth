@@ -164,6 +164,30 @@ class Plugin extends \Singleton {
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
 
 		add_action( 'save_post', [ $this, 'trackDataChange' ], 20 );
+
+		add_action( 'admin_head',
+
+			function () {
+				echo '<style>
+.layotter-preview {
+border-collapse: collapse;
+}
+    .layotter-preview th,
+    .layotter-preview td {
+    text-align: left !important;
+    vertical-align: top;
+    } 
+    
+    .layotter-preview th {
+    	padding-right: 10px;
+    }
+    
+     .layotter-preview tr:nth-child(even),  .layotter-preview tr:nth-child(even) {
+     background: #eee;
+     }
+  </style>';
+			} );
+
 		/**
 		 * For now we give up Controllers an Routing
 		 */

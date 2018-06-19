@@ -21,6 +21,14 @@ class Image {
 	];
 
 	public function __construct( $url ) {
+
+		if ( is_array( $url ) && isset( $url['url'] ) ) {
+			$url = $url['url'];
+		}
+		if ( is_int( $url ) ) {
+			$url = \wp_get_attachment_url( $url );
+		}
+
 		$upload_info       = wp_upload_dir();
 		$this->url         = $url;
 		$this->file        = realpath(

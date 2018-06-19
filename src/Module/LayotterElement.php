@@ -2,7 +2,9 @@
 
 namespace Sloth\Module;
 
+use Sloth\Facades\Configure;
 use Sloth\Facades\View;
+use Sloth\Field\Image;
 
 class LayotterElement extends \Layotter_Element {
 	public static $module;
@@ -20,6 +22,7 @@ class LayotterElement extends \Layotter_Element {
 	}
 
 	public function frontend_view( $fields ) {
+
 
 		$options = func_get_args();
 
@@ -41,20 +44,46 @@ class LayotterElement extends \Layotter_Element {
 	}
 
 	public function backend_view( $fields ) {
+		$fields = $this->prepare_fields( $fields );
+
+
 		echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
 
-		echo '<table>';
+		echo '<table class="layotter-preview">';
 		foreach ( $this->get_fields() as $field ) {
+
 			if ( isset( $fields[ $field['name'] ] ) ) {
-				if ( is_object( $fields[ $field['name'] ] ) || is_object( $fields[ $field['name'] ] )) {
+				if ( is_a( $fields[ $field['name'] ], 'Sloth\Field\Image' ) ) {
+					$v = '<img src="' . $fields[ $field['name'] ] . '" />';
+				} else if ( $field['type'] == 'repeater' ) {
+					$v = count( $fields[ $field['name'] ] ) . ' ' . __( 'Elemente', 'sloth' );
+				} else if ( is_object( $fields[ $field['name'] ] ) || is_object( $fields[ $field['name'] ] ) || $field['type'] == 'true_false' ) {
 					continue;
+				} else if ( is_array( $fields[ $field['name'] ] ) ) {
+					$v = implode( '<br />', $fields[ $field['name'] ] );
+				} else {
+					$v = wp_trim_words( $fields[ $field['name'] ], 30 );
 				}
+
 				echo '<tr>';
-				echo "<th style='text-align: left;'>" . $field['label'] . ':</th>';
-				echo '<td>' . $fields[ $field['name'] ] . '</td>';
+				echo "<th style=\"text-align: left;border-bottom: 1px solid red;\" valign='top'>" . $field['label'] . ':</th>';
+				echo '<td>' . $v . '</td>';
 				echo '</tr>';
 			}
 		}
 		echo '</table>';
+	}
+
+	final protected function prepare_fields( $fields ) {
+		if ( Configure::read( 'layotter_prepare_fields' ) ) {
+			foreach ( $this->get_fields() as $field ) {
+				if ( $field['type'] == 'image' ) {
+					$v                        = new Image( $fields[ $field['name'] ] );
+					$fields[ $field['name'] ] = $v;
+				}
+			}
+		}
+
+		return $fields;
 	}
 }
