@@ -76,6 +76,7 @@ class LayotterElement extends \Layotter_Element {
 		echo '</table>';
 	}
 
+	// @TODO: Should be in Module?
 	final protected function prepare_fields( $fields ) {
 		if ( Configure::read( 'layotter_prepare_fields' ) ) {
 			foreach ( $this->get_fields() as $field ) {
