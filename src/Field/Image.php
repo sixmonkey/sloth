@@ -10,7 +10,7 @@ namespace Sloth\Field;
 
 class Image {
 	protected $type;
-	protected $url;
+	public $url;
 	protected $file;
 	protected $isResizable = true;
 	public $alt;
