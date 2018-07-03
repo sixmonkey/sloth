@@ -128,7 +128,7 @@ class Module {
 		if ( is_a( $value, 'WP_Post' ) ) {
 			$model_name = $GLOBALS['sloth::plugin']->getPostTypeClass( $value->post_type );
 			$post       = call_user_func( [ $model_name, 'find' ], $value->ID );
-			$value      = $post->first();
+			$value      = $post;
 		}
 
 		return $value;
