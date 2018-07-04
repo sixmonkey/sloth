@@ -139,6 +139,10 @@ class MenuItem extends Post {
 		return $post->current_item_ancestor;
 	}
 
+	public function getInCurrentPathAttribute() {
+		return $this->getCurrentAttribute() || $this->getCurrentItemParentAttribute();
+	}
+
 	public function getClassesAttribute() {
 		$post = $this->get_wp_post_classes();
 
