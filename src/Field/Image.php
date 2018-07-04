@@ -171,6 +171,6 @@ class Image {
 	}
 
 	public function __toString() {
-		return $this->url;
+		return (string) $this->url;
 	}
 }
