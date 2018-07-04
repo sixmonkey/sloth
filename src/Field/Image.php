@@ -8,6 +8,8 @@
 namespace Sloth\Field;
 
 
+use Sloth\Facades\Configure;
+
 class Image {
 	protected $type;
 	public $url;
@@ -45,6 +47,15 @@ class Image {
 		$this->isResizable = @is_array( getimagesize( $this->file ) );
 	}
 
+	public function getThemeSized( $size ) {
+		$image_sizes = Configure::read( 'theme.image-sizes' );
+		if ( isset( $image_sizes[ $size ] ) ) {
+			return $this->resize( $image_sizes[ $size ] );
+		}
+
+		return $this->resize();
+	}
+
 	public function resize( $options = [] ) {
 
 		if ( ! $this->isResizable ) {
@@ -73,6 +84,8 @@ class Image {
 		$ext  = $info['extension'];
 		list( $orig_w, $orig_h ) = getimagesize( $this->file );
 
+		if ( true === $options['upscale'] ) add_filter( 'image_resize_dimensions', array($this, 'upscale'), 10, 6 );
+
 
 		// Get image size after cropping.
 		$dims  = image_resize_dimensions( $orig_w, $orig_h, $options['width'], $options['height'], $options['crop'] );
@@ -81,7 +94,7 @@ class Image {
 
 		// Return the original image only if it exactly fits the needed measures.
 		if ( ! $dims || ( ( ( null === $options['height'] && $orig_w == $options['width'] ) xor ( null === $options['width'] && $orig_h == $options['height'] ) ) xor ( $options['height'] == $orig_h && $options['width'] == $orig_w ) ) ) {
-			$img_url = $url;
+			$img_url = $this->url;
 			$dst_w   = $orig_w;
 			$dst_h   = $orig_h;
 		} else {
@@ -133,7 +146,7 @@ class Image {
 	 * Callback to overwrite WP computing of thumbnail measures
 	 */
 	function upscale( $default, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
-		if ( ! $options['crop'] ) {
+		if ( ! $crop ) {
 			return null;
 		} // Let the wordpress default function handle this.
 

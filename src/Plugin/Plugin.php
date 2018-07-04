@@ -456,6 +456,7 @@ border-collapse: collapse;
 					'width'  => 800,
 					'height' => 600,
 					'crop'   => false,
+					'upscale'   => false,
 				],
 					$options );
 				\add_image_size( $name, $options['width'], $options['height'], $options['crop'] );
