@@ -9,6 +9,7 @@ namespace Sloth\Field;
 
 
 use Sloth\Facades\Configure;
+use Sloth\Model\Post;
 
 class Image {
 	protected $type;
@@ -16,6 +17,7 @@ class Image {
 	protected $file;
 	protected $isResizable = true;
 	public $alt;
+	public $post;
 	protected $defaults = [
 		'width'   => null,
 		'height'  => null,
@@ -34,6 +36,8 @@ class Image {
 		global $wpdb;
 		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url ) );
 		$att_id     = $attachment[0];
+
+		$this->post = Post::find($att_id);
 
 		$this->alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
 
@@ -185,5 +189,9 @@ class Image {
 
 	public function __toString() {
 		return (string) $this->url;
+	}
+
+	public function __get($what) {
+		return $this->post->{$what};
 	}
 }
