@@ -357,7 +357,7 @@ border-collapse: collapse;
 		if ( $this->isDevEnv() ) {
 			if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
 				[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
-				header( 'Location: http://lorempixel.com/g/1024/1024/' );
+				header( 'Location: https://placebeard.it/420/320' );
 			}
 		}
 
@@ -374,7 +374,7 @@ border-collapse: collapse;
 	}
 
 	public function auto_sync_acf_fields() {
-		if ( ! function_exists( 'acf_get_field_groups' ) || ! in_array( WP_ENV, [ 'development', 'develop' ] ) ) {
+		if ( ! function_exists( 'acf_get_field_groups' ) || $this->isDevEnv() ) {
 			{
 				return false;
 			}
@@ -453,10 +453,10 @@ border-collapse: collapse;
 		if ( $image_sizes && is_array( $image_sizes ) ) {
 			foreach ( $image_sizes as $name => $options ) {
 				$options = array_merge( [
-					'width'  => 800,
-					'height' => 600,
-					'crop'   => false,
-					'upscale'   => false,
+					'width'   => 800,
+					'height'  => 600,
+					'crop'    => false,
+					'upscale' => false,
 				],
 					$options );
 				\add_image_size( $name, $options['width'], $options['height'], $options['crop'] );
@@ -532,7 +532,7 @@ border-collapse: collapse;
 	}
 
 	public function trackDataChange() {
-		if ( WP_ENV != 'development' ) {
+		if ( ! $this->isDevEnv() ) {
 			return false;
 		}
 		file_put_contents( DIR_CACHE . DS . 'reload', time() );
@@ -543,6 +543,6 @@ border-collapse: collapse;
 	}
 
 	public function isDevEnv() {
-		return WP_ENV == 'development';
+		return in_array( WP_ENV, [ 'development', 'develop', 'dev' ] );
 	}
 }
