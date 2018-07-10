@@ -28,7 +28,8 @@
     "spatie/emoji": "^1.0",
     "nofutur3/tracy-gitpanel": "^0.9.4",
     "kdyby/html-validator-panel": "^1.1",
-    "milo/vendor-versions": "^1.1"
+    "milo/vendor-versions": "^1.1",
+    "buchin/google-image-grabber": "dev-master"
   },
   "autoload": {
     "psr-4": {
