@@ -255,7 +255,7 @@ border-collapse: collapse;
 	 */
 	public function getContext() {
 		$data = [
-			'wp_title' => wp_title( '', false ),
+			'wp_title' => trim( wp_title( '', false ) ),
 			'site'     => [
 				'url'         => home_url(),
 				'rdf'         => get_bloginfo( 'rdf_url' ),
