@@ -34,10 +34,12 @@ class Image {
 			$url = \wp_get_attachment_url( $url );
 		}
 		global $wpdb;
-		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url ) );
+
+		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE '%s';",
+			str_replace( WP_CONTENT_URL, '%', $url ) ) );
 		$att_id     = $attachment[0];
 
-		$this->post = Post::find($att_id);
+		$this->post = Post::find( $att_id );
 
 		$this->alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
 
@@ -88,7 +90,9 @@ class Image {
 		$ext  = $info['extension'];
 		list( $orig_w, $orig_h ) = getimagesize( $this->file );
 
-		if ( true === $options['upscale'] ) add_filter( 'image_resize_dimensions', array($this, 'upscale'), 10, 6 );
+		if ( true === $options['upscale'] ) {
+			add_filter( 'image_resize_dimensions', [ $this, 'upscale' ], 10, 6 );
+		}
 
 
 		// Get image size after cropping.
@@ -191,7 +195,7 @@ class Image {
 		return (string) $this->url;
 	}
 
-	public function __get($what) {
+	public function __get( $what ) {
 		return $this->post->{$what};
 	}
 }
