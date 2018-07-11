@@ -159,6 +159,7 @@ class Plugin extends \Singleton {
 		add_action( 'init', [ $this, 'loadModules' ], 20 );
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
 		add_action( 'init', [ $this, 'initModels' ], 20 );
+		add_action( 'init', [ $this, 'loadAppIncludes' ], 20 );
 		add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
@@ -506,6 +507,23 @@ border-collapse: collapse;
 			$tax = new $v;
 			$tax->init();
 			unset( $tax );
+		}
+	}
+
+	public function loadAppIncludes() {
+		$dir_app_includes = ( DIR_APP . DS . 'Includes' . DS );
+
+		if ( ! is_dir( $dir_app_includes ) ) {
+			return false;
+		}
+
+		$files_include = glob( $dir_app_includes . '*.php' );
+		if ( ! count( $files_include ) ) {
+			return false;
+		}
+
+		foreach ( $files_include as $file ) {
+			include_once realpath( $file );
 		}
 	}
 
