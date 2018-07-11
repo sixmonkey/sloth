@@ -370,6 +370,10 @@ border-collapse: collapse;
 
 				header( 'Location: https://placebeard.it/' . $w . '/' . $h );
 			}
+
+			if ( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ) == 'svg' ) {
+				header( 'Location: http://placeholder.pics/svg/300/DEDEDE/555555/SVG' );
+			}
 		}
 
 		$view = View::make( 'Layout.' . $view_name );
