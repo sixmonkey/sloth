@@ -60,8 +60,8 @@ class Module {
 	public function render() {
 		if ( ! $this->doing_ajax ) {
 			$this->set( $GLOBALS['sloth::plugin']->getContext() );
-			$this->set( 'ajax_url', $this->getAjaxUrl() );
 		}
+		$this->set( 'ajax_url', $this->getAjaxUrl() );
 		$this->beforeRender();
 		$this->makeView();
 		$vars   = array_merge( $GLOBALS['sloth::plugin']->getContext(), $this->viewVars );
