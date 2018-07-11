@@ -357,7 +357,14 @@ border-collapse: collapse;
 		if ( $this->isDevEnv() ) {
 			if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
 				[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
-				header( 'Location: https://placebeard.it/420/320' );
+
+				preg_match( '/(.+)-([0-9]+)x([0-9]+)\.(jpg|jpeg|png|gif)$/', $_SERVER['REQUEST_URI'], $matches );
+
+
+				$w = isset( $matches[2] ) ? $matches[2] : 1024;
+				$h = isset( $matches[3] ) ? $matches[3] : 768;
+
+				header( 'Location: https://placebeard.it/' . $w . '/' . $h );
 			}
 		}
 
