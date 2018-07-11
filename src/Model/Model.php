@@ -12,7 +12,7 @@ class Model extends Corcel {
 	protected $options = [];
 	protected $labels = [];
 	public static $layotter = false;
-	protected $register = true;
+	public $register = true;
 
 	public function __construct( array $attributes = [] ) {
 		if ( $this->postType == null ) {

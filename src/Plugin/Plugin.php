@@ -84,6 +84,9 @@ class Plugin extends \Singleton {
 			}
 
 			$model = new $model_name;
+			if ( ! $model->register ) {
+				continue;
+			}
 			$model->register();
 
 			$post_type = $model->getPostType();
