@@ -65,7 +65,9 @@ class Model extends Corcel {
 		// fix post_type
 		$object = get_post_type_object( $this->postType );
 		foreach ( $this->options as $key => $option ) {
-			$object->{$key} = $option;
+			if ( $object ) {
+				$object->{$key} = $option;
+			}
 		}
 	}
 
