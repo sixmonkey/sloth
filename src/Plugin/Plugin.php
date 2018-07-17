@@ -389,7 +389,7 @@ border-collapse: collapse;
 	}
 
 	public function auto_sync_acf_fields() {
-		if ( ! function_exists( 'acf_get_field_groups' ) || $this->isDevEnv() ) {
+		if ( ! function_exists( 'acf_get_field_groups' ) || !$this->isDevEnv() ) {
 			{
 				return false;
 			}
