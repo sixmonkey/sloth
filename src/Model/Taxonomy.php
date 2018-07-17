@@ -93,4 +93,8 @@ class Taxonomy extends Corcel {
 		return \get_term_link( $this->term_id );
 	}
 
+	public function getUrlAttribute() {
+		return $this->getTermLinkAttribute();
+
+	}
 }
