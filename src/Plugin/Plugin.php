@@ -377,9 +377,7 @@ border-collapse: collapse;
 		}
 
 		$view = View::make( 'Layout.' . $view_name );
-		if ( isset( $post->post_content ) ) {
-			$post->content = apply_filters( 'the_content', $post->post_content );
-		}
+
 		echo $view
 			->with(
 				$this->getContext()
