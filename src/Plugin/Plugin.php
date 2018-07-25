@@ -43,7 +43,10 @@ class Plugin extends \Singleton {
 		/**
 		 * tell ViewFinder about current theme's view path
 		 */
-		$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
+
+ 		if ( is_dir( $this->current_theme_path . DS . 'View' ) ) {
+ 			$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
+ 		}
 
 		/**
 		 * tell ViewFinder about sloths's view path
@@ -180,12 +183,12 @@ border-collapse: collapse;
     .layotter-preview td {
     text-align: left !important;
     vertical-align: top;
-    } 
-    
+    }
+
     .layotter-preview th {
     	padding-right: 10px;
     }
-    
+
      .layotter-preview tr:nth-child(even),  .layotter-preview tr:nth-child(even) {
      background: #eee;
      }
