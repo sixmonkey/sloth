@@ -54,7 +54,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 * Linked to the global call only...
 	 *
 	 * @param string $name
-	 * @param array $arguments
+	 * @param array  $arguments
 	 *
 	 * @return mixed
 	 */
@@ -89,6 +89,19 @@ class SlothTwigExtension extends Twig_Extension {
 			} ),
 			new Twig_SimpleFilter( 'print_r', function ( $input ) {
 				return debug( $input );
+			} ),
+			new Twig_SimpleFilter( 'tel', function ( $phone ) {
+				return 'tel:' . preg_replace( "/[^0-9\+]/", "", $phone );
+			} ),
+			new Twig_SimpleFilter( 'obfuscate_email',
+				function ( $email ) {
+					preg_match_all( "/(.*)@(.*)\.(.*)/", $email, $matches, PREG_SET_ORDER );
+
+					return '<span class="addhere" data-local="' . $matches[0][1] . '" data-global="' . $matches[0][2] . '" data-endung="' . $matches[0][3] . '"></span>';
+				} ),
+			new Twig_SimpleFilter( 'sanitize',
+				function ( $string ) {
+					return sanitize_title( $string );
 			} ),
 		];
 
