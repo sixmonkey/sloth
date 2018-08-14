@@ -24,6 +24,10 @@ class Plugin extends \Singleton {
 	private $currentTemplate;
 
 	public function __construct() {
+		if ( ! is_blog_installed() ) {
+			return;
+		}
+
 		$this->container = $GLOBALS['sloth']->container;
 		$this->loadControllers();
 		#$this->loadTaxonomies();
@@ -44,9 +48,9 @@ class Plugin extends \Singleton {
 		 * tell ViewFinder about current theme's view path
 		 */
 
- 		if ( is_dir( $this->current_theme_path . DS . 'View' ) ) {
- 			$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
- 		}
+		if ( is_dir( $this->current_theme_path . DS . 'View' ) ) {
+			$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
+		}
 
 		/**
 		 * tell ViewFinder about sloths's view path
@@ -390,7 +394,7 @@ border-collapse: collapse;
 	}
 
 	public function auto_sync_acf_fields() {
-		if ( ! function_exists( 'acf_get_field_groups' ) || !$this->isDevEnv() ) {
+		if ( ! function_exists( 'acf_get_field_groups' ) || ! $this->isDevEnv() ) {
 			{
 				return false;
 			}
