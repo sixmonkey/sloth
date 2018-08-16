@@ -24,6 +24,10 @@ class Plugin extends \Singleton {
 	private $currentTemplate;
 
 	public function __construct() {
+		if ( ! is_blog_installed() ) {
+			return;
+		}
+
 		$this->container = $GLOBALS['sloth']->container;
 		$this->loadControllers();
 		#$this->loadTaxonomies();
@@ -44,9 +48,9 @@ class Plugin extends \Singleton {
 		 * tell ViewFinder about current theme's view path
 		 */
 
- 		if ( is_dir( $this->current_theme_path . DS . 'View' ) ) {
- 			$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
- 		}
+		if ( is_dir( $this->current_theme_path . DS . 'View' ) ) {
+			$this->container['view.finder']->addLocation( $this->current_theme_path . DS . 'View' );
+		}
 
 		/**
 		 * tell ViewFinder about sloths's view path
@@ -158,6 +162,15 @@ class Plugin extends \Singleton {
 
 	private function addFilters() {
 
+		/* @TODO: hacky pagination fix! */
+		add_action( 'pre_get_posts',
+			function ( $query ) {
+				$query->set( 'posts_per_page', - 1 );
+
+				return $query;
+			} );
+
+
 		$this->fixRoutes();
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModels' ], 20 );
@@ -166,6 +179,7 @@ class Plugin extends \Singleton {
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
 		add_action( 'init', [ $this, 'initModels' ], 20 );
 		add_action( 'init', [ $this, 'loadAppIncludes' ], 20 );
+
 		add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
@@ -349,7 +363,6 @@ border-collapse: collapse;
 
 			$queryTemplate = new QueryTemplate( $finder );
 			$template      = $queryTemplate->findTemplate();
-
 		}
 
 		if ( $template == '' ) {
@@ -390,7 +403,7 @@ border-collapse: collapse;
 	}
 
 	public function auto_sync_acf_fields() {
-		if ( ! function_exists( 'acf_get_field_groups' ) || !$this->isDevEnv() ) {
+		if ( ! function_exists( 'acf_get_field_groups' ) || ! $this->isDevEnv() ) {
 			{
 				return false;
 			}
@@ -496,6 +509,13 @@ border-collapse: collapse;
 		 */
 		if ( isset( $wp_query->query['page'] ) ) {
 			$currentPage = $wp_query->query['page'];
+			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
+				return $currentPage;
+			} );
+		}
+
+		if ( isset( $wp_query->query['paged'] ) ) {
+			$currentPage = $wp_query->query['paged'];
 			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
 				return $currentPage;
 			} );

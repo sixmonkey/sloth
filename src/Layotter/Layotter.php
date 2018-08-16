@@ -40,15 +40,19 @@ final class Layotter extends \Singleton {
 	 *
 	 * @return array
 	 */
-	public function custom_column_classes() {
-		$column_classes = \Configure::read( 'layotter_custom_classes' );
-		if ( ! $column_classes ) {
-			for ( $i = 1; $i <= 12; $i ++ ) {
-				$column_classes[ Utility::float2fraction( $i / 12 ) ] = 'col-lg-' . $i;
-			}
+	public function custom_column_classes( $default_classes ) {
+		$layotter_custom_classes = \Configure::read( 'layotter_custom_classes' );
 
-			return $column_classes;
+		for ( $i = 1; $i <= 12; $i ++ ) {
+			$column_classes[ Utility::float2fraction( $i / 12 ) ] = 'col-lg-' . $i;
 		}
+
+		if ( $layotter_custom_classes ) {
+			$column_classes = array_merge( $column_classes, $layotter_custom_classes );
+		}
+
+
+		return $column_classes;
 	}
 
 	/**
@@ -128,7 +132,7 @@ final class Layotter extends \Singleton {
 
 		$theme_layouts = Configure::read( 'theme.layotter.row_layouts' );
 
-		if ( is_array($theme_layouts) ) {
+		if ( is_array( $theme_layouts ) ) {
 			return reset( $theme_layouts );
 		}
 

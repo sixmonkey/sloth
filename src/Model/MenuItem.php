@@ -92,11 +92,9 @@ class MenuItem extends Post {
 			case 'custom':
 				return ( $this->_menu_item_url );
 				break;
-			/* @TODO
 			case 'post_type_archive':
-			 * return \get_post_type_archive_link();
-			 * break;
-			 * */
+				return \get_post_type_archive_link( $this->_menu_item_object );
+				break;
 			case 'post_type':
 				return \get_permalink( $this->instance()->ID );
 				break;
@@ -104,17 +102,21 @@ class MenuItem extends Post {
 	}
 
 	public function getTitleAttribute() {
+		if ( is_object( $this->instance() ) && $this->instance()->post_title ) {
+			return $this->instance()->post_title;
+		}
+
 		switch ( $this->_menu_item_type ) {
 			case 'taxonomy':
 				$tax = $this->instance()->toArray();
 
 				return \get_term_field( 'name', (int) $tax['term_taxonomy_id'], $tax['taxonomy'], 'raw' );
 				break;
-			/* @TODO
 			case 'post_type_archive':
-			 * return \get_post_type_archive_link();
-			 * break;
-			 * */
+				$obj = get_post_type_object( $this->_menu_item_object );
+
+				return $obj->labels->name;
+				break;
 			default:
 				return $this->instance()->post_title;
 				break;

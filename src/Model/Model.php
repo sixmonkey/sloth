@@ -98,12 +98,14 @@ class Model extends Corcel {
 	 * @return mixed
 	 */
 	public function __get( $key ) {
-		$acf = acf_maybe_get_field( $key, $this->getAttribute( 'ID' ), false );
+		if ( function_exists( 'acf_maybe_get_field' ) ) {
+			$acf = acf_maybe_get_field( $key, $this->getAttribute( 'ID' ), false );
 
-		if ( $acf && $acf['type'] === 'image' ) {
-			$attachement = Attachment::find( parent::__get( $key ) );
+			if ( $acf && $acf['type'] === 'image' ) {
+				$attachement = Attachment::find( parent::__get( $key ) );
 
-			return new Image( $attachement->url );
+				return new Image( $attachement->url );
+			}
 		}
 
 		$value = parent::__get( $key );
