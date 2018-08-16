@@ -107,7 +107,9 @@ class Sloth extends \Singleton {
 	 */
 	private function setAliases() {
 		foreach ( $this->class_aliases as $alias => $class ) {
-			class_alias( $class, $alias );
+			if ( ! class_exists( $alias ) ) {
+				class_alias( $class, $alias );
+			}
 		}
 	}
 
