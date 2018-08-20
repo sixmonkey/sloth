@@ -162,6 +162,15 @@ class Plugin extends \Singleton {
 
 	private function addFilters() {
 
+		/* @TODO: hacky pagination fix! */
+		add_action( 'pre_get_posts',
+			function ( $query ) {
+				$query->set( 'posts_per_page', - 1 );
+
+				return $query;
+			} );
+
+
 		$this->fixRoutes();
 		add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
 		add_action( 'init', [ $this, 'loadModels' ], 20 );
@@ -170,6 +179,7 @@ class Plugin extends \Singleton {
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
 		add_action( 'init', [ $this, 'initModels' ], 20 );
 		add_action( 'init', [ $this, 'loadAppIncludes' ], 20 );
+
 		add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
@@ -353,7 +363,6 @@ border-collapse: collapse;
 
 			$queryTemplate = new QueryTemplate( $finder );
 			$template      = $queryTemplate->findTemplate();
-
 		}
 
 		if ( $template == '' ) {
@@ -500,6 +509,13 @@ border-collapse: collapse;
 		 */
 		if ( isset( $wp_query->query['page'] ) ) {
 			$currentPage = $wp_query->query['page'];
+			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
+				return $currentPage;
+			} );
+		}
+
+		if ( isset( $wp_query->query['paged'] ) ) {
+			$currentPage = $wp_query->query['paged'];
 			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
 				return $currentPage;
 			} );

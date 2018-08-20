@@ -3,6 +3,7 @@
 namespace Sloth\View\Extensions;
 
 use Sloth\Core\Application;
+use Sloth\Facades\Configure;
 use Twig_SimpleTest;
 use Twig_SimpleFilter;
 use Twig_SimpleFunction;
@@ -69,7 +70,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 * @return array|\Twig_SimpleFunction[]
 	 */
 	public function getFilters() {
-		return [
+		$filters = [
 			new Twig_SimpleFilter( 'hyphenate', function ( $input ) {
 				$input = ' ' . $input;
 				$o     = new h\Options();
@@ -93,18 +94,19 @@ class SlothTwigExtension extends Twig_Extension {
 			new Twig_SimpleFilter( 'tel', function ( $phone ) {
 				return 'tel:' . preg_replace( "/[^0-9\+]/", "", $phone );
 			} ),
-			new Twig_SimpleFilter( 'obfuscate_email',
-				function ( $email ) {
-					preg_match_all( "/(.*)@(.*)\.(.*)/", $email, $matches, PREG_SET_ORDER );
-
-					return '<span class="addhere" data-local="' . $matches[0][1] . '" data-global="' . $matches[0][2] . '" data-endung="' . $matches[0][3] . '"></span>';
-				} ),
 			new Twig_SimpleFilter( 'sanitize',
 				function ( $string ) {
 					return sanitize_title( $string );
-			} ),
+				} ),
 		];
 
+
+		if ( Configure::read( 'theme.twig.filters' ) ) {
+			$theme_filters = Configure::read( 'theme.twig.filters' );
+			$filters       = array_merge( $filters, $theme_filters );
+		}
+
+		return $filters;
 	}
 
 	/**
@@ -113,7 +115,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 * @return array|\Twig_SimpleFunction[]
 	 */
 	public function getFunctions() {
-		return [
+		$functions = [
 			new Twig_SimpleFunction( 'module',
 				function ( $name, $values = [], $options = [] ) {
 					$GLOBALS['sloth']->container->callModule( $name, $values, $options );
@@ -199,6 +201,14 @@ class SlothTwigExtension extends Twig_Extension {
 			new Twig_SimpleFunction( 'pll_e', 'pll_e' ),
 			new Twig_SimpleFunction( 'pll_', 'pll_' ),
 		];
+
+
+		if ( Configure::read( 'theme.twig.functions' ) ) {
+			$theme_functions = Configure::read( 'theme.twig.functions' );
+			$functions       = array_merge( $functions, $theme_functions );
+		}
+
+		return $functions;
 	}
 
 	public function initRuntime( \Twig_Environment $environment ) {
