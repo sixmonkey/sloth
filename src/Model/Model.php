@@ -112,4 +112,21 @@ class Model extends Corcel {
 
 		return $value;
 	}
+
+	public function toArray() {
+		$array = parent::toArray();
+
+		foreach ( $this->getMutatedAttributes() as $key ) {
+			if ( ! array_key_exists( $key, $array ) ) {
+				$array[ $key ] = $this->{$key};
+			}
+		}
+		if ( isset( $this->hidden ) && is_array( $this->hidden ) ) {
+			foreach ( $this->hidden as $k ) {
+				unset( $array[ $k ] );
+			}
+		}
+
+		return $array;
+	}
 }
