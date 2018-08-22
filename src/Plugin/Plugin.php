@@ -305,6 +305,7 @@ border-collapse: collapse;
 				$this->currentModel = $a->first();
 			}
 			$data['post'] = $this->currentModel;
+			$data[$post->post_type] = $this->currentModel;
 		}
 
 		if ( is_tax() ) {
@@ -315,6 +316,7 @@ border-collapse: collapse;
 				$this->currentModel = $a->first();
 			}
 			$data['taxonomy'] = $this->currentModel;
+			$data[$taxonomy] = $this->currentModel;
 		}
 
 		return $data;
