@@ -70,7 +70,7 @@ class Taxonomy extends Corcel {
 	}
 
 	public function metabox( $wp_post ) {
-		$tax  = Post::find( $wp_post->ID )->taxonomies()->first();
+		$tax  = Post::find( $wp_post->ID )->taxonomies()->where('taxonomy', '=', $this->taxonomy)->first();
 		$args = [
 			'taxonomy'    => $this->getTaxonomy(),
 			'hide_empty'  => 0,
