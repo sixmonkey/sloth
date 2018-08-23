@@ -59,7 +59,7 @@ class Module {
 	 */
 	public function render() {
 		if ( ! $this->doing_ajax ) {
-			$this->set( $GLOBALS['sloth::plugin']->getContext() );
+			$this->set( $GLOBALS['sloth::plugin']->getContext(), false );
 		}
 		$this->set( 'ajax_url', $this->getAjaxUrl() );
 		$this->beforeRender();
@@ -79,13 +79,18 @@ class Module {
 		return $output;
 	}
 
-	final public function set( $key, $value = null ) {
+	final public function set( $key, $value = null, $override = true ) {
 		if ( is_array( $key ) ) {
+			$override = $value;
 			foreach ( $key as $k => $v ) {
-				$this->set( $k, $v );
+				if ( $override || ! $this->isSet( $k ) ) {
+					$this->set( $k, $v );
+				}
 			}
 		} else {
-			$this->viewVars[ $key ] = $this->_prepareValue( $value );
+			if ( $override || ! $this->isSet( $key ) ) {
+				$this->viewVars[ $key ] = $this->_prepareValue( $value );
+			}
 		}
 	}
 
@@ -95,6 +100,10 @@ class Module {
 		}
 
 		return $this->viewVars[ $k ];
+	}
+
+	final public function isSet( $key ) {
+		return isset( $this->viewVars[ $key ] );
 	}
 
 	final public function unset( $key ) {
