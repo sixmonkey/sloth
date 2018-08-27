@@ -27,13 +27,17 @@ class LayotterElement extends \Layotter_Element {
 
 
 		$options = func_get_args();
+		array_shift($options);
 
-		$fields['_layotter.passed'] = [
-			'class'        => $options[1],
-			'col_options'  => $options[2],
-			'row_options'  => $options[3],
-			'post_options' => $options[4],
+		$keys = [
+			'class',
+			'col_options',
+			'row_options',
+			'post_options',
+			'element_options',
 		];
+
+		$fields['_layotter.passed'] = array_combine(array_intersect_key($keys, $options), array_intersect_key($options, $keys));
 
 
 		$class_name  = get_class( $this );
