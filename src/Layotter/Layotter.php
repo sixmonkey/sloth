@@ -286,7 +286,7 @@ final class Layotter extends \Singleton {
 		add_filter( 'layotter/rows/default_layout', [ $this, 'default_row_layout' ] );
 		add_filter( 'layotter/columns/classes', [ $this, 'custom_column_classes' ] );
 		#view filters
-		add_filter( 'layotter/view/element', [ $this, 'custom_element_view' ], 10, 1 );
+		add_filter( 'layotter/view/element', [ $this, 'custom_element_view' ], 10, 5 );
 		add_filter( 'layotter/view/column', [ $this, 'custom_column_view' ], 10, 5 );
 		add_filter( 'layotter/view/row', [ $this, 'custom_row_view' ], 10, 9 );
 		add_filter( 'layotter/view/post', [ $this, 'custom_post_view' ], 10, 9 );
