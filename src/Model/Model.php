@@ -49,8 +49,8 @@ class Model extends Corcel {
 			$post_type_object->remove_hooks();
 			$post_type_object->unregister_taxonomies();
 
+			$this->options = array_merge( (array) $wp_post_types[ $this->getPostType() ], $this->options );
 			unset( $wp_post_types[ $this->getPostType() ] );
-
 			/**
 			 * Fires after a post type was unregistered.
 			 *
