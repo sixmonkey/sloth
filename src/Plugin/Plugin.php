@@ -94,9 +94,9 @@ class Plugin extends \Singleton {
 			if ( ! $model->register ) {
 				continue;
 			}
-			$model->register();
 
 			$post_type = $model->getPostType();
+			$model->register();
 
 			$this->models[ $post_type ] = $model_name;
 
@@ -109,9 +109,9 @@ class Plugin extends \Singleton {
 			} else {
 				$this->container['layotter']->disable_for_post_type( $post_type );
 			}
+			\flush_rewrite_rules( true );
 		}
 	}
-
 
 	public function loadTaxonomies() {
 		foreach ( glob( DIR_APP . 'Taxonomy' . DS . '*.php' ) as $file ) {
@@ -185,6 +185,9 @@ class Plugin extends \Singleton {
 		add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
 
 		add_action( 'save_post', [ $this, 'trackDataChange' ], 20 );
+
+
+		add_action( 'admin_menu', [ $this, 'cleanup_admin_menu' ], 20 );
 
 		add_action( 'admin_head',
 
@@ -304,8 +307,8 @@ border-collapse: collapse;
 					[ $post->ID ] );
 				$this->currentModel = $a->first();
 			}
-			$data['post'] = $this->currentModel;
-			$data[$post->post_type] = $this->currentModel;
+			$data['post']             = $this->currentModel;
+			$data[ $post->post_type ] = $this->currentModel;
 		}
 
 		if ( is_tax() ) {
@@ -315,8 +318,8 @@ border-collapse: collapse;
 					[ get_queried_object()->term_id ] );
 				$this->currentModel = $a->first();
 			}
-			$data['taxonomy'] = $this->currentModel;
-			$data[$taxonomy] = $this->currentModel;
+			$data['taxonomy']  = $this->currentModel;
+			$data[ $taxonomy ] = $this->currentModel;
 		}
 
 		return $data;
@@ -541,6 +544,20 @@ border-collapse: collapse;
 	}
 
 	public function loadAppIncludes() {
+		add_filter( 'post_type_archive_link',
+			function ( $link, $post_type ) {
+				if ( $post_type == 'post' ) {
+					$pto = get_post_type_object( $post_type );
+					if ( is_string( $pto->has_archive ) ) {
+						$link = trailingslashit( home_url( $pto->has_archive ) );
+					}
+				}
+
+				return $link;
+			},
+			2,
+			10 );
+
 		$dir_app_includes = ( DIR_APP . DS . 'Includes' . DS );
 
 		if ( ! is_dir( $dir_app_includes ) ) {
@@ -600,4 +617,24 @@ border-collapse: collapse;
 	public function isDevEnv() {
 		return in_array( WP_ENV, [ 'development', 'develop', 'dev' ] );
 	}
+
+
+	public function cleanup_admin_menu() {
+		global $menu;
+		$used = [];
+		foreach ( $menu as $offset => $menu_item ) {
+			$pi = pathinfo( $menu_item[2], PATHINFO_EXTENSION );
+			if ( ! preg_match( '/^php/', $pi ) ) {
+				continue;
+			}
+			if ( in_array( $menu_item[2], $used ) ) {
+				unset( $menu[ $offset ] );
+				continue;
+			}
+			$used[] = $menu_item[2];
+
+
+		}
+	}
+
 }

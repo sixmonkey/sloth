@@ -31,13 +31,41 @@ class Model extends Corcel {
 	}
 
 	public function register() {
+
+		global $wp_post_types;
+
 		if ( ! $this->register ) {
 			return false;
 		}
+
+		if ( \post_type_exists( $this->getPostType() ) ) {
+
+			$post_type_object = get_post_type_object( $this->getPostType() );
+			$this->labels     = array_merge( (array) \get_post_type_labels( $post_type_object ), $this->labels );
+
+			$post_type_object->remove_supports();
+			$post_type_object->remove_rewrite_rules();
+			$post_type_object->unregister_meta_boxes();
+			$post_type_object->remove_hooks();
+			$post_type_object->unregister_taxonomies();
+
+			unset( $wp_post_types[ $this->getPostType() ] );
+
+			/**
+			 * Fires after a post type was unregistered.
+			 *
+			 * @param string $post_type Post type identifier.
+			 */
+			do_action( 'unregistered_post_type', $this->getPostType() );
+		}
+
 		$names   = array_merge( $this->names, [ 'name' => $this->getPostType() ] );
-		$options = array_merge( $this->options,
-			[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
-		$labels  = $this->labels;
+		$options = $this->options;
+		if ( isset( $this->icon ) ) {
+			$options = array_merge( $this->options,
+				[ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
+		}
+		$labels = $this->labels;
 
 		$pt = new PostType( $names, $options, $labels );
 
@@ -53,11 +81,13 @@ class Model extends Corcel {
 	/**
 	 * @return string
 	 */
-	public function getPostType() {
+	public
+	function getPostType() {
 		return $this->postType;
 	}
 
-	public function getPermalinkAttribute() {
+	public
+	function getPermalinkAttribute() {
 		return \get_permalink( $this->ID );
 	}
 
