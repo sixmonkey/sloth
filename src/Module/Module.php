@@ -81,7 +81,7 @@ class Module {
 
 	final public function set( $key, $value = null, $override = true ) {
 		if ( is_array( $key ) ) {
-			$override = $value;
+			$override = is_bool( $value ) ? $value : true;
 			foreach ( $key as $k => $v ) {
 				if ( $override || ! $this->isSet( $k ) ) {
 					$this->set( $k, $v );
