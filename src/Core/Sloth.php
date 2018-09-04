@@ -21,6 +21,7 @@ class Sloth extends \Singleton {
 		'Route'     => '\Sloth\Facades\Route',
 		'View'      => '\Sloth\Facades\View',
 		'Configure' => '\Sloth\Facades\Configure',
+		'Validator' => '\Sloth\Facades\Validation',
 	];
 
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];

@@ -1,22 +1,20 @@
 <?php
 
-namespace Sloth\Validation;
+namespace Sloth\Translation;
 
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
-use Illuminate\Validation\Validator;
 use Illuminate\Validation\Factory;
 use Sloth\Core\ServiceProvider;
 use Illuminate\Events\Dispatcher;
 
-class ValidationServiceProvider extends ServiceProvider {
+class TranslationServiceProvider extends ServiceProvider {
 	public function register() {
-
-		$this->app->singleton( 'validator',
+		$this->app->singleton( 'translator',
 			function ( $container ) {
 				$loader  = new ArrayLoader();
 				$factory = new Factory(
-					new Validator( new Translator( $loader, \get_locale() ), [], [] ),
+					new Translator( $loader, \get_locale() ),
 					$container );
 
 				return $factory;
