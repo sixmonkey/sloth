@@ -3,6 +3,7 @@
 namespace Sloth\Plugin;
 
 use Corcel\Model\Menu;
+use Corcel\Model\User;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
@@ -21,7 +22,7 @@ class Plugin extends \Singleton {
 	private $models = [];
 	private $taxonomies = [];
 	private $currentModel;
-	private $currentTemplate;
+	private $currentLayout;
 
 	public function __construct() {
 		if ( ! is_blog_installed() ) {
@@ -298,6 +299,9 @@ border-collapse: collapse;
 				'theme_url'  => get_template_directory_uri(),
 				'images_url' => get_template_directory_uri() . '/assets/img',
 			],
+			'sloth'    => [
+				'current_layout' => basename( $this->currentLayout, '.twig' ),
+			],
 		];
 
 		if ( is_single() || is_page() ) {
@@ -320,6 +324,14 @@ border-collapse: collapse;
 			}
 			$data['taxonomy']  = $this->currentModel;
 			$data[ $taxonomy ] = $this->currentModel;
+		}
+
+		if ( is_author() ) {
+			if ( ! isset( $this->currentModel ) ) {
+				$this->currentModel = User::find( \get_queried_object()->id );
+			}
+			$data['user']   = $this->currentModel;
+			$data['author'] = $this->currentModel;
 		}
 
 		return $data;
@@ -375,7 +387,7 @@ border-collapse: collapse;
 			\status_header( 404 );
 		}
 
-		$this->currentTemplate = $template;
+		$this->currentLayout = $template;
 
 		$view_name = basename( $template, '.twig' );
 
@@ -600,7 +612,11 @@ border-collapse: collapse;
 	}
 
 	public function getCurrentTemplate() {
-		return $this->currentTemplate;
+		return $this->currentLayout;
+	}
+
+	public function getCurrentLayout() {
+		return $this->currentLayout;
 	}
 
 	public function trackDataChange() {
