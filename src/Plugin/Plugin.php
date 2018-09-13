@@ -298,6 +298,9 @@ border-collapse: collapse;
 				'theme_url'  => get_template_directory_uri(),
 				'images_url' => get_template_directory_uri() . '/assets/img',
 			],
+			'sloth'    => [
+				'current_template' => basename( $this->currentTemplate, '.twig' ),
+			],
 		];
 
 		if ( is_single() || is_page() ) {
