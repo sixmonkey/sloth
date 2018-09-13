@@ -25,8 +25,8 @@ class SlothBarPanel implements IBarPanel {
 	}
 
 	function getTab() {
-		$logo = base64_encode( file_get_contents( dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'logo.svg' ) );
+		$logo = file_get_contents( dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'logo.svg' );
 
-		return '<span title="SLOTH"><img src="data:image/svg+xml;base64,' . $logo . '" width="16" height="16"/></span>';
+		return '<span title="SLOTH">' . $logo . '</span>';
 	}
 }
