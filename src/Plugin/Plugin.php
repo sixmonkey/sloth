@@ -3,6 +3,7 @@
 namespace Sloth\Plugin;
 
 use Corcel\Model\Menu;
+use Corcel\Model\User;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
@@ -323,6 +324,14 @@ border-collapse: collapse;
 			}
 			$data['taxonomy']  = $this->currentModel;
 			$data[ $taxonomy ] = $this->currentModel;
+		}
+
+		if ( is_author() ) {
+			if ( ! isset( $this->currentModel ) ) {
+				$this->currentModel = User::find( \get_queried_object()->id );
+			}
+			$data['user']   = $this->currentModel;
+			$data['author'] = $this->currentModel;
 		}
 
 		return $data;
