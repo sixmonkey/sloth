@@ -101,7 +101,7 @@ class Module {
 	}
 
 	final public function isSet( $key ) {
-		return Hash::get( $this->viewVars, $var ) !== null;
+		return Hash::get( $this->viewVars, $key ) !== null;
 	}
 
 	final public function unset( $key ) {
