@@ -4,6 +4,7 @@ namespace Sloth\Module;
 
 use Sloth\Facades\View as View;
 use Sloth\Utility\Utility;
+use Cake\Utility\Hash;
 
 class Module {
 	public static $layotter = false;
@@ -80,6 +81,7 @@ class Module {
 	}
 
 	final public function set( $key, $value = null, $override = true ) {
+		// @TODO move to Cake Hash behavior
 		if ( is_array( $key ) ) {
 			$override = is_bool( $value ) ? $value : true;
 			foreach ( $key as $k => $v ) {
@@ -95,19 +97,15 @@ class Module {
 	}
 
 	final protected function get( $k ) {
-		if ( ! isset( $this->viewVars[ $k ] ) ) {
-			$this->viewVars[ $k ] = null;
-		}
-
-		return $this->viewVars[ $k ];
+		return Hash::get( $this->viewVars, $k );
 	}
 
 	final public function isSet( $key ) {
-		return isset( $this->viewVars[ $key ] );
+		return Hash::get( $this->viewVars, $var ) !== null;
 	}
 
 	final public function unset( $key ) {
-		unset( $this->viewVars[ $key ] );
+		$this->viewVars = Hash::remove( $this->viewVars, $key );
 	}
 
 	final protected function _get( $k ) {
