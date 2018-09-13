@@ -21,7 +21,7 @@ class Plugin extends \Singleton {
 	private $models = [];
 	private $taxonomies = [];
 	private $currentModel;
-	private $currentTemplate;
+	private $currentLayout;
 
 	public function __construct() {
 		if ( ! is_blog_installed() ) {
@@ -299,7 +299,7 @@ border-collapse: collapse;
 				'images_url' => get_template_directory_uri() . '/assets/img',
 			],
 			'sloth'    => [
-				'current_template' => basename( $this->currentTemplate, '.twig' ),
+				'current_layout' => basename( $this->currentLayout, '.twig' ),
 			],
 		];
 
@@ -378,7 +378,7 @@ border-collapse: collapse;
 			\status_header( 404 );
 		}
 
-		$this->currentTemplate = $template;
+		$this->currentLayout = $template;
 
 		$view_name = basename( $template, '.twig' );
 
@@ -603,7 +603,11 @@ border-collapse: collapse;
 	}
 
 	public function getCurrentTemplate() {
-		return $this->currentTemplate;
+		return $this->currentLayout;
+	}
+
+	public function getCurrentLayout() {
+		return $this->currentLayout;
 	}
 
 	public function trackDataChange() {
