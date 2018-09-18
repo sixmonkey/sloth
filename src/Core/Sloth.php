@@ -130,6 +130,9 @@ class Sloth extends \Singleton {
 		#if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
 		Debugger::enable( $mode, DIR_ROOT . DS . 'logs' );
 		#}
+		if ( getenv( 'SLOTH_DEBUGGER_EDITOR' ) ) {
+			Debugger::$editor = getenv( 'SLOTH_DEBUGGER_EDITOR' );
+		}
 	}
 
 	private function connectCorcel() {
