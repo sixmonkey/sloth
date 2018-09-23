@@ -74,6 +74,7 @@ class Sloth extends \Singleton {
 			\Sloth\Pagination\PaginationServiceProvider::class,
 			\Sloth\Layotter\LayotterServiceProvider::class,
 			\Sloth\Configure\ConfigureServiceProvider::class,
+			\Sloth\Request\RequestServiceProvider::class,
 			\Sloth\Validation\ValidationServiceProvider::class,
 		];
 
