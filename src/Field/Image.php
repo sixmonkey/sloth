@@ -24,8 +24,17 @@ class Image {
 		'crop'    => null,
 		'upscale' => true,
 	];
+	public $sizes = [];
 
-	public function __construct( $url ) {
+	public function __construct( $url, $sizes = [] ) {
+
+		$this->sizes = $sizes;
+
+		if ( is_null( $url ) ) {
+			$this->url = null;
+
+			return;
+		}
 
 		if ( is_array( $url ) && isset( $url['url'] ) ) {
 			$url = $url['url'];
@@ -33,6 +42,8 @@ class Image {
 		if ( is_int( $url ) ) {
 			$url = \wp_get_attachment_url( $url );
 		}
+		$this->sizes = $sizes;
+
 		global $wpdb;
 
 		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE '%s';",
@@ -54,6 +65,11 @@ class Image {
 	}
 
 	public function getThemeSized( $size ) {
+
+		if ( isset( $this->sizes[ $size ] ) ) {
+			return $this->sizes[ $size ];
+		}
+
 		$image_sizes = Configure::read( 'theme.image-sizes' );
 		if ( isset( $image_sizes[ $size ] ) ) {
 			return $this->resize( $image_sizes[ $size ] );
@@ -64,7 +80,7 @@ class Image {
 
 	public function resize( $options = [] ) {
 
-		if ( ! $this->isResizable ) {
+		if ( ! $this->isResizable || $this->url == null ) {
 			return $this->url;
 		}
 
