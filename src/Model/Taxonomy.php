@@ -70,7 +70,7 @@ class Taxonomy extends Corcel {
 	}
 
 	public function metabox( $wp_post ) {
-		$tax  = Post::find( $wp_post->ID )->taxonomies()->where('taxonomy', '=', $this->taxonomy)->first();
+		$tax  = Post::find( $wp_post->ID )->taxonomies()->where( 'taxonomy', '=', $this->taxonomy )->first();
 		$args = [
 			'taxonomy'    => $this->getTaxonomy(),
 			'hide_empty'  => 0,
@@ -90,11 +90,11 @@ class Taxonomy extends Corcel {
 	}
 
 	public function getTermLinkAttribute() {
-		return \get_term_link( $this->term_id );
+		$t = get_term( $this->term_id, $this->taxonomy );
+		return \get_term_link( $t );
 	}
 
 	public function getUrlAttribute() {
 		return $this->getTermLinkAttribute();
-
 	}
 }
