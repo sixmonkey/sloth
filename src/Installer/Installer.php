@@ -100,8 +100,10 @@ class Installer {
 	}
 
 	protected static function initializeHtaccess() {
-		copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
-			self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
+		if ( ! file_exists( [ self::$http_dir, '.htaccess' ] ) ) {
+			copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
+				self::mkPath( [ self::$http_dir, '.htaccess' ] ) );
+		}
 	}
 
 	public static function renameTheme() {
