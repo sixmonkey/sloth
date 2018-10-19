@@ -64,7 +64,7 @@ class LayotterElement extends \Layotter_Element {
 					$v = '<img src="' . $fields[ $field['name'] ] . '" />';
 				} else if ( $field['type'] == 'repeater' ) {
 					$v = count( $fields[ $field['name'] ] ) . ' ' . __( 'Elemente', 'sloth' );
-				} else if ( is_object( $fields[ $field['name'] ] ) || is_object( $fields[ $field['name'] ] ) || $field['type'] == 'true_false' ) {
+				} else if ( is_object( $fields[ $field['name'] ] ) || is_object( $fields[ $field['name'] ] ) || $field['type'] == 'true_false' || $field['type'] == 'taxonomy' ) {
 					continue;
 				} else if ( is_array( $fields[ $field['name'] ] ) ) {
 					$v = implode( '<br />', $fields[ $field['name'] ] );
