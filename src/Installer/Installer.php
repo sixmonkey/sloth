@@ -3,6 +3,8 @@
 namespace Sloth\Installer;
 
 use Composer\Script\Event;
+use League\CLImate\CLImate;
+use Sloth\Utility\Utility;
 
 
 class Installer {
@@ -14,6 +16,7 @@ class Installer {
 		[ 'app', 'config' ],
 		[ 'app', 'cache' ],
 	];
+	static $dir_theme_new;
 
 	public static function config( Event $event ) {
 		$vendor_dir       = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
@@ -107,12 +110,39 @@ class Installer {
 		}
 	}
 
+	protected static function buildStyleCss() {
+
+		$climate = new CLImate;
+		$data = [];
+
+		// Set themename
+		$themename = Utility::humanize( basename( self::$dir_theme_new ), '-' );
+		$themename = Utility::humanize( basename( $themename ) );
+		$input = $climate->input( 'What will your WordPress-theme be called? [' . $themename . ']' );
+		$input->defaultTo( $themename );
+		$themename = $input->prompt();
+
+		// Set authorname
+		$authorname = get_current_user();
+		$input = $climate->input( 'What is the name of your theme\'s author? [' . $authorname . ']' );
+		$input->defaultTo( $authorname );
+		$authorname = $input->prompt();
+
+		// Set description
+		$input = $climate->input( 'Please describe your theme [' . $themename . ']' );
+		$input->defaultTo( $themename );
+		$description = $input->prompt();
+
+		file_put_contents(self::$dir_theme_new . DIRECTORY_SEPARATOR . 'style.css', "/*\nTheme Name: $themename\nAuthor: $authorname\nVersion: 0.0.1\nDescription: $description\n*/");
+	}
+
 	public static function renameTheme() {
-		$dir_theme_default = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
-		$dir_theme_new     = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
-		if ( is_dir( $dir_theme_default ) ) {
-			rename( $dir_theme_default, $dir_theme_new );
-		}
+		$dir_theme_default   = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
+		self::$dir_theme_new = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
+		#if ( is_dir( $dir_theme_default ) ) {
+		#	rename( $dir_theme_default, $dir_theme_new );
+		self::buildStyleCss();
+		#}
 	}
 
 	public static function mkPath( $parts ) {
