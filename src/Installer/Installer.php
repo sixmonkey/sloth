@@ -133,16 +133,16 @@ class Installer {
 		$input->defaultTo( $themename );
 		$description = $input->prompt();
 
-		file_put_contents(self::$dir_theme_new . DIRECTORY_SEPARATOR . 'style.css', "/*\nTheme Name: $themename\nAuthor: $authorname\nVersion: 0.0.1\nDescription: $description\n*/");
+		@file_put_contents(self::$dir_theme_new . DIRECTORY_SEPARATOR . 'style.css', "/*\nTheme Name: $themename\nAuthor: $authorname\nVersion: 0.0.1\nDescription: $description\n*/");
 	}
 
 	public static function renameTheme() {
 		$dir_theme_default   = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
 		self::$dir_theme_new = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
-		#if ( is_dir( $dir_theme_default ) ) {
-		#	rename( $dir_theme_default, $dir_theme_new );
+		if ( is_dir( $dir_theme_default ) ) {
+			rename( $dir_theme_default, $dir_theme_new );
 		self::buildStyleCss();
-		#}
+		}
 	}
 
 	public static function mkPath( $parts ) {
