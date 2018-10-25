@@ -140,7 +140,7 @@ class Installer {
 		$dir_theme_default   = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
 		self::$dir_theme_new = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
 		if ( is_dir( $dir_theme_default ) ) {
-			rename( $dir_theme_default, $dir_theme_new );
+			rename( $dir_theme_default, self::$dir_theme_new );
 		self::buildStyleCss();
 		}
 	}
