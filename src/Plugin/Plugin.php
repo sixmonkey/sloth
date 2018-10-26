@@ -604,11 +604,11 @@ border-collapse: collapse;
 		}
 	}
 
-	private function getModelClass( $key = '' ) {
+	public function getModelClass( $key = '' ) {
 		return isset( $this->models[ $key ] ) ? $this->models[ $key ] : '\Sloth\Model\Post';
 	}
 
-	private function getTaxonomyClass( $key = '' ) {
+	public function getTaxonomyClass( $key = '' ) {
 		return isset( $this->taxonomies[ $key ] ) ? $this->taxonomies[ $key ] : '\Sloth\Model\Taxonomy';
 	}
 
