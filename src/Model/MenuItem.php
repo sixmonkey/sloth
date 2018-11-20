@@ -14,7 +14,7 @@ use Corcel\Model\Term;
  * @package Corcel\Model
  * @author  Junior Grossi <juniorgro@gmail.com>
  */
-class MenuItem extends Post {
+class MenuItem extends Model {
 	/**
 	 * @var string
 	 */
