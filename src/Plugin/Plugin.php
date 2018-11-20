@@ -180,6 +180,7 @@ class Plugin extends \Singleton {
 		add_action( 'init', [ $this, 'register_menus' ], 20 );
 		add_action( 'init', [ $this, 'initModels' ], 20 );
 		add_action( 'init', [ $this, 'loadAppIncludes' ], 20 );
+		add_action( 'init', [ $this, 'registerImageSizes' ], 20 );
 
 		add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
@@ -495,7 +496,7 @@ border-collapse: collapse;
 		}
 	}
 
-	public function register_image_sizes() {
+	public function registerImageSizes() {
 		$image_sizes = Configure::read( 'theme.image-sizes' );
 		if ( $image_sizes && is_array( $image_sizes ) ) {
 			foreach ( $image_sizes as $name => $options ) {
