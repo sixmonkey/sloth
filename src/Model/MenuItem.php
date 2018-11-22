@@ -102,8 +102,7 @@ class MenuItem extends Model {
 	}
 
 	public function getTitleAttribute() {
-
-		if(!empty($this->post_title)) {
+		if($this->post_title) {
 			return $this->post_title;
 		}
 
