@@ -132,9 +132,10 @@ class Model extends Corcel {
 			$acf = acf_maybe_get_field( $key, $this->getAttribute( 'ID' ), false );
 
 			if ( $acf && $acf['type'] === 'image' ) {
-				$attachement = Attachment::find( parent::__get( $key ) );
-
-				return new Image( $attachement->url );
+				$attachment = Attachment::find( parent::__get( $key ) );
+				if ( is_object( $attachment ) ) {
+					return new Image( $attachment->url );
+				}
 			}
 		}
 
