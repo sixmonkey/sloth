@@ -39,29 +39,24 @@ class Image {
 		if ( is_array( $url ) && isset( $url['url'] ) ) {
 			$url = $url['url'];
 		}
+
 		if ( is_int( $url ) ) {
-			$url = \wp_get_attachment_url( $url );
+			$this->post = Post::find( $url );
+			$url        = $this->post->url;
+		} else {
+			$this->post = Post::where( 'guid', 'like', str_replace( WP_CONTENT_URL, '%', $url ) )->first();
 		}
-		$this->sizes = $sizes;
 
-		global $wpdb;
+		if ( is_object( $this->post ) ) {
+			$this->alt = $this->post->meta->_wp_attachment_image_alt;
 
-		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE '%s';",
-			str_replace( WP_CONTENT_URL, '%', $url ) ) );
-		$att_id     = $attachment[0];
+			$this->url  = $url;
+			$this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
-		$this->post = Post::find( $att_id );
-
-		$this->alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
-
-		$upload_info       = wp_upload_dir();
-		$this->url         = $url;
-		$this->file        = realpath(
-			preg_replace( '#^' . $upload_info['baseurl'] . '#',
-				$upload_info['basedir'],
-				$this->url )
-		);
-		$this->isResizable = @is_array( getimagesize( $this->file ) );
+			$this->isResizable = @is_array( getimagesize( $this->file ) );
+		} else {
+			$this->isResizable = false;
+		}
 	}
 
 	public function getThemeSized( $size ) {
