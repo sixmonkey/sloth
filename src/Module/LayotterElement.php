@@ -82,16 +82,17 @@ class LayotterElement extends \Layotter_Element {
 	}
 
 	// @TODO: Should be in Module?
-	final protected function prepare_fields( $fields ) {
-		if ( Configure::read( 'layotter_prepare_fields' ) ) {
-			foreach ( $this->get_fields() as $field ) {
+	final protected function prepare_fields( $values ) {
+		$fields = $this->get_fields();
+		if ( Configure::read( 'layotter_prepare_fields' ) && $fields) {
+			foreach ( $fields as $field ) {
 				if ( $field['type'] == 'image' ) {
-					$v                        = new Image( $fields[ $field['name'] ] );
-					$fields[ $field['name'] ] = $v;
+					$v                        = new Image( $values[ $field['name'] ] );
+					$values[ $field['name'] ] = $v;
 				}
 			}
 		}
 
-		return $fields;
+		return $values;
 	}
 }
