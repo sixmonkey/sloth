@@ -30,7 +30,8 @@
     "nofutur3/tracy-gitpanel": "^0.9.4",
     "kdyby/html-validator-panel": "^1.1",
     "milo/vendor-versions": "^1.1",
-    "illuminate/validation": "^5.6"
+    "illuminate/validation": "^5.6",
+    "spatie/image": "^1.5"
   },
   "autoload": {
     "psr-4": {
