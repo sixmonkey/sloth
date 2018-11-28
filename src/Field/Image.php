@@ -24,6 +24,12 @@ class Image {
 		'crop'    => null,
 		'upscale' => true,
 	];
+	protected $attributeTranslations = [
+		'caption'     => 'post_excerpt',
+		'description' => 'post_content',
+		'title'       => 'post_title',
+		'alt'         => '_wp_attachment_image_alt',
+	];
 	public $sizes = [];
 
 	public function __construct( $url, $sizes = [] ) {
@@ -74,6 +80,10 @@ class Image {
 	}
 
 	public function resize( $options = [] ) {
+		return $this->_resize( $options );
+	}
+
+	public function _resize( $options = [] ) {
 
 		if ( ! $this->isResizable || $this->url == null ) {
 			return $this->url;
@@ -205,19 +215,29 @@ class Image {
 	 * @return mixed
 	 */
 	public function __get( $what ) {
-		$translate = [
-			'caption'     => 'post_excerpt',
-			'description' => 'post_content',
-			'title'       => 'post_title',
-			'alt'         => '_wp_attachment_image_alt',
-		];
-
-		if ( isset( $translate[ $what ] ) ) {
-			$what = $translate[ $what ];
+		if ( isset( $this->attributeTranslations[ $what ] ) ) {
+			$what = $this->attributeTranslations[ $what ];
 		}
 
 		$v = $this->post->{$what};
 
 		return $v;
 	}
+
+	/**
+	 * @param $what
+	 *
+	 * @return bool
+	 */
+	public function __isset($what) {
+
+		if ( isset( $this->attributeTranslations[ $what ] ) ) {
+			$what = $this->attributeTranslations[ $what ];
+		}
+
+		$v = $this->post->{$what};
+
+		return $v != null;
+	}
+
 }
