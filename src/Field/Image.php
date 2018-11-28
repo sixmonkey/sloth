@@ -199,7 +199,25 @@ class Image {
 		return (string) $this->url;
 	}
 
+	/**
+	 * @param $what
+	 *
+	 * @return mixed
+	 */
 	public function __get( $what ) {
-		return $this->post->{$what};
+		$translate = [
+			'caption'     => 'post_excerpt',
+			'description' => 'post_content',
+			'title'       => 'post_title',
+			'alt'         => '_wp_attachment_image_alt',
+		];
+
+		if ( isset( $translate[ $what ] ) ) {
+			$what = $translate[ $what ];
+		}
+
+		$v = $this->post->{$what};
+
+		return $v;
 	}
 }
