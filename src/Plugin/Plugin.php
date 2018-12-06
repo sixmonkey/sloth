@@ -166,7 +166,9 @@ class Plugin extends \Singleton {
 		/* @TODO: hacky pagination fix! */
 		add_action( 'pre_get_posts',
 			function ( $query ) {
-				$query->set( 'posts_per_page', - 1 );
+				if ( ! REST_REQUEST ) {
+					$query->set( 'posts_per_page', - 1 );
+				}
 
 				return $query;
 			} );
@@ -653,6 +655,29 @@ border-collapse: collapse;
 
 
 		}
+	}
+
+	/**
+	 * Checks if the current request is a WP REST API request.
+	 *
+	 * Case #1: After WP_REST_Request initialisation
+	 * Case #2: Support "plain" permalink settings
+	 * Case #3: URL Path begins with wp-json/ (your REST prefix)
+	 *          Also supports WP installations in subfolders
+	 *
+	 * @returns boolean
+	 * @author matzeeable
+	 */
+	function is_rest() {
+		$bIsRest = false;
+		if ( function_exists( 'rest_url' ) && ! empty( $_SERVER['REQUEST_URI'] ) ) {
+			$sRestUrlBase = get_rest_url( get_current_blog_id(), '/' );
+			$sRestPath    = trim( parse_url( $sRestUrlBase, PHP_URL_PATH ), '/' );
+			$sRequestPath = trim( $_SERVER['REQUEST_URI'], '/' );
+			$bIsRest      = ( strpos( $sRequestPath, $sRestPath ) === 0 );
+		}
+
+		return $bIsRest;
 	}
 
 }
