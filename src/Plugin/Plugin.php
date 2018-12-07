@@ -213,6 +213,15 @@ border-collapse: collapse;
      .layotter-preview tr:nth-child(even),  .layotter-preview tr:nth-child(even) {
      background: #eee;
      }
+     
+     td.media-icon img[src$=".svg"],
+     img[src$=".svg"].attachment-post-thumbnail { 
+     	width: 100% !important; height: auto !important; 
+     }
+     
+     .media-icon img[src$=".svg"] {
+     	width: 60px;
+     }
   </style>';
 			} );
 
@@ -227,6 +236,12 @@ border-collapse: collapse;
 		if ( getenv( 'FORCE_SSL' ) ) {
 			add_action( 'template_redirect', [ $this, 'force_ssl' ], 30 );
 		}
+
+		// Add svg to allowed mime types
+		add_filter('upload_mimes', function($mimes) {
+			$mimes['svg'] = 'image/svg+xml';
+			return $mimes;
+		});
 
 		/* @TODO add_filter( 'acf/fields/post_object/result',
 		 * function ( $title, $post, $field, $post_id ) {
