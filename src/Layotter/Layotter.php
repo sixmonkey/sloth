@@ -7,6 +7,9 @@
 
 namespace Sloth\Layotter;
 
+
+use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use \Brain\Hierarchy\QueryTemplate;
 use Sloth\Facades\Configure;
 use Sloth\Utility\Utility;
 use Sloth\Facades\View;
@@ -205,7 +208,8 @@ final class Layotter extends \Singleton {
 	 *
 	 */
 	public function custom_element_view( $element_html, $options = null, $col_options = null, $row_options = null, $post_options = null ) {
-		$view = View::make( 'Layotter.element' );
+
+		$view = View::make( $this->getCurrentView( 'element' ) );
 
 		return $view->with( [
 			'content'      => $element_html,
@@ -229,7 +233,8 @@ final class Layotter extends \Singleton {
 	 * @return string rendered view
 	 */
 	public function custom_column_view( $elements_html, $class, $options = null, $row_options = null, $post_options = null ) {
-		$view = View::make( 'Layotter.column' );
+
+		$view = View::make( $this->getCurrentView( 'column' ) );
 
 		return $view->with( [
 			'content'      => $elements_html,
@@ -250,6 +255,7 @@ final class Layotter extends \Singleton {
 	 * @return string
 	 */
 	public function custom_row_view( $cols_html, $options = [], $post_options = null ) {
+
 		foreach ( $options as &$option ) {
 			if ( is_array( $option ) && empty( $option ) ) {
 				$option = null;
@@ -259,7 +265,7 @@ final class Layotter extends \Singleton {
 			}
 		}
 
-		$view = View::make( 'Layotter.row' );
+		$view = View::make( $this->getCurrentView( 'row' ) );
 
 		return $view->with( [
 			'content'      => $cols_html,
@@ -268,8 +274,18 @@ final class Layotter extends \Singleton {
 		] )->render();
 	}
 
+
+	/**
+	 * renders entire post for layotter
+	 *
+	 * @param $rows_html
+	 * @param $options
+	 *
+	 * @return mixed
+	 */
 	public function custom_post_view( $rows_html, $options ) {
-		$view = View::make( 'Layotter.post' );
+
+		$view = View::make( $this->getCurrentView( 'post' ) );
 
 		return $view->with( [
 			'content' => $rows_html,
@@ -277,6 +293,35 @@ final class Layotter extends \Singleton {
 		] )->render();
 	}
 
+	/**
+	 *
+	 * @param $for
+	 *
+	 * @return string
+	 */
+	final protected function getCurrentView( $for ) {
+		$viewParts   = [ 'Layotter', $for ];
+		$layoutPaths = [];
+
+		foreach ( $GLOBALS['sloth']->container['view.finder']->getPaths() as $path ) {
+			$layoutPaths[] = $path . DS . implode( DS, $viewParts );
+		}
+
+		$finder = new FoldersTemplateFinder( $layoutPaths, [ 'twig' ] );
+
+		$queryTemplate = new QueryTemplate( $finder );
+		$template      = $queryTemplate->findTemplate();
+
+		$viewParts[] = basename( $template, '.twig' );
+		$viewParts   = array_filter( $viewParts );
+
+		return implode( '.', $viewParts );
+
+	}
+
+	/**
+	 * sets layotter related filters
+	 */
 	final public function addFilters() {
 		add_filter( 'layotter/enable_example_element', '__return_false' );
 		add_filter( 'layotter/enable_default_css', '__return_false' );
