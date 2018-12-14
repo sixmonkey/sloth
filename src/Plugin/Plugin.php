@@ -166,7 +166,7 @@ class Plugin extends \Singleton {
 		/* @TODO: hacky pagination fix! */
 		add_action( 'pre_get_posts',
 			function ( $query ) {
-				if ( ! defined('REST_REQUEST') ) {
+				if ( ! defined( 'REST_REQUEST' ) ) {
 					$query->set( 'posts_per_page', - 1 );
 				}
 
@@ -238,10 +238,12 @@ border-collapse: collapse;
 		}
 
 		// Add svg to allowed mime types
-		add_filter('upload_mimes', function($mimes) {
-			$mimes['svg'] = 'image/svg+xml';
-			return $mimes;
-		});
+		add_filter( 'upload_mimes',
+			function ( $mimes ) {
+				$mimes['svg'] = 'image/svg+xml';
+
+				return $mimes;
+			} );
 
 		/* @TODO add_filter( 'acf/fields/post_object/result',
 		 * function ( $title, $post, $field, $post_id ) {
@@ -324,14 +326,16 @@ border-collapse: collapse;
 		];
 
 		if ( is_single() || is_page() ) {
-			global $post;
+
+			$qo = get_queried_object();
+
 			if ( ! isset( $this->currentModel ) ) {
-				$a                  = call_user_func( [ $this->getModelClass( $post->post_type ), 'find' ],
-					[ $post->ID ] );
+				$a                  = call_user_func( [ $this->getModelClass( $qo->post_type ), 'find' ],
+					[ $qo->ID ] );
 				$this->currentModel = $a->first();
 			}
-			$data['post']             = $this->currentModel;
-			$data[ $post->post_type ] = $this->currentModel;
+			$data['post']           = $this->currentModel;
+			$data[ $qo->post_type ] = $this->currentModel;
 		}
 
 		if ( is_tax() ) {
