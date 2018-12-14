@@ -30,6 +30,9 @@ class MenuItem extends Model {
 		'category' => Taxonomy::class,
 	];
 
+	/**
+	 * @return array|mixed|\WP_Post|null
+	 */
 	private function get_wp_post_classes() {
 		$post = get_post( $this->ID );
 
@@ -43,6 +46,7 @@ class MenuItem extends Model {
 		$items = [ $post ];
 
 		\_wp_menu_item_classes_by_context( $items );
+
 		$post = reset( $items );
 
 		return $post;
@@ -82,6 +86,9 @@ class MenuItem extends Model {
 		);
 	}
 
+	/**
+	 * @return false|mixed|string|\WP_Error
+	 */
 	public function getUrlAttribute() {
 		switch ( $this->_menu_item_type ) {
 			case 'taxonomy':
@@ -101,8 +108,11 @@ class MenuItem extends Model {
 		}
 	}
 
+	/**
+	 * @return int|mixed|string|\WP_Error|null
+	 */
 	public function getTitleAttribute() {
-		if($this->post_title) {
+		if ( $this->post_title ) {
 			return $this->post_title;
 		}
 
@@ -127,28 +137,52 @@ class MenuItem extends Model {
 		}
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCurrentAttribute() {
 		$post = $this->get_wp_post_classes();
 
 		return $post->current;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCurrentItemParentAttribute() {
+		$context = $GLOBALS['sloth::plugin']->getContext();
+
+		if ( isset( $context['post'] ) ) {
+			$instance = $this->instance();
+			if ( $context['post']->parent_id == $instance->ID ) {
+				return true;
+			}
+		}
+
 		$post = $this->get_wp_post_classes();
 
 		return $post->current_item_parent;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCurrentItemAncestorAttribute() {
 		$post = $this->get_wp_post_classes();
 
 		return $post->current_item_ancestor;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getInCurrentPathAttribute() {
 		return $this->getCurrentAttribute() || $this->getCurrentItemParentAttribute();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getClassesAttribute() {
 		$post = $this->get_wp_post_classes();
 
