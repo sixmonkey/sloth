@@ -14,8 +14,15 @@ class Model extends Corcel {
 	public static $layotter = false;
 	public $register = true;
 
+	/**
+	 * Model constructor.
+	 *
+	 * @param array $attributes
+	 *
+	 * @throws \ReflectionException
+	 */
 	public function __construct( array $attributes = [] ) {
-		if ( $this->postType == null ) {
+		if ( $this->postType === null ) {
 			$reflection     = new \ReflectionClass( $this );
 			$this->postType = strtolower( $reflection->getShortName() );
 		}
@@ -30,6 +37,9 @@ class Model extends Corcel {
 		parent::__construct( $attributes );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function register() {
 
 		global $wp_post_types;
@@ -86,11 +96,17 @@ class Model extends Corcel {
 		return $this->postType;
 	}
 
+	/**
+	 * @return false|string
+	 */
 	public
 	function getPermalinkAttribute() {
 		return \get_permalink( $this->ID );
 	}
 
+	/**
+	 *
+	 */
 	final public function init() {
 		// fix post_type
 		$object = get_post_type_object( $this->postType );
