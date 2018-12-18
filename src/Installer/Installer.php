@@ -110,7 +110,7 @@ class Installer {
 		}
 	}
 
-	protected static function buildStyleCss() {
+	public static function buildStyleCss() {
 
 		$climate = new CLImate;
 		$data = [];
@@ -141,7 +141,7 @@ class Installer {
 		self::$dir_theme_new = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
 		if ( is_dir( $dir_theme_default ) ) {
 			rename( $dir_theme_default, self::$dir_theme_new );
-		self::buildStyleCss();
+			self::buildStyleCss();
 		}
 	}
 
