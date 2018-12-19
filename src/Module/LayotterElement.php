@@ -45,9 +45,8 @@ class LayotterElement extends \Layotter_Element {
 		$module_name = $class_name::$module;
 		$module      = new $module_name;
 		$module->set( $fields );
-		if ( ! is_admin() ) {
-			$module->render();
-		}
+
+		$module->render();
 	}
 
 	public function backend_view( $fields ) {
@@ -86,7 +85,7 @@ class LayotterElement extends \Layotter_Element {
 	// @TODO: Should be in Module?
 	final protected function prepare_fields( $values ) {
 		$fields = $this->get_fields();
-		if ( Configure::read( 'layotter_prepare_fields' ) && $fields) {
+		if ( Configure::read( 'layotter_prepare_fields' ) && $fields ) {
 			foreach ( $fields as $field ) {
 				if ( $field['type'] == 'image' ) {
 					$v                        = new Image( $values[ $field['name'] ] );
