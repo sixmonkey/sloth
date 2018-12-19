@@ -13,6 +13,7 @@ class Model extends Corcel {
 	protected $labels = [];
 	public static $layotter = false;
 	public $register = true;
+	public $post_content = '';
 
 	/**
 	 * Model constructor.
@@ -121,12 +122,14 @@ class Model extends Corcel {
 	 * @return string
 	 */
 	public function getContentAttribute() {
-		$post_content = $this->getAttribute( 'post_content' );
-		if ( ! is_null( $post_content ) ) {
-			$post_content = \apply_filters( 'the_content', $post_content );
+		if ( $this->post_content == '' ) {
+			$post_content = $this->getAttribute( 'post_content' );
+			if ( ! is_null( $post_content ) ) {
+				$this->post_content = \apply_filters( 'the_content', $post_content );
+			}
 		}
 
-		return (string) $post_content;
+		return (string) $this->post_content;
 	}
 
 	/**
