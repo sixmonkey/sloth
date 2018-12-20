@@ -16,6 +16,9 @@ class Model extends Corcel {
 	public $post_content = ' ';
 	private $icon;
 
+	/**
+	 * @var array
+	 */
 	protected $attributes = [
 		'post_content'          => '',
 		'post_title'            => '',
@@ -23,6 +26,21 @@ class Model extends Corcel {
 		'to_ping'               => false,
 		'pinged'                => false,
 		'post_content_filtered' => '',
+	];
+
+	/**
+	 * @var array
+	 */
+	protected $fillable = [
+		'post_content',
+		'post_title',
+		'post_excerpt',
+		'post_type',
+		'to_ping',
+		'pinged',
+		'post_content_filtered',
+		'post_name',
+		'guid',
 	];
 
 
