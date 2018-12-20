@@ -10,14 +10,20 @@ namespace Sloth\Field;
 
 use Sloth\Facades\Configure;
 use Sloth\Model\Post;
+use Sloth\Model\Job;
 
 class Image {
-	protected $type;
 	public $url;
-	protected $file;
-	protected $isResizable = true;
 	public $alt;
 	public $post;
+	public $sizes = [];
+
+	protected $postID;
+	protected $type;
+	protected $file;
+	protected $isResizable = true;
+	protected $metaData;
+
 	protected $defaults = [
 		'width'   => null,
 		'height'  => null,
@@ -30,7 +36,6 @@ class Image {
 		'title'       => 'post_title',
 		'alt'         => '_wp_attachment_image_alt',
 	];
-	public $sizes = [];
 
 	public function __construct( $url, $sizes = [] ) {
 
@@ -56,6 +61,9 @@ class Image {
 		if ( is_object( $this->post ) ) {
 			$this->alt = $this->post->meta->_wp_attachment_image_alt;
 
+			$this->postID = $this->post->ID;
+			$this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
+
 			$this->url  = $url;
 			$this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
@@ -80,7 +88,42 @@ class Image {
 	}
 
 	public function resize( $options = [] ) {
-		return $this->_resize( $options );
+		/* $job = Job::create( [
+			'post_content' => json_encode( $options ),
+			'guid'         => $this->getFilename( $options ),
+		] ); */
+
+
+
+		if ( ! $this->isResizable || $this->url == null ) {
+			return $this->url;
+		}
+
+		if ( ! is_array( $options ) ) {
+			$args    = func_get_args();
+			$options = array_combine(
+				array_slice( array_keys( $this->defaults ), 0, count( $args ) ),
+				array_slice( $args, 0, count( $this->defaults ) )
+			);
+		}
+		$options     = array_merge( $this->defaults, $options );
+		$upload_info = wp_upload_dir();
+		$upload_dir  = realpath( $upload_info['basedir'] );
+		$upload_url  = $upload_info['baseurl'];
+
+
+		if ( ! file_exists( $this->file ) or ! getimagesize( $this->file ) ) {
+			throw new \Exception( 'Image file does not exist (or is not an image): ' . $this->file );
+		}
+
+#		return $this->_resize( $options );
+	}
+
+	protected function getFilename( $options = [] ) {
+		ksort( $options );
+		debug( $options );
+
+		return '';
 	}
 
 	public function _resize( $options = [] ) {
@@ -229,7 +272,7 @@ class Image {
 	 *
 	 * @return bool
 	 */
-	public function __isset($what) {
+	public function __isset( $what ) {
 
 		if ( isset( $this->attributeTranslations[ $what ] ) ) {
 			$what = $this->attributeTranslations[ $what ];
