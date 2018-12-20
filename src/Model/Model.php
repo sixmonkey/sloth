@@ -41,6 +41,7 @@ class Model extends Corcel {
 		'post_content_filtered',
 		'post_name',
 		'guid',
+		'post_parent'
 	];
 
 
