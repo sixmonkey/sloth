@@ -39,6 +39,12 @@ class Image {
 		'alt'         => '_wp_attachment_image_alt',
 	];
 
+	/**
+	 * Image constructor.
+	 *
+	 * @param       $url
+	 * @param array $sizes
+	 */
 	public function __construct( $url, $sizes = [] ) {
 
 		$this->sizes = $sizes;
@@ -75,6 +81,11 @@ class Image {
 		}
 	}
 
+	/**
+	 * @param $size
+	 *
+	 * @return array|mixed|string
+	 */
 	public function getThemeSized( $size ) {
 
 		if ( isset( $this->sizes[ $size ] ) ) {
@@ -89,6 +100,11 @@ class Image {
 		return $this->resize();
 	}
 
+	/**
+	 * @param array $options
+	 *
+	 * @return array|mixed|string
+	 */
 	public function resize( $options = [] ) {
 		if ( ! $this->isResizable || $this->url == null ) {
 			return $this->url;
@@ -107,11 +123,11 @@ class Image {
 		$sheerFileName = $this->getFilename( $options );
 
 		SlothMediaVersion::updateOrCreate( [
-			'post_content' => json_encode( $options ),
+			'post_excerpt' => json_encode( $options ),
 			'guid'         => $this->getUrl( $sheerFileName, false ),
 			'post_parent'  => $this->post->ID,
 		] );
-
+/*
 		$img = SpatieImage::load( $this->file );
 
 		if ( $options['crop'] === true ) {
@@ -135,10 +151,15 @@ class Image {
 		}
 
 		$img->save( $this->getAbsoluteFilename( $sheerFileName ) );
-
+*/
 		return $this->getUrl( $sheerFileName );
 	}
 
+	/**
+	 * @param array $options
+	 *
+	 * @return mixed|string
+	 */
 	protected function getFilename( $options = [] ) {
 		$upload_info = wp_upload_dir();
 		$upload_dir  = realpath( $upload_info['basedir'] );
@@ -173,6 +194,11 @@ class Image {
 		return $dst_rel_path;
 	}
 
+	/**
+	 * @param $filename
+	 *
+	 * @return string
+	 */
 	protected function getAbsoluteFilename( $filename ) {
 		$upload_info = wp_upload_dir();
 		$upload_dir  = realpath( $upload_info['basedir'] );
@@ -180,6 +206,12 @@ class Image {
 		return $upload_dir . $filename;
 	}
 
+	/**
+	 * @param      $filename
+	 * @param bool $full
+	 *
+	 * @return string
+	 */
 	protected function getUrl( $filename, $full = true ) {
 		$upload_info = wp_upload_dir();
 		$upload_url  = $upload_info['baseurl'] . $filename;
@@ -193,6 +225,11 @@ class Image {
 		return $upload_url;
 	}
 
+	/**
+	 * @param $options
+	 *
+	 * @return array
+	 */
 	protected function processOptions( $options ) {
 		# keep downward compatibility
 		unset( $options['upscale'] );
