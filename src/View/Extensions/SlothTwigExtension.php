@@ -199,7 +199,7 @@ class SlothTwigExtension extends Twig_Extension {
 					return translate_nooped_plural( $nooped_plural, $count, $domain );
 				} ),
 			new Twig_SimpleFunction( 'pll_e', 'pll_e' ),
-			new Twig_SimpleFunction( 'pll_', 'pll_' ),
+			new Twig_SimpleFunction( 'pll__', 'pll__' ),
 		];
 
 
