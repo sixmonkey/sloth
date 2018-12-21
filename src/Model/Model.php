@@ -13,7 +13,37 @@ class Model extends Corcel {
 	protected $labels = [];
 	public static $layotter = false;
 	public $register = true;
-	public $post_content = '';
+	public $post_content = ' ';
+	protected $icon;
+
+	/**
+	 * @var array
+	 */
+	protected $attributes = [
+		'post_content'          => '',
+		'post_title'            => '',
+		'post_excerpt'          => '',
+		'to_ping'               => false,
+		'pinged'                => false,
+		'post_content_filtered' => '',
+	];
+
+	/**
+	 * @var array
+	 */
+	protected $fillable = [
+		'post_content',
+		'post_title',
+		'post_excerpt',
+		'post_type',
+		'to_ping',
+		'pinged',
+		'post_content_filtered',
+		'post_name',
+		'guid',
+		'post_parent',
+	];
+
 
 	/**
 	 * Model constructor.
@@ -26,9 +56,6 @@ class Model extends Corcel {
 		if ( $this->postType === null ) {
 			$reflection     = new \ReflectionClass( $this );
 			$this->postType = strtolower( $reflection->getShortName() );
-		}
-		if ( $this->icon == null ) {
-			$this->icon = 'admin-post';
 		}
 		if ( is_array( $this->labels ) && count( $this->labels ) ) {
 			foreach ( $this->labels as &$label ) {
