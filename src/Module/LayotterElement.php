@@ -85,7 +85,7 @@ class LayotterElement extends \Layotter_Element {
 	// @TODO: Should be in Module?
 	final protected function prepare_fields( $values ) {
 		$fields = $this->get_fields();
-		if ( Configure::read( 'layotter_prepare_fields' ) && $fields ) {
+		if ( Configure::read( 'layotter_prepare_fields' ) === true && $fields ) {
 			foreach ( $fields as $field ) {
 				if ( $field['type'] == 'image' ) {
 					$v                        = new Image( $values[ $field['name'] ] );
