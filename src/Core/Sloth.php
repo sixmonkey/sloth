@@ -2,6 +2,7 @@
 
 namespace Sloth\Core;
 
+use Sloth\Debugger\SlothBarPanel;
 use Sloth\Route\Route;
 use Tracy\Debugger;
 use Tracy\Dumper;
@@ -17,13 +18,16 @@ class Sloth extends \Singleton {
 	 * @var array
 	 */
 	private $class_aliases = [
-		'Route' => '\Sloth\Facades\Route',
-		'View'  => '\Sloth\Facades\View',
+		'Route'     => '\Sloth\Facades\Route',
+		'View'      => '\Sloth\Facades\View',
+		'Configure' => '\Sloth\Facades\Configure',
+		'Validator' => '\Sloth\Facades\Validation',
 	];
 
 	private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
 
 	public function __construct() {
+		@include( DIR_ROOT . DS . 'develop.config.php' );
 		/**
 		 * enable debugging where needed
 		 */
@@ -68,6 +72,10 @@ class Sloth extends \Singleton {
 			\Sloth\View\ViewServiceProvider::class,
 			\Sloth\Module\ModuleServiceProvider::class,
 			\Sloth\Pagination\PaginationServiceProvider::class,
+			\Sloth\Layotter\LayotterServiceProvider::class,
+			\Sloth\Configure\ConfigureServiceProvider::class,
+			\Sloth\Request\RequestServiceProvider::class,
+			\Sloth\Validation\ValidationServiceProvider::class,
 		];
 
 		foreach ( $providers as $provider ) {
@@ -101,7 +109,9 @@ class Sloth extends \Singleton {
 	 */
 	private function setAliases() {
 		foreach ( $this->class_aliases as $alias => $class ) {
-			class_alias( $class, $alias );
+			if ( ! class_exists( $alias ) ) {
+				class_alias( $class, $alias );
+			}
 		}
 	}
 
@@ -109,16 +119,22 @@ class Sloth extends \Singleton {
 	 * Set Debugging
 	 */
 	private function setDebugging() {
-		$mode                   = WP_DEBUG === true ? Debugger::DEVELOPMENT : \Tracy\Debugger::PRODUCTION;
+		$mode                   = WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
 		Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
 		$logDirectoy            = DIR_ROOT . DS . 'logs';
 		if ( ! is_dir( $logDirectoy ) ) {
 			mkdir( $logDirectoy );
 		}
+		Debugger::getBar()->addPanel( new \Nofutur3\GitPanel\Diagnostics\Panel() );
+		Debugger::getBar()->addPanel( new \Milo\VendorVersions\Panel );
+		Debugger::getBar()->addPanel( new SlothBarPanel() );
 		/* TODO: could be nicer? */
 		#if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
 		Debugger::enable( $mode, DIR_ROOT . DS . 'logs' );
 		#}
+		if ( getenv( 'SLOTH_DEBUGGER_EDITOR' ) ) {
+			Debugger::$editor = getenv( 'SLOTH_DEBUGGER_EDITOR' );
+		}
 	}
 
 	private function connectCorcel() {

@@ -1,0 +1,22 @@
+<h1>Sloth</h1>
+<table>
+    <tr>
+        <th rowspan="{{ templates|length }}">
+            Template-Hierarchy
+        </th>
+        {% for template in templates %}
+        {% if not loop.first %}
+    <tr>
+        {% endif %}
+        {% if template == currentTemplate %}
+            <td><strong>{{ template }}</strong></td>
+        {% else %}
+            <td>{{ template }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    <tr>
+        <th>Current Template</th>
+        <td><strong>{{ currentTemplate }}</strong></td>
+    </tr>
+</table>

@@ -3,6 +3,7 @@
 namespace Sloth\View\Extensions;
 
 use Sloth\Core\Application;
+use Sloth\Facades\Configure;
 use Twig_SimpleTest;
 use Twig_SimpleFilter;
 use Twig_SimpleFunction;
@@ -54,7 +55,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 * Linked to the global call only...
 	 *
 	 * @param string $name
-	 * @param array $arguments
+	 * @param array  $arguments
 	 *
 	 * @return mixed
 	 */
@@ -69,7 +70,7 @@ class SlothTwigExtension extends Twig_Extension {
 	 * @return array|\Twig_SimpleFunction[]
 	 */
 	public function getFilters() {
-		return [
+		$filters = [
 			new Twig_SimpleFilter( 'hyphenate', function ( $input ) {
 				$input = ' ' . $input;
 				$o     = new h\Options();
@@ -90,8 +91,22 @@ class SlothTwigExtension extends Twig_Extension {
 			new Twig_SimpleFilter( 'print_r', function ( $input ) {
 				return debug( $input );
 			} ),
+			new Twig_SimpleFilter( 'tel', function ( $phone ) {
+				return 'tel:' . preg_replace( "/[^0-9\+]/", "", $phone );
+			} ),
+			new Twig_SimpleFilter( 'sanitize',
+				function ( $string ) {
+					return sanitize_title( $string );
+				} ),
 		];
 
+
+		if ( Configure::read( 'theme.twig.filters' ) ) {
+			$theme_filters = Configure::read( 'theme.twig.filters' );
+			$filters       = array_merge( $filters, $theme_filters );
+		}
+
+		return $filters;
 	}
 
 	/**
@@ -100,10 +115,10 @@ class SlothTwigExtension extends Twig_Extension {
 	 * @return array|\Twig_SimpleFunction[]
 	 */
 	public function getFunctions() {
-		return [
+		$functions = [
 			new Twig_SimpleFunction( 'module',
-				function ( $name ) {
-					return $name;
+				function ( $name, $values = [], $options = [] ) {
+					$GLOBALS['sloth']->container->callModule( $name, $values, $options );
 				} ),
 			/*
 			 * WordPress theme functions.
@@ -124,6 +139,9 @@ class SlothTwigExtension extends Twig_Extension {
 			} ),
 			new Twig_SimpleFunction( 'wp_trim_words', function ( $text, $num_words = 55, $more = null ) {
 				return wp_trim_words( $text, $num_words, $more );
+			} ),
+			new Twig_SimpleFunction( 'get_field', function ( $field_name, $post = null ) {
+				return get_field( $field_name, $post );
 			} ),
 			/*
 			 * Use this to call any core, WordPress or user defined functions.
@@ -181,8 +199,16 @@ class SlothTwigExtension extends Twig_Extension {
 					return translate_nooped_plural( $nooped_plural, $count, $domain );
 				} ),
 			new Twig_SimpleFunction( 'pll_e', 'pll_e' ),
-			new Twig_SimpleFunction( 'pll_', 'pll_' ),
+			new Twig_SimpleFunction( 'pll__', 'pll__' ),
 		];
+
+
+		if ( Configure::read( 'theme.twig.functions' ) ) {
+			$theme_functions = Configure::read( 'theme.twig.functions' );
+			$functions       = array_merge( $functions, $theme_functions );
+		}
+
+		return $functions;
 	}
 
 	public function initRuntime( \Twig_Environment $environment ) {

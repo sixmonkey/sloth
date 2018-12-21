@@ -24,8 +24,8 @@ class PaginationServiceProvider extends ServiceProvider {
 			return $GLOBALS['sloth']->container['view'];
 		} );
 
-		\Illuminate\Pagination\AbstractPaginator::$defaultView       = 'pagination.default';
-		\Illuminate\Pagination\AbstractPaginator::$defaultSimpleView = 'pagination.default';
+		\Illuminate\Pagination\AbstractPaginator::$defaultView       = 'Pagination.default';
+		\Illuminate\Pagination\AbstractPaginator::$defaultSimpleView = 'Pagination.default';
 
 		\Illuminate\Pagination\AbstractPaginator::currentPathResolver( function () {
 			return '';
