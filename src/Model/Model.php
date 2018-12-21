@@ -14,7 +14,7 @@ class Model extends Corcel {
 	public static $layotter = false;
 	public $register = true;
 	public $post_content = ' ';
-	private $icon;
+	protected $icon;
 
 	/**
 	 * @var array
@@ -41,7 +41,7 @@ class Model extends Corcel {
 		'post_content_filtered',
 		'post_name',
 		'guid',
-		'post_parent'
+		'post_parent',
 	];
 
 
@@ -56,9 +56,6 @@ class Model extends Corcel {
 		if ( $this->postType === null ) {
 			$reflection     = new \ReflectionClass( $this );
 			$this->postType = strtolower( $reflection->getShortName() );
-		}
-		if ( $this->icon == null ) {
-			$this->icon = 'admin-post';
 		}
 		if ( is_array( $this->labels ) && count( $this->labels ) ) {
 			foreach ( $this->labels as &$label ) {
