@@ -13,6 +13,7 @@ use Sloth\Core\Sloth;
 
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use \Brain\Hierarchy\QueryTemplate;
+use Sloth\Media\Version;
 use Sloth\Utility\Utility;
 
 class Plugin extends \Singleton {
@@ -414,7 +415,14 @@ border-collapse: collapse;
 
 		$view_name = basename( $template, '.twig' );
 
-		if ( $this->isDevEnv() ) {
+
+
+		if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
+			[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
+			$mv = new Version( $_SERVER['REQUEST_URI'] );
+		}
+
+	/*	if ( $this->isDevEnv() ) {
 			if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
 				[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
 
@@ -430,7 +438,7 @@ border-collapse: collapse;
 			if ( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ) == 'svg' ) {
 				header( 'Location: http://placeholder.pics/svg/300/DEDEDE/555555/SVG' );
 			}
-		}
+		} */
 
 		$view = View::make( 'Layout.' . $view_name );
 

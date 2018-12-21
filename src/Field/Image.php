@@ -10,14 +10,22 @@ namespace Sloth\Field;
 
 use Sloth\Facades\Configure;
 use Sloth\Model\Post;
+use Sloth\Model\SlothMediaVersion;
+use Spatie\Image\Image as SpatieImage;
+use Spatie\Image\Manipulations;
 
 class Image {
-	protected $type;
 	public $url;
-	protected $file;
-	protected $isResizable = true;
 	public $alt;
 	public $post;
+	public $sizes = [];
+
+	protected $postID;
+	protected $type;
+	protected $file;
+	protected $isResizable = true;
+	protected $metaData;
+
 	protected $defaults = [
 		'width'   => null,
 		'height'  => null,
@@ -30,8 +38,13 @@ class Image {
 		'title'       => 'post_title',
 		'alt'         => '_wp_attachment_image_alt',
 	];
-	public $sizes = [];
 
+	/**
+	 * Image constructor.
+	 *
+	 * @param       $url
+	 * @param array $sizes
+	 */
 	public function __construct( $url, $sizes = [] ) {
 
 		$this->sizes = $sizes;
@@ -56,6 +69,9 @@ class Image {
 		if ( is_object( $this->post ) ) {
 			$this->alt = $this->post->meta->_wp_attachment_image_alt;
 
+			$this->postID   = $this->post->ID;
+			$this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
+
 			$this->url  = $url;
 			$this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
@@ -65,6 +81,11 @@ class Image {
 		}
 	}
 
+	/**
+	 * @param $size
+	 *
+	 * @return array|mixed|string
+	 */
 	public function getThemeSized( $size ) {
 
 		if ( isset( $this->sizes[ $size ] ) ) {
@@ -79,12 +100,12 @@ class Image {
 		return $this->resize();
 	}
 
+	/**
+	 * @param array $options
+	 *
+	 * @return array|mixed|string
+	 */
 	public function resize( $options = [] ) {
-		return $this->_resize( $options );
-	}
-
-	public function _resize( $options = [] ) {
-
 		if ( ! $this->isResizable || $this->url == null ) {
 			return $this->url;
 		}
@@ -96,113 +117,135 @@ class Image {
 				array_slice( $args, 0, count( $this->defaults ) )
 			);
 		}
-		$options     = array_merge( $this->defaults, $options );
+
+		$options = $this->processOptions( $options );
+
+		$sheerFileName = $this->getFilename( $options );
+
+		SlothMediaVersion::updateOrCreate( [
+			'post_excerpt' => json_encode( $options ),
+			'guid'         => $this->getUrl( $sheerFileName, false ),
+			'post_parent'  => $this->post->ID,
+		] );
+/*
+		$img = SpatieImage::load( $this->file );
+
+		if ( $options['crop'] === true ) {
+			$options['crop'] = [
+				Manipulations::CROP_CENTER,
+				$options['width'],
+				$options['height'],
+			];
+			unset( $options['width'], $options['height'] );
+		}
+		unset( $options['upscale'] );
+
+
+		foreach ( $options as $k => $option ) {
+			if ( is_callable( [ $img, $k ] ) ) {
+				if ( ! is_array( $option ) ) {
+					$option = [ $option ];
+				}
+				call_user_func_array( [ $img, $k ], $option );
+			}
+		}
+
+		$img->save( $this->getAbsoluteFilename( $sheerFileName ) );
+*/
+		return $this->getUrl( $sheerFileName );
+	}
+
+	/**
+	 * @param array $options
+	 *
+	 * @return mixed|string
+	 */
+	protected function getFilename( $options = [] ) {
 		$upload_info = wp_upload_dir();
 		$upload_dir  = realpath( $upload_info['basedir'] );
-		$upload_url  = $upload_info['baseurl'];
 
+		$suffix = "{$options['width']}x{$options['height']}";
 
-		if ( ! file_exists( $this->file ) or ! getimagesize( $this->file ) ) {
-			throw new \Exception( 'Image file does not exist (or is not an image): ' . $this->file );
+		unset( $options['width'], $options['height'] );
+
+		$options_named = [];
+		foreach ( $options as $method => $values ) {
+			if ( is_array( $values ) ) {
+				$values = implode( '-', $values );
+			}
+			$name = $method;
+			if ( ! is_bool( $values ) ) {
+				$name .= '-' . $values;
+			}
+			$options_named[] = $name;
 		}
+		$options_named[] = $suffix;
+
+		$suffix = implode( '-', $options_named );
 
 		// Get image info.
 		$info = pathinfo( $this->file );
 		$ext  = $info['extension'];
-		list( $orig_w, $orig_h ) = getimagesize( $this->file );
 
-		if ( true === $options['upscale'] ) {
-			add_filter( 'image_resize_dimensions', [ $this, 'upscale' ], 10, 6 );
-		}
-
-
-		// Get image size after cropping.
-		$dims  = image_resize_dimensions( $orig_w, $orig_h, $options['width'], $options['height'], $options['crop'] );
-		$dst_w = $dims[4];
-		$dst_h = $dims[5];
-
-
-		// Use this to check if cropped image already exists, so we can return that instead.
-		$suffix       = "{$dst_w}x{$dst_h}";
 		$dst_rel_path = str_replace( '.' . $ext, '', $this->file );
 		$dst_rel_path = str_replace( $upload_dir, '', $dst_rel_path );
-		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}.{$ext}";
+		$dst_rel_path = "{$dst_rel_path}-{$suffix}.{$ext}";
 
-		if ( ! $dims || ( true == $options['crop'] && false == $options['upscale'] && ( $dst_w < $options['width'] || $dst_h < $options['height'] ) ) ) {
-			// Can't resize, so return false saying that the action to do could not be processed as planned.
-			throw new \Exception( 'Unable to resize image because image_resize_dimensions() failed' );
-		} else if ( file_exists( $destfilename ) && getimagesize( $destfilename ) ) {
-			$img_url = "{$upload_url}{$dst_rel_path}-{$suffix}.{$ext}";
-		} else {
-
-			$editor = \wp_get_image_editor( $this->file );
-
-			if ( is_wp_error( $editor ) || is_wp_error( $editor->resize( $options['width'],
-					$options['height'],
-					$options['crop'] ) ) ) {
-				throw new \Exception( 'Unable to get WP_Image_Editor: ' .
-				                      $editor->get_error_message() . ' (is GD or ImageMagick installed?)' );
-			}
-
-			$resized_file = $editor->save();
-
-			if ( ! is_wp_error( $resized_file ) ) {
-				$resized_rel_path = str_replace( $upload_dir, '', $resized_file['path'] );
-				$img_url          = $upload_url . $resized_rel_path;
-			} else {
-				throw new Aq_\Exception( 'Unable to save resized image file: ' . $editor->get_error_message() );
-			}
-
-		}
-
-		// Okay, leave the ship.
-		if ( true === $options['upscale'] ) {
-			remove_filter( 'image_resize_dimensions', [ $this, 'upscale' ] );
-		}
-
-
-		return $img_url;
+		return $dst_rel_path;
 	}
 
 	/**
-	 * Callback to overwrite WP computing of thumbnail measures
+	 * @param $filename
+	 *
+	 * @return string
 	 */
-	function upscale( $default, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
-		if ( ! $crop ) {
-			return null;
-		} // Let the wordpress default function handle this.
+	protected function getAbsoluteFilename( $filename ) {
+		$upload_info = wp_upload_dir();
+		$upload_dir  = realpath( $upload_info['basedir'] );
 
-		// Here is the point we allow to use larger image size than the original one.
-		$aspect_ratio = $orig_w / $orig_h;
-		$new_w        = $dest_w;
-		$new_h        = $dest_h;
+		return $upload_dir . $filename;
+	}
 
-		if ( ! $new_w ) {
-			$new_w = intval( $new_h * $aspect_ratio );
+	/**
+	 * @param      $filename
+	 * @param bool $full
+	 *
+	 * @return string
+	 */
+	protected function getUrl( $filename, $full = true ) {
+		$upload_info = wp_upload_dir();
+		$upload_url  = $upload_info['baseurl'] . $filename;
+
+		if ( ! $full ) {
+			$pu = parse_url( $upload_url );
+
+			return $pu['path'];
 		}
 
-		if ( ! $new_h ) {
-			$new_h = intval( $new_w / $aspect_ratio );
+		return $upload_url;
+	}
+
+	/**
+	 * @param $options
+	 *
+	 * @return array
+	 */
+	protected function processOptions( $options ) {
+		# keep downward compatibility
+		unset( $options['upscale'] );
+
+		$options = array_merge( $this->defaults, $options );
+		ksort( $options );
+		$output = [];
+		foreach ( $options as $method => $values ) {
+			if ( is_numeric( $method ) && is_string( $values ) ) {
+				$method = $values;
+				$values = true;
+			}
+			$output[ $method ] = $values;
 		}
 
-		$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
-
-		$crop_w = round( $new_w / $size_ratio );
-		$crop_h = round( $new_h / $size_ratio );
-
-		$s_x = floor( ( $orig_w - $crop_w ) / 2 );
-		$s_y = floor( ( $orig_h - $crop_h ) / 2 );
-
-		return [
-			0,
-			0,
-			(int) $s_x,
-			(int) $s_y,
-			(int) $new_w,
-			(int) $new_h,
-			(int) $crop_w,
-			(int) $crop_h,
-		];
+		return $output;
 	}
 
 	public function __toString() {
@@ -229,7 +272,7 @@ class Image {
 	 *
 	 * @return bool
 	 */
-	public function __isset($what) {
+	public function __isset( $what ) {
 
 		if ( isset( $this->attributeTranslations[ $what ] ) ) {
 			$what = $this->attributeTranslations[ $what ];

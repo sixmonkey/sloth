@@ -62,6 +62,11 @@ class Model extends Corcel {
 				$label = __( $label );
 			}
 		}
+		$this->setRawAttributes( array_merge( $this->attributes,
+			[
+				'post_type' => $this->getPostType(),
+			] ),
+			true );
 		parent::__construct( $attributes );
 	}
 
