@@ -4,6 +4,7 @@ namespace Sloth\Plugin;
 
 use Corcel\Model\Menu;
 use Corcel\Model\User;
+use Sloth\ACF\ACFHelper;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
@@ -72,8 +73,12 @@ class Plugin extends \Singleton {
 		if ( file_exists( $theme_config ) ) {
 			include_once $theme_config;
 		}
-
+		$this->setDefaultConfig();
 		$this->addFilters();
+	}
+
+	protected function setDefaultConfig() {
+		Configure::write( 'layotter_prepare_fields', 2 );
 	}
 
 	private function loadControllers() {
@@ -163,6 +168,7 @@ class Plugin extends \Singleton {
 	}
 
 	private function addFilters() {
+		ACFHelper::getInstance();
 
 		/* @TODO: hacky pagination fix! */
 		add_action( 'pre_get_posts',
@@ -416,29 +422,28 @@ border-collapse: collapse;
 		$view_name = basename( $template, '.twig' );
 
 
-
 		if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
 			[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
 			$mv = new Version( $_SERVER['REQUEST_URI'] );
 		}
 
-	/*	if ( $this->isDevEnv() ) {
-			if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
-				[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
+		/*	if ( $this->isDevEnv() ) {
+				if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
+					[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
 
-				preg_match( '/(.+)-([0-9]+)x([0-9]+)\.(jpg|jpeg|png|gif)$/', $_SERVER['REQUEST_URI'], $matches );
+					preg_match( '/(.+)-([0-9]+)x([0-9]+)\.(jpg|jpeg|png|gif)$/', $_SERVER['REQUEST_URI'], $matches );
 
 
-				$w = isset( $matches[2] ) ? $matches[2] : 1024;
-				$h = isset( $matches[3] ) ? $matches[3] : 768;
+					$w = isset( $matches[2] ) ? $matches[2] : 1024;
+					$h = isset( $matches[3] ) ? $matches[3] : 768;
 
-				header( 'Location: https://placebeard.it/' . $w . '/' . $h );
-			}
+					header( 'Location: https://placebeard.it/' . $w . '/' . $h );
+				}
 
-			if ( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ) == 'svg' ) {
-				header( 'Location: http://placeholder.pics/svg/300/DEDEDE/555555/SVG' );
-			}
-		} */
+				if ( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ) == 'svg' ) {
+					header( 'Location: http://placeholder.pics/svg/300/DEDEDE/555555/SVG' );
+				}
+			} */
 
 		$view = View::make( 'Layout.' . $view_name );
 

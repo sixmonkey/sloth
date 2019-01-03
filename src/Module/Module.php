@@ -140,4 +140,8 @@ class Module {
 
 		return $value;
 	}
+
+	final protected function debugViewVars() {
+		debug( $this->viewVars );
+	}
 }

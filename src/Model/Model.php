@@ -15,6 +15,7 @@ class Model extends Corcel {
 	public $register = true;
 	public $post_content = ' ';
 	protected $icon;
+	protected $filtered = false;
 
 	/**
 	 * @var array
@@ -154,11 +155,12 @@ class Model extends Corcel {
 	 * @return string
 	 */
 	public function getContentAttribute() {
-		if ( $this->post_content == '' ) {
+		if ( ! $this->filtered ) {
 			$post_content = $this->getAttribute( 'post_content' );
 			if ( ! is_null( $post_content ) ) {
 				$this->post_content = \apply_filters( 'the_content', $post_content );
 			}
+			$this->filtered = true;
 		}
 
 		return (string) $this->post_content;
