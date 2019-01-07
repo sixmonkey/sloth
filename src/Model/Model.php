@@ -139,9 +139,8 @@ class Model extends Corcel {
 	}
 
 
-
 	/**
-	 * @return Sloth\Field\Image
+	 * @return \Sloth\Field\Image
 	 */
 	public function getPostThumbnailAttribute() {
 		return new Image( (int) $this->meta->_thumbnail_id );
