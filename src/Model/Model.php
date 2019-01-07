@@ -138,6 +138,15 @@ class Model extends Corcel {
 		return \get_permalink( $this->ID );
 	}
 
+
+
+	/**
+	 * @return Sloth\Field\Image
+	 */
+	public function getPostThumbnailAttribute() {
+		return new Image( (int) $this->meta->_thumbnail_id );
+	}
+
 	/**
 	 *
 	 */
