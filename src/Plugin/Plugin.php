@@ -643,8 +643,16 @@ border-collapse: collapse;
 		return isset( $this->models[ $key ] ) ? $this->models[ $key ] : '\Sloth\Model\Post';
 	}
 
+	public function getAllModels() {
+		return $this->models;
+	}
+
 	public function getTaxonomyClass( $key = '' ) {
 		return isset( $this->taxonomies[ $key ] ) ? $this->taxonomies[ $key ] : '\Sloth\Model\Taxonomy';
+	}
+
+	public function getAllTaxonomies() {
+		return $this->taxonomies;
 	}
 
 	public function getCurrentTemplate() {

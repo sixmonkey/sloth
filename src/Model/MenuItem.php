@@ -31,6 +31,23 @@ class MenuItem extends Model {
 	];
 
 	/**
+	 * MenuItem constructor.
+	 *
+	 * @param array $attributes
+	 *
+	 * @throws \ReflectionException
+	 */
+	public function __construct( array $attributes = [] ) {
+		parent::__construct( $attributes );
+
+		$this->instanceRelations = array_merge( $GLOBALS['sloth::plugin']->getAllModels(),
+			$this->instanceRelations );
+
+		$this->instanceRelations = array_merge( $GLOBALS['sloth::plugin']->getAllTaxonomies(),
+			$this->instanceRelations );
+	}
+
+	/**
 	 * @return array|mixed|\WP_Post|null
 	 */
 	private function get_wp_post_classes() {
