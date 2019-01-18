@@ -61,7 +61,7 @@ class Image {
 
 		if ( is_int( $url ) ) {
 			$this->post = Post::find( $url );
-            $url = is_object($this->post) ? $this->post->url : $this->post['url'];
+			$url = is_object($this->post) ? $this->post->url : $this->post['url'];
 		} else {
 			$this->post = Post::where( 'guid', 'like', str_replace( WP_CONTENT_URL, '%', $url ) )->first();
 		}

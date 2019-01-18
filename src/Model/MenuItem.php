@@ -171,7 +171,7 @@ class MenuItem extends Model {
 
 		if ( isset( $context['post'] ) ) {
 			$instance = $this->instance();
-            $id = is_object($instance) ? $instance->ID : $instance['ID'];
+			$id = is_object($instance) ? $instance->ID : $instance['ID'];
 			if ( $context['post']->parent_id == $id ) {
 				return true;
 			}
