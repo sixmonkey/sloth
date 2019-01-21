@@ -431,24 +431,6 @@ border-collapse: collapse;
             $mv = new Version( $_SERVER['REQUEST_URI'] );
         }
 
-        /*	if ( $this->isDevEnv() ) {
-				if ( in_array( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ),
-					[ 'jpg', 'jpeg', 'png', 'gif' ] ) ) {
-
-					preg_match( '/(.+)-([0-9]+)x([0-9]+)\.(jpg|jpeg|png|gif)$/', $_SERVER['REQUEST_URI'], $matches );
-
-
-					$w = isset( $matches[2] ) ? $matches[2] : 1024;
-					$h = isset( $matches[3] ) ? $matches[3] : 768;
-
-					header( 'Location: https://placebeard.it/' . $w . '/' . $h );
-				}
-
-				if ( pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION ) == 'svg' ) {
-					header( 'Location: http://placeholder.pics/svg/300/DEDEDE/555555/SVG' );
-				}
-			} */
-
         $view = View::make( 'Layout.' . $view_name );
 
         echo $view
