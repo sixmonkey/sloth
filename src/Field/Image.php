@@ -29,7 +29,6 @@ class Image {
 	protected $defaults = [
 		'width'   => null,
 		'height'  => null,
-		'crop'    => null,
 		'upscale' => true,
 	];
 	protected $attributeTranslations = [
@@ -127,31 +126,6 @@ class Image {
 			'guid'         => $this->getUrl( $sheerFileName, false ),
 			'post_parent'  => $this->post->ID,
 		] );
-/*
-		$img = SpatieImage::load( $this->file );
-
-		if ( $options['crop'] === true ) {
-			$options['crop'] = [
-				Manipulations::CROP_CENTER,
-				$options['width'],
-				$options['height'],
-			];
-			unset( $options['width'], $options['height'] );
-		}
-		unset( $options['upscale'] );
-
-
-		foreach ( $options as $k => $option ) {
-			if ( is_callable( [ $img, $k ] ) ) {
-				if ( ! is_array( $option ) ) {
-					$option = [ $option ];
-				}
-				call_user_func_array( [ $img, $k ], $option );
-			}
-		}
-
-		$img->save( $this->getAbsoluteFilename( $sheerFileName ) );
-*/
 		return $this->getUrl( $sheerFileName );
 	}
 
@@ -214,7 +188,7 @@ class Image {
 	 */
 	protected function getUrl( $filename, $full = true ) {
 		$upload_info = wp_upload_dir();
-		$upload_url  = $upload_info['baseurl'] . $filename;
+		$upload_url  = rtrim($upload_info['baseurl'], '/') . '/' . ltrim($filename, '/');
 
 		if ( ! $full ) {
 			$pu = parse_url( $upload_url );
@@ -231,14 +205,13 @@ class Image {
 	 * @return array
 	 */
 	protected function processOptions( $options ) {
-		# keep downward compatibility
-		unset( $options['upscale'] );
-
 		$options = array_merge( $this->defaults, $options );
+        # keep downward compatibility
+        unset( $options['upscale'] );
 		ksort( $options );
 		$output = [];
 		foreach ( $options as $method => $values ) {
-			if ( is_numeric( $method ) && is_string( $values ) ) {
+			if ( is_numeric( $method ) && is_string( $values ) && is_bool( $values ) ) {
 				$method = $values;
 				$values = true;
 			}
