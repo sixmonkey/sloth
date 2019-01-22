@@ -179,6 +179,10 @@ class MenuItem extends Model {
                 return true;
             }
 
+            if ( get_option( 'link_overview_' . $context['post']->postType ) ) {
+                return (int) get_option( 'link_overview_' . $context['post']->postType ) === $id;
+            }
+
         }
 
         $post = $this->get_wp_post_classes();
