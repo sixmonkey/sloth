@@ -7,17 +7,23 @@ namespace Sloth\ACF;
 use Sloth\Field\Image;
 
 class ACFHelper extends \Singleton {
-	public function __construct() {
-		add_action( 'init', [ $this, 'addFilters' ] );
-	}
+    public function __construct() {
+        add_action( 'init', [ $this, 'addFilters' ] );
+    }
 
-	final public function addFilters() {
-		if ( \Configure::read( 'layotter_prepare_fields' ) == 2 ) {
-			add_filter( 'acf/format_value/type=image', [ $this, 'load_image' ], 10, 3 );
-		}
-	}
+    final public function addFilters() {
+        if ( \Configure::read( 'layotter_prepare_fields' ) == 2 ) {
+            add_filter( 'acf/format_value/type=image', [ $this, 'load_image' ], 10, 3 );
+        }
+    }
 
-	final public function load_image( $value, $post_id, $field ) {
-		return new Image( (int) $value['ID'] );
-	}
+    final public function load_image( $value, $post_id, $field ) {
+        if ( substr( $field['name'], 0, 6 ) === '_qundg' ) {
+            return $value;
+        }
+
+        $id = is_array( $value ) ? (int) $value['ID'] : $value;
+
+        return new Image( $id );
+    }
 }
