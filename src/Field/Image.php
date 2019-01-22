@@ -86,7 +86,9 @@ class Image {
      * @return array|mixed|string
      */
     public function getThemeSized( $size ) {
-
+        if ( is_array( $size ) ) {
+            $size = reset( $size );
+        }
         if ( isset( $this->sizes[ $size ] ) ) {
             return $this->sizes[ $size ];
         }
