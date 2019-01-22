@@ -18,7 +18,7 @@ class ACFHelper extends \Singleton {
     }
 
     final public function load_image( $value, $post_id, $field ) {
-        if ( substr( $field['name'], 0, 6 ) === '_qundg' ) {
+        if ( substr( $field['_name'], 0, 6 ) === '_qundg' ) {
             return $value;
         }
 
