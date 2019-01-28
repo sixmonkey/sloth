@@ -460,11 +460,12 @@ border-collapse: collapse;
     }
 
     public function auto_sync_acf_fields() {
-        if ( ! function_exists( 'acf_get_field_groups' ) || ! $this->isDevEnv() ) {
-            {
-                return false;
-            }
-        }
+	$autosync_acf = \Configure::read( 'autosync_acf' );
+	if ( ! function_exists( 'acf_get_field_groups' ) || ! $this->isDevEnv() || $autosync_acf === false ) {
+		{
+			return false;
+		}
+	}
 
         // vars
         $groups = acf_get_field_groups();
