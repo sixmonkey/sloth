@@ -16,6 +16,7 @@ class Model extends Corcel {
 	public $post_content = ' ';
 	protected $icon;
 	protected $filtered = false;
+	protected $postType = false;
 
 	/**
 	 * @var array
