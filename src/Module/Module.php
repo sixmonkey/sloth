@@ -112,10 +112,10 @@ class Module {
 		return $this->get( $k );
 	}
 
-	final public function getJSON() {
+	final public function getJSON( $request = null ) {
 		$this->doing_ajax = true;
 		$this->beforeRender();
-		$this->beforeGetJSON();
+		$this->beforeGetJSON( $request );
 		header( 'Content-Type: application/json' );
 		echo json_encode( $this->viewVars, 1 );
 		die();
