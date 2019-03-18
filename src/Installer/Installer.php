@@ -76,7 +76,6 @@ class Installer {
         if ( ! file_exists( $dotenvToCreate ) ) {
             if ( file_exists( $dotEnvSrc ) ) {
                 copy( $dotEnvSrc, $dotenvToCreate );
-                echo "Customize your .env file for required environment: $dotenvToCreate \n";
             }
         }
     }
