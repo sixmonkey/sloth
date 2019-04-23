@@ -38,8 +38,6 @@ class Plugin extends \Singleton {
         #$this->loadTaxonomies();
         #\Route::instance()->boot();
 
-        ACFHelper::getInstance();
-
         $this->fixPagination();
 
         /**
@@ -191,6 +189,7 @@ class Plugin extends \Singleton {
     }
 
     private function addFilters() {
+        ACFHelper::getInstance();
 
         /* @TODO: hacky pagination fix! */
         add_action( 'pre_get_posts',
@@ -212,11 +211,15 @@ class Plugin extends \Singleton {
         add_action( 'init', [ $this, 'initModels' ], 20 );
         add_action( 'init', [ $this, 'loadAppIncludes' ], 20 );
         add_action( 'init', [ $this, 'registerImageSizes' ], 20 );
+        add_action( 'init', [ $this, 'autoloadPlugins' ], 20 );
 
         add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
 
+        add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
+
         add_action( 'save_post', [ $this, 'trackDataChange' ], 20 );
 
+        add_action( 'admin_menu', [ $this, 'cleanup_admin_menu' ], 20 );
 
         add_action( 'admin_menu', [ $this, 'cleanup_admin_menu' ], 20 );
 
@@ -478,6 +481,70 @@ border-collapse: collapse;
         die();
     }
 
+    public function auto_sync_acf_fields() {
+        $autosync_acf = \Configure::read( 'autosync_acf' );
+        if ( ! function_exists( 'acf_get_field_groups' ) || ! $this->isDevEnv() || $autosync_acf === false ) {
+            {
+                return false;
+            }
+        }
+
+        // vars
+        $groups = acf_get_field_groups();
+        $sync   = [];
+
+        // bail early if no field groups
+        if ( empty( $groups ) ) {
+            return;
+        }
+
+        // find JSON field groups which have not yet been imported
+        foreach ( $groups as $group ) {
+
+            // vars
+            $local    = acf_maybe_get( $group, 'local', false );
+            $modified = acf_maybe_get( $group, 'modified', 0 );
+            $private  = acf_maybe_get( $group, 'private', false );
+
+            // ignore DB / PHP / private field groups
+            if ( $local !== 'json' || $private ) {
+
+                // do nothing
+
+            } else if ( ! $group['ID'] ) {
+
+                $sync[ $group['key'] ] = $group;
+
+            } else if ( $modified && $modified > get_post_modified_time( 'U', true, $group['ID'], true ) ) {
+
+                $sync[ $group['key'] ] = $group;
+            }
+        }
+
+        // bail if no sync needed
+        if ( empty( $sync ) ) {
+            return;
+        }
+
+        if ( ! empty( $sync ) ) { //if( ! empty( $keys ) ) {
+
+            // vars
+            $new_ids = [];
+
+            foreach ( $sync as $key => $v ) { //foreach( $keys as $key ) {
+
+                // append fields
+                if ( acf_have_local_fields( $key ) ) {
+
+                    $sync[ $key ]['fields'] = acf_get_local_fields( $key );
+
+                }
+                // import
+                $field_group = acf_import_field_group( $sync[ $key ] );
+            }
+        }
+    }
+
     /**
      * register menus for the theme
      */
@@ -490,6 +557,9 @@ border-collapse: collapse;
         }
     }
 
+    /**
+     * register image sizes configured in theme.image-sizes
+     */
     public function registerImageSizes() {
         $image_sizes = Configure::read( 'theme.image-sizes' );
         if ( $image_sizes && is_array( $image_sizes ) ) {
@@ -503,6 +573,31 @@ border-collapse: collapse;
                     $options );
                 \add_image_size( $name, $options['width'], $options['height'], $options['crop'] );
             }
+        }
+    }
+
+    public function autoloadPlugins() {
+
+
+        if ( ! Configure::read( 'plugins.autoactivate' ) ) {
+            return;
+        }
+
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        foreach ( array_keys( \get_plugins() ) as $plugin ) {
+            // bail if plugin is already active
+            if ( is_plugin_active( $plugin ) ) {
+                continue;
+            }
+            // bail if plugin is blacklisted
+            $pi = pathinfo( $plugin );
+            if ( in_array( $pi['dirname'], Configure::read( 'plugins.autoactivate.blacklist' ) ) ) {
+                continue;
+            }
+
+            $plugins = \get_option( 'active_plugins' );
+            array_push( $plugins, $plugin );
+            \update_option( 'active_plugins', $plugins );
         }
     }
 
