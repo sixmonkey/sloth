@@ -189,7 +189,12 @@ class Image {
      *
      * @return string
      */
-    protected function getUrl( $filename, $full = true ) {
+    protected function getUrl( $filename, $full = null ) {
+
+        if ( $full == null ) {
+            $full = ! Configure::read( 'urls.relative' );
+        }
+
         $upload_info = wp_upload_dir();
         $upload_url  = rtrim( $upload_info['baseurl'], '/' ) . '/' . ltrim( $filename, '/' );
 
