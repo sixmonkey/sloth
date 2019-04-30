@@ -212,6 +212,8 @@ class Plugin extends \Singleton {
             remove_filter( 'template_redirect', 'redirect_canonical' );
         }
 
+        $this->obfuscateWP();
+
         add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
         add_action( 'init', [ $this, 'loadModels' ], 20 );
         add_action( 'init', [ $this, 'loadTaxonomies' ], 20 );
@@ -292,6 +294,52 @@ border-collapse: collapse;
          * 4 ); */
 
         $this->container['layotter']->addFilters();
+    }
+
+    /**
+     * Remove all unnecessary refrences to WordPress from wp_head
+     */
+    private function obfuscateWP() {
+        // remove gutenberg styles
+        add_action( 'wp_print_styles',
+            function () {
+                wp_dequeue_style( 'wp-block-library' );
+            },
+            100 );
+        remove_action( 'wp_head', 'wp_generator' ); // meta generator tag
+        remove_action( 'wp_head', 'rsd_link' ); // really simple discovery
+        remove_action( 'wp_head', 'feed_links', 2 ); // posts and comments feed
+        remove_action( 'wp_head', 'index_rel_link' ); // index link
+        remove_action( 'wp_head', 'wlwmanifest_link' ); // windows live writer manifest
+        remove_action( 'wp_head', 'feed_links_extra', 3 ); // additional feeds
+        remove_action( 'wp_head', 'start_post_rel_link' ); // start link
+        remove_action( 'wp_head', 'parent_post_rel_link' ); // prev link
+        remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' ); // prev and next post
+        remove_action( 'wp_head', 'locale_stylesheet' ); // localized stylesheet
+        remove_action( 'wp_head', 'rel_canonical' ); // canonical url
+        remove_action( 'wp_head', 'wp_shortlink_wp_head' ); // short url
+        remove_action( 'wp_head', 'rest_output_link_wp_head', 10 ); // rest api link
+        remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 ); // oembed
+        // Remove emoji script
+        remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+        remove_action( 'wp_print_styles', 'print_emoji_styles' );
+        add_filter( 'emoji_svg_url', '__return_false' );
+
+        // Remove oEmbed-specific JavaScript from the front-end and back-end.
+        remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+
+
+        // Inline Kommentarstyles aus wp_head schmeissen
+        add_action(
+            'widgets_init',
+            function () {
+                global $wp_widget_factory;
+                remove_action(
+                    'wp_head',
+                    [ $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ]
+                );
+            }
+        );
     }
 
     /**
