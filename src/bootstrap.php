@@ -77,6 +77,12 @@ if ( file_exists( DIR_ROOT . '.env' ) ) {
 	$dotenv->load();
 	$dotenv->required( [ 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL' ] );
 }
+
+/**
+ * Shorthand for Configure in env configs
+ */
+class_alias( '\Sloth\Configure\Configure', 'Configure' );
+
 /**
  * env config
  */

@@ -15,272 +15,253 @@ use Spatie\Image\Image as SpatieImage;
 use Spatie\Image\Manipulations;
 
 class Image {
-	public $url;
-	public $alt;
-	public $post;
-	public $sizes = [];
+    public $url;
+    public $alt;
+    public $post;
+    public $sizes = [];
 
-	protected $postID;
-	protected $type;
-	protected $file;
-	protected $isResizable = true;
-	protected $metaData;
+    protected $postID;
+    protected $type;
+    protected $file;
+    protected $isResizable = true;
+    protected $metaData;
 
-	protected $defaults = [
-		'width'   => null,
-		'height'  => null,
-		'crop'    => null,
-		'upscale' => true,
-	];
-	protected $attributeTranslations = [
-		'caption'     => 'post_excerpt',
-		'description' => 'post_content',
-		'title'       => 'post_title',
-		'alt'         => '_wp_attachment_image_alt',
-	];
+    protected $defaults = [
+        'width'   => null,
+        'height'  => null,
+        'upscale' => true,
+    ];
+    protected $attributeTranslations = [
+        'caption'     => 'post_excerpt',
+        'description' => 'post_content',
+        'title'       => 'post_title',
+        'alt'         => '_wp_attachment_image_alt',
+    ];
 
-	/**
-	 * Image constructor.
-	 *
-	 * @param       $url
-	 * @param array $sizes
-	 */
-	public function __construct( $url, $sizes = [] ) {
+    /**
+     * Image constructor.
+     *
+     * @param       $url
+     * @param array $sizes
+     */
+    public function __construct( $url, $sizes = [] ) {
 
-		$this->sizes = $sizes;
+        $this->sizes = $sizes;
 
-		if ( is_null( $url ) ) {
-			$this->url = null;
+        if ( is_null( $url ) ) {
+            $this->url = null;
 
-			return;
-		}
+            return;
+        }
 
-		if ( is_array( $url ) && isset( $url['url'] ) ) {
-			$url = $url['url'];
-		}
+        if ( is_array( $url ) && isset( $url['url'] ) ) {
+            $url = $url['url'];
+        }
 
-		if ( is_int( $url ) ) {
-			$this->post = Post::find( $url );
-			$url        = $this->post->url;
-		} else {
-			$this->post = Post::where( 'guid', 'like', str_replace( WP_CONTENT_URL, '%', $url ) )->first();
-		}
+        if ( (int) $url ) {
+            $this->post = Post::find( $url );
+            $url        = is_object( $this->post ) ? $this->post->url : $this->post['url'];
+        } else {
+            $this->post = Post::where( 'guid', 'like', str_replace( WP_CONTENT_URL, '%', $url ) )->first();
+        }
 
-		if ( is_object( $this->post ) ) {
-			$this->alt = $this->post->meta->_wp_attachment_image_alt;
+        if ( is_object( $this->post ) ) {
+            $this->alt = $this->post->meta->_wp_attachment_image_alt;
 
-			$this->postID   = $this->post->ID;
-			$this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
+            $this->postID   = $this->post->ID;
+            $this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
 
-			$this->url  = $url;
-			$this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
+            $this->url  = $url;
+            $this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
-			$this->isResizable = @is_array( getimagesize( $this->file ) );
-		} else {
-			$this->isResizable = false;
-		}
-	}
+            $this->isResizable = @is_array( getimagesize( $this->file ) );
+        } else {
+            $this->isResizable = false;
+        }
+    }
 
-	/**
-	 * @param $size
-	 *
-	 * @return array|mixed|string
-	 */
-	public function getThemeSized( $size ) {
+    /**
+     * @param $size
+     *
+     * @return array|mixed|string
+     */
+    public function getThemeSized( $size ) {
+        if ( is_array( $size ) ) {
+            $size = reset( $size );
+        }
+        if ( isset( $this->sizes[ $size ] ) ) {
+            return $this->sizes[ $size ];
+        }
 
-		if ( isset( $this->sizes[ $size ] ) ) {
-			return $this->sizes[ $size ];
-		}
+        $image_sizes = Configure::read( 'theme.image-sizes' );
+        if ( isset( $image_sizes[ $size ] ) ) {
+            return $this->resize( $image_sizes[ $size ] );
+        }
 
-		$image_sizes = Configure::read( 'theme.image-sizes' );
-		if ( isset( $image_sizes[ $size ] ) ) {
-			return $this->resize( $image_sizes[ $size ] );
-		}
+        return $this->resize();
+    }
 
-		return $this->resize();
-	}
+    /**
+     * @param array $options
+     *
+     * @return array|mixed|string
+     */
+    public function resize( $options = [] ) {
+        if ( ! $this->isResizable || $this->url == null ) {
+            return $this->url;
+        }
 
-	/**
-	 * @param array $options
-	 *
-	 * @return array|mixed|string
-	 */
-	public function resize( $options = [] ) {
-		if ( ! $this->isResizable || $this->url == null ) {
-			return $this->url;
-		}
+        if ( ! is_array( $options ) ) {
+            $args    = func_get_args();
+            $options = array_combine(
+                array_slice( array_keys( $this->defaults ), 0, count( $args ) ),
+                array_slice( $args, 0, count( $this->defaults ) )
+            );
+        }
 
-		if ( ! is_array( $options ) ) {
-			$args    = func_get_args();
-			$options = array_combine(
-				array_slice( array_keys( $this->defaults ), 0, count( $args ) ),
-				array_slice( $args, 0, count( $this->defaults ) )
-			);
-		}
+        $options = $this->processOptions( $options );
 
-		$options = $this->processOptions( $options );
+        $sheerFileName = $this->getFilename( $options );
 
-		$sheerFileName = $this->getFilename( $options );
+        SlothMediaVersion::updateOrCreate( [
+            'post_excerpt' => json_encode( $options ),
+            'guid'         => $this->getUrl( $sheerFileName, false ),
+            'post_parent'  => $this->post->ID,
+        ] );
 
-		SlothMediaVersion::updateOrCreate( [
-			'post_excerpt' => json_encode( $options ),
-			'guid'         => $this->getUrl( $sheerFileName, false ),
-			'post_parent'  => $this->post->ID,
-		] );
-/*
-		$img = SpatieImage::load( $this->file );
+        return $this->getUrl( $sheerFileName );
+    }
 
-		if ( $options['crop'] === true ) {
-			$options['crop'] = [
-				Manipulations::CROP_CENTER,
-				$options['width'],
-				$options['height'],
-			];
-			unset( $options['width'], $options['height'] );
-		}
-		unset( $options['upscale'] );
+    /**
+     * @param array $options
+     *
+     * @return mixed|string
+     */
+    protected function getFilename( $options = [] ) {
+        $upload_info = wp_upload_dir();
+        $upload_dir  = realpath( $upload_info['basedir'] );
 
+        $suffix = "{$options['width']}x{$options['height']}";
 
-		foreach ( $options as $k => $option ) {
-			if ( is_callable( [ $img, $k ] ) ) {
-				if ( ! is_array( $option ) ) {
-					$option = [ $option ];
-				}
-				call_user_func_array( [ $img, $k ], $option );
-			}
-		}
+        unset( $options['width'], $options['height'] );
 
-		$img->save( $this->getAbsoluteFilename( $sheerFileName ) );
-*/
-		return $this->getUrl( $sheerFileName );
-	}
+        $options_named = [];
+        foreach ( $options as $method => $values ) {
+            if ( is_array( $values ) ) {
+                $values = implode( '-', $values );
+            }
+            $name = $method;
+            if ( ! is_bool( $values ) ) {
+                $name .= '-' . $values;
+            }
+            $options_named[] = $name;
+        }
+        $options_named[] = $suffix;
 
-	/**
-	 * @param array $options
-	 *
-	 * @return mixed|string
-	 */
-	protected function getFilename( $options = [] ) {
-		$upload_info = wp_upload_dir();
-		$upload_dir  = realpath( $upload_info['basedir'] );
+        $suffix = implode( '-', $options_named );
 
-		$suffix = "{$options['width']}x{$options['height']}";
+        // Get image info.
+        $info = pathinfo( $this->file );
+        $ext  = $info['extension'];
 
-		unset( $options['width'], $options['height'] );
+        $dst_rel_path = str_replace( '.' . $ext, '', $this->file );
+        $dst_rel_path = str_replace( $upload_dir, '', $dst_rel_path );
+        $dst_rel_path = "{$dst_rel_path}-{$suffix}.{$ext}";
 
-		$options_named = [];
-		foreach ( $options as $method => $values ) {
-			if ( is_array( $values ) ) {
-				$values = implode( '-', $values );
-			}
-			$name = $method;
-			if ( ! is_bool( $values ) ) {
-				$name .= '-' . $values;
-			}
-			$options_named[] = $name;
-		}
-		$options_named[] = $suffix;
+        return $dst_rel_path;
+    }
 
-		$suffix = implode( '-', $options_named );
+    /**
+     * @param $filename
+     *
+     * @return string
+     */
+    protected function getAbsoluteFilename( $filename ) {
+        $upload_info = wp_upload_dir();
+        $upload_dir  = realpath( $upload_info['basedir'] );
 
-		// Get image info.
-		$info = pathinfo( $this->file );
-		$ext  = $info['extension'];
+        return $upload_dir . $filename;
+    }
 
-		$dst_rel_path = str_replace( '.' . $ext, '', $this->file );
-		$dst_rel_path = str_replace( $upload_dir, '', $dst_rel_path );
-		$dst_rel_path = "{$dst_rel_path}-{$suffix}.{$ext}";
+    /**
+     * @param      $filename
+     * @param bool $full
+     *
+     * @return string
+     */
+    protected function getUrl( $filename, $full = null ) {
 
-		return $dst_rel_path;
-	}
+        if ( $full == null ) {
+            $full = ! Configure::read( 'urls.relative' );
+        }
 
-	/**
-	 * @param $filename
-	 *
-	 * @return string
-	 */
-	protected function getAbsoluteFilename( $filename ) {
-		$upload_info = wp_upload_dir();
-		$upload_dir  = realpath( $upload_info['basedir'] );
+        $upload_info = wp_upload_dir();
+        $upload_url  = rtrim( $upload_info['baseurl'], '/' ) . '/' . ltrim( $filename, '/' );
 
-		return $upload_dir . $filename;
-	}
+        if ( ! $full ) {
+            $pu = parse_url( $upload_url );
 
-	/**
-	 * @param      $filename
-	 * @param bool $full
-	 *
-	 * @return string
-	 */
-	protected function getUrl( $filename, $full = true ) {
-		$upload_info = wp_upload_dir();
-		$upload_url  = $upload_info['baseurl'] . $filename;
+            return $pu['path'];
+        }
 
-		if ( ! $full ) {
-			$pu = parse_url( $upload_url );
+        return $upload_url;
+    }
 
-			return $pu['path'];
-		}
+    /**
+     * @param $options
+     *
+     * @return array
+     */
+    protected function processOptions( $options ) {
+        $options = array_merge( $this->defaults, $options );
+        # keep downward compatibility
+        unset( $options['upscale'] );
+        ksort( $options );
+        $output = [];
+        foreach ( $options as $method => $values ) {
+            if ( is_numeric( $method ) && is_string( $values ) && is_bool( $values ) ) {
+                $method = $values;
+                $values = true;
+            }
+            $output[ $method ] = $values;
+        }
 
-		return $upload_url;
-	}
+        return $output;
+    }
 
-	/**
-	 * @param $options
-	 *
-	 * @return array
-	 */
-	protected function processOptions( $options ) {
-		# keep downward compatibility
-		unset( $options['upscale'] );
+    public function __toString() {
+        return (string) $this->url;
+    }
 
-		$options = array_merge( $this->defaults, $options );
-		ksort( $options );
-		$output = [];
-		foreach ( $options as $method => $values ) {
-			if ( is_numeric( $method ) && is_string( $values ) ) {
-				$method = $values;
-				$values = true;
-			}
-			$output[ $method ] = $values;
-		}
+    /**
+     * @param $what
+     *
+     * @return mixed
+     */
+    public function __get( $what ) {
+        if ( isset( $this->attributeTranslations[ $what ] ) ) {
+            $what = $this->attributeTranslations[ $what ];
+        }
 
-		return $output;
-	}
+        $v = $this->post->{$what};
 
-	public function __toString() {
-		return (string) $this->url;
-	}
+        return $v;
+    }
 
-	/**
-	 * @param $what
-	 *
-	 * @return mixed
-	 */
-	public function __get( $what ) {
-		if ( isset( $this->attributeTranslations[ $what ] ) ) {
-			$what = $this->attributeTranslations[ $what ];
-		}
+    /**
+     * @param $what
+     *
+     * @return bool
+     */
+    public function __isset( $what ) {
 
-		$v = $this->post->{$what};
+        if ( isset( $this->attributeTranslations[ $what ] ) ) {
+            $what = $this->attributeTranslations[ $what ];
+        }
 
-		return $v;
-	}
+        $v = $this->post->{$what};
 
-	/**
-	 * @param $what
-	 *
-	 * @return bool
-	 */
-	public function __isset( $what ) {
-
-		if ( isset( $this->attributeTranslations[ $what ] ) ) {
-			$what = $this->attributeTranslations[ $what ];
-		}
-
-		$v = $this->post->{$what};
-
-		return $v != null;
-	}
+        return $v != null;
+    }
 
 }
