@@ -4,6 +4,7 @@ namespace Sloth\Plugin;
 
 use Corcel\Model\Menu;
 use Corcel\Model\User;
+use mysql_xdevapi\Exception;
 use Sloth\ACF\ACFHelper;
 use Sloth\CarbonFields\CarbonFields;
 use Sloth\Facades\Configure;
@@ -136,6 +137,46 @@ class Plugin extends \Singleton {
         }
     }
 
+    public function loadApiControllers() {
+        foreach ( glob( DIR_APP . 'Api' . DS . '*.php' ) as $file ) {
+            include( $file );
+            $classes         = get_declared_classes();
+            $controller_name = array_pop( $classes );
+
+            $controller = new $controller_name;
+
+            if ( ! is_subclass_of( $controller, 'Sloth\Api\Controller' ) ) {
+                throw new Exception( 'ApiController needs to extend Sloth\Api\Controller' );
+            }
+
+            $methods      = get_class_methods( $controller );
+            $route_prefix = Utility::viewize( $controller_name );
+            $routes       = [
+                $route_prefix => 'index',
+            ];
+
+            foreach ( $methods as $method ) {
+                if ( substr( $method, 0, 1 ) === '_' ) {
+                    continue;
+                }
+                $routes[ $route_prefix . '/' . Utility::viewize( $method ) ] = $method;
+            }
+            foreach ( $routes as $route => $action ) {
+                add_action( 'rest_api_init',
+                    function () use ( $route, $action, $controller ) {
+                        register_rest_route(
+                            'sloth/v1',
+                            '/' . $route,
+                            [
+                                'methods'  => [ 'GET', 'POST', 'DELETE', 'PUT' ],
+                                'callback' => [ $controller, $action ],
+                            ] );
+                    } );
+            }
+
+        }
+    }
+
     public function loadModules() {
         foreach ( glob( get_template_directory() . DS . 'Module' . DS . '*Module.php' ) as $file ) {
             include( $file );
@@ -215,6 +256,7 @@ class Plugin extends \Singleton {
         $this->obfuscateWP();
 
         add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
+        add_action( 'init', [ $this, 'loadApiControllers' ], 20 );
         add_action( 'init', [ $this, 'loadModels' ], 20 );
         add_action( 'init', [ $this, 'loadTaxonomies' ], 20 );
         add_action( 'init', [ $this, 'loadModules' ], 20 );
