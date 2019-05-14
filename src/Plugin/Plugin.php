@@ -161,7 +161,7 @@ class Plugin extends \Singleton {
                 add_action( 'wp_ajax_' . $m->getAjaxAction(),
                     [ new $module_name, 'getJSON' ] );
 
-                $route = [ Utility::underscore( Utility::normalize( class_basename( $m ) ) ) ];
+                $route = [ Utility::viewize( Utility::normalize( class_basename( $m ) ) ) ];
                 if ( is_array( $module_name::$json ) && isset( $module_name::$json['params'] ) ) {
                     foreach ( $module_name::$json['params'] as $param ) {
                         $route[] = '(?P<' . $param . '>[a-z0-9-]+)';
