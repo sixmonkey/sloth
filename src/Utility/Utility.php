@@ -21,9 +21,13 @@ class Utility extends Inflector {
 			$name = substr( strrchr( $name, "\\" ), 1 );
 		}
 
-		$name = preg_replace( '/Module$/',
-			'',
-			$name );
+        $name = preg_replace( '/Module$/',
+            '',
+            $name );
+
+        $name = str_replace( ' ',
+            '-',
+            $name );
 
 		return $name;
 	}
