@@ -150,7 +150,7 @@ class Plugin extends \Singleton {
             }
 
             $methods      = get_class_methods( $controller );
-            $route_prefix = Utility::viewize( $controller_name );
+            $route_prefix = Utility::viewize( ( new \ReflectionClass( $controller ) )->getShortName() );
             $routes       = [];
 
             foreach ( $methods as $method ) {
