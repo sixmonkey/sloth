@@ -341,6 +341,14 @@ border-collapse: collapse;
          * 10,
          * 4 ); */
 
+        // modify api basUrl
+        if ( Configure::read( 'wp-json.baseUrl' ) ) {
+            add_filter( 'rest_url_prefix',
+                function () {
+                    return Configure::read( 'wp-json.baseUrl' );
+                } );
+        }
+
         $this->container['layotter']->addFilters();
     }
 
