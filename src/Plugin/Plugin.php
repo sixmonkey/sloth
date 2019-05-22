@@ -151,16 +151,15 @@ class Plugin extends \Singleton {
 
             $methods      = get_class_methods( $controller );
             $route_prefix = Utility::viewize( $controller_name );
-            $routes       = [
-                $route_prefix => 'index',
-            ];
+            $routes       = [];
 
             foreach ( $methods as $method ) {
                 if ( substr( $method, 0, 1 ) === '_' ) {
                     continue;
                 }
-                $routes[ $route_prefix . '/' . Utility::viewize( $method ) ] = $method;
+                $routes[ $route_prefix . '/' . Utility::viewize( $method ) . '(?:/(?P<id>\w+))?' ] = $method;
             }
+            $routes[ $route_prefix . '(?:/(?P<id>\w+))?' ] = 'index';
             foreach ( $routes as $route => $action ) {
                 add_action( 'rest_api_init',
                     function () use ( $route, $action, $controller ) {
@@ -169,7 +168,15 @@ class Plugin extends \Singleton {
                             '/' . $route,
                             [
                                 'methods'  => [ 'GET', 'POST', 'DELETE', 'PUT' ],
-                                'callback' => [ $controller, $action ],
+                                'callback' => function ( $request ) use ( $controller, $action ) {
+                                    $controller->setRequest( $request );
+                                    $param = $request->get_url_params( 'id' );
+                                    $data  = call_user_func_array( [ $controller, $action ], [ reset( $param ) ] );
+
+                                    return new \WP_REST_Response( $data,
+                                        $controller->response->status,
+                                        $controller->response->headers );
+                                },
                             ] );
                     } );
             }
