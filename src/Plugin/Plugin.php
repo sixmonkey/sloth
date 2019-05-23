@@ -159,7 +159,7 @@ class Plugin extends \Singleton {
                 }
                 $routes[ $route_prefix . '/' . Utility::viewize( $method ) . '(?:/(?P<id>\w+))?' ] = $method;
             }
-            $routes[ $route_prefix . '(?:/(?P<id>\w+))?' ] = 'index';
+            $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-]+))?' ] = 'index';
             foreach ( $routes as $route => $action ) {
                 add_action( 'rest_api_init',
                     function () use ( $route, $action, $controller ) {
