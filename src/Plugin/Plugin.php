@@ -402,24 +402,24 @@ border-collapse: collapse;
      * Make all URLs root relative
      */
     private function makeURLsRelative() {
-        add_filter( 'day_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'year_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'post_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'page_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'term_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'month_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'search_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'the_content', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'the_permalink', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'get_shortlink', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'post_type_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'attachment_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'get_pagenum_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'wp_get_attachment_url', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'post_type_archive_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'get_comments_pagenum_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'template_directory_uri', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'content_url', [ $this, 'getRelativePermalink' ] );
+        add_filter( 'day_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'year_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'post_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'page_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'term_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'month_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'search_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'the_content', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'the_permalink', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'get_shortlink', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'post_type_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'get_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'wp_get_attachment_url', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'post_type_archive_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'get_comments_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'template_directory_uri', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'content_url', [ $this, 'getRelativePermalink' ], 90, 1 );
     }
 
     /**
@@ -430,7 +430,7 @@ border-collapse: collapse;
      * @return string|string[]|null
      */
     public function getRelativePermalink( $input ) {
-        return preg_replace( '!' . home_url( '/' ) . '!', '/', $input );
+        return parse_url( $input, PHP_URL_PATH );
     }
 
     public function plugin() {
