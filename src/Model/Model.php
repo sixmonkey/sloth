@@ -129,16 +129,14 @@ class Model extends Corcel {
     /**
      * @return string
      */
-    public
-    function getPostType() {
+    public function getPostType() {
         return $this->postType;
     }
 
     /**
      * @return false|string
      */
-    public
-    function getPermalinkAttribute() {
+    public function getPermalinkAttribute() {
         return \get_permalink( $this->ID );
     }
 
