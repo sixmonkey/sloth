@@ -36,6 +36,7 @@ class Image {
         'description' => 'post_content',
         'title'       => 'post_title',
         'alt'         => '_wp_attachment_image_alt',
+        'metadata'    => '_wp_attachment_metadata',
     ];
 
     /**
@@ -239,6 +240,10 @@ class Image {
      * @return mixed
      */
     public function __get( $what ) {
+        if ( $what === 'sizes' ) {
+            return $this->sizes();
+        }
+
         if ( isset( $this->attributeTranslations[ $what ] ) ) {
             $what = $this->attributeTranslations[ $what ];
         }
@@ -262,6 +267,21 @@ class Image {
         $v = $this->post->{$what};
 
         return $v != null;
+    }
+
+    /**
+     * @return array
+     */
+    public function sizes() {
+        $imageSizes = Configure::read( 'theme.image-sizes' );
+        $sizes      = [];
+        if ( is_array( $imageSizes ) ) {
+            foreach ( $imageSizes as $size => $options ) {
+                $sizes[ $size ] = $this->getThemeSized( $size );
+            }
+        }
+
+        return $sizes;
     }
 
 }
