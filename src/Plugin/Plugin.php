@@ -154,12 +154,18 @@ class Plugin extends \Singleton {
             $routes       = [];
 
             foreach ( $methods as $method ) {
-                if ( substr( $method, 0, 1 ) === '_' ) {
+                if ( substr( $method, 0, 1 ) === '_' || $method === 'single' ) {
                     continue;
                 }
                 $routes[ $route_prefix . '/' . Utility::viewize( $method ) . '(?:/(?P<id>\w+))?' ] = $method;
             }
-            $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-]+))?' ] = 'index';
+
+            if ( method_exists( $controller, 'single' ) ) {
+                $routes[ $route_prefix ]                               = 'index';
+                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-]+))?' ] = 'single';
+            } else {
+                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-]+))?' ] = 'index';
+            }
             foreach ( $routes as $route => $action ) {
                 add_action( 'rest_api_init',
                     function () use ( $route, $action, $controller ) {
