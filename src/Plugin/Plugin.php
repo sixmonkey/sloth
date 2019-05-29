@@ -257,9 +257,17 @@ class Plugin extends \Singleton {
 
 
         $this->fixRoutes();
-
         if ( Configure::read( 'urls.relative' ) ) {
-            $this->makeURLsRelative();
+            $this->makeUploadsRelative();
+            $this->makeLinksRelative();
+        }
+
+        if ( Configure::read( 'links.urls.relative' ) ) {
+            $this->makeLinksRelative();
+        }
+
+        if ( Configure::read( 'uploads.urls.relative' ) ) {
+            $this->makeUploadsRelative();
         }
 
         if ( $this->isDevEnv() ) {
@@ -405,9 +413,9 @@ border-collapse: collapse;
     }
 
     /**
-     * Make all URLs root relative
+     * Make all Links root relative
      */
-    private function makeURLsRelative() {
+    private function makeLinksRelative() {
         add_filter( 'day_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'year_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'post_link', [ $this, 'getRelativePermalink' ], 90, 1 );
@@ -415,17 +423,28 @@ border-collapse: collapse;
         add_filter( 'term_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'month_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'search_link', [ $this, 'getRelativePermalink' ], 90, 1 );
-        add_filter( 'the_content', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'the_permalink', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'get_shortlink', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'post_type_link', [ $this, 'getRelativePermalink' ], 90, 1 );
-        add_filter( 'attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'get_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
-        add_filter( 'wp_get_attachment_url', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'post_type_archive_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'get_comments_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'sloth_get_permalink', [ $this, 'getRelativePermalink' ], 90, 1 );
+
+        add_filter( 'the_content', [ $this, 'replaceHomeUrl' ], 10, 1 );
+
+    }
+
+    /**
+     * Make all Uploads root relative
+     */
+    private function makeUploadsRelative() {
+        add_filter( 'wp_get_attachment_url', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'template_directory_uri', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'content_url', [ $this, 'getRelativePermalink' ], 90, 1 );
+
+        add_filter( 'sloth_get_attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
     }
 
     /**
@@ -437,6 +456,17 @@ border-collapse: collapse;
      */
     public function getRelativePermalink( $input ) {
         return parse_url( $input, PHP_URL_PATH );
+    }
+
+    /**
+     * Get a relative Permalink
+     *
+     * @param $input
+     *
+     * @return string|string[]|null
+     */
+    public function replaceHomeUrl( $input ) {
+        return str_replace( trim( WP_HOME, '/' ), '', $input );
     }
 
     public function plugin() {

@@ -72,7 +72,7 @@ class Image {
             $this->postID   = $this->post->ID;
             $this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
 
-            $this->url  = $url;
+            $this->url  = apply_filters('sloth_get_attachment_link', $url);
             $this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
             $this->isResizable = @is_array( getimagesize( $this->file ) );
@@ -191,19 +191,10 @@ class Image {
      * @return string
      */
     protected function getUrl( $filename, $full = null ) {
-
-        if ( $full == null ) {
-            $full = ! Configure::read( 'urls.relative' );
-        }
-
         $upload_info = wp_upload_dir();
-        $upload_url  = rtrim( $upload_info['baseurl'], '/' ) . '/' . ltrim( $filename, '/' );
 
-        if ( ! $full ) {
-            $pu = parse_url( $upload_url );
-
-            return $pu['path'];
-        }
+        $baseurl    = rtrim( apply_filters( 'sloth_get_attachment_link', $upload_info['baseurl'] ), '/' );
+        $upload_url = $baseurl . '/' . ltrim( $filename, '/' );
 
         return $upload_url;
     }
