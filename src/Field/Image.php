@@ -17,7 +17,7 @@ use Spatie\Image\Manipulations;
 class Image {
     public $url;
     public $alt;
-    public $post;
+    protected $post;
     public $sizes = [];
 
     protected $postID;
@@ -45,9 +45,7 @@ class Image {
      * @param       $url
      * @param array $sizes
      */
-    public function __construct( $url, $sizes = [] ) {
-
-        $this->sizes = $sizes;
+    public function __construct( $url ) {
 
         if ( is_null( $url ) ) {
             $this->url = null;
@@ -76,6 +74,8 @@ class Image {
             $this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
             $this->isResizable = @is_array( getimagesize( $this->file ) );
+
+            $this->sizes = $this->sizes();
         } else {
             $this->isResizable = false;
         }
