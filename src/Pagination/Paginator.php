@@ -21,7 +21,10 @@ class Paginator extends BasePaginator {
             $current         = $_GET;
             $current['page'] = $page;
 
-            return parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) . '?' . http_build_query( $current );
+            $baseURL = parse_url( rest_url( '/' ), PHP_URL_PATH );
+            $here    = preg_replace( '#' . $baseURL . '#', '', parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) );
+
+            return rest_url( $here ) . '?' . http_build_query( $current );
         }
 
         $parts = [ rtrim( get_permalink(), ' / ' ) ];
