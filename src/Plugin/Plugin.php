@@ -431,7 +431,7 @@ border-collapse: collapse;
         add_filter( 'get_comments_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
         add_filter( 'sloth_get_permalink', [ $this, 'getRelativePermalink' ], 90, 1 );
 
-        add_filter( 'the_content', [ $this, 'replaceHomeUrl' ], 10, 1 );
+        add_filter( 'the_content', [ $this, 'getRelativeHrefs' ], 90, 1 );
 
     }
 
@@ -445,6 +445,7 @@ border-collapse: collapse;
         add_filter( 'content_url', [ $this, 'getRelativePermalink' ], 90, 1 );
 
         add_filter( 'sloth_get_attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'the_content', [ $this, 'getRelativeSrcs' ], 90, 1 );
     }
 
     /**
@@ -467,6 +468,24 @@ border-collapse: collapse;
      */
     public function replaceHomeUrl( $input ) {
         return str_replace( trim( WP_HOME, '/' ), '', $input );
+    }
+
+    /**
+     * @param $input
+     *
+     * @return mixed
+     */
+    public function getRelativeHrefs( $input ) {
+        return str_replace( 'href="' . rtrim( WP_HOME, '/' ), 'href="', $input );
+    }
+
+    /**
+     * @param $input
+     *
+     * @return mixed
+     */
+    public function getRelativeSrcs( $input ) {
+        return str_replace( 'src="' . rtrim( WP_HOME, '/' ), 'src="' . rtrim( WP_HOME, '/' ), $input );
     }
 
     public function plugin() {
