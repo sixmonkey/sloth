@@ -22,8 +22,9 @@ class Menu extends CorcelMenu {
 
         $id = null;
 
-        foreach ( $locations as $location => $id ) {
-            if ( $location == $location_name ) {
+        foreach ( $locations as $location => $location_id ) {
+            if ( $location === $location_name ) {
+                $id = $location_id;
                 break;
             }
         }
