@@ -6,6 +6,8 @@ use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
 use PostTypes\PostType;
 use Sloth\Field\Image;
+use Corcel\Model\Meta\PostMeta;
+use Corcel\Model\Builder\PostBuilder;
 
 class Model extends Corcel {
     protected $names = [];
@@ -207,6 +209,9 @@ class Model extends Corcel {
         return $value;
     }
 
+    /**
+     * @return array
+     */
     public function toArray() {
         $array = parent::toArray();
 
@@ -222,5 +227,17 @@ class Model extends Corcel {
         }
 
         return $array;
+    }
+
+    /**
+     *
+     * @param \Corcel\Model\Builder\PostBuilder $query
+     * @param                                   $meta
+     * @param string                            $direction
+     */
+    public function scopeOrderByMeta( PostBuilder $query, $meta, $direction = 'asc' ) {
+        $metaRows = PostMeta::where( 'meta_key', $meta )->orderBy( 'meta_value', $direction )->get();
+        $postIds  = $metaRows->pluck( 'post_id' )->toArray();
+        $query->orderByRaw( 'FIELD(ID, ' . implode( ',', $postIds ) . ')' );
     }
 }
