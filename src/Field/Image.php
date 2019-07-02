@@ -142,6 +142,12 @@ class Image {
         $upload_info = wp_upload_dir();
         $upload_dir  = realpath( $upload_info['basedir'] );
 
+        if ( is_numeric($options['height']) === false ) {
+            $ratio = $this->metaData['width'] / $options['width'] ;
+            $height = round($this->metaData['height'] / $ratio);
+            $options['height'] = $height;
+        }
+
         $suffix = "{$options['width']}x{$options['height']}";
 
         unset( $options['width'], $options['height'] );
