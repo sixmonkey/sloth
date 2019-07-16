@@ -86,6 +86,7 @@ if ( file_exists( DIR_ROOT . '.env' ) ) {
  * Shorthand for Configure in env configs
  */
 class_alias( '\Sloth\Configure\Configure', 'Configure' );
+Configure::boot();
 
 /**
  * env config
