@@ -8,6 +8,7 @@ use mysql_xdevapi\Exception;
 use Sloth\ACF\ACFHelper;
 use Sloth\CarbonFields\CarbonFields;
 use Sloth\Facades\Configure;
+use Sloth\Facades\Deployment;
 use Sloth\Facades\View;
 
 use PostTypes\PostType;
@@ -244,6 +245,7 @@ class Plugin extends \Singleton {
 
     private function addFilters() {
         ACFHelper::getInstance();
+        \Deployment::instance()->boot();
 
         /* @TODO: hacky pagination fix! */
         add_action( 'pre_get_posts',
