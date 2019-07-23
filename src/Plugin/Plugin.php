@@ -6,6 +6,7 @@ use Corcel\Model\Menu;
 use Corcel\Model\User;
 use mysql_xdevapi\Exception;
 use Sloth\ACF\ACFHelper;
+use Sloth\Admin\Customizer;
 use Sloth\CarbonFields\CarbonFields;
 use Sloth\Facades\Configure;
 use Sloth\Facades\Deployment;
@@ -277,6 +278,8 @@ class Plugin extends \Singleton {
         }
 
         $this->obfuscateWP();
+
+        Customizer::instance()->boot();
 
         add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
         add_action( 'init', [ $this, 'loadApiControllers' ], 20 );

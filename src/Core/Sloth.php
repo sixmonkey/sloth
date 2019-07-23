@@ -23,6 +23,7 @@ class Sloth extends \Singleton {
         'Configure'  => '\Sloth\Facades\Configure',
         'Validator'  => '\Sloth\Facades\Validation',
         'Deployment' => '\Sloth\Facades\Deployment',
+        'Customizer' => '\Sloth\Facades\Customizer',
     ];
 
     private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
@@ -78,6 +79,7 @@ class Sloth extends \Singleton {
             \Sloth\Request\RequestServiceProvider::class,
             \Sloth\Validation\ValidationServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
+            \Sloth\Admin\CustomizerServiceProvider::class,
         ];
 
         foreach ( $providers as $provider ) {
