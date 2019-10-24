@@ -27,12 +27,12 @@ class Paginator extends BasePaginator {
             return rest_url( $here ) . '?' . http_build_query( $current );
         }
 
-        $parts = [ rtrim( get_permalink(), ' / ' ) ];
+        $parts = [ rtrim( get_permalink(), '/' ) ];
         if ( $page > 1 ) {
             $parts[] = $page;
         }
 
-        return rtrim( implode( ' / ', $parts ), ' / ' ) . ' / ';
+        return rtrim( implode( '/', $parts ), '/' ) . '/';
     }
 
 }
