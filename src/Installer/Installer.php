@@ -42,6 +42,22 @@ class Installer {
         self::renameTheme();
     }
 
+    public static function config_quiet( Event $event ) {
+        $vendor_dir     = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
+        self::$base_dir = $vendor_dir;
+        self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
+
+        self::mkDirs();
+
+        self::rebuildIndex();
+        self::initializeSalts();
+        self::initializeDotenv();
+        self::initializeWpconfig();
+        self::initializeHtaccess();
+        self::initializePlugin();
+        self::initializeBootstrap();
+    }
+
     protected static function mkDirs() {
         foreach ( self::$dirs_required as $dir ) {
             array_unshift( $dir, self::$base_dir );
