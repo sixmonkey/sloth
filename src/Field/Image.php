@@ -67,14 +67,14 @@ class Image {
         }
 
         if ( is_object( $this->post ) ) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt;
-            $this->caption = $this->post->post_excerpt;
+            $this->alt         = $this->post->meta->_wp_attachment_image_alt;
+            $this->caption     = $this->post->post_excerpt;
             $this->description = $this->post->post_content;
 
             $this->postID   = $this->post->ID;
             $this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
 
-            $this->url  = apply_filters('sloth_get_attachment_link', $url);
+            $this->url  = apply_filters( 'sloth_get_attachment_link', $url );
             $this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
             $this->isResizable = @is_array( getimagesize( $this->file ) );
@@ -117,13 +117,19 @@ class Image {
         if ( ! $this->isResizable || $this->url == null ) {
             return $this->url;
         }
-
         if ( ! is_array( $options ) ) {
             $args    = func_get_args();
             $options = array_combine(
                 array_slice( array_keys( $this->defaults ), 0, count( $args ) ),
                 array_slice( $args, 0, count( $this->defaults ) )
             );
+        }
+
+
+        if ( ! isset( $options['height'] ) ) {
+            $ratio             = $this->metaData['width'] / $options['width'];
+            $height            = round( $this->metaData['height'] / $ratio );
+            $options['height'] = $height;
         }
 
         $options = $this->processOptions( $options );
@@ -148,12 +154,6 @@ class Image {
     protected function getFilename( $options = [] ) {
         $upload_info = wp_upload_dir();
         $upload_dir  = realpath( $upload_info['basedir'] );
-
-        if ( is_numeric($options['height']) === false ) {
-            $ratio = $this->metaData['width'] / $options['width'] ;
-            $height = round($this->metaData['height'] / $ratio);
-            $options['height'] = $height;
-        }
 
         $suffix = "{$options['width']}x{$options['height']}";
 
@@ -283,7 +283,7 @@ class Image {
 
         if ( is_array( $imageSizes ) ) {
             foreach ( $imageSizes as $size => $option ) {
-                if ($option['width'] <= $this->metaData['width']) {
+                if ( $option['width'] <= $this->metaData['width'] ) {
                     $sizes[ $size ] = $this->getThemeSized( $size );
                 }
             }
