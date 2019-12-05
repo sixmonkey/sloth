@@ -33,8 +33,10 @@ final class Deployment {
      * Add required hooks to WordPress
      */
     public function boot() {
-        foreach ( $this->hooks as $hook ) {
-            add_action( $hook, [ $this, 'trigger' ] );
+        if ( getenv( 'SLOTH_DEPLOYMENT_WEBHOOK' ) ) {
+            foreach ( $this->hooks as $hook ) {
+                add_action( $hook, [ $this, 'trigger' ] );
+            }
         }
     }
 
