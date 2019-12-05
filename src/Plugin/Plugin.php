@@ -4,9 +4,12 @@ namespace Sloth\Plugin;
 
 use Corcel\Model\Menu;
 use Corcel\Model\User;
+use mysql_xdevapi\Exception;
 use Sloth\ACF\ACFHelper;
+use Sloth\Admin\Customizer;
 use Sloth\CarbonFields\CarbonFields;
 use Sloth\Facades\Configure;
+use Sloth\Facades\Deployment;
 use Sloth\Facades\View;
 
 use PostTypes\PostType;
@@ -136,6 +139,59 @@ class Plugin extends \Singleton {
         }
     }
 
+    public function loadApiControllers() {
+        foreach ( glob( DIR_APP . 'Api' . DS . '*.php' ) as $file ) {
+            include( $file );
+            $classes         = get_declared_classes();
+            $controller_name = array_pop( $classes );
+
+            $controller = new $controller_name;
+
+            if ( ! is_subclass_of( $controller, 'Sloth\Api\Controller' ) ) {
+                throw new Exception( 'ApiController needs to extend Sloth\Api\Controller' );
+            }
+
+            $methods      = get_class_methods( $controller );
+            $route_prefix = Utility::viewize( ( new \ReflectionClass( $controller ) )->getShortName() );
+            $routes       = [];
+
+            foreach ( $methods as $method ) {
+                if ( substr( $method, 0, 1 ) === '_' || $method === 'single' ) {
+                    continue;
+                }
+                $routes[ $route_prefix . '/' . Utility::viewize( $method ) . '(?:/(?P<id>\w+))?' ] = $method;
+            }
+
+            if ( method_exists( $controller, 'single' ) ) {
+                $routes[ $route_prefix ]                               = 'index';
+                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-]+))?' ] = 'single';
+            } else {
+                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-]+))?' ] = 'index';
+            }
+            foreach ( $routes as $route => $action ) {
+                add_action( 'rest_api_init',
+                    function () use ( $route, $action, $controller ) {
+                        register_rest_route(
+                            'sloth/v1',
+                            '/' . $route,
+                            [
+                                'methods'  => [ 'GET', 'POST', 'DELETE', 'PUT' ],
+                                'callback' => function ( $request ) use ( $controller, $action ) {
+                                    $controller->setRequest( $request );
+                                    $param = $request->get_url_params( 'id' );
+                                    $data  = call_user_func_array( [ $controller, $action ], [ reset( $param ) ] );
+
+                                    return new \WP_REST_Response( $data,
+                                        $controller->response->status,
+                                        $controller->response->headers );
+                                },
+                            ] );
+                    } );
+            }
+
+        }
+    }
+
     public function loadModules() {
         foreach ( glob( get_template_directory() . DS . 'Module' . DS . '*Module.php' ) as $file ) {
             include( $file );
@@ -161,7 +217,7 @@ class Plugin extends \Singleton {
                 add_action( 'wp_ajax_' . $m->getAjaxAction(),
                     [ new $module_name, 'getJSON' ] );
 
-                $route = [ Utility::underscore( Utility::normalize( class_basename( $m ) ) ) ];
+                $route = [ Utility::viewize( Utility::normalize( class_basename( $m ) ) ) ];
                 if ( is_array( $module_name::$json ) && isset( $module_name::$json['params'] ) ) {
                     foreach ( $module_name::$json['params'] as $param ) {
                         $route[] = '(?P<' . $param . '>[a-z0-9-]+)';
@@ -190,6 +246,7 @@ class Plugin extends \Singleton {
 
     private function addFilters() {
         ACFHelper::getInstance();
+        \Deployment::instance()->boot();
 
         /* @TODO: hacky pagination fix! */
         add_action( 'pre_get_posts',
@@ -203,9 +260,17 @@ class Plugin extends \Singleton {
 
 
         $this->fixRoutes();
-
         if ( Configure::read( 'urls.relative' ) ) {
-            $this->makeURLsRelative();
+            $this->makeUploadsRelative();
+            $this->makeLinksRelative();
+        }
+
+        if ( Configure::read( 'links.urls.relative' ) ) {
+            $this->makeLinksRelative();
+        }
+
+        if ( Configure::read( 'uploads.urls.relative' ) ) {
+            $this->makeUploadsRelative();
         }
 
         if ( $this->isDevEnv() ) {
@@ -214,7 +279,10 @@ class Plugin extends \Singleton {
 
         $this->obfuscateWP();
 
+        Customizer::instance()->boot();
+
         add_filter( 'network_admin_url', [ $this, 'fix_network_admin_url' ] );
+        add_action( 'init', [ $this, 'loadApiControllers' ], 20 );
         add_action( 'init', [ $this, 'loadModels' ], 20 );
         add_action( 'init', [ $this, 'loadTaxonomies' ], 20 );
         add_action( 'init', [ $this, 'loadModules' ], 20 );
@@ -223,10 +291,9 @@ class Plugin extends \Singleton {
         add_action( 'init', [ $this, 'loadAppIncludes' ], 20 );
         add_action( 'init', [ $this, 'registerImageSizes' ], 20 );
         add_action( 'init', [ $this, 'autoloadPlugins' ], 20 );
+        add_action( 'init', [ $this, 'registerNavMenus' ], 20 );
 
         add_action( 'admin_menu', [ $this, 'initTaxonomies' ], 20 );
-
-        add_action( 'admin_init', [ $this, 'auto_sync_acf_fields' ] );
 
         add_action( 'save_post', [ $this, 'trackDataChange' ], 20 );
 
@@ -293,6 +360,14 @@ border-collapse: collapse;
          * 10,
          * 4 ); */
 
+        // modify api basUrl
+        if ( Configure::read( 'wp-json.baseUrl' ) ) {
+            add_filter( 'rest_url_prefix',
+                function () {
+                    return Configure::read( 'wp-json.baseUrl' );
+                } );
+        }
+
         $this->container['layotter']->addFilters();
     }
 
@@ -343,27 +418,39 @@ border-collapse: collapse;
     }
 
     /**
-     * Make all URLs root relative
+     * Make all Links root relative
      */
-    private function makeURLsRelative() {
-        add_filter( 'day_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'year_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'post_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'page_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'term_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'month_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'search_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'the_content', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'the_permalink', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'get_shortlink', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'post_type_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'attachment_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'get_pagenum_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'wp_get_attachment_url', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'post_type_archive_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'get_comments_pagenum_link', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'template_directory_uri', [ $this, 'getRelativePermalink' ] );
-        add_filter( 'content_url', [ $this, 'getRelativePermalink' ] );
+    private function makeLinksRelative() {
+        add_filter( 'day_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'year_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'post_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'page_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'term_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'month_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'search_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'the_permalink', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'get_shortlink', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'post_type_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'get_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'post_type_archive_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'get_comments_pagenum_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'sloth_get_permalink', [ $this, 'getRelativePermalink' ], 90, 1 );
+
+        add_filter( 'the_content', [ $this, 'getRelativeHrefs' ], 90, 1 );
+
+    }
+
+    /**
+     * Make all Uploads root relative
+     */
+    private function makeUploadsRelative() {
+        add_filter( 'wp_get_attachment_url', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'template_directory_uri', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'content_url', [ $this, 'getRelativePermalink' ], 90, 1 );
+
+        add_filter( 'sloth_get_attachment_link', [ $this, 'getRelativePermalink' ], 90, 1 );
+        add_filter( 'the_content', [ $this, 'getRelativeSrcs' ], 90, 1 );
     }
 
     /**
@@ -374,7 +461,36 @@ border-collapse: collapse;
      * @return string|string[]|null
      */
     public function getRelativePermalink( $input ) {
-        return preg_replace( '!' . home_url( '/' ) . '!', '/', $input );
+        return parse_url( $input, PHP_URL_PATH );
+    }
+
+    /**
+     * Get a relative Permalink
+     *
+     * @param $input
+     *
+     * @return string|string[]|null
+     */
+    public function replaceHomeUrl( $input ) {
+        return str_replace( trim( WP_HOME, '/' ), '', $input );
+    }
+
+    /**
+     * @param $input
+     *
+     * @return mixed
+     */
+    public function getRelativeHrefs( $input ) {
+        return str_replace( 'href="' . rtrim( WP_HOME, '/' ), 'href="', $input );
+    }
+
+    /**
+     * @param $input
+     *
+     * @return mixed
+     */
+    public function getRelativeSrcs( $input ) {
+        return str_replace( 'src="' . rtrim( WP_HOME, '/' ), 'src="' . rtrim( WP_HOME, '/' ), $input );
     }
 
     public function plugin() {
@@ -573,69 +689,6 @@ border-collapse: collapse;
         die();
     }
 
-    public function auto_sync_acf_fields() {
-        $autosync_acf = \Configure::read( 'autosync_acf' );
-        if ( ! function_exists( 'acf_get_field_groups' ) || ! $this->isDevEnv() || $autosync_acf === false ) {
-            {
-                return false;
-            }
-        }
-
-        // vars
-        $groups = acf_get_field_groups();
-        $sync   = [];
-
-        // bail early if no field groups
-        if ( empty( $groups ) ) {
-            return;
-        }
-
-        // find JSON field groups which have not yet been imported
-        foreach ( $groups as $group ) {
-
-            // vars
-            $local    = acf_maybe_get( $group, 'local', false );
-            $modified = acf_maybe_get( $group, 'modified', 0 );
-            $private  = acf_maybe_get( $group, 'private', false );
-
-            // ignore DB / PHP / private field groups
-            if ( $local !== 'json' || $private ) {
-
-                // do nothing
-
-            } else if ( ! $group['ID'] ) {
-
-                $sync[ $group['key'] ] = $group;
-
-            } else if ( $modified && $modified > get_post_modified_time( 'U', true, $group['ID'], true ) ) {
-
-                $sync[ $group['key'] ] = $group;
-            }
-        }
-
-        // bail if no sync needed
-        if ( empty( $sync ) ) {
-            return;
-        }
-
-        if ( ! empty( $sync ) ) { //if( ! empty( $keys ) ) {
-
-            // vars
-            $new_ids = [];
-
-            foreach ( $sync as $key => $v ) { //foreach( $keys as $key ) {
-
-                // append fields
-                if ( acf_have_local_fields( $key ) ) {
-
-                    $sync[ $key ]['fields'] = acf_get_local_fields( $key );
-
-                }
-                // import
-                $field_group = acf_import_field_group( $sync[ $key ] );
-            }
-        }
-    }
 
     /**
      * register menus for the theme
@@ -867,4 +920,19 @@ border-collapse: collapse;
         return $bIsRest;
     }
 
+    /**
+     * register menus
+     *
+     * @throws \Exception
+     */
+    public function registerNavMenus() {
+        if ( Configure::read( 'theme.menus' ) ) {
+            if ( ! is_array( Configure::read( 'theme.menus' ) ) ) {
+                throw new \Exception( 'theme.menus must be an array!' );
+            }
+            foreach ( Configure::read( 'theme.menus' ) as $location => $name ) {
+                \register_nav_menu( $location, $name );
+            }
+        }
+    }
 }

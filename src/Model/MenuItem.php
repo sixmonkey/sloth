@@ -2,6 +2,7 @@
 
 namespace Sloth\Model;
 
+use Corcel\Model\Meta\PostMeta;
 use Illuminate\Support\Arr;
 use Corcel\Model\Page;
 use Corcel\Model\CustomLink;
@@ -51,14 +52,7 @@ class MenuItem extends Model {
      * @return array|mixed|\WP_Post|null
      */
     private function get_wp_post_classes() {
-        $post = get_post( $this->ID );
-
-        $post->type             = $this->_menu_item_type;
-        $post->menu_item_parent = $this->_menu_item_menu_item_parent;
-        $post->object_id        = $this->_menu_item_object_id;
-        $post->object           = $this->_menu_item_object;
-        $post->target           = $this->_menu_item_target;
-        $post->classes          = unserialize( $this->_menu_item_classes );
+        $post = \wp_setup_nav_menu_item( \get_post( $this->meta->_menu_item_object_id ) );
 
         $items = [ $post ];
 
@@ -229,4 +223,19 @@ class MenuItem extends Model {
 
         return trim( implode( ' ', array_filter( $classes ) ) );
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children() {
+        return $this->hasManyThrough(
+            MenuItem::class,
+            PostMeta::class,
+            'meta_value',
+            'ID',
+            'ID',
+            'post_id'
+        );
+    }
+
 }

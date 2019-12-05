@@ -29,68 +29,41 @@ class ACFHelper extends \Singleton {
         return new Image( $id );
     }
 
+    /**
+     * Automagically sync advanced custom fields json fieldgroups during development
+     */
     public function auto_sync_acf_fields() {
         $autosync_acf = \Configure::read( 'autosync_acf' );
         if ( ! function_exists( 'acf_get_field_groups' ) ||
              ! $GLOBALS['sloth::plugin']->isDevEnv() ||
              $autosync_acf === false ) {
             {
-                return false;
+                return;
             }
         }
 
-        // vars
         $groups = acf_get_field_groups();
-        $sync   = [];
 
-        // bail early if no field groups
         if ( empty( $groups ) ) {
             return;
         }
 
-        // find JSON field groups which have not yet been imported
         foreach ( $groups as $group ) {
-
-            // vars
             $local    = acf_maybe_get( $group, 'local', false );
             $modified = acf_maybe_get( $group, 'modified', 0 );
             $private  = acf_maybe_get( $group, 'private', false );
 
-            // ignore DB / PHP / private field groups
-            if ( $local !== 'json' || $private ) {
-
-                // do nothing
-
-            } else if ( ! $group['ID'] ) {
-
-                $sync[ $group['key'] ] = $group;
-
-            } else if ( $modified && $modified > get_post_modified_time( 'U', true, $group['ID'], true ) ) {
-
-                $sync[ $group['key'] ] = $group;
+            if ( $private || $local !== 'json' ) {
+                continue;
             }
-        }
 
-        // bail if no sync needed
-        if ( empty( $sync ) ) {
-            return;
-        }
-
-        if ( ! empty( $sync ) ) { //if( ! empty( $keys ) ) {
-
-            // vars
-            $new_ids = [];
-
-            foreach ( $sync as $key => $v ) { //foreach( $keys as $key ) {
-
-                // append fields
-                if ( acf_have_local_fields( $key ) ) {
-
-                    $sync[ $key ]['fields'] = acf_get_local_fields( $key );
-
-                }
-                // import
-                $field_group = acf_import_field_group( $sync[ $key ] );
+            if ( ( ! $private || $local === 'json' ) &&
+                 ( ! $group['ID'] || $modified > get_post_modified_time( 'U', true, $group['ID'], true ) ) ) {
+                acf_disable_filters();
+                acf_enable_filter( 'local' );
+                acf_update_setting( 'json', false );
+                $group['fields'] = acf_get_fields( $group );
+                $group           = acf_import_field_group( $group );
             }
         }
     }

@@ -17,12 +17,17 @@ class Installer {
         [ 'app', 'cache' ],
     ];
     static $dir_theme_new;
+    static $authorname;
+    static $themedescription;
 
     public static function config( Event $event ) {
         $vendor_dir       = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
         self::$base_dir   = $vendor_dir;
         self::$http_dir   = self::mkPath( [ self::$base_dir, 'public' ] );
         self::$theme_name = basename( $vendor_dir );
+        self::$authorname = get_current_user();
+
+        self::dialog();
 
         self::mkDirs();
 
@@ -35,6 +40,22 @@ class Installer {
         self::addCLI();
         self::initializeBootstrap();
         self::renameTheme();
+    }
+
+    public static function config_quiet( Event $event ) {
+        $vendor_dir     = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
+        self::$base_dir = $vendor_dir;
+        self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
+
+        self::mkDirs();
+
+        self::rebuildIndex();
+        self::initializeSalts();
+        self::initializeDotenv();
+        self::initializeWpconfig();
+        self::initializeHtaccess();
+        self::initializePlugin();
+        self::initializeBootstrap();
     }
 
     protected static function mkDirs() {
@@ -116,36 +137,39 @@ class Installer {
         }
     }
 
-    public static function buildStyleCss() {
-
+    public static function dialog() {
         $climate = new CLImate;
         $data    = [];
 
         // Set themename
-        $themename = Utility::humanize( basename( self::$dir_theme_new ), '-' );
-        $themename = Utility::humanize( basename( $themename ) );
-        $input     = $climate->input( 'What will your WordPress-theme be called? [' . $themename . ']' );
-        $input->defaultTo( $themename );
-        $themename = $input->prompt();
+        $input = $climate->input( 'What will your WordPress-theme be called? [' . self::$theme_name . ']' );
+        $input->defaultTo( self::$theme_name );
+        self::$theme_name = $input->prompt();
 
         // Set authorname
-        $authorname = get_current_user();
-        $input      = $climate->input( 'What is the name of your theme\'s author? [' . $authorname . ']' );
-        $input->defaultTo( $authorname );
-        $authorname = $input->prompt();
+        $input = $climate->input( 'What is the name of your theme\'s author? [' . self::$authorname . ']' );
+        $input->defaultTo( self::$authorname );
+        self::$authorname = $input->prompt();
 
         // Set description
-        $input = $climate->input( 'Please describe your theme [' . $themename . ']' );
-        $input->defaultTo( $themename );
-        $description = $input->prompt();
+        self::$themedescription = self::$theme_name . ": Just another WordPress theme.";
+        $input                  = $climate->input( 'Please describe your theme [' . self::$themedescription . ']' );
+        $input->defaultTo( self::$themedescription );
+        self::$themedescription = $input->prompt();
+    }
 
+    public static function buildStyleCss() {
         @file_put_contents( self::$dir_theme_new . DIRECTORY_SEPARATOR . 'style.css',
-            "/*\nTheme Name: $themename\nAuthor: $authorname\nVersion: 0.0.1\nDescription: $description\n*/" );
+            "/*\nTheme Name: " . self::$theme_name . "\nAuthor: " . self::$authorname . "\nVersion: 0.0.1\nDescription: " . self::$themedescription . "\n*/" );
     }
 
     public static function renameTheme() {
         $dir_theme_default   = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
-        self::$dir_theme_new = self::mkPath( [ self::$http_dir, 'themes', self::$theme_name ] );
+        self::$dir_theme_new = self::mkPath( [
+            self::$http_dir,
+            'themes',
+            Utility::viewize( strtolower( self::$theme_name ) ),
+        ] );
         if ( is_dir( $dir_theme_default ) ) {
             rename( $dir_theme_default, self::$dir_theme_new );
             self::buildStyleCss();

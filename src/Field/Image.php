@@ -17,7 +17,9 @@ use Spatie\Image\Manipulations;
 class Image {
     public $url;
     public $alt;
-    public $post;
+    public $caption;
+    public $description;
+    protected $post;
     public $sizes = [];
 
     protected $postID;
@@ -36,6 +38,7 @@ class Image {
         'description' => 'post_content',
         'title'       => 'post_title',
         'alt'         => '_wp_attachment_image_alt',
+        'metadata'    => '_wp_attachment_metadata',
     ];
 
     /**
@@ -44,9 +47,7 @@ class Image {
      * @param       $url
      * @param array $sizes
      */
-    public function __construct( $url, $sizes = [] ) {
-
-        $this->sizes = $sizes;
+    public function __construct( $url ) {
 
         if ( is_null( $url ) ) {
             $this->url = null;
@@ -66,15 +67,19 @@ class Image {
         }
 
         if ( is_object( $this->post ) ) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt;
+            $this->alt         = $this->post->meta->_wp_attachment_image_alt;
+            $this->caption     = $this->post->post_excerpt;
+            $this->description = $this->post->post_content;
 
             $this->postID   = $this->post->ID;
             $this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
 
-            $this->url  = $url;
+            $this->url  = apply_filters( 'sloth_get_attachment_link', $url );
             $this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
             $this->isResizable = @is_array( getimagesize( $this->file ) );
+
+            $this->sizes = $this->sizes();
         } else {
             $this->isResizable = false;
         }
@@ -94,6 +99,7 @@ class Image {
         }
 
         $image_sizes = Configure::read( 'theme.image-sizes' );
+
         if ( isset( $image_sizes[ $size ] ) ) {
             return $this->resize( $image_sizes[ $size ] );
         }
@@ -107,16 +113,23 @@ class Image {
      * @return array|mixed|string
      */
     public function resize( $options = [] ) {
+
         if ( ! $this->isResizable || $this->url == null ) {
             return $this->url;
         }
-
         if ( ! is_array( $options ) ) {
             $args    = func_get_args();
             $options = array_combine(
                 array_slice( array_keys( $this->defaults ), 0, count( $args ) ),
                 array_slice( $args, 0, count( $this->defaults ) )
             );
+        }
+
+
+        if ( ! isset( $options['height'] ) ) {
+            $ratio             = $this->metaData['width'] / $options['width'];
+            $height            = round( $this->metaData['height'] / $ratio );
+            $options['height'] = $height;
         }
 
         $options = $this->processOptions( $options );
@@ -131,6 +144,7 @@ class Image {
 
         return $this->getUrl( $sheerFileName );
     }
+
 
     /**
      * @param array $options
@@ -190,19 +204,10 @@ class Image {
      * @return string
      */
     protected function getUrl( $filename, $full = null ) {
-
-        if ( $full == null ) {
-            $full = ! Configure::read( 'urls.relative' );
-        }
-
         $upload_info = wp_upload_dir();
-        $upload_url  = rtrim( $upload_info['baseurl'], '/' ) . '/' . ltrim( $filename, '/' );
 
-        if ( ! $full ) {
-            $pu = parse_url( $upload_url );
-
-            return $pu['path'];
-        }
+        $baseurl    = rtrim( apply_filters( 'sloth_get_attachment_link', $upload_info['baseurl'] ), '/' );
+        $upload_url = $baseurl . '/' . ltrim( $filename, '/' );
 
         return $upload_url;
     }
@@ -217,6 +222,7 @@ class Image {
         # keep downward compatibility
         unset( $options['upscale'] );
         ksort( $options );
+
         $output = [];
         foreach ( $options as $method => $values ) {
             if ( is_numeric( $method ) && is_string( $values ) && is_bool( $values ) ) {
@@ -239,6 +245,10 @@ class Image {
      * @return mixed
      */
     public function __get( $what ) {
+        if ( $what === 'sizes' ) {
+            return $this->sizes();
+        }
+
         if ( isset( $this->attributeTranslations[ $what ] ) ) {
             $what = $this->attributeTranslations[ $what ];
         }
@@ -262,6 +272,24 @@ class Image {
         $v = $this->post->{$what};
 
         return $v != null;
+    }
+
+    /**
+     * @return array
+     */
+    public function sizes() {
+        $imageSizes = Configure::read( 'theme.image-sizes' );
+        $sizes      = [];
+
+        if ( is_array( $imageSizes ) ) {
+            foreach ( $imageSizes as $size => $option ) {
+                if ( $option['width'] <= $this->metaData['width'] ) {
+                    $sizes[ $size ] = $this->getThemeSized( $size );
+                }
+            }
+        }
+
+        return $sizes;
     }
 
 }
