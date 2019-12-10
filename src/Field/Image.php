@@ -283,9 +283,7 @@ class Image {
 
         if ( is_array( $imageSizes ) ) {
             foreach ( $imageSizes as $size => $option ) {
-                if ( $option['width'] <= $this->metaData['width'] ) {
-                    $sizes[ $size ] = $this->getThemeSized( $size );
-                }
+                $sizes[ $size ] = $this->getThemeSized( $size );
             }
         }
 
