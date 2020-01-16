@@ -235,7 +235,7 @@ class MenuItem extends Model {
             'ID',
             'ID',
             'post_id'
-        );
+        )->where('ID', '!=', $this->ID);
     }
 
 }
