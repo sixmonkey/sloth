@@ -123,7 +123,7 @@ class Model extends Corcel {
 
         $pt->columns()->add( $this->admin_columns );
 
-        $idx      = 1;
+        $idx      = 2;
         $order    = [];
         $sortable = [];
 
@@ -141,7 +141,7 @@ class Model extends Corcel {
             $idx            += 1;
         }
 
-        #$order['title'] = 0;
+        $order['title'] = 1;
         $order['date']  = $idx + 100;
 
         $pt->columns()->order( $order );
