@@ -5,6 +5,7 @@ namespace Sloth\Model;
 use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
 use PostTypes\PostType;
+use Sloth\Facades\Configure;
 use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
@@ -250,9 +251,13 @@ class Model extends Corcel {
                         return new Image( $attachment->url );
                     }
                 }
-                $field = FieldFactory::make( $key, $this );
 
-                return $field ? $field->get() : null;
+
+                if (Configure::check('sloth.acf.process') && Configure::read('sloth.acf.process') == true) {
+                    $field = FieldFactory::make( $key, $this );
+
+                    return $field ? $field->get() : null;
+                }
             }
         }
 
