@@ -8,6 +8,7 @@ use PostTypes\PostType;
 use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
+use Corcel\Acf\FieldFactory;
 
 class Model extends Corcel {
     protected $names = [];
@@ -242,12 +243,16 @@ class Model extends Corcel {
     public function __get( $key ) {
         if ( function_exists( 'acf_maybe_get_field' ) ) {
             $acf = acf_maybe_get_field( $key, $this->getAttribute( 'ID' ), false );
-
-            if ( $acf && $acf['type'] === 'image' ) {
-                $attachment = Attachment::find( parent::__get( $key ) );
-                if ( is_object( $attachment ) ) {
-                    return new Image( $attachment->url );
+            if ( $acf ) {
+                if ( $acf['type'] === 'image' ) {
+                    $attachment = Attachment::find( parent::__get( $key ) );
+                    if ( is_object( $attachment ) ) {
+                        return new Image( $attachment->url );
+                    }
                 }
+                $field = FieldFactory::make( $key, $this );
+
+                return $field ? $field->get() : null;
             }
         }
 
