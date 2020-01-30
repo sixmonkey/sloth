@@ -6,6 +6,7 @@ use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
 use PostTypes\PostType;
 use Sloth\Facades\Configure;
+use Sloth\Field\CarbonFaker;
 use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
@@ -253,7 +254,11 @@ class Model extends Corcel {
                 }
 
 
-                if (Configure::check('sloth.acf.process') && Configure::read('sloth.acf.process') == true) {
+                if ( Configure::check( 'sloth.acf.process' ) && Configure::read( 'sloth.acf.process' ) == true ) {
+                    if ( in_array( $acf['type'],
+                            [ 'date_picker', 'date_time_picker', 'time_picker' ] ) && empty( parent::__get( $key ) ) ) {
+                        return new CarbonFaker();
+                    }
                     $field = FieldFactory::make( $key, $this );
 
                     return $field ? $field->get() : null;
