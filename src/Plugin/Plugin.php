@@ -647,8 +647,7 @@ border-collapse: collapse;
         }
 
         if ( $template == '' ) {
-            $template = '404';
-            \status_header( 404 );
+            return;
         }
 
         $this->currentLayout = $template;
