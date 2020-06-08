@@ -2,6 +2,7 @@
 
 namespace Sloth\Model;
 
+use Carbon\Carbon;
 use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
 use PostTypes\PostType;
@@ -12,7 +13,8 @@ use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Acf\FieldFactory;
 
-class Model extends Corcel {
+class Model extends Corcel
+{
     protected $names = [];
     protected $options = [];
     protected $labels = [];
@@ -60,43 +62,45 @@ class Model extends Corcel {
      *
      * @throws \ReflectionException
      */
-    public function __construct( array $attributes = [] ) {
-        $reflection = new \ReflectionClass( $this );
-        if ( $reflection->getName() === self::class ) {
+    public function __construct(array $attributes = [])
+    {
+        $reflection = new \ReflectionClass($this);
+        if ($reflection->getName() === self::class) {
             $this->postType = false;
         }
-        if ( $this->postType === null ) {
-            $reflection     = new \ReflectionClass( $this );
-            $this->postType = strtolower( $reflection->getShortName() );
+        if ($this->postType === null) {
+            $reflection     = new \ReflectionClass($this);
+            $this->postType = strtolower($reflection->getShortName());
         }
-        if ( is_array( $this->labels ) && count( $this->labels ) ) {
-            foreach ( $this->labels as &$label ) {
-                $label = __( $label );
+        if (is_array($this->labels) && count($this->labels)) {
+            foreach ($this->labels as &$label) {
+                $label = __($label);
             }
         }
-        $this->setRawAttributes( array_merge( $this->attributes,
+        $this->setRawAttributes(array_merge($this->attributes,
             [
                 'post_type' => $this->getPostType(),
-            ] ),
-            true );
-        parent::__construct( $attributes );
+            ]),
+            true);
+        parent::__construct($attributes);
     }
 
     /**
      * @return bool
      */
-    public function register() {
+    public function register()
+    {
 
         global $wp_post_types;
 
-        if ( ! $this->register ) {
+        if ( ! $this->register) {
             return false;
         }
 
-        if ( \post_type_exists( $this->getPostType() ) ) {
+        if (\post_type_exists($this->getPostType())) {
 
-            $post_type_object = get_post_type_object( $this->getPostType() );
-            $this->labels     = array_merge( (array) \get_post_type_labels( $post_type_object ), $this->labels );
+            $post_type_object = get_post_type_object($this->getPostType());
+            $this->labels     = array_merge((array)\get_post_type_labels($post_type_object), $this->labels);
 
             $post_type_object->remove_supports();
             $post_type_object->remove_rewrite_rules();
@@ -104,75 +108,75 @@ class Model extends Corcel {
             $post_type_object->remove_hooks();
             $post_type_object->unregister_taxonomies();
 
-            $this->options = array_merge( (array) $wp_post_types[ $this->getPostType() ], $this->options );
-            unset( $wp_post_types[ $this->getPostType() ] );
+            $this->options = array_merge((array)$wp_post_types[$this->getPostType()], $this->options);
+            unset($wp_post_types[$this->getPostType()]);
             /**
              * Fires after a post type was unregistered.
              *
              * @param string $post_type Post type identifier.
              */
-            do_action( 'unregistered_post_type', $this->getPostType() );
+            do_action('unregistered_post_type', $this->getPostType());
         }
 
-        $names   = array_merge( $this->names, [ 'name' => $this->getPostType() ] );
+        $names   = array_merge($this->names, ['name' => $this->getPostType()]);
         $options = $this->options;
-        if ( isset( $this->icon ) ) {
-            $options = array_merge( $this->options,
-                [ 'menu_icon' => 'dashicons-' . preg_replace( '/^dashicons-/', '', $this->icon ) ] );
+        if (isset($this->icon)) {
+            $options = array_merge($this->options,
+                ['menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', $this->icon)]);
         }
         $labels = $this->labels;
 
-        $pt = new PostType( $names, $options, $labels );
+        $pt = new PostType($names, $options, $labels);
 
-        $pt->columns()->add( $this->admin_columns );
+        $pt->columns()->add($this->admin_columns);
 
         $idx      = 2;
         $order    = [];
         $sortable = [];
 
-        foreach ( $this->admin_columns as $k => $v ) {
+        foreach ($this->admin_columns as $k => $v) {
             $class = self::class;
 
-            $pt->columns()->populate( $k,
-                function ( $column, $post_id ) use ( $class, $k ) {
-                    $r = call_user_func_array( [ $class, 'find' ], [ $post_id ] );
-                    echo call_user_func( [ $r, 'get' . ucfirst( $k ) . 'Column' ] );
-                } );
+            $pt->columns()->populate($k,
+                function ($column, $post_id) use ($class, $k) {
+                    $r = call_user_func_array([$class, 'find'], [$post_id]);
+                    echo call_user_func([$r, 'get' . ucfirst($k) . 'Column']);
+                });
 
-            $sortable[ $k ] = $k;
-            $order[ $k ]    = $idx;
-            $idx            += 1;
+            $sortable[$k] = $k;
+            $order[$k]    = $idx;
+            $idx          += 1;
         }
 
         $order['title'] = 1;
         $order['date']  = $idx + 100;
 
-        $pt->columns()->order( $order );
+        $pt->columns()->order($order);
 
-        $pt->columns()->sortable( $sortable );
+        $pt->columns()->sortable($sortable);
 
-        $pt->columns()->hide( $this->admin_columns_hidden );
+        $pt->columns()->hide($this->admin_columns_hidden);
 
-        if ( in_array( 'title', $this->admin_columns_hidden ) ) {
-            $keys         = array_keys( $this->admin_columns );
-            $first_column = reset( $keys );
-            add_filter( 'list_table_primary_column',
-                function ( $default, $screen ) use ( $pt, $first_column ) {
-                    if ( 'edit-' . $pt->name === $screen ) {
+        if (in_array('title', $this->admin_columns_hidden)) {
+            $keys         = array_keys($this->admin_columns);
+            $first_column = reset($keys);
+            add_filter('list_table_primary_column',
+                function ($default, $screen) use ($pt, $first_column) {
+                    if ('edit-' . $pt->name === $screen) {
                         $default = $first_column;
                     }
 
                     return $default;
                 },
                 10,
-                2 );
+                2);
         }
 
         # fix for newer version of jjgrainger/PostTypes
-        if ( method_exists( $pt, 'register' ) ) {
+        if (method_exists($pt, 'register')) {
             $pt->register();
         }
-        if ( method_exists( $pt, 'registerPostType' ) ) {
+        if (method_exists($pt, 'registerPostType')) {
             $pt->registerPostType();
         }
 
@@ -181,33 +185,37 @@ class Model extends Corcel {
     /**
      * @return string
      */
-    public function getPostType() {
+    public function getPostType()
+    {
         return $this->postType;
     }
 
     /**
      * @return false|string
      */
-    public function getPermalinkAttribute() {
-        return \get_permalink( $this->ID );
+    public function getPermalinkAttribute()
+    {
+        return \get_permalink($this->ID);
     }
 
 
     /**
      * @return \Sloth\Field\Image
      */
-    public function getPostThumbnailAttribute() {
-        return new Image( (int) $this->meta->_thumbnail_id );
+    public function getPostThumbnailAttribute()
+    {
+        return new Image((int)$this->meta->_thumbnail_id);
     }
 
     /**
      *
      */
-    final public function init() {
+    final public function init()
+    {
         // fix post_type
-        $object = get_post_type_object( $this->postType );
-        foreach ( $this->options as $key => $option ) {
-            if ( $object ) {
+        $object = get_post_type_object($this->postType);
+        foreach ($this->options as $key => $option) {
+            if ($object) {
                 $object->{$key} = $option;
             }
         }
@@ -216,16 +224,17 @@ class Model extends Corcel {
     /**
      * @return string
      */
-    public function getContentAttribute() {
-        if ( ! $this->filtered ) {
-            $post_content = $this->getAttribute( 'post_content' );
-            if ( ! is_null( $post_content ) ) {
-                $this->post_content = \apply_filters( 'the_content', $post_content );
+    public function getContentAttribute()
+    {
+        if ( ! $this->filtered) {
+            $post_content = $this->getAttribute('post_content');
+            if ( ! is_null($post_content)) {
+                $this->post_content = \apply_filters('the_content', $post_content);
             }
             $this->filtered = true;
         }
 
-        return (string) $this->post_content;
+        return (string)$this->post_content;
     }
 
     /**
@@ -233,8 +242,9 @@ class Model extends Corcel {
      *
      * @return mixed
      */
-    public function __isset( $key ) {
-        return $this->acf->boolean( $key );
+    public function __isset($key)
+    {
+        return $this->acf->boolean($key);
     }
 
     /**
@@ -242,65 +252,69 @@ class Model extends Corcel {
      *
      * @return mixed
      */
-    public function __get( $key ) {
-        if ( function_exists( 'acf_maybe_get_field' ) ) {
-            $acf = acf_maybe_get_field( $key, $this->getAttribute( 'ID' ), false );
-            if ( $acf ) {
-                if ( $acf['type'] === 'image' ) {
-                    $attachment = Attachment::find( parent::__get( $key ) );
-                    if ( is_object( $attachment ) ) {
-                        return new Image( $attachment->url );
+    public function __get($key)
+    {
+        if (function_exists('acf_maybe_get_field')) {
+            $acf = acf_maybe_get_field($key, $this->getAttribute('ID'), false);
+            if ($acf) {
+                if ($acf['type'] === 'image') {
+                    $attachment = Attachment::find(parent::__get($key));
+                    if (is_object($attachment)) {
+                        return new Image($attachment->url);
                     }
                 }
 
 
-                if ( Configure::check( 'sloth.acf.process' ) && Configure::read( 'sloth.acf.process' ) == true ) {
-                    if ( in_array( $acf['type'],
-                            [ 'date_picker', 'date_time_picker', 'time_picker' ] ) && empty( parent::__get( $key ) ) ) {
-                        return new CarbonFaker();
+                if (Configure::check('sloth.acf.process') && Configure::read('sloth.acf.process') == true) {
+                    if (in_array($acf['type'], ['date_picker', 'date_time_picker', 'time_picker'])) {
+                        return empty(parent::__get($key)) ? new CarbonFaker() : Carbon::createFromFormat('Y-m-d H:i:s',
+                            date('Y-m-d H:i:s', parent::__get($key)));
                     }
-                    $field = FieldFactory::make( $key, $this );
+                    $field = FieldFactory::make($key, $this);
 
                     return $field ? $field->get() : null;
                 }
             }
         }
 
-        $value = parent::__get( $key );
+        $value = parent::__get($key);
 
         return $value;
     }
 
-    public function getColumn( $which ) {
-        $value = $this->{$which} ?? $this->{strtolower( $which )};
+    public function getColumn($which)
+    {
+        $value = $this->{$which} ?? $this->{strtolower($which)};
 
-        return '<a href="' . get_edit_post_link( $this->ID ) . '">' . $value . '</a>';
+        return '<a href="' . get_edit_post_link($this->ID) . '">' . $value . '</a>';
     }
 
-    public function __call( $method, $parameters ) {
-        $parts = preg_split( '/(?=[A-Z])/', $method );
+    public function __call($method, $parameters)
+    {
+        $parts = preg_split('/(?=[A-Z])/', $method);
 
-        if ( $parts[0] == 'get' && $parts[2] == 'Column' ) {
-            return $this->getColumn( $parts[1] );
+        if ($parts[0] == 'get' && $parts[2] == 'Column') {
+            return $this->getColumn($parts[1]);
         }
 
-        return parent::__call( $method, $parameters );
+        return parent::__call($method, $parameters);
     }
 
     /**
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         $array = parent::toArray();
 
-        foreach ( $this->getMutatedAttributes() as $key ) {
-            if ( ! array_key_exists( $key, $array ) ) {
-                $array[ $key ] = $this->{$key};
+        foreach ($this->getMutatedAttributes() as $key) {
+            if ( ! array_key_exists($key, $array)) {
+                $array[$key] = $this->{$key};
             }
         }
-        if ( isset( $this->hidden ) && is_array( $this->hidden ) ) {
-            foreach ( $this->hidden as $k ) {
-                unset( $array[ $k ] );
+        if (isset($this->hidden) && is_array($this->hidden)) {
+            foreach ($this->hidden as $k) {
+                unset($array[$k]);
             }
         }
 
@@ -313,9 +327,10 @@ class Model extends Corcel {
      * @param                                   $meta
      * @param string                            $direction
      */
-    public function scopeOrderByMeta( PostBuilder $query, $meta, $direction = 'asc' ) {
-        $metaRows = PostMeta::where( 'meta_key', $meta )->orderBy( 'meta_value', $direction )->get();
-        $postIds  = $metaRows->pluck( 'post_id' )->toArray();
-        $query->orderByRaw( 'FIELD(ID, ' . implode( ',', $postIds ) . ')' );
+    public function scopeOrderByMeta(PostBuilder $query, $meta, $direction = 'asc')
+    {
+        $metaRows = PostMeta::where('meta_key', $meta)->orderBy('meta_value', $direction)->get();
+        $postIds  = $metaRows->pluck('post_id')->toArray();
+        $query->orderByRaw('FIELD(ID, ' . implode(',', $postIds) . ')');
     }
 }
