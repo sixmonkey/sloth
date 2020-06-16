@@ -16,7 +16,7 @@
     "illuminate/filesystem": "6.0.0",
     "brain/hierarchy": "^2.3",
     "jjgrainger/posttypes": "^2.0",
-    "jgrossi/corcel": "^2.4",
+    "jgrossi/corcel": "^3.0",
     "illuminate/pagination": "6.0.0",
     "cakephp/utility": "^3.5",
     "tracy/tracy": "2.5.6",
