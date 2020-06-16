@@ -22,7 +22,7 @@
     "tracy/tracy": "2.5.6",
     "vlucas/phpdotenv": "^2.4",
     "roots/wp-password-bcrypt": "^1.0",
-    "corcel/acf": "^1.0",
+    "corcel/acf": "^2.0",
     "org_heigl/hyphenator": "^2.2",
     "league/climate": "^3.2",
     "gossi/docblock": "^1.6",
