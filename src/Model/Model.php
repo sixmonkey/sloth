@@ -266,9 +266,9 @@ class Model extends Corcel
 
 
                 if (Configure::check('sloth.acf.process') && Configure::read('sloth.acf.process') == true) {
-                    if (in_array($acf['type'], ['date_picker', 'date_time_picker', 'time_picker'])) {
-                        return empty(parent::__get($key)) ? new CarbonFaker() : Carbon::createFromFormat('Y-m-d H:i:s',
-                            date('Y-m-d H:i:s', parent::__get($key)));
+                    if (in_array($acf['type'],
+                            ['date_picker', 'date_time_picker', 'time_picker']) && empty(parent::__get($key))) {
+                        return new CarbonFaker();
                     }
                     $field = FieldFactory::make($key, $this);
 
