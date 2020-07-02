@@ -80,7 +80,7 @@ class Application extends Container {
 		foreach ( $data as $k => $v ) {
 			$myModule->set( $k, $v );
 		}
-		$myModule->render();
+		return $myModule->render();
 	}
 
 	/**
