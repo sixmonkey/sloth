@@ -1,44 +1,48 @@
 {
-  "name": "sixmonkey/sloth",
-  "authors": [
-    {
-      "name": "Ben Kremer",
-      "email": "hallo@benkremer.de"
-    }
-  ],
-  "require": {
-    "jover/singleton": "^1.0",
-    "nikic/fast-route": "^1.2",
-    "illuminate/container": "5.6.33",
-    "illuminate/view": "5.6.33",
-    "illuminate/http": "5.6.33",
-    "twig/twig": "^1.0",
-    "illuminate/filesystem": "5.6.33",
-    "brain/hierarchy": "^2.3",
-    "jjgrainger/posttypes": "^2.0",
-    "jgrossi/corcel": "^2.4",
-    "illuminate/pagination": "5.6.33",
-    "cakephp/utility": "^3.5",
-    "tracy/tracy": "2.5.6",
-    "vlucas/phpdotenv": "^2.4",
-    "roots/wp-password-bcrypt": "^1.0",
-    "corcel/acf": "^1.0",
-    "org_heigl/hyphenator": "^2.2",
-    "league/climate": "^3.2",
-    "gossi/docblock": "^1.6",
-    "spatie/emoji": "^1.0",
-    "nofutur3/tracy-gitpanel": "^0.9.4",
-    "kdyby/html-validator-panel": "^1.1",
-    "milo/vendor-versions": "^1.1",
-    "illuminate/validation": "^5.6",
-    "spatie/image": "^1.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "Sloth\\": "src/"
+    "name": "sixmonkey/sloth",
+    "authors": [
+        {
+            "name": "Ben Kremer",
+            "email": "hallo@benkremer.de"
+        }
+    ],
+    "require": {
+        "brain/hierarchy": "^2.3",
+        "cakephp/utility": "^3.5",
+        "corcel/acf": "^1.0",
+        "gossi/docblock": "^1.6",
+        "haydenpierce/class-finder": "^0.4.2",
+        "illuminate/container": "5.6.33",
+        "illuminate/filesystem": "5.6.33",
+        "illuminate/http": "5.6.33",
+        "illuminate/pagination": "5.6.33",
+        "illuminate/validation": "^5.6",
+        "illuminate/view": "5.6.33",
+        "jgrossi/corcel": "^2.4",
+        "jjgrainger/posttypes": "^2.0",
+        "jover/singleton": "^1.0",
+        "kdyby/html-validator-panel": "^1.1",
+        "league/climate": "^3.2",
+        "milo/vendor-versions": "^1.1",
+        "nikic/fast-route": "^1.2",
+        "nofutur3/tracy-gitpanel": "^0.9.4",
+        "org_heigl/hyphenator": "^2.2",
+        "roots/wp-password-bcrypt": "^1.0",
+        "spatie/emoji": "^1.0",
+        "spatie/image": "^1.5",
+        "tracy/tracy": "2.5.6",
+        "twig/twig": "^1.0",
+        "vlucas/phpdotenv": "^2.4"
     },
-    "files": [
-      "src/functions.php"
-    ]
-  }
+    "autoload": {
+        "psr-4": {
+            "Sloth\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    }
 }
