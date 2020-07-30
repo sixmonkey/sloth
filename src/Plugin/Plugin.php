@@ -32,6 +32,9 @@ class Plugin extends \Singleton
     private $currentLayout;
     private $context;
 
+    /**
+     * Plugin constructor.
+     */
     public function __construct()
     {
         if ( ! is_blog_installed()) {
@@ -107,7 +110,14 @@ class Plugin extends \Singleton
         include($file);
         $res = array_values(array_diff_key(get_declared_classes(), $st));
 
-        return reset($res);
+        foreach ($res as $class) {
+            $rc = new \ReflectionClass($class);
+            if ($rc->getFilename() == $file) {
+                return $class;
+            }
+        }
+
+        return end($res);
     }
 
     public function loadModels()
