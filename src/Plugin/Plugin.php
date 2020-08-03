@@ -32,6 +32,9 @@ class Plugin extends \Singleton
     private $currentLayout;
     private $context;
 
+    /**
+     * Plugin constructor.
+     */
     public function __construct()
     {
         if ( ! is_blog_installed()) {
@@ -68,14 +71,14 @@ class Plugin extends \Singleton
 
         $this->container['view.finder']->addLocation(dirname(__DIR__) . DS . '_view');
 
-        /*
-		 * Update Twig Loaded registered paths.
-		 */
+        /**
+         * Update Twig Loaded registered paths.
+         */
         $this->container['twig.loader']->setPaths($this->container['view.finder']->getPaths());
 
-        /*
-		 * include theme's config
-		 */
+        /**
+         * include theme's config
+         */
         $theme_config = $this->current_theme_path . DS . 'config.php';
         if (file_exists($theme_config)) {
             include_once $theme_config;
@@ -96,35 +99,50 @@ class Plugin extends \Singleton
         }
     }
 
+    /**
+     * @param $file
+     *
+     * @return mixed
+     */
+    protected function loadClassFromFile($file)
+    {
+        $st = get_declared_classes();
+        include($file);
+        $res = array_values(array_diff_key(get_declared_classes(), $st));
+
+        foreach ($res as $class) {
+            $rc = new \ReflectionClass($class);
+            if ($rc->getFilename() == $file) {
+                return $class;
+            }
+        }
+
+        return end($res);
+    }
+
     public function loadModels()
     {
 
         foreach (glob(DIR_APP . 'Model' . DS . '*.php') as $file) {
-            $model_name = 'App\Model\\' . basename($file, '.php');
-            if ( ! class_exists($model_name)) {
-                include($file);
-                $classes    = get_declared_classes();
-                $model_name = array_pop($classes);
-            }
+            $model_name = $this->loadClassFromFile($file);
 
             $model = new $model_name;
             if ( ! $model->register) {
                 continue;
             }
 
-            $post_type = $model->getPostType();
             $model->register();
 
-            $this->models[$post_type] = $model_name;
+            $this->models[$model->getPostType()] = $model_name;
 
             if ($model::$layotter !== false) {
-                $this->container['layotter']->enable_for_post_type($post_type);
+                $this->container['layotter']->enable_for_post_type($model->getPostType());
                 if (is_array($model::$layotter)) {
-                    isset($model::$layotter['allowed_row_layouts']) ? $this->container['layotter']->set_layouts_for_post_type($post_type,
+                    isset($model::$layotter['allowed_row_layouts']) ? $this->container['layotter']->set_layouts_for_post_type($model->getPostType(),
                         $model::$layotter['allowed_row_layouts']) : null;
                 }
             } else {
-                $this->container['layotter']->disable_for_post_type($post_type);
+                $this->container['layotter']->disable_for_post_type($model->getPostType());
             }
             \flush_rewrite_rules(true);
         }
@@ -133,11 +151,8 @@ class Plugin extends \Singleton
     public function loadTaxonomies()
     {
         foreach (glob(DIR_APP . 'Taxonomy' . DS . '*.php') as $file) {
-            include($file);
-            $classes       = get_declared_classes();
-            $taxonomy_name = array_pop($classes);
-
-            $taxonomy = new $taxonomy_name;
+            $taxonomy_name = $this->loadClassFromFile($file);
+            $taxonomy      = new $taxonomy_name;
             if (method_exists($taxonomy, 'register')) {
                 $taxonomy->register();
             }
@@ -148,14 +163,12 @@ class Plugin extends \Singleton
     public function loadApiControllers()
     {
         foreach (glob(DIR_APP . 'Api' . DS . '*.php') as $file) {
-            include($file);
-            $classes         = get_declared_classes();
-            $controller_name = array_pop($classes);
+            $controller_name = $this->loadClassFromFile($file);
 
             $controller = new $controller_name;
 
             if ( ! is_subclass_of($controller, 'Sloth\Api\Controller')) {
-                throw new Exception('ApiController needs to extend Sloth\Api\Controller');
+                throw new \Exception('ApiController needs to extend Sloth\Api\Controller');
             }
 
             $methods      = get_class_methods($controller);
