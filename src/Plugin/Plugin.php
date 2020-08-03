@@ -691,7 +691,7 @@ border-collapse: collapse;
             $finder = new FoldersTemplateFinder($layoutPaths, ['twig']);
 
             $queryTemplate = new QueryTemplate($finder);
-            $template      = $queryTemplate->findTemplate();
+            $template      = $queryTemplate->findTemplate(null, false);
         }
 
         if ($template == '') {
