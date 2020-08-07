@@ -1,12 +1,6 @@
 <?php
-/**
- * User: Kremer
- * Date: 28.12.17
- * Time: 13:22
- */
 
 namespace Sloth\Layotter;
-
 
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use \Brain\Hierarchy\QueryTemplate;
