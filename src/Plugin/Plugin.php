@@ -106,7 +106,8 @@ class Plugin extends \Singleton
      */
     protected function loadClassFromFile($file)
     {
-        $st = get_declared_classes();
+        $file = realpath($file);
+        $st   = get_declared_classes();
         include($file);
         $res = array_values(array_diff_key(get_declared_classes(), $st));
 
@@ -215,9 +216,7 @@ class Plugin extends \Singleton
     public function loadModules()
     {
         foreach (glob(get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
-            include($file);
-            $classes     = get_declared_classes();
-            $module_name = array_pop($classes);
+            $module_name = $this->loadClassFromFile($file);
 
             if (is_array($module_name::$layotter) && class_exists('\Layotter')) {
 
