@@ -98,4 +98,8 @@ class LayotterElement extends \Layotter_Element {
 
 		return $values;
 	}
+
+	final public function getValues() {
+        return $this->prepare_fields($this->formatted_values);
+    }
 }
