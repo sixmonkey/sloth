@@ -107,11 +107,10 @@ class Plugin extends \Singleton
     protected function loadClassFromFile($file)
     {
         $file = realpath($file);
+        include_once $file;
         $st   = get_declared_classes();
-        include($file);
-        $res = array_values(array_diff_key(get_declared_classes(), $st));
-
-        foreach ($res as $class) {
+        
+        foreach ($st as $class) {
             $rc = new \ReflectionClass($class);
             if ($rc->getFilename() == $file) {
                 return $class;
