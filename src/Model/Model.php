@@ -128,9 +128,12 @@ class Model extends Corcel
 
         $pt = new PostType($names, $options, $labels);
 
+        $pt->columns()->hide($this->admin_columns_hidden);
+
         $pt->columns()->add($this->admin_columns);
 
-        $idx      = 2;
+        $order['title'] = 1;
+        $idx      = 1;
         $order    = [];
         $sortable = [];
 
@@ -148,14 +151,12 @@ class Model extends Corcel
             $idx          += 1;
         }
 
-        $order['title'] = 1;
         $order['date']  = $idx + 100;
 
         $pt->columns()->order($order);
 
         $pt->columns()->sortable($sortable);
 
-        $pt->columns()->hide($this->admin_columns_hidden);
 
         if (in_array('title', $this->admin_columns_hidden)) {
             $keys         = array_keys($this->admin_columns);
