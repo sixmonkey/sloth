@@ -271,7 +271,8 @@ class Model extends Corcel
                             ['date_picker', 'date_time_picker', 'time_picker']) && empty(parent::__get($key))) {
                         return new CarbonFaker();
                     }
-                    $field = FieldFactory::make($key, $this);
+
+                    $field = FieldFactory::make($key, $this, $acf['type']);
 
                     return $field ? $field->get() : null;
                 }
