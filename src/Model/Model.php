@@ -133,7 +133,7 @@ class Model extends Corcel
         $pt->columns()->add($this->admin_columns);
 
         $order['title'] = 1;
-        $idx      = 1;
+        $idx      = in_array('title', $this->admin_columns_hidden) ? 1 : 2;
         $order    = [];
         $sortable = [];
 
