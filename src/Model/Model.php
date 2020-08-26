@@ -133,9 +133,9 @@ class Model extends Corcel
         $pt->columns()->add($this->admin_columns);
 
         $order['title'] = 1;
-        $idx      = in_array('title', $this->admin_columns_hidden) ? 1 : 2;
-        $order    = [];
-        $sortable = [];
+        $idx            = in_array('title', $this->admin_columns_hidden) ? 1 : 2;
+        $order          = [];
+        $sortable       = [];
 
         foreach ($this->admin_columns as $k => $v) {
             $class = self::class;
@@ -151,7 +151,7 @@ class Model extends Corcel
             $idx          += 1;
         }
 
-        $order['date']  = $idx + 100;
+        $order['date'] = $idx + 100;
 
         $pt->columns()->order($order);
 
@@ -263,6 +263,7 @@ class Model extends Corcel
                     if (is_object($attachment)) {
                         return new Image($attachment->url);
                     }
+                    return new Image(parent::__get($key));
                 }
 
 
