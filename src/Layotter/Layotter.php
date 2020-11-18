@@ -352,6 +352,9 @@ final class Layotter extends \Singleton
     {
         add_filter('layotter/enable_example_element', '__return_false');
         add_filter('layotter/enable_default_css', '__return_false');
+        add_filter('layotter/enable_element_templates', '__return_true');
+        add_filter('layotter/enable_post_layouts', '__return_true');
+
 
         add_filter('layotter/enabled_post_types', [$this, 'enabled_post_types']);
         add_filter('layotter/rows/allowed_layouts', [$this, 'allowed_row_layouts']);
