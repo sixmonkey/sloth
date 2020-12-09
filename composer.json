@@ -17,6 +17,7 @@
         "illuminate/events": "^6.18",
         "illuminate/filesystem": "^6.18",
         "illuminate/http": "^6.18",
+        "illuminate/log": "^6.18",
         "illuminate/pagination": "^6.18",
         "illuminate/validation": "^6.18",
         "illuminate/view": "^6.18",
