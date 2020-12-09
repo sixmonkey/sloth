@@ -10,6 +10,7 @@
         "brain/hierarchy": "^2.3",
         "cakephp/utility": "^3.5",
         "corcel/acf": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.17",
         "gossi/docblock": "^1.6",
         "illuminate/console": "6.18",
         "illuminate/container": "^6.18",
@@ -34,6 +35,26 @@
         "twig/twig": "^1.0",
         "vlucas/phpdotenv": "^2.4"
     },
+    "require-dev": {
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "ergebnis/composer-normalize": "^2.11"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "hooks": {
+            "pre-commit": [
+                "vendor/bin/php-cs-fixer fix",
+                "composer normalize"
+            ],
+            "post-merge": [
+                "composer install --ignore-platform-reqs"
+            ]
+        }
+    },
     "autoload": {
         "psr-4": {
             "Sloth\\": "src/"
@@ -42,11 +63,10 @@
             "src/functions.php"
         ]
     },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
-    },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update"
+    }
 }

@@ -5,3 +5,7 @@ node_modules
 .sass-cache
 *.log
 /.vagrant
+cghooks.lock
+.php_cs.cache
+
+
