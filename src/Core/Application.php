@@ -38,6 +38,7 @@ class Application extends Container
     public function __construct($basePath = null)
     {
         $this->registerApplication();
+        $this->registerCoreContainerAliases();
     }
 
     /**
@@ -129,5 +130,30 @@ class Application extends Container
     public function version()
     {
         return static::VERSION;
+    }
+
+    /**
+     * Register the core class aliases in the container.
+     */
+    protected function registerCoreContainerAliases()
+    {
+        $list = [
+            'app'    => [
+                \Sloth\Core\Application::class,
+                \Illuminate\Contracts\Container\Container::class,
+                \Illuminate\Contracts\Foundation\Application::class,
+                \Psr\Container\ContainerInterface::class,
+            ],
+            'events' => [
+                \Illuminate\Events\Dispatcher::class,
+                \Illuminate\Contracts\Events\Dispatcher::class,
+            ],
+        ];
+
+        foreach ($list as $key => $aliases) {
+            foreach ($aliases as $alias) {
+                $this->alias($key, $alias);
+            }
+        }
     }
 }
