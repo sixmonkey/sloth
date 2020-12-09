@@ -4,41 +4,43 @@ namespace Sloth\Validation;
 
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
-use Sloth\Core\ServiceProvider;
 use Illuminate\Validation\Factory;
+use Sloth\Core\ServiceProvider;
 
-class ValidationServiceProvider extends ServiceProvider {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+class ValidationServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register() {
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            'validator',
+        ];
+    }
 
-		$this->app->singleton( 'validator',
-			function ( $app ) {
-				$validator = new Factory( new Translator(new ArrayLoader(), \get_locale()), $app );
+    /**
+     * Register the service provider.
+     */
+    public function register()
+    {
+        $this->app->singleton(
+            'validator',
+            function ($app) {
+                $validator = new Factory(new Translator(new ArrayLoader(), \get_locale()), $app);
 
 
-				return $validator;
-			} );
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides() {
-		return [
-			'validator',
-		];
-	}
+                return $validator;
+            }
+        );
+    }
 }

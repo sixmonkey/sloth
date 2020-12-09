@@ -14,6 +14,7 @@
         "gossi/docblock": "^1.6",
         "illuminate/console": "6.18",
         "illuminate/container": "^6.18",
+        "illuminate/events": "^6.18",
         "illuminate/filesystem": "^6.18",
         "illuminate/http": "^6.18",
         "illuminate/pagination": "^6.18",

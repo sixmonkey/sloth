@@ -5,329 +5,348 @@ namespace Sloth\Route;
 use Brain\Hierarchy\Hierarchy;
 use Corcel\Model\Post as Post;
 
-final class Route {
-	/**
-	 * @var bool
-	 */
-	private static $dispatched = false;
+final class Route
+{
+    /**
+     * Sloth\Route instance.
+     *
+     * @var \Sloth\Route\Route
+     */
+    protected static $instance = null;
 
-	/**
-	 * @var \FastRoute\simpleDispatcher
-	 */
-	private static $dispatcher;
+    /**
+     * @var array
+     */
+    protected $regexes = [];
 
-	/**
-	 * @var array
-	 */
-	private static $routes = [];
-	/**
-	 * Sloth\Route instance.
-	 *
-	 * @var \Sloth\Route\Route
-	 */
-	protected static $instance = null;
+    /**
+     * The prefix used to name the custom route tag.
+     *
+     * @var string
+     */
+    protected $rewrite_tag_prefix = 'sloth';
 
-	/**
-	 * The prefix used to name the custom route tag.
-	 *
-	 * @var string
-	 */
-	protected $rewrite_tag_prefix = 'sloth';
+    protected $routeTargetDefaults = [
+        'controller' => '\Sloth\Controller\BaseController',
+        'action'     => 'index',
+    ];
+    /**
+     * @var bool
+     */
+    private static $dispatched = false;
 
-	/**
-	 * @var array
-	 */
-	protected $regexes = [];
+    /**
+     * @var \FastRoute\simpleDispatcher
+     */
+    private static $dispatcher;
 
-	protected $routeTargetDefaults = [
-		'controller' => '\Sloth\Controller\BaseController',
-		'action'     => 'index',
-	];
+    /**
+     * @var array
+     */
+    private static $routes = [];
 
-	/**
-	 * Retrieve Sloth class instance.
-	 *
-	 * @return \Sloth\Route\Route
-	 */
-	public static function instance() {
-		if ( is_null( static::$instance ) ) {
-			static::$instance = new static();
-		}
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function add($route, $action)
+    {
+        self::addRoute(['GET', 'POST'], $route, $action);
+    }
 
-		return static::$instance;
-	}
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function any($route, $action)
+    {
+        self::addRoute(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'], $route, $action);
+    }
 
-	/**
-	 * Boot the router
-	 */
-	public function boot() {
-		self::$dispatcher = \FastRoute\cachedDispatcher( function ( \FastRoute\RouteCollector $r ) {
-			foreach ( self::$routes as $route ) {
-				$r->addRoute( $route['httpMethod'], $route['route'], $route['template'] );
-			}
-			list( $static, $variable ) = $r->getData();
+    /**
+     * Boot the router
+     */
+    public function boot()
+    {
+        self::$dispatcher = \FastRoute\cachedDispatcher(
+            function (\FastRoute\RouteCollector $r) {
+            foreach (self::$routes as $route) {
+                $r->addRoute($route['httpMethod'], $route['route'], $route['template']);
+            }
+            list($static, $variable) = $r->getData();
 
-			foreach ( $static as $routes ) {
-				foreach ( $routes as $route => $template ) {
-					$this->regexes[] = $this->getRewriteRuleRegex( $route );
-				}
-			}
-			foreach ( $variable as $routes ) {
-				foreach ( $routes as $route ) {
-					$this->regexes[] = $this->getRewriteRuleRegex( $route['regex'] );
-				}
-			}
+            foreach ($static as $routes) {
+                foreach ($routes as $route => $template) {
+                    $this->regexes[] = $this->getRewriteRuleRegex($route);
+                }
+            }
+            foreach ($variable as $routes) {
+                foreach ($routes as $route) {
+                    $this->regexes[] = $this->getRewriteRuleRegex($route['regex']);
+                }
+            }
+        },
+            [
+                'cacheFile'     => DIR_CACHE . DS . 'Route' . DS . 'route.php',
+                'cacheDisabled' => WP_DEBUG,
+            ]
+        );
+    }
 
-		},
-			[
-				'cacheFile'     => DIR_CACHE . DS . 'Route' . DS . 'route.php',
-				'cacheDisabled' => WP_DEBUG,
-			] );
-	}
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function delete($route, $action)
+    {
+        self::addRoute('DELETE', $route, $action);
+    }
 
-	/**
-	 * add a Route to initial collection
-	 *
-	 * @param array|string httpMethod
-	 * @param string $route
-	 * @param array $action
-	 */
-	private static function addRoute( $httpMethod, $route, Array $action ) {
-		if ( self::$dispatched ) {
-			throw new Exception( 'Adding Routes is no longer possible. Please use your template\'s routes.php to define Routes.' );
-		}
-		self::$routes[] = [
-			'httpMethod' => $httpMethod,
-			'route'      => self::normalize( $route ),
-			'template'   => $action,
-		];
-	}
+    /**
+     * dispatch it!
+     */
+    public function dispatch()
+    {
+        global $wp_query, $wp, $post;
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function add( $route, $action ) {
-		self::addRoute( [ 'GET', 'POST' ], $route, $action );
-	}
+        self::$dispatched = true;
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public function get( $route, $action ) {
-		self::addRoute( 'GET', $route, $action );
-	}
+        // Fetch method and URI from $_SERVER
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        $uri        = $_SERVER['REQUEST_URI'];
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function post( $route, $action ) {
-		self::addRoute( 'POST', $route, $action );
-	}
+        // Strip query string (?foo=bar) and decode URI
+        if (false !== $pos = strpos($uri, '?')) {
+            $uri = substr($uri, 0, $pos);
+        }
+        $uri = rawurldecode($uri);
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function put( $route, $action ) {
-		self::addRoute( 'PUT', $route, $action );
-	}
+        $routeTarget = [];
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function patch( $route, $action ) {
-		self::addRoute( 'PATCH', $route, $action );
-	}
+        $routeInfo = self::$dispatcher->dispatch($httpMethod, $uri);
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function delete( $route, $action ) {
-		self::addRoute( 'DELETE', $route, $action );
-	}
+        switch ($routeInfo[0]) {
+            case \FastRoute\Dispatcher::NOT_FOUND:
+                $hierarchy = new Hierarchy();
+                $templates = $hierarchy->getTemplates($wp_query);
+                if ($templates[0] != 404) {
+                    foreach ($templates as $template) {
+                        $myController = $this->getController($template);
+                        if (class_exists($myController)) {
+                            $routeTarget = [
+                                'controller' => $myController,
+                                'action'     => 'index',
+                            ];
+                            break;
+                        }
+                    }
+                }
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function head( $route, $action ) {
-		self::addRoute( 'HEAD', $route, $action );
-	}
+                #$path        = $queryTemplate->findTemplate();
+                break;
+            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+                $allowedMethods = $routeInfo[1];
+                break;
+            case \FastRoute\Dispatcher::FOUND:
+                $routeTarget               = $routeInfo[1];
+                $routeTarget['controller'] = $this->getController($routeTarget['controller']);
+                $wp->query_vars            = $routeInfo[2];
+                break;
+        }
 
-	/**
-	 * add ad a 'default' Route for GET AND POST
-	 *
-	 * @param array|string $route
-	 * @param string $action
-	 */
-	public static function any( $route, $action ) {
-		self::addRoute( [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD' ], $route, $action );
-	}
+        if (! isset($routeTarget['action'])) {
+            $routeTarget['action'] = 'index';
+        }
 
-	/**
-	 * @param $route
-	 *
-	 * @return string
-	 */
-	private static function normalize( $route ) {
-		/*
-		 * prevent routes from breaking when redirected to trailingslash
-		 */
+        if (! isset($routeInfo[2])) {
+            $routeInfo[2] = [];
+        }
 
-		if ( substr( $route, - 1 ) == ']' ) {
-			$route = substr( $route, 0, strlen( $route ) - 1 ) . '[/]]';
-		} else {
-			$route = rtrim( $route, '/' ) . '[/]';
-		}
-
-		return $route;
-	}
-
-	/**
-	 * dispatch it!
-	 */
-	public function dispatch() {
-
-		global $wp_query, $wp, $post;
-
-		self::$dispatched = true;
-
-		// Fetch method and URI from $_SERVER
-		$httpMethod = $_SERVER['REQUEST_METHOD'];
-		$uri        = $_SERVER['REQUEST_URI'];
-
-		// Strip query string (?foo=bar) and decode URI
-		if ( false !== $pos = strpos( $uri, '?' ) ) {
-			$uri = substr( $uri, 0, $pos );
-		}
-		$uri = rawurldecode( $uri );
-
-		$routeTarget = [];
-
-		$routeInfo = self::$dispatcher->dispatch( $httpMethod, $uri );
-
-		switch ( $routeInfo[0] ) {
-			case \FastRoute\Dispatcher::NOT_FOUND:
-				$hierarchy = new Hierarchy();
-				$templates = $hierarchy->getTemplates( $wp_query );
-				if ( $templates[0] != 404 ) {
-					foreach ( $templates as $template ) {
-						$myController = $this->getController( $template );
-						if ( class_exists( $myController ) ) {
-							$routeTarget = [
-								'controller' => $myController,
-								'action'     => 'index',
-							];
-							break;
-						}
-					}
-				}
-
-				#$path        = $queryTemplate->findTemplate();
-				break;
-			case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-				$allowedMethods = $routeInfo[1];
-				break;
-			case \FastRoute\Dispatcher::FOUND:
-				$routeTarget               = $routeInfo[1];
-				$routeTarget['controller'] = $this->getController( $routeTarget['controller'] );
-				$wp->query_vars            = $routeInfo[2];
-				break;
-		}
-
-		if ( ! isset( $routeTarget['action'] ) ) {
-			$routeTarget['action'] = 'index';
-		}
-
-		if ( ! isset( $routeInfo[2] ) ) {
-			$routeInfo[2] = [];
-		}
-
-		if ( isset( $routeTarget['controller'] ) && class_exists( $routeTarget['controller'] ) ) {
+        if (isset($routeTarget['controller']) && class_exists($routeTarget['controller'])) {
+            $request              = new \stdClass();
+            $myPost               = clone $post;
+            $myPost->post_content = apply_filters('the_content', $myPost->post_content);
+            $request->params      = [
+                'action' => $routeTarget['action'],
+                'pass'   => (array) $routeInfo[2],
+                'post'   => $myPost,
+            ];
+            $controller = new $routeTarget['controller'];
+            #call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
+        }
+        /**
+         * hand current page from wp_query to Illuminate
+         */
+        if (isset($wp_query->query['page'])) {
+            $currentPage = $wp_query->query['page'];
+            \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($currentPage) {
+                return $currentPage;
+            });
+        }
 
 
-			$request              = new \stdClass();
-			$myPost               = clone $post;
-			$myPost->post_content = apply_filters( 'the_content', $myPost->post_content );
-			$request->params      = [
-				'action' => $routeTarget['action'],
-				'pass'   => (array) $routeInfo[2],
-				'post'   => $myPost,
-			];
-			$controller = new $routeTarget['controller'];
-			#call_user_func_array( [ $controller, 'invokeAction' ], [ &$request ] );
-		}
-		/**
-		 * hand current page from wp_query to Illuminate
-		 */
-		if ( isset( $wp_query->query['page'] ) ) {
-			$currentPage = $wp_query->query['page'];
-			\Illuminate\Pagination\Paginator::currentPageResolver( function () use ( $currentPage ) {
-				return $currentPage;
-			} );
-		}
+        #die();
+    }
 
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public function get($route, $action)
+    {
+        self::addRoute('GET', $route, $action);
+    }
 
-		#die();
-	}
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function head($route, $action)
+    {
+        self::addRoute('HEAD', $route, $action);
+    }
 
-	private function getController( $name ) {
-		return 'Theme\Controller\\' . \Cake\Utility\Inflector::camelize( str_replace( '-',
-				'_',
-				$name ) ) . 'Controller';
-	}
+    /**
+     * Retrieve Sloth class instance.
+     *
+     * @return \Sloth\Route\Route
+     */
+    public static function instance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
+        }
 
-	/**
-	 * Returns the regex to be registered as a rewrite rule to let WordPress know the existence of this route
-	 *
-	 * @return mixed|string
-	 */
-	private function getRewriteRuleRegex( $routeRegex ) {
-		if ( preg_match( '/^~/', $routeRegex ) ) {
-			// Remove the first part (~^/) of the regex because WordPress adds this already by itself
-			$routeRegex = preg_replace( '/^\~\^/', '^', $routeRegex );
-			// Remove the last part (\$\~$) of the regex because WordPress adds this already by itself
-			$routeRegex = preg_replace( '/\$\~$/', '', $routeRegex );
-		} else {
-			$routeRegex = preg_replace( '/^\//', '^', $routeRegex );
-			$routeRegex = preg_replace( '/\/$/', '', $routeRegex );
-			$routeRegex .= '/$';
-		}
+        return static::$instance;
+    }
 
-		return $routeRegex;
-	}
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function patch($route, $action)
+    {
+        self::addRoute('PATCH', $route, $action);
+    }
 
-	/**
-	 * Adds rewrite_tag and rewrite_rule for WordPress to know about the routes
-	 *
-	 * @TODO: does not seem to work?
-	 *
-	 */
-	public function setRewrite() {
-		$regexes = array_unique( $this->regexes );
-		foreach ( $regexes as $regex ) {
-			add_rewrite_tag( '%is_sloth_route%', '(\d)' );
-			add_rewrite_rule( $regex, 'index.php?is_sloth_route=1', 'top' );
-		}
-		#flush_rewrite_rules( true );
-	}
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function post($route, $action)
+    {
+        self::addRoute('POST', $route, $action);
+    }
+
+    /**
+     * add ad a 'default' Route for GET AND POST
+     *
+     * @param array|string $route
+     * @param string       $action
+     */
+    public static function put($route, $action)
+    {
+        self::addRoute('PUT', $route, $action);
+    }
+
+    /**
+     * Adds rewrite_tag and rewrite_rule for WordPress to know about the routes
+     *
+     * @TODO: does not seem to work?
+     */
+    public function setRewrite()
+    {
+        $regexes = array_unique($this->regexes);
+        foreach ($regexes as $regex) {
+            add_rewrite_tag('%is_sloth_route%', '(\d)');
+            add_rewrite_rule($regex, 'index.php?is_sloth_route=1', 'top');
+        }
+        #flush_rewrite_rules( true );
+    }
+
+    /**
+     * add a Route to initial collection
+     *
+     * @param array|string httpMethod
+     * @param string $route
+     * @param array  $action
+     * @param mixed  $httpMethod
+     */
+    private static function addRoute($httpMethod, $route, array $action)
+    {
+        if (self::$dispatched) {
+            throw new Exception('Adding Routes is no longer possible. Please use your template\'s routes.php to define Routes.');
+        }
+        self::$routes[] = [
+            'httpMethod' => $httpMethod,
+            'route'      => self::normalize($route),
+            'template'   => $action,
+        ];
+    }
+
+    private function getController($name)
+    {
+        return 'Theme\Controller\\' . \Cake\Utility\Inflector::camelize(str_replace(
+            '-',
+            '_',
+            $name
+        )) . 'Controller';
+    }
+
+    /**
+     * Returns the regex to be registered as a rewrite rule to let WordPress know the existence of this route
+     *
+     * @param mixed $routeRegex
+     *
+     * @return mixed|string
+     */
+    private function getRewriteRuleRegex($routeRegex)
+    {
+        if (preg_match('/^~/', $routeRegex)) {
+            // Remove the first part (~^/) of the regex because WordPress adds this already by itself
+            $routeRegex = preg_replace('/^\~\^/', '^', $routeRegex);
+            // Remove the last part (\$\~$) of the regex because WordPress adds this already by itself
+            $routeRegex = preg_replace('/\$\~$/', '', $routeRegex);
+        } else {
+            $routeRegex = preg_replace('/^\//', '^', $routeRegex);
+            $routeRegex = preg_replace('/\/$/', '', $routeRegex);
+            $routeRegex .= '/$';
+        }
+
+        return $routeRegex;
+    }
+
+    /**
+     * @param $route
+     *
+     * @return string
+     */
+    private static function normalize($route)
+    {
+        /*
+         * prevent routes from breaking when redirected to trailingslash
+         */
+
+        if (substr($route, - 1) == ']') {
+            $route = substr($route, 0, strlen($route) - 1) . '[/]]';
+        } else {
+            $route = rtrim($route, '/') . '[/]';
+        }
+
+        return $route;
+    }
 }
