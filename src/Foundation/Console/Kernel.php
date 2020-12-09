@@ -3,8 +3,13 @@
 namespace Sloth\Foundation\Console;
 
 use Illuminate\Console\Application as Console;
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use ReflectionClass;
 use Sloth\Core\Application;
+use Symfony\Component\Finder\Finder;
 
 class Kernel implements \Illuminate\Contracts\Console\Kernel
 {
@@ -12,6 +17,20 @@ class Kernel implements \Illuminate\Contracts\Console\Kernel
      * @var Application|\Sloth\Core\Application
      */
     protected $app;
+
+    /**
+     * The console commands provided by the application.
+     *
+     * @var array
+     */
+    protected $commands = [];
+
+    /**
+     * Indicates if the Closure commands have been loaded.
+     *
+     * @var bool
+     */
+    protected $commandsLoaded = false;
 
     /**
      * The console application instance.
@@ -25,6 +44,12 @@ class Kernel implements \Illuminate\Contracts\Console\Kernel
      */
     protected $events;
 
+    /**
+     * Kernel constructor.
+     *
+     * @param \Sloth\Core\Application                 $app
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
+     */
     public function __construct(Application $app, Dispatcher $events)
     {
         if (! defined('ARTISAN_BINARY')) {
@@ -48,7 +73,11 @@ class Kernel implements \Illuminate\Contracts\Console\Kernel
      */
     public function bootstrap()
     {
-        // TODO: Implement bootstrap() method.
+        if (! $this->commandsLoaded) {
+            $this->commands();
+
+            $this->commandsLoaded = true;
+        }
     }
 
     /**
@@ -153,12 +182,12 @@ class Kernel implements \Illuminate\Contracts\Console\Kernel
             $command = $namespace . str_replace(
                 ['/', '.php'],
                 ['\\', ''],
-                Str::after($command->getPathname(), realpath(app_path()) . DIRECTORY_SEPARATOR)
+                Str::after($command->getPathname(), realpath($this->app->path()) . DIRECTORY_SEPARATOR)
             );
 
             if (is_subclass_of($command, Command::class) &&
                 ! (new ReflectionClass($command))->isAbstract()) {
-                Artisan::starting(function ($artisan) use ($command) {
+                Console::starting(function ($artisan) use ($command) {
                     $artisan->resolve($command);
                 });
             }
