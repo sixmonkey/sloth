@@ -2,7 +2,14 @@
 
 namespace Sloth\Core;
 
+use function array_key_exists;
+use function get_class;
 use Illuminate\Container\Container;
+use Illuminate\Events\EventServiceProvider;
+use Illuminate\Log\LogServiceProvider;
+use function method_exists;
+use Sloth\Route\RouteServiceProvider;
+use function str_replace;
 
 class Application extends Container
 {
@@ -35,7 +42,8 @@ class Application extends Container
      */
     public function __construct($basePath = null)
     {
-        $this->registerApplication();
+        $this->registerBasebindings();
+        $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
     }
 
@@ -113,16 +121,6 @@ class Application extends Container
         }
     }
 
-    /**
-     * Register the Application class into the container,
-     * so we can access it from the container itself.
-     */
-    public function registerApplication()
-    {
-        // Normally, only one instance is shared into the container.
-        static::setInstance($this);
-        $this->instance('app', $this);
-    }
 
     /**
      * Get the version number of the application.
@@ -132,6 +130,26 @@ class Application extends Container
     public function version()
     {
         return static::VERSION;
+    }
+
+    /**
+     * Register basic bindings into the container.
+     */
+    protected function registerBasebindings()
+    {
+        static::setInstance($this);
+        $this->instance('app', $this);
+        $this->instance(Container::class, $this);
+    }
+
+    /**
+     * Register base service providers.
+     */
+    protected function registerBaseServiceProviders()
+    {
+        $this->register(new EventServiceProvider($this));
+        $this->register(new LogServiceProvider($this));
+        $this->register(new RouteServiceProvider($this));
     }
 
     /**

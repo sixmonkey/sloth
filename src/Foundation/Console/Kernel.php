@@ -4,7 +4,7 @@ namespace Sloth\Foundation\Console;
 
 use Illuminate\Console\Application as Console;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Foundation\Application;
+use Sloth\Core\Application;
 
 class Kernel implements \Illuminate\Contracts\Console\Kernel
 {
