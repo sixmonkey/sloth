@@ -128,11 +128,14 @@ class Model extends Corcel
 
         $pt = new PostType($names, $options, $labels);
 
+        $pt->columns()->hide($this->admin_columns_hidden);
+
         $pt->columns()->add($this->admin_columns);
 
-        $idx      = 2;
-        $order    = [];
-        $sortable = [];
+        $order['title'] = 1;
+        $idx            = in_array('title', $this->admin_columns_hidden) ? 1 : 2;
+        $order          = [];
+        $sortable       = [];
 
         foreach ($this->admin_columns as $k => $v) {
             $class = self::class;
@@ -148,14 +151,12 @@ class Model extends Corcel
             $idx          += 1;
         }
 
-        $order['title'] = 1;
-        $order['date']  = $idx + 100;
+        $order['date'] = $idx + 100;
 
         $pt->columns()->order($order);
 
         $pt->columns()->sortable($sortable);
 
-        $pt->columns()->hide($this->admin_columns_hidden);
 
         if (in_array('title', $this->admin_columns_hidden)) {
             $keys         = array_keys($this->admin_columns);
@@ -262,6 +263,7 @@ class Model extends Corcel
                     if (is_object($attachment)) {
                         return new Image($attachment->url);
                     }
+                    return new Image(parent::__get($key));
                 }
 
 
@@ -270,7 +272,8 @@ class Model extends Corcel
                             ['date_picker', 'date_time_picker', 'time_picker']) && empty(parent::__get($key))) {
                         return new CarbonFaker();
                     }
-                    $field = FieldFactory::make($key, $this);
+
+                    $field = FieldFactory::make($key, $this, $acf['type']);
 
                     return $field ? $field->get() : null;
                 }
