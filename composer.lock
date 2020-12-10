@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cffb48b76c54ae3ccf3c591ac20251f",
+    "content-hash": "8b58d055a23f104bd2f25d0fd6ca635f",
     "packages": [
         {
             "name": "brain/hierarchy",

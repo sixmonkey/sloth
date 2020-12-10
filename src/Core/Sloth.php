@@ -2,7 +2,6 @@
 
 namespace Sloth\Core;
 
-use Corcel\Database;
 use Sloth\Debugger\SlothBarPanel;
 use Tracy\Debugger;
 use Tracy\Dumper;
@@ -54,11 +53,6 @@ class Sloth extends \Singleton
          * Set aliases for common classes
          */
         $this->setAliases();
-
-        /**
-         * open database connection for corcel
-         */
-        $this->connectCorcel();
     }
 
     /**
@@ -109,18 +103,6 @@ class Sloth extends \Singleton
         foreach ($providers as $provider) {
             $this->container->register($provider);
         }
-    }
-
-    private function connectCorcel()
-    {
-        $params = [
-            'host'     => DB_HOST,
-            'database' => DB_NAME,
-            'username' => DB_USER,
-            'password' => DB_PASSWORD,
-            'prefix'   => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
-        ];
-        \Corcel\Database::connect($params);
     }
 
     /**

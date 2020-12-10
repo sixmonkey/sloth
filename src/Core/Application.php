@@ -4,6 +4,7 @@ namespace Sloth\Core;
 
 use function array_key_exists;
 use function data_get;
+use const DB_PREFIX;
 use const DIRECTORY_SEPARATOR;
 use function file_get_contents;
 use function get_class;
@@ -60,6 +61,11 @@ class Application extends Container
         $this->registerBasebindings();
         $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
+
+        /**
+         * open database connection for corcel
+         */
+        $this->connectCorcel();
     }
 
     /**
@@ -254,5 +260,20 @@ class Application extends Container
                 $this->alias($key, $alias);
             }
         }
+    }
+
+    /**
+     *
+     */
+    private function connectCorcel()
+    {
+        $params = [
+            'host'     => DB_HOST,
+            'database' => DB_NAME,
+            'username' => DB_USER,
+            'password' => DB_PASSWORD,
+            'prefix'   => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
+        ];
+        \Corcel\Database::connect($params);
     }
 }
