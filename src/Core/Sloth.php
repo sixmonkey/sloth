@@ -28,7 +28,6 @@ class Sloth extends \Singleton
 
     public function __construct()
     {
-        @include(DIR_ROOT . DS . 'develop.config.php');
         /**
          * enable debugging where needed
          */
