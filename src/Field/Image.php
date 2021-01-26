@@ -94,6 +94,18 @@ class Image
             return $this->sizes();
         }
 
+        if ($what === 'width') {
+            return $this->metaData['width'];
+        }
+
+        if ($what === 'height') {
+            return $this->metaData['height'];
+        }
+
+        if ($what === 'sizes') {
+            return $this->sizes();
+        }
+
         if (isset($this->attributeTranslations[ $what ])) {
             $what = $this->attributeTranslations[ $what ];
         }
