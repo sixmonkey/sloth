@@ -49,12 +49,12 @@
     },
     "extra": {
         "hooks": {
+            "post-merge": [
+                "composer install --ignore-platform-reqs"
+            ],
             "pre-commit": [
                 "vendor/bin/php-cs-fixer fix",
                 "composer normalize"
-            ],
-            "post-merge": [
-                "composer install --ignore-platform-reqs"
             ]
         }
     },
