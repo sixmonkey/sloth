@@ -74,22 +74,22 @@ final class Route
     {
         self::$dispatcher = \FastRoute\cachedDispatcher(
             function (\FastRoute\RouteCollector $r) {
-            foreach (self::$routes as $route) {
-                $r->addRoute($route['httpMethod'], $route['route'], $route['template']);
-            }
-            list($static, $variable) = $r->getData();
+                foreach (self::$routes as $route) {
+                    $r->addRoute($route['httpMethod'], $route['route'], $route['template']);
+                }
+                list($static, $variable) = $r->getData();
 
-            foreach ($static as $routes) {
-                foreach ($routes as $route => $template) {
-                    $this->regexes[] = $this->getRewriteRuleRegex($route);
+                foreach ($static as $routes) {
+                    foreach ($routes as $route => $template) {
+                        $this->regexes[] = $this->getRewriteRuleRegex($route);
+                    }
                 }
-            }
-            foreach ($variable as $routes) {
-                foreach ($routes as $route) {
-                    $this->regexes[] = $this->getRewriteRuleRegex($route['regex']);
+                foreach ($variable as $routes) {
+                    foreach ($routes as $route) {
+                        $this->regexes[] = $this->getRewriteRuleRegex($route['regex']);
+                    }
                 }
-            }
-        },
+            },
             [
                 'cacheFile'     => DIR_CACHE . DS . 'Route' . DS . 'route.php',
                 'cacheDisabled' => WP_DEBUG,

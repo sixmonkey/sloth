@@ -137,8 +137,8 @@ abstract class Finder extends IlluminateFileViewFinder
     {
         return array_map(
             function ($extension) use ($name) {
-            return str_replace('.', DS, $name) . '.' . $extension;
-        },
+                return str_replace('.', DS, $name) . '.' . $extension;
+            },
             $this->extensions
         );
     }

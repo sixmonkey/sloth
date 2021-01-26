@@ -78,11 +78,11 @@ class Model extends Corcel
         }
         $this->setRawAttributes(
             array_merge(
-            $this->attributes,
-            [
+                $this->attributes,
+                [
                 'post_type' => $this->getPostType(),
             ]
-        ),
+            ),
             true
         );
         parent::__construct($attributes);
