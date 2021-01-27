@@ -131,9 +131,9 @@ class Sloth extends \Singleton
         Debugger::getBar()->addPanel(new \Milo\VendorVersions\Panel);
         Debugger::getBar()->addPanel(new SlothBarPanel());
         /* TODO: could be nicer? */
-        #if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
-        Debugger::enable($mode, DIR_ROOT . DS . 'logs');
-        #}
+        if (WP_DEBUG && ! in_array(basename($_SERVER['PHP_SELF']), $this->dont_debug)) {
+            Debugger::enable($mode, DIR_ROOT . DS . 'logs');
+        }
         if (getenv('SLOTH_DEBUGGER_EDITOR')) {
             Debugger::$editor = getenv('SLOTH_DEBUGGER_EDITOR');
         }
