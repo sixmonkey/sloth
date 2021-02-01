@@ -2,11 +2,14 @@
 
 namespace Sloth\Model;
 
+use function class_exists;
 use Corcel\Acf\FieldFactory;
 use Corcel\Model\Attachment;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\PostMeta;
+use Corcel\Model\Post;
 use Corcel\Model\Post as Corcel;
+use function get_class;
 use PostTypes\PostType;
 use Sloth\Facades\Configure;
 use Sloth\Field\CarbonFaker;
@@ -80,8 +83,8 @@ class Model extends Corcel
             array_merge(
                 $this->attributes,
                 [
-                'post_type' => $this->getPostType(),
-            ]
+                    'post_type' => $this->getPostType(),
+                ]
             ),
             true
         );
@@ -309,6 +312,21 @@ class Model extends Corcel
         }
         if (method_exists($pt, 'registerPostType')) {
             $pt->registerPostType();
+        }
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function revision()
+    {
+        $rName = get_class($this) . 'Revision';
+
+        if (class_exists($rName)) {
+            return $this->hasMany($rName, 'post_parent');
+        } else {
+            return parent::revision();
         }
     }
 

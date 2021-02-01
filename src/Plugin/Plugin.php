@@ -4,13 +4,15 @@ namespace Sloth\Plugin;
 
 use \Brain\Hierarchy\QueryTemplate;
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use function class_exists;
 use Corcel\Model\User;
+use function debug;
+
+
 use Sloth\ACF\ACFHelper;
+
 use Sloth\Admin\Customizer;
-
-
 use Sloth\Core\Sloth;
-
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Media\Version;
@@ -103,7 +105,6 @@ class Plugin extends \Singleton
             \update_option('active_plugins', $plugins);
         }
     }
-
 
     public function cleanup_admin_menu()
     {
@@ -409,6 +410,24 @@ class Plugin extends \Singleton
         foreach ($this->models as $k => $v) {
             $model = new $v;
             $model->init();
+
+            $reflection = new \ReflectionClass($model);
+
+            $modelClassName = $reflection->getShortName();
+
+            $revisionClassNameSpace = $reflection->getNamespaceName();
+            $revisionClassName      = $reflection->getShortName() . 'Revision';
+
+            if (! class_exists($revisionClassName)) {
+                eval(
+                "
+                namespace $revisionClassNameSpace;
+                class $revisionClassName extends  $modelClassName {
+					public \$postType = 'revision';
+				}"
+                );
+            }
+
             unset($model);
         }
     }
@@ -683,11 +702,11 @@ class Plugin extends \Singleton
             foreach ($image_sizes as $name => $options) {
                 $options = array_merge(
                     [
-                    'width'   => 800,
-                    'height'  => 600,
-                    'crop'    => false,
-                    'upscale' => false,
-                ],
+                        'width'   => 800,
+                        'height'  => 600,
+                        'crop'    => false,
+                        'upscale' => false,
+                    ],
                     $options
                 );
                 \add_image_size($name, $options['width'], $options['height'], $options['crop']);
@@ -771,7 +790,7 @@ class Plugin extends \Singleton
     {
         $file = realpath($file);
         include_once $file;
-        $st   = get_declared_classes();
+        $st = get_declared_classes();
 
         foreach ($st as $class) {
             $rc = new \ReflectionClass($class);
@@ -869,12 +888,12 @@ border-collapse: collapse;
      .layotter-preview tr:nth-child(even),  .layotter-preview tr:nth-child(even) {
      background: #eee;
      }
-     
+
      td.media-icon img[src$=".svg"],
-     img[src$=".svg"].attachment-post-thumbnail { 
-     	width: 100% !important; height: auto !important; 
+     img[src$=".svg"].attachment-post-thumbnail {
+     	width: 100% !important; height: auto !important;
      }
-     
+
      .media-icon img[src$=".svg"] {
      	width: 60px;
      }
