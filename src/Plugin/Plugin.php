@@ -162,9 +162,9 @@ class Plugin extends \Singleton {
 
             if ( method_exists( $controller, 'single' ) ) {
                 $routes[ $route_prefix ]                               = 'index';
-                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-_]+))?' ] = 'single';
+                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9._-]+))?' ] = 'single';
             } else {
-                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9.-_]+))?' ] = 'index';
+                $routes[ $route_prefix . '(?:/(?P<id>[a-z0-9._-]+))?' ] = 'index';
             }
             foreach ( $routes as $route => $action ) {
                 add_action( 'rest_api_init',
