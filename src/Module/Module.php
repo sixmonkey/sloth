@@ -26,7 +26,7 @@ class Module
         }
     }
 
-    final public function get_layotter_attributes()
+    public function get_layotter_attributes()
     {
         $class = get_class($this);
 
@@ -75,7 +75,7 @@ class Module
      */
     public function render()
     {
-        if (! $this->doing_ajax) {
+        if ( ! $this->doing_ajax) {
             $this->set($GLOBALS['sloth::plugin']->getContext(), false);
         }
         $this->set('ajax_url', $this->getAjaxUrl());
@@ -87,7 +87,7 @@ class Module
             if ($this->wrapInRow) {
                 $output = View::make('Layotter.row')->with([
                     'content' => $output,
-                    'options' => (array) $this->wrapInRow,
+                    'options' => (array)$this->wrapInRow,
                 ])->render();
             }
             echo $output;
@@ -108,7 +108,7 @@ class Module
             }
         } else {
             if ($override || ! $this->isSet($key)) {
-                $this->viewVars[ $key ] = $this->_prepareValue($value);
+                $this->viewVars[$key] = $this->_prepareValue($value);
             }
         }
     }
@@ -162,7 +162,7 @@ class Module
                 substr(strrchr($class, "\\"), 1)
             ));
         }
-        if (! strstr($this->template, '.')) {
+        if ( ! strstr($this->template, '.')) {
             $this->template = $this->viewPrefix . '.' . $this->template;
         }
         $this->template = str_replace('.', DS, ucfirst($this->template));
