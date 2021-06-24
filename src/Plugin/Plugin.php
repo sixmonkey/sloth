@@ -20,6 +20,7 @@ use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use \Brain\Hierarchy\QueryTemplate;
 use Sloth\Media\Version;
 use Sloth\Utility\Utility;
+use function post_password_required;
 
 class Plugin extends \Singleton
 {
@@ -108,8 +109,8 @@ class Plugin extends \Singleton
     {
         $file = realpath($file);
         include_once $file;
-        $st   = get_declared_classes();
-        
+        $st = get_declared_classes();
+
         foreach ($st as $class) {
             $rc = new \ReflectionClass($class);
             if ($rc->getFilename() == $file) {
@@ -342,12 +343,12 @@ border-collapse: collapse;
      .layotter-preview tr:nth-child(even),  .layotter-preview tr:nth-child(even) {
      background: #eee;
      }
-     
+
      td.media-icon img[src$=".svg"],
-     img[src$=".svg"].attachment-post-thumbnail { 
-     	width: 100% !important; height: auto !important; 
+     img[src$=".svg"].attachment-post-thumbnail {
+     	width: 100% !important; height: auto !important;
      }
-     
+
      .media-icon img[src$=".svg"] {
      	width: 60px;
      }
@@ -727,10 +728,15 @@ border-collapse: collapse;
 
             return;
         }
+        if (post_password_required()) {
+            $template = 'password-form';
+        }
 
         $this->currentLayout = $template;
 
         $view_name = basename($template, '.twig');
+
+        debug($view_name);
 
 
         if (in_array(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION),
