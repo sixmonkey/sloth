@@ -2,8 +2,7 @@
 
 namespace Sloth\Deployment;
 
-final class Deployment
-{
+final class Deployment {
     /**
      * Sloth\Deployment instance.
      *
@@ -23,9 +22,8 @@ final class Deployment
      *
      * @return \Sloth\Deployment\Deployment
      */
-    public static function instance()
-    {
-        if (is_null(static::$instance)) {
+    public static function instance() {
+        if ( is_null( static::$instance ) ) {
             static::$instance = new static();
         }
 
@@ -33,12 +31,22 @@ final class Deployment
     }
 
     /**
+     * Add required hooks to WordPress
+     */
+    public function boot() {
+        if ( getenv( 'SLOTH_DEPLOYMENT_WEBHOOK' ) ) {
+            foreach ( $this->hooks as $hook ) {
+                add_action( $hook, [ $this, 'trigger' ] );
+            }
+        }
+    }
+
+    /**
      * trigger the deployment
      */
-    public function trigger()
-    {
-        if ($hook = getenv('SLOTH_DEPLOYMENT_WEBHOOK')) {
-            wp_remote_post($hook);
+    public function trigger() {
+        if ( $hook = getenv( 'SLOTH_DEPLOYMENT_WEBHOOK' ) ) {
+            wp_remote_post( $hook );
         }
     }
 }
