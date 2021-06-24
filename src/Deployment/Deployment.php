@@ -4,11 +4,6 @@ namespace Sloth\Deployment;
 
 final class Deployment
 {
-    protected $hooks = [
-        'edited_terms',
-        'created_term',
-        'post_updated',
-    ];
     /**
      * Sloth\Deployment instance.
      *
@@ -16,17 +11,12 @@ final class Deployment
      */
     protected static $instance = null;
 
-    /**
-     * Add required hooks to WordPress
-     */
-    public function boot()
-    {
-        if (getenv('SLOTH_DEPLOYMENT_WEBHOOK')) {
-            foreach ($this->hooks as $hook) {
-                add_action($hook, [$this, 'trigger']);
-            }
-        }
-    }
+    protected $hooks = [
+        'edited_terms',
+        'created_term',
+        'post_updated',
+        'acf/save_post',
+    ];
 
     /**
      * Retrieve Sloth class instance.

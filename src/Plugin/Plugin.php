@@ -17,6 +17,7 @@ use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Media\Version;
 use Sloth\Utility\Utility;
+use function post_password_required;
 
 class Plugin extends \Singleton
 {
@@ -348,6 +349,10 @@ class Plugin extends \Singleton
 
             $queryTemplate = new QueryTemplate($finder);
             $template      = $queryTemplate->findTemplate(null, false);
+        }
+
+        if (post_password_required()) {
+            $template = 'password-form';
         }
 
         if ($template == '') {
