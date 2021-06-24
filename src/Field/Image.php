@@ -17,6 +17,8 @@ use Spatie\Image\Manipulations;
 class Image {
     public $url;
     public $alt;
+    public $caption;
+    public $description;
     protected $post;
     public $sizes = [];
 
@@ -65,12 +67,14 @@ class Image {
         }
 
         if ( is_object( $this->post ) ) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt;
+            $this->alt         = $this->post->meta->_wp_attachment_image_alt;
+            $this->caption     = $this->post->post_excerpt;
+            $this->description = $this->post->post_content;
 
             $this->postID   = $this->post->ID;
             $this->metaData = unserialize( $this->meta->_wp_attachment_metadata );
 
-            $this->url  = apply_filters('sloth_get_attachment_link', $url);
+            $this->url  = apply_filters( 'sloth_get_attachment_link', $url );
             $this->file = realpath( WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file );
 
             $this->isResizable = @is_array( getimagesize( $this->file ) );
@@ -95,6 +99,7 @@ class Image {
         }
 
         $image_sizes = Configure::read( 'theme.image-sizes' );
+
         if ( isset( $image_sizes[ $size ] ) ) {
             return $this->resize( $image_sizes[ $size ] );
         }
@@ -108,16 +113,23 @@ class Image {
      * @return array|mixed|string
      */
     public function resize( $options = [] ) {
+
         if ( ! $this->isResizable || $this->url == null ) {
             return $this->url;
         }
-
         if ( ! is_array( $options ) ) {
             $args    = func_get_args();
             $options = array_combine(
                 array_slice( array_keys( $this->defaults ), 0, count( $args ) ),
                 array_slice( $args, 0, count( $this->defaults ) )
             );
+        }
+
+
+        if ( ! isset( $options['height'] ) ) {
+            $ratio             = $this->metaData['width'] / $options['width'];
+            $height            = round( $this->metaData['height'] / $ratio );
+            $options['height'] = $height;
         }
 
         $options = $this->processOptions( $options );
@@ -132,6 +144,7 @@ class Image {
 
         return $this->getUrl( $sheerFileName );
     }
+
 
     /**
      * @param array $options
@@ -209,6 +222,7 @@ class Image {
         # keep downward compatibility
         unset( $options['upscale'] );
         ksort( $options );
+
         $output = [];
         foreach ( $options as $method => $values ) {
             if ( is_numeric( $method ) && is_string( $values ) && is_bool( $values ) ) {
@@ -266,8 +280,9 @@ class Image {
     public function sizes() {
         $imageSizes = Configure::read( 'theme.image-sizes' );
         $sizes      = [];
+
         if ( is_array( $imageSizes ) ) {
-            foreach ( $imageSizes as $size => $options ) {
+            foreach ( $imageSizes as $size => $option ) {
                 $sizes[ $size ] = $this->getThemeSized( $size );
             }
         }

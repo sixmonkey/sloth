@@ -121,6 +121,12 @@ class Module {
 		die();
 	}
 
+	final public function getData($data = []) {
+	    $this->set($data);
+        $this->beforeRender();
+	    return $this->viewVars;
+    }
+
 	final public function getAjaxUrl() {
 		return str_replace( home_url(),
 			'',
