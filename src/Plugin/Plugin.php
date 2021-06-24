@@ -736,9 +736,6 @@ border-collapse: collapse;
 
         $view_name = basename($template, '.twig');
 
-        debug($view_name);
-
-
         if (in_array(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION),
             ['jpg', 'jpeg', 'png', 'gif'])) {
             $mv = new Version($_SERVER['REQUEST_URI']);
