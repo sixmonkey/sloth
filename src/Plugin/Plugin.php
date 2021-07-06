@@ -270,17 +270,6 @@ class Plugin extends \Singleton
         ACFHelper::getInstance();
         \Deployment::instance()->boot();
 
-        /* @TODO: hacky pagination fix! */
-        add_action('pre_get_posts',
-            function ($query) {
-                if ( ! defined('REST_REQUEST')) {
-                    $query->set('posts_per_page', -1);
-                }
-
-                return $query;
-            });
-
-
         $this->fixRoutes();
         if (Configure::read('urls.relative')) {
             $this->makeUploadsRelative();
