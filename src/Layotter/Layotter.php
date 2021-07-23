@@ -33,7 +33,7 @@ final class Layotter extends \Singleton
      *
      * @return string
      */
-    private static final function get_template()
+    private static function get_template()
     {
         $pathinfo = pathinfo(get_page_template_slug());
 
@@ -66,7 +66,7 @@ final class Layotter extends \Singleton
      *
      * @return string
      */
-    private static final function get_post_type()
+    private static function get_post_type()
     {
         global $post;
 
@@ -82,7 +82,7 @@ final class Layotter extends \Singleton
      *
      * @return string
      */
-    public static final function enabled_post_types($post_types)
+    public static function enabled_post_types($post_types)
     {
         $post_types = self::$enabled_post_types;
         $all_types  = get_post_types(['public' => true]); #get all public post_types
@@ -110,7 +110,7 @@ final class Layotter extends \Singleton
      *
      * @return array
      */
-    public static final function allowed_row_layouts($row_layouts)
+    public static function allowed_row_layouts($row_layouts)
     {
         foreach (self::$settings_weight as $setting => $getter) { # loop through both settings arrays ($layouts_for_post_type and $layouts_for_template) and see for settings
             if (isset(self::${$setting}[call_user_func('self::' . $getter)])) {
@@ -132,7 +132,7 @@ final class Layotter extends \Singleton
      *
      * @return string
      */
-    public static final function default_row_layout($row_layout)
+    public static function default_row_layout($row_layout)
     {
         foreach (self::$settings_weight as $setting => $getter) {
             if (isset(self::${$setting}[call_user_func('self::' . $getter)])) {
@@ -158,7 +158,7 @@ final class Layotter extends \Singleton
      *
      * @return void
      */
-    public static final function set_layouts_for_post_type($post_type, array $layouts)
+    public static function set_layouts_for_post_type($post_type, array $layouts)
     {
         self::$layouts_for_post_type[$post_type] = $layouts;
     }
@@ -173,7 +173,7 @@ final class Layotter extends \Singleton
      *
      * @return void
      */
-    public static final function set_layouts_for_template($template, array $layouts)
+    public static function set_layouts_for_template($template, array $layouts)
     {
         self::$layouts_for_template[$template] = $layouts;
     }
@@ -187,7 +187,7 @@ final class Layotter extends \Singleton
      *
      * @return void
      */
-    public static final function disable_for_post_type($post_type)
+    public static function disable_for_post_type($post_type)
     {
         self::$disabled_post_types[] = $post_type;
     }
@@ -201,7 +201,7 @@ final class Layotter extends \Singleton
      *
      * @return void
      */
-    public static final function enable_for_post_type($post_type)
+    public static function enable_for_post_type($post_type)
     {
         self::$enabled_post_types[] = $post_type;
     }
