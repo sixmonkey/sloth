@@ -2,7 +2,8 @@
 
 namespace Sloth\Facades;
 
-class Deployment extends Facade {
+class Deployment extends Facade
+{
     /**
      * Return the service provider key responsible for the route class.
      * The key must be the same as the one used when registering
@@ -10,7 +11,8 @@ class Deployment extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor()
+    {
         return 'deployment';
     }
 }

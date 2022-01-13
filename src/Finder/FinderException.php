@@ -4,5 +4,6 @@ namespace Sloth\Finder;
 
 use Exception;
 
-class FinderException extends Exception {
+class FinderException extends Exception
+{
 }

@@ -2,13 +2,13 @@
 
 namespace Sloth\View\Extensions;
 
+use \Org\Heigl\Hyphenator as h;
 use Sloth\Core\Application;
 use Sloth\Facades\Configure;
-use Twig_SimpleTest;
+use Twig_Extension;
 use Twig_SimpleFilter;
 use Twig_SimpleFunction;
-use Twig_Extension;
-use \Org\Heigl\Hyphenator as h;
+use Twig_SimpleTest;
 
 class SlothTwigExtension extends Twig_Extension
 {
@@ -20,38 +20,6 @@ class SlothTwigExtension extends Twig_Extension
     public function __construct(Application $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * Define the extension name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sloth';
-    }
-
-    public function getTests()
-    {
-        return [
-            new Twig_SimpleTest('string', function ($value) {
-                return is_string($value);
-            }),
-        ];
-    }
-
-    /**
-     * Register a global "fn" which can be used
-     * to call any WordPress or core PHP functions.
-     *
-     * @return array
-     */
-    public function getGlobals()
-    {
-        return [
-            'fn' => $this,
-        ];
     }
 
     /**
@@ -101,10 +69,12 @@ class SlothTwigExtension extends Twig_Extension
             new Twig_SimpleFilter('tel', function ($phone) {
                 return 'tel:' . preg_replace("/[^0-9\+]/", "", $phone);
             }),
-            new Twig_SimpleFilter('sanitize',
+            new Twig_SimpleFilter(
+                'sanitize',
                 function ($string) {
                     return sanitize_title($string);
-                }),
+                }
+            ),
         ];
 
 
@@ -124,13 +94,15 @@ class SlothTwigExtension extends Twig_Extension
     public function getFunctions()
     {
         $functions = [
-            new Twig_SimpleFunction('module',
+            new Twig_SimpleFunction(
+                'module',
                 function ($name, $values = [], $options = []) {
                     ob_start();
                     $GLOBALS['sloth']->container->callModule($name, $values, $options);
 
                     return ob_get_clean();
-                }),
+                }
+            ),
             /*
              * WordPress theme functions.
              */
@@ -205,10 +177,12 @@ class SlothTwigExtension extends Twig_Extension
             new Twig_SimpleFunction('_nx_noop', function ($singular, $plural, $context, $domain = 'default') {
                 return _nx_noop($singular, $plural, $context, $domain);
             }),
-            new Twig_SimpleFunction('translate_nooped_plural',
+            new Twig_SimpleFunction(
+                'translate_nooped_plural',
                 function ($nooped_plural, $count, $domain = 'default') {
                     return translate_nooped_plural($nooped_plural, $count, $domain);
-                }),
+                }
+            ),
             new Twig_SimpleFunction('pll_e', 'pll_e'),
             new Twig_SimpleFunction('pll__', 'pll__'),
         ];
@@ -222,8 +196,39 @@ class SlothTwigExtension extends Twig_Extension
         return $functions;
     }
 
+    /**
+     * Register a global "fn" which can be used
+     * to call any WordPress or core PHP functions.
+     *
+     * @return array
+     */
+    public function getGlobals()
+    {
+        return [
+            'fn' => $this,
+        ];
+    }
+
+    /**
+     * Define the extension name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'sloth';
+    }
+
+    public function getTests()
+    {
+        return [
+            new Twig_SimpleTest('string', function ($value) {
+                return is_string($value);
+            }),
+        ];
+    }
+
     public function initRuntime(\Twig_Environment $environment)
     {
-
     }
 }

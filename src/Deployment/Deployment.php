@@ -14,6 +14,7 @@ final class Deployment {
         'edited_terms',
         'created_term',
         'post_updated',
+        'acf/save_post',
     ];
 
     /**
