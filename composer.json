@@ -6,6 +6,7 @@
             "email": "hallo@benkremer.de"
         }
     ],
+    "license": "GPL-2.0",
     "require": {
         "brain/hierarchy": "^2.3",
         "cakephp/utility": "^3.5",
