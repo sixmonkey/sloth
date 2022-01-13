@@ -10,16 +10,19 @@
     "require": {
         "brain/hierarchy": "^2.3",
         "cakephp/utility": "^3.5",
-        "corcel/acf": "^1.0",
+        "corcel/acf": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.17",
         "gossi/docblock": "^1.6",
-        "haydenpierce/class-finder": "^0.4.2",
-        "illuminate/container": "5.6.33",
-        "illuminate/filesystem": "5.6.33",
-        "illuminate/http": "5.6.33",
-        "illuminate/pagination": "5.6.33",
-        "illuminate/validation": "^5.6",
-        "illuminate/view": "5.6.33",
-        "jgrossi/corcel": "^2.4",
+        "illuminate/console": "6.18",
+        "illuminate/container": "^6.18",
+        "illuminate/events": "^6.18",
+        "illuminate/filesystem": "^6.18",
+        "illuminate/http": "^6.18",
+        "illuminate/log": "^6.18",
+        "illuminate/pagination": "^6.18",
+        "illuminate/validation": "^6.18",
+        "illuminate/view": "^6.18",
+        "jgrossi/corcel": "^3.0",
         "jjgrainger/posttypes": "^2.0",
         "jover/singleton": "^1.0",
         "kdyby/html-validator-panel": "^1.1",
@@ -29,11 +32,32 @@
         "nofutur3/tracy-gitpanel": "^0.9.4",
         "org_heigl/hyphenator": "^2.2",
         "roots/wp-password-bcrypt": "^1.0",
-        "spatie/emoji": "^1.0",
+        "staudenmeir/belongs-to-through": "v2.9",
         "spatie/image": "1.10.4",
+        "spatie/emoji": "^2.0",
         "tracy/tracy": "2.5.6",
         "twig/twig": "^1.0",
         "vlucas/phpdotenv": "^2.4"
+    },
+    "require-dev": {
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "ergebnis/composer-normalize": "^2.11"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "hooks": {
+            "post-merge": [
+                "composer install --ignore-platform-reqs"
+            ],
+            "pre-commit": [
+                "vendor/bin/php-cs-fixer fix",
+                "composer normalize"
+            ]
+        }
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +67,10 @@
             "src/functions.php"
         ]
     },
-    "config": {
-        "sort-packages": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update"
     }
 }

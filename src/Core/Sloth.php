@@ -3,13 +3,11 @@
 namespace Sloth\Core;
 
 use Sloth\Debugger\SlothBarPanel;
-use Sloth\Route\Route;
 use Tracy\Debugger;
 use Tracy\Dumper;
-use Corcel\Database;
 
-class Sloth extends \Singleton {
-
+class Sloth extends \Singleton
+{
     public $container;
 
     /**
@@ -26,26 +24,26 @@ class Sloth extends \Singleton {
         'Customizer' => '\Sloth\Facades\Customizer',
     ];
 
-    private $dont_debug = [ 'admin-ajax.php', 'async-upload.php' ];
+    private $dont_debug = ['admin-ajax.php', 'async-upload.php'];
 
-    public function __construct() {
-        @include( DIR_ROOT . DS . 'develop.config.php' );
+    public function __construct()
+    {
         /**
          * enable debugging where needed
          */
         $this->setDebugging();
 
         /*
-		 * Instantiate the service container for the project.
-		 */
+         * Instantiate the service container for the project.
+         */
         $this->container = new \Sloth\Core\Application();
 
-        $this->container->addPath( 'cache', DIR_CACHE );
+        $this->container->addPath('cache', DIR_CACHE);
 
         /*
-		 * Setup the facade.
-		 */
-        \Sloth\Facades\Facade::setFacadeApplication( $this->container );
+         * Setup the facade.
+         */
+        \Sloth\Facades\Facade::setFacadeApplication($this->container);
 
 
         $this->registerProviders();
@@ -54,20 +52,39 @@ class Sloth extends \Singleton {
          * Set aliases for common classes
          */
         $this->setAliases();
+    }
 
-        /**
-         * open database connection for corcel
-         */
-        $this->connectCorcel();
+    /**
+     * Hook into front-end routing.
+     * Setup the router API to be executed before
+     * theme default templates.
+     */
+    public function dispatchRouter()
+    {
+        if (is_feed() || is_comment_feed()) {
+            return;
+        }
+        $this->container['route']->dispatch();
+    }
+
+    /**
+     * Hook into front-end routing.
+     * Setup the router API to be executed before
+     * theme default templates.
+     */
+    public function setRouter()
+    {
+        $this->container['route']->setRewrite();
     }
 
     /**
      * Register core framework service providers.
      */
-    protected function registerProviders() {
+    protected function registerProviders()
+    {
         /*
-		 * Service providers.
-		 */
+         * Service providers.
+         */
         $providers = [
             \Sloth\Route\RouteServiceProvider::class,
             \Sloth\Finder\FinderServiceProvider::class,
@@ -82,39 +99,19 @@ class Sloth extends \Singleton {
             \Sloth\Admin\CustomizerServiceProvider::class,
         ];
 
-        foreach ( $providers as $provider ) {
-            $this->container->register( $provider );
+        foreach ($providers as $provider) {
+            $this->container->register($provider);
         }
-    }
-
-    /**
-     * Hook into front-end routing.
-     * Setup the router API to be executed before
-     * theme default templates.
-     */
-    public function setRouter() {
-        $this->container['route']->setRewrite();
-    }
-
-    /**
-     * Hook into front-end routing.
-     * Setup the router API to be executed before
-     * theme default templates.
-     */
-    public function dispatchRouter() {
-        if ( is_feed() || is_comment_feed() ) {
-            return;
-        }
-        $this->container['route']->dispatch();
     }
 
     /**
      * Set some aliases for commonly used classes
      */
-    private function setAliases() {
-        foreach ( $this->class_aliases as $alias => $class ) {
-            if ( ! class_exists( $alias ) ) {
-                class_alias( $class, $alias );
+    private function setAliases()
+    {
+        foreach ($this->class_aliases as $alias => $class) {
+            if (! class_exists($alias)) {
+                class_alias($class, $alias);
             }
         }
     }
@@ -122,33 +119,23 @@ class Sloth extends \Singleton {
     /**
      * Set Debugging
      */
-    private function setDebugging() {
+    private function setDebugging()
+    {
         $mode                   = WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
         Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
         $logDirectoy            = DIR_ROOT . DS . 'logs';
-        if ( ! is_dir( $logDirectoy ) ) {
-            mkdir( $logDirectoy );
+        if (! is_dir($logDirectoy)) {
+            mkdir($logDirectoy);
         }
-        Debugger::getBar()->addPanel( new \Nofutur3\GitPanel\Diagnostics\Panel() );
-        Debugger::getBar()->addPanel( new \Milo\VendorVersions\Panel );
-        Debugger::getBar()->addPanel( new SlothBarPanel() );
+        Debugger::getBar()->addPanel(new \Nofutur3\GitPanel\Diagnostics\Panel());
+        Debugger::getBar()->addPanel(new \Milo\VendorVersions\Panel);
+        Debugger::getBar()->addPanel(new SlothBarPanel());
         /* TODO: could be nicer? */
-        #if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
-        Debugger::enable( $mode, DIR_ROOT . DS . 'logs' );
-        #}
-        if ( getenv( 'SLOTH_DEBUGGER_EDITOR' ) ) {
-            Debugger::$editor = getenv( 'SLOTH_DEBUGGER_EDITOR' );
+        if (WP_DEBUG && ! in_array(basename($_SERVER['PHP_SELF']), $this->dont_debug)) {
+            Debugger::enable($mode, DIR_ROOT . DS . 'logs');
         }
-    }
-
-    private function connectCorcel() {
-        $params = [
-            'host'     => DB_HOST,
-            'database' => DB_NAME,
-            'username' => DB_USER,
-            'password' => DB_PASSWORD,
-            'prefix'   => DB_PREFIX // default prefix is 'wp_', you can change to your own prefix
-        ];
-        \Corcel\Database::connect( $params );
+        if (getenv('SLOTH_DEBUGGER_EDITOR')) {
+            Debugger::$editor = getenv('SLOTH_DEBUGGER_EDITOR');
+        }
     }
 }
