@@ -4,6 +4,7 @@ namespace Sloth\Module;
 
 use Sloth\Facades\View as View;
 use Sloth\Utility\Utility;
+use Cake\Utility\Hash;
 
 class Module {
 	public static $layotter = false;
@@ -59,7 +60,7 @@ class Module {
 	 */
 	public function render() {
 		if ( ! $this->doing_ajax ) {
-			$this->set( $GLOBALS['sloth::plugin']->getContext() );
+			$this->set( $GLOBALS['sloth::plugin']->getContext(), false );
 		}
 		$this->set( 'ajax_url', $this->getAjaxUrl() );
 		$this->beforeRender();
@@ -79,40 +80,52 @@ class Module {
 		return $output;
 	}
 
-	final public function set( $key, $value = null ) {
+	final public function set( $key, $value = null, $override = true ) {
+		// @TODO move to Cake Hash behavior
 		if ( is_array( $key ) ) {
+			$override = is_bool( $value ) ? $value : true;
 			foreach ( $key as $k => $v ) {
-				$this->set( $k, $v );
+				if ( $override || ! $this->isSet( $k ) ) {
+					$this->set( $k, $v );
+				}
 			}
 		} else {
-			$this->viewVars[ $key ] = $this->_prepareValue( $value );
+			if ( $override || ! $this->isSet( $key ) ) {
+				$this->viewVars[ $key ] = $this->_prepareValue( $value );
+			}
 		}
 	}
 
 	final protected function get( $k ) {
-		if ( ! isset( $this->viewVars[ $k ] ) ) {
-			$this->viewVars[ $k ] = null;
-		}
+		return Hash::get( $this->viewVars, $k );
+	}
 
-		return $this->viewVars[ $k ];
+	final public function isSet( $key ) {
+		return Hash::get( $this->viewVars, $key ) !== null;
 	}
 
 	final public function unset( $key ) {
-		unset( $this->viewVars[ $key ] );
+		$this->viewVars = Hash::remove( $this->viewVars, $key );
 	}
 
 	final protected function _get( $k ) {
 		return $this->get( $k );
 	}
 
-	final public function getJSON() {
+	final public function getJSON( $request = null ) {
 		$this->doing_ajax = true;
 		$this->beforeRender();
-		$this->beforeGetJSON();
+		$this->beforeGetJSON( $request );
 		header( 'Content-Type: application/json' );
 		echo json_encode( $this->viewVars, 1 );
 		die();
 	}
+
+	final public function getData($data = []) {
+	    $this->set($data);
+        $this->beforeRender();
+	    return $this->viewVars;
+    }
 
 	final public function getAjaxUrl() {
 		return str_replace( home_url(),
@@ -132,5 +145,9 @@ class Module {
 		}
 
 		return $value;
+	}
+
+	final protected function debugViewVars() {
+		debug( $this->viewVars );
 	}
 }

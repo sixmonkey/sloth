@@ -107,7 +107,7 @@ class Scaffolder {
 
 		$filename_sass_bundle = $sass_dir . 'bundle.scss';
 		file_put_contents( $filename_sass_bundle,
-			sprintf( "\n\t@import 'modules/%s';", $context['name_view'] ),
+			sprintf( "\n@import 'modules/%s';", $context['name_view'] ),
 			FILE_APPEND );
 
 		if ( $context['layotter'] ) {

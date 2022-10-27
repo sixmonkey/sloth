@@ -67,32 +67,44 @@ if ($vendor_directory === false) {
 }
 
 require_once $vendor_directory . '/autoload.php'; */
-require_once( DIR_VENDOR . DS . 'autoload.php' );
+$loader = require_once( DIR_VENDOR . DS . 'autoload.php' );
+
+if ( file_exists( DIR_APP . 'config' . DS . 'loader.php' ) ) {
+    include DIR_APP . 'config' . DS . 'loader.php';
+}
 
 /**
  * Use Dotenv to set required environment variables and load .env file in root
  */
-$dotenv = new Dotenv\Dotenv( DIR_ROOT );
-$dotenv->load();
-$dotenv->required( [ 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL' ] );
+if ( file_exists( DIR_ROOT . '.env' ) ) {
+    $dotenv = new Dotenv\Dotenv( DIR_ROOT );
+    $dotenv->load();
+    $dotenv->required( [ 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL' ] );
+}
+
+/**
+ * Shorthand for Configure in env configs
+ */
+class_alias( '\Sloth\Configure\Configure', 'Configure' );
+Configure::boot();
 
 /**
  * env config
  */
 # get current environment
 if ( getenv( 'WP_ENV' ) !== false ) {
-	define( 'WP_ENV', getenv( 'WP_ENV' ) );
+    define( 'WP_ENV', getenv( 'WP_ENV' ) );
 } else if ( file_exists( DIR_ENVCFG . $_SERVER['HTTP_HOST'] . '.config.php' ) ) {
-	define( 'WP_ENV', $_SERVER['HTTP_HOST'] );
+    define( 'WP_ENV', $_SERVER['HTTP_HOST'] );
 } else if ( file_exists( DIR_ENVCFG . '/config/qundg-config.' . gethostname() . '.config.php' ) ) {
-	define( 'WP_ENV', gethostname() );
+    define( 'WP_ENV', gethostname() );
 } else {
-	define( 'WP_ENV', 'production' );
+    define( 'WP_ENV', 'production' );
 }
 
 $env_config = DIR_CFG . 'environments' . DS . WP_ENV . '.config.php';
 if ( file_exists( $env_config ) ) {
-	require_once DIR_CFG . 'environments' . DS . WP_ENV . '.config.php';
+    require_once DIR_CFG . 'environments' . DS . WP_ENV . '.config.php';
 }
 
 /**
@@ -100,7 +112,7 @@ if ( file_exists( $env_config ) ) {
  */
 $app_config = DIR_CFG . 'app.config.php';
 if ( file_exists( $app_config ) ) {
-	require_once DIR_CFG . 'app.config.php';
+    require_once DIR_CFG . 'app.config.php';
 }
 
 /**
