@@ -9,7 +9,7 @@
     "require": {
         "brain/hierarchy": "^2.3",
         "cakephp/utility": "^3.5",
-        "corcel/acf": "^1.0",
+        "corcel/acf": "^4.0",
         "gossi/docblock": "^1.6",
         "haydenpierce/class-finder": "^0.4.2",
         "illuminate/container": "^9.0.0",
