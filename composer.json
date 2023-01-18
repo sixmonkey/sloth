@@ -16,7 +16,7 @@
         "illuminate/filesystem": "5.6.33",
         "illuminate/http": "5.6.33",
         "illuminate/pagination": "5.6.33",
-        "illuminate/validation": "^5.6",
+        "illuminate/validation": "^9.0.0",
         "illuminate/view": "5.6.33",
         "jgrossi/corcel": "^2.4",
         "jjgrainger/posttypes": "^2.0",
