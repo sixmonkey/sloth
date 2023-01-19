@@ -18,7 +18,7 @@
         "illuminate/pagination": "^8.0.0",
         "illuminate/validation": "^8.0.0",
         "illuminate/view": "^8.0.0",
-        "jgrossi/corcel": "^6.0",
+        "jgrossi/corcel": "^5.0",
         "jjgrainger/posttypes": "^2.0",
         "jover/singleton": "^1.0",
         "kdyby/html-validator-panel": "^1.1",
