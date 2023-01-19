@@ -13,7 +13,7 @@
         "gossi/docblock": "^1.6",
         "haydenpierce/class-finder": "^0.4.2",
         "illuminate/container": "^9.0.0",
-        "illuminate/filesystem": "^9.0.0",
+        "illuminate/filesystem": "^8.0.0",
         "illuminate/http": "^9.0.0",
         "illuminate/pagination": "^9.0.0",
         "illuminate/validation": "^9.0.0",
