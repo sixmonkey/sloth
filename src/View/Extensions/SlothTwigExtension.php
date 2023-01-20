@@ -9,8 +9,9 @@ use Twig_SimpleFilter;
 use Twig_SimpleFunction;
 use Twig_Extension;
 use \Org\Heigl\Hyphenator as h;
+use Twig\Extension\AbstractExtension;
 
-class SlothTwigExtension extends Twig_Extension
+class SlothTwigExtension extends AbstractExtension
 {
     /**
      * @var \Sloth\Core\Application
