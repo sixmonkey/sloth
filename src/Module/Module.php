@@ -31,7 +31,7 @@ class Module {
 	protected function beforeGetJSON() {
 	}
 
-	final private function getTemplate() {
+	private function getTemplate() {
 		if ( is_null( $this->template ) ) {
 			$class          = get_class( $this );
 			$this->template = \Cake\Utility\Inflector::dasherize( preg_replace( '/Module$/',
@@ -44,7 +44,7 @@ class Module {
 		$this->template = str_replace( '.', DS, ucfirst( $this->template ) );
 	}
 
-	final private function makeView() {
+	private function makeView() {
 		$this->getTemplate();
 		$this->view = View::make( $this->template );
 	}
