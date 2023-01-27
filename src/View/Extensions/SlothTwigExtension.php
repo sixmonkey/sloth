@@ -81,7 +81,7 @@ class SlothTwigExtension extends AbstractExtension
     public function getFilters()
     {
         $filters = [
-            new TwigFilter\('hyphenate', function ($input) {
+            new TwigFilter('hyphenate', function ($input) {
                 $input = ' ' . $input;
                 $o     = new h\Options();
                 $o->setHyphen('&shy;')
