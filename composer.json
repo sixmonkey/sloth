@@ -4,6 +4,13 @@
         {
             "name": "Ben Kremer",
             "email": "hallo@benkremer.de"
+        },
+        {
+            "name": "Jochen Wichmann",
+        },
+        {
+            "name": "Max Leistner",
+            "email": "mail@maxleistner.de"
         }
     ],
     "require": {
@@ -29,7 +36,7 @@
         "roots/wp-password-bcrypt": "^1.0",
         "spatie/emoji": "^4.0",
         "spatie/image": "1.10.4",
-        "tracy/tracy": "2.9.0",
+        "tracy/tracy": "^3.0",
         "twig/twig": "^3.0",
         "vlucas/phpdotenv": "^2.4"
     },
