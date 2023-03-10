@@ -5,8 +5,9 @@ namespace Sloth\ACF;
 
 
 use Sloth\Field\Image;
+use Sloth\Singleton\Singleton;
 
-class ACFHelper extends \Singleton {
+class ACFHelper extends Singleton {
     public function __construct() {
         add_action( 'init', [ $this, 'addFilters' ] );
     }

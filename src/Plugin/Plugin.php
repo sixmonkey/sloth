@@ -11,6 +11,7 @@ use Sloth\CarbonFields\CarbonFields;
 use Sloth\Facades\Configure;
 use Sloth\Facades\Deployment;
 use Sloth\Facades\View;
+use Sloth\Singleton\Singleton;
 
 use PostTypes\PostType;
 
@@ -22,7 +23,7 @@ use Sloth\Media\Version;
 use Sloth\Utility\Utility;
 use function post_password_required;
 
-class Plugin extends \Singleton
+class Plugin extends Singleton
 {
     public $current_theme_path;
     private $container;

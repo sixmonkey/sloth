@@ -20,7 +20,6 @@
         "illuminate/view": "^8.0.0",
         "jgrossi/corcel": "^5.0",
         "jjgrainger/posttypes": "^2.0",
-        "jover/singleton": "^1.0",
         "kdyby/html-validator-panel": "^1.1",
         "league/climate": "^3.2",
         "milo/vendor-versions": "^1.1",
@@ -30,7 +29,7 @@
         "roots/wp-password-bcrypt": "^1.0",
         "spatie/emoji": "^4.0",
         "spatie/image": "1.10.4",
-        "tracy/tracy": "2.5.6",
+        "tracy/tracy": "2.9.0",
         "twig/twig": "^3.0",
         "vlucas/phpdotenv": "^2.4"
     },
