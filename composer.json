@@ -37,7 +37,7 @@
         "spatie/emoji": "^4.0",
         "spatie/image": "1.10.4",
         "tracy/tracy": "^2.10",
-        "twig/twig": "^3.0",
+        "twig/twig": "^2.0",
         "vlucas/phpdotenv": "^2.4"
     },
     "autoload": {
