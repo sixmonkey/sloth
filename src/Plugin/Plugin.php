@@ -274,7 +274,7 @@ class Plugin extends Singleton
         /* @TODO: hacky pagination fix! */
         add_action('pre_get_posts',
             function ($query) {
-                if ( ! defined('REST_REQUEST')) {
+                if (!is_admin() && !defined('REST_REQUEST')) {
                     $query->set('posts_per_page', -1);
                 }
 
