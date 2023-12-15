@@ -178,7 +178,7 @@ class Image {
 
         // Get image info.
         $info = pathinfo( $this->file );
-        $ext  = $info['extension'];
+        $ext  = $info['extension'] ?? '';
 
         $dst_rel_path = str_replace( '.' . $ext, '', $this->file );
         $dst_rel_path = str_replace( $upload_dir, '', $dst_rel_path );
