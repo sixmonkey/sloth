@@ -4,6 +4,7 @@ namespace Sloth\View\Engines;
 
 use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\ViewFinderInterface;
+use Twig\Environment;
 use Twig_Environment;
 
 class TwigEngine extends PhpEngine {
@@ -22,7 +23,7 @@ class TwigEngine extends PhpEngine {
 	 */
 	protected $extension = '.twig';
 
-	public function __construct( Twig_Environment $environment, ViewFinderInterface $finder ) {
+	public function __construct( Environment $environment, ViewFinderInterface $finder ) {
 		$this->environment = $environment;
 		$this->finder      = $finder;
 	}

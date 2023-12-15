@@ -13,9 +13,10 @@ use \Brain\Hierarchy\QueryTemplate;
 use Sloth\Facades\Configure;
 use Sloth\Utility\Utility;
 use Sloth\Facades\View;
+use Sloth\Singleton\Singleton;
 
 
-final class Layotter extends \Singleton
+final class Layotter extends Singleton
 {
     public static $disabled_post_types = ['attachement'];
     public static $layouts_for_post_type = [

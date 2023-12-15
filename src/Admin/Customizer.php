@@ -3,8 +3,9 @@
 namespace Sloth\Admin;
 
 use Sloth\Facades\View;
+use Sloth\Singleton\Singleton;
 
-class Customizer extends \Singleton {
+class Customizer extends Singleton {
 
     protected static $instance;
     public static $done = [];

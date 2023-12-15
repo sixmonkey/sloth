@@ -11,6 +11,7 @@ use Sloth\CarbonFields\CarbonFields;
 use Sloth\Facades\Configure;
 use Sloth\Facades\Deployment;
 use Sloth\Facades\View;
+use Sloth\Singleton\Singleton;
 
 use PostTypes\PostType;
 
@@ -22,7 +23,7 @@ use Sloth\Media\Version;
 use Sloth\Utility\Utility;
 use function post_password_required;
 
-class Plugin extends \Singleton
+class Plugin extends Singleton
 {
     public $current_theme_path;
     private $container;
@@ -273,7 +274,7 @@ class Plugin extends \Singleton
         /* @TODO: hacky pagination fix! */
         add_action('pre_get_posts',
             function ($query) {
-                if ( ! defined('REST_REQUEST')) {
+                if (!is_admin() && !defined('REST_REQUEST')) {
                     $query->set('posts_per_page', -1);
                 }
 

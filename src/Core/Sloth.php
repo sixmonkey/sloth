@@ -7,8 +7,9 @@ use Sloth\Route\Route;
 use Tracy\Debugger;
 use Tracy\Dumper;
 use Corcel\Database;
+use Sloth\Singleton\Singleton;
 
-class Sloth extends \Singleton {
+class Sloth extends Singleton {
 
     public $container;
 

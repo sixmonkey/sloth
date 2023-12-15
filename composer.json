@@ -4,23 +4,29 @@
         {
             "name": "Ben Kremer",
             "email": "hallo@benkremer.de"
+        },
+        {
+            "name": "Jochen Wichmann"
+        },
+        {
+            "name": "Max Leistner",
+            "email": "mail@maxleistner.de"
         }
     ],
     "require": {
         "brain/hierarchy": "^2.3",
         "cakephp/utility": "^3.5",
-        "corcel/acf": "^1.0",
+        "corcel/acf": "^4.0",
         "gossi/docblock": "^1.6",
         "haydenpierce/class-finder": "^0.4.2",
-        "illuminate/container": "5.6.33",
-        "illuminate/filesystem": "5.6.33",
-        "illuminate/http": "5.6.33",
-        "illuminate/pagination": "5.6.33",
-        "illuminate/validation": "^5.6",
-        "illuminate/view": "5.6.33",
-        "jgrossi/corcel": "^2.4",
+        "illuminate/container": "^8.0.0",
+        "illuminate/filesystem": "^8.0.0",
+        "illuminate/http": "^8.0.0",
+        "illuminate/pagination": "^8.0.0",
+        "illuminate/validation": "^8.0.0",
+        "illuminate/view": "^8.0.0",
+        "jgrossi/corcel": "^5.0",
         "jjgrainger/posttypes": "^2.0",
-        "jover/singleton": "^1.0",
         "kdyby/html-validator-panel": "^1.1",
         "league/climate": "^3.2",
         "milo/vendor-versions": "^1.1",
@@ -28,10 +34,10 @@
         "nofutur3/tracy-gitpanel": "^0.9.4",
         "org_heigl/hyphenator": "^2.2",
         "roots/wp-password-bcrypt": "^1.0",
-        "spatie/emoji": "^1.0",
+        "spatie/emoji": "^4.0",
         "spatie/image": "1.10.4",
-        "tracy/tracy": "2.5.6",
-        "twig/twig": "^1.0",
+        "tracy/tracy": "^2.10",
+        "twig/twig": "^3.0",
         "vlucas/phpdotenv": "^2.4"
     },
     "autoload": {
