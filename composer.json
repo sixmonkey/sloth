@@ -31,7 +31,7 @@
         "league/climate": "^3.2",
         "milo/vendor-versions": "^1.1",
         "nikic/fast-route": "^1.2",
-        "nofutur3/tracy-gitpanel": "^0.9.4",
+        "nofutur3/tracy-gitpanel": "^0.9",
         "org_heigl/hyphenator": "^2.2",
         "roots/wp-password-bcrypt": "^1.0",
         "spatie/emoji": "^4.0",
