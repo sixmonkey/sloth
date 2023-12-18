@@ -3,6 +3,7 @@
 namespace Sloth\Core;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 
 class Application extends Container {
 	/**
@@ -69,11 +70,15 @@ class Application extends Container {
 		$this->instance( 'path.' . $key, $path );
 	}
 
-	/**
-	 *
-	 */
+    /**
+     * calls a module
+     *
+     * @param $name
+     * @param $data
+     * @param $options
+     */
 	public function callModule( $name, $data = [], $options = [] ) {
-		$module_name = 'Theme\Module\\' . \Cake\Utility\Inflector::camelize( str_replace( '-',
+		$module_name = 'Theme\Module\\' . Str::camel( str_replace( '-',
 				'_',
 				$name ) ) . 'Module';
 		$myModule    = new $module_name( $options );

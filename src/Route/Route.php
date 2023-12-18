@@ -4,6 +4,7 @@ namespace Sloth\Route;
 
 use Brain\Hierarchy\Hierarchy;
 use Corcel\Model\Post as Post;
+use Illuminate\Support\Str;
 
 final class Route {
 	/**
@@ -291,7 +292,7 @@ final class Route {
 	}
 
 	private function getController( $name ) {
-		return 'Theme\Controller\\' . \Cake\Utility\Inflector::camelize( str_replace( '-',
+		return 'Theme\Controller\\' . Str::camelCase( str_replace( '-',
 				'_',
 				$name ) ) . 'Controller';
 	}

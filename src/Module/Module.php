@@ -134,7 +134,6 @@ class Module
      */
     final public function set($key, $value = null, bool $override = true)
     {
-        // @TODO move to Cake Hash behavior
         if (is_array($key)) {
             $override = !is_bool($value) || $value;
             foreach ($key as $k => $v) {
