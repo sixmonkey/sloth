@@ -3,15 +3,11 @@
 namespace Sloth\Admin;
 
 use Sloth\Facades\View;
+use Sloth\Singleton\Singleton;
 
-class Customizer extends \Singleton
-{
-    public static $add_menu_items = [];
-    public static $add_menu_separators = [];
-    public static $add_post_list_columns = [];
-    public static $add_submenu_items = [];
-    public static $custom_dashboard = [];
-    public static $disable_taxonomies = [];
+class Customizer extends Singleton {
+
+    protected static $instance;
     public static $done = [];
     public static $move_menu_items = [];
     public static $remove_admin_bar_menus = [];

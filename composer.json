@@ -4,40 +4,43 @@
         {
             "name": "Ben Kremer",
             "email": "hallo@benkremer.de"
+        },
+        {
+            "name": "Jochen Wichmann"
+        },
+        {
+            "name": "Max Leistner",
+            "email": "mail@maxleistner.de"
         }
     ],
     "license": "GPL-2.0",
     "require": {
         "brain/hierarchy": "^2.3",
         "cakephp/utility": "^3.5",
-        "corcel/acf": "^2.0",
-        "friendsofphp/php-cs-fixer": "^2.17",
+        "corcel/acf": "^4.0",
         "gossi/docblock": "^1.6",
-        "illuminate/console": "6.18",
-        "illuminate/container": "^6.18",
-        "illuminate/events": "^6.18",
-        "illuminate/filesystem": "^6.18",
-        "illuminate/http": "^6.18",
-        "illuminate/log": "^6.18",
-        "illuminate/pagination": "^6.18",
-        "illuminate/validation": "^6.18",
-        "illuminate/view": "^6.18",
-        "jgrossi/corcel": "^3.0",
+        "haydenpierce/class-finder": "^0.4.2",
+        "illuminate/container": "^8.0.0",
+        "illuminate/filesystem": "^8.0.0",
+        "illuminate/http": "^8.0.0",
+        "illuminate/pagination": "^8.0.0",
+        "illuminate/validation": "^8.0.0",
+        "illuminate/view": "^8.0.0",
+        "jgrossi/corcel": "^5.0",
         "jjgrainger/posttypes": "^2.0",
-        "jover/singleton": "^1.0",
         "kdyby/html-validator-panel": "^1.1",
         "league/climate": "^3.2",
         "milo/vendor-versions": "^1.1",
         "nikic/fast-route": "^1.2",
-        "nofutur3/tracy-gitpanel": "^0.9.4",
+        "nofutur3/tracy-gitpanel": "^0.9",
         "org_heigl/hyphenator": "^2.2",
         "roots/wp-password-bcrypt": "^1.0",
-        "staudenmeir/belongs-to-through": "v2.9",
+        "spatie/emoji": "^4.0",
         "spatie/image": "1.10.4",
-        "spatie/emoji": "^2.0",
-        "tracy/tracy": "2.5.6",
-        "twig/twig": "^1.0",
-        "vlucas/phpdotenv": "^2.4"
+        "tracy/tracy": "^2.10",
+        "twig/twig": "^3.0",
+        "vlucas/phpdotenv": "^2.4",
+        "ext-json": "*"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",

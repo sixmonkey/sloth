@@ -4,6 +4,7 @@ namespace Sloth\Route;
 
 use Brain\Hierarchy\Hierarchy;
 use Corcel\Model\Post as Post;
+use Illuminate\Support\Str;
 
 final class Route
 {
@@ -349,4 +350,46 @@ final class Route
 
         return $route;
     }
+}
+
+	private function getController( $name ) {
+		return 'Theme\Controller\\' . Str::camelCase( str_replace( '-',
+				'_',
+				$name ) ) . 'Controller';
+	}
+
+	/**
+	 * Returns the regex to be registered as a rewrite rule to let WordPress know the existence of this route
+	 *
+	 * @return mixed|string
+	 */
+	private function getRewriteRuleRegex( $routeRegex ) {
+		if ( preg_match( '/^~/', $routeRegex ) ) {
+			// Remove the first part (~^/) of the regex because WordPress adds this already by itself
+			$routeRegex = preg_replace( '/^\~\^/', '^', $routeRegex );
+			// Remove the last part (\$\~$) of the regex because WordPress adds this already by itself
+			$routeRegex = preg_replace( '/\$\~$/', '', $routeRegex );
+		} else {
+			$routeRegex = preg_replace( '/^\//', '^', $routeRegex );
+			$routeRegex = preg_replace( '/\/$/', '', $routeRegex );
+			$routeRegex .= '/$';
+		}
+
+		return $routeRegex;
+	}
+
+	/**
+	 * Adds rewrite_tag and rewrite_rule for WordPress to know about the routes
+	 *
+	 * @TODO: does not seem to work?
+	 *
+	 */
+	public function setRewrite() {
+		$regexes = array_unique( $this->regexes );
+		foreach ( $regexes as $regex ) {
+			add_rewrite_tag( '%is_sloth_route%', '(\d)' );
+			add_rewrite_rule( $regex, 'index.php?is_sloth_route=1', 'top' );
+		}
+		#flush_rewrite_rules( true );
+	}
 }

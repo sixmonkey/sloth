@@ -9,15 +9,7 @@ use const DIRECTORY_SEPARATOR;
 use function file_get_contents;
 use function get_class;
 use Illuminate\Container\Container;
-use Illuminate\Events\EventServiceProvider;
-use Illuminate\Log\LogServiceProvider;
-use function is_null;
-use function json_decode;
-use function method_exists;
-use function realpath;
-use function rtrim;
-use Sloth\Route\RouteServiceProvider;
-use function str_replace;
+use Illuminate\Support\Str;
 
 class Application extends Container
 {
@@ -92,21 +84,22 @@ class Application extends Container
     }
 
     /**
-     * @param mixed $name
-     * @param mixed $data
-     * @param mixed $options
+     * calls a module
+     *
+     * @param $name
+     * @param $data
+     * @param $options
      */
-    public function callModule($name, $data = [], $options = [])
-    {
-        $module_name = 'Theme\Module\\' . \Cake\Utility\Inflector::camelize(str_replace(
-            '-',
-            '_',
-            $name
-        )) . 'Module';
-        $myModule    = new $module_name($options);
-        foreach ($data as $k => $v) {
-            $myModule->set($k, $v);
-        }
+	public function callModule( $name, $data = [], $options = [] ) {
+		$module_name = 'Theme\Module\\' . Str::camel( str_replace( '-',
+				'_',
+				$name ) ) . 'Module';
+		$myModule    = new $module_name( $options );
+		foreach ( $data as $k => $v ) {
+			$myModule->set( $k, $v );
+		}
+		return $myModule->render();
+	}
 
         return $myModule->render();
     }

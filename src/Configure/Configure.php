@@ -8,9 +8,9 @@
 namespace Sloth\Configure;
 
 use Cake\Utility\Hash;
+use Sloth\Singleton\Singleton;
 
-class Configure extends \Singleton
-{
+class Configure extends Singleton {
     /**
      * Array of values currently stored in Configure.
      *

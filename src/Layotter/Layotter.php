@@ -6,9 +6,10 @@ use \Brain\Hierarchy\QueryTemplate;
 use Brain\Hierarchy\Finder\FoldersTemplateFinder;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
-use Sloth\Utility\Utility;
+use Sloth\Singleton\Singleton;
 
-final class Layotter extends \Singleton
+
+final class Layotter extends Singleton
 {
     public static $disabled_post_types = ['attachement'];
     public static $enabled_post_types = [];
