@@ -622,7 +622,7 @@ border-collapse: collapse;
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],
             'sloth'    => [
-                'current_layout' => basename($this->currentLayout, '.twig'),
+                'current_layout' => basename($this->currentLayout ?? '', '.twig'),
             ],
         ];
 
