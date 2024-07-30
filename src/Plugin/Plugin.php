@@ -201,8 +201,8 @@ class Plugin extends \Sloth\Core\Singleton
                 'theme_url' => get_template_directory_uri(),
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],
-            'sloth' => [
-                'current_layout' => basename($this->currentLayout, '.twig'),
+            'sloth' => [                
+		'current_layout' => $this->currentLayout ? basename($this->currentLayout, '.twig') : null,
             ],
         ];
 
