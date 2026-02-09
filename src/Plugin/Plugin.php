@@ -7,6 +7,7 @@ use Brain\Hierarchy\QueryTemplate;
 use Corcel\Model\User;
 use Sloth\ACF\ACFHelper;
 use Sloth\Admin\Customizer;
+use Sloth\Core\Singleton;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Media\Version;
@@ -14,7 +15,9 @@ use Sloth\Utility\Utility;
 use function class_exists;
 use function post_password_required;
 
-class Plugin extends \Sloth\Core\Singleton
+
+#[\AllowDynamicProperties]
+class Plugin extends Singleton
 {
     public $current_theme_path;
     private $container;
@@ -201,7 +204,7 @@ class Plugin extends \Sloth\Core\Singleton
                 'theme_url' => get_template_directory_uri(),
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],
-            'sloth' => [                
+            'sloth' => [
 		'current_layout' => $this->currentLayout ? basename($this->currentLayout, '.twig') : null,
             ],
         ];
