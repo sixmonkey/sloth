@@ -10,7 +10,7 @@ namespace Sloth\Field;
 use Sloth\Facades\Configure;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
-
+#[\AllowDynamicProperties]
 class Image
 {
     public $alt;
