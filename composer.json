@@ -23,7 +23,7 @@
         "illuminate/validation": "^8",
         "illuminate/view": "^8",
         "jgrossi/corcel": "^v5",
-        "jjgrainger/posttypes": "^2.0",
+        "jjgrainger/posttypes": "v2.2",
         "jover/singleton": "^1.0",
         "kdyby/html-validator-panel": "^1.1",
         "league/climate": "^3.2",
