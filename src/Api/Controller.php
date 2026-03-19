@@ -47,7 +47,7 @@ class Controller {
 	 *
 	 * @return array<string, mixed>
 	 */
-	public function index(): array {
+	public function index() {
 		return [];
 	}
 
@@ -60,7 +60,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function setRequest($request): void {
+	public function setRequest($request) {
 		$this->request = $request;
 	}
 
@@ -74,7 +74,7 @@ class Controller {
 	 *
 	 * @return string The constructed URL
 	 */
-	public function getUrl(string $path, array $params = []): string {
+	public function getUrl(string $path, array $params = []) {
 		parse_str((string) parse_url($path, PHP_URL_QUERY), $getArray);
 
 		$params = array_merge($getArray, $params);
