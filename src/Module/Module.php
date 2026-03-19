@@ -61,7 +61,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected string $viewPrefix = 'module';
+	protected $viewPrefix = 'module';
 
 	/**
 	 * Whether to render the output.
@@ -69,7 +69,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var bool
 	 */
-	protected bool $render = true;
+	protected $render = true;
 
 	/**
 	 * Template name.
@@ -77,7 +77,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var string|null
 	 */
-	protected ?string $template = null;
+	protected $template = null;
 
 	/**
 	 * Whether an AJAX request is being processed.
@@ -85,7 +85,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var bool
 	 */
-	protected bool $doingAjax = false;
+	protected $doingAjax = false;
 
 	/**
 	 * Whether to wrap output in a row.
@@ -93,7 +93,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var array<string, mixed>|bool
 	 */
-	protected array|bool $wrapInRow = false;
+	protected $wrapInRow = false;
 
 	/**
 	 * Module constructor.

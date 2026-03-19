@@ -297,8 +297,9 @@ class Plugin extends Singleton {
 			if (is_array($moduleName::$layotter) && class_exists('\\Layotter')) {
 				$className = substr(strrchr($moduleName, "\\"), 1);
 
+			$moduleClassName = $moduleName;
 				eval("class $className extends \\Sloth\\Module\\LayotterElement {
-					static \\$module = '$moduleName';
+					static \$module = '$moduleClassName';
 				}");
 				\Layotter::register_element(strtolower(substr(strrchr($moduleName, "\\"), 1)), $className);
 			}
