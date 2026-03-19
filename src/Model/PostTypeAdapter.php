@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace Sloth\Model;
 
 use PostTypes\Columns;
-use PostTypes\Contracts\PostTypeContract;
 
 /**
- * Adapter for PostTypes v3 compatibility.
+ * Adapter for PostTypes compatibility.
  *
- * This class provides the method-based API required by PostTypes v3
- * while reading configuration from the v2-style properties used in Sloth models.
- *
- * Models should use this trait and keep their existing property definitions.
+ * This class provides the method-based API for Sloth models
+ * while reading configuration from the existing property definitions.
  *
  * @since 1.0.0
  */
@@ -187,13 +184,13 @@ trait PostTypeAdapter
     {
         $hiddenColumns = $this->admin_columns_hidden ?? [];
         if (!empty($hiddenColumns)) {
-            $columns->remove($hiddenColumns);
+            $columns->hide($hiddenColumns);
         }
 
         $addedColumns = $this->admin_columns ?? [];
         if (!empty($addedColumns)) {
             foreach ($addedColumns as $key => $label) {
-                $columns->add($key)->label($label);
+                $columns->add($key, $label);
             }
         }
 
@@ -216,7 +213,7 @@ trait PostTypeAdapter
         foreach (array_keys($addedColumns) as $key) {
             $sortable[$key] = $key;
         }
-        $columns->sort($sortable);
+        $columns->sortable($sortable);
 
         return $columns;
     }
