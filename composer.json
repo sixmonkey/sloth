@@ -16,7 +16,7 @@
         "illuminate/validation": "^8.0 || ^9.0 || ^10.0 || ^11.0",
         "illuminate/view": "^8.0 || ^9.0 || ^10.0 || ^11.0",
         "jgrossi/corcel": "^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
-        "jjgrainger/posttypes": "^3.0",
+        "jjgrainger/posttypes": "2.0.*",
         "league/climate": "^3.0 || ^3.8",
         "milo/vendor-versions": "^1.1 || ^2.0",
         "nikic/fast-route": "^1.3",
@@ -33,6 +33,11 @@
         "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^1.10",
         "friendsofphp/php-cs-fixer": "^3.50"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.0.x-dev"
+        }
     },
     "autoload": {
         "psr-4": {

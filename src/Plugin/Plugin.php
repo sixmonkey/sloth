@@ -15,7 +15,7 @@ use Sloth\Facades\View;
 use Sloth\Singleton\Singleton;
 use PostTypes\PostType;
 use Sloth\Core\Sloth;
-use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
 use Sloth\Media\Version;
 use Sloth\Utility\Utility;
@@ -165,16 +165,24 @@ class Plugin extends Singleton
     {
         $file = realpath($file);
         include_once $file;
-        $st = get_declared_classes();
 
-        foreach ($st as $class) {
+        $matchingClass = null;
+
+        foreach (get_declared_classes() as $class) {
             $rc = new \ReflectionClass($class);
             if ($rc->getFilename() === $file) {
-                return $class;
+                if (strpos($class, 'Corcel\\') === 0) {
+                    continue;
+                }
+                if (strpos($class, 'App\\') === 0) {
+                    $matchingClass = $class;
+                    break;
+                }
+                $matchingClass = $class;
             }
         }
 
-        return end($st);
+        return $matchingClass ?? '';
     }
 
     /**
@@ -742,7 +750,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             foreach ($this->container['view.finder']->getPaths() as $path) {
                 $layoutPaths[] = $path . DS . 'Layout';
             }
-            $finder = new FoldersTemplateFinder($layoutPaths, ['twig']);
+            $finder = new ByFolders($layoutPaths, 'twig');
             $queryTemplate = new QueryTemplate($finder);
             $template = $queryTemplate->findTemplate(null, false);
         }

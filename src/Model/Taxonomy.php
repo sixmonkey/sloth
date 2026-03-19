@@ -94,13 +94,54 @@ class Taxonomy extends CorcelTaxonomy
             $this->taxonomy = strtolower($reflection->getShortName());
         }
 
-        if (is_array($this->labels) && count($this->labels) > 0) {
-            foreach ($this->labels as &$label) {
-                $label = \__($label);
+        parent::__construct($attributes);
+    }
+
+    /**
+     * Get the taxonomy labels.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string, mixed>
+     */
+    public function getLabels(): array
+    {
+        if (!empty($this->labels)) {
+            $labels = $this->labels;
+            if (is_array($labels) && count($labels) > 0) {
+                foreach ($labels as $key => $label) {
+                    if (is_string($label)) {
+                        $labels[$key] = \__($label);
+                    }
+                }
             }
+            return $labels;
         }
 
-        parent::__construct($attributes);
+        $singular = $this->names['singular'] ?? ucfirst($this->taxonomy);
+        $plural = $this->names['plural'] ?? $singular . 's';
+
+        return [
+            'name' => __($plural),
+            'singular_name' => __($singular),
+            'search_items' => sprintf(__('Search %s'), __($plural)),
+            'popular_items' => sprintf(__('Popular %s'), __($plural)),
+            'all_items' => sprintf(__('All %s'), __($plural)),
+            'parent_item' => sprintf(__('Parent %s'), __($singular)),
+            'parent_item_colon' => sprintf(__('Parent %s:'), __($singular)),
+            'edit_item' => sprintf(__('Edit %s'), __($singular)),
+            'view_item' => sprintf(__('View %s'), __($singular)),
+            'update_item' => sprintf(__('Update %s'), __($singular)),
+            'add_new_item' => sprintf(__('Add New %s'), __($singular)),
+            'new_item_name' => sprintf(__('New %s Name'), __($singular)),
+            'not_found' => sprintf(__('No %s found'), __($plural)),
+            'no_terms' => sprintf(__('No %s'), __($plural)),
+            'filter_by_item' => sprintf(__('Filter by %s'), __($singular)),
+            'items_list_navigation' => sprintf(__('%s list navigation'), __($plural)),
+            'items_list' => sprintf(__('%s list'), __($plural)),
+            'back_to_items' => sprintf(__('&larr; Back to %s'), __($plural)),
+            'menu_name' => __($plural),
+        ];
     }
 
     /**
@@ -121,7 +162,7 @@ class Taxonomy extends CorcelTaxonomy
         }
 
         $options = $this->options;
-        $options['labels'] = $this->labels;
+        $options['labels'] = $this->getLabels();
 
         if ($this->unique) {
             $options['hierarchical'] = false;
