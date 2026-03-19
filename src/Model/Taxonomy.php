@@ -36,7 +36,7 @@ class Taxonomy extends CorcelTaxonomy
      * @since 1.0.0
      * @var array<string, mixed>
      */
-    protected array $names = [];
+    protected $names = [];
 
     /**
      * Taxonomy options for WordPress registration.
@@ -44,7 +44,7 @@ class Taxonomy extends CorcelTaxonomy
      * @since 1.0.0
      * @var array<string, mixed>
      */
-    protected array $options = [];
+    protected $options = [];
 
     /**
      * Taxonomy labels for WordPress admin UI.
@@ -52,7 +52,7 @@ class Taxonomy extends CorcelTaxonomy
      * @since 1.0.0
      * @var array<string, string>
      */
-    protected array $labels = [];
+    protected $labels = [];
 
     /**
      * Post types that this taxonomy should be attached to.
@@ -60,7 +60,7 @@ class Taxonomy extends CorcelTaxonomy
      * @since 1.0.0
      * @var array<string>
      */
-    protected array $postTypes = [];
+    protected $postTypes = [];
 
     /**
      * Whether this is a unique (non-hierarchical) taxonomy.
