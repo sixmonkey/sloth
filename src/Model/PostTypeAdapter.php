@@ -55,15 +55,49 @@ trait PostTypeAdapter
     {
         $labels = $this->labels ?? [];
 
-        if (is_array($labels) && count($labels) > 0) {
-            foreach ($labels as $key => $label) {
-                if (is_string($label)) {
-                    $labels[$key] = \__($label);
+        if (!empty($labels)) {
+            if (is_array($labels) && count($labels) > 0) {
+                foreach ($labels as $key => $label) {
+                    if (is_string($label)) {
+                        $labels[$key] = \__($label);
+                    }
                 }
             }
+            return $labels;
         }
 
-        return $labels;
+        $singular = $this->names['singular'] ?? ucfirst($this->name());
+        $plural = $this->names['plural'] ?? $singular . 's';
+
+        return [
+            'name' => __($plural),
+            'singular_name' => __($singular),
+            'add_new' => __('Add New'),
+            'add_new_item' => sprintf(__('Add New %s'), __($singular)),
+            'edit_item' => sprintf(__('Edit %s'), __($singular)),
+            'new_item' => sprintf(__('New %s'), __($singular)),
+            'view_item' => sprintf(__('View %s'), __($singular)),
+            'view_items' => sprintf(__('View %s'), __($plural)),
+            'search_items' => sprintf(__('Search %s'), __($plural)),
+            'not_found' => sprintf(__('No %s found'), __($plural)),
+            'not_found_in_trash' => sprintf(__('No %s found in Trash'), __($plural)),
+            'parent_item_colon' => sprintf(__('Parent %s:'), __($singular)),
+            'all_items' => sprintf(__('All %s'), __($plural)),
+            'archives' => sprintf(__('%s Archives'), __($singular)),
+            'attributes' => sprintf(__('%s Attributes'), __($singular)),
+            'insert_into_item' => sprintf(__('Insert into %s'), __($singular)),
+            'uploaded_to_this_item' => sprintf(__('Uploaded to this %s'), __($singular)),
+            'filter_items_list' => sprintf(__('Filter %s list'), __($plural)),
+            'filter_by_date' => __('Filter by date'),
+            'items_list_navigation' => sprintf(__('%s list navigation'), __($plural)),
+            'items_list' => sprintf(__('%s list'), __($plural)),
+            'item_published' => sprintf(__('%s published'), __($singular)),
+            'item_published_privately' => sprintf(__('%s published privately'), __($singular)),
+            'item_reverted_to_draft' => sprintf(__('%s reverted to draft'), __($singular)),
+            'item_scheduled' => sprintf(__('%s scheduled'), __($singular)),
+            'item_updated' => sprintf(__('%s updated'), __($singular)),
+            'menu_name' => __($plural),
+        ];
     }
 
     /**
