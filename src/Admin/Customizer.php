@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Admin;
 
+use Sloth\Facades\View;
 use Sloth\Singleton\Singleton;
 
 /**
