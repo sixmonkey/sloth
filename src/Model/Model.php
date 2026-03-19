@@ -55,7 +55,7 @@ class Model extends CorcelPost
      * @since 1.0.0
      * @var array<string, mixed>
      */
-    protected $options = [];
+    protected $options = []; // Used by PostTypeAdapter trait's options() method
 
     /**
      * Post type labels for WordPress admin UI.
@@ -232,6 +232,9 @@ class Model extends CorcelPost
         if (!$postTypeName || $postTypeName === '') {
             return;
         }
+
+        error_log('Sloth: Registering post type: ' . $postTypeName);
+        error_log('Sloth: Options: ' . json_encode($this->options()));
 
         if (\post_type_exists($postTypeName)) {
             $post_type_object = \get_post_type_object($postTypeName);
