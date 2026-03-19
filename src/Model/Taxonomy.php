@@ -119,8 +119,7 @@ class Taxonomy extends CorcelTaxonomy
     public function register(): void
     {
         $taxonomyName = $this->getTaxonomy();
-
-        if (\taxonomy_exists($taxonomyName)) {
+        if (!$taxonomyName || \taxonomy_exists($taxonomyName)) {
             return;
         }
 
@@ -141,6 +140,8 @@ class Taxonomy extends CorcelTaxonomy
         }
 
         $tax->register();
+        $tax->registerTaxonomy();
+        $tax->registerTaxonomyToObjects();
     }
 
     /**

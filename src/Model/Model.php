@@ -216,8 +216,13 @@ class Model extends CorcelPost
             return false;
         }
 
-        if (\post_type_exists($this->getPostType())) {
-            $post_type_object = get_post_type_object($this->getPostType());
+        $postTypeName = $this->getPostType();
+        if (!$postTypeName || $postTypeName === false) {
+            return false;
+        }
+
+        if (\post_type_exists($postTypeName)) {
+            $post_type_object = get_post_type_object($postTypeName);
             $this->labels = array_merge((array) \get_post_type_labels($post_type_object), $this->labels);
 
             $post_type_object->remove_supports();
@@ -226,13 +231,13 @@ class Model extends CorcelPost
             $post_type_object->remove_hooks();
             $post_type_object->unregister_taxonomies();
 
-            $this->options = array_merge((array) $wp_post_types[$this->getPostType()], $this->options);
-            unset($wp_post_types[$this->getPostType()]);
+            $this->options = array_merge((array) $wp_post_types[$postTypeName], $this->options);
+            unset($wp_post_types[$postTypeName]);
 
-            do_action('unregistered_post_type', $this->getPostType());
+            do_action('unregistered_post_type', $postTypeName);
         }
 
-        $names = array_merge($this->names, ['name' => $this->getPostType()]);
+        $names = array_merge($this->names, ['name' => $postTypeName]);
         $options = $this->options;
 
         if (isset($this->icon)) {
