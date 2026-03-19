@@ -49,7 +49,7 @@ class ACFHelper extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	final public function loadImage(mixed $value, int $postId, array $field): mixed {
+	final public function loadImage(mixed $value, int|string $postId, array $field): mixed {
 		if (str_starts_with((string) ($field['_name'] ?? ''), '_qundg')) {
 			return $value;
 		}
