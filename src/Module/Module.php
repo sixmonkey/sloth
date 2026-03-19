@@ -115,7 +115,7 @@ class Module {
 	 *
 	 * @return void
 	 */
-	protected function beforeRender(): void {
+	protected function beforeRender() {
 	}
 
 	/**
