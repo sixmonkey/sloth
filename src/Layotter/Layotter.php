@@ -49,8 +49,8 @@ class Layotter extends Singleton {
 	 * @var array<string, string>
 	 */
 	protected static array $settingsWeight = [
-		'layouts_for_template'  => 'get_template',
-		'layouts_for_post_type' => 'get_post_type',
+		'layouts_for_template'  => 'getTemplate',
+		'layouts_for_post_type' => 'getPostType',
 	];
 
 	/**
