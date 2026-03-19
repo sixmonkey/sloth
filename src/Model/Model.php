@@ -7,7 +7,6 @@ namespace Sloth\Model;
 use Carbon\Carbon;
 use Corcel\Model\Attachment;
 use Corcel\Model\Post as CorcelPost;
-use PostTypes\PostType;
 use Sloth\Facades\Configure;
 use Sloth\Field\CarbonFaker;
 use Sloth\Field\Image;
@@ -40,6 +39,8 @@ use Corcel\Acf\FieldFactory;
  */
 class Model extends CorcelPost
 {
+    use PostTypeAdapter;
+
     /**
      * Post type names configuration for PostTypes library.
      *
@@ -63,6 +64,22 @@ class Model extends CorcelPost
      * @var array<string, string>
      */
     protected $labels = [];
+
+    /**
+     * Post type taxonomies.
+     *
+     * @since 1.0.0
+     * @var array<string>
+     */
+    protected $taxonomies = [];
+
+    /**
+     * Admin filters (taxonomies for filtering).
+     *
+     * @since 1.0.0
+     * @var array<string>
+     */
+    protected $filters = [];
 
     /**
      * Whether this post type should appear in Layotter page builder.
@@ -203,107 +220,104 @@ class Model extends CorcelPost
      *
      * @since 1.0.0
      *
-     * @return bool True if registered successfully, false if $register is false
-     *
-     * @uses PostType For post type registration
-     * @uses add_filter() For list table column customization
+     * @return void
      */
-    public function register(): bool
+    public function register(): void
     {
-        global $wp_post_types;
-
         if (!$this->register) {
-            return false;
+            return;
         }
 
-        $postTypeName = $this->getPostType();
-        if (!$postTypeName || $postTypeName === false) {
-            return false;
+        $postTypeName = $this->name();
+        if (!$postTypeName || $postTypeName === '') {
+            return;
         }
 
         if (\post_type_exists($postTypeName)) {
-            $post_type_object = get_post_type_object($postTypeName);
-            $this->labels = array_merge((array) \get_post_type_labels($post_type_object), $this->labels);
+            $post_type_object = \get_post_type_object($postTypeName);
+            if ($post_type_object) {
+                $post_type_object->remove_supports();
+                $post_type_object->remove_rewrite_rules();
+                $post_type_object->unregister_meta_boxes();
+                $post_type_object->remove_hooks();
+                $post_type_object->unregister_taxonomies();
 
-            $post_type_object->remove_supports();
-            $post_type_object->remove_rewrite_rules();
-            $post_type_object->unregister_meta_boxes();
-            $post_type_object->remove_hooks();
-            $post_type_object->unregister_taxonomies();
+                global $wp_post_types;
+                unset($wp_post_types[$postTypeName]);
 
-            $this->options = array_merge((array) $wp_post_types[$postTypeName], $this->options);
-            unset($wp_post_types[$postTypeName]);
-
-            do_action('unregistered_post_type', $postTypeName);
+                \do_action('unregistered_post_type', $postTypeName);
+            }
         }
 
-        $names = array_merge($this->names, ['name' => $postTypeName]);
-        $options = $this->options;
+        \register_post_type($postTypeName, $this->options());
 
-        if (isset($this->icon)) {
-            $options = array_merge($this->options, [
-                'menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', $this->icon),
-            ]);
-        }
-
-        $labels = $this->labels;
-        $pt = new PostType($names, $options, $labels);
-
-        $pt->columns()->hide($this->admin_columns_hidden);
-        $pt->columns()->add($this->admin_columns);
-
-        $idx = in_array('title', $this->admin_columns_hidden, true) ? 1 : 2;
-        $order = [];
-        $sortable = [];
-
-        foreach ($this->admin_columns as $k => $v) {
-            $class = self::class;
-
-            $pt->columns()->populate(
-                $k,
-                static function ($column, $post_id) use ($class, $k): void {
-                    $r = call_user_func_array([$class, 'find'], [$post_id]);
-                    echo call_user_func([$r, 'get' . ucfirst($k) . 'Column']);
+        if (!empty($this->taxonomies())) {
+            foreach ($this->taxonomies() as $taxonomy) {
+                if (\taxonomy_exists($taxonomy)) {
+                    \register_taxonomy_for_object_type($taxonomy, $postTypeName);
                 }
-            );
-
-            $sortable[$k] = $k;
-            $order[$k] = $idx;
-            $idx += 1;
+            }
         }
 
-        $order['date'] = $idx + 100;
+        if (!empty($this->filters())) {
+            foreach ($this->filters() as $taxonomy) {
+                if (\taxonomy_exists($taxonomy)) {
+                    \register_taxonomy_for_object_type($taxonomy, $postTypeName);
+                }
+            }
+        }
 
-        $pt->columns()->order($order);
-        $pt->columns()->sortable($sortable);
+        if (!empty($this->admin_columns) || !empty($this->admin_columns_hidden)) {
+            $this->configureColumns($postTypeName);
+        }
+    }
 
-        if (in_array('title', $this->admin_columns_hidden, true)) {
-            $keys = array_keys($this->admin_columns);
-            $first_column = reset($keys);
+    /**
+     * Configure admin columns for the post type.
+     *
+     * @since 1.0.0
+     *
+     * @param string $postTypeName
+     *
+     * @return void
+     */
+    private function configureColumns(string $postTypeName): void
+    {
+        $hiddenColumns = $this->admin_columns_hidden ?? [];
+        $addedColumns = $this->admin_columns ?? [];
 
-            add_filter(
-                'list_table_primary_column',
-                static function ($default, $screen) use ($pt, $first_column): string {
-                    if ('edit-' . $pt->name === $screen) {
-                        $default = $first_column;
+        if (!empty($addedColumns) || !empty($hiddenColumns)) {
+            add_filter('manage_' . $postTypeName . '_posts_columns', static function ($columns) use ($addedColumns, $hiddenColumns) {
+                if (!empty($hiddenColumns)) {
+                    foreach ($hiddenColumns as $col) {
+                        unset($columns[$col]);
                     }
+                }
 
-                    return $default;
-                },
-                10,
-                2
-            );
+                foreach ($addedColumns as $key => $label) {
+                    $columns[$key] = $label;
+                }
+
+                return $columns;
+            });
+
+            if (!empty($addedColumns)) {
+                $class = static::class;
+                add_action('manage_' . $postTypeName . '_posts_custom_column', static function ($column, $postId) use ($addedColumns, $class) {
+                    if (isset($addedColumns[$column])) {
+                        $model = $class::find($postId);
+                        if ($model) {
+                            if (method_exists($model, 'getColumn')) {
+                                echo $model->getColumn($column);
+                            } else {
+                                $value = $model->{$column} ?? '';
+                                echo \esc_html((string) $value);
+                            }
+                        }
+                    }
+                }, 10, 2);
+            }
         }
-
-        if (method_exists($pt, 'register')) {
-            $pt->register();
-        }
-
-        if (method_exists($pt, 'registerPostType')) {
-            $pt->registerPostType();
-        }
-
-        return true;
     }
 
     /**
