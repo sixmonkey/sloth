@@ -124,6 +124,26 @@ class LayotterElement extends \Layotter_Element
     }
 
     /**
+     * Get the fields for this element.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string, mixed>
+     */
+    protected function getFields(): array
+    {
+        if (method_exists(parent::class, 'getFields')) {
+            return parent::getFields();
+        }
+
+        if (function_exists('acf_get_fields') && !empty($this->field_group)) {
+            return acf_get_fields($this->field_group);
+        }
+
+        return [];
+    }
+
+    /**
      * Prepare fields for output.
      *
      * @since 1.0.0
