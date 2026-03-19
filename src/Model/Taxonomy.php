@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sloth\Model;
 
 use Corcel\Model\Taxonomy as CorcelTaxonomy;
-use PostTypes\Taxonomy as TaxonomyType;
 use Sloth\Model\Post;
 
 /**
@@ -97,7 +96,7 @@ class Taxonomy extends CorcelTaxonomy
 
         if (is_array($this->labels) && count($this->labels) > 0) {
             foreach ($this->labels as &$label) {
-                $label = __($label);
+                $label = \__($label);
             }
         }
 
@@ -107,14 +106,12 @@ class Taxonomy extends CorcelTaxonomy
     /**
      * Registers the taxonomy with WordPress.
      *
-     * Uses the PostTypes library to register the taxonomy and
-     * attach it to the specified post types.
+     * Uses direct WordPress registration to attach the taxonomy
+     * to the specified post types.
      *
      * @since 1.0.0
      *
      * @return void
-     *
-     * @uses TaxonomyType For taxonomy registration
      */
     public function register(): void
     {
@@ -123,25 +120,24 @@ class Taxonomy extends CorcelTaxonomy
             return;
         }
 
-        if ($this->unique) {
-            $this->options['hierarchical'] = false;
-            $this->options['parent_item'] = null;
-            $this->options['parent_item_colon'] = null;
-        }
-
-        $names = array_merge($this->names, ['name' => $this->getTaxonomy()]);
         $options = $this->options;
-        $labels = $this->labels;
+        $options['labels'] = $this->labels;
 
-        $tax = new TaxonomyType($names, $options, $labels);
-
-        foreach ($this->postTypes as $postType) {
-            $tax->posttype($postType);
+        if ($this->unique) {
+            $options['hierarchical'] = false;
+            $options['parent_item'] = null;
+            $options['parent_item_colon'] = null;
         }
 
-        $tax->register();
-        $tax->registerTaxonomy();
-        $tax->registerTaxonomyToObjects();
+        \register_taxonomy($taxonomyName, null, $options);
+
+        if (!empty($this->postTypes)) {
+            foreach ($this->postTypes as $postType) {
+                if (\post_type_exists($postType)) {
+                    \register_taxonomy_for_object_type($taxonomyName, $postType);
+                }
+            }
+        }
     }
 
     /**
@@ -153,9 +149,6 @@ class Taxonomy extends CorcelTaxonomy
      * @since 1.0.0
      *
      * @return void
-     *
-     * @uses remove_meta_box() To remove default meta box
-     * @uses add_meta_box() To add custom meta box
      */
     public function init(): void
     {
@@ -178,40 +171,9 @@ class Taxonomy extends CorcelTaxonomy
                         $post_types,
                         'side'
                     );
-                },
-                10,
-                2
+                }
             );
         }
-    }
-
-    /**
-     * Renders the taxonomy meta box content.
-     *
-     * @since 1.0.0
-     *
-     * @param \WP_Post $wp_post The WordPress post object
-     *
-     * @return void
-     *
-     * @uses wp_dropdown_categories() To render the taxonomy dropdown
-     */
-    public function metabox(\WP_Post $wp_post): void
-    {
-        $tax = Post::find($wp_post->ID)
-            ->taxonomies()
-            ->where('taxonomy', '=', $this->taxonomy)
-            ->first();
-
-        $args = [
-            'taxonomy' => $this->getTaxonomy(),
-            'hide_empty' => 0,
-            'name' => 'tax_input[' . $this->getTaxonomy() . '][0]',
-            'value_field' => 'slug',
-            'selected' => $tax->slug ?? '',
-        ];
-
-        \wp_dropdown_categories($args);
     }
 
     /**
@@ -219,7 +181,7 @@ class Taxonomy extends CorcelTaxonomy
      *
      * @since 1.0.0
      *
-     * @return string The taxonomy name
+     * @return string
      */
     public function getTaxonomy(): string
     {
@@ -231,24 +193,96 @@ class Taxonomy extends CorcelTaxonomy
      *
      * @since 1.0.0
      *
-     * @return string|\WP_Error The term link URL or WP_Error on failure
+     * @return string|\WP_Error
      */
     public function getTermLinkAttribute(): string|\WP_Error
     {
-        $t = get_term($this->term_id, $this->taxonomy);
+        $t = \get_term($this->term_id, $this->taxonomy);
+        if ($t instanceof \WP_Error) {
+            return $t;
+        }
 
         return \get_term_link($t);
     }
 
     /**
-     * Alias for getTermLinkAttribute.
+     * Render the taxonomy metabox.
      *
      * @since 1.0.0
      *
-     * @return string|\WP_Error The URL attribute value
+     * @param object $post The post object
+     * @param array $box The metabox configuration
+     *
+     * @return void
      */
-    public function getUrlAttribute(): string|\WP_Error
+    public function metabox($post, $box): void
     {
-        return $this->getTermLinkAttribute();
+        $taxonomy = $this->getTaxonomy();
+
+        echo '<style>#' . $box['id'] . ' .inside { padding: 0; margin: 0; }</style>';
+
+        $terms = \get_terms([
+            'taxonomy' => $taxonomy,
+            'hide_empty' => false,
+        ]);
+
+        if (is_wp_error($terms)) {
+            echo '<p>' . \esc_html__('An error occurred while retrieving terms.', 'sloth') . '</p>';
+            return;
+        }
+
+        if (empty($terms)) {
+            echo '<p>' . \esc_html__('No terms found.', 'sloth') . '</p>';
+            return;
+        }
+
+        $post_terms = \wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
+        $walker = new \Walker_Category_Checklist();
+
+        echo '<ul class="categorychecklist">';
+        echo $walker->walk($terms, 0, ['selected' => $post_terms]);
+        echo '</ul>';
+
+        echo '<div style="padding: 0 12px 12px;">';
+        echo '<p class="description">';
+        \esc_html_e('Enter a comma-separated list of new terms or select existing ones above.', 'sloth');
+        echo '</p>';
+        echo '<p><input type="text" value="" placeholder="' . \esc_attr__('Add new terms', 'sloth') . '" class="widefat" id="sloth-new-terms-' . \esc_attr($taxonomy) . '"></p>';
+        echo '<p><button type="button" class="button sloth-add-terms" data-taxonomy="' . \esc_attr($taxonomy) . '">' . \esc_html__('Add', 'sloth') . '</button></p>';
+        echo '</div>';
+
+        echo '<script>
+        jQuery(document).ready(function($) {
+            $(".sloth-add-terms").on("click", function() {
+                var taxonomy = $(this).data("taxonomy");
+                var termsInput = $("#sloth-new-terms-" + taxonomy);
+                var terms = termsInput.val();
+                if (!terms) return;
+                
+                terms = terms.split(",").map(function(t) { return t.trim(); }).filter(Boolean);
+                var currentChecked = [];
+                
+                $("#' . $box['id'] . ' input[type=checkbox]:checked").each(function() {
+                    currentChecked.push($(this).val());
+                });
+                
+                $.ajax({
+                    url: "' . \admin_url('admin-ajax.php') . '",
+                    type: "POST",
+                    data: {
+                        action: "sloth_add_terms",
+                        taxonomy: taxonomy,
+                        terms: terms,
+                        post_id: ' . $post->ID . '
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+        });
+        </script>';
     }
 }
