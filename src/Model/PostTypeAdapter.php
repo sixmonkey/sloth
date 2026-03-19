@@ -145,7 +145,7 @@ trait PostTypeAdapter
      *
      * @return Columns
      */
-    public function columns(Columns $columns): Columns
+    public function configureColumnsFromAdapter(Columns $columns): Columns
     {
         $hiddenColumns = $this->admin_columns_hidden ?? [];
         if (!empty($hiddenColumns)) {
