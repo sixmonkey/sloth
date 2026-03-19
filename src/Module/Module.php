@@ -127,7 +127,7 @@ class Module {
 	 *
 	 * @return void
 	 */
-	protected function beforeGetJSON(mixed $payload): void {
+	protected function beforeGetJSON($payload) {
 	}
 
 	/**
