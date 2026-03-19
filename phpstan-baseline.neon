@@ -69,3 +69,8 @@ parameters:
         -
             identifier: missingType.generics
             path: src/Field/CarbonFaker.php
+
+        # Media/Version.php - Spatie Image dependency
+        -
+            identifier: accessClassConstant
+            path: src/Media/Version.php
