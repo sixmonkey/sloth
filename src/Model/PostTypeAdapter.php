@@ -115,7 +115,7 @@ trait PostTypeAdapter
             $options['menu_icon'] = 'dashicons-' . preg_replace('/^dashicons-/', '', $this->icon);
         }
 
-        if (!isset($options['labels']) && !empty($this->labels)) {
+        if (!isset($options['labels'])) {
             $options['labels'] = $this->labels();
         }
 
