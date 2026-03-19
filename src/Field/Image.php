@@ -259,6 +259,10 @@ class Image
      */
     protected function getFilename(array $options = []): string
     {
+        if ($this->file === null) {
+            return '';
+        }
+
         $uploadInfo = wp_upload_dir();
         $uploadDir = realpath($uploadInfo['basedir']);
 
