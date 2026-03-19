@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Layotter;
 
-use Brain\Hierarchy\Finder\FoldersTemplateFinder;
+use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
@@ -418,7 +418,7 @@ class Layotter extends Singleton
             $layoutPaths[] = $path . DS . implode(DS, $viewParts);
         }
 
-        $finder = new FoldersTemplateFinder($layoutPaths, ['twig']);
+        $finder = new ByFolders($layoutPaths, 'twig');
         $queryTemplate = new QueryTemplate($finder);
         $template = $queryTemplate->findTemplate(null, false);
 
