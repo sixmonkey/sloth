@@ -230,9 +230,9 @@ class Model extends Corcel
     /**
      * @param string $key
      *
-     * @return mixed
+     * @return bool
      */
-    public function __isset(string $key): bool
+    public function __isset($key): bool
     {
         return $this->acf->boolean($key);
     }
@@ -242,7 +242,7 @@ class Model extends Corcel
      *
      * @return mixed
      */
-    public function __get(string $key): mixed
+    public function __get($key)
     {
         if (function_exists('acf_maybe_get_field')) {
             $acf = acf_maybe_get_field($key, $this->getAttribute('ID'), false);
@@ -291,7 +291,7 @@ class Model extends Corcel
      *
      * @return mixed
      */
-    public function __call(string $method, array $parameters): mixed
+    public function __call($method, $parameters)
     {
         $parts = preg_split('/(?=[A-Z])/', $method);
 
