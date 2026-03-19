@@ -135,6 +135,8 @@ class Taxonomy extends CorcelTaxonomy
         }
 
         $tax->register();
+        $tax->registerTaxonomy();
+        $tax->registerTaxonomyToObjects();
     }
 
     /**

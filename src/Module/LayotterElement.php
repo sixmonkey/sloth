@@ -20,7 +20,7 @@ class LayotterElement extends \Layotter_Element {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public static string $module = '';
+	public static $module = '';
 
 	/**
 	 * Set element attributes from module configuration.
@@ -50,7 +50,7 @@ class LayotterElement extends \Layotter_Element {
 	 *
 	 * @return void
 	 */
-	public function frontend_view($fields): void {
+	public function frontend_view($fields) {
 		$fields = $this->prepareFields($fields);
 
 		$options = func_get_args();
@@ -86,7 +86,7 @@ class LayotterElement extends \Layotter_Element {
 	 *
 	 * @return void
 	 */
-	public function backend_view($fields): void {
+	public function backend_view($fields) {
 		$fields = $this->prepareFields($fields);
 
 		echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
