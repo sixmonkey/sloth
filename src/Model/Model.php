@@ -13,6 +13,7 @@ use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Acf\FieldFactory;
+use PostTypes\PostType;
 
 /**
  * Base Model
@@ -233,43 +234,34 @@ class Model extends CorcelPost
             return;
         }
 
-        if (\post_type_exists($postTypeName)) {
-            $post_type_object = \get_post_type_object($postTypeName);
-            if ($post_type_object) {
-                $post_type_object->remove_supports();
-                $post_type_object->remove_rewrite_rules();
-                $post_type_object->unregister_meta_boxes();
-                $post_type_object->remove_hooks();
-                $post_type_object->unregister_taxonomies();
-
-                global $wp_post_types;
-                unset($wp_post_types[$postTypeName]);
-
-                \do_action('unregistered_post_type', $postTypeName);
-            }
+        $names = $this->names;
+        if (!isset($names['name'])) {
+            $names['name'] = $postTypeName;
         }
 
-        \register_post_type($postTypeName, $this->options());
+        $options = $this->options ?? [];
+        $labels = $this->labels ?? [];
 
-        if (!empty($this->taxonomies())) {
-            foreach ($this->taxonomies() as $taxonomy) {
-                if (\taxonomy_exists($taxonomy)) {
-                    \register_taxonomy_for_object_type($taxonomy, $postTypeName);
-                }
-            }
+        $cpt = new PostType($names, $options, $labels);
+
+        if (isset($this->icon)) {
+            $cpt->icon($this->icon);
         }
 
-        if (!empty($this->filters())) {
-            foreach ($this->filters() as $taxonomy) {
-                if (\taxonomy_exists($taxonomy)) {
-                    \register_taxonomy_for_object_type($taxonomy, $postTypeName);
-                }
-            }
+        foreach ($this->taxonomies() as $taxonomy) {
+            $cpt->taxonomy($taxonomy);
+        }
+
+        foreach ($this->filters() as $filter) {
+            $cpt->filters([$filter]);
         }
 
         if (!empty($this->admin_columns) || !empty($this->admin_columns_hidden)) {
-            $this->configureColumns($postTypeName);
+            $columns = $cpt->columns();
+            $this->configureColumnsFromAdapter($columns);
         }
+
+        $cpt->register();
     }
 
     /**
