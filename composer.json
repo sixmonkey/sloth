@@ -1,7 +1,6 @@
 {
     "name": "sixmonkey/sloth",
     "description": "A WordPress theme framework built with Laravel components",
-    "type": "project",
     "license": "MIT",
     "require": {
         "php": ">=8.2",
