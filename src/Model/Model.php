@@ -225,13 +225,17 @@ class Model extends CorcelPost
     public function register(): void
     {
         if (!$this->register) {
+            error_log('Sloth: Skipping ' . static::class . ' - register is false');
             return;
         }
 
         $postTypeName = $this->name();
         if (!$postTypeName || $postTypeName === '') {
+            error_log('Sloth: Skipping ' . static::class . ' - no name');
             return;
         }
+
+        error_log('Sloth: Registering post type: ' . $postTypeName . ' (' . static::class . ')');
 
         if (\post_type_exists($postTypeName)) {
             $post_type_object = \get_post_type_object($postTypeName);
