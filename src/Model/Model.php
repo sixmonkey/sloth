@@ -233,9 +233,6 @@ class Model extends CorcelPost
             return;
         }
 
-        error_log('Sloth: Registering post type: ' . $postTypeName);
-        error_log('Sloth: Options: ' . json_encode($this->options()));
-
         if (\post_type_exists($postTypeName)) {
             $post_type_object = \get_post_type_object($postTypeName);
             if ($post_type_object) {

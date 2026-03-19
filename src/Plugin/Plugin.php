@@ -163,18 +163,20 @@ class Plugin extends Singleton
      */
     protected function loadClassFromFile(string $file): string
     {
-        $file = realpath($file);
-        include_once $file;
-        $st = get_declared_classes();
+        $filename = basename($file, '.php');
+        $namespace = 'App\\' . str_replace(DIR_APP, '', dirname($file));
+        $namespace = str_replace(DS, '\\', $namespace);
+        $namespace = rtrim($namespace, '\\');
 
-        foreach ($st as $class) {
-            $rc = new \ReflectionClass($class);
-            if ($rc->getFilename() === $file) {
-                return $class;
-            }
+        $className = $namespace . '\\' . $filename;
+
+        if (class_exists($className)) {
+            return $className;
         }
 
-        return end($st);
+        include_once $file;
+
+        return $className;
     }
 
     /**
