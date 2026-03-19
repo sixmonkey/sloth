@@ -137,9 +137,9 @@ class Image
      *
      * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
      */
-    public function __construct(int|array|null $url = null)
+    public function __construct(int|array|null|false $url = null)
     {
-        if ($url === null) {
+        if ($url === null || $url === false) {
             $this->url = null;
 
             return;
@@ -157,18 +157,19 @@ class Image
         }
 
         if (is_object($this->post)) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt;
-            $this->caption = $this->post->post_excerpt;
-            $this->description = $this->post->post_content;
+            $this->alt = $this->post->meta->_wp_attachment_image_alt ?? null;
+            $this->caption = $this->post->post_excerpt ?? null;
+            $this->description = $this->post->post_content ?? null;
 
             $this->postID = (int) $this->post->ID;
-            $this->metaData = unserialize($this->post->meta->_wp_attachment_metadata ?? '');
+            $metadata = $this->post->meta->_wp_attachment_metadata ?? null;
+            $this->metaData = is_string($metadata) ? @unserialize($metadata) : null;
 
-            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) $url);
-            $path = realpath(WP_CONTENT_DIR . DS . 'uploads' . DS . $this->post->meta->_wp_attached_file);
+            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
+            $path = realpath(WP_CONTENT_DIR . DS . 'uploads' . DS . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
-            if ($this->file) {
+            if ($this->file !== null) {
                 $this->isResizable = @is_array(getimagesize($this->file));
             }
 
@@ -216,7 +217,7 @@ class Image
      */
     public function resize(...$options): string
     {
-        if (!$this->isResizable || $this->url == null) {
+        if (!$this->isResizable || $this->url === null || $this->file === null) {
             return (string) $this->url;
         }
 
@@ -230,7 +231,7 @@ class Image
             );
         }
 
-        if (!isset($options['height'])) {
+        if (!isset($options['height']) && isset($this->metaData['width'], $this->metaData['height'])) {
             $ratio = $this->metaData['width'] / $options['width'];
             $options['height'] = (int) round($this->metaData['height'] / $ratio);
         }
@@ -309,7 +310,7 @@ class Image
         $uploadInfo = wp_upload_dir();
         $uploadDir = realpath($uploadInfo['basedir']);
 
-        return $uploadDir . $filename;
+        return ($uploadDir !== false ? $uploadDir : '') . $filename;
     }
 
     /**
@@ -389,7 +390,11 @@ class Image
             $what = $this->attributeTranslations[$what];
         }
 
-        return $this->post->{$what};
+        if ($this->post === null) {
+            return null;
+        }
+
+        return $this->post->{$what} ?? null;
     }
 
     /**
@@ -403,11 +408,15 @@ class Image
      */
     public function __isset(string $what): bool
     {
+        if ($this->post === null) {
+            return false;
+        }
+
         if (isset($this->attributeTranslations[$what])) {
             $what = $this->attributeTranslations[$what];
         }
 
-        $v = $this->post->{$what};
+        $v = $this->post->{$what} ?? null;
 
         return $v != null;
     }
