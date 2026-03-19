@@ -14,34 +14,37 @@ use Tracy\IBarPanel;
  * @since 1.0.0
  * @implements IBarPanel
  */
-class SlothBarPanel implements IBarPanel {
-	/**
-	 * Get the panel HTML.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	public function getPanel(): string {
-		$h = new Hierarchy();
-		$currentTemplate = basename((string) $GLOBALS['sloth::plugin']->getCurrentTemplate(), '.twig');
+class SlothBarPanel implements IBarPanel
+{
+    /**
+     * Get the panel HTML.
+     *
+     * @since 1.0.0
+     *
+     * @return string
+     */
+    public function getPanel(): string
+    {
+        $h = new Hierarchy();
+        $currentTemplate = basename((string) $GLOBALS['sloth::plugin']->getCurrentTemplate(), '.twig');
 
-		return View::make('Debugger.sloth-bar-panel')->with([
-			'templates'       => $h->getTemplates(),
-			'currentTemplate' => $currentTemplate,
-		])->render();
-	}
+        return View::make('Debugger.sloth-bar-panel')->with([
+            'templates'       => $h->getTemplates(),
+            'currentTemplate' => $currentTemplate,
+        ])->render();
+    }
 
-	/**
-	 * Get the tab HTML.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	public function getTab(): string {
-		$logo = file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'logo.svg');
+    /**
+     * Get the tab HTML.
+     *
+     * @since 1.0.0
+     *
+     * @return string
+     */
+    public function getTab(): string
+    {
+        $logo = file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'logo.svg');
 
-		return '<span title="SLOTH">' . $logo . '</span>';
-	}
+        return '<span title="SLOTH">' . $logo . '</span>';
+    }
 }

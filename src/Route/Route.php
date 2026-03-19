@@ -388,7 +388,7 @@ final class Route
             $routeTarget['action'] = 'index';
         }
 
-        $routeInfo[2] = $routeInfo[2] ?? [];
+        $routeInfo[2] ??= [];
 
         if (isset($routeTarget['controller']) && class_exists($routeTarget['controller'])) {
             $request = new \stdClass();
@@ -406,7 +406,7 @@ final class Route
         if (isset($wp_query->query['page'])) {
             $currentPage = $wp_query->query['page'];
             \Illuminate\Pagination\Paginator::currentPageResolver(
-                static fn (): int|string => $currentPage
+                static fn(): int|string => $currentPage
             );
         }
     }

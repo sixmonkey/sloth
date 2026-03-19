@@ -12,15 +12,17 @@ use Illuminate\View\FileViewFinder;
  * @since 1.0.0
  * @extends FileViewFinder
  */
-class ViewFinder extends FileViewFinder {
-	/**
-	 * Return a list of found views.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array<int, string>
-	 */
-	public function getViews(): array {
-		return $this->views;
-	}
+class ViewFinder extends FileViewFinder
+{
+    /**
+     * Return a list of found views.
+     *
+     * @since 1.0.0
+     *
+     * @return array<int, string>
+     */
+    public function getViews(): array
+    {
+        return $this->views;
+    }
 }

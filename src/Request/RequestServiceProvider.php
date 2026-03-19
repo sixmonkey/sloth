@@ -13,31 +13,34 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class RequestServiceProvider extends ServiceProvider {
-	/**
-	 * Register the service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->singleton(
-			'request',
-			fn($app) => Request::capture()
-		);
-	}
+class RequestServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(
+            'request',
+            fn($app) => Request::capture()
+        );
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array<string>
-	 */
-	public function provides(): array {
-		return [
-			'request',
-		];
-	}
+    /**
+     * Get the services provided by the provider.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string>
+     */
+    public function provides(): array
+    {
+        return [
+            'request',
+        ];
+    }
 }

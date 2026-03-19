@@ -68,9 +68,7 @@ if (!function_exists('do_action')) {
      * @param string $tag The name of the action hook.
      * @param mixed  ...$args Arguments passed to the action.
      */
-    function do_action(string $tag, mixed ...$args): void
-    {
-    }
+    function do_action(string $tag, mixed ...$args): void {}
 }
 
 if (!function_exists('add_action')) {
@@ -206,5 +204,5 @@ if (!defined('DS')) {
 // Create cache directory for tests
 $cacheDir = __DIR__ . '/cache';
 if (!is_dir($cacheDir)) {
-    mkdir($cacheDir, 0755, true);
+    mkdir($cacheDir, 0o755, true);
 }

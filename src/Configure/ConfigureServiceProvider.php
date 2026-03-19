@@ -12,18 +12,20 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class ConfigureServiceProvider extends ServiceProvider {
-	/**
-	 * Register the Configure service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->singleton(
-			'configure',
-			fn($container) => Configure::getInstance()
-		);
-	}
+class ConfigureServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the Configure service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(
+            'configure',
+            fn($container) => Configure::getInstance()
+        );
+    }
 }

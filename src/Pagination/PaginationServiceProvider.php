@@ -13,41 +13,44 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class PaginationServiceProvider extends ServiceProvider {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @since 1.0.0
-	 * @var bool
-	 */
-	protected bool $defer = true;
+class PaginationServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @since 1.0.0
+     * @var bool
+     */
+    protected bool $defer = true;
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		AbstractPaginator::viewFactoryResolver(fn() => $this->app['view']);
+    /**
+     * Register the service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        AbstractPaginator::viewFactoryResolver(fn() => $this->app['view']);
 
-		AbstractPaginator::$defaultView       = 'Pagination.default';
-		AbstractPaginator::$defaultSimpleView = 'Pagination.default';
+        AbstractPaginator::$defaultView       = 'Pagination.default';
+        AbstractPaginator::$defaultSimpleView = 'Pagination.default';
 
-		AbstractPaginator::currentPathResolver(fn() => '');
-	}
+        AbstractPaginator::currentPathResolver(fn() => '');
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array<string>
-	 */
-	public function provides(): array {
-		return [
-			'paginaton',
-		];
-	}
+    /**
+     * Get the services provided by the provider.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string>
+     */
+    public function provides(): array
+    {
+        return [
+            'paginaton',
+        ];
+    }
 }

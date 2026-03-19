@@ -6,3 +6,4 @@ node_modules
 .sass-cache
 *.log
 /.vagrant
+/.php-cs-fixer.cache

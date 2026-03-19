@@ -28,9 +28,7 @@ class Singleton
      *
      * @since 1.0.0
      */
-    protected function __construct()
-    {
-    }
+    protected function __construct() {}
 
     /**
      * Get the singleton instance.
@@ -57,9 +55,7 @@ class Singleton
      *
      * @return void
      */
-    protected function __clone()
-    {
-    }
+    protected function __clone() {}
 
     /**
      * Prevent singleton instance from being unserialized.
