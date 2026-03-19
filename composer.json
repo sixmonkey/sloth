@@ -1,45 +1,42 @@
 {
     "name": "sixmonkey/sloth",
-    "authors": [
-        {
-            "name": "Ben Kremer",
-            "email": "hallo@benkremer.de"
-        },
-        {
-            "name": "Jochen Wichmann"
-        },
-        {
-            "name": "Max Leistner",
-            "email": "mail@maxleistner.de"
-        }
-    ],
+    "description": "A WordPress theme framework built with Laravel components",
+    "type": "project",
+    "license": "MIT",
     "require": {
-        "brain/hierarchy": "^2.3",
-        "cakephp/utility": "^3.5",
-        "corcel/acf": "^4.0",
-        "gossi/docblock": "^1.6",
-        "haydenpierce/class-finder": "^0.4.2",
-        "illuminate/container": "^8.0.0",
-        "illuminate/filesystem": "^8.0.0",
-        "illuminate/http": "^8.0.0",
-        "illuminate/pagination": "^8.0.0",
-        "illuminate/validation": "^8.0.0",
-        "illuminate/view": "^8.0.0",
-        "jgrossi/corcel": "^5.0",
+        "php": ">=8.2",
+        "brain/hierarchy": "^3.0",
+        "cakephp/utility": "^4.0",
+        "corcel/acf": "^6.0",
+        "gossi/docblock": "^1.7",
+        "haydenpierce/class-finder": "^0.5",
+        "illuminate/container": "^10.0",
+        "illuminate/filesystem": "^10.0",
+        "illuminate/http": "^10.0",
+        "illuminate/pagination": "^10.0",
+        "illuminate/validation": "^10.0",
+        "illuminate/view": "^10.0",
+        "jgrossi/corcel": "^6.0",
         "jjgrainger/posttypes": "^2.0",
-        "kdyby/html-validator-panel": "^1.1",
-        "league/climate": "^3.2",
-        "milo/vendor-versions": "^1.1",
-        "nikic/fast-route": "^1.2",
-        "nofutur3/tracy-gitpanel": "^0.9",
-        "org_heigl/hyphenator": "^2.2",
-        "roots/wp-password-bcrypt": "^1.0",
+        "kdyby/html-validator-panel": "^2.0",
+        "league/climate": "^3.8",
+        "milo/vendor-versions": "^2.0",
+        "nikic/fast-route": "^2.0",
+        "nofutur3/tracy-gitpanel": "^0.10",
+        "org_heigl/hyphenator": "^2.4",
+        "roots/wp-password-bcrypt": "^1.1",
         "spatie/emoji": "^4.0",
-        "spatie/image": "1.10.4",
+        "spatie/image": "^2.0",
         "tracy/tracy": "^2.10",
-        "twig/twig": "^3.0",
-        "vlucas/phpdotenv": "^2.4",
+        "twig/twig": "^3.8",
+        "vlucas/phpdotenv": "^5.6",
         "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.50",
+        "phpdocumentor/phpdocumentor": "^3.4"
     },
     "autoload": {
         "psr-4": {
@@ -50,6 +47,18 @@
         ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse",
+        "cs-fix": "php-cs-fixer fix",
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "docs": "phpdocumentor"
     }
 }

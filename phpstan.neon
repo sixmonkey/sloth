@@ -1,0 +1,43 @@
+includes:
+    - phpdoc71
+    - phpdoc_laravel_package
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    exclude:
+        - tests
+        - vendor
+        - src/_view
+        - src/Assets
+    fileExtensions:
+        - php
+    memoryLimit: 512M
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
+    # Report-specific settings
+    reportUnmatchedIgnoredErrors: true
+    treatPhpDocTypesAsCertain: false
+
+    # Ignore errors from WordPress functions and Corcel
+    ignoreErrors:
+        -
+            message: '#Function [a-z\\_]+ not found#'
+            path: src/*
+        -
+            message: '#Call to undefined method [a-zA-Z\\]+::[a-z]+#'
+            path: src/*
+        -
+            message: '#Constant [A-Z_]+ not found#'
+            path: src/*
+        -
+            message: '#Property [a-zA-Z\\]+\$[a-z_]+ does not exist#'
+            path: src/*
+        -
+            message: '#Call to an undefined static method [a-zA-Z\\]+::[a-z]+#'
+            path: src/*
+        -
+            message: '#Class [a-zA-Z\\]+ not found#'
+            path: src/*

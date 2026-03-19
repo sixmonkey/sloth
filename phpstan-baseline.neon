@@ -1,0 +1,71 @@
+parameters:
+    ignoreErrors:
+        # Core/Application.php
+        -
+            identifier: missingType.generics
+            path: src/Core/Application.php
+        -
+            identifier: missingType.template
+            path: src/Core/Application.php
+
+        # Route/Route.php
+        -
+            identifier: missingType.generics
+            path: src/Route/Route.php
+        -
+            identifier: argument.type
+            path: src/Route/Route.php
+
+        # Model/Post.php
+        -
+            identifier: missingType.generics
+            path: src/Model/Post.php
+
+        # ServiceProvider issues
+        -
+            identifier: missingType.generics
+            path: src/*/*ServiceProvider.php
+        -
+            identifier: missingType.template
+            path: src/*/*ServiceProvider.php
+
+        # Facade issues
+        -
+            identifier: missingType.generics
+            path: src/Facades/*.php
+        -
+            identifier: missingType.template
+            path: src/Facades/*.php
+
+        # Corcel model extensions
+        -
+            identifier: missingType.generics
+            path: src/Model/*.php
+        -
+            identifier: missingType.template
+            path: src/Model/*.php
+
+        # WordPress integration files
+        -
+            identifier: missingType.generics
+            path: src/ACF/ACFHelper.php
+        -
+            identifier: argument.type
+            path: src/ACF/ACFHelper.php
+        -
+            identifier: missingType.generics
+            path: src/Admin/Customizer.php
+        -
+            identifier: missingType.generics
+            path: src/Admin/CustomizerServiceProvider.php
+
+        # Third-party integrations
+        -
+            identifier: missingType.generics
+            path: src/Field/Image.php
+        -
+            identifier: missingType.template
+            path: src/Field/Image.php
+        -
+            identifier: missingType.generics
+            path: src/Field/CarbonFaker.php

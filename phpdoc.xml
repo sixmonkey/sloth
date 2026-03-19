@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpdocumentor configVersion="3.0">
+    <title>Sloth Framework Documentation</title>
+    <version>
+        <number>1.1.0</number>
+    </version>
+    <source>
+        <directory>src</directory>
+        <exclude>
+            <directory>src/_view</directory>
+            <directory>src/Assets</directory>
+            <file>src/functions.php</file>
+        </exclude>
+    </source>
+
+    <output>
+        <directory>build/api</directory>
+        <format>html</format>
+        <filename>index</filename>
+    </output>
+
+    <include-source>
+        <![CDATA[
+            true
+        ]]>
+    </include-source>
+
+    <extensions>
+        <extension>
+            <name>phpDocumentor</name>
+            <path>vendor/phpdocumentor/phpdocumentor</path>
+        </extension>
+    </extensions>
+
+    <guide-lines>
+        <line number="1">Sloth Framework</line>
+        <line number="2">A modern WordPress theme framework</line>
+    </guide-lines>
+</phpdocumentor>
