@@ -21,7 +21,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var array<string, mixed>|false
 	 */
-	public static array|false $layotter = false;
+	public static $layotter = false;
 
 	/**
 	 * JSON API configuration.
@@ -29,7 +29,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var array<string, mixed>|false
 	 */
-	public static array|false $json = false;
+	public static $json = false;
 
 	/**
 	 * Ajax URL for the module.
@@ -37,7 +37,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var string|null
 	 */
-	public static ?string $ajax_url = null;
+	public static $ajax_url = null;
 
 	/**
 	 * View instance.
@@ -45,7 +45,7 @@ class Module {
 	 * @since 1.0.0
 	 * @var mixed
 	 */
-	private mixed $view = null;
+	private $view = null;
 
 	/**
 	 * View variables.

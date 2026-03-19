@@ -67,8 +67,11 @@ class Model extends CorcelPost
     /**
      * Whether this post type should appear in Layotter page builder.
      *
+     * Can be false to disable, true to enable with defaults,
+     * or an array with configuration options.
+     *
      * @since 1.0.0
-     * @var bool|array<string, mixed>
+     * @var mixed
      */
     public static $layotter = false;
 

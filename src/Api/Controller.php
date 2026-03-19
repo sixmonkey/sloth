@@ -17,17 +17,17 @@ class Controller {
 	 * The current request object.
 	 *
 	 * @since 1.0.0
-	 * @var \WP_REST_Request|null
+	 * @var mixed
 	 */
-	protected ?\WP_REST_Request $request = null;
+	protected $request = null;
 
 	/**
 	 * The response object.
 	 *
 	 * @since 1.0.0
-	 * @var stdClass
+	 * @var object
 	 */
-	public stdClass $response;
+	public $response;
 
 	/**
 	 * Controller constructor.
@@ -60,7 +60,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function setRequest(\WP_REST_Request $request): void {
+	public function setRequest($request): void {
 		$this->request = $request;
 	}
 
