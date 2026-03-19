@@ -32,7 +32,7 @@ class SlothMediaVersion extends Model
      *
      * @return array<string, mixed>|null The decoded options or null if invalid JSON
      */
-    public function getOptionsAttribute(): array|null
+    public function getOptionsAttribute(): ?array
     {
         return json_decode($this->post_excerpt, true);
     }

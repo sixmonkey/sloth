@@ -7,7 +7,7 @@ use Sloth\Facades\Configure;
 use Twig_SimpleTest;
 use Twig_SimpleFilter;
 use Twig_Extension;
-use \Org\Heigl\Hyphenator as h;
+use Org\Heigl\Hyphenator as h;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -104,10 +104,12 @@ class SlothTwigExtension extends AbstractExtension
             new TwigFilter('tel', function ($phone) {
                 return 'tel:' . preg_replace("/[^0-9\+]/", "", $phone);
             }),
-            new TwigFilter('sanitize',
+            new TwigFilter(
+                'sanitize',
                 function ($string) {
                     return sanitize_title($string);
-                }),
+                }
+            ),
         ];
 
 
@@ -127,13 +129,15 @@ class SlothTwigExtension extends AbstractExtension
     public function getFunctions()
     {
         $functions = [
-            new TwigFunction('module',
+            new TwigFunction(
+                'module',
                 function ($name, $values = [], $options = []) {
                     ob_start();
                     $GLOBALS['sloth']->container->callModule($name, $values, $options);
 
                     return ob_get_clean();
-                }),
+                }
+            ),
             /*
              * WordPress theme functions.
              */
@@ -208,10 +212,12 @@ class SlothTwigExtension extends AbstractExtension
             new TwigFunction('_nx_noop', function ($singular, $plural, $context, $domain = 'default') {
                 return _nx_noop($singular, $plural, $context, $domain);
             }),
-            new TwigFunction('translate_nooped_plural',
+            new TwigFunction(
+                'translate_nooped_plural',
                 function ($nooped_plural, $count, $domain = 'default') {
                     return translate_nooped_plural($nooped_plural, $count, $domain);
-                }),
+                }
+            ),
             new TwigFunction('pll_e', 'pll_e'),
             new TwigFunction('pll__', 'pll__'),
         ];
@@ -225,8 +231,5 @@ class SlothTwigExtension extends AbstractExtension
         return $functions;
     }
 
-    public function initRuntime(\Twig_Environment $environment)
-    {
-
-    }
+    public function initRuntime(\Twig_Environment $environment) {}
 }

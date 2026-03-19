@@ -12,18 +12,20 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class ModuleServiceProvider extends ServiceProvider {
-	/**
-	 * Register the Module service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->bind(
-			'module',
-			fn(): Module => new Module()
-		);
-	}
+class ModuleServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the Module service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->bind(
+            'module',
+            fn(): Module => new Module()
+        );
+    }
 }

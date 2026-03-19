@@ -15,42 +15,45 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class ValidationServiceProvider extends ServiceProvider {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @since 1.0.0
-	 * @var bool
-	 */
-	protected bool $defer = true;
+class ValidationServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @since 1.0.0
+     * @var bool
+     */
+    protected bool $defer = true;
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->singleton(
-			'validator',
-			fn($app) => new Factory(
-				new Translator(new ArrayLoader(), \get_locale()),
-				$app
-			)
-		);
-	}
+    /**
+     * Register the service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(
+            'validator',
+            fn($app) => new Factory(
+                new Translator(new ArrayLoader(), \get_locale()),
+                $app
+            )
+        );
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array<string>
-	 */
-	public function provides(): array {
-		return [
-			'validator',
-		];
-	}
+    /**
+     * Get the services provided by the provider.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string>
+     */
+    public function provides(): array
+    {
+        return [
+            'validator',
+        ];
+    }
 }

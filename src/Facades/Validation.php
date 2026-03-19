@@ -10,15 +10,17 @@ namespace Sloth\Facades;
  * @since 1.0.0
  * @see \Sloth\Facades\Facade
  */
-class Validation extends Facade {
-	/**
-	 * Return the service provider key responsible for the validation class.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string The service identifier for the validator facade
-	 */
-	protected static function getFacadeAccessor(): string {
-		return 'validator';
-	}
+class Validation extends Facade
+{
+    /**
+     * Return the service provider key responsible for the validation class.
+     *
+     * @since 1.0.0
+     *
+     * @return string The service identifier for the validator facade
+     */
+    protected static function getFacadeAccessor(): string
+    {
+        return 'validator';
+    }
 }

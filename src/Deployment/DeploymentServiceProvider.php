@@ -12,39 +12,42 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class DeploymentServiceProvider extends ServiceProvider {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @since 1.0.0
-	 * @var bool
-	 */
-	protected bool $defer = false;
+class DeploymentServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @since 1.0.0
+     * @var bool
+     */
+    protected bool $defer = false;
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->singleton(
-			'deployment',
-			fn($container) => Deployment::getInstance()
-		);
-	}
+    /**
+     * Register the service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(
+            'deployment',
+            fn($container) => Deployment::getInstance()
+        );
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array<string>
-	 */
-	public function provides(): array {
-		return [
-			'deployment',
-		];
-	}
+    /**
+     * Get the services provided by the provider.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string>
+     */
+    public function provides(): array
+    {
+        return [
+            'deployment',
+        ];
+    }
 }

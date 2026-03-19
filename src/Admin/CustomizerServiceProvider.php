@@ -12,18 +12,20 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class CustomizerServiceProvider extends ServiceProvider {
-	/**
-	 * Register the Customizer service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->singleton(
-			'customizer',
-			fn($container) => Customizer::getInstance()
-		);
-	}
+class CustomizerServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the Customizer service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(
+            'customizer',
+            fn($container) => Customizer::getInstance()
+        );
+    }
 }

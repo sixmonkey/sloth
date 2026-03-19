@@ -13,18 +13,20 @@ use Sloth\Core\ServiceProvider;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class FinderServiceProvider extends ServiceProvider {
-	/**
-	 * Register the Finder service provider.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register(): void {
-		$this->app->bind(
-			'filesystem',
-			fn(): Filesystem => new Filesystem()
-		);
-	}
+class FinderServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the Finder service provider.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->bind(
+            'filesystem',
+            fn(): Filesystem => new Filesystem()
+        );
+    }
 }

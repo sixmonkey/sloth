@@ -10,15 +10,17 @@ namespace Sloth\Facades;
  * @since 1.0.0
  * @see \Sloth\Facades\Facade
  */
-class Layotter extends Facade {
-	/**
-	 * Return the service provider key responsible for the Layotter class.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string The service identifier for the Layotter facade
-	 */
-	protected static function getFacadeAccessor(): string {
-		return 'layotter';
-	}
+class Layotter extends Facade
+{
+    /**
+     * Return the service provider key responsible for the Layotter class.
+     *
+     * @since 1.0.0
+     *
+     * @return string The service identifier for the Layotter facade
+     */
+    protected static function getFacadeAccessor(): string
+    {
+        return 'layotter';
+    }
 }

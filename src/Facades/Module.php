@@ -10,15 +10,17 @@ namespace Sloth\Facades;
  * @since 1.0.0
  * @see \Sloth\Module\Module
  */
-class Module extends \Sloth\Module\Module {
-	/**
-	 * Return the service provider key responsible for the module class.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string The service identifier for the module facade
-	 */
-	protected static function getFacadeAccessor(): string {
-		return 'module';
-	}
+class Module extends \Sloth\Module\Module
+{
+    /**
+     * Return the service provider key responsible for the module class.
+     *
+     * @since 1.0.0
+     *
+     * @return string The service identifier for the module facade
+     */
+    protected static function getFacadeAccessor(): string
+    {
+        return 'module';
+    }
 }

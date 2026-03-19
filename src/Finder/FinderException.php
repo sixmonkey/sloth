@@ -12,5 +12,4 @@ use Exception;
  * @since 1.0.0
  * @extends Exception
  */
-class FinderException extends Exception {
-}
+class FinderException extends Exception {}
