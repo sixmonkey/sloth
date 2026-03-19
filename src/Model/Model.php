@@ -46,7 +46,7 @@ class Model extends CorcelPost
      * @since 1.0.0
      * @var array<string, mixed>
      */
-    protected array $names = [];
+    protected $names = [];
 
     /**
      * Post type options for WordPress registration.
@@ -54,7 +54,7 @@ class Model extends CorcelPost
      * @since 1.0.0
      * @var array<string, mixed>
      */
-    protected array $options = [];
+    protected $options = [];
 
     /**
      * Post type labels for WordPress admin UI.
@@ -62,7 +62,7 @@ class Model extends CorcelPost
      * @since 1.0.0
      * @var array<string, string>
      */
-    protected array $labels = [];
+    protected $labels = [];
 
     /**
      * Whether this post type should appear in Layotter page builder.
