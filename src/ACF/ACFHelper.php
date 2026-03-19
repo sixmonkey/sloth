@@ -57,7 +57,15 @@ class ACFHelper extends Singleton
             return $value;
         }
 
-        $id = is_array($value) ? (int) $value['ID'] : $value;
+        if ($value === false || $value === '' || $value === null) {
+            return $value;
+        }
+
+        $id = is_array($value) ? (int) ($value['ID'] ?? 0) : (int) $value;
+
+        if ($id === 0) {
+            return $value;
+        }
 
         return new Image($id);
     }
