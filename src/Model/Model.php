@@ -247,7 +247,6 @@ class Model extends CorcelPost
         $pt->columns()->hide($this->admin_columns_hidden);
         $pt->columns()->add($this->admin_columns);
 
-        $order = ['title' => 1];
         $idx = in_array('title', $this->admin_columns_hidden, true) ? 1 : 2;
         $order = [];
         $sortable = [];

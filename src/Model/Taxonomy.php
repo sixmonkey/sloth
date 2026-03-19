@@ -118,6 +118,12 @@ class Taxonomy extends CorcelTaxonomy
      */
     public function register(): void
     {
+        $taxonomyName = $this->getTaxonomy();
+
+        if (\taxonomy_exists($taxonomyName)) {
+            return;
+        }
+
         if ($this->unique) {
             $this->options['hierarchical'] = false;
             $this->options['parent_item'] = null;
