@@ -97,7 +97,7 @@ class Model extends CorcelPost
      * @since 1.0.0
      * @var string|null
      */
-    protected ?string $icon = null;
+    protected $icon = null;
 
     /**
      * Flag indicating if content has been filtered.
