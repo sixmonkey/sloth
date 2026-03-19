@@ -262,6 +262,7 @@ class Model extends CorcelPost
         }
 
         $cpt->register();
+        $cpt->registerPostType();
     }
 
     /**
