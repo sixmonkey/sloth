@@ -70,7 +70,7 @@ class Model extends CorcelPost
      * @since 1.0.0
      * @var bool|array<string, mixed>
      */
-    public static $layotter = false;
+    public static array|bool $layotter = false;
 
     /**
      * Whether to register this post type with WordPress.
