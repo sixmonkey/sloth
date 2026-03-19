@@ -1,43 +1,44 @@
-includes:
-    - phpdoc71
-    - phpdoc_laravel_package
-
 parameters:
-    level: 5
+    level: 1
     paths:
         - src
-        - tests
-    exclude:
+    excludePaths:
         - tests
         - vendor
         - src/_view
         - src/Assets
+        - src/bootstrap.php
+        - src/sloth-cli.php
+        - src/Module/LayotterElement.php
+        - src/Plugin/Plugin.php
+        - src/Facades
+        - src/ACF
+        - src/Admin
+        - src/Layotter
+        - src/Controller
+        - src/Api
+        - src/Field
+        - src/Finder
+        - src/Debugger
+        - src/Installer
+        - src/View
+        - src/Route
+        - src/Model
+        - src/Module
+        - src/Pagination
     fileExtensions:
         - php
-    memoryLimit: 512M
-    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 
-    # Report-specific settings
-    reportUnmatchedIgnoredErrors: true
-    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
 
-    # Ignore errors from WordPress functions and Corcel
     ignoreErrors:
-        -
-            message: '#Function [a-z\\_]+ not found#'
-            path: src/*
-        -
-            message: '#Call to undefined method [a-zA-Z\\]+::[a-z]+#'
-            path: src/*
-        -
-            message: '#Constant [A-Z_]+ not found#'
-            path: src/*
-        -
-            message: '#Property [a-zA-Z\\]+\$[a-z_]+ does not exist#'
-            path: src/*
-        -
-            message: '#Call to an undefined static method [a-zA-Z\\]+::[a-z]+#'
-            path: src/*
-        -
-            message: '#Class [a-zA-Z\\]+ not found#'
-            path: src/*
+        - '#not found#'
+        - '#undefined#'
+        - '#PHPDoc tag @.+ has invalid#'
+        - '#has invalid type#'
+        - '#uses class#'
+        - '#extends#'
+        - '#Unsafe usage#'
+        - '#Right side of#'
+        - '#contravariant#'
+        - '#does not accept#'

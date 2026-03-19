@@ -1,182 +1,358 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Installer;
 
 use Composer\Script\Event;
 use League\CLImate\CLImate;
 use Sloth\Utility\Utility;
 
-
+/**
+ * Installer class for setting up the Sloth WordPress theme.
+ *
+ * @since 1.0.0
+ */
 class Installer {
-    static $http_dir;
-    static $base_dir;
-    static $theme_name;
-    static $dirs_required = [
-        [ 'app' ],
-        [ 'app', 'config' ],
-        [ 'app', 'cache' ],
-    ];
-    static $dir_theme_new;
-    static $authorname;
-    static $themedescription;
+	/**
+	 * HTTP directory path.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $httpDir = null;
 
-    public static function config( Event $event ) {
-        $vendor_dir       = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
-        self::$base_dir   = $vendor_dir;
-        self::$http_dir   = self::mkPath( [ self::$base_dir, 'public' ] );
-        self::$theme_name = basename( $vendor_dir );
-        self::$authorname = get_current_user();
+	/**
+	 * Base directory path.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $baseDir = null;
 
-        self::dialog();
+	/**
+	 * Theme name.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $themeName = null;
 
-        self::mkDirs();
+	/**
+	 * Required directories to create.
+	 *
+	 * @since 1.0.0
+	 * @var array<array<string>>
+	 */
+	public static array $dirsRequired = [
+		['app'],
+		['app', 'config'],
+		['app', 'cache'],
+	];
 
-        self::rebuildIndex();
-        self::initializeSalts();
-        self::initializeDotenv();
-        self::initializeWpconfig();
-        self::initializeHtaccess();
-        self::initializePlugin();
-        self::addCLI();
-        self::initializeBootstrap();
-        self::renameTheme();
-    }
+	/**
+	 * New theme directory path.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $dirThemeNew = null;
 
-    public static function config_quiet( Event $event ) {
-        $vendor_dir     = dirname( $event->getComposer()->getConfig()->get( 'vendor-dir' ) );
-        self::$base_dir = $vendor_dir;
-        self::$http_dir = self::mkPath( [ self::$base_dir, 'public' ] );
+	/**
+	 * Author name.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $authorname = null;
 
-        self::mkDirs();
+	/**
+	 * Theme description.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $themedescription = null;
 
-        self::rebuildIndex();
-        self::initializeSalts();
-        self::initializeDotenv();
-        self::initializeWpconfig();
-        self::initializeHtaccess();
-        self::initializePlugin();
-        self::initializeBootstrap();
-    }
+	/**
+	 * Run the configuration process with interactive prompts.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Event $event The Composer event
+	 *
+	 * @return void
+	 */
+	public static function config(Event $event): void {
+		$vendorDir = dirname($event->getComposer()->getConfig()->get('vendor-dir'));
+		self::$baseDir = $vendorDir;
+		self::$httpDir = self::mkPath([self::$baseDir, 'public']);
+		self::$themeName = basename($vendorDir);
+		self::$authorname = (string) get_current_user();
 
-    protected static function mkDirs() {
-        foreach ( self::$dirs_required as $dir ) {
-            array_unshift( $dir, self::$base_dir );
-            $dir = self::mkPath( $dir );
-            if ( ! is_dir( $dir ) ) {
-                mkdir( $dir, 0755 );
-            }
-        }
+		self::dialog();
 
-    }
+		self::mkDirs();
 
-    protected static function rebuildIndex() {
-        $custom_index_wp_path = self::mkPath( [ self::$http_dir, 'index.php' ] );
+		self::rebuildIndex();
+		self::initializeSalts();
+		self::initializeDotenv();
+		self::initializeWpconfig();
+		self::initializeHtaccess();
+		self::initializePlugin();
+		self::addCLI();
+		self::initializeBootstrap();
+		self::renameTheme();
+	}
 
-        if ( ! file_exists( $custom_index_wp_path ) ) {
-            $original_index_wp_path = self::mkPath( [ self::$http_dir, 'cms', 'index.php' ] );
-            $original_index         = file_get_contents( $original_index_wp_path );
+	/**
+	 * Run the configuration process silently.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Event $event The Composer event
+	 *
+	 * @return void
+	 */
+	public static function configQuiet(Event $event): void {
+		$vendorDir = dirname($event->getComposer()->getConfig()->get('vendor-dir'));
+		self::$baseDir = $vendorDir;
+		self::$httpDir = self::mkPath([self::$baseDir, 'public']);
 
-            $custom_index = str_replace( "'/wp-blog-header.php'", "'/cms/wp-blog-header.php'", $original_index );
+		self::mkDirs();
 
-            file_put_contents( $custom_index_wp_path, $custom_index );
-        }
-    }
+		self::rebuildIndex();
+		self::initializeSalts();
+		self::initializeDotenv();
+		self::initializeWpconfig();
+		self::initializeHtaccess();
+		self::initializePlugin();
+		self::initializeBootstrap();
+	}
 
-    protected static function initializeSalts() {
-        $salts_filename = self::mkPath( [ self::$base_dir, 'app', 'config', 'salts.php' ] );
-        if ( ! file_exists( $salts_filename ) ) {
-            $salts = "<?php\n" . file_get_contents( 'https://api.wordpress.org/secret-key/1.1/salt/' );
-            file_put_contents( $salts_filename, $salts );
-        }
-    }
+	/**
+	 * Create required directories.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function mkDirs(): void {
+		foreach (self::$dirsRequired as $dir) {
+			array_unshift($dir, (string) self::$baseDir);
+			$dir = self::mkPath($dir);
+			if (!is_dir($dir)) {
+				mkdir($dir, 0755);
+			}
+		}
+	}
 
-    protected static function initializeDotenv() {
-        $dotenvToCreate = self::mkPath( [ self::$base_dir, '.env' ] );
-        $dotEnvSrc      = self::mkPath( [ self::$base_dir, '.env.example' ] );
+	/**
+	 * Rebuild the index.php file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function rebuildIndex(): void {
+		$customIndexWpPath = self::mkPath([(string) self::$httpDir, 'index.php']);
 
-        if ( ! file_exists( $dotenvToCreate ) ) {
-            if ( file_exists( $dotEnvSrc ) ) {
-                copy( $dotEnvSrc, $dotenvToCreate );
-            }
-        }
-    }
+		if (!file_exists($customIndexWpPath)) {
+			$originalIndexWpPath = self::mkPath([(string) self::$httpDir, 'cms', 'index.php']);
+			$originalIndex = file_get_contents($originalIndexWpPath);
 
-    protected static function initializeWpconfig() {
-        $wpConfigToCreate = self::mkPath( [ self::$http_dir, 'wp-config.php' ] );
+			$customIndex = str_replace("'/wp-blog-header.php'", "'/cms/wp-blog-header.php'", $originalIndex);
 
-        if ( ! file_exists( $wpConfigToCreate ) ) {
-            copy( self::mkPath( [ dirname( __DIR__ ), 'wp-config.php' ] ),
-                $wpConfigToCreate );
-        }
-    }
+			file_put_contents($customIndexWpPath, $customIndex);
+		}
+	}
 
-    protected static function initializePlugin() {
-        $dir_components = self::mkPath( [ self::$http_dir, 'extensions', 'components' ] );
-        if ( ! is_dir( $dir_components ) ) {
-            mkdir( $dir_components, 0755 );
-        }
-        copy( self::mkPath( [ dirname( __DIR__ ), 'sloth.php' ] ),
-            self::mkPath( [ $dir_components, 'sloth.php' ] ) );
-    }
+	/**
+	 * Initialize WordPress salt keys.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function initializeSalts(): void {
+		$saltsFilename = self::mkPath([(string) self::$baseDir, 'app', 'config', 'salts.php']);
+		if (!file_exists($saltsFilename)) {
+			$salts = "<?php\n" . (string) file_get_contents('https://api.wordpress.org/secret-key/1.1/salt/');
+			file_put_contents($saltsFilename, $salts);
+		}
+	}
 
-    protected static function addCLI() {
-        copy( self::mkPath( [ dirname( __DIR__ ), 'sloth-cli.php' ] ),
-            self::mkPath( [ self::$base_dir, 'sloth.php' ] ) );
-    }
+	/**
+	 * Initialize .env file from example.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function initializeDotenv(): void {
+		$dotenvToCreate = self::mkPath([(string) self::$baseDir, '.env']);
+		$dotEnvSrc = self::mkPath([(string) self::$baseDir, '.env.example']);
 
-    protected static function initializeBootstrap() {
-        copy( self::mkPath( [ dirname( __DIR__ ), 'bootstrap.php' ] ),
-            self::mkPath( [ self::$base_dir, 'bootstrap.php' ] ) );
-    }
+		if (!file_exists($dotenvToCreate)) {
+			if (file_exists($dotEnvSrc)) {
+				copy($dotEnvSrc, $dotenvToCreate);
+			}
+		}
+	}
 
-    protected static function initializeHtaccess() {
-        $htaccessFile = self::mkPath( [ self::$http_dir, '.htaccess' ] );
-        if ( ! file_exists( $htaccessFile ) ) {
-            copy( self::mkPath( [ dirname( __DIR__ ), '.htaccess' ] ),
-                $htaccessFile );
-        }
-    }
+	/**
+	 * Initialize wp-config.php file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function initializeWpconfig(): void {
+		$wpConfigToCreate = self::mkPath([(string) self::$httpDir, 'wp-config.php']);
 
-    public static function dialog() {
-        $climate = new CLImate;
-        $data    = [];
+		if (!file_exists($wpConfigToCreate)) {
+			copy(
+				self::mkPath([dirname(__DIR__), 'wp-config.php']),
+				$wpConfigToCreate
+			);
+		}
+	}
 
-        // Set themename
-        $input = $climate->input( 'What will your WordPress-theme be called? [' . self::$theme_name . ']' );
-        $input->defaultTo( self::$theme_name );
-        self::$theme_name = $input->prompt();
+	/**
+	 * Initialize the Sloth plugin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function initializePlugin(): void {
+		$dirComponents = self::mkPath([(string) self::$httpDir, 'extensions', 'components']);
+		if (!is_dir($dirComponents)) {
+			mkdir($dirComponents, 0755);
+		}
+		copy(
+			self::mkPath([dirname(__DIR__), 'sloth.php']),
+			self::mkPath([$dirComponents, 'sloth.php'])
+		);
+	}
 
-        // Set authorname
-        $input = $climate->input( 'What is the name of your theme\'s author? [' . self::$authorname . ']' );
-        $input->defaultTo( self::$authorname );
-        self::$authorname = $input->prompt();
+	/**
+	 * Add the CLI script.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function addCLI(): void {
+		copy(
+			self::mkPath([dirname(__DIR__), 'sloth-cli.php']),
+			self::mkPath([(string) self::$baseDir, 'sloth.php'])
+		);
+	}
 
-        // Set description
-        self::$themedescription = self::$theme_name . ": Just another WordPress theme.";
-        $input                  = $climate->input( 'Please describe your theme [' . self::$themedescription . ']' );
-        $input->defaultTo( self::$themedescription );
-        self::$themedescription = $input->prompt();
-    }
+	/**
+	 * Initialize the bootstrap file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function initializeBootstrap(): void {
+		copy(
+			self::mkPath([dirname(__DIR__), 'bootstrap.php']),
+			self::mkPath([(string) self::$baseDir, 'bootstrap.php'])
+		);
+	}
 
-    public static function buildStyleCss() {
-        @file_put_contents( self::$dir_theme_new . DIRECTORY_SEPARATOR . 'style.css',
-            "/*\nTheme Name: " . self::$theme_name . "\nAuthor: " . self::$authorname . "\nVersion: 0.0.1\nDescription: " . self::$themedescription . "\n*/" );
-    }
+	/**
+	 * Initialize the .htaccess file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected static function initializeHtaccess(): void {
+		$htaccessFile = self::mkPath([(string) self::$httpDir, '.htaccess']);
+		if (!file_exists($htaccessFile)) {
+			copy(
+				self::mkPath([dirname(__DIR__), '.htaccess']),
+				$htaccessFile
+			);
+		}
+	}
 
-    public static function renameTheme() {
-        $dir_theme_default   = self::mkPath( [ self::$http_dir, 'themes', 'sloth-theme' ] );
-        self::$dir_theme_new = self::mkPath( [
-            self::$http_dir,
-            'themes',
-            Utility::viewize( strtolower( self::$theme_name ) ),
-        ] );
-        if ( is_dir( $dir_theme_default ) ) {
-            rename( $dir_theme_default, self::$dir_theme_new );
-            self::buildStyleCss();
-        }
-    }
+	/**
+	 * Run the interactive dialog.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function dialog(): void {
+		$climate = new CLImate();
 
-    public static function mkPath( $parts ) {
-        return implode( DIRECTORY_SEPARATOR, $parts );
-    }
+		$input = $climate->input('What will your WordPress-theme be called? [' . self::$themeName . ']');
+		$input->defaultTo((string) self::$themeName);
+		self::$themeName = $input->prompt();
+
+		$input = $climate->input("What is the name of your theme's author? [" . self::$authorname . ']');
+		$input->defaultTo((string) self::$authorname);
+		self::$authorname = $input->prompt();
+
+		self::$themedescription = self::$themeName . ": Just another WordPress theme.";
+		$input = $climate->input('Please describe your theme [' . self::$themedescription . ']');
+		$input->defaultTo((string) self::$themedescription);
+		self::$themedescription = $input->prompt();
+	}
+
+	/**
+	 * Build the style.css file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function buildStyleCss(): void {
+		$css = sprintf(
+			"/*\nTheme Name: %s\nAuthor: %s\nVersion: 0.0.1\nDescription: %s\n*/",
+			self::$themeName,
+			self::$authorname,
+			self::$themedescription
+		);
+		@file_put_contents(self::$dirThemeNew . DIRECTORY_SEPARATOR . 'style.css', $css);
+	}
+
+	/**
+	 * Rename the default theme to the configured name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function renameTheme(): void {
+		$dirThemeDefault = self::mkPath([(string) self::$httpDir, 'themes', 'sloth-theme']);
+		self::$dirThemeNew = self::mkPath([
+			(string) self::$httpDir,
+			'themes',
+			Utility::viewize(strtolower((string) self::$themeName)),
+		]);
+
+		if (is_dir($dirThemeDefault)) {
+			rename($dirThemeDefault, self::$dirThemeNew);
+			self::buildStyleCss();
+		}
+	}
+
+	/**
+	 * Join path parts with the directory separator.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string> $parts Path parts to join
+	 *
+	 * @return string
+	 */
+	public static function mkPath(array $parts): string {
+		return implode(DIRECTORY_SEPARATOR, $parts);
+	}
 }

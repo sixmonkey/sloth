@@ -1,16 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\View;
 
 use Illuminate\View\FileViewFinder;
 
+/**
+ * ViewFinder for locating view templates.
+ *
+ * @since 1.0.0
+ * @extends FileViewFinder
+ */
 class ViewFinder extends FileViewFinder {
 	/**
 	 * Return a list of found views.
 	 *
-	 * @return array
+	 * @since 1.0.0
+	 *
+	 * @return array<int, string>
 	 */
-	public function getViews() {
+	public function getViews(): array {
 		return $this->views;
 	}
 }

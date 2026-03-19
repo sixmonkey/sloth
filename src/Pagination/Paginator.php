@@ -1,38 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Pagination;
 
 use Illuminate\Pagination\LengthAwarePaginator as BasePaginator;
 
+/**
+ * Custom paginator with WordPress integration.
+ *
+ * @since 1.0.0
+ * @extends BasePaginator
+ */
 class Paginator extends BasePaginator {
-    /**
-     * @TODO: This one seems very insecure?
-     *
-     * @param int $page
-     *
-     * @return string
-     */
-    public function url( $page ) {
-        if ( \is_archive() ) {
-            return get_pagenum_link( $page );
-        }
+	/**
+	 * Get the URL for a given page number.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $page The page number
+	 *
+	 * @return string The URL for the given page
+	 */
+	public function url(int $page): string {
+		if (\is_archive()) {
+			return (string) get_pagenum_link($page);
+		}
 
-        if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-            $current         = $_GET;
-            $current['page'] = $page;
+		if (defined('REST_REQUEST') && REST_REQUEST) {
+			$current = $_GET;
+			$current['page'] = $page;
 
-            $baseURL = parse_url( rest_url( '/' ), PHP_URL_PATH );
-            $here    = preg_replace( '#' . $baseURL . '#', '', parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) );
+			$baseUrl = parse_url((string) rest_url('/'), PHP_URL_PATH);
+			$here = preg_replace('#' . $baseUrl . '#', '', parse_url((string) $_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-            return rest_url( $here ) . '?' . http_build_query( $current );
-        }
+			return (string) rest_url($here) . '?' . http_build_query($current);
+		}
 
-        $parts = [ rtrim( get_permalink(), '/' ) ];
-        if ( $page > 1 ) {
-            $parts[] = $page;
-        }
+		$parts = [rtrim((string) get_permalink(), '/')];
+		if ($page > 1) {
+			$parts[] = $page;
+		}
 
-        return rtrim( implode( '/', $parts ), '/' ) . '/';
-    }
-
+		return rtrim(implode('/', $parts), '/') . '/';
+	}
 }

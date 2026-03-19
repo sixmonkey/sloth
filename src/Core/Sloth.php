@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Core;
 
 use Sloth\Debugger\SlothBarPanel;
@@ -9,17 +11,36 @@ use Tracy\Dumper;
 use Corcel\Database;
 use Sloth\Singleton\Singleton;
 
+/**
+ * Sloth Framework Bootstrap
+ *
+ * This is the main entry point for the Sloth framework.
+ * It initializes the application container, registers service providers,
+ * sets up facades, and establishes the database connection.
+ *
+ * @since 1.0.0
+ * @see Singleton For singleton pattern implementation
+ */
 class Sloth extends Singleton
 {
-
-    public $container;
+    /**
+     * The application container instance.
+     *
+     * @since 1.0.0
+     * @var Application
+     */
+    public Application $container;
 
     /**
-     * Classaliases for our Application
+     * Class aliases for convenient access to facades.
      *
-     * @var array
+     * These shortcuts allow classes to be referenced by their short name
+     * instead of their fully qualified namespace.
+     *
+     * @since 1.0.0
+     * @var array<string, class-string>
      */
-    private $class_aliases = [
+    private array $classAliases = [
         'Route' => '\Sloth\Facades\Route',
         'View' => '\Sloth\Facades\View',
         'Configure' => '\Sloth\Facades\Configure',
@@ -28,53 +49,65 @@ class Sloth extends Singleton
         'Customizer' => '\Sloth\Facades\Customizer',
     ];
 
-    private $dont_debug = ['admin-ajax.php', 'async-upload.php'];
+    /**
+     * Scripts that should not trigger debug output.
+     *
+     * These are typically AJAX or media upload endpoints where
+     * debug output would interfere with the expected response.
+     *
+     * @since 1.0.0
+     * @var array<string>
+     */
+    private array $dontDebug = [
+        'admin-ajax.php',
+        'async-upload.php',
+    ];
 
     /**
-     * Sloth constructor.
+     * Creates a new Sloth instance.
+     *
+     * Initializes the framework by:
+     * 1. Loading development configuration
+     * 2. Setting up debugging
+     * 3. Creating the application container
+     * 4. Registering all service providers
+     * 5. Setting up class aliases
+     * 6. Connecting to the WordPress database via Corcel
+     *
+     * @since 1.0.0
      */
     public function __construct()
     {
         @include(DIR_ROOT . DS . 'develop.config.php');
-        /**
-         * enable debugging where needed
-         */
+
         $this->setDebugging();
 
-        /*
-		 * Instantiate the service container for the project.
-		 */
-        $this->container = new \Sloth\Core\Application();
-
+        $this->container = new Application();
         $this->container->addPath('cache', DIR_CACHE);
 
-        /*
-		 * Setup the facade.
-		 */
         \Sloth\Facades\Facade::setFacadeApplication($this->container);
-
 
         $this->registerProviders();
 
-        /**
-         * Set aliases for common classes
-         */
         $this->setAliases();
 
-        /**
-         * open database connection for corcel
-         */
         $this->connectCorcel();
     }
 
     /**
-     * Register core framework service providers.
+     * Registers all core framework service providers.
+     *
+     * Service providers are registered in the order they appear in the array.
+     * Each provider is responsible for bootstrapping specific framework features.
+     *
+     * @since 1.0.0
+     *
+     * @see RouteServiceProvider For routing functionality
+     * @see ViewServiceProvider For template rendering
+     * @see FinderServiceProvider For file finding
      */
-    protected function registerProviders()
+    protected function registerProviders(): void
     {
-        /*
-		 * Service providers.
-		 */
         $providers = [
             \Sloth\Route\RouteServiceProvider::class,
             \Sloth\Finder\FinderServiceProvider::class,
@@ -95,34 +128,53 @@ class Sloth extends Singleton
     }
 
     /**
-     * Hook into front-end routing.
-     * Setup the router API to be executed before
-     * theme default templates.
+     * Sets up rewrite rules for the router.
+     *
+     * Hooks into WordPress to register custom route patterns
+     * so WordPress knows about Sloth's custom routes.
+     *
+     * @since 1.0.0
+     *
+     * @see Route::setRewrite()
      */
-    public function setRouter()
+    public function setRouter(): void
     {
         $this->container['route']->setRewrite();
     }
 
     /**
-     * Hook into front-end routing.
-     * Setup the router API to be executed before
-     * theme default templates.
+     * Dispatches the router to handle the current request.
+     *
+     * This method is called during WordPress's template redirect
+     * and processes any matching Sloth routes before WordPress
+     * falls back to its default template hierarchy.
+     *
+     * @since 1.0.0
+     *
+     * @see Route::dispatch()
      */
-    public function dispatchRouter()
+    public function dispatchRouter(): void
     {
-        if (is_feed() || is_comment_feed()) {
+        if (\is_feed() || \is_comment_feed()) {
             return;
         }
+
         $this->container['route']->dispatch();
     }
 
     /**
-     * Set some aliases for commonly used classes
+     * Creates class aliases for commonly used framework classes.
+     *
+     * This allows developers to use short class names like 'Route'
+     * instead of the fully qualified '\Sloth\Facades\Route'.
+     *
+     * @since 1.0.0
+     *
+     * @example Route::get('/about', ['controller' => 'PageController']);
      */
-    private function setAliases()
+    private function setAliases(): void
     {
-        foreach ($this->class_aliases as $alias => $class) {
+        foreach ($this->classAliases as $alias => $class) {
             if (!class_exists($alias)) {
                 class_alias($class, $alias);
             }
@@ -130,40 +182,68 @@ class Sloth extends Singleton
     }
 
     /**
-     * Set Debugging
+     * Configures and enables the Tracy debugger.
+     *
+     * The debugger is set to DEVELOPMENT mode when WP_DEBUG is true,
+     * otherwise it runs in PRODUCTION mode. Tracy panels are added
+     * for vendor versions and custom Sloth debugging information.
+     *
+     * @since 1.0.0
+     *
+     * @see Debugger For Tracy debugger configuration
+     * @see SlothBarPanel For custom debug panel
      */
-    private function setDebugging()
+    private function setDebugging(): void
     {
         $mode = WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
-        Debugger::$showLocation = Dumper::LOCATION_CLASS | Dumper::LOCATION_LINK | Dumper::LOCATION_SOURCE;  // Shows both paths to the classes and link to where the dump() was called
-        $logDirectoy = DIR_ROOT . DS . 'logs';
-        if (!is_dir($logDirectoy)) {
-            mkdir($logDirectoy);
+
+        Debugger::$showLocation = true;
+
+        $logDirectory = DIR_ROOT . DS . 'logs';
+
+        if (!is_dir($logDirectory)) {
+            mkdir($logDirectory);
         }
-        # Debugger::getBar()->addPanel(new \Nofutur3\GitPanel\Diagnostics\Panel());
-        Debugger::getBar()->addPanel(new \Milo\VendorVersions\Panel);
+
+        Debugger::getBar()->addPanel(new \Milo\VendorVersions\Panel());
         Debugger::getBar()->addPanel(new SlothBarPanel());
-        /* TODO: could be nicer? */
-        #if ( WP_DEBUG && ! in_array( basename( $_SERVER['PHP_SELF'] ), $this->dont_debug ) ) {
-        Debugger::enable($mode, DIR_ROOT . DS . 'logs');
-        #}
+
+        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(basename($_SERVER['PHP_SELF'] ?? ''), $this->dontDebug, true)) {
+            Debugger::enable($mode, DIR_ROOT . DS . 'logs');
+        }
+
         if (getenv('SLOTH_DEBUGGER_EDITOR')) {
             Debugger::$editor = getenv('SLOTH_DEBUGGER_EDITOR');
         }
     }
 
     /**
-     * Connect corcel to the database
+     * Establishes a database connection for Corcel.
+     *
+     * Corcel is used to access WordPress data as Eloquent models.
+     * The connection parameters are read from WordPress constants.
+     *
+     * @since 1.0.0
+     *
+     * @see Database For Corcel database configuration
+     * @see \Corcel\Model\Post For post model usage
+     *
+     * @uses DB_HOST WordPress database host constant
+     * @uses DB_NAME WordPress database name constant
+     * @uses DB_USER WordPress database user constant
+     * @uses DB_PASSWORD WordPress database password constant
+     * @uses DB_PREFIX WordPress table prefix constant
      */
-    private function connectCorcel()
+    private function connectCorcel(): void
     {
         $params = [
             'host' => DB_HOST,
             'database' => DB_NAME,
             'username' => DB_USER,
             'password' => DB_PASSWORD,
-            'prefix' => DB_PREFIX
+            'prefix' => DB_PREFIX,
         ];
-        \Corcel\Database::connect($params);
+
+        Database::connect($params);
     }
 }

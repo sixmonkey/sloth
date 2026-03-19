@@ -1,14 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Route;
 
 use Sloth\Core\ServiceProvider;
+use Sloth\Core\Application;
 
-class RouteServiceProvider extends ServiceProvider {
-	public function register() {
-		$this->app->singleton( 'route',
-			function ( $container ) {
-				return Route::instance();
-			} );
-	}
+/**
+ * Route Service Provider
+ *
+ * Registers the Route singleton with the application container.
+ *
+ * @since 1.0.0
+ * @see ServiceProvider For the base class
+ * @see Route For the route implementation
+ */
+class RouteServiceProvider extends ServiceProvider
+{
+    /**
+     * Registers services with the container.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(
+            'route',
+            static function (Application $container): Route {
+                return Route::instance();
+            }
+        );
+    }
 }

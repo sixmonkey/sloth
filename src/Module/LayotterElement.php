@@ -1,78 +1,113 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Module;
 
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Field\Image;
 
+/**
+ * Layotter element wrapper for modules.
+ *
+ * @since 1.0.0
+ */
 class LayotterElement extends \Layotter_Element {
-	public static $module;
+	/**
+	 * Module class name.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public static string $module = '';
 
-	public function attributes() {
-		$class_name  = get_class( $this );
-		$module_name = $class_name::$module;
-		$module      = new $module_name;
+	/**
+	 * Set element attributes from module configuration.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function attributes(): void {
+		$className = get_class($this);
+		$moduleName = $className::$module;
+		$module = new $moduleName();
 
-		$layotter_data     = $module->get_layotter_attributes();
-		$this->field_group = $layotter_data['field_group'];
-		$this->title       = $layotter_data['title'];
-		$this->description = $layotter_data['description'];
-		$this->icon        = $layotter_data['icon'];
+		$layotterData = $module->getLayotterAttributes();
+		$this->field_group = $layotterData['field_group'];
+		$this->title = $layotterData['title'];
+		$this->description = $layotterData['description'];
+		$this->icon = $layotterData['icon'];
 	}
 
-	public function frontend_view( $fields ) {
-
-		$fields = $this->prepare_fields( $fields );
-
+	/**
+	 * Render the frontend view.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string, mixed> $fields The field values
+	 *
+	 * @return void
+	 */
+	public function frontendView(array $fields): void {
+		$fields = $this->prepareFields($fields);
 
 		$options = func_get_args();
-		array_shift( $options );
+		array_shift($options);
 
-		$keys                          = [
+		$keys = [
 			'class',
 			'col_options',
 			'row_options',
 			'post_options',
 			'element_options',
 		];
-		$fields['_layotter']           = [];
-		$fields['_layotter']['passed'] = array_combine( array_intersect_key( $keys, $options ),
-			array_intersect_key( $options, $keys ) );
+		$fields['_layotter'] = [];
+		$fields['_layotter']['passed'] = array_combine(
+			array_intersect_key($keys, $options),
+			array_intersect_key($options, $keys)
+		);
 
-
-		$class_name  = get_class( $this );
-		$module_name = $class_name::$module;
-		$module      = new $module_name;
-		$module->set( $fields );
+		$className = get_class($this);
+		$moduleName = $className::$module;
+		$module = new $moduleName();
+		$module->set($fields);
 
 		$module->render();
 	}
 
-	public function backend_view( $fields ) {
-		$fields = $this->prepare_fields( $fields );
-
+	/**
+	 * Render the backend preview.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string, mixed> $fields The field values
+	 *
+	 * @return void
+	 */
+	public function backendView(array $fields): void {
+		$fields = $this->prepareFields($fields);
 
 		echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
 
 		echo '<table class="layotter-preview">';
-		foreach ( $this->get_fields() as $field ) {
-
-			if ( isset( $fields[ $field['name'] ] ) ) {
-				if ( is_a( $fields[ $field['name'] ], 'Sloth\Field\Image' ) ) {
-					$v = '<img src="' . $fields[ $field['name'] ] . '" width="100"/>';
-				} else if ( $field['type'] == 'file' ) {
-					$v = $fields[ $field['name'] ]['filename'];
-				} else if ( $field['type'] == 'repeater' ) {
-					$v = count( $fields[ $field['name'] ] ) . ' ' . __( 'Elemente', 'sloth' );
-				} else if ( is_object( $fields[ $field['name'] ] ) || is_object( $fields[ $field['name'] ] ) || $field['type'] == 'true_false' || $field['type'] == 'taxonomy' ) {
+		foreach ($this->getFields() as $field) {
+			if (isset($fields[$field['name']])) {
+				if (is_a($fields[$field['name']], 'Sloth\Field\Image')) {
+					$v = '<img src="' . $fields[$field['name']] . '" width="100"/>';
+				} elseif ($field['type'] === 'file') {
+					$v = $fields[$field['name']]['filename'];
+				} elseif ($field['type'] === 'repeater') {
+					$v = count($fields[$field['name']]) . ' ' . __('Elemente', 'sloth');
+				} elseif (is_object($fields[$field['name']]) || $field['type'] === 'true_false' || $field['type'] === 'taxonomy') {
 					continue;
-				} else if ( $field['type'] == 'image' && $fields[ $field['name'] ]['url'] !== null ) {
-					$v = '<img src="' . $fields[ $field['name'] ]['url'] . '" width="100"/>';
-				} else if ( is_array( $fields[ $field['name'] ] ) ) {
-					$v = implode( '<br />', $fields[ $field['name'] ] );
+				} elseif ($field['type'] === 'image' && $fields[$field['name']]['url'] !== null) {
+					$v = '<img src="' . $fields[$field['name']]['url'] . '" width="100"/>';
+				} elseif (is_array($fields[$field['name']])) {
+					$v = implode('<br />', $fields[$field['name']]);
 				} else {
-					$v = wp_trim_words( $fields[ $field['name'] ], 30 );
+					$v = wp_trim_words($fields[$field['name']], 30);
 				}
 
 				echo '<tr>';
@@ -84,14 +119,22 @@ class LayotterElement extends \Layotter_Element {
 		echo '</table>';
 	}
 
-	// @TODO: Should be in Module?
-	final protected function prepare_fields( $values ) {
-		$fields = $this->get_fields();
-		if ( Configure::read( 'layotter_prepare_fields' ) === true && $fields ) {
-			foreach ( $fields as $field ) {
-				if ( $field['type'] == 'image' ) {
-					$v                        = new Image( $values[ $field['name'] ] );
-					$values[ $field['name'] ] = $v;
+	/**
+	 * Prepare fields for output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string, mixed> $values The field values
+	 *
+	 * @return array<string, mixed>
+	 */
+	final protected function prepareFields(array $values): array {
+		$fields = $this->getFields();
+		if (Configure::read('layotter_prepare_fields') === true && $fields) {
+			foreach ($fields as $field) {
+				if ($field['type'] === 'image') {
+					$v = new Image($values[$field['name']]);
+					$values[$field['name']] = $v;
 				}
 			}
 		}
@@ -99,7 +142,14 @@ class LayotterElement extends \Layotter_Element {
 		return $values;
 	}
 
-	final public function getValues() {
-        return $this->prepare_fields($this->formatted_values);
-    }
+	/**
+	 * Get the prepared values.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<string, mixed>
+	 */
+	final public function getValues(): array {
+		return $this->prepareFields($this->formatted_values);
+	}
 }

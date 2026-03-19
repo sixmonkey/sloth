@@ -1,36 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Pagination;
 
-use Illuminate\Support\ServiceProvider;
-use Sloth\Paginaton\Paginator;
+use Illuminate\Pagination\AbstractPaginator;
+use Sloth\Core\ServiceProvider;
 
+/**
+ * Service provider for the Pagination component.
+ *
+ * @since 1.0.0
+ * @see ServiceProvider
+ */
 class PaginationServiceProvider extends ServiceProvider {
-
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected bool $defer = true;
 
 	/**
 	 * Register the service provider.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return void
 	 */
-	public function register() {
-		\Illuminate\Pagination\AbstractPaginator::viewFactoryResolver( function () {
-			return $GLOBALS['sloth']->container['view'];
-		} );
+	public function register(): void {
+		AbstractPaginator::viewFactoryResolver(fn() => $this->app['view']);
 
-		\Illuminate\Pagination\AbstractPaginator::$defaultView       = 'Pagination.default';
-		\Illuminate\Pagination\AbstractPaginator::$defaultSimpleView = 'Pagination.default';
+		AbstractPaginator::$defaultView       = 'Pagination.default';
+		AbstractPaginator::$defaultSimpleView = 'Pagination.default';
 
-		\Illuminate\Pagination\AbstractPaginator::currentPathResolver( function () {
-			return '';
-		} );
-
+		AbstractPaginator::currentPathResolver(fn() => '');
 	}
 
+	/**
+	 * Get the services provided by the provider.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<string>
+	 */
+	public function provides(): array {
+		return [
+			'paginaton',
+		];
+	}
 }

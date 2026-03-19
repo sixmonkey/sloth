@@ -1,51 +1,77 @@
 <?php
 
-/**
- * Class Singleton
- *
- * a simple implementation for Singleton classes
- * Classes that extend this calss, can be used as a Singleton
- *
- */
+declare(strict_types=1);
+
 namespace Sloth\Singleton;
 
+/**
+ * Singleton class for ensuring only one instance exists.
+ *
+ * Classes that extend this class can be used as a Singleton.
+ *
+ * @since 1.0.0
+ */
 class Singleton
 {
-    private static $instances = [];
+    /**
+     * Storage for singleton instances.
+     *
+     * @since 1.0.0
+     * @var array<string, static>
+     */
+    private static array $instances = [];
 
     /**
      * Singleton constructor.
      *
-     * protected so it can't be called outside of the class
+     * Protected so it can't be called outside of the class.
+     *
+     * @since 1.0.0
      */
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
     /**
-     * Singleton clone method
+     * Get the singleton instance.
      *
-     * protected so it can't be called outside of the class
-     */
-    protected function __clone() {}
-
-    /**
-     * Singleton wakeup (unserialize) method
+     * @since 1.0.0
      *
-     * protected so it can't be called outside of the class
+     * @return static
      */
-    public function __wakeup() {}
+    public static function getInstance(): static
+    {
+        $className = static::class;
 
-    /**
-     * return an instance of the called class
-     *
-     * @return mixed
-     */
-    public static function getInstance() {
-
-        // late-static-bound class name
-        $classname = get_called_class();
-        if (!isset(self::$instances[$classname])) {
-            self::$instances[$classname] = new static;
+        if (!isset(self::$instances[$className])) {
+            self::$instances[$className] = new static();
         }
-        return self::$instances[$classname];
+
+        return self::$instances[$className];
+    }
+
+    /**
+     * Prevent singleton instance from being cloned.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    protected function __clone()
+    {
+    }
+
+    /**
+     * Prevent singleton instance from being unserialized.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     *
+     * @throws \RuntimeException Always throws exception
+     */
+    public function __wakeup(): void
+    {
+        throw new \RuntimeException('Cannot unserialize singleton');
     }
 }

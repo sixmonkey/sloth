@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Model;
 
 use Corcel\Model\Meta\PostMeta;
@@ -7,227 +9,356 @@ use Illuminate\Support\Arr;
 use Corcel\Model\Page;
 use Corcel\Model\CustomLink;
 use Corcel\Model\Taxonomy;
-use Corcel\Model\Term;
 
 /**
- * Class MenuItem
+ * Menu Item Model
  *
- * @package Corcel\Model
- * @author  Junior Grossi <juniorgro@gmail.com>
+ * Represents a WordPress navigation menu item with support for
+ * various item types (posts, pages, categories, custom links).
+ *
+ * @since 1.0.0
+ * @extends Model<\Corcel\Model\Post>
+ *
+ * @property string $url The menu item URL
+ * @property string $title The menu item title
+ * @property bool $current Whether this item is the current page
+ * @property bool $current_item_parent Whether this is a parent of current item
+ * @property bool $current_item_ancestor Whether this is an ancestor of current item
+ * @property bool $in_current_path Whether in current path
+ * @property string $classes The menu item CSS classes
+ *
+ * @example
+ * ```php
+ * // Get menu by location
+ * $menu = Menu::location('primary');
+ *
+ * // Iterate through items
+ * foreach ($menu->items as $item) {
+ *     echo $item->title;
+ *     echo $item->url;
+ *     echo $item->current ? 'active' : '';
+ * }
+ * ```
  */
-class MenuItem extends Model {
+class MenuItem extends Model
+{
     /**
+     * The post type for menu items.
+     *
+     * @since 1.0.0
      * @var string
      */
-    protected $postType = 'nav_menu_item';
+    protected string $postType = 'nav_menu_item';
 
     /**
-     * @var array
+     * Relations for different menu item types.
+     *
+     * Maps the object type to the corresponding model class.
+     *
+     * @since 1.0.0
+     * @var array<string, class-string>
      */
-    private $instanceRelations = [
-        'post'     => Post::class,
-        'page'     => Page::class,
-        'custom'   => CustomLink::class,
+    private array $instanceRelations = [
+        'post' => Post::class,
+        'page' => Page::class,
+        'custom' => CustomLink::class,
         'category' => Taxonomy::class,
     ];
 
     /**
-     * MenuItem constructor.
+     * Creates a new MenuItem instance.
      *
-     * @param array $attributes
+     * @since 1.0.0
      *
-     * @throws \ReflectionException
+     * @param array<string, mixed> $attributes Initial attributes
+     *
+     * @throws \ReflectionException If class reflection fails
      */
-    public function __construct( array $attributes = [] ) {
-        parent::__construct( $attributes );
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
 
-        $this->instanceRelations = array_merge( $GLOBALS['sloth::plugin']->getAllModels(),
-            $this->instanceRelations );
+        $this->instanceRelations = array_merge(
+            $GLOBALS['sloth::plugin']->getAllModels() ?? [],
+            $this->instanceRelations
+        );
 
-        $this->instanceRelations = array_merge( $GLOBALS['sloth::plugin']->getAllTaxonomies(),
-            $this->instanceRelations );
-    }
-
-    /**
-     * @return array|mixed|\WP_Post|null
-     */
-    private function get_wp_post_classes() {
-        $post = \wp_setup_nav_menu_item( \get_post( $this->meta->_menu_item_object_id ) );
-
-        $items = [ $post ];
-
-        \_wp_menu_item_classes_by_context( $items );
-
-        $post = reset( $items );
-
-        return $post;
-    }
-
-    /**
-     * @return Post|Page|CustomLink|Taxonomy
-     */
-    public function parent() {
-        if ( $className = $this->getClassName() ) {
-            return ( new $className )->newQuery()
-                                     ->find( $this->meta->_menu_item_menu_item_parent );
-        }
-
-        return null;
-    }
-
-    /**
-     * @return Post|Page|CustomLink|Taxonomy
-     */
-    public function instance() {
-        if ( $className = $this->getClassName() ) {
-            return ( new $className )->newQuery()
-                                     ->find( $this->meta->_menu_item_object_id );
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string
-     */
-    private function getClassName() {
-        return Arr::get(
-            $this->instanceRelations,
-            $this->meta->_menu_item_object
+        $this->instanceRelations = array_merge(
+            $GLOBALS['sloth::plugin']->getAllTaxonomies() ?? [],
+            $this->instanceRelations
         );
     }
 
     /**
-     * @return false|mixed|string|\WP_Error
+     * Gets the WordPress menu item post with processed classes.
+     *
+     * @since 1.0.0
+     *
+     * @return \WP_Post The processed menu item post
+     *
+     * @uses wp_setup_nav_menu_item() To process the menu item
+     * @uses _wp_menu_item_classes_by_context() To add classes
      */
-    public function getUrlAttribute() {
-        switch ( $this->_menu_item_type ) {
-            case 'taxonomy':
-                $tax = $this->instance()->toArray();
+    private function get_wp_post_classes(): \WP_Post
+    {
+        $post = \wp_setup_nav_menu_item(\get_post($this->meta->_menu_item_object_id));
 
-                return \get_term_link( (int) $tax['term_taxonomy_id'], $tax['taxonomy'] );
-                break;
-            case 'custom':
-                return ( $this->_menu_item_url );
-                break;
-            case 'post_type_archive':
-                return \get_post_type_archive_link( $this->_menu_item_object );
-                break;
-            case 'post_type':
-                return \get_permalink( $this->instance()->ID );
-                break;
-        }
+        $items = [$post];
+        \_wp_menu_item_classes_by_context($items);
+
+        return reset($items);
     }
 
     /**
-     * @return int|mixed|string|\WP_Error|null
+     * Gets the parent menu item.
+     *
+     * @since 1.0.0
+     *
+     * @return Post|Page|CustomLink|Taxonomy|null The parent item or null
      */
-    public function getTitleAttribute() {
-        if ( $this->post_title ) {
+    public function parent(): Post|Page|CustomLink|Taxonomy|null
+    {
+        $className = $this->getClassName();
+
+        if ($className) {
+            return (new $className())->newQuery()
+                ->find($this->meta->_menu_item_menu_item_parent);
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the instance (actual post/page/term) this menu item links to.
+     *
+     * @since 1.0.0
+     *
+     * @return Post|Page|CustomLink|Taxonomy|null The instance or null
+     */
+    public function instance(): Post|Page|CustomLink|Taxonomy|null
+    {
+        $className = $this->getClassName();
+
+        if ($className) {
+            return (new $className())->newQuery()
+                ->find($this->meta->_menu_item_object_id);
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the class name for the menu item type.
+     *
+     * @since 1.0.0
+     *
+     * @return class-string|null The fully qualified class name or null
+     */
+    private function getClassName(): ?string
+    {
+        return Arr::get($this->instanceRelations, $this->meta->_menu_item_object);
+    }
+
+    /**
+     * Gets the URL for this menu item.
+     *
+     * @since 1.0.0
+     *
+     * @return string|\WP_Error The URL or error
+     */
+    public function getUrlAttribute(): string|\WP_Error
+    {
+        return match ($this->_menu_item_type) {
+            'taxonomy' => $this->get_taxonomy_url(),
+            'custom' => $this->_menu_item_url,
+            'post_type_archive' => \get_post_type_archive_link($this->_menu_item_object),
+            'post_type' => \get_permalink($this->instance()->ID ?? 0),
+            default => '',
+        };
+    }
+
+    /**
+     * Gets the taxonomy URL for taxonomy-type menu items.
+     *
+     * @since 1.0.0
+     *
+     * @return string|\WP_Error The term link or error
+     */
+    private function get_taxonomy_url(): string|\WP_Error
+    {
+        $tax = $this->instance()->toArray();
+
+        return \get_term_link((int) ($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '');
+    }
+
+    /**
+     * Gets the title for this menu item.
+     *
+     * Falls back to the linked post/term title if no custom title is set.
+     *
+     * @since 1.0.0
+     *
+     * @return string The menu item title
+     */
+    public function getTitleAttribute(): string
+    {
+        if ($this->post_title) {
             return $this->post_title;
         }
 
-        if ( is_object( $this->instance() ) && $this->instance()->post_title ) {
-            return $this->instance()->post_title;
+        $instance = $this->instance();
+
+        if (is_object($instance) && $instance->post_title) {
+            return $instance->post_title;
         }
 
-        switch ( $this->_menu_item_type ) {
-            case 'taxonomy':
-                $tax = $this->instance()->toArray();
-
-                return \get_term_field( 'name', (int) $tax['term_taxonomy_id'], $tax['taxonomy'], 'raw' );
-                break;
-            case 'post_type_archive':
-                $obj = get_post_type_object( $this->_menu_item_object );
-
-                return $obj->labels->name;
-                break;
-            default:
-                return $this->instance()->post_title;
-                break;
-        }
+        return match ($this->_menu_item_type) {
+            'taxonomy' => $this->get_taxonomy_title(),
+            'post_type_archive' => $this->get_archive_title(),
+            default => is_object($instance) ? ($instance->post_title ?? '') : ($instance['post_title'] ?? ''),
+        };
     }
 
     /**
-     * @return mixed
+     * Gets the taxonomy name for taxonomy-type items.
+     *
+     * @since 1.0.0
+     *
+     * @return string The taxonomy term name
      */
-    public function getCurrentAttribute() {
+    private function get_taxonomy_title(): string
+    {
+        $tax = $this->instance()->toArray();
+
+        return (string) \get_term_field('name', (int) ($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '', 'raw');
+    }
+
+    /**
+     * Gets the post type archive title.
+     *
+     * @since 1.0.0
+     *
+     * @return string The archive title
+     */
+    private function get_archive_title(): string
+    {
+        $obj = get_post_type_object($this->_menu_item_object);
+
+        return $obj->labels->name ?? '';
+    }
+
+    /**
+     * Gets the current state of this menu item.
+     *
+     * @since 1.0.0
+     *
+     * @return bool Whether this is the current page
+     */
+    public function getCurrentAttribute(): bool
+    {
         $post = $this->get_wp_post_classes();
 
-        return $post->current;
+        return (bool) ($post->current ?? false);
     }
 
     /**
-     * @return mixed
+     * Gets whether this is a parent of the current item.
+     *
+     * @since 1.0.0
+     *
+     * @return bool True if this is a parent of current item
      */
-    public function getCurrentItemParentAttribute() {
+    public function getCurrentItemParentAttribute(): bool
+    {
         $context = $GLOBALS['sloth::plugin']->getContext();
-        if ( isset( $context['post'] ) ) {
+
+        if (isset($context['post'])) {
             $instance = $this->instance();
-            $id       = is_object( $instance ) ? $instance->ID : $instance['ID'];
-            if ( $context['post']->parent_id === $id ) {
+            $id = is_object($instance) ? ($instance->ID ?? 0) : ($instance['ID'] ?? 0);
+
+            if ((int) $context['post']->parent_id === $id) {
                 return true;
             }
 
-            if ( $this->_menu_item_type === 'post_type_archive' && $context['post']->postType === $this->_menu_item_object ) {
+            if ($this->_menu_item_type === 'post_type_archive'
+                && $context['post']->postType === $this->_menu_item_object) {
                 return true;
             }
 
-            if ( get_option( 'link_overview_' . $context['post']->postType ) ) {
-                return (int) get_option( 'link_overview_' . $context['post']->postType ) === $id;
+            $option_key = 'link_overview_' . $context['post']->postType;
+            if (get_option($option_key)) {
+                return (int) get_option($option_key) === $id;
             }
-
         }
 
         $post = $this->get_wp_post_classes();
 
-        return $post->current_item_parent;
+        return (bool) ($post->current_item_parent ?? false);
     }
 
     /**
-     * @return mixed
+     * Gets whether this is an ancestor of the current item.
+     *
+     * @since 1.0.0
+     *
+     * @return bool Whether this is an ancestor
      */
-    public function getCurrentItemAncestorAttribute() {
+    public function getCurrentItemAncestorAttribute(): bool
+    {
         $post = $this->get_wp_post_classes();
 
-        return $post->current_item_ancestor;
+        return (bool) ($post->current_item_ancestor ?? false);
     }
 
     /**
-     * @return bool
+     * Gets whether this item is in the current path.
+     *
+     * @since 1.0.0
+     *
+     * @return bool True if current or parent of current
      */
-    public function getInCurrentPathAttribute() {
+    public function getInCurrentPathAttribute(): bool
+    {
         return $this->getCurrentAttribute() || $this->getCurrentItemParentAttribute();
     }
 
     /**
-     * @return string
+     * Gets the CSS classes for this menu item.
+     *
+     * @since 1.0.0
+     *
+     * @return string Space-separated CSS classes
      */
-    public function getClassesAttribute() {
+    public function getClassesAttribute(): string
+    {
         $post = $this->get_wp_post_classes();
+        $classes = $post->classes ?? [];
 
-        $classes = $post->classes;
-
-        if ( $post->current ) {
+        if ($post->current ?? false) {
             $classes[] = 'current';
             $classes[] = 'active';
         }
 
-        if ( $post->current_item_parent ) {
+        if ($post->current_item_parent ?? false) {
             $classes[] = 'current_item_parent';
         }
 
-        if ( $post->current_item_ancestor ) {
+        if ($post->current_item_ancestor ?? false) {
             $classes[] = 'current_item_ancestor';
         }
 
-        return trim( implode( ' ', array_filter( $classes ) ) );
+        return trim(implode(' ', array_filter((array) $classes)));
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Gets the child menu items.
+     *
+     * @since 1.0.0
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany The children relationship
      */
-    public function children() {
+    public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasManyThrough(
             MenuItem::class,
             PostMeta::class,
@@ -237,5 +368,4 @@ class MenuItem extends Model {
             'post_id'
         )->where('ID', '!=', $this->ID);
     }
-
 }

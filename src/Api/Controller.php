@@ -1,61 +1,89 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Api;
 
 use Sloth\Utility\Utility;
+use stdClass;
 
-class Controller
-{
-    protected $request;
-    public $response;
+/**
+ * Base API controller class for handling REST API requests.
+ *
+ * @since 1.0.0
+ */
+class Controller {
+	/**
+	 * The current request object.
+	 *
+	 * @since 1.0.0
+	 * @var \WP_REST_Request|null
+	 */
+	protected ?\WP_REST_Request $request = null;
 
-    /**
-     * @return array
-     */
-    public function index()
-    {
-        return [];
-    }
+	/**
+	 * The response object.
+	 *
+	 * @since 1.0.0
+	 * @var stdClass
+	 */
+	public stdClass $response;
 
-    /**
-     * @param $id
-     *
-     * @return array
-     */
-    final public function __construct()
-    {
-        $this->response = new \stdClass();
-        $this->response->status = 200;
-        $this->response->headers = [];
-    }
+	/**
+	 * Controller constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+		$this->response = new stdClass();
+		$this->response->status = 200;
+		$this->response->headers = [];
+	}
 
-    /**
-     * @param \WP_REST_Request $request
-     * @return void
-     */
-    final public function setRequest(\WP_REST_Request $request)
-    {
-        $this->request = $request;
-    }
+	/**
+	 * Return the index of the resource.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function index(): array {
+		return [];
+	}
 
-    /**
-     * @param $id
-     *
-     * @return array
-     */
-    final protected function getUrl(string $path, array $params = [])
-    {
+	/**
+	 * Set the request object.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object
+	 *
+	 * @return void
+	 */
+	public function setRequest(\WP_REST_Request $request): void {
+		$this->request = $request;
+	}
 
-        parse_str((string)parse_url($path, PHP_URL_QUERY), $get_array);
+	/**
+	 * Build a URL for the API endpoint.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string     $path   The path to the endpoint
+	 * @param array<string, mixed> $params Optional query parameters
+	 *
+	 * @return string The constructed URL
+	 */
+	public function getUrl(string $path, array $params = []): string {
+		parse_str((string) parse_url($path, PHP_URL_QUERY), $getArray);
 
-        $params = array_merge($get_array, $params);
+		$params = array_merge($getArray, $params);
 
-        $path = '/sloth/v1/' . Utility::viewize((new \ReflectionClass($this))->getShortName()) . '/' . $path;
-        if (count($params)) {
-            $path .= '?' . http_build_query($params);
-        }
+		$path = '/sloth/v1/' . Utility::viewize((new \ReflectionClass($this))->getShortName()) . '/' . $path;
+		if (count($params)) {
+			$path .= '?' . http_build_query($params);
+		}
 
-        return get_rest_url(null, $path);
-    }
-
+		return (string) get_rest_url(null, $path);
+	}
 }

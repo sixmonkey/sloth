@@ -59,15 +59,7 @@ defined( 'DIR_SLOTH' ) ? DIR_SLOTH : define( 'DIR_SLOTH', DIR_ROOT . 'sloth' . D
  * Include composer autoload
  */
 
-/*
-MIGHT BE NEEDED FOR COMPOSER INSIDE VAGRANT
-$vendor_directory = getenv('COMPOSER_VENDOR_DIR');
-if ($vendor_directory === false) {
-	$vendor_directory = __DIR__ . '/vendor';
-}
-
-require_once $vendor_directory . '/autoload.php'; */
-$loader = require_once( DIR_VENDOR . DS . 'autoload.php' );
+require_once $loader;
 
 if ( file_exists( DIR_APP . 'config' . DS . 'loader.php' ) ) {
     include DIR_APP . 'config' . DS . 'loader.php';

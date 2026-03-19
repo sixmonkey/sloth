@@ -1,34 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Request;
 
-use Sloth\Core\ServiceProvider;
 use Illuminate\Http\Request;
+use Sloth\Core\ServiceProvider;
 
+/**
+ * Service provider for the Request component.
+ *
+ * @since 1.0.0
+ * @see ServiceProvider
+ */
 class RequestServiceProvider extends ServiceProvider {
 	/**
 	 * Register the service provider.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return void
 	 */
-	public function register() {
-
-		$this->app->singleton( 'request',
-			function ( $app ) {
-				$request = Request::capture();
-
-				return $request;
-			} );
+	public function register(): void {
+		$this->app->singleton(
+			'request',
+			fn($app) => Request::capture()
+		);
 	}
 
 	/**
 	 * Get the services provided by the provider.
 	 *
-	 * @return array
+	 * @since 1.0.0
+	 *
+	 * @return array<string>
 	 */
-	public function provides() {
+	public function provides(): array {
 		return [
-			'validator',
+			'request',
 		];
 	}
 }

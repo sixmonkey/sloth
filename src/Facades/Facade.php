@@ -1,64 +1,113 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Facades;
 
-abstract class Facade {
-	/**
-	 * The Application instance.
-	 *
-	 * @var \Sloth\Core\Application
-	 */
-	protected static $app;
+use Sloth\Core\Application;
 
-	/**
-	 * Set the service container for the facades.
-	 *
-	 * @param \Sloth\Core\Application $app
-	 */
-	public static function setFacadeApplication( $app ) {
-		static::$app = $app;
-	}
+/**
+ * Facade Base Class
+ *
+ * Provides a static interface to services registered in the
+ * application container. Each facade must define a getFacadeAccessor
+ * method that returns the container binding key.
+ *
+ * @since 1.0.0
+ *
+ * @example
+ * ```php
+ * // Define a facade
+ * class Route extends Facade {
+ *     protected static function getFacadeAccessor(): string {
+ *         return 'route';
+ *     }
+ * }
+ *
+ * // Use the facade
+ * Route::get('/about', ['controller' => 'PageController']);
+ * ```
+ */
+abstract class Facade
+{
+    /**
+     * The Application container instance.
+     *
+     * @since 1.0.0
+     * @var Application|null
+     */
+    protected static ?Application $app = null;
 
-	/**
-	 * Retrieve an instance from the container based on the
-	 * alias defined in the facade.
-	 *
-	 * @return mixed
-	 */
-	public static function getInstance() {
-		$name = static::getFacadeAccessor();
+    /**
+     * Sets the application container for all facades.
+     *
+     * @since 1.0.0
+     *
+     * @param Application $app The application container
+     *
+     * @return void
+     */
+    public static function setFacadeApplication(Application $app): void
+    {
+        static::$app = $app;
+    }
 
-		return static::$app[ $name ];
-	}
+    /**
+     * Gets the instance from the container.
+     *
+     * @since 1.0.0
+     *
+     * @return object The resolved service instance
+     *
+     * @throws \RuntimeException If no application is set
+     */
+    protected static function getInstance(): object
+    {
+        $name = static::getFacadeAccessor();
 
-	/**
-	 * Each facade must define their igniter service
-	 * class key name.
-	 *
-	 * @throws \RuntimeException
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor() {
-		throw new \RuntimeException( 'Facade does not implement the "getFacadeAccessor" method.' );
-	}
+        if (static::$app === null) {
+            throw new \RuntimeException('Facade application not set.');
+        }
 
-	/**
-	 * Magic method. Use to dynamically call the registered
-	 * instance method.
-	 *
-	 * @param string $method The class method used.
-	 * @param array $args The method arguments.
-	 *
-	 * @return mixed
-	 */
-	public static function __callStatic( $method, $args ) {
-		$instance = static::getInstance();
+        return static::$app[$name];
+    }
 
-		/*
-		 * Call the instance and its method.
-		 */
+    /**
+     * Returns the container binding key for this facade.
+     *
+     * Each facade must implement this method to return the
+     * key that the service is bound to in the container.
+     *
+     * @since 1.0.0
+     *
+     * @return string The container binding key
+     *
+     * @throws \RuntimeException Always - subclasses must implement this
+     */
+    protected static function getFacadeAccessor(): string
+    {
+        throw new \RuntimeException(
+            'Facade does not implement the "getFacadeAccessor" method.'
+        );
+    }
 
-		return call_user_func_array( [ $instance, $method ], $args );
-	}
+    /**
+     * Magic method for static calls.
+     *
+     * Handles dynamic method calls by forwarding them to the
+     * resolved service instance.
+     *
+     * @since 1.0.0
+     *
+     * @param string $method The method name to call
+     * @param array<int, mixed> $args The arguments to pass
+     *
+     * @return mixed The result of the method call
+     */
+    public static function __callStatic(string $method, array $args): mixed
+    {
+        $instance = static::getInstance();
+
+        return call_user_func_array([$instance, $method], $args);
+    }
 }

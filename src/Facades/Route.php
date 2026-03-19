@@ -1,16 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Facades;
 
+/**
+ * Route Facade for accessing the routing service.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Facades\Facade
+ */
 class Route extends Facade {
 	/**
 	 * Return the service provider key responsible for the route class.
-	 * The key must be the same as the one used when registering
-	 * the service provider.
 	 *
-	 * @return string
+	 * @since 1.0.0
+	 *
+	 * @return string The service identifier for the route facade
 	 */
-	protected static function getFacadeAccessor() {
+	protected static function getFacadeAccessor(): string {
 		return 'route';
 	}
 }

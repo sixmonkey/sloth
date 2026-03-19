@@ -1,270 +1,374 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Module;
 
+use Cake\Utility\Hash;
 use Illuminate\Support\Str;
 use Sloth\Facades\View;
 use Sloth\Utility\Utility;
-use Cake\Utility\Hash;
 
-class Module
-{
-    public static $layotter = false;
-    public static $json = false;
-    private $view;
-    private $viewVars = [];
-    protected $viewPrefix = 'module';
-    protected $render = true;
-    protected $template;
-    public static $ajax_url;
-    protected $doing_ajax = false;
-    protected $wrapInRow = false;
+/**
+ * Base module class for creating modular components.
+ *
+ * @since 1.0.0
+ */
+class Module {
+	/**
+	 * Layotter configuration.
+	 *
+	 * @since 1.0.0
+	 * @var array<string, mixed>|false
+	 */
+	public static array|false $layotter = false;
 
-    /**
-     * Module constructor.
-     *
-     * @param array $options
-     */
-    public final function __construct(array $options = [])
-    {
-        if (isset($options['wrapInRow'])) {
-            $this->wrapInRow = $options['wrapInRow'];
-        }
-    }
+	/**
+	 * JSON API configuration.
+	 *
+	 * @since 1.0.0
+	 * @var array<string, mixed>|false
+	 */
+	public static array|false $json = false;
 
-    /**
-     * Called before rendering the view
-     * Override this method to add custom logic to your module
-     *
-     * @return void
-     */
-    protected function beforeRender()
-    {
+	/**
+	 * Ajax URL for the module.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	public static ?string $ajax_url = null;
 
-    }
+	/**
+	 * View instance.
+	 *
+	 * @since 1.0.0
+	 * @var mixed
+	 */
+	private mixed $view = null;
 
-    /**
-     * Called before a module is rendered as JSON
-     * Override this method to add custom logic to your module
-     *
-     * @return void
-     */
-    protected function beforeGetJSON($payload)
-    {
+	/**
+	 * View variables.
+	 *
+	 * @since 1.0.0
+	 * @var array<string, mixed>
+	 */
+	private array $viewVars = [];
 
-    }
+	/**
+	 * View prefix for template resolution.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	protected string $viewPrefix = 'module';
 
-    /**
-     * Gets the template for current module
-     *
-     * @return void
-     */
-    private function getTemplate()
-    {
-        if (is_null($this->template)) {
-            $class = get_class($this);
-            $this->template = Str::kebab(preg_replace('/Module$/',
-                '',
-                substr(strrchr($class, "\\"), 1)));
-        }
-        if (!strstr($this->template, '.')) {
-            $this->template = $this->viewPrefix . '.' . $this->template;
-        }
-        $this->template = str_replace('.', DS, ucfirst($this->template));
-    }
+	/**
+	 * Whether to render the output.
+	 *
+	 * @since 1.0.0
+	 * @var bool
+	 */
+	protected bool $render = true;
 
-    /**
-     * Makes the view
-     *
-     * @return void
-     */
-    private function makeView()
-    {
-        $this->getTemplate();
-        $this->view = View::make($this->template);
-    }
+	/**
+	 * Template name.
+	 *
+	 * @since 1.0.0
+	 * @var string|null
+	 */
+	protected ?string $template = null;
 
-    /**
-     * Gets the attributes for layotter
-     *
-     * @return void
-     */
-    final public function get_layotter_attributes()
-    {
-        $class = get_class($this);
+	/**
+	 * Whether an AJAX request is being processed.
+	 *
+	 * @since 1.0.0
+	 * @var bool
+	 */
+	protected bool $doingAjax = false;
 
-        return $class::$layotter;
-    }
+	/**
+	 * Whether to wrap output in a row.
+	 *
+	 * @since 1.0.0
+	 * @var array<string, mixed>|bool
+	 */
+	protected array|bool $wrapInRow = false;
 
-    /**
-     * render the view
-     *
-     * @return string
-     */
-    public function render(): string
-    {
-        if (!$this->doing_ajax) {
-            $this->set($GLOBALS['sloth::plugin']->getContext(), false);
-        }
-        $this->set('ajax_url', $this->getAjaxUrl());
-        $this->beforeRender();
-        $this->makeView();
-        $vars = array_merge($GLOBALS['sloth::plugin']->getContext(), $this->viewVars);
-        $output = $this->view->with($vars)->render();
-        if ($this->render) {
-            if ($this->wrapInRow) {
-                $output = View::make('Layotter.row')->with([
-                    'content' => $output,
-                    'options' => (array)$this->wrapInRow,
-                ])->render();
-            }
-            echo $output;
-        }
+	/**
+	 * Module constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string, mixed> $options Configuration options
+	 */
+	public function __construct(array $options = []) {
+		if (isset($options['wrapInRow'])) {
+			$this->wrapInRow = $options['wrapInRow'];
+		}
+	}
 
-        return $output;
-    }
+	/**
+	 * Called before rendering the view.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected function beforeRender(): void {
+	}
 
-    /**
-     * Sets the view variable
-     *
-     * @param string|array $key
-     * @param mixed $value
-     * @param bool $override
-     * @return void
-     */
-    final public function set($key, $value = null, bool $override = true)
-    {
-        if (is_array($key)) {
-            $override = !is_bool($value) || $value;
-            foreach ($key as $k => $v) {
-                if ($override || !$this->isSet($k)) {
-                    $this->set($k, $v);
-                }
-            }
-        } else {
-            if ($override || !$this->isSet($key)) {
-                $this->viewVars[$key] = $this->_prepareValue($value);
-            }
-        }
-    }
+	/**
+	 * Called before getting JSON output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $payload The payload to process
+	 *
+	 * @return void
+	 */
+	protected function beforeGetJSON(mixed $payload): void {
+	}
 
-    /**
-     * Gets the view variable
-     *
-     * @param string $k
-     * @return mixed
-     */
-    final protected function get(string $k)
-    {
-        return Hash::get($this->viewVars, $k);
-    }
+	/**
+	 * Get the template name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function getTemplate(): void {
+		if ($this->template === null) {
+			$class = get_class($this);
+			$this->template = Str::kebab(preg_replace('/Module$/', '', substr(strrchr($class, '\\'), 1)));
+		}
 
-    /**
-     * Checks if the view variable is set
-     *
-     * @param string $key
-     * @return bool
-     */
-    final public function isSet(string $key): bool
-    {
-        return Hash::get($this->viewVars, $key) !== null;
-    }
+		if (!str_contains((string) $this->template, '.')) {
+			$this->template = $this->viewPrefix . '.' . $this->template;
+		}
 
-    /**
-     * Unsets the view variable
-     *
-     * @param string $key
-     * @return void
-     */
-    final public function unset(string $key)
-    {
-        $this->viewVars = Hash::remove($this->viewVars, $key);
-    }
+		$this->template = str_replace('.', DS, ucfirst((string) $this->template));
+	}
 
-    /**
-     * Gets the view variable
-     *
-     * @param string $k
-     * @return mixed
-     */
-    final protected function _get(string $k)
-    {
-        return $this->get($k);
-    }
+	/**
+	 * Create the view instance.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function makeView(): void {
+		$this->getTemplate();
+		$this->view = View::make($this->template);
+	}
 
-    /**
-     * Get the view variables as JSON
-     *
-     * @param null $request
-     * @return void
-     */
-    final public function getJSON($request = null)
-    {
-        $this->doing_ajax = true;
-        $this->beforeRender();
-        $this->beforeGetJSON($request);
-        header('Content-Type: application/json');
-        echo json_encode($this->viewVars, 1);
-        die();
-    }
+	/**
+	 * Get Layotter attributes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<string, mixed>|false
+	 */
+	final public function getLayotterAttributes(): array|false {
+		$class = get_class($this);
 
-    /**
-     * @param array $data
-     * @return array
-     */
-    final public function getData(array $data = []): array
-    {
-        $this->set($data);
-        $this->beforeRender();
-        return $this->viewVars;
-    }
+		return $class::$layotter;
+	}
 
-    /**
-     * Gets the ajax url
-     *
-     * @return string
-     */
-    final public function getAjaxUrl(): string
-    {
-        return str_replace(\home_url(),
-            '',
-            \admin_url('admin-ajax.php?action=' . $this->getAjaxAction()));
-    }
+	/**
+	 * Render the module view.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function render(): string {
+		if (!$this->doingAjax) {
+			$this->set($GLOBALS['sloth::plugin']->getContext(), false);
+		}
+		$this->set('ajax_url', $this->getAjaxUrl());
+		$this->beforeRender();
+		$this->makeView();
+		$vars = array_merge($GLOBALS['sloth::plugin']->getContext(), $this->viewVars);
+		$output = $this->view->with($vars)->render();
 
-    /**
-     * Gets the ajax action
-     *
-     * @return string
-     */
-    final public function getAjaxAction(): string
-    {
-        return 'module_' . Utility::underscore(class_basename($this));
-    }
+		if ($this->render) {
+			if ($this->wrapInRow) {
+				$output = View::make('Layotter.row')->with([
+					'content' => $output,
+					'options' => (array) $this->wrapInRow,
+				])->render();
+			}
+			echo $output;
+		}
 
-    /**
-     * Prepares the value
-     *
-     * @param mixed $value
-     * @return mixed
-     */
-    final protected function _prepareValue($value)
-    {
-        if (is_a($value, 'WP_Post')) {
-            $model_name = $GLOBALS['sloth::plugin']->getPostTypeClass($value->post_type);
-            $post = call_user_func([$model_name, 'find'], $value->ID);
-            $value = $post;
-        }
+		return $output;
+	}
 
-        return $value;
-    }
+	/**
+	 * Set a view variable.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string|array<string, mixed> $key      Variable name or array of variables
+	 * @param mixed                      $value    Variable value (ignored if $key is array)
+	 * @param bool                       $override Whether to override existing values
+	 *
+	 * @return void
+	 */
+	final public function set(string|array $key, mixed $value = null, bool $override = true): void {
+		if (is_array($key)) {
+			$override = !is_bool($value) || $value;
+			foreach ($key as $k => $v) {
+				if ($override || !$this->isSet($k)) {
+					$this->set($k, $v);
+				}
+			}
+		} else {
+			if ($override || !$this->isSet($key)) {
+				$this->viewVars[$key] = $this->prepareValue($value);
+			}
+		}
+	}
 
-    /**
-     * Debugs the view variables
-     *
-     * @return void
-     */
-    final protected function debugViewVars()
-    {
-        debug($this->viewVars);
-    }
+	/**
+	 * Get a view variable.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $k Variable name
+	 *
+	 * @return mixed
+	 */
+	final protected function get(string $k): mixed {
+		return Hash::get($this->viewVars, $k);
+	}
+
+	/**
+	 * Check if a view variable is set.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Variable name
+	 *
+	 * @return bool
+	 */
+	final public function isSet(string $key): bool {
+		return Hash::get($this->viewVars, $key) !== null;
+	}
+
+	/**
+	 * Unset a view variable.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Variable name
+	 *
+	 * @return void
+	 */
+	final public function unset(string $key): void {
+		$this->viewVars = Hash::remove($this->viewVars, $key);
+	}
+
+	/**
+	 * Get a view variable (alias for get).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $k Variable name
+	 *
+	 * @return mixed
+	 */
+	final protected function _get(string $k): mixed {
+		return $this->get($k);
+	}
+
+	/**
+	 * Get JSON output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $request The request object
+	 *
+	 * @return void
+	 */
+	final public function getJSON(mixed $request = null): void {
+		$this->doingAjax = true;
+		$this->beforeRender();
+		$this->beforeGetJSON($request);
+		header('Content-Type: application/json');
+		echo json_encode($this->viewVars, JSON_THROW_ON_ERROR);
+		die();
+	}
+
+	/**
+	 * Get the view data.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string, mixed> $data Additional data to set
+	 *
+	 * @return array<string, mixed>
+	 */
+	final public function getData(array $data = []): array {
+		$this->set($data);
+		$this->beforeRender();
+		return $this->viewVars;
+	}
+
+	/**
+	 * Get the AJAX URL.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	final public function getAjaxUrl(): string {
+		return (string) str_replace(
+			\home_url(),
+			'',
+			\admin_url('admin-ajax.php?action=' . $this->getAjaxAction())
+		);
+	}
+
+	/**
+	 * Get the AJAX action name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	final public function getAjaxAction(): string {
+		return 'module_' . Utility::underscore(class_basename($this));
+	}
+
+	/**
+	 * Prepare a value for output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $value The value to prepare
+	 *
+	 * @return mixed
+	 */
+	final protected function prepareValue(mixed $value): mixed {
+		if (is_a($value, 'WP_Post')) {
+			$modelName = $GLOBALS['sloth::plugin']->getPostTypeClass($value->post_type);
+			$post = call_user_func([$modelName, 'find'], $value->ID);
+			$value = $post;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Debug view variables.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	final protected function debugViewVars(): void {
+		debug($this->viewVars);
+	}
 }

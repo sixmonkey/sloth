@@ -1,14 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Admin;
 
 use Sloth\Core\ServiceProvider;
 
+/**
+ * Service provider for the Admin Customizer component.
+ *
+ * @since 1.0.0
+ * @see ServiceProvider
+ */
 class CustomizerServiceProvider extends ServiceProvider {
-    public function register() {
-        $this->app->singleton( 'customizer',
-            function ( $container ) {
-                return Customizer::getInstance();
-            } );
-    }
+	/**
+	 * Register the Customizer service provider.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function register(): void {
+		$this->app->singleton(
+			'customizer',
+			fn($container) => Customizer::getInstance()
+		);
+	}
 }

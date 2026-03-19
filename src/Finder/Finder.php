@@ -1,46 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Finder;
+
 use Illuminate\View\FileViewFinder as IlluminateFileViewFinder;
 
+/**
+ * Abstract Finder class for locating files.
+ *
+ * @since 1.0.0
+ */
 abstract class Finder extends IlluminateFileViewFinder {
 	/**
 	 * List of given/registered paths.
 	 *
-	 * @var array
+	 * @since 1.0.0
+	 * @var array<int|string, string>
 	 */
-	protected $paths = [];
+	protected array $paths = [];
 
 	/**
 	 * List of found files.
-	 * $key is the file name or relative path.
-	 * $value is the file full path.
 	 *
-	 * @var array
+	 * @since 1.0.0
+	 * @var array<string, string>
 	 */
-	protected $files = [];
+	protected array $files = [];
 
 	/**
 	 * Allowed file extensions.
 	 *
-	 * @var array
+	 * @since 1.0.0
+	 * @var array<string>
 	 */
-	protected $extensions = [];
+	protected array $extensions = [];
 
 	/**
 	 * Register a path.
 	 *
-	 * @param string $key The file URL if defined or numeric index.
-	 * @param string $path
+	 * @since 1.0.0
+	 *
+	 * @param int|string $key  The file URL if defined or numeric index
+	 * @param string     $path The path to register
 	 *
 	 * @return $this
 	 */
-	protected function addPath( $key, $path ) {
-		if ( ! in_array( $path, $this->paths ) ) {
-			if ( is_numeric( $key ) ) {
+	protected function addPath(int|string $key, string $path): static {
+		if (!in_array($path, $this->paths, true)) {
+			if (is_numeric($key)) {
 				$this->paths[] = $path;
 			} else {
-				$this->paths[ $key ] = $path;
+				$this->paths[$key] = $path;
 			}
 		}
 
@@ -50,13 +61,15 @@ abstract class Finder extends IlluminateFileViewFinder {
 	/**
 	 * Register multiple file paths.
 	 *
-	 * @param array $paths
+	 * @since 1.0.0
+	 *
+	 * @param array<int|string, string> $paths Array of paths to register
 	 *
 	 * @return $this
 	 */
-	public function addPaths( array $paths ) {
-		foreach ( $paths as $index => $path ) {
-			$this->addPath( $index, $path );
+	public function addPaths(array $paths): static {
+		foreach ($paths as $index => $path) {
+			$this->addPath($index, $path);
 		}
 
 		return $this;
@@ -65,71 +78,81 @@ abstract class Finder extends IlluminateFileViewFinder {
 	/**
 	 * Return a list of registered paths.
 	 *
-	 * @return array
+	 * @since 1.0.0
+	 *
+	 * @return array<int|string, string>
 	 */
-	public function getPaths() {
+	public function getPaths(): array {
 		return $this->paths;
 	}
 
 	/**
 	 * Return a list of found files.
 	 *
-	 * @return array
+	 * @since 1.0.0
+	 *
+	 * @return array<string, string>
 	 */
-	public function getFiles() {
+	public function getFiles(): array {
 		return $this->files;
 	}
 
 	/**
-	 * Returns the file path.
+	 * Find a file by name.
 	 *
-	 * @param string $name The file name or relative path.
+	 * @since 1.0.0
+	 *
+	 * @param string $name The file name or relative path
 	 *
 	 * @return string
-	 *
 	 * @throws FinderException
 	 */
-	public function find( $name ) {
-		if ( isset( $this->files[ $name ] ) ) {
-			return $this->files[ $name ];
+	public function find(string $name): string {
+		if (isset($this->files[$name])) {
+			return $this->files[$name];
 		}
 
-		return $this->files[ $name ] = $this->findInPaths( $name, $this->paths );
+		return $this->files[$name] = $this->findInPaths($name, $this->paths);
 	}
 
 	/**
 	 * Look after a file in registered paths.
 	 *
-	 * @param string $name The file name or relative path.
-	 * @param array $paths Registered paths.
+	 * @since 1.0.0
+	 *
+	 * @param string               $name  The file name or relative path
+	 * @param array<int, string>   $paths Registered paths to search
 	 *
 	 * @throws FinderException
 	 *
-	 * @return array
+	 * @return string
 	 */
-	protected function findInPaths( $name, array $paths ) {
-		foreach ( $paths as $path ) {
-			foreach ( $this->getPossibleFiles( $name ) as $file ) {
-				if ( file_exists( $filePath = $path . $file ) ) {
+	protected function findInPaths(string $name, array $paths): string {
+		foreach ($paths as $path) {
+			foreach ($this->getPossibleFiles($name) as $file) {
+				$filePath = $path . $file;
+				if (file_exists($filePath)) {
 					return $filePath;
 				}
 			}
 		}
 
-		throw new FinderException( 'File or entity "' . $name . '" not found.' );
+		throw new FinderException('File or entity "' . $name . '" not found.');
 	}
 
 	/**
 	 * Returns a list of possible file names.
 	 *
-	 * @param string $name The file name or relative path.
+	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @param string $name The file name or relative path
+	 *
+	 * @return array<int, string>
 	 */
-	protected function getPossibleFiles( $name ) {
-		return array_map( function ( $extension ) use ( $name ) {
-			return str_replace( '.', DS, $name ) . '.' . $extension;
-		},
-			$this->extensions );
+	protected function getPossibleFiles(string $name): array {
+		return array_map(
+			fn(string $extension): string => str_replace('.', DS, $name) . '.' . $extension,
+			$this->extensions
+		);
 	}
 }

@@ -1,52 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Deployment;
 
-final class Deployment {
-    /**
-     * Sloth\Deployment instance.
-     *
-     * @var \Sloth\Deployment\Deployment
-     */
-    protected static $instance = null;
+use Sloth\Singleton\Singleton;
 
-    protected $hooks = [
-        'edited_terms',
-        'created_term',
-        'post_updated',
-        'acf/save_post',
-    ];
+/**
+ * Deployment class for triggering deployment webhooks.
+ *
+ * @since 1.0.0
+ */
+class Deployment extends Singleton {
 
-    /**
-     * Retrieve Sloth class instance.
-     *
-     * @return \Sloth\Deployment\Deployment
-     */
-    public static function instance() {
-        if ( is_null( static::$instance ) ) {
-            static::$instance = new static();
-        }
+	/**
+	 * WordPress hooks to trigger deployment.
+	 *
+	 * @since 1.0.0
+	 * @var array<string>
+	 */
+	protected array $hooks = [
+		'edited_terms',
+		'created_term',
+		'post_updated',
+		'acf/save_post',
+	];
 
-        return static::$instance;
-    }
+	/**
+	 * Boot the deployment hooks.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function boot(): void {
+		if ((bool) getenv('SLOTH_DEPLOYMENT_WEBHOOK')) {
+			foreach ($this->hooks as $hook) {
+				add_action($hook, [$this, 'trigger']);
+			}
+		}
+	}
 
-    /**
-     * Add required hooks to WordPress
-     */
-    public function boot() {
-        if ( getenv( 'SLOTH_DEPLOYMENT_WEBHOOK' ) ) {
-            foreach ( $this->hooks as $hook ) {
-                add_action( $hook, [ $this, 'trigger' ] );
-            }
-        }
-    }
-
-    /**
-     * trigger the deployment
-     */
-    public function trigger() {
-        if ( $hook = getenv( 'SLOTH_DEPLOYMENT_WEBHOOK' ) ) {
-            wp_remote_post( $hook );
-        }
-    }
+	/**
+	 * Trigger the deployment webhook.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function trigger(): void {
+		$hook = getenv('SLOTH_DEPLOYMENT_WEBHOOK');
+		if ($hook) {
+			wp_remote_post($hook);
+		}
+	}
 }

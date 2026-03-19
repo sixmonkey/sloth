@@ -1,15 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Finder;
 
 use Illuminate\Filesystem\Filesystem;
 use Sloth\Core\ServiceProvider;
 
+/**
+ * Service provider for the Finder component.
+ *
+ * @since 1.0.0
+ * @see ServiceProvider
+ */
 class FinderServiceProvider extends ServiceProvider {
-	public function register() {
-		$this->app->bind( 'filesystem',
-			function () {
-				return new Filesystem();
-			} );
+	/**
+	 * Register the Finder service provider.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function register(): void {
+		$this->app->bind(
+			'filesystem',
+			fn(): Filesystem => new Filesystem()
+		);
 	}
 }

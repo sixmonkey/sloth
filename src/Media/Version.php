@@ -1,63 +1,80 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Sloth\Media;
-
 
 use Corcel\Model\Attachment;
 use Sloth\Model\SlothMediaVersion;
 use Spatie\Image\Image as SpatieImage;
 use Spatie\Image\Manipulations;
 
+/**
+ * Media version handler for image manipulation.
+ *
+ * @since 1.0.0
+ */
 class Version {
-    protected $mv;
+	/**
+	 * Media version model.
+	 *
+	 * @since 1.0.0
+	 * @var SlothMediaVersion|null
+	 */
+	protected ?SlothMediaVersion $mv = null;
 
-    public function __construct( $url ) {
-        $this->mv = SlothMediaVersion::where( 'guid', 'like', '%' . $url )->first();
-        if ( ! $this->mv ) {
-            return;
-        }
+	/**
+	 * Version constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $url The media URL
+	 */
+	public function __construct(string $url) {
+		$this->mv = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
+		if (!$this->mv) {
+			return;
+		}
 
-        $original    = Attachment::find( $this->mv->parent_id );
-        $upload_info = wp_upload_dir();
-        $upload_dir  = realpath( $upload_info['basedir'] );
+		$original = Attachment::find($this->mv->parent_id);
+		$uploadInfo = wp_upload_dir();
+		$uploadDir = realpath($uploadInfo['basedir']);
 
-        $realpath = realpath( $upload_dir . DIRECTORY_SEPARATOR . $original->meta->_wp_attached_file );
+		$realpath = realpath($uploadDir . DIRECTORY_SEPARATOR . $original->meta->_wp_attached_file);
 
-        if ( ! $realpath ) {
-            return;
-        }
+		if (!$realpath) {
+			return;
+		}
 
-        $options = $this->mv->options;
+		$options = $this->mv->options;
 
-        $pi_realpath = pathinfo( $realpath );
-        $pi_dest     = pathinfo( $url );
+		$piRealpath = pathinfo($realpath);
+		$piDest = pathinfo($url);
 
-        $img = SpatieImage::load( $realpath );
+		$img = SpatieImage::load($realpath);
 
-        if ( $options['crop'] === true ) {
-            $options['crop'] = [
-                Manipulations::CROP_CENTER,
-                $options['width'],
-                $options['height'],
-            ];
-            unset( $options['width'], $options['height'] );
-        }
-        unset( $options['upscale'] );
+		if ($options['crop'] === true) {
+			$options['crop'] = [
+				Manipulations::CROP_CENTER,
+				$options['width'],
+				$options['height'],
+			];
+			unset($options['width'], $options['height']);
+		}
+		unset($options['upscale']);
 
+		foreach ($options as $k => $option) {
+			if (is_callable([$img, $k])) {
+				if (!is_array($option)) {
+					$option = [$option];
+				}
+				call_user_func_array([$img, $k], $option);
+			}
+		}
 
-        foreach ( $options as $k => $option ) {
-            if ( is_callable( [ $img, $k ] ) ) {
-                if ( ! is_array( $option ) ) {
-                    $option = [ $option ];
-                }
-                call_user_func_array( [ $img, $k ], $option );
-            }
-        }
+		$img->save($piRealpath['dirname'] . DIRECTORY_SEPARATOR . $piDest['basename']);
 
-        $img->save( $pi_realpath['dirname'] . DIRECTORY_SEPARATOR . $pi_dest['basename'] );
-
-        header( 'Location: ' . $_SERVER['REQUEST_URI'] );
-        die();
-    }
+		header('Location: ' . $_SERVER['REQUEST_URI']);
+		die();
+	}
 }
