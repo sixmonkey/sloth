@@ -50,10 +50,10 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Run Code Style Check
-        run: composer cs-check -- --diff
+        run: composer cs-check
 
       - name: Run PHPStan Static Analysis
-        run: composer analyse -- --no-progress
+        run: vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: Run PHPUnit Tests
         run: composer test -- --testdox
