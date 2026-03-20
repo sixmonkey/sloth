@@ -59,8 +59,7 @@ defined('DIR_SLOTH') ? DIR_SLOTH : define('DIR_SLOTH', DIR_ROOT . 'sloth' . DS);
 /**
  * Include composer autoload
  */
-
-require_once $loader;
+require_once( DIR_VENDOR . DS . 'autoload.php' );
 
 if (file_exists(DIR_APP . 'config' . DS . 'loader.php')) {
     include DIR_APP . 'config' . DS . 'loader.php';
