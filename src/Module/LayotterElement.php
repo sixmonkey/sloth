@@ -101,12 +101,12 @@ class LayotterElement extends \Layotter_Element
                 if (is_a($fields[$field['name']], 'Sloth\Field\Image')) {
                     $v = '<img src="' . $fields[$field['name']] . '" width="100"/>';
                 } elseif ($field['type'] === 'file') {
-                    $v = $fields[$field['name']]['filename'];
+                    $v = $fields[$field['name']] ? $fields[$field['name']]['filename'] : '';
                 } elseif ($field['type'] === 'repeater') {
                     $v = count($fields[$field['name']]) . ' ' . __('Elemente', 'sloth');
                 } elseif (is_object($fields[$field['name']]) || $field['type'] === 'true_false' || $field['type'] === 'taxonomy') {
                     continue;
-                } elseif ($field['type'] === 'image' && $fields[$field['name']]['url'] !== null) {
+                } elseif ($field['type'] === 'image' && $fields[$field['name']] && $fields[$field['name']]['url'] !== null) {
                     $v = '<img src="' . $fields[$field['name']]['url'] . '" width="100"/>';
                 } elseif (is_array($fields[$field['name']])) {
                     $v = implode('<br />', $fields[$field['name']]);
