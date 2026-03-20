@@ -116,7 +116,7 @@ class Installer
      *
      * @return void
      */
-    public static function configQuiet(Event $event): void
+    public static function config_quiet(Event $event): void
     {
         $vendorDir = dirname($event->getComposer()->getConfig()->get('vendor-dir'));
         self::$baseDir = $vendorDir;
