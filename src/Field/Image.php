@@ -137,7 +137,7 @@ class Image
      *
      * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
      */
-    public function __construct(int|array|null|false $url = null)
+    public function __construct(int|array|null|false|string $url = null)
     {
         if ($url === null || $url === false) {
             $this->url = null;
