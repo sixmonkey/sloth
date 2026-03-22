@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Carbon\Carbon;
 use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
 use PostTypes\PostType;
