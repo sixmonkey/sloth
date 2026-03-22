@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Corcel\Model\Page;
 use Corcel\Model\CustomLink;
 use Corcel\Model\Taxonomy;
+use Corcel\Model\MenuItem as Corcel;
 
 /**
  * Menu Item Model
@@ -40,31 +41,8 @@ use Corcel\Model\Taxonomy;
  * }
  * ```
  */
-class MenuItem extends Model
+class MenuItem extends Corcel
 {
-    /**
-     * The post type for menu items.
-     *
-     * @since 1.0.0
-     * @var string
-     */
-    protected string $postType = 'nav_menu_item';
-
-    /**
-     * Relations for different menu item types.
-     *
-     * Maps the object type to the corresponding model class.
-     *
-     * @since 1.0.0
-     * @var array<string, class-string>
-     */
-    private array $instanceRelations = [
-        'post' => Post::class,
-        'page' => Page::class,
-        'custom' => CustomLink::class,
-        'category' => Taxonomy::class,
-    ];
-
     /**
      * Creates a new MenuItem instance.
      *
@@ -154,7 +132,7 @@ class MenuItem extends Model
      *
      * @return class-string|null The fully qualified class name or null
      */
-    private function getClassName(): ?string
+    protected function getClassName(): ?string
     {
         return Arr::get($this->instanceRelations, $this->meta->_menu_item_object);
     }
