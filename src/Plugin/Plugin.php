@@ -20,6 +20,8 @@ use Brain\Hierarchy\QueryTemplate;
 use Sloth\Media\Version;
 use Sloth\Utility\Utility;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use function post_password_required;
 
 /**
@@ -287,6 +289,14 @@ class Plugin extends Singleton
                                 $param = $request->get_url_params('id');
                                 $data = call_user_func_array([$controller, $action], [reset($param)]);
 
+                                if (empty($data) && $controller->response->status >= 400) {
+                                    $data = [
+                                        'code' => $controller->response->status,
+                                        'message' => Response::$statusTexts[$controller->response->status] ?? 'Unknown Error',
+                                    ];
+                                }
+
+
                                 return new \WP_REST_Response(
                                     $data,
                                     $controller->response->status,
@@ -307,7 +317,8 @@ class Plugin extends Singleton
      * @since 1.0.0
      *
      */
-    public function loadModules(): void
+    public
+    function loadModules(): void
     {
         foreach (glob((string)get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
             $moduleName = $this->loadClassFromFile($file);
@@ -333,7 +344,7 @@ class Plugin extends Singleton
                         $route[] = '(?P<' . $param . '>[a-z0-9._-]+)';
                     }
                 }
-                
+
                 add_action('rest_api_init', function () use ($route, $m): void {
                     register_rest_route(
                         'sloth/v1/module',
@@ -360,7 +371,8 @@ class Plugin extends Singleton
      * @since 1.0.0
      *
      */
-    private function addFilters(): void
+    private
+    function addFilters(): void
     {
         ACFHelper::getInstance();
         Deployment::getInstance()->boot();
@@ -456,7 +468,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    private function obfuscateWP(): void
+    private
+    function obfuscateWP(): void
     {
         add_action('wp_print_styles', function (): void {
             wp_dequeue_style('wp-block-library');
@@ -488,7 +501,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    private function makeLinksRelative(): void
+    private
+    function makeLinksRelative(): void
     {
         $filters = [
             'day_link',
@@ -521,7 +535,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    private function makeUploadsRelative(): void
+    private
+    function makeUploadsRelative(): void
     {
         $filters = [
             'wp_get_attachment_url',
@@ -547,8 +562,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getRelativePermalink(string $input): string
-    {
+    public
+    function getRelativePermalink(
+        string $input
+    ): string {
         return (string)parse_url($input, PHP_URL_PATH);
     }
 
@@ -561,8 +578,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function replaceHomeUrl(string $input): string
-    {
+    public
+    function replaceHomeUrl(
+        string $input
+    ): string {
         return str_replace(trim((string)WP_HOME, '/'), '', $input);
     }
 
@@ -575,8 +594,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getRelativeHrefs(string $input): string
-    {
+    public
+    function getRelativeHrefs(
+        string $input
+    ): string {
         return str_replace('href="' . rtrim((string)WP_HOME, '/'), 'href="', $input);
     }
 
@@ -589,8 +610,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getRelativeSrcs(string $input): string
-    {
+    public
+    function getRelativeSrcs(
+        string $input
+    ): string {
         return str_replace('src="' . rtrim((string)WP_HOME, '/'), 'src="' . rtrim((string)WP_HOME, '/'), $input);
     }
 
@@ -601,7 +624,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function hideUpdates(): object
+    public
+    function hideUpdates(): object
     {
         global $wpVersion;
 
@@ -620,8 +644,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function fixNetworkAdminUrl(string $url): string
-    {
+    public
+    function fixNetworkAdminUrl(
+        string $url
+    ): string {
         $urlInfo = parse_url($url);
 
         if (!preg_match('/^\/cms/', (string)($urlInfo['path'] ?? ''))) {
@@ -641,7 +667,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function forceSsl(): void
+    public
+    function forceSsl(): void
     {
         if ((bool)getenv('FORCE_SSL') && !is_ssl()) {
             wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301);
@@ -656,7 +683,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getContext(): array
+    public
+    function getContext(): array
     {
         if (is_array($this->context)) {
             return $this->context;
@@ -728,7 +756,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getTemplate(): void
+    public
+    function getTemplate(): void
     {
         $template = null;
         $this->fixPagination();
@@ -815,7 +844,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function registerMenus(): void
+    public
+    function registerMenus(): void
     {
         $menus = Configure::read('theme.menus');
         if ($menus && is_array($menus)) {
@@ -832,7 +862,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function registerImageSizes(): void
+    public
+    function registerImageSizes(): void
     {
         $imageSizes = Configure::read('theme.image-sizes');
         if ($imageSizes && is_array($imageSizes)) {
@@ -855,7 +886,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function autoloadPlugins(): void
+    public
+    function autoloadPlugins(): void
     {
         if (!Configure::read('plugins.autoactivate')) {
             return;
@@ -884,7 +916,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    protected function fixPagination(): void
+    protected
+    function fixPagination(): void
     {
         if (isset($_GET['page'])) {
             $currentPage = (int)$_GET['page'];
@@ -910,7 +943,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function initModels(): void
+    public
+    function initModels(): void
     {
         foreach ($this->models as $v) {
             $model = new $v();
@@ -926,7 +960,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function initTaxonomies(): void
+    public
+    function initTaxonomies(): void
     {
         foreach ($this->taxonomies as $v) {
             $tax = new $v();
@@ -942,7 +977,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function loadAppIncludes(): void
+    public
+    function loadAppIncludes(): void
     {
         add_filter('post_type_archive_link', function ($link, $post_type) {
             if ($post_type === 'post') {
@@ -978,7 +1014,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function fixRoutes(): void
+    public
+    function fixRoutes(): void
     {
         $routes = Configure::read('theme.routes');
         if ($routes && is_array($routes)) {
@@ -1003,8 +1040,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getModelClass(string $key = ''): string
-    {
+    public
+    function getModelClass(
+        string $key = ''
+    ): string {
         return $this->models[$key] ?? '\Sloth\Model\Post';
     }
 
@@ -1015,7 +1054,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getAllModels(): array
+    public
+    function getAllModels(): array
     {
         return $this->models;
     }
@@ -1029,8 +1069,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getTaxonomyClass(string $key = ''): string
-    {
+    public
+    function getTaxonomyClass(
+        string $key = ''
+    ): string {
         return $this->taxonomies[$key] ?? '\Sloth\Model\Taxonomy';
     }
 
@@ -1041,7 +1083,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getAllTaxonomies(): array
+    public
+    function getAllTaxonomies(): array
     {
         return $this->taxonomies;
     }
@@ -1053,7 +1096,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getCurrentTemplate(): ?string
+    public
+    function getCurrentTemplate(): ?string
     {
         return $this->currentLayout;
     }
@@ -1065,7 +1109,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getCurrentLayout(): ?string
+    public
+    function getCurrentLayout(): ?string
     {
         return $this->currentLayout;
     }
@@ -1077,7 +1122,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function trackDataChange(): bool
+    public
+    function trackDataChange(): bool
     {
         if (!$this->isDevEnv()) {
             return false;
@@ -1096,8 +1142,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function getPostTypeClass(string $postType): string
-    {
+    public
+    function getPostTypeClass(
+        string $postType
+    ): string {
         return $this->models[$postType] ?? 'Sloth\Model\Post';
     }
 
@@ -1108,7 +1156,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function isDevEnv(): bool
+    public
+    function isDevEnv(): bool
     {
         return in_array(WP_ENV ?? '', ['development', 'develop', 'dev'], true);
     }
@@ -1120,7 +1169,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function cleanupAdminMenu(): void
+    public
+    function cleanupAdminMenu(): void
     {
         global $menu;
         $used = [];
@@ -1144,7 +1194,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function isRest(): bool
+    public
+    function isRest(): bool
     {
         $bIsRest = false;
         if (function_exists('rest_url') && !empty($_SERVER['REQUEST_URI'])) {
@@ -1165,7 +1216,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public function registerNavMenus(): void
+    public
+    function registerNavMenus(): void
     {
         if (Configure::read('theme.menus')) {
             if (!is_array(Configure::read('theme.menus'))) {
