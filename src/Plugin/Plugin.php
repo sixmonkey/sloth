@@ -329,7 +329,7 @@ class Plugin extends Singleton
                 $route = [Utility::viewize(Utility::normalize(class_basename($m)))];
                 if (is_array($moduleName::$json) && isset($moduleName::$json['params'])) {
                     foreach ($moduleName::$json['params'] as $param) {
-                        $route[] = '(?P<' . $param . '>[a-z0-9-]+)';
+                        $route[] = '(?P<' . $param . '>[a-z0-9-_]+)';
                     }
                 }
 
