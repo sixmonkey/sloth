@@ -269,9 +269,9 @@ class Plugin extends Singleton
 
             if (method_exists($controller, 'single')) {
                 $routes[$routePrefix] = 'index';
-                $routes[$routePrefix . '(?:/(?P<id>[a-z0-9.-]+))?'] = 'single';
+                $routes[$routePrefix . '(?:/(?P<id>[a-z0-9.-_]+))?'] = 'single';
             } else {
-                $routes[$routePrefix . '(?:/(?P<id>[a-z0-9.-]+))?'] = 'index';
+                $routes[$routePrefix . '(?:/(?P<id>[a-z0-9.-_]+))?'] = 'index';
             }
 
             foreach ($routes as $route => $action) {
