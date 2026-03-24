@@ -152,7 +152,7 @@ defined('ABSPATH') ? ABSPATH : define('ABSPATH', realpath(DIR_WWW . DS . WP_PATH
  * @see https://gist.github.com/tzkmx/4c832432bc63fd67a3a16f940a184145
  */
 define('WP_CONTENT_DIR', DIR_WWW);
-define('WP_CONTENT_URL', WP_HOME);
+defined('WP_CONTENT_URL') ? WP_CONTENT_URL : define('WP_CONTENT_URL',  getenv('WP_CONTENT_URL') ?: WP_HOME);
 define('WP_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'plugins');
 define('WP_PLUGIN_URL', WP_HOME . '/extensions/plugins');
 define('WPMU_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'components');
