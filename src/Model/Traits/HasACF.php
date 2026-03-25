@@ -37,10 +37,6 @@ trait HasACF
             return parent::getAttribute($key);
         }
 
-        if (!Configure::check('sloth.acf.process') || !Configure::read('sloth.acf.process')) {
-            return parent::getAttribute($key);
-        }
-
         $acfKey = $this->getAcfKeyValue();
         if ($acfKey === null) {
             return parent::getAttribute($key);
@@ -64,6 +60,26 @@ trait HasACF
         }
 
         return parent::getAttribute($key);
+    }
+
+    /**
+     * Check if an attribute is set.
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function __isset($key): bool
+    {
+        if (parent::__isset($key)) {
+            return true;
+        }
+
+        $acfKey = $this->getAcfKeyValue();
+        if ($acfKey === null) {
+            return false;
+        }
+
+        return $this->getAcfCastType($acfKey, $key) !== null;
     }
 
     /**

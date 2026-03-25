@@ -229,24 +229,6 @@ class Model extends Corcel
     }
 
     /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key): bool
-    {
-        if (parent::__isset($key)) {
-            return true;
-        }
-
-        if (function_exists('acf_maybe_get_field')) {
-            return (bool) acf_maybe_get_field($key, $this->getAttribute('ID'), false);
-        }
-
-        return false;
-    }
-
-    /**
      * @param string $which
      *
      * @return string
