@@ -25,10 +25,8 @@ trait HasACF
      */
     public static function bootHasACF(): void
     {
-        if (!Configure::check('sloth.acf.process') || !Configure::read('sloth.acf.process')) {
-            return;
-        }
-
+        die('bootHasACF fired');
+        
         static::retrieved(function ($model) {
             $key = $model->getAcfKey();
             $fieldObjects = get_field_objects($key) ?: [];
