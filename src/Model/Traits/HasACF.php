@@ -30,6 +30,8 @@ trait HasACF
         }
 
         static::retrieved(function ($model) {
+            die('retrieved event fired');
+            
             $key = $model->getAcfKey();
             $fieldObjects = get_field_objects($key) ?: [];
 
