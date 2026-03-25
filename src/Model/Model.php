@@ -13,9 +13,11 @@ use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Acf\FieldFactory;
+use Sloth\Model\Traits\HasACF;
 
 class Model extends Corcel
 {
+    use HasACF;
     protected $names = [];
     protected $options = [];
     protected $labels = [];
@@ -233,43 +235,11 @@ class Model extends Corcel
      */
     public function __isset($key): bool
     {
-        return $this->acf->boolean($key);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if (function_exists('acf_maybe_get_field')) {
-            $acf = acf_maybe_get_field($key, $this->getAttribute('ID'), false);
-            if ($acf) {
-                if ($acf['type'] === 'image') {
-                    $attachment = Attachment::find(parent::__get($key));
-                    if (is_object($attachment)) {
-                        return new Image($attachment->url);
-                    }
-
-                    return new Image(parent::__get($key));
-                }
-
-                if (Configure::check('sloth.acf.process') && Configure::read('sloth.acf.process') == true) {
-                    if (in_array($acf['type'], ['date_picker', 'date_time_picker', 'time_picker']) && empty(parent::__get($key))) {
-                        return new CarbonFaker();
-                    }
-
-                    $field = FieldFactory::make($key, $this, $acf['type']);
-
-                    return $field ? $field->get() : null;
-                }
-            }
+        if (parent::__isset($key)) {
+            return true;
         }
 
-        $value = parent::__get($key);
-
-        return $value;
+        return $this->acf->boolean($key);
     }
 
     /**
