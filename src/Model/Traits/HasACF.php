@@ -33,11 +33,19 @@ trait HasACF
      */
     public function getAttribute($key)
     {
+        if (!function_exists('get_field_objects')) {
+            return parent::getAttribute($key);
+        }
+
         if (!Configure::check('sloth.acf.process') || !Configure::read('sloth.acf.process')) {
             return parent::getAttribute($key);
         }
 
-        $acfKey = $this->getAcfKey();
+        $acfKey = $this->getAcfKeyValue();
+        if ($acfKey === null) {
+            return parent::getAttribute($key);
+        }
+
         $castType = $this->getAcfCastType($acfKey, $key);
 
         if ($castType === 'image') {
@@ -50,7 +58,7 @@ trait HasACF
             return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
         }
 
-        if ($castType !== null) {
+        if ($castType === 'generic') {
             $cast = new ACF();
             return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
         }
@@ -71,23 +79,26 @@ trait HasACF
             return null;
         }
 
-        if (!isset(self::$acfFieldCache[$acfKey])) {
-            self::$acfFieldCache[$acfKey] = get_field_objects($acfKey) ?: [];
-        }
-
-        $fieldObjects = self::$acfFieldCache[$acfKey];
-        
-        foreach ($fieldObjects as $field) {
-            if ($field['name'] === $fieldKey) {
-                return match ($field['type']) {
-                    'image' => 'image',
-                    'date_picker', 'date_time_picker', 'time_picker' => 'date',
-                    default => 'generic'
-                };
+        $cacheKey = $acfKey . '_types';
+        if (!isset(self::$acfFieldCache[$cacheKey])) {
+            $fieldObjects = get_field_objects($acfKey) ?: [];
+            self::$acfFieldCache[$cacheKey] = [];
+            foreach ($fieldObjects as $field) {
+                self::$acfFieldCache[$cacheKey][$field['name']] = $field['type'];
             }
         }
 
-        return null;
+        if (!isset(self::$acfFieldCache[$cacheKey][$fieldKey])) {
+            return null;
+        }
+
+        $type = self::$acfFieldCache[$cacheKey][$fieldKey];
+
+        return match ($type) {
+            'image' => 'image',
+            'date_picker', 'date_time_picker', 'time_picker' => 'date',
+            default => 'generic'
+        };
     }
 
     /**
@@ -97,10 +108,24 @@ trait HasACF
      */
     public function getAcfKey(): ?string
     {
-        return match (true) {
-            is_a($this, Taxonomy::class) => 'term_' . $this->getAttribute('term_id'),
-            is_a($this, User::class) => 'user_' . $this->getAttribute('ID'),
-            default => $this->getAttribute('ID')
-        };
+        return $this->getAcfKeyValue();
+    }
+
+    /**
+     * Get the raw ACF key value.
+     *
+     * @return string|null
+     */
+    protected function getAcfKeyValue(): ?string
+    {
+        if (is_a($this, Taxonomy::class)) {
+            return 'term_' . ($this->term_id ?? null);
+        }
+
+        if (is_a($this, User::class)) {
+            return 'user_' . ($this->ID ?? null);
+        }
+
+        return $this->ID ?? null;
     }
 }
