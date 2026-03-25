@@ -239,7 +239,11 @@ class Model extends Corcel
             return true;
         }
 
-        return $this->acf->boolean($key);
+        if (function_exists('acf_maybe_get_field')) {
+            return (bool) acf_maybe_get_field($key, $this->getAttribute('ID'), false);
+        }
+
+        return false;
     }
 
     /**
