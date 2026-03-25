@@ -12,8 +12,8 @@ use Sloth\Model\Taxonomy;
 /**
  * Trait for automatic ACF field casting.
  *
- * When sloth.acf.process is enabled, this trait dynamically adds cast definitions
- * for ACF fields based on their type:
+ * When sloth.acf.process is enabled, this trait overrides getAttribute to apply
+ * ACF casts based on field type:
  * - image fields → ACFImage cast (returns Sloth\Field\Image object)
  * - date fields → ACFDate cast (returns Carbon or CarbonFaker for empty values)
  * - other fields → ACF cast (returns raw value from get_field)
@@ -21,33 +21,73 @@ use Sloth\Model\Taxonomy;
 trait HasACF
 {
     /**
-     * Boot the trait.
+     * Cached ACF field definitions.
      */
-    public static function bootHasACF(): void
+    protected static array $acfFieldCache = [];
+
+    /**
+     * Get an attribute.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getAttribute($key)
     {
         if (!Configure::check('sloth.acf.process') || !Configure::read('sloth.acf.process')) {
-            return;
+            return parent::getAttribute($key);
         }
 
-        static::retrieved(function ($model) {
-            die('retrieved event fired');
-            
-            $key = $model->getAcfKey();
-            $fieldObjects = get_field_objects($key) ?: [];
+        $acfKey = $this->getAcfKey();
+        $castType = $this->getAcfCastType($acfKey, $key);
 
-            $native_fields = collect($model->getAttributes())->keys();
-            $acf_casts = collect($fieldObjects)
-                ->filter(fn($field) => !in_array($field['name'], $native_fields->toArray()))
-                ->mapWithKeys(function ($field) {
-                    return match ($field['type']) {
-                        'image' => [$field['name'] => ACFImage::class],
-                        'date_picker', 'date_time_picker', 'time_picker' => [$field['name'] => ACFDate::class],
-                        default => [$field['name'] => ACF::class]
-                    };
-                });
+        if ($castType === 'image') {
+            $cast = new ACFImage();
+            return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
+        }
 
-            $model->mergeCasts($acf_casts->toArray());
-        });
+        if ($castType === 'date') {
+            $cast = new ACFDate();
+            return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
+        }
+
+        if ($castType !== null) {
+            $cast = new ACF();
+            return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
+        }
+
+        return parent::getAttribute($key);
+    }
+
+    /**
+     * Get the ACF cast type for a field.
+     *
+     * @param string|null $acfKey
+     * @param string $fieldKey
+     * @return string|null
+     */
+    protected function getAcfCastType(?string $acfKey, string $fieldKey): ?string
+    {
+        if ($acfKey === null) {
+            return null;
+        }
+
+        if (!isset(self::$acfFieldCache[$acfKey])) {
+            self::$acfFieldCache[$acfKey] = get_field_objects($acfKey) ?: [];
+        }
+
+        $fieldObjects = self::$acfFieldCache[$acfKey];
+        
+        foreach ($fieldObjects as $field) {
+            if ($field['name'] === $fieldKey) {
+                return match ($field['type']) {
+                    'image' => 'image',
+                    'date_picker', 'date_time_picker', 'time_picker' => 'date',
+                    default => 'generic'
+                };
+            }
+        }
+
+        return null;
     }
 
     /**
