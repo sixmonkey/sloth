@@ -74,6 +74,10 @@ trait HasACF
             return true;
         }
 
+        if($this->meta->__isset($key)) {
+            return true;
+        }
+
         $acfKey = $this->getAcfKeyValue();
         if ($acfKey === null) {
             return false;
