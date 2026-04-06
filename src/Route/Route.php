@@ -128,14 +128,23 @@ final class Route extends Singleton
      * This method should be called during theme initialization.
      * It compiles routes using FastRoute's cached dispatcher.
      *
-     * @since 1.0.0
-     *
      * @throws \Exception If cache directory is not writable
+     *
+     * @since 1.0.0
      *
      * @see simpleDispatcher For route compilation
      */
     public function boot(): void
     {
+        if (empty(self::$routes)) {
+            return;
+        }
+
+        $cacheDir = DIR_CACHE . DS . 'Route';
+        if (!is_dir($cacheDir)) {
+            mkdir($cacheDir, 0755, true);
+        }
+
         self::$dispatcher = simpleDispatcher(function (RouteCollector $r): void {
             foreach (self::$routes as $route) {
                 $r->addRoute(
@@ -485,9 +494,18 @@ final class Route extends Singleton
     {
         $regexes = array_unique($this->regexes);
 
+        if (empty($regexes)) {
+            return;
+        }
+
         foreach ($regexes as $regex) {
             add_rewrite_tag('%is_sloth_route%', '(\d)');
             add_rewrite_rule($regex, 'index.php?is_sloth_route=1', 'top');
         }
+    }
+
+    public function flushRewriteRules(): void
+    {
+        flush_rewrite_rules();
     }
 }

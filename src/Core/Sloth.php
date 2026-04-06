@@ -7,7 +7,6 @@ namespace Sloth\Core;
 use Sloth\Debugger\SlothBarPanel;
 use Sloth\Route\Route;
 use Tracy\Debugger;
-use Tracy\Dumper;
 use Corcel\Database;
 use Sloth\Singleton\Singleton;
 

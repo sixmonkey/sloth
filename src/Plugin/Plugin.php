@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin;
 
-use Corcel\Model\Menu;
 use Corcel\Model\User;
 use Sloth\ACF\ACFHelper;
 use Sloth\Admin\Customizer;
 use Sloth\CarbonFields\CarbonFields;
+use Sloth\Core\Sloth;
 use Sloth\Facades\Configure;
 use Sloth\Facades\Deployment;
 use Sloth\Facades\View;
+use Sloth\Route\Route;
 use Sloth\Singleton\Singleton;
-use PostTypes\PostType;
-use Sloth\Core\Sloth;
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
 use Sloth\Media\Version;
@@ -124,6 +123,12 @@ class Plugin extends Singleton
         if (file_exists($themeConfig)) {
             include_once $themeConfig;
         }
+
+        $routesFile = $this->current_theme_path . DS . 'routes.php';
+        if (file_exists($routesFile)) {
+            include_once $routesFile;
+        }
+
         $this->setDefaultConfig();
         $this->addFilters();
     }
@@ -405,6 +410,8 @@ class Plugin extends Singleton
 
         $this->obfuscateWP();
         Customizer::getInstance()->boot();
+        Route::getInstance()->boot();
+
 
         add_filter('network_admin_url', [$this, 'fixNetworkAdminUrl']);
         add_action('init', [$this, 'loadApiControllers'], 20);
@@ -417,6 +424,10 @@ class Plugin extends Singleton
         add_action('init', [$this, 'registerImageSizes'], 20);
         add_action('init', [$this, 'autoloadPlugins'], 20);
         add_action('init', [$this, 'registerNavMenus'], 20);
+        add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
+        add_action('init', function() {
+            Sloth::getInstance()->container['route']->flushRewriteRules();
+        }, 30);
         add_action('admin_menu', [$this, 'initTaxonomies'], 20);
         add_action('save_post', [$this, 'trackDataChange'], 20);
         add_action('admin_menu', [$this, 'cleanupAdminMenu'], 20);
@@ -432,9 +443,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 </style>';
         });
 
+        add_action('template_redirect', [Sloth::getInstance(), 'dispatchRouter'], 20);
         add_action('template_redirect', [$this, 'getTemplate'], 20);
 
-        if ((bool)getenv('FORCE_SSL')) {
+        if (getenv('FORCE_SSL')) {
             add_action('template_redirect', [$this, 'forceSsl'], 30);
         }
 
