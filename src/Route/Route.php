@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Sloth\Route;
 
 use Brain\Hierarchy\Hierarchy;
-use Corcel\Model\Post;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use FastRoute\simpleDispatcher;
 use Illuminate\Support\Str;
+
+use Sloth\Singleton\Singleton;
+
+use stdClass;
+
+use function FastRoute\simpleDispatcher;
 
 /**
  * Router
@@ -28,7 +32,7 @@ use Illuminate\Support\Str;
  * Route::any('/api/{id}', ['controller' => 'ApiController']);
  * ```
  */
-final class Route
+final class Route extends Singleton
 {
     /**
      * Flag indicating if routes have been dispatched.
@@ -105,9 +109,9 @@ final class Route
     /**
      * Retrieves the singleton Route instance.
      *
+     * @return Route The singleton Route instance
      * @since 1.0.0
      *
-     * @return Route The singleton Route instance
      */
     public static function instance(): Route
     {
@@ -163,13 +167,13 @@ final class Route
     /**
      * Adds a route to the initial collection.
      *
-     * @since 1.0.0
-     *
      * @param string|array<string> $httpMethod The HTTP method(s) for the route
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action (controller, action)
      *
      * @throws \Exception If routes have already been dispatched
+     * @since 1.0.0
+     *
      */
     private static function addRoute(string|array $httpMethod, string $route, array $action): void
     {
@@ -189,12 +193,13 @@ final class Route
     /**
      * Registers a route for GET and POST methods.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
      *
+     * @throws \Exception
      * @example Route::add('/contact', ['controller' => 'ContactController']);
+     * @since 1.0.0
+     *
      */
     public static function add(string $route, array $action): void
     {
@@ -204,14 +209,15 @@ final class Route
     /**
      * Registers a route for GET requests.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
      *
+     * @throws \Exception
      * @example Route::get('/about', ['controller' => 'PageController', 'action' => 'about']);
+     * @since 1.0.0
+     *
      */
-    public function get(string $route, array $action): void
+    public static function get(string $route, array $action): void
     {
         self::addRoute('GET', $route, $action);
     }
@@ -219,12 +225,13 @@ final class Route
     /**
      * Registers a route for POST requests.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
      *
+     * @throws \Exception
      * @example Route::post('/contact', ['controller' => 'ContactController', 'action' => 'submit']);
+     * @since 1.0.0
+     *
      */
     public static function post(string $route, array $action): void
     {
@@ -234,10 +241,11 @@ final class Route
     /**
      * Registers a route for PUT requests.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
+     * @throws \Exception
+     * @since 1.0.0
+     *
      */
     public static function put(string $route, array $action): void
     {
@@ -247,10 +255,11 @@ final class Route
     /**
      * Registers a route for PATCH requests.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
+     * @throws \Exception
+     * @since 1.0.0
+     *
      */
     public static function patch(string $route, array $action): void
     {
@@ -260,10 +269,11 @@ final class Route
     /**
      * Registers a route for DELETE requests.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
+     * @throws \Exception
+     * @since 1.0.0
+     *
      */
     public static function delete(string $route, array $action): void
     {
@@ -273,10 +283,11 @@ final class Route
     /**
      * Registers a route for HEAD requests.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
+     * @throws \Exception
+     * @since 1.0.0
+     *
      */
     public static function head(string $route, array $action): void
     {
@@ -286,12 +297,13 @@ final class Route
     /**
      * Registers a route for all HTTP methods.
      *
-     * @since 1.0.0
-     *
      * @param string $route The route pattern
      * @param array<string, mixed> $action The route action
      *
+     * @throws \Exception
      * @example Route::any('/api/{id}', ['controller' => 'ApiController']);
+     * @since 1.0.0
+     *
      */
     public static function any(string $route, array $action): void
     {
@@ -304,11 +316,11 @@ final class Route
      * Adds optional trailing slash handling and ensures routes
      * don't break when WordPress adds trailing slashes.
      *
-     * @since 1.0.0
-     *
      * @param string $route The raw route pattern
      *
      * @return string The normalized route pattern
+     *
+     * @since 1.0.0
      *
      * @example '/about' becomes '/about[/]'
      * @example '/blog/{slug}' becomes '/blog/{slug}[/]'
@@ -436,11 +448,11 @@ final class Route
      * FastRoute uses a different regex format than WordPress rewrite rules.
      * This method converts between the two formats.
      *
-     * @since 1.0.0
-     *
      * @param string $routeRegex The FastRoute regex pattern
      *
      * @return string The WordPress-compatible regex pattern
+     *
+     * @since 1.0.0
      *
      * @example '~^/about/$~s' becomes '^about/$~' for WordPress
      */
