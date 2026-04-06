@@ -382,6 +382,7 @@ class Plugin extends Singleton
         ACFHelper::getInstance();
         Deployment::getInstance()->boot();
 
+
         add_action('pre_get_posts', function ($query) {
             if (!is_admin() && !defined('REST_REQUEST')) {
                 $query->set('posts_per_page', -1);
