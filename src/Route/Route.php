@@ -362,6 +362,10 @@ final class Route extends Singleton
     {
         global $wp_query, $wp, $post;
 
+        if (self::$dispatcher === null) {
+            return;
+        }
+
         self::$dispatched = true;
 
         $httpMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
@@ -372,8 +376,8 @@ final class Route extends Singleton
         }
 
         $uri = rawurldecode($uri);
-
         $routeTarget = [];
+
         $routeInfo = self::$dispatcher->dispatch($httpMethod, $uri);
 
         switch ($routeInfo[0]) {
@@ -412,16 +416,14 @@ final class Route extends Singleton
         $routeInfo[2] ??= [];
 
         if (isset($routeTarget['controller']) && class_exists($routeTarget['controller'])) {
-            $request = new \stdClass();
-            $myPost = clone $post;
-            $myPost->post_content = apply_filters('the_content', $myPost->post_content);
+            $request = new StdClass();
             $request->params = [
                 'action' => $routeTarget['action'],
-                'pass' => (array) $routeInfo[2],
-                'post' => $myPost,
+                'pass' => (array)$routeInfo[2],
             ];
-            // Controller instantiation is prepared for later use
-            // $controller = new $routeTarget['controller']();
+            $controller = new $routeTarget['controller']();
+            $controller->invokeAction($request);
+            exit;
         }
 
         if (isset($wp_query->query['page'])) {
@@ -438,17 +440,27 @@ final class Route extends Singleton
      * Converts template names like 'about-us' to controller names
      * like 'Theme\Controller\AboutUsController'.
      *
-     * @since 1.0.0
-     *
      * @param string $name The template name
      *
      * @return string The fully qualified controller class name
+     *
+     * @since 1.0.0
      *
      * @example 'about-us' becomes 'Theme\Controller\AboutUsController'
      */
     private function getController(string $name): string
     {
-        return 'Theme\\Controller\\' . Str::camel(str_replace('-', '_', $name)) . 'Controller';
+        $name = Str::studly($name);
+
+        if (!Str::endsWith($name, 'Controller')) {
+            $name .= 'Controller';
+        }
+
+        if (str_contains($name, '\\')) {
+            return $name;
+        }
+
+        return 'Theme\\Controller\\' . $name;
     }
 
     /**
