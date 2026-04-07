@@ -351,6 +351,16 @@ class Model extends Corcel
         $query->orderByRaw('FIELD(ID, ' . implode(',', $postIds) . ')');
     }
 
+    /**
+     * @param PostBuilder $query
+     * @param string $slug
+     * @return PostBuilder
+     */
+    public function scopeFindBySlugOrId(PostBuilder $query, string $slug): PostBuilder
+    {
+        return $query->where('post_name', $slug)->orWhere('ID', $slug);
+    }
+
 
     /**
      * get related revisions
