@@ -6,15 +6,18 @@ namespace Sloth\Model;
 
 use Corcel\Model\Post as Corcel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 use PostTypes\PostType;
 use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
-use Corcel\Model\Builder\PostBuilder;
+use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Traits\HasACF;
 
 class Model extends Corcel
 {
     use HasACF;
+
+    protected static bool $globalScopesBooted = false;
 
     protected $names = [];
     protected $options = [];
@@ -81,6 +84,58 @@ class Model extends Corcel
             'post_type' => $this->getPostType(),
         ]), true);
         parent::__construct($attributes);
+        $this->bootGlobalScopes();
+    }
+
+    protected static function bootGlobalScopes(): void
+    {
+        if (static::$globalScopesBooted) {
+            return;
+        }
+        static::$globalScopesBooted = true;
+
+        static::addGlobalScope('published_for_guests', function (Builder $builder) {
+            if (!is_user_logged_in()) {
+                $builder->where('post_status', 'publish');
+            }
+        });
+    }
+
+    /**
+     * @param array $attributes
+     * @param null $connection
+     * @return mixed
+     */
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $model = parent::newFromBuilder($attributes, $connection);
+
+        if ($this->shouldLoadPreview($model)) {
+            $preview = $this->loadPreview($model);
+            if ($preview) {
+                return $preview;
+            }
+        }
+
+        return $model;
+    }
+
+    protected function shouldLoadPreview(Model $model): bool
+    {
+        return isset($_GET['preview'])
+            && is_user_logged_in()
+            && $model->post_status !== 'inherit'
+            && $model->post_type !== 'revision';
+    }
+
+    protected function loadPreview(Model $model): ?Model
+    {
+        $revision = $model->revision()
+            ->where('post_author', get_current_user_id())
+            ->newest()
+            ->first();
+
+        return $revision;
     }
 
     /**
@@ -180,6 +235,14 @@ class Model extends Corcel
     public function getPostType(): string
     {
         return $this->postType;
+    }
+
+    /**
+     * @return PostBuilder
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new PostBuilder($query);
     }
 
     /**
@@ -296,7 +359,7 @@ class Model extends Corcel
      */
     public function revision(): HasMany
     {
-        return $this->hasMany(get_class($this), 'post_parent')
-            ->orWhere('post_type', 'revision');
+        return $this->hasMany(static::class, 'post_parent')
+            ->where('post_type', 'revision');
     }
 }
