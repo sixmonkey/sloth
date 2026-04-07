@@ -83,11 +83,6 @@ class_alias('\Sloth\Configure\Configure', 'Configure');
 Configure::boot();
 
 /**
- * Initialize Sloth container early for config loading
- */
-$GLOBALS['sloth'] = Sloth::getInstance();
-
-/**
  * env config
  */
 # get current environment
@@ -164,3 +159,9 @@ define('WP_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'plugins');
 define('WP_PLUGIN_URL', WP_HOME . '/extensions/plugins');
 define('WPMU_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'components');
 define('WPMU_PLUGIN_URL', WP_HOME . '/extensions/components');
+
+
+/**
+ * Initialize Sloth container
+ */
+$GLOBALS['sloth'] = Sloth::getInstance();
