@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Sloth\Model;
 
 use Corcel\Model\Post as CorcelPost;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Sloth\Model\Builder\PostBuilder;
 
 /**
  * Post Model
@@ -47,5 +49,22 @@ class Post extends CorcelPost
     public function getContentAttribute(): string
     {
         return (string) apply_filters('the_content', $this->post_content ?? '');
+    }
+
+    /**
+     * @return PostBuilder
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new PostBuilder($query);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function revision(): HasMany
+    {
+        return $this->hasMany(static::class, 'post_parent')
+            ->where('post_type', 'revision');
     }
 }

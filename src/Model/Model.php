@@ -6,15 +6,18 @@ namespace Sloth\Model;
 
 use Corcel\Model\Post as Corcel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 use PostTypes\PostType;
 use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
-use Corcel\Model\Builder\PostBuilder;
+use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Traits\HasACF;
 
 class Model extends Corcel
 {
     use HasACF;
+
+    protected static bool $globalScopesBooted = false;
 
     protected $names = [];
     protected $options = [];
@@ -183,6 +186,14 @@ class Model extends Corcel
     }
 
     /**
+     * @return PostBuilder
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new PostBuilder($query);
+    }
+
+    /**
      * @return false|string
      */
     public function getPermalinkAttribute(): bool|string
@@ -296,7 +307,7 @@ class Model extends Corcel
      */
     public function revision(): HasMany
     {
-        return $this->hasMany(get_class($this), 'post_parent')
-            ->orWhere('post_type', 'revision');
+        return $this->hasMany(static::class, 'post_parent')
+            ->where('post_type', 'revision');
     }
 }
