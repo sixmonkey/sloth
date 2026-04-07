@@ -6,7 +6,6 @@ namespace Sloth\Media;
 
 use Corcel\Model\Attachment;
 use Sloth\Model\SlothMediaVersion;
-use Spatie\Image\Enums\CropPosition;
 use Spatie\Image\Exceptions\CouldNotLoadImage;
 use Spatie\Image\Image as SpatieImage;
 
@@ -59,7 +58,6 @@ class Version
 
         if ($options['crop'] === true) {
             $options['crop'] = [
-                CropPosition::Center,
                 $options['width'],
                 $options['height'],
             ];
