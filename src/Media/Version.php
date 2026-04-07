@@ -6,8 +6,9 @@ namespace Sloth\Media;
 
 use Corcel\Model\Attachment;
 use Sloth\Model\SlothMediaVersion;
+use Spatie\Image\Enums\CropPosition;
+use Spatie\Image\Exceptions\CouldNotLoadImage;
 use Spatie\Image\Image as SpatieImage;
-use Spatie\Image\Manipulations;
 
 /**
  * Media version handler for image manipulation.
@@ -27,9 +28,10 @@ class Version
     /**
      * Version constructor.
      *
+     * @param string $url The media URL
+     * @throws CouldNotLoadImage
      * @since 1.0.0
      *
-     * @param string $url The media URL
      */
     public function __construct(string $url)
     {
@@ -57,7 +59,7 @@ class Version
 
         if ($options['crop'] === true) {
             $options['crop'] = [
-                Manipulations::CROP_CENTER,
+                CropPosition::Center,
                 $options['width'],
                 $options['height'],
             ];
