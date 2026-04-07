@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Core;
 
+use Milo\VendorVersions\Panel;
 use Sloth\Debugger\SlothBarPanel;
 use Sloth\Route\Route;
 use Tracy\Debugger;
@@ -204,7 +205,7 @@ class Sloth extends Singleton
             mkdir($logDirectory);
         }
 
-        Debugger::getBar()->addPanel(new \Milo\VendorVersions\Panel());
+        Debugger::getBar()->addPanel(new Panel());
         Debugger::getBar()->addPanel(new SlothBarPanel());
 
         if (defined('WP_DEBUG') && WP_DEBUG && !in_array(basename($_SERVER['PHP_SELF'] ?? ''), $this->dontDebug, true)) {
