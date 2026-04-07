@@ -297,6 +297,6 @@ class Model extends Corcel
     public function revision(): HasMany
     {
         return $this->hasMany(get_class($this), 'post_parent')
-            ->where('post_type', 'revision');
+            ->orWhere('post_type', 'revision');
     }
 }
