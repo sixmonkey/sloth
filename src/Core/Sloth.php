@@ -194,7 +194,7 @@ class Sloth extends Singleton
      */
     private function setDebugging(): void
     {
-        $mode = \WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
+        $mode = defined('WP_DEBUG') && \WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
 
         Debugger::$showLocation = true;
 
