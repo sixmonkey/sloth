@@ -6,7 +6,6 @@ namespace Sloth\Media;
 
 use Corcel\Model\Attachment;
 use Sloth\Model\SlothMediaVersion;
-use Spatie\Image\Enums\CropPosition;
 use Spatie\Image\Exceptions\CouldNotLoadImage;
 use Spatie\Image\Image as SpatieImage;
 
@@ -23,7 +22,7 @@ class Version
      * @since 1.0.0
      * @var SlothMediaVersion|null
      */
-    protected ?SlothMediaVersion $mv = null;
+    protected ?SlothMediaVersion $mediaVersion = null;
 
     /**
      * Version constructor.
@@ -35,12 +34,12 @@ class Version
      */
     public function __construct(string $url)
     {
-        $this->mv = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
-        if (!$this->mv) {
+        $this->mediaVersion = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
+        if (!$this->mediaVersion) {
             return;
         }
 
-        $original = Attachment::find($this->mv->parent_id);
+        $original = Attachment::find($this->mediaVersion->parent_id);
         $uploadInfo = wp_upload_dir();
         $uploadDir = realpath($uploadInfo['basedir']);
 
@@ -50,7 +49,7 @@ class Version
             return;
         }
 
-        $options = $this->mv->options;
+        $options = $this->mediaVersion->options;
 
         $piRealpath = pathinfo($realpath);
         $piDest = pathinfo($url);
@@ -59,7 +58,6 @@ class Version
 
         if ($options['crop'] === true) {
             $options['crop'] = [
-                CropPosition::Center,
                 $options['width'],
                 $options['height'],
             ];
