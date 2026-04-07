@@ -41,32 +41,47 @@ class Controller
      * @since 1.0.0
      * @var mixed
      */
-    protected mixed $request = null;
+    protected $request = null;
+
+    /**
+     * The response object.
+     *
+     * @since 1.0.0
+     * @var object
+     */
+    public $response;
 
     /**
      * Controller constructor.
      *
      * @since 1.0.0
      */
-    public function __construct() {}
+    public function __construct()
+    {
+        $this->response = new \stdClass();
+        $this->response->status = 200;
+        $this->response->headers = [];
+    }
 
     /**
      * Called before rendering the view.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
-    public function beforeRender(): void {}
+    public function beforeRender(): void
+    {
+    }
 
     /**
      * Called after rendering the view.
      *
-     * @since 1.0.0
-     *
      * @param string $output The rendered output
      *
      * @return string
+     * @since 1.0.0
+     *
      */
     public function afterRender(string $output): string
     {
@@ -76,11 +91,12 @@ class Controller
     /**
      * Invoke the controller action.
      *
-     * @since 1.0.0
-     *
      * @param mixed $request The request object
      *
      * @return void
+     * @throws \ReflectionException
+     * @since 1.0.0
+     *
      */
     public function invokeAction(mixed &$request): void
     {
@@ -88,18 +104,21 @@ class Controller
         $method = new \ReflectionMethod($this, $request->params['action']);
         $this->beforeRender();
         $this->template = $request->params['action'];
+        ob_start();
         $method->invokeArgs($this, $request->params['pass']);
-        $output = $this->_render();
+        $output = ob_get_clean();
         $output = $this->afterRender($output);
+
+        status_header($this->response->status);
         echo $output;
     }
 
     /**
      * Render the view.
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return string
      */
     private function _render(): string
     {
@@ -109,12 +128,12 @@ class Controller
     /**
      * Set a view variable.
      *
-     * @since 1.0.0
-     *
-     * @param string $key   The variable name
-     * @param mixed  $value The variable value
+     * @param string $key The variable name
+     * @param mixed $value The variable value
      *
      * @return void
+     * @since 1.0.0
+     *
      */
     private function set(string $key, $value): void
     {
@@ -124,14 +143,18 @@ class Controller
     /**
      * Get a view variable.
      *
-     * @since 1.0.0
-     *
      * @param string $key The variable name
      *
      * @return mixed
+     * @since 1.0.0
+     *
      */
     private function get(string $key)
     {
         return $this->viewVars[$key] ?? null;
+    }
+
+    public function index()
+    {
     }
 }

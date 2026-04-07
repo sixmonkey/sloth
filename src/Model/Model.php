@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Model\Attachment;
 use Corcel\Model\Post as Corcel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use PostTypes\PostType;
-use Sloth\Facades\Configure;
-use Sloth\Field\CarbonFaker;
 use Sloth\Field\Image;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Builder\PostBuilder;
-use Corcel\Acf\FieldFactory;
 use Sloth\Model\Traits\HasACF;
 
 class Model extends Corcel
 {
     use HasACF;
+
     protected $names = [];
     protected $options = [];
     protected $labels = [];
@@ -98,7 +96,7 @@ class Model extends Corcel
 
         if (\post_type_exists($this->getPostType())) {
             $post_type_object = \get_post_type_object($this->getPostType());
-            $this->labels = array_merge((array) \get_post_type_labels($post_type_object), $this->labels);
+            $this->labels = array_merge((array)\get_post_type_labels($post_type_object), $this->labels);
 
             $post_type_object->remove_supports();
             $post_type_object->remove_rewrite_rules();
@@ -106,7 +104,7 @@ class Model extends Corcel
             $post_type_object->remove_hooks();
             $post_type_object->unregister_taxonomies();
 
-            $this->options = array_merge((array) $wp_post_types[$this->getPostType()], $this->options);
+            $this->options = array_merge((array)$wp_post_types[$this->getPostType()], $this->options);
             unset($wp_post_types[$this->getPostType()]);
             \do_action('unregistered_post_type', $this->getPostType());
         }
@@ -197,7 +195,7 @@ class Model extends Corcel
      */
     public function getPostThumbnailAttribute(): Image
     {
-        return new Image((int) $this->meta->_thumbnail_id);
+        return new Image((int)$this->meta->_thumbnail_id);
     }
 
     /**
@@ -225,7 +223,7 @@ class Model extends Corcel
             $this->filtered = true;
         }
 
-        return (string) $this->post_content;
+        return (string)$this->post_content;
     }
 
     /**
@@ -242,7 +240,7 @@ class Model extends Corcel
 
     /**
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      *
      * @return mixed
      */
@@ -279,7 +277,7 @@ class Model extends Corcel
     }
 
     /**
-     * @param \Corcel\Model\Builder\PostBuilder $query
+     * @param PostBuilder $query
      * @param string $meta
      * @param string $direction
      */
@@ -288,5 +286,17 @@ class Model extends Corcel
         $metaRows = PostMeta::where('meta_key', $meta)->orderBy('meta_value', $direction)->get();
         $postIds = $metaRows->pluck('post_id')->toArray();
         $query->orderByRaw('FIELD(ID, ' . implode(',', $postIds) . ')');
+    }
+
+
+    /**
+     * get related revisions
+     *
+     * @return HasMany
+     */
+    public function revision(): HasMany
+    {
+        return $this->hasMany(get_class($this), 'post_parent')
+            ->where('post_type', 'revision');
     }
 }

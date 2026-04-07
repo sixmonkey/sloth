@@ -43,6 +43,19 @@ class Controller
     }
 
     /**
+     * Set HTTP response status code.
+     *
+     * @param int $code The HTTP status code
+     *
+     * @return void
+     * @since 1.0.0
+     */
+    public function setStatusCode(int $code): void
+    {
+        $this->response->status = $code;
+    }
+
+    /**
      * Return the index of the resource.
      *
      * @since 1.0.0
