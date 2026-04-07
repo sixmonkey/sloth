@@ -84,6 +84,58 @@ class Model extends Corcel
             'post_type' => $this->getPostType(),
         ]), true);
         parent::__construct($attributes);
+        $this->bootGlobalScopes();
+    }
+
+    protected static function bootGlobalScopes(): void
+    {
+        if (static::$globalScopesBooted) {
+            return;
+        }
+        static::$globalScopesBooted = true;
+
+        static::addGlobalScope('published_for_guests', function (Builder $builder) {
+            if (!is_user_logged_in()) {
+                $builder->where('post_status', 'publish');
+            }
+        });
+    }
+
+    /**
+     * @param array $attributes
+     * @param null $connection
+     * @return mixed
+     */
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $model = parent::newFromBuilder($attributes, $connection);
+
+        if ($this->shouldLoadPreview($model)) {
+            $preview = $this->loadPreview($model);
+            if ($preview) {
+                return $preview;
+            }
+        }
+
+        return $model;
+    }
+
+    protected function shouldLoadPreview(Model $model): bool
+    {
+        return isset($_GET['preview'])
+            && is_user_logged_in()
+            && $model->post_status !== 'inherit'
+            && $model->post_type !== 'revision';
+    }
+
+    protected function loadPreview(Model $model): ?Model
+    {
+        $revision = $model->revision()
+            ->where('post_author', get_current_user_id())
+            ->newest()
+            ->first();
+
+        return $revision;
     }
 
     /**
