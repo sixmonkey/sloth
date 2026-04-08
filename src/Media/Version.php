@@ -67,9 +67,22 @@ class Version
             }
         }
 
-        $img->save($piRealpath['dirname'] . DIRECTORY_SEPARATOR . $piDest['basename']);
+        $img->save($savedPath);
 
-        header('Location: ' . $_SERVER['REQUEST_URI']);
-        die();
+        $this->serveFile($savedPath);
+    }
+
+    protected function serveFile(string $path): void
+    {
+        $content = file_get_contents($path);
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $path);
+        finfo_close($finfo);
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . strlen($content));
+        echo $content;
+        exit;
     }
 }
