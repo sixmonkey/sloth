@@ -241,9 +241,10 @@ class Image
         $sheerFileName = $this->getFilename($options);
 
         SlothMediaVersion::updateOrCreate([
+            'guid'        => $this->getUrl($sheerFileName, false),
+            'post_parent' => $this->post->ID,
+        ], [
             'post_excerpt' => json_encode($options),
-            'guid'         => $this->getUrl($sheerFileName, false),
-            'post_parent'  => $this->post->ID,
         ]);
 
         return $this->getUrl($sheerFileName);
