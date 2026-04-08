@@ -9,29 +9,10 @@ use Sloth\Model\SlothMediaVersion;
 use Spatie\Image\Exceptions\CouldNotLoadImage;
 use Spatie\Image\Image as SpatieImage;
 
-/**
- * Media version handler for image manipulation.
- *
- * @since 1.0.0
- */
 class Version
 {
-    /**
-     * Media version model.
-     *
-     * @since 1.0.0
-     * @var SlothMediaVersion|null
-     */
     protected ?SlothMediaVersion $mediaVersion = null;
 
-    /**
-     * Version constructor.
-     *
-     * @param string $url The media URL
-     * @throws CouldNotLoadImage
-     * @since 1.0.0
-     *
-     */
     public function __construct(string $url)
     {
         $this->mediaVersion = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
@@ -40,6 +21,10 @@ class Version
         }
 
         $original = Attachment::find($this->mediaVersion->parent_id);
+        if (!$original) {
+            return;
+        }
+
         $uploadInfo = wp_upload_dir();
         $uploadDir = realpath($uploadInfo['basedir']);
 
@@ -50,13 +35,21 @@ class Version
         }
 
         $options = $this->mediaVersion->options;
+        if (empty($options)) {
+            return;
+        }
 
         $piRealpath = pathinfo($realpath);
         $piDest = pathinfo($url);
+        $savedPath = $piRealpath['dirname'] . DIRECTORY_SEPARATOR . $piDest['basename'];
+
+        if (file_exists($savedPath)) {
+            $this->serveFile($savedPath);
+        }
 
         $img = SpatieImage::load($realpath);
 
-        if ($options['crop'] === true) {
+        if (($options['crop'] ?? false) === true) {
             $options['crop'] = [
                 $options['width'],
                 $options['height'],
@@ -74,9 +67,22 @@ class Version
             }
         }
 
-        $img->save($piRealpath['dirname'] . DIRECTORY_SEPARATOR . $piDest['basename']);
+        $img->save($savedPath);
 
-        header('Location: ' . $_SERVER['REQUEST_URI']);
-        die();
+        $this->serveFile($savedPath);
+    }
+
+    protected function serveFile(string $path): void
+    {
+        $content = file_get_contents($path);
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $path);
+        finfo_close($finfo);
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . strlen($content));
+        echo $content;
+        exit;
     }
 }
