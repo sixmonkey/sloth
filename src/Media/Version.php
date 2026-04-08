@@ -9,29 +9,10 @@ use Sloth\Model\SlothMediaVersion;
 use Spatie\Image\Exceptions\CouldNotLoadImage;
 use Spatie\Image\Image as SpatieImage;
 
-/**
- * Media version handler for image manipulation.
- *
- * @since 1.0.0
- */
 class Version
 {
-    /**
-     * Media version model.
-     *
-     * @since 1.0.0
-     * @var SlothMediaVersion|null
-     */
     protected ?SlothMediaVersion $mediaVersion = null;
 
-    /**
-     * Version constructor.
-     *
-     * @param string $url The media URL
-     * @throws CouldNotLoadImage
-     * @since 1.0.0
-     *
-     */
     public function __construct(string $url)
     {
         $this->mediaVersion = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
