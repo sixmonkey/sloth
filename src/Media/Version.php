@@ -21,6 +21,10 @@ class Version
         }
 
         $original = Attachment::find($this->mediaVersion->parent_id);
+        if (!$original) {
+            return;
+        }
+
         $uploadInfo = wp_upload_dir();
         $uploadDir = realpath($uploadInfo['basedir']);
 
@@ -31,13 +35,21 @@ class Version
         }
 
         $options = $this->mediaVersion->options;
+        if (empty($options)) {
+            return;
+        }
 
         $piRealpath = pathinfo($realpath);
         $piDest = pathinfo($url);
+        $savedPath = $piRealpath['dirname'] . DIRECTORY_SEPARATOR . $piDest['basename'];
+
+        if (file_exists($savedPath)) {
+            $this->serveFile($savedPath);
+        }
 
         $img = SpatieImage::load($realpath);
 
-        if ($options['crop'] === true) {
+        if (($options['crop'] ?? false) === true) {
             $options['crop'] = [
                 $options['width'],
                 $options['height'],
