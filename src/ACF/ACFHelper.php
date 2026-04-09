@@ -34,40 +34,7 @@ class ACFHelper extends Singleton
      */
     final public function addFilters(): void
     {
-        if (Configure::read('layotter_prepare_fields') == 2) {
-            add_filter('acf/format_value/type=image', [$this, 'loadImage'], 10, 3);
-        }
         add_action('admin_init', [$this, 'autoSyncAcfFields']);
-    }
-
-    /**
-     * Load an image field value.
-     *
-     * @since 1.0.0
-     *
-     * @param mixed      $value    The field value
-     * @param int       $postId   The post ID
-     * @param array<string, mixed> $field    The field configuration
-     *
-     * @return mixed
-     */
-    final public function loadImage(mixed $value, int|string $postId, array $field): mixed
-    {
-        if (str_starts_with((string) ($field['_name'] ?? ''), '_qundg')) {
-            return $value;
-        }
-
-        if ($value === false || $value === '' || $value === null) {
-            return $value;
-        }
-
-        $id = is_array($value) ? (int) ($value['ID'] ?? 0) : (int) $value;
-
-        if ($id === 0) {
-            return $value;
-        }
-
-        return new Image($id);
     }
 
     /**

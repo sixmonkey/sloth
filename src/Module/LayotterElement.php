@@ -26,9 +26,9 @@ class LayotterElement extends \Layotter_Element
     /**
      * Set element attributes from module configuration.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
     public function attributes(): void
     {
@@ -46,31 +46,15 @@ class LayotterElement extends \Layotter_Element
     /**
      * Render the frontend view.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $fields The field values
      *
      * @return void
+     * @since 1.0.0
+     *
      */
-    public function frontend_view($fields)
+    public function frontend_view($fields): void
     {
-        $fields = $this->prepareFields($fields);
-
-        $options = func_get_args();
-        array_shift($options);
-
-        $keys = [
-            'class',
-            'col_options',
-            'row_options',
-            'post_options',
-            'element_options',
-        ];
-        $fields['_layotter'] = [];
-        $fields['_layotter']['passed'] = array_combine(
-            array_intersect_key($keys, $options),
-            array_intersect_key($options, $keys)
-        );
+        $fields = $this->prepareFields($fields, func_get_args());
 
         $className = get_class($this);
         $moduleName = $className::$module;
@@ -83,15 +67,29 @@ class LayotterElement extends \Layotter_Element
     /**
      * Render the backend preview.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $fields The field values
      *
      * @return void
+     * @since 1.0.0
+     *
      */
-    public function backend_view($fields)
+    public function backend_view($fields): void
     {
-        $fields = $this->prepareFields($fields);
+        $className = get_class($this);
+        $moduleName = $className::$module;
+        $module = new $moduleName();
+
+        $template = $module->getTemplate();
+        $backend_template = $template . '_layotter';
+        $fields = $this->prepareFields($fields, func_get_args());
+
+        if (View::exists($backend_template)) {
+            $module->set($fields);
+            $module->setTemplate($backend_template);
+            $module->render();
+            return;
+        }
+
 
         echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
 
@@ -126,9 +124,9 @@ class LayotterElement extends \Layotter_Element
     /**
      * Get the fields for this element.
      *
+     * @return array<string, mixed>
      * @since 1.0.0
      *
-     * @return array<string, mixed>
      */
     protected function getFields(): array
     {
@@ -146,13 +144,13 @@ class LayotterElement extends \Layotter_Element
     /**
      * Prepare fields for output.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $values The field values
      *
      * @return array<string, mixed>
+     * @since 1.0.0
+     *
      */
-    final protected function prepareFields(array $values): array
+    final protected function prepareFields(array $values, $options): array
     {
         $fields = $this->getFields();
         if (Configure::read('layotter_prepare_fields') === true && $fields) {
@@ -164,15 +162,30 @@ class LayotterElement extends \Layotter_Element
             }
         }
 
+        array_shift($options);
+
+        $keys = [
+            'class',
+            'col_options',
+            'row_options',
+            'post_options',
+            'element_options',
+        ];
+        $values['_layotter'] = [];
+        $values['_layotter']['passed'] = array_combine(
+            array_intersect_key($keys, $options),
+            array_intersect_key($options, $keys)
+        );
+
         return $values;
     }
 
     /**
      * Get the prepared values.
      *
+     * @return array<string, mixed>
      * @since 1.0.0
      *
-     * @return array<string, mixed>
      */
     final public function getValues(): array
     {

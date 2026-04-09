@@ -99,9 +99,9 @@ class Module
     /**
      * Module constructor.
      *
+     * @param array<string, mixed> $options Configuration options
      * @since 1.0.0
      *
-     * @param array<string, mixed> $options Configuration options
      */
     public function __construct(array $options = [])
     {
@@ -113,50 +113,54 @@ class Module
     /**
      * Called before rendering the view.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
-    protected function beforeRender() {}
+    protected function beforeRender()
+    {
+    }
 
     /**
      * Called before getting JSON output.
      *
-     * @since 1.0.0
-     *
      * @param mixed $payload The payload to process
      *
      * @return void
+     * @since 1.0.0
+     *
      */
-    protected function beforeGetJSON($payload) {}
+    protected function beforeGetJSON($payload)
+    {
+    }
 
     /**
      * Get the template name.
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return void
      */
-    private function getTemplate(): void
+    public function getTemplate(): string
     {
         if ($this->template === null) {
             $class = get_class($this);
             $this->template = Str::kebab(preg_replace('/Module$/', '', substr(strrchr($class, '\\'), 1)));
         }
 
-        if (!str_contains((string) $this->template, '.')) {
+        if (!str_contains((string)$this->template, '.')) {
             $this->template = $this->viewPrefix . '.' . $this->template;
         }
 
-        $this->template = str_replace('.', DS, ucfirst((string) $this->template));
+        return $this->template;
     }
 
     /**
      * Create the view instance.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
     private function makeView(): void
     {
@@ -167,9 +171,9 @@ class Module
     /**
      * Get Layotter attributes.
      *
+     * @return array<string, mixed>|false
      * @since 1.0.0
      *
-     * @return array<string, mixed>|false
      */
     final public function getLayotterAttributes(): array|false
     {
@@ -181,9 +185,9 @@ class Module
     /**
      * Render the module view.
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return string
      */
     public function render(): string
     {
@@ -200,7 +204,7 @@ class Module
             if ($this->wrapInRow) {
                 $output = View::make('Layotter.row')->with([
                     'content' => $output,
-                    'options' => (array) $this->wrapInRow,
+                    'options' => (array)$this->wrapInRow,
                 ])->render();
             }
             echo $output;
@@ -212,13 +216,13 @@ class Module
     /**
      * Set a view variable.
      *
-     * @since 1.0.0
-     *
-     * @param string|array<string, mixed> $key      Variable name or array of variables
-     * @param mixed                      $value    Variable value (ignored if $key is array)
-     * @param bool                       $override Whether to override existing values
+     * @param string|array<string, mixed> $key Variable name or array of variables
+     * @param mixed $value Variable value (ignored if $key is array)
+     * @param bool $override Whether to override existing values
      *
      * @return void
+     * @since 1.0.0
+     *
      */
     final public function set(string|array $key, mixed $value = null, bool $override = true): void
     {
@@ -239,11 +243,11 @@ class Module
     /**
      * Get a view variable.
      *
-     * @since 1.0.0
-     *
      * @param string $k Variable name
      *
      * @return mixed
+     * @since 1.0.0
+     *
      */
     final protected function get(string $k): mixed
     {
@@ -253,11 +257,11 @@ class Module
     /**
      * Check if a view variable is set.
      *
-     * @since 1.0.0
-     *
      * @param string $key Variable name
      *
      * @return bool
+     * @since 1.0.0
+     *
      */
     final public function isSet(string $key): bool
     {
@@ -267,11 +271,11 @@ class Module
     /**
      * Unset a view variable.
      *
-     * @since 1.0.0
-     *
      * @param string $key Variable name
      *
      * @return void
+     * @since 1.0.0
+     *
      */
     final public function unset(string $key): void
     {
@@ -281,11 +285,11 @@ class Module
     /**
      * Get a view variable (alias for get).
      *
-     * @since 1.0.0
-     *
      * @param string $k Variable name
      *
      * @return mixed
+     * @since 1.0.0
+     *
      */
     final protected function _get(string $k): mixed
     {
@@ -295,11 +299,12 @@ class Module
     /**
      * Get JSON output.
      *
-     * @since 1.0.0
-     *
      * @param mixed $request The request object
      *
      * @return void
+     * @throws \JsonException
+     * @since 1.0.0
+     *
      */
     final public function getJSON(mixed $request = null): void
     {
@@ -314,11 +319,11 @@ class Module
     /**
      * Get the view data.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $data Additional data to set
      *
      * @return array<string, mixed>
+     * @since 1.0.0
+     *
      */
     final public function getData(array $data = []): array
     {
@@ -330,13 +335,13 @@ class Module
     /**
      * Get the AJAX URL.
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return string
      */
     final public function getAjaxUrl(): string
     {
-        return (string) str_replace(
+        return (string)str_replace(
             \home_url(),
             '',
             \admin_url('admin-ajax.php?action=' . $this->getAjaxAction())
@@ -346,9 +351,9 @@ class Module
     /**
      * Get the AJAX action name.
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return string
      */
     final public function getAjaxAction(): string
     {
@@ -358,11 +363,11 @@ class Module
     /**
      * Prepare a value for output.
      *
-     * @since 1.0.0
-     *
      * @param mixed $value The value to prepare
      *
      * @return mixed
+     * @since 1.0.0
+     *
      */
     final protected function prepareValue(mixed $value): mixed
     {
@@ -378,12 +383,26 @@ class Module
     /**
      * Debug view variables.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
     final protected function debugViewVars(): void
     {
         debug($this->viewVars);
+    }
+
+    /**
+     * Set the template name.
+     *
+     * @param string $template Template name
+     *
+     * @return void
+     * @since 1.0.0
+     *
+     */
+    public function setTemplate($template): void
+    {
+        $this->template = $template;
     }
 }
