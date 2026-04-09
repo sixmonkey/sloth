@@ -151,7 +151,6 @@ class Module
         if (!str_contains((string)$this->template, '.')) {
             $this->template = $this->viewPrefix . '.' . $this->template;
         }
-
         return $this->template;
     }
 
@@ -164,8 +163,7 @@ class Module
      */
     private function makeView(): void
     {
-        $this->getTemplate();
-        $this->view = View::make($this->template);
+        $this->view = View::make(str_replace('.', DIRECTORY_SEPARATOR, $this->getTemplate()));
     }
 
     /**
