@@ -713,7 +713,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
                 'atom' => (string)get_bloginfo('atom_url'),
                 'language' => get_bloginfo('language'),
                 'charset' => get_bloginfo('charset'),
-                'pingback' => $this->pingback_url = (string)get_bloginfo('pingback_url'),
+                'pingback' => (string)get_bloginfo('pingback_url'),
                 'admin_email' => (string)get_bloginfo('admin_email'),
                 'name' => (string)get_bloginfo('name'),
                 'title' => (string)get_bloginfo('name'),

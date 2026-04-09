@@ -26,9 +26,9 @@ class LayotterElement extends \Layotter_Element
     /**
      * Set element attributes from module configuration.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
     public function attributes(): void
     {
@@ -126,9 +126,9 @@ class LayotterElement extends \Layotter_Element
     /**
      * Get the fields for this element.
      *
+     * @return array<string, mixed>
      * @since 1.0.0
      *
-     * @return array<string, mixed>
      */
     protected function getFields(): array
     {
@@ -146,13 +146,13 @@ class LayotterElement extends \Layotter_Element
     /**
      * Prepare fields for output.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $values The field values
      *
      * @return array<string, mixed>
+     * @since 1.0.0
+     *
      */
-    final protected function prepareFields(array $values): array
+    final protected function prepareFields(array $values, $options): array
     {
         $fields = $this->getFields();
         if (Configure::read('layotter_prepare_fields') === true && $fields) {
