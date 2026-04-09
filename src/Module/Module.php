@@ -113,50 +113,54 @@ class Module
     /**
      * Called before rendering the view.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
-    protected function beforeRender() {}
+    protected function beforeRender()
+    {
+    }
 
     /**
      * Called before getting JSON output.
      *
-     * @since 1.0.0
-     *
      * @param mixed $payload The payload to process
      *
      * @return void
+     * @since 1.0.0
+     *
      */
-    protected function beforeGetJSON($payload) {}
+    protected function beforeGetJSON($payload)
+    {
+    }
 
     /**
      * Get the template name.
      *
+     * @return string
      * @since 1.0.0
      *
-     * @return void
      */
-    private function getTemplate(): void
+    public function getTemplate(): string
     {
         if ($this->template === null) {
             $class = get_class($this);
             $this->template = Str::kebab(preg_replace('/Module$/', '', substr(strrchr($class, '\\'), 1)));
         }
 
-        if (!str_contains((string) $this->template, '.')) {
+        if (!str_contains((string)$this->template, '.')) {
             $this->template = $this->viewPrefix . '.' . $this->template;
         }
 
-        $this->template = str_replace('.', DS, ucfirst((string) $this->template));
+        return $this->template;
     }
 
     /**
      * Create the view instance.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
     private function makeView(): void
     {
@@ -167,9 +171,9 @@ class Module
     /**
      * Get Layotter attributes.
      *
+     * @return array<string, mixed>|false
      * @since 1.0.0
      *
-     * @return array<string, mixed>|false
      */
     final public function getLayotterAttributes(): array|false
     {
@@ -379,12 +383,26 @@ class Module
     /**
      * Debug view variables.
      *
+     * @return void
      * @since 1.0.0
      *
-     * @return void
      */
     final protected function debugViewVars(): void
     {
         debug($this->viewVars);
+    }
+
+    /**
+     * Set the template name.
+     *
+     * @param string $template Template name
+     *
+     * @return void
+     * @since 1.0.0
+     *
+     */
+    public function setTemplate($template): void
+    {
+        $this->template = $template;
     }
 }
