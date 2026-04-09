@@ -194,8 +194,8 @@ class Layotter extends Singleton
     public static function allowedRowLayouts(array $rowLayouts): array
     {
         foreach (self::$settingsWeight as $setting => $getter) {
-            if (isset(self::${$setting}[call_user_func('self::' . $getter)])) {
-                return self::${$setting}[call_user_func('self::' . $getter)];
+            if (isset(self::${$setting}[call_user_func((self::class . '::' . $getter)(...))])) {
+                return self::${$setting}[call_user_func((self::class . '::' . $getter)(...))];
             }
         }
 
@@ -215,8 +215,8 @@ class Layotter extends Singleton
     public static function defaultRowLayout(string $rowLayout): string
     {
         foreach (self::$settingsWeight as $setting => $getter) {
-            if (isset(self::${$setting}[call_user_func('self::' . $getter)])) {
-                return reset(self::${$setting}[call_user_func('self::' . $getter)]);
+            if (isset(self::${$setting}[call_user_func((self::class . '::' . $getter)(...))])) {
+                return reset(self::${$setting}[call_user_func((self::class . '::' . $getter)(...))]);
             }
         }
 
