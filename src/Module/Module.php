@@ -62,7 +62,7 @@ class Module
      * @since 1.0.0
      * @var string
      */
-    protected $viewPrefix = 'module';
+    protected $viewPrefix = 'Module';
 
     /**
      * Whether to render the output.
