@@ -27,7 +27,6 @@ class Sloth extends Singleton
      * The application container instance.
      *
      * @since 1.0.0
-     * @var Application
      */
     public Application $container;
 
@@ -41,12 +40,12 @@ class Sloth extends Singleton
      * @var array<string, class-string>
      */
     private array $classAliases = [
-        'Route' => '\Sloth\Facades\Route',
-        'View' => '\Sloth\Facades\View',
-        'Configure' => '\Sloth\Facades\Configure',
-        'Validator' => '\Sloth\Facades\Validation',
-        'Deployment' => '\Sloth\Facades\Deployment',
-        'Customizer' => '\Sloth\Facades\Customizer',
+        'Route' => \Sloth\Facades\Route::class,
+        'View' => \Sloth\Facades\View::class,
+        'Configure' => \Sloth\Facades\Configure::class,
+        'Validator' => \Sloth\Facades\Validation::class,
+        'Deployment' => \Sloth\Facades\Deployment::class,
+        'Customizer' => \Sloth\Facades\Customizer::class,
     ];
 
     /**
@@ -195,7 +194,7 @@ class Sloth extends Singleton
      */
     private function setDebugging(): void
     {
-        $mode = defined('WP_DEBUG') && \WP_DEBUG === true ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
+        $mode = defined('WP_DEBUG') && \WP_DEBUG ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
 
         Debugger::$showLocation = true;
 

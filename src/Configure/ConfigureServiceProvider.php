@@ -18,14 +18,12 @@ class ConfigureServiceProvider extends ServiceProvider
      * Register the Configure service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
         $this->app->singleton(
             'configure',
-            fn($container) => Configure::getInstance()
+            fn($container): \Sloth\Configure\Configure => Configure::getInstance()
         );
     }
 }

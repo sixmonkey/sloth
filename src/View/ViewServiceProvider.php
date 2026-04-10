@@ -30,8 +30,6 @@ class ViewServiceProvider extends ServiceProvider
      * Register the View service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -44,14 +42,12 @@ class ViewServiceProvider extends ServiceProvider
      * Register the EngineResolver instance to the application.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected function registerEngineResolver(): void
     {
         $this->app->singleton(
             'view.engine.resolver',
-            fn() => $this->createEngineResolver()
+            fn(): \Illuminate\View\Engines\EngineResolver => $this->createEngineResolver()
         );
     }
 
@@ -59,8 +55,6 @@ class ViewServiceProvider extends ServiceProvider
      * Create and configure the EngineResolver.
      *
      * @since 1.0.0
-     *
-     * @return EngineResolver
      */
     protected function createEngineResolver(): EngineResolver
     {
@@ -77,8 +71,6 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @param string         $engine   The engine name
      * @param EngineResolver $resolver The engine resolver
-     *
-     * @return void
      */
     protected function registerTwigEngine(string $engine, EngineResolver $resolver): void
     {
@@ -86,7 +78,7 @@ class ViewServiceProvider extends ServiceProvider
 
         $resolver->register(
             $engine,
-            fn() => new TwigEngine($container['twig'], $container['view.finder'])
+            fn(): \Sloth\View\Engines\TwigEngine => new TwigEngine($container['twig'], $container['view.finder'])
         );
     }
 
@@ -94,8 +86,6 @@ class ViewServiceProvider extends ServiceProvider
      * Register Twig environment and its loader.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected function registerTwigEnvironment(): void
     {
@@ -103,12 +93,12 @@ class ViewServiceProvider extends ServiceProvider
 
         $container->singleton(
             'twig.loader',
-            fn() => new FilesystemLoader(DIR_ROOT)
+            fn(): \Twig\Loader\FilesystemLoader => new FilesystemLoader(DIR_ROOT)
         );
 
         $container->singleton(
             'twig',
-            fn($c) => new Environment($c['twig.loader'], [
+            fn($c): \Twig\Environment => new Environment($c['twig.loader'], [
                 'auto_reload' => true,
                 'cache'       => $c['path.cache'] . 'Twig',
                 'autoescape'  => (bool) Configure::read('twig.autoescape'),
@@ -128,19 +118,17 @@ class ViewServiceProvider extends ServiceProvider
      * Register the view factory.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected function registerViewFactory(): void
     {
         $this->app->singleton(
             'view.finder',
-            fn($container) => new ViewFinder($container['filesystem'], [], [])
+            fn($container): \Sloth\View\ViewFinder => new ViewFinder($container['filesystem'], [], [])
         );
 
         $this->app->singleton(
             'view',
-            fn($container) => $this->createViewFactory($container)
+            fn($container): \Illuminate\View\Factory => $this->createViewFactory($container)
         );
     }
 
@@ -150,10 +138,8 @@ class ViewServiceProvider extends ServiceProvider
      * @since 1.0.0
      *
      * @param mixed $container The container instance
-     *
-     * @return Factory
      */
-    protected function createViewFactory($container): Factory
+    protected function createViewFactory(mixed $container): Factory
     {
         $factory = new Factory(
             $container['view.engine.resolver'],

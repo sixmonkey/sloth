@@ -34,8 +34,6 @@ class Singleton
      * Get the singleton instance.
      *
      * @since 1.0.0
-     *
-     * @return static
      */
     public static function getInstance(): static
     {
@@ -49,20 +47,10 @@ class Singleton
     }
 
     /**
-     * Prevent singleton instance from being cloned.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    protected function __clone() {}
-
-    /**
      * Prevent singleton instance from being unserialized.
      *
      * @since 1.0.0
      *
-     * @return void
      *
      * @throws \RuntimeException Always throws exception
      */

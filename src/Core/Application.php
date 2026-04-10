@@ -88,7 +88,7 @@ class Application extends Container
             $provider = new $provider($this);
         }
 
-        $providerName = get_class($provider);
+        $providerName = $provider::class;
 
         if (array_key_exists($providerName, $this->loadedProviders) && !$force) {
             return $provider;
@@ -171,8 +171,8 @@ class Application extends Container
      */
     public function resolveFromContainer($abstract, array $parameters = [], $raiseEvents = true): mixed
     {
-        if ($abstract === 'Illuminate\\Pagination\\LengthAwarePaginator') {
-            $abstract = 'Sloth\\Pagination\\Paginator';
+        if ($abstract === \Illuminate\Pagination\LengthAwarePaginator::class) {
+            $abstract = \Sloth\Pagination\Paginator::class;
         }
 
         return $this->make($abstract, $parameters);

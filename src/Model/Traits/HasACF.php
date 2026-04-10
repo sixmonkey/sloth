@@ -66,7 +66,6 @@ trait HasACF
      * Check if an attribute is set.
      *
      * @param string $key
-     * @return bool
      */
     public function __isset($key): bool
     {
@@ -88,10 +87,6 @@ trait HasACF
 
     /**
      * Get the ACF cast type for a field.
-     *
-     * @param string|null $acfKey
-     * @param string $fieldKey
-     * @return string|null
      */
     protected function getAcfCastType(?string $acfKey, string $fieldKey): ?string
     {
@@ -133,8 +128,6 @@ trait HasACF
 
     /**
      * Get the raw ACF key value.
-     *
-     * @return string|null
      */
     protected function getAcfKeyValue(): ?string
     {

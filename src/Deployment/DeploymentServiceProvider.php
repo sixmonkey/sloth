@@ -18,7 +18,6 @@ class DeploymentServiceProvider extends ServiceProvider
      * Indicates if loading of the provider is deferred.
      *
      * @since 1.0.0
-     * @var bool
      */
     protected bool $defer = false;
 
@@ -26,14 +25,12 @@ class DeploymentServiceProvider extends ServiceProvider
      * Register the service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
         $this->app->singleton(
             'deployment',
-            fn($container) => Deployment::getInstance()
+            fn($container): \Sloth\Deployment\Deployment => Deployment::getInstance()
         );
     }
 

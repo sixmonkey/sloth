@@ -19,7 +19,6 @@ class PaginationServiceProvider extends ServiceProvider
      * Indicates if loading of the provider is deferred.
      *
      * @since 1.0.0
-     * @var bool
      */
     protected bool $defer = true;
 
@@ -27,8 +26,6 @@ class PaginationServiceProvider extends ServiceProvider
      * Register the service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -37,7 +34,7 @@ class PaginationServiceProvider extends ServiceProvider
         AbstractPaginator::$defaultView       = 'Pagination.default';
         AbstractPaginator::$defaultSimpleView = 'Pagination.default';
 
-        AbstractPaginator::currentPathResolver(fn() => '');
+        AbstractPaginator::currentPathResolver(fn(): string => '');
     }
 
     /**

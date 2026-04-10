@@ -22,16 +22,12 @@ class RouteServiceProvider extends ServiceProvider
      * Registers services with the container.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
         $this->app->singleton(
             'route',
-            static function (Application $container): Route {
-                return Route::instance();
-            }
+            static fn(Application $container): Route => Route::instance()
         );
     }
 }

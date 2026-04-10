@@ -10,18 +10,17 @@ use Illuminate\Events\Dispatcher;
 
 class TranslationServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(
             'translator',
-            function ($container) {
+            function ($container): \Illuminate\Validation\Factory {
                 $loader  = new ArrayLoader();
-                $factory = new Factory(
+
+                return new Factory(
                     new Translator($loader, \get_locale()),
                     $container
                 );
-
-                return $factory;
             }
         );
     }

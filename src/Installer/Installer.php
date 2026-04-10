@@ -19,7 +19,6 @@ class Installer
      * HTTP directory path.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public static ?string $httpDir = null;
 
@@ -27,7 +26,6 @@ class Installer
      * Base directory path.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public static ?string $baseDir = null;
 
@@ -35,7 +33,6 @@ class Installer
      * Theme name.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public static ?string $themeName = null;
 
@@ -55,7 +52,6 @@ class Installer
      * New theme directory path.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public static ?string $dirThemeNew = null;
 
@@ -63,7 +59,6 @@ class Installer
      * Author name.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public static ?string $authorname = null;
 
@@ -71,7 +66,6 @@ class Installer
      * Theme description.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public static ?string $themedescription = null;
 
@@ -81,16 +75,14 @@ class Installer
      * @since 1.0.0
      *
      * @param Event $event The Composer event
-     *
-     * @return void
      */
     public static function config(Event $event): void
     {
-        $vendorDir = dirname($event->getComposer()->getConfig()->get('vendor-dir'));
+        $vendorDir = dirname((string) $event->getComposer()->getConfig()->get('vendor-dir'));
         self::$baseDir = $vendorDir;
         self::$httpDir = self::mkPath([self::$baseDir, 'public']);
         self::$themeName = basename($vendorDir);
-        self::$authorname = (string) get_current_user();
+        self::$authorname = get_current_user();
 
         self::dialog();
 
@@ -113,12 +105,10 @@ class Installer
      * @since 1.0.0
      *
      * @param Event $event The Composer event
-     *
-     * @return void
      */
     public static function config_quiet(Event $event): void
     {
-        $vendorDir = dirname($event->getComposer()->getConfig()->get('vendor-dir'));
+        $vendorDir = dirname((string) $event->getComposer()->getConfig()->get('vendor-dir'));
         self::$baseDir = $vendorDir;
         self::$httpDir = self::mkPath([self::$baseDir, 'public']);
 
@@ -137,8 +127,6 @@ class Installer
      * Create required directories.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function mkDirs(): void
     {
@@ -155,8 +143,6 @@ class Installer
      * Rebuild the index.php file.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function rebuildIndex(): void
     {
@@ -176,14 +162,12 @@ class Installer
      * Initialize WordPress salt keys.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function initializeSalts(): void
     {
         $saltsFilename = self::mkPath([(string) self::$baseDir, 'app', 'config', 'salts.php']);
         if (!file_exists($saltsFilename)) {
-            $salts = "<?php\n" . (string) file_get_contents('https://api.wordpress.org/secret-key/1.1/salt/');
+            $salts = "<?php\n" . file_get_contents('https://api.wordpress.org/secret-key/1.1/salt/');
             file_put_contents($saltsFilename, $salts);
         }
     }
@@ -192,18 +176,14 @@ class Installer
      * Initialize .env file from example.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function initializeDotenv(): void
     {
         $dotenvToCreate = self::mkPath([(string) self::$baseDir, '.env']);
         $dotEnvSrc = self::mkPath([(string) self::$baseDir, '.env.example']);
 
-        if (!file_exists($dotenvToCreate)) {
-            if (file_exists($dotEnvSrc)) {
-                copy($dotEnvSrc, $dotenvToCreate);
-            }
+        if (!file_exists($dotenvToCreate) && file_exists($dotEnvSrc)) {
+            copy($dotEnvSrc, $dotenvToCreate);
         }
     }
 
@@ -211,8 +191,6 @@ class Installer
      * Initialize wp-config.php file.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function initializeWpconfig(): void
     {
@@ -230,8 +208,6 @@ class Installer
      * Initialize the Sloth plugin.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function initializePlugin(): void
     {
@@ -239,6 +215,7 @@ class Installer
         if (!is_dir($dirComponents)) {
             mkdir($dirComponents, 0o755);
         }
+
         copy(
             self::mkPath([dirname(__DIR__), 'sloth.php']),
             self::mkPath([$dirComponents, 'sloth.php'])
@@ -249,8 +226,6 @@ class Installer
      * Add the CLI script.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function addCLI(): void
     {
@@ -264,8 +239,6 @@ class Installer
      * Initialize the bootstrap file.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function initializeBootstrap(): void
     {
@@ -279,8 +252,6 @@ class Installer
      * Initialize the .htaccess file.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     protected static function initializeHtaccess(): void
     {
@@ -297,8 +268,6 @@ class Installer
      * Run the interactive dialog.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function dialog(): void
     {
@@ -306,15 +275,18 @@ class Installer
 
         $input = $climate->input('What will your WordPress-theme be called? [' . self::$themeName . ']');
         $input->defaultTo((string) self::$themeName);
+
         self::$themeName = $input->prompt();
 
         $input = $climate->input("What is the name of your theme's author? [" . self::$authorname . ']');
         $input->defaultTo((string) self::$authorname);
+
         self::$authorname = $input->prompt();
 
         self::$themedescription = self::$themeName . ": Just another WordPress theme.";
         $input = $climate->input('Please describe your theme [' . self::$themedescription . ']');
-        $input->defaultTo((string) self::$themedescription);
+        $input->defaultTo(self::$themedescription);
+
         self::$themedescription = $input->prompt();
     }
 
@@ -322,8 +294,6 @@ class Installer
      * Build the style.css file.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function buildStyleCss(): void
     {
@@ -340,8 +310,6 @@ class Installer
      * Rename the default theme to the configured name.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function renameTheme(): void
     {
@@ -364,8 +332,6 @@ class Installer
      * @since 1.0.0
      *
      * @param array<string> $parts Path parts to join
-     *
-     * @return string
      */
     public static function mkPath(array $parts): string
     {

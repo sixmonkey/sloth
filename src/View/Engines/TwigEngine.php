@@ -15,19 +15,13 @@ class TwigEngine extends PhpEngine
     protected $environment;
 
     /**
-     * @var \Illuminate\View\ViewFinderInterface
-     */
-    protected $finder;
-
-    /**
      * @var string
      */
     protected $extension = '.twig';
 
-    public function __construct(Environment $environment, ViewFinderInterface $finder)
+    public function __construct(Environment $environment, protected \Illuminate\View\ViewFinderInterface $finder)
     {
         $this->environment = $environment;
-        $this->finder      = $finder;
     }
 
     /**
@@ -48,7 +42,8 @@ class TwigEngine extends PhpEngine
                 break;
             }
         }
-        if (substr($path, - strlen($this->extension)) != $this->extension) {
+
+        if (!str_ends_with((string) $path, $this->extension)) {
             $path .= $this->extension;
         }
 
