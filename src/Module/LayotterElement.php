@@ -150,7 +150,7 @@ class LayotterElement extends \Layotter_Element
      * @since 1.0.0
      *
      */
-    final protected function prepareFields(array $values, $options): array
+    final protected function prepareFields(array $values, $options = []): array
     {
         $fields = $this->getFields();
         if (Configure::read('layotter_prepare_fields') === true && $fields) {
