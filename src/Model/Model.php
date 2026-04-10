@@ -94,7 +94,7 @@ class Model extends Corcel
         }
         static::$globalScopesBooted = true;
 
-        static::addGlobalScope('published_for_guests', function (Builder $builder) {
+        static::addGlobalScope('published_for_guests', function (Builder $builder): void {
             if (!is_user_logged_in()) {
                 $builder->where('post_status', 'publish');
             }

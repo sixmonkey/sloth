@@ -426,7 +426,7 @@ class Plugin extends Singleton
         add_action('init', [$this, 'autoloadPlugins'], 20);
         add_action('init', [$this, 'registerNavMenus'], 20);
         add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
-        add_action('init', function() {
+        add_action('init', function(): void {
             Sloth::getInstance()->container['route']->flushRewriteRules();
         }, 30);
         add_action('admin_menu', [$this, 'initTaxonomies'], 20);
