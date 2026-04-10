@@ -7,7 +7,6 @@ namespace Sloth\Field;
 use Sloth\Facades\Configure;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
-use Spatie\Image\Image as SpatieImage;
 
 /**
  * Image field wrapper with manipulation capabilities.
