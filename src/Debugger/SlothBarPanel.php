@@ -20,8 +20,6 @@ class SlothBarPanel implements IBarPanel
      * Get the panel HTML.
      *
      * @since 1.0.0
-     *
-     * @return string
      */
     public function getPanel(): string
     {
@@ -38,8 +36,6 @@ class SlothBarPanel implements IBarPanel
      * Get the tab HTML.
      *
      * @since 1.0.0
-     *
-     * @return string
      */
     public function getTab(): string
     {

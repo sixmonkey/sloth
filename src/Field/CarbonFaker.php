@@ -18,8 +18,6 @@ class CarbonFaker
      *
      * @param string               $method Method name
      * @param array<int, mixed>   $args  Method arguments
-     *
-     * @return string
      */
     public function __call(string $method, array $args = []): string
     {

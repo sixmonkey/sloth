@@ -22,17 +22,15 @@ class Scaffolder
      * CLI climate instance.
      *
      * @since 1.0.0
-     * @var CLImate
      */
-    private CLImate $climate;
+    private readonly CLImate $climate;
 
     /**
      * Location of composer.json.
      *
      * @since 1.0.0
-     * @var string
      */
-    private string $composerConfigLocation;
+    private readonly string $composerConfigLocation;
 
     /**
      * Parsed composer.json contents.
@@ -53,7 +51,7 @@ class Scaffolder
         $this->climate->addArt(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Assets' . DIRECTORY_SEPARATOR . 'Climate');
         $this->climate->green()->animation('logo')->speed(400)->enterFrom('left');
 
-        $this->composerConfigLocation = self::getComposerJsonLocation();
+        $this->composerConfigLocation = $this->getComposerJsonLocation();
         $this->composerConfig = json_decode(file_get_contents($this->composerConfigLocation . 'composer.json'), true);
     }
 
@@ -74,7 +72,7 @@ class Scaffolder
 
         while ($context['name'] == null || file_exists($filenameModule)) {
             $input = $this->climate->green()->input("What will your Module be called?\r\n>");
-            $context['name'] = trim($input->prompt());
+            $context['name'] = trim((string) $input->prompt());
 
             if ($context['name'] == null) {
                 $this->climate->error(Emoji::pileOfPoo() . ' Please give a name for this Module!');
@@ -97,13 +95,13 @@ class Scaffolder
 
         if (is_array($context['layotter'])) {
             $input = $this->climate->green()->input("Please give a comprehensive title for your module.\r\n>");
-            $context['layotter']['title'] = trim($input->prompt());
+            $context['layotter']['title'] = trim((string) $input->prompt());
 
             $input = $this->climate->green()->input("Please give a short description of what this module will do.\r\n>");
-            $context['layotter']['description'] = trim($input->prompt());
+            $context['layotter']['description'] = trim((string) $input->prompt());
 
             $input = $this->climate->green()->input("Please choose an icon for this module.\r\n(choose from http://fontawesome.io/icons/)\r\n>");
-            $context['layotter']['icon'] = trim($input->prompt());
+            $context['layotter']['icon'] = trim((string) $input->prompt());
         }
 
         $view = View::make('Scaffold.Module.Class');
@@ -122,6 +120,7 @@ class Scaffolder
         if (!is_dir(dirname($filenameSass))) {
             mkdir(dirname($filenameSass), 0o777, true);
         }
+
         $view = View::make('Scaffold.Module.Sass');
         file_put_contents($filenameSass, $view->with($context)->render());
 
@@ -138,10 +137,11 @@ class Scaffolder
                 $this->climate->info(Emoji::thinkingFace() . ' ' . sprintf('A Field Group %s exists. Skipping scaffolding!', $context['name_acf']));
             } else {
                 $view = View::make('Scaffold.Module.Acf');
-                $data = json_decode($view->with($context + ['now' => time()])->render());
+                $data = json_decode((string) $view->with($context + ['now' => time()])->render());
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new \Exception('Seems your scaffold is not correct json!');
                 }
+
                 file_put_contents($filenameAcf, json_encode($data));
             }
         }
@@ -154,10 +154,9 @@ class Scaffolder
      *
      * @since 1.0.0
      *
-     * @return string
      * @throws UnexpectedValueException If composer.json cannot be located
      */
-    private static function getComposerJsonLocation(): string
+    private function getComposerJsonLocation(): string
     {
         $checkedPaths = [
             __DIR__ . '/../../../../../composer.json',
@@ -180,19 +179,18 @@ class Scaffolder
      * Display help information.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function help(): void
     {
         $this->climate->green("Sloth CLI currently supports the following commands:\r\n");
-        $r = new \ReflectionClass(__CLASS__);
+        $r = new \ReflectionClass(self::class);
 
         $methods = $r->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($methods as $method) {
             if (preg_match('/^_/', $method->name)) {
                 continue;
             }
+
             $docblock = new Docblock($r->getMethod($method->name)->getDocComment());
             $this->climate->green()->bold($method->name)->tab()->green($docblock->getShortDescription());
         }
@@ -202,8 +200,6 @@ class Scaffolder
      * Get the WordPress installation directory.
      *
      * @since 1.0.0
-     *
-     * @return string
      */
     public function _getWordpressInstallDir(): string
     {

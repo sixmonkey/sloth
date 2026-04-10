@@ -19,8 +19,6 @@ class RequestServiceProvider extends ServiceProvider
      * Register the service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {

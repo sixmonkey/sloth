@@ -13,13 +13,12 @@ use Sloth\Model\SlothMediaVersion;
  *
  * @since 1.0.0
  */
-class Image
+class Image implements \Stringable
 {
     /**
      * Image URL.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public ?string $url = null;
 
@@ -27,7 +26,6 @@ class Image
      * Image alt text.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public ?string $alt = null;
 
@@ -35,7 +33,6 @@ class Image
      * Image caption.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public ?string $caption = null;
 
@@ -43,7 +40,6 @@ class Image
      * Image description.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public ?string $description = null;
 
@@ -67,7 +63,6 @@ class Image
      * Post ID.
      *
      * @since 1.0.0
-     * @var int|null
      */
     protected ?int $postID = null;
 
@@ -75,7 +70,6 @@ class Image
      * Image type.
      *
      * @since 1.0.0
-     * @var string|null
      */
     protected ?string $type = null;
 
@@ -83,7 +77,6 @@ class Image
      * Image file path.
      *
      * @since 1.0.0
-     * @var string|null
      */
     protected ?string $file = null;
 
@@ -91,7 +84,6 @@ class Image
      * Whether the image is resizable.
      *
      * @since 1.0.0
-     * @var bool
      */
     protected bool $isResizable = true;
 
@@ -148,7 +140,7 @@ class Image
             $url = $url['url'];
         }
 
-        if ((int) $url) {
+        if ((int) $url !== 0) {
             $this->post = Post::find($url);
             $url = is_object($this->post) ? $this->post->url : ($this->post['url'] ?? null);
         } else {
@@ -184,14 +176,13 @@ class Image
      * @since 1.0.0
      *
      * @param string|array<string> $size Size name or array of dimensions
-     *
-     * @return string
      */
     public function getThemeSized(string|array $size): string
     {
         if (is_array($size)) {
             $size = (string) reset($size);
         }
+
         if (isset($this->sizes[$size])) {
             return $this->sizes[$size];
         }
@@ -211,8 +202,6 @@ class Image
      * @since 1.0.0
      *
      * @param array<string, mixed> ...$options Resize options or width
-     *
-     * @return string
      */
     public function resize(...$options): string
     {
@@ -255,8 +244,6 @@ class Image
      * @since 1.0.0
      *
      * @param array<string, mixed> $options Manipulation options
-     *
-     * @return string
      */
     protected function getFilename(array $options = []): string
     {
@@ -267,7 +254,7 @@ class Image
         $uploadInfo = wp_upload_dir();
         $uploadDir = realpath($uploadInfo['basedir']);
 
-        $suffix = "{$options['width']}x{$options['height']}";
+        $suffix = sprintf('%sx%s', $options['width'], $options['height']);
 
         unset($options['width'], $options['height']);
 
@@ -276,12 +263,15 @@ class Image
             if (is_array($values)) {
                 $values = implode('-', $values);
             }
+
             $name = $method;
             if (!is_bool($values)) {
                 $name .= '-' . $values;
             }
+
             $optionsNamed[] = $name;
         }
+
         $optionsNamed[] = $suffix;
 
         $suffix = implode('-', $optionsNamed);
@@ -291,9 +281,8 @@ class Image
 
         $dstRelPath = str_replace('.' . $ext, '', $this->file);
         $dstRelPath = str_replace((string) $uploadDir, '', $dstRelPath);
-        $dstRelPath = "{$dstRelPath}-{$suffix}.{$ext}";
 
-        return $dstRelPath;
+        return sprintf('%s-%s.%s', $dstRelPath, $suffix, $ext);
     }
 
     /**
@@ -302,8 +291,6 @@ class Image
      * @since 1.0.0
      *
      * @param string $filename Relative filename
-     *
-     * @return string
      */
     protected function getAbsoluteFilename(string $filename): string
     {
@@ -320,8 +307,6 @@ class Image
      *
      * @param string      $filename Relative filename
      * @param bool|null $full     Whether to include full URL (default: true)
-     *
-     * @return string
      */
     protected function getUrl(string $filename, ?bool $full = true): string
     {
@@ -353,6 +338,7 @@ class Image
                 $method = $values;
                 $values = true;
             }
+
             $output[$method] = $values;
         }
 
@@ -363,8 +349,6 @@ class Image
      * Convert to string (returns URL).
      *
      * @since 1.0.0
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -377,8 +361,6 @@ class Image
      * @since 1.0.0
      *
      * @param string $what Property name
-     *
-     * @return mixed
      */
     public function __get(string $what): mixed
     {
@@ -403,8 +385,6 @@ class Image
      * @since 1.0.0
      *
      * @param string $what Property name
-     *
-     * @return bool
      */
     public function __isset(string $what): bool
     {
@@ -434,7 +414,7 @@ class Image
         $sizes = [];
 
         if (is_array($imageSizes)) {
-            foreach ($imageSizes as $size => $option) {
+            foreach (array_keys($imageSizes) as $size) {
                 $sizes[$size] = $this->getThemeSized($size);
             }
         }

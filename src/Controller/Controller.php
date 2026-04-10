@@ -23,7 +23,6 @@ class Controller
      * The current template name.
      *
      * @since 1.0.0
-     * @var string|null
      */
     protected ?string $template = null;
 
@@ -31,7 +30,6 @@ class Controller
      * The layout to use for rendering.
      *
      * @since 1.0.0
-     * @var string
      */
     protected string $layout = 'default';
 
@@ -41,7 +39,7 @@ class Controller
      * @since 1.0.0
      * @var mixed
      */
-    protected $request = null;
+    protected $request;
 
     /**
      * The response object.
@@ -66,7 +64,6 @@ class Controller
     /**
      * Called before rendering the view.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -79,7 +76,6 @@ class Controller
      *
      * @param string $output The rendered output
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -93,7 +89,6 @@ class Controller
      *
      * @param mixed $request The request object
      *
-     * @return void
      * @throws \ReflectionException
      * @since 1.0.0
      *
@@ -111,47 +106,6 @@ class Controller
 
         status_header($this->response->status);
         echo $output;
-    }
-
-    /**
-     * Render the view.
-     *
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    private function _render(): string
-    {
-        return 'Hallo!';
-    }
-
-    /**
-     * Set a view variable.
-     *
-     * @param string $key The variable name
-     * @param mixed $value The variable value
-     *
-     * @return void
-     * @since 1.0.0
-     *
-     */
-    private function set(string $key, $value): void
-    {
-        $this->viewVars[$key] = $value;
-    }
-
-    /**
-     * Get a view variable.
-     *
-     * @param string $key The variable name
-     *
-     * @return mixed
-     * @since 1.0.0
-     *
-     */
-    private function get(string $key)
-    {
-        return $this->viewVars[$key] ?? null;
     }
 
     public function index()

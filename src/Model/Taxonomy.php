@@ -65,7 +65,6 @@ class Taxonomy extends CorcelTaxonomy
      * Whether this is a unique (non-hierarchical) taxonomy.
      *
      * @since 1.0.0
-     * @var bool
      */
     protected bool $unique = false;
 
@@ -73,7 +72,6 @@ class Taxonomy extends CorcelTaxonomy
      * The taxonomy identifier.
      *
      * @since 1.0.0
-     * @var string|null
      */
     protected ?string $taxonomy = null;
 
@@ -106,19 +104,20 @@ class Taxonomy extends CorcelTaxonomy
      */
     public function getLabels(): array
     {
-        if (!empty($this->labels)) {
+        if ($this->labels !== []) {
             $labels = $this->labels;
-            if (is_array($labels) && count($labels) > 0) {
+            if (is_array($labels) && $labels !== []) {
                 foreach ($labels as $key => $label) {
                     if (is_string($label)) {
                         $labels[$key] = \__($label);
                     }
                 }
             }
+
             return $labels;
         }
 
-        $singular = $this->names['singular'] ?? ucfirst($this->taxonomy);
+        $singular = $this->names['singular'] ?? ucfirst((string) $this->taxonomy);
         $plural = $this->names['plural'] ?? $singular . 's';
 
         return [
@@ -151,8 +150,6 @@ class Taxonomy extends CorcelTaxonomy
      * to the specified post types.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -172,11 +169,9 @@ class Taxonomy extends CorcelTaxonomy
 
         \register_taxonomy($taxonomyName, null, $options);
 
-        if (!empty($this->postTypes)) {
-            foreach ($this->postTypes as $postType) {
-                if (\post_type_exists($postType)) {
-                    \register_taxonomy_for_object_type($taxonomyName, $postType);
-                }
+        foreach ($this->postTypes as $postType) {
+            if (\post_type_exists($postType)) {
+                \register_taxonomy_for_object_type($taxonomyName, $postType);
             }
         }
     }
@@ -188,8 +183,6 @@ class Taxonomy extends CorcelTaxonomy
      * the default meta box and adds a custom one.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function init(): void
     {
@@ -208,7 +201,7 @@ class Taxonomy extends CorcelTaxonomy
                     \add_meta_box(
                         'sloth-taxonomy-' . $me->getTaxonomy(),
                         $me->names['singular'],
-                        [$me, 'metabox'],
+                        $me->metabox(...),
                         $post_types,
                         'side'
                     );
@@ -221,8 +214,6 @@ class Taxonomy extends CorcelTaxonomy
      * Gets the taxonomy identifier.
      *
      * @since 1.0.0
-     *
-     * @return string
      */
     public function getTaxonomy(): string
     {
@@ -233,8 +224,6 @@ class Taxonomy extends CorcelTaxonomy
      * Gets the term link URL.
      *
      * @since 1.0.0
-     *
-     * @return string|\WP_Error
      */
     public function getTermLinkAttribute(): string|\WP_Error
     {
@@ -253,10 +242,8 @@ class Taxonomy extends CorcelTaxonomy
      *
      * @param object $post The post object
      * @param array $box The metabox configuration
-     *
-     * @return void
      */
-    public function metabox($post, $box): void
+    public function metabox($post, array $box): void
     {
         $taxonomy = $this->getTaxonomy();
 

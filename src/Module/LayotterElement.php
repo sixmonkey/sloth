@@ -26,13 +26,12 @@ class LayotterElement extends \Layotter_Element
     /**
      * Set element attributes from module configuration.
      *
-     * @return void
      * @since 1.0.0
      *
      */
     public function attributes(): void
     {
-        $className = get_class($this);
+        $className = static::class;
         $moduleName = $className::$module;
         $module = new $moduleName();
 
@@ -48,7 +47,6 @@ class LayotterElement extends \Layotter_Element
      *
      * @param array<string, mixed> $fields The field values
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -56,7 +54,7 @@ class LayotterElement extends \Layotter_Element
     {
         $fields = $this->prepareFields($fields, func_get_args());
 
-        $className = get_class($this);
+        $className = static::class;
         $moduleName = $className::$module;
         $module = new $moduleName();
         $module->set($fields);
@@ -69,13 +67,12 @@ class LayotterElement extends \Layotter_Element
      *
      * @param array<string, mixed> $fields The field values
      *
-     * @return void
      * @since 1.0.0
      *
      */
     public function backend_view($fields): void
     {
-        $className = get_class($this);
+        $className = static::class;
         $moduleName = $className::$module;
         $module = new $moduleName();
 
@@ -118,6 +115,7 @@ class LayotterElement extends \Layotter_Element
                 echo '</tr>';
             }
         }
+
         echo '</table>';
     }
 

@@ -36,7 +36,7 @@ class Paginator extends BasePaginator
             $baseUrl = parse_url((string) rest_url('/'), PHP_URL_PATH);
             $here = preg_replace('#' . $baseUrl . '#', '', parse_url((string) $_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-            return (string) rest_url($here) . '?' . http_build_query($current);
+            return rest_url($here) . '?' . http_build_query($current);
         }
 
         $parts = [rtrim((string) get_permalink(), '/')];

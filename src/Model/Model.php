@@ -20,14 +20,23 @@ class Model extends Corcel
     protected static bool $globalScopesBooted = false;
 
     protected $names = [];
+
     protected $options = [];
+
     protected $labels = [];
+
     public static $layotter = false;
+
     public $register = true;
+
     public $post_content = ' ';
+
     protected $icon;
+
     protected $filtered = false;
+
     public $admin_columns = [];
+
     public $admin_columns_hidden = [];
 
     /**
@@ -61,7 +70,6 @@ class Model extends Corcel
     /**
      * Model constructor.
      *
-     * @param array $attributes
      *
      * @throws \ReflectionException
      */
@@ -71,20 +79,23 @@ class Model extends Corcel
         if ($reflection->getName() === self::class) {
             $this->postType = false;
         }
+
         if ($this->postType === null) {
             $reflection = new \ReflectionClass($this);
             $this->postType = strtolower($reflection->getShortName());
         }
+
         if (is_array($this->labels) && count($this->labels)) {
             foreach ($this->labels as &$label) {
                 $label = __($label);
             }
         }
+
         $this->setRawAttributes(array_merge($this->attributes, [
             'post_type' => $this->getPostType(),
         ]), true);
         parent::__construct($attributes);
-        $this->bootGlobalScopes();
+        static::bootGlobalScopes();
     }
 
     protected static function bootGlobalScopes(): void
@@ -92,6 +103,7 @@ class Model extends Corcel
         if (static::$globalScopesBooted) {
             return;
         }
+
         static::$globalScopesBooted = true;
 
         static::addGlobalScope('published_for_guests', function (Builder $builder): void {
@@ -103,7 +115,6 @@ class Model extends Corcel
 
     /**
      * @param array $attributes
-     * @param null $connection
      * @return mixed
      */
     public function newFromBuilder($attributes = [], $connection = null)
@@ -112,7 +123,7 @@ class Model extends Corcel
 
         if ($this->shouldLoadPreview($model)) {
             $preview = $this->loadPreview($model);
-            if ($preview) {
+            if ($preview instanceof \Sloth\Model\Model) {
                 return $preview;
             }
         }
@@ -130,18 +141,16 @@ class Model extends Corcel
 
     protected function loadPreview(Model $model): ?Model
     {
-        $revision = $model->revision()
+        return $model->revision()
             ->where('post_author', get_current_user_id())
             ->newest()
             ->first();
-
-        return $revision;
     }
 
     /**
      * @return bool
      */
-    public function register()
+    public function register(): ?bool
     {
         global $wp_post_types;
 
@@ -166,11 +175,12 @@ class Model extends Corcel
 
         $names = array_merge($this->names, ['name' => $this->getPostType()]);
         $options = $this->options;
-        if (isset($this->icon)) {
+        if ($this->icon !== null) {
             $options = array_merge($this->options, [
-                'menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', $this->icon),
+                'menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', (string) $this->icon),
             ]);
         }
+
         $labels = $this->labels;
 
         $pt = new PostType($names, $options, $labels);
@@ -190,7 +200,7 @@ class Model extends Corcel
                 $k,
                 function ($column, $post_id) use ($class, $k): void {
                     $r = call_user_func_array([$class, 'find'], [$post_id]);
-                    echo call_user_func([$r, 'get' . ucfirst($k) . 'Column']);
+                    echo call_user_func([$r, 'get' . ucfirst((string) $k) . 'Column']);
                 }
             );
 
@@ -210,7 +220,7 @@ class Model extends Corcel
                 'list_table_primary_column',
                 function ($default, $screen) use ($pt, $first_column): string {
                     if ('edit-' . $pt->name === $screen) {
-                        $default = $first_column;
+                        return $first_column;
                     }
 
                     return $default;
@@ -224,14 +234,14 @@ class Model extends Corcel
         if (method_exists($pt, 'register')) {
             $pt->register();
         }
+
         if (method_exists($pt, 'registerPostType')) {
             $pt->registerPostType();
         }
+
+        return null;
     }
 
-    /**
-     * @return string
-     */
     public function getPostType(): string
     {
         return $this->postType;
@@ -253,9 +263,6 @@ class Model extends Corcel
         return \get_permalink($this->ID);
     }
 
-    /**
-     * @return \Sloth\Field\Image
-     */
     public function getPostThumbnailAttribute(): Image
     {
         return new Image((int)$this->meta->_thumbnail_id);
@@ -273,9 +280,6 @@ class Model extends Corcel
         }
     }
 
-    /**
-     * @return string
-     */
     public function getContentAttribute(): string
     {
         if (!$this->filtered) {
@@ -283,17 +287,14 @@ class Model extends Corcel
             if (!is_null($post_content)) {
                 $this->post_content = \apply_filters('the_content', $post_content);
             }
+
             $this->filtered = true;
         }
 
         return (string)$this->post_content;
     }
 
-    /**
-     * @param string $which
-     *
-     * @return string
-     */
+
     public function getColumn(string $which): string
     {
         $value = $this->{$which} ?? $this->{strtolower($which)};
@@ -318,9 +319,6 @@ class Model extends Corcel
         return parent::__call($method, $parameters);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         $array = parent::toArray();
@@ -330,7 +328,8 @@ class Model extends Corcel
                 $array[$key] = $this->{$key};
             }
         }
-        if (isset($this->hidden) && is_array($this->hidden)) {
+
+        if ($this->hidden !== null && is_array($this->hidden)) {
             foreach ($this->hidden as $k) {
                 unset($array[$k]);
             }
@@ -339,11 +338,6 @@ class Model extends Corcel
         return $array;
     }
 
-    /**
-     * @param PostBuilder $query
-     * @param string $meta
-     * @param string $direction
-     */
     public function scopeOrderByMeta(PostBuilder $query, string $meta, string $direction = 'asc'): void
     {
         $metaRows = PostMeta::where('meta_key', $meta)->orderBy('meta_value', $direction)->get();
@@ -351,11 +345,6 @@ class Model extends Corcel
         $query->orderByRaw('FIELD(ID, ' . implode(',', $postIds) . ')');
     }
 
-    /**
-     * @param PostBuilder $query
-     * @param string $slug
-     * @return PostBuilder
-     */
     public function scopeFindBySlugOrId(PostBuilder $query, string $slug): PostBuilder
     {
         return $query->where('post_name', $slug)->orWhere('ID', $slug);
@@ -364,8 +353,6 @@ class Model extends Corcel
 
     /**
      * get related revisions
-     *
-     * @return HasMany
      */
     public function revision(): HasMany
     {

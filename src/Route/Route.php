@@ -40,7 +40,6 @@ final class Route extends Singleton
      * Once dispatched, no new routes can be added.
      *
      * @since 1.0.0
-     * @var bool
      */
     private static bool $dispatched = false;
 
@@ -48,7 +47,6 @@ final class Route extends Singleton
      * The FastRoute dispatcher instance.
      *
      * @since 1.0.0
-     * @var Dispatcher|null
      */
     private static ?Dispatcher $dispatcher = null;
 
@@ -69,7 +67,6 @@ final class Route extends Singleton
      * Singleton instance of the Route class.
      *
      * @since 1.0.0
-     * @var Route|null
      */
     protected static ?Route $instance = null;
 
@@ -79,7 +76,6 @@ final class Route extends Singleton
      * Used to identify routes registered by Sloth in WordPress.
      *
      * @since 1.0.0
-     * @var string
      */
     protected string $rewriteTagPrefix = 'sloth';
 
@@ -102,7 +98,7 @@ final class Route extends Singleton
      * @var array<string, string>
      */
     protected array $routeTargetDefaults = [
-        'controller' => '\Sloth\Controller\Controller',
+        'controller' => \Sloth\Controller\Controller::class,
         'action' => 'index',
     ];
 
@@ -116,7 +112,7 @@ final class Route extends Singleton
     public static function instance(): Route
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;
@@ -136,7 +132,7 @@ final class Route extends Singleton
      */
     public function boot(): void
     {
-        if (empty(self::$routes)) {
+        if (self::$routes === []) {
             return;
         }
 
@@ -188,7 +184,7 @@ final class Route extends Singleton
     {
         if (self::$dispatched) {
             throw new \Exception(
-                'Adding Routes is no longer possible. Please use your template\'s routes.php to define Routes.'
+                "Adding Routes is no longer possible. Please use your template's routes.php to define Routes."
             );
         }
 
@@ -337,12 +333,10 @@ final class Route extends Singleton
     private static function normalize(string $route): string
     {
         if (str_ends_with($route, ']')) {
-            $route = substr($route, 0, -1) . '[/]]';
-        } else {
-            $route = rtrim($route, '/') . '[/]';
+            return substr($route, 0, -1) . '[/]]';
         }
 
-        return $route;
+        return rtrim($route, '/') . '[/]';
     }
 
     /**
@@ -362,7 +356,7 @@ final class Route extends Singleton
     {
         global $wp_query, $wp, $post;
 
-        if (self::$dispatcher === null) {
+        if (!self::$dispatcher instanceof \FastRoute\Dispatcher) {
             return;
         }
 
@@ -371,11 +365,11 @@ final class Route extends Singleton
         $httpMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-        if (false !== $pos = strpos($uri, '?')) {
-            $uri = substr($uri, 0, $pos);
+        if (false !== $pos = strpos((string) $uri, '?')) {
+            $uri = substr((string) $uri, 0, $pos);
         }
 
-        $uri = rawurldecode($uri);
+        $uri = rawurldecode((string) $uri);
         $routeTarget = [];
 
         $routeInfo = self::$dispatcher->dispatch($httpMethod, $uri);
@@ -396,6 +390,7 @@ final class Route extends Singleton
                         }
                     }
                 }
+
                 break;
 
             case Dispatcher::METHOD_NOT_ALLOWED:
@@ -481,10 +476,10 @@ final class Route extends Singleton
     {
         if (str_starts_with($routeRegex, '~')) {
             $routeRegex = preg_replace('/^\~\^/', '^', $routeRegex);
-            $routeRegex = preg_replace('/\$\~$/', '', $routeRegex);
+            $routeRegex = preg_replace('/\$\~$/', '', (string) $routeRegex);
         } else {
             $routeRegex = preg_replace('/^\//', '^', $routeRegex);
-            $routeRegex = preg_replace('/\/$/', '', $routeRegex);
+            $routeRegex = preg_replace('/\/$/', '', (string) $routeRegex);
             $routeRegex .= '/$';
         }
 
@@ -505,10 +500,6 @@ final class Route extends Singleton
     public function setRewrite(): void
     {
         $regexes = array_unique($this->regexes);
-
-        if (empty($regexes)) {
-            return;
-        }
 
         foreach ($regexes as $regex) {
             add_rewrite_tag('%is_sloth_route%', '(\d)');

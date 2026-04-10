@@ -12,7 +12,7 @@ defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
 /*----------------------------------------------------*/
 // Root directory
 /*----------------------------------------------------*/
-defined('DIR_ROOT') ? DIR_ROOT : define('DIR_ROOT', dirname(__FILE__) . DS);
+defined('DIR_ROOT') ? DIR_ROOT : define('DIR_ROOT', __DIR__ . DS);
 /*----------------------------------------------------*/
 // App directory
 /*----------------------------------------------------*/
@@ -79,7 +79,7 @@ if (file_exists(DIR_ROOT . '.env')) {
 /**
  * Shorthand for Configure in env configs
  */
-class_alias('\Sloth\Configure\Configure', 'Configure');
+class_alias(\Sloth\Configure\Configure::class, 'Configure');
 Configure::boot();
 
 /**
