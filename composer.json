@@ -6,7 +6,6 @@
         "php": ">=8.2",
         "brain/hierarchy": "^2.0 || ^3.0",
         "cakephp/utility": "^3.0 || ^4.0",
-        "corcel/acf": "^3.0 || ^4.0",
         "gossi/docblock": "^1.6",
         "illuminate/container": "^8.0 || ^9.0 || ^10.0 || ^11.0",
         "illuminate/filesystem": "^8.0 || ^9.0 || ^10.0 || ^11.0",
