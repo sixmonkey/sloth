@@ -2,8 +2,7 @@
 
 namespace Sloth\Model\Traits;
 
-use App\Model\User;
-use Sloth\Facades\Configure;
+use Sloth\Model\User;
 use Sloth\Model\Casts\ACF;
 use Sloth\Model\Casts\ACFDate;
 use Sloth\Model\Casts\ACFImage;
