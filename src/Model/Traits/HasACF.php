@@ -2,6 +2,7 @@
 
 namespace Sloth\Model\Traits;
 
+use Sloth\Model\Model;
 use Sloth\Model\User;
 use Sloth\Model\Casts\ACF;
 use Sloth\Model\Casts\ACFDate;
@@ -72,7 +73,7 @@ trait HasACF
             return true;
         }
 
-        if($this->meta->__isset($key)) {
+        if ($this->meta->__isset($key)) {
             return true;
         }
 

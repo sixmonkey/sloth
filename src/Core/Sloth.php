@@ -6,10 +6,12 @@ namespace Sloth\Core;
 
 use Milo\VendorVersions\Panel;
 use Sloth\Debugger\SlothBarPanel;
+use Sloth\Facades\Facade;
 use Sloth\Route\Route;
 use Tracy\Debugger;
 use Corcel\Database;
 use Sloth\Singleton\Singleton;
+use Tracy\ILogger;
 
 /**
  * Sloth Framework Bootstrap
@@ -80,11 +82,12 @@ class Sloth extends Singleton
         @include(DIR_ROOT . DS . 'develop.config.php');
 
         $this->setDebugging();
+        $this->registerErrorHandlers();
 
         $this->container = new Application();
         $this->container->addPath('cache', DIR_CACHE);
 
-        \Sloth\Facades\Facade::setFacadeApplication($this->container);
+        Facade::setFacadeApplication($this->container);
 
         $this->registerProviders();
 
@@ -207,13 +210,29 @@ class Sloth extends Singleton
         Debugger::getBar()->addPanel(new Panel());
         Debugger::getBar()->addPanel(new SlothBarPanel());
 
-        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(basename($_SERVER['PHP_SELF'] ?? ''), $this->dontDebug, true)) {
+        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(basename($_SERVER['PHP_SELF'] ?? ''), $this->dontDebug,
+                true)) {
             Debugger::enable($mode, DIR_ROOT . DS . 'logs');
         }
 
         if (getenv('SLOTH_DEBUGGER_EDITOR')) {
             Debugger::$editor = getenv('SLOTH_DEBUGGER_EDITOR');
         }
+    }
+
+    /**
+     * Registers error handlers for uncaught exceptions and errors.
+     *
+     * @since 1.0.0
+     *
+     * @see Debugger For Tracy debugger configuration
+     */
+    private function registerErrorHandlers(): void
+    {
+        set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline): bool {
+            Debugger::log($errstr, 'error');
+            return defined('REST_REQUEST') && REST_REQUEST;
+        });
     }
 
     /**
@@ -224,8 +243,8 @@ class Sloth extends Singleton
      *
      * @since 1.0.0
      *
-     * @see Database For Corcel database configuration
-     * @see \Corcel\Model\Post For post model usage
+     * @see  Database For Corcel database configuration
+     * @see  \Corcel\Model\Post For post model usage
      *
      * @uses DB_HOST WordPress database host constant
      * @uses DB_NAME WordPress database name constant
