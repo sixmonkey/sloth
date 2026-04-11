@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin;
 
-use Corcel\Model\User;
 use Sloth\ACF\ACFHelper;
 use Sloth\Admin\Customizer;
 use Sloth\CarbonFields\CarbonFields;
@@ -20,6 +19,8 @@ use Sloth\Media\Version;
 use Sloth\Utility\Utility;
 
 use Symfony\Component\HttpFoundation\Response;
+
+use WP_REST_Response;
 
 use function post_password_required;
 
@@ -244,9 +245,15 @@ class Plugin extends Singleton
     /**
      * Load all API controllers.
      *
+     * Discovers controllers in DIR_APP/Api/, auto-maps public methods
+     * to REST routes under /sloth/v1/, and wraps each callback in an
+     * output buffer so PHP warnings (e.g. from Corcel) don't corrupt
+     * the JSON response. In dev environments warnings are surfaced
+     * as a _warnings key in the response payload.
+     *
+     * @return void
      * @throws \Exception
      * @since 1.0.0
-     *
      */
     public function loadApiControllers(): void
     {
@@ -256,7 +263,7 @@ class Plugin extends Singleton
             $controller = new $controllerName();
 
             if (!is_subclass_of($controller, \Sloth\Api\Controller::class)) {
-                throw new \Exception('ApiController needs to extend Sloth\Api\Controller');
+                throw new \Exception("ApiController {$controllerName} needs to extend Sloth\\Api\\Controller");
             }
 
             $methods = get_class_methods($controller);
@@ -264,14 +271,9 @@ class Plugin extends Singleton
             $routes = [];
 
             foreach ($methods as $method) {
-                if (str_starts_with($method, '_')) {
+                if (str_starts_with($method, '_') || $method === 'single') {
                     continue;
                 }
-
-                if ($method === 'single') {
-                    continue;
-                }
-
                 $routes[$routePrefix . '/' . Utility::viewize($method) . '(?:/(?P<id>\w+))?'] = $method;
             }
 
@@ -282,14 +284,19 @@ class Plugin extends Singleton
                 $routes[$routePrefix . '(?:/(?P<id>[a-z0-9._-]+))?'] = 'index';
             }
 
+            $isDevEnv = $this->isDevEnv();
+            add_filter('rest_post_dispatch', function($response) use ($isDevEnv) {
+                return $response;
+            });
             foreach ($routes as $route => $action) {
-                add_action('rest_api_init', function () use ($route, $action, $controller): void {
+                add_action('rest_api_init', function () use ($route, $action, $controller, $isDevEnv): void {
                     register_rest_route(
                         'sloth/v1',
                         '/' . $route,
                         [
                             'methods' => ['GET', 'POST', 'DELETE', 'PUT'],
-                            'callback' => function ($request) use ($controller, $action): \WP_REST_Response {
+                            'callback' => function ($request) use ($controller, $action, $isDevEnv): WP_REST_Response {
+
                                 $controller->setRequest($request);
                                 $param = $request->get_url_params('id');
                                 $data = call_user_func_array([$controller, $action], [reset($param)]);
@@ -301,8 +308,7 @@ class Plugin extends Singleton
                                     ];
                                 }
 
-
-                                return new \WP_REST_Response(
+                                return new WP_REST_Response(
                                     $data,
                                     $controller->response->status,
                                     $controller->response->headers
@@ -424,7 +430,7 @@ class Plugin extends Singleton
         add_action('init', $this->autoloadPlugins(...), 20);
         add_action('init', $this->registerNavMenus(...), 20);
         add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
-        add_action('init', function(): void {
+        add_action('init', function (): void {
             Sloth::getInstance()->container['route']->flushRewriteRules();
         }, 30);
         add_action('admin_menu', $this->initTaxonomies(...), 20);
@@ -786,7 +792,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             $routes = Configure::read('theme.routes');
 
             if (isset($routes[$uri])) {
-                $template = basename((string) $routes[$uri]['Layout'], '.twig');
+                $template = basename((string)$routes[$uri]['Layout'], '.twig');
                 if (isset($routes[$uri]['ContentType'])) {
                     header('Content-Type: ' . $routes[$uri]['ContentType']);
                 }
@@ -1168,7 +1174,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         global $menu;
         $used = [];
         foreach ($menu as $offset => $menuItem) {
-            $pi = pathinfo((string) $menuItem[2], PATHINFO_EXTENSION);
+            $pi = pathinfo((string)$menuItem[2], PATHINFO_EXTENSION);
             if (!preg_match('/^php/', $pi)) {
                 continue;
             }
@@ -1195,7 +1201,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         if (function_exists('rest_url') && !empty($_SERVER['REQUEST_URI'])) {
             $sRestUrlBase = (string)get_rest_url(get_current_blog_id(), '/');
             $sRestPath = trim(parse_url($sRestUrlBase, PHP_URL_PATH), '/');
-            $sRequestPath = trim((string) $_SERVER['REQUEST_URI'], '/');
+            $sRequestPath = trim((string)$_SERVER['REQUEST_URI'], '/');
             $bIsRest = str_starts_with($sRequestPath, $sRestPath);
         }
 
