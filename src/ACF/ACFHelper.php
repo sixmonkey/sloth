@@ -22,27 +22,23 @@ class ACFHelper extends Singleton
      */
     public function __construct()
     {
-        add_action('init', [$this, 'addFilters']);
+        add_action('init', $this->addFilters(...));
     }
 
     /**
      * Add ACF filters.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     final public function addFilters(): void
     {
-        add_action('admin_init', [$this, 'autoSyncAcfFields']);
+        add_action('admin_init', $this->autoSyncAcfFields(...));
     }
 
     /**
      * Auto-sync ACF JSON field groups.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function autoSyncAcfFields(): void
     {
@@ -65,14 +61,16 @@ class ACFHelper extends Singleton
             $local = acf_maybe_get($group, 'local', false);
             $modified = acf_maybe_get($group, 'modified', 0);
             $private = acf_maybe_get($group, 'private', false);
+            if ($private) {
+                continue;
+            }
 
-            if ($private || $local !== 'json') {
+            if ($local !== 'json') {
                 continue;
             }
 
             if (
-                (!$private || $local === 'json')
-                && (!$group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true))
+                !$group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
             ) {
                 acf_disable_filters();
                 acf_enable_filter('local');

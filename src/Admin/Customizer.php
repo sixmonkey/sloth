@@ -164,8 +164,6 @@ class Customizer extends Singleton
      * Boot the customizer hooks.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -181,7 +179,7 @@ class Customizer extends Singleton
             function (): void {
                 add_filter(
                     'admin_footer_text',
-                    [$this, 'renderFooter'],
+                    $this->renderFooter(...),
                     999
                 );
             }
@@ -203,6 +201,7 @@ class Customizer extends Singleton
         if (is_array($new)) {
             return array_merge($existing, $new);
         }
+
         $existing[] = $new;
 
         return $existing;
@@ -214,14 +213,13 @@ class Customizer extends Singleton
      * @since 1.0.0
      *
      * @param string $what Action identifier
-     *
-     * @return bool
      */
     private static function done(string $what): bool
     {
         if (in_array($what, self::$done, true)) {
             return true;
         }
+
         self::$done[] = $what;
 
         return false;
@@ -234,14 +232,13 @@ class Customizer extends Singleton
      *
      * @param string $postType Post type
      * @param string $box      Meta box ID
-     *
-     * @return void
      */
     public static function removePostMetaBox(string $postType, string $box): void
     {
         if (!isset(self::$removeMetaBoxes[$postType])) {
             self::$removeMetaBoxes[$postType] = [];
         }
+
         self::$removeMetaBoxes[$postType] = self::joinArray(self::$removeMetaBoxes[$postType], $box);
 
         if (!self::done('remove_post_meta_box')) {
@@ -266,8 +263,6 @@ class Customizer extends Singleton
      *
      * @param int    $row    Row number (1-4)
      * @param string $button Button name
-     *
-     * @return void
      */
     public static function tinymceRemoveButton(int $row, string $button): void
     {
@@ -279,9 +274,10 @@ class Customizer extends Singleton
             add_filter(
                 $filter,
                 function (array $buttons) use ($row): array {
-                    if (!ctype_digit((string) substr(current_filter(), -1))) {
+                    if (!ctype_digit(substr(current_filter(), -1))) {
                         $row = 1;
                     }
+
                     $removeButtons = self::$tinymceRemoveButtons[$row];
                     foreach ($removeButtons as $buttonName) {
                         $key = array_search($buttonName, $buttons, true);
@@ -304,8 +300,6 @@ class Customizer extends Singleton
      * @param int     $row      Row number (1-4)
      * @param string  $button   Button name
      * @param bool|int $position Position to insert (false for end)
-     *
-     * @return void
      */
     public static function tinymceAddButton(int $row, string $button, bool|int $position = false): void
     {
@@ -319,9 +313,10 @@ class Customizer extends Singleton
             add_filter(
                 $filter,
                 function (array $buttons) use ($row): array {
-                    if (!ctype_digit((string) substr(current_filter(), -1))) {
+                    if (!ctype_digit(substr(current_filter(), -1))) {
                         $row = 1;
                     }
+
                     $addButtons = self::$tinymceAddButtons[$row];
                     foreach ($addButtons as $button) {
                         if ($button['position'] === false) {
@@ -346,8 +341,6 @@ class Customizer extends Singleton
      * Clean up the WordPress dashboard.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function cleanDashboard(): void
     {
@@ -397,8 +390,6 @@ class Customizer extends Singleton
      * @since 1.0.0
      *
      * @param string $item Menu item ID
-     *
-     * @return void
      */
     public static function removeAdminBarItem(string $item): void
     {
@@ -421,8 +412,6 @@ class Customizer extends Singleton
      * Clean up the user profile edit form.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function cleanProfileEditForm(): void
     {
@@ -458,8 +447,6 @@ class Customizer extends Singleton
      * @since 1.0.0
      *
      * @param string $after Menu item to place separator after
-     *
-     * @return void
      */
     public static function addMenuSeparator(string $after): void
     {
@@ -473,7 +460,7 @@ class Customizer extends Singleton
                     $menu = array_values($menu);
 
                     foreach ($menu as $offset => $section) {
-                        if (str_starts_with($section[2], 'separator')) {
+                        if (str_starts_with((string) $section[2], 'separator')) {
                             array_splice($menu, $offset, 1);
                         }
                     }
@@ -505,8 +492,6 @@ class Customizer extends Singleton
      *
      * @param string $move  Menu item to move
      * @param string $after Menu item to place it after
-     *
-     * @return void
      */
     public static function moveMenuItem(string $move, string $after): void
     {
@@ -551,8 +536,6 @@ class Customizer extends Singleton
      * @since 1.0.0
      *
      * @param string $url Menu item URL
-     *
-     * @return void
      */
     public static function removeMenuItem(string $url): void
     {
@@ -583,8 +566,6 @@ class Customizer extends Singleton
      *
      * @param string $url     Menu item URL
      * @param string $newName New display name
-     *
-     * @return void
      */
     public static function renameMenuItem(string $url, string $newName): void
     {
@@ -617,8 +598,6 @@ class Customizer extends Singleton
      * @param string $title      Display title
      * @param string $capability Required capability
      * @param string $icon       Dashicons icon class
-     *
-     * @return void
      */
     public static function addMenuItem(string $url, string $after, string $title, string $capability, string $icon = 'dashicons-admin-post'): void
     {
@@ -660,8 +639,6 @@ class Customizer extends Singleton
      * @param string $parent     Parent menu item URL
      * @param string $title      Display title
      * @param string $capability Required capability
-     *
-     * @return void
      */
     public static function addSubmenuItem(string $url, string $parent, string $title, string $capability): void
     {
@@ -695,8 +672,6 @@ class Customizer extends Singleton
      * Load scripts asynchronously.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function loadScriptsAsynchronously(): void
     {
@@ -723,8 +698,6 @@ class Customizer extends Singleton
      * @param string $url  Item URL
      * @param string $text Display text
      * @param string $icon Dashicons icon class
-     *
-     * @return void
      */
     public static function addCustomDashboardItem(string $url, string $text, string $icon = 'dashicons-admin-post'): void
     {
@@ -741,7 +714,7 @@ class Customizer extends Singleton
                     add_meta_box(
                         'qundg-dashboard',
                         'Start',
-                        [self::class, 'dashboardWelcome'],
+                        self::dashboardWelcome(...),
                         'dashboard',
                         'normal'
                     );
@@ -754,8 +727,6 @@ class Customizer extends Singleton
      * Render the dashboard welcome box.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function dashboardWelcome(): void
     {
@@ -800,20 +771,18 @@ class Customizer extends Singleton
      * Render the footer for WordPress admin.
      *
      * @since 1.0.0
-     *
-     * @return string
      */
     public function renderFooter(): string
     {
         global $wpVersion;
 
         $versions = [
-            "WordPress {$wpVersion}",
+            'WordPress ' . $wpVersion,
         ];
 
         if (file_exists(DIR_ROOT . DS . '.version')) {
             $appVersion = file_get_contents(DIR_ROOT . DS . '.version');
-            $versions[] = "App {$appVersion}";
+            $versions[] = 'App ' . $appVersion;
         }
 
         $data = [

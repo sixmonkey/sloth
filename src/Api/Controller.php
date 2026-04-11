@@ -20,7 +20,7 @@ class Controller
      * @since 1.0.0
      * @var mixed
      */
-    protected $request = null;
+    protected $request;
 
     /**
      * The response object.
@@ -47,7 +47,6 @@ class Controller
      *
      * @param int $code The HTTP status code
      *
-     * @return void
      * @since 1.0.0
      */
     public function setStatusCode(int $code): void
@@ -62,7 +61,7 @@ class Controller
      *
      * @return array<string, mixed>
      */
-    public function index()
+    public function index(): array
     {
         return [];
     }
@@ -73,10 +72,8 @@ class Controller
      * @since 1.0.0
      *
      * @param \WP_REST_Request $request The request object
-     *
-     * @return void
      */
-    public function setRequest($request)
+    public function setRequest($request): void
     {
         $this->request = $request;
     }
@@ -91,14 +88,14 @@ class Controller
      *
      * @return string The constructed URL
      */
-    public function getUrl(string $path, array $params = [])
+    public function getUrl(string $path, array $params = []): string
     {
         parse_str((string) parse_url($path, PHP_URL_QUERY), $getArray);
 
         $params = array_merge($getArray, $params);
 
         $path = '/sloth/v1/' . Utility::viewize((new \ReflectionClass($this))->getShortName()) . '/' . $path;
-        if (count($params)) {
+        if ($params !== []) {
             $path .= '?' . http_build_query($params);
         }
 

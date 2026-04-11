@@ -34,7 +34,6 @@ abstract class Facade
      * The Application container instance.
      *
      * @since 1.0.0
-     * @var Application|null
      */
     protected static ?Application $app = null;
 
@@ -44,8 +43,6 @@ abstract class Facade
      * @since 1.0.0
      *
      * @param Application $app The application container
-     *
-     * @return void
      */
     public static function setFacadeApplication(Application $app): void
     {
@@ -65,7 +62,7 @@ abstract class Facade
     {
         $name = static::getFacadeAccessor();
 
-        if (static::$app === null) {
+        if (!static::$app instanceof \Sloth\Core\Application) {
             throw new \RuntimeException('Facade application not set.');
         }
 

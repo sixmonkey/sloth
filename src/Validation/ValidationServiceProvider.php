@@ -21,7 +21,6 @@ class ValidationServiceProvider extends ServiceProvider
      * Indicates if loading of the provider is deferred.
      *
      * @since 1.0.0
-     * @var bool
      */
     protected bool $defer = true;
 
@@ -29,14 +28,12 @@ class ValidationServiceProvider extends ServiceProvider
      * Register the service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {
         $this->app->singleton(
             'validator',
-            fn($app) => new Factory(
+            fn($app): \Illuminate\Validation\Factory => new Factory(
                 new Translator(new ArrayLoader(), \get_locale()),
                 $app
             )

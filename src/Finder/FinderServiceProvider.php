@@ -19,8 +19,6 @@ class FinderServiceProvider extends ServiceProvider
      * Register the Finder service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {

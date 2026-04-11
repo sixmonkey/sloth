@@ -109,16 +109,11 @@ abstract class Finder extends IlluminateFileViewFinder
      *
      * @param string $name The file name or relative path
      *
-     * @return string
      * @throws FinderException
      */
     public function find(string $name): string
     {
-        if (isset($this->files[$name])) {
-            return $this->files[$name];
-        }
-
-        return $this->files[$name] = $this->findInPaths($name, $this->paths);
+        return $this->files[$name] ?? ($this->files[$name] = $this->findInPaths($name, $this->paths));
     }
 
     /**
@@ -130,8 +125,6 @@ abstract class Finder extends IlluminateFileViewFinder
      * @param array<int, string>   $paths Registered paths to search
      *
      * @throws FinderException
-     *
-     * @return string
      */
     protected function findInPaths(string $name, array $paths): string
     {

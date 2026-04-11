@@ -40,6 +40,7 @@ class Configure extends Singleton
         if (!is_array($config)) {
             $config = [$config => $value];
         }
+
         foreach ($config as $name => $val) {
             static::$_values = Hash::insert(static::$_values, $name, $val);
         }
@@ -76,16 +77,18 @@ class Configure extends Singleton
      */
     public static function consume(string $var): mixed
     {
-        $simple = strpos($var, '.') === false;
+        $simple = !str_contains($var, '.');
         if ($simple && !isset(static::$_values[$var])) {
             return null;
         }
+
         if ($simple) {
             $value = static::$_values[$var];
             unset(static::$_values[$var]);
 
             return $value;
         }
+
         $value = Hash::get(static::$_values, $var);
         static::$_values = Hash::remove(static::$_values, $var);
 
@@ -103,7 +106,7 @@ class Configure extends Singleton
      */
     public static function check(string $var): bool
     {
-        if (empty($var)) {
+        if ($var === '' || $var === '0') {
             return false;
         }
 
@@ -116,8 +119,6 @@ class Configure extends Singleton
      * @since 1.0.0
      *
      * @param string $var The var to be deleted (dot notation supported)
-     *
-     * @return void
      */
     public static function delete(string $var): void
     {
@@ -128,8 +129,6 @@ class Configure extends Singleton
      * Boot Configure from environment variables.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function boot(): void
     {
@@ -142,8 +141,6 @@ class Configure extends Singleton
      * Debug all set variables.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public static function debug(): void
     {

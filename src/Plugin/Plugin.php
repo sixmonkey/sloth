@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin;
 
-use Corcel\Model\User;
 use Sloth\ACF\ACFHelper;
 use Sloth\Admin\Customizer;
 use Sloth\CarbonFields\CarbonFields;
@@ -21,6 +20,8 @@ use Sloth\Utility\Utility;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use WP_REST_Response;
+
 use function post_password_required;
 
 /**
@@ -34,7 +35,6 @@ class Plugin extends Singleton
      * Current theme path.
      *
      * @since 1.0.0
-     * @var string|null
      */
     public ?string $current_theme_path = null;
 
@@ -42,7 +42,6 @@ class Plugin extends Singleton
      * Application container.
      *
      * @since 1.0.0
-     * @var mixed
      */
     private mixed $container;
 
@@ -74,7 +73,6 @@ class Plugin extends Singleton
      * Current model instance.
      *
      * @since 1.0.0
-     * @var mixed
      */
     private mixed $currentModel;
 
@@ -82,7 +80,6 @@ class Plugin extends Singleton
      * Current layout.
      *
      * @since 1.0.0
-     * @var string|null
      */
     private ?string $currentLayout = null;
 
@@ -136,7 +133,6 @@ class Plugin extends Singleton
     /**
      * Set default configuration.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -148,7 +144,6 @@ class Plugin extends Singleton
     /**
      * Load all controllers.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -178,13 +173,15 @@ class Plugin extends Singleton
         foreach (get_declared_classes() as $class) {
             $rc = new \ReflectionClass($class);
             if ($rc->getFilename() === $file) {
-                if (strpos($class, 'Corcel\\') === 0) {
+                if (str_starts_with($class, 'Corcel\\')) {
                     continue;
                 }
-                if (strpos($class, 'App\\') === 0) {
+
+                if (str_starts_with($class, 'App\\')) {
                     $matchingClass = $class;
                     break;
                 }
+
                 $matchingClass = $class;
             }
         }
@@ -195,7 +192,6 @@ class Plugin extends Singleton
     /**
      * Load all models.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -222,6 +218,7 @@ class Plugin extends Singleton
             } else {
                 $this->container['layotter']->disable_for_post_type($model->getPostType());
             }
+
             \flush_rewrite_rules(true);
         }
     }
@@ -229,7 +226,6 @@ class Plugin extends Singleton
     /**
      * Load all taxonomies.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -241,6 +237,7 @@ class Plugin extends Singleton
             if (method_exists($taxonomy, 'register')) {
                 $taxonomy->register();
             }
+
             $this->taxonomies[$taxonomy->getTaxonomy()] = $taxonomyName;
         }
     }
@@ -248,10 +245,15 @@ class Plugin extends Singleton
     /**
      * Load all API controllers.
      *
+     * Discovers controllers in DIR_APP/Api/, auto-maps public methods
+     * to REST routes under /sloth/v1/, and wraps each callback in an
+     * output buffer so PHP warnings (e.g. from Corcel) don't corrupt
+     * the JSON response. In dev environments warnings are surfaced
+     * as a _warnings key in the response payload.
+     *
      * @return void
      * @throws \Exception
      * @since 1.0.0
-     *
      */
     public function loadApiControllers(): void
     {
@@ -260,8 +262,8 @@ class Plugin extends Singleton
 
             $controller = new $controllerName();
 
-            if (!is_subclass_of($controller, 'Sloth\Api\Controller')) {
-                throw new \Exception('ApiController needs to extend Sloth\Api\Controller');
+            if (!is_subclass_of($controller, \Sloth\Api\Controller::class)) {
+                throw new \Exception("ApiController {$controllerName} needs to extend Sloth\\Api\\Controller");
             }
 
             $methods = get_class_methods($controller);
@@ -282,14 +284,19 @@ class Plugin extends Singleton
                 $routes[$routePrefix . '(?:/(?P<id>[a-z0-9._-]+))?'] = 'index';
             }
 
+            $isDevEnv = $this->isDevEnv();
+            add_filter('rest_post_dispatch', function($response) use ($isDevEnv) {
+                return $response;
+            });
             foreach ($routes as $route => $action) {
-                add_action('rest_api_init', function () use ($route, $action, $controller): void {
+                add_action('rest_api_init', function () use ($route, $action, $controller, $isDevEnv): void {
                     register_rest_route(
                         'sloth/v1',
                         '/' . $route,
                         [
                             'methods' => ['GET', 'POST', 'DELETE', 'PUT'],
-                            'callback' => function ($request) use ($controller, $action): \WP_REST_Response {
+                            'callback' => function ($request) use ($controller, $action, $isDevEnv): WP_REST_Response {
+
                                 $controller->setRequest($request);
                                 $param = $request->get_url_params('id');
                                 $data = call_user_func_array([$controller, $action], [reset($param)]);
@@ -301,8 +308,7 @@ class Plugin extends Singleton
                                     ];
                                 }
 
-
-                                return new \WP_REST_Response(
+                                return new WP_REST_Response(
                                     $data,
                                     $controller->response->status,
                                     $controller->response->headers
@@ -318,22 +324,21 @@ class Plugin extends Singleton
     /**
      * Load all modules.
      *
-     * @return void
      * @since 1.0.0
      *
      */
     public
     function loadModules(): void
     {
-        foreach (glob((string)get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
+        foreach (glob(get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
             $moduleName = $this->loadClassFromFile($file);
 
             if (is_array($moduleName::$layotter) && class_exists('\\Layotter')) {
                 $className = substr(strrchr($moduleName, "\\"), 1);
 
                 $moduleClassName = $moduleName;
-                eval("class $className extends \\Sloth\\Module\\LayotterElement {
-					static \$module = '$moduleClassName';
+                eval("class {$className} extends \\Sloth\\Module\\LayotterElement {
+					static \$module = '{$moduleClassName}';
 				}");
                 \Layotter::register_element(strtolower(substr(strrchr($moduleName, "\\"), 1)), $className);
             }
@@ -372,7 +377,6 @@ class Plugin extends Singleton
     /**
      * Add WordPress filters and actions.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -414,24 +418,24 @@ class Plugin extends Singleton
         Route::getInstance()->boot();
 
 
-        add_filter('network_admin_url', [$this, 'fixNetworkAdminUrl']);
-        add_action('init', [$this, 'loadApiControllers'], 20);
-        add_action('init', [$this, 'loadModels'], 20);
-        add_action('init', [$this, 'loadTaxonomies'], 20);
-        add_action('init', [$this, 'loadModules'], 20);
-        add_action('init', [$this, 'registerMenus'], 20);
-        add_action('init', [$this, 'initModels'], 20);
-        add_action('init', [$this, 'loadAppIncludes'], 20);
-        add_action('init', [$this, 'registerImageSizes'], 20);
-        add_action('init', [$this, 'autoloadPlugins'], 20);
-        add_action('init', [$this, 'registerNavMenus'], 20);
+        add_filter('network_admin_url', $this->fixNetworkAdminUrl(...));
+        add_action('init', $this->loadApiControllers(...), 20);
+        add_action('init', $this->loadModels(...), 20);
+        add_action('init', $this->loadTaxonomies(...), 20);
+        add_action('init', $this->loadModules(...), 20);
+        add_action('init', $this->registerMenus(...), 20);
+        add_action('init', $this->initModels(...), 20);
+        add_action('init', $this->loadAppIncludes(...), 20);
+        add_action('init', $this->registerImageSizes(...), 20);
+        add_action('init', $this->autoloadPlugins(...), 20);
+        add_action('init', $this->registerNavMenus(...), 20);
         add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
-        add_action('init', function() {
+        add_action('init', function (): void {
             Sloth::getInstance()->container['route']->flushRewriteRules();
         }, 30);
-        add_action('admin_menu', [$this, 'initTaxonomies'], 20);
-        add_action('save_post', [$this, 'trackDataChange'], 20);
-        add_action('admin_menu', [$this, 'cleanupAdminMenu'], 20);
+        add_action('admin_menu', $this->initTaxonomies(...), 20);
+        add_action('save_post', $this->trackDataChange(...), 20);
+        add_action('admin_menu', $this->cleanupAdminMenu(...), 20);
 
         add_action('admin_head', function (): void {
             echo '<style>
@@ -445,10 +449,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         });
 
         add_action('template_redirect', [Sloth::getInstance(), 'dispatchRouter'], 20);
-        add_action('template_redirect', [$this, 'getTemplate'], 20);
+        add_action('template_redirect', $this->getTemplate(...), 20);
 
         if (getenv('FORCE_SSL')) {
-            add_action('template_redirect', [$this, 'forceSsl'], 30);
+            add_action('template_redirect', $this->forceSsl(...), 30);
         }
 
         add_filter('upload_mimes', function (array $mimes): array {
@@ -462,13 +466,15 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         }
 
         if (Configure::read('core.hide_updates')) {
-            add_filter('pre_site_transient_update_core', [$this, 'hideUpdates']);
+            add_filter('pre_site_transient_update_core', $this->hideUpdates(...));
         }
+
         if (Configure::read('plugins.hide_updates')) {
-            add_filter('pre_site_transient_update_plugins', [$this, 'hideUpdates']);
+            add_filter('pre_site_transient_update_plugins', $this->hideUpdates(...));
         }
+
         if (Configure::read('themes.hide_updates')) {
-            add_filter('pre_site_transient_update_themes', [$this, 'hideUpdates']);
+            add_filter('pre_site_transient_update_themes', $this->hideUpdates(...));
         }
 
         $this->container['layotter']->addFilters();
@@ -477,7 +483,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Remove unnecessary WordPress references from wp_head.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -510,7 +515,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make all links root-relative.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -535,16 +539,15 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         ];
 
         foreach ($filters as $filter) {
-            add_filter($filter, [$this, 'getRelativePermalink'], 90, 1);
+            add_filter($filter, $this->getRelativePermalink(...), 90, 1);
         }
 
-        add_filter('the_content', [$this, 'getRelativeHrefs'], 90, 1);
+        add_filter('the_content', $this->getRelativeHrefs(...), 90, 1);
     }
 
     /**
      * Make all uploads URLs root-relative.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -559,11 +562,11 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         ];
 
         foreach ($filters as $filter) {
-            add_filter($filter, [$this, 'getRelativePermalink'], 90, 1);
+            add_filter($filter, $this->getRelativePermalink(...), 90, 1);
         }
 
-        add_filter('sloth_get_attachment_link', [$this, 'getRelativePermalink'], 90, 1);
-        add_filter('the_content', [$this, 'getRelativeSrcs'], 90, 1);
+        add_filter('sloth_get_attachment_link', $this->getRelativePermalink(...), 90, 1);
+        add_filter('the_content', $this->getRelativeSrcs(...), 90, 1);
     }
 
     /**
@@ -571,7 +574,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $input The full URL
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -587,7 +589,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $input The input string
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -603,7 +604,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $input The content
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -619,7 +619,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $input The content
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -633,7 +632,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Hide WordPress update notifications.
      *
-     * @return object
      * @since 1.0.0
      *
      */
@@ -653,7 +651,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $url The URL
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -664,8 +661,8 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         $urlInfo = parse_url($url);
 
         if (!preg_match('/^\/cms/', (string)($urlInfo['path'] ?? ''))) {
-            $url = (string)$urlInfo['scheme'] . '://' . $urlInfo['host'] . '/cms' . $urlInfo['path'];
-            if (isset($urlInfo['query']) && !empty($urlInfo['query'])) {
+            $url = $urlInfo['scheme'] . '://' . $urlInfo['host'] . '/cms' . $urlInfo['path'];
+            if (isset($urlInfo['query']) && (isset($urlInfo['query']) && ($urlInfo['query'] !== '' && $urlInfo['query'] !== '0'))) {
                 $url .= '?' . $urlInfo['query'];
             }
         }
@@ -676,7 +673,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Force SSL redirect.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -723,7 +719,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             'globals' => [
                 'home_url' => (string)home_url('/'),
                 'theme_url' => (string)get_template_directory_uri(),
-                'images_url' => (string)get_template_directory_uri() . '/assets/img',
+                'images_url' => get_template_directory_uri() . '/assets/img',
             ],
             'sloth' => [
                 'current_layout' => basename($this->currentLayout ?? '', '.twig'),
@@ -733,28 +729,31 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         if (is_single() || is_page()) {
             $qo = get_queried_object();
 
-            if (!isset($this->currentModel)) {
+            if ($this->currentModel === null) {
                 $a = call_user_func([$this->getModelClass($qo->post_type), 'find'], [$qo->ID]);
                 $this->currentModel = $a->first();
             }
+
             $this->context['post'] = $this->currentModel;
             $this->context[$qo->post_type] = $this->currentModel;
         }
 
         if (is_tax()) {
             global $taxonomy;
-            if (!isset($this->currentModel)) {
+            if ($this->currentModel === null) {
                 $a = call_user_func([$this->getTaxonomyClass($taxonomy), 'find'], [get_queried_object()->term_id]);
                 $this->currentModel = $a->first();
             }
+
             $this->context['taxonomy'] = $this->currentModel;
             $this->context[$taxonomy] = $this->currentModel;
         }
 
         if (is_author()) {
-            if (!isset($this->currentModel)) {
+            if ($this->currentModel === null) {
                 $this->currentModel = User::find(\get_queried_object()->id);
             }
+
             $this->context['user'] = $this->currentModel;
             $this->context['author'] = $this->currentModel;
         }
@@ -765,7 +764,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get and render the template.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -788,12 +786,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             if (false !== $pos = strpos($uri, '?')) {
                 $uri = substr($uri, 0, $pos);
             }
+
             $uri = rtrim(rawurldecode($uri), '/');
 
             $routes = Configure::read('theme.routes');
 
             if (isset($routes[$uri])) {
-                $template = basename($routes[$uri]['Layout'], '.twig');
+                $template = basename((string)$routes[$uri]['Layout'], '.twig');
                 if (isset($routes[$uri]['ContentType'])) {
                     header('Content-Type: ' . $routes[$uri]['ContentType']);
                 }
@@ -805,6 +804,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             foreach ($this->container['view.finder']->getPaths() as $path) {
                 $layoutPaths[] = $path . DS . 'Layout';
             }
+
             $finder = new ByFolders($layoutPaths, 'twig');
             $queryTemplate = new QueryTemplate($finder);
             $template = $queryTemplate->findTemplate(null, false);
@@ -814,7 +814,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             if ($this->isDevEnv()) {
                 $ext = pathinfo((string)$_SERVER['REQUEST_URI'], PATHINFO_EXTENSION);
                 if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'], true)) {
-                    preg_match('/(.+)-([0-9]+)x([0-9]+)\.(jpg|jpeg|png|gif)$/', (string)$_SERVER['REQUEST_URI'],
+                    preg_match('/(.+)-(\d+)x(\d+)\.(jpg|jpeg|png|gif)$/', (string)$_SERVER['REQUEST_URI'],
                         $matches);
 
                     $w = $matches[2] ?? 1024;
@@ -835,9 +835,9 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             $template = 'password-form';
         }
 
-        $this->currentLayout = (string)$template;
+        $this->currentLayout = $template;
 
-        $viewName = basename((string)$template, '.twig');
+        $viewName = basename($template, '.twig');
 
         $ext = pathinfo((string)$_SERVER['REQUEST_URI'], PATHINFO_EXTENSION);
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'], true)) {
@@ -853,7 +853,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Register menus.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -871,7 +870,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Register image sizes.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -895,7 +893,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Autoload plugins.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -911,13 +908,14 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             if (is_plugin_active($plugin)) {
                 continue;
             }
+
             $pi = pathinfo($plugin);
             if (in_array($pi['dirname'], (array)Configure::read('plugins.autoactivate.blacklist'), true)) {
                 continue;
             }
 
             $plugins = \get_option('active_plugins');
-            array_push($plugins, $plugin);
+            $plugins[] = $plugin;
             \update_option('active_plugins', $plugins);
         }
     }
@@ -925,7 +923,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Fix pagination.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -934,25 +931,24 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     {
         if (isset($_GET['page'])) {
             $currentPage = (int)$_GET['page'];
-            \Illuminate\Pagination\Paginator::currentPageResolver(fn() => $currentPage);
+            \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
 
         global $wpQuery;
         if (isset($wpQuery->query['page'])) {
             $currentPage = (int)$wpQuery->query['page'];
-            \Illuminate\Pagination\Paginator::currentPageResolver(fn() => $currentPage);
+            \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
 
         if (isset($wpQuery->query['paged'])) {
             $currentPage = (int)$wpQuery->query['paged'];
-            \Illuminate\Pagination\Paginator::currentPageResolver(fn() => $currentPage);
+            \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
     }
 
     /**
      * Initialize models.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -969,7 +965,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Initialize taxonomies.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -986,7 +981,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Load app includes.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -1011,7 +1005,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         }
 
         $filesInclude = glob($dirAppIncludes . '*.php');
-        if (!count($filesInclude)) {
+        if (count($filesInclude) === 0) {
             return;
         }
 
@@ -1023,7 +1017,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Fix routes.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -1032,7 +1025,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     {
         $routes = Configure::read('theme.routes');
         if ($routes && is_array($routes)) {
-            foreach ($routes as $route => $action) {
+            foreach (array_keys($routes) as $route) {
                 $regex = trim($route, '/');
 
                 add_action('init', function () use ($regex): void {
@@ -1049,7 +1042,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $key Post type key
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -1057,7 +1049,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     function getModelClass(
         string $key = ''
     ): string {
-        return $this->models[$key] ?? '\Sloth\Model\Post';
+        return $this->models[$key] ?? \Sloth\Model\Post::class;
     }
 
     /**
@@ -1078,7 +1070,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $key Taxonomy key
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -1086,7 +1077,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     function getTaxonomyClass(
         string $key = ''
     ): string {
-        return $this->taxonomies[$key] ?? '\Sloth\Model\Taxonomy';
+        return $this->taxonomies[$key] ?? \Sloth\Model\Taxonomy::class;
     }
 
     /**
@@ -1105,7 +1096,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get current template.
      *
-     * @return string|null
      * @since 1.0.0
      *
      */
@@ -1118,7 +1108,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get current layout.
      *
-     * @return string|null
      * @since 1.0.0
      *
      */
@@ -1131,7 +1120,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Track data changes for development.
      *
-     * @return bool
      * @since 1.0.0
      *
      */
@@ -1141,6 +1129,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         if (!$this->isDevEnv()) {
             return false;
         }
+
         file_put_contents(DIR_CACHE . DS . 'reload', (string)time());
 
         return true;
@@ -1151,7 +1140,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @param string $postType Post type
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -1159,13 +1147,12 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     function getPostTypeClass(
         string $postType
     ): string {
-        return $this->models[$postType] ?? 'Sloth\Model\Post';
+        return $this->models[$postType] ?? \Sloth\Model\Post::class;
     }
 
     /**
      * Check if in development environment.
      *
-     * @return bool
      * @since 1.0.0
      *
      */
@@ -1178,7 +1165,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Clean up admin menu.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -1188,14 +1174,16 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         global $menu;
         $used = [];
         foreach ($menu as $offset => $menuItem) {
-            $pi = pathinfo($menuItem[2], PATHINFO_EXTENSION);
+            $pi = pathinfo((string)$menuItem[2], PATHINFO_EXTENSION);
             if (!preg_match('/^php/', $pi)) {
                 continue;
             }
+
             if (in_array($menuItem[2], $used, true)) {
                 unset($menu[$offset]);
                 continue;
             }
+
             $used[] = $menuItem[2];
         }
     }
@@ -1203,7 +1191,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Check if this is a REST API request.
      *
-     * @return bool
      * @since 1.0.0
      *
      */
@@ -1214,7 +1201,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         if (function_exists('rest_url') && !empty($_SERVER['REQUEST_URI'])) {
             $sRestUrlBase = (string)get_rest_url(get_current_blog_id(), '/');
             $sRestPath = trim(parse_url($sRestUrlBase, PHP_URL_PATH), '/');
-            $sRequestPath = trim($_SERVER['REQUEST_URI'], '/');
+            $sRequestPath = trim((string)$_SERVER['REQUEST_URI'], '/');
             $bIsRest = str_starts_with($sRequestPath, $sRestPath);
         }
 
@@ -1224,7 +1211,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Register navigation menus.
      *
-     * @return void
      * @throws \Exception
      * @since 1.0.0
      *
@@ -1236,6 +1222,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             if (!is_array(Configure::read('theme.menus'))) {
                 throw new \Exception('theme.menus must be an array!');
             }
+
             foreach (Configure::read('theme.menus') as $location => $name) {
                 \register_nav_menu($location, (string)$name);
             }

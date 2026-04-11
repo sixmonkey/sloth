@@ -59,9 +59,6 @@ class Post extends CorcelPost
         return new PostBuilder($query);
     }
 
-    /**
-     * @return HasMany
-     */
     public function revision(): HasMany
     {
         return $this->hasMany(static::class, 'post_parent')

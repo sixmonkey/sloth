@@ -56,6 +56,7 @@ class Version
             ];
             unset($options['width'], $options['height']);
         }
+
         unset($options['upscale']);
 
         foreach ($options as $k => $option) {
@@ -63,6 +64,7 @@ class Version
                 if (!is_array($option)) {
                     $option = [$option];
                 }
+
                 call_user_func_array([$img, $k], $option);
             }
         }

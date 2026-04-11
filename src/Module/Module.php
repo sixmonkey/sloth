@@ -38,7 +38,7 @@ class Module
      * @since 1.0.0
      * @var string|null
      */
-    public static $ajax_url = null;
+    public static $ajax_url;
 
     /**
      * View instance.
@@ -46,7 +46,7 @@ class Module
      * @since 1.0.0
      * @var mixed
      */
-    private $view = null;
+    private $view;
 
     /**
      * View variables.
@@ -78,7 +78,7 @@ class Module
      * @since 1.0.0
      * @var string|null
      */
-    protected $template = null;
+    protected $template;
 
     /**
      * Whether an AJAX request is being processed.
@@ -130,34 +130,33 @@ class Module
      * @since 1.0.0
      *
      */
-    protected function beforeGetJSON($payload)
+    protected function beforeGetJSON(mixed $payload)
     {
     }
 
     /**
      * Get the template name.
      *
-     * @return string
      * @since 1.0.0
      *
      */
     public function getTemplate(): string
     {
         if ($this->template === null) {
-            $class = get_class($this);
+            $class = static::class;
             $this->template = Str::kebab(preg_replace('/Module$/', '', substr(strrchr($class, '\\'), 1)));
         }
 
         if (!str_contains((string)$this->template, '.')) {
             $this->template = $this->viewPrefix . '.' . $this->template;
         }
+
         return $this->template;
     }
 
     /**
      * Create the view instance.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -175,7 +174,7 @@ class Module
      */
     final public function getLayotterAttributes(): array|false
     {
-        $class = get_class($this);
+        $class = static::class;
 
         return $class::$layotter;
     }
@@ -183,7 +182,6 @@ class Module
     /**
      * Render the module view.
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -192,6 +190,7 @@ class Module
         if (!$this->doingAjax) {
             $this->set($GLOBALS['sloth::plugin']->getContext(), false);
         }
+
         $this->set('ajax_url', $this->getAjaxUrl());
         $this->beforeRender();
         $this->makeView();
@@ -205,6 +204,7 @@ class Module
                     'options' => (array)$this->wrapInRow,
                 ])->render();
             }
+
             echo $output;
         }
 
@@ -218,7 +218,6 @@ class Module
      * @param mixed $value Variable value (ignored if $key is array)
      * @param bool $override Whether to override existing values
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -231,10 +230,8 @@ class Module
                     $this->set($k, $v);
                 }
             }
-        } else {
-            if ($override || !$this->isSet($key)) {
-                $this->viewVars[$key] = $this->prepareValue($value);
-            }
+        } elseif ($override || !$this->isSet($key)) {
+            $this->viewVars[$key] = $this->prepareValue($value);
         }
     }
 
@@ -243,7 +240,6 @@ class Module
      *
      * @param string $k Variable name
      *
-     * @return mixed
      * @since 1.0.0
      *
      */
@@ -257,7 +253,6 @@ class Module
      *
      * @param string $key Variable name
      *
-     * @return bool
      * @since 1.0.0
      *
      */
@@ -271,7 +266,6 @@ class Module
      *
      * @param string $key Variable name
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -285,7 +279,6 @@ class Module
      *
      * @param string $k Variable name
      *
-     * @return mixed
      * @since 1.0.0
      *
      */
@@ -299,7 +292,6 @@ class Module
      *
      * @param mixed $request The request object
      *
-     * @return void
      * @throws \JsonException
      * @since 1.0.0
      *
@@ -333,7 +325,6 @@ class Module
     /**
      * Get the AJAX URL.
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -349,7 +340,6 @@ class Module
     /**
      * Get the AJAX action name.
      *
-     * @return string
      * @since 1.0.0
      *
      */
@@ -363,7 +353,6 @@ class Module
      *
      * @param mixed $value The value to prepare
      *
-     * @return mixed
      * @since 1.0.0
      *
      */
@@ -381,7 +370,6 @@ class Module
     /**
      * Debug view variables.
      *
-     * @return void
      * @since 1.0.0
      *
      */
@@ -395,7 +383,6 @@ class Module
      *
      * @param string $template Template name
      *
-     * @return void
      * @since 1.0.0
      *
      */

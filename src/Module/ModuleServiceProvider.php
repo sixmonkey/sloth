@@ -18,8 +18,6 @@ class ModuleServiceProvider extends ServiceProvider
      * Register the Module service provider.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function register(): void
     {

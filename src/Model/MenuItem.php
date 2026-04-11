@@ -297,7 +297,11 @@ class MenuItem extends Corcel
      */
     public function getInCurrentPathAttribute(): bool
     {
-        return $this->getCurrentAttribute() || $this->getCurrentItemParentAttribute();
+        if ($this->getCurrentAttribute()) {
+            return true;
+        }
+
+        return $this->getCurrentItemParentAttribute();
     }
 
     /**

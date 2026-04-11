@@ -17,8 +17,6 @@ interface IFinder
      * @since 1.0.0
      *
      * @param string $name The file name or relative path
-     *
-     * @return string
      */
     public function find(string $name): string;
 
@@ -28,8 +26,6 @@ interface IFinder
      * @since 1.0.0
      *
      * @param array<int|string, string> $paths Array of paths to register
-     *
-     * @return static
      */
     public function addPaths(array $paths): static;
 

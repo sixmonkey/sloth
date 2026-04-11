@@ -30,14 +30,12 @@ class Deployment extends Singleton
      * Boot the deployment hooks.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function boot(): void
     {
         if ((bool) getenv('SLOTH_DEPLOYMENT_WEBHOOK')) {
             foreach ($this->hooks as $hook) {
-                add_action($hook, [$this, 'trigger']);
+                add_action($hook, $this->trigger(...));
             }
         }
     }
@@ -46,8 +44,6 @@ class Deployment extends Singleton
      * Trigger the deployment webhook.
      *
      * @since 1.0.0
-     *
-     * @return void
      */
     public function trigger(): void
     {

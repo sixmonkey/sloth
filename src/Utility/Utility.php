@@ -31,9 +31,7 @@ class Utility extends Inflector
 
         $name = preg_replace('/Module$/', '', $name);
 
-        $name = str_replace(' ', '-', $name);
-
-        return $name;
+        return str_replace(' ', '-', $name);
     }
 
     /**
@@ -53,7 +51,7 @@ class Utility extends Inflector
         $name = self::camelize(str_replace('-', '_', $name)) . 'Module';
 
         if ($namespaced) {
-            $name = 'Theme\\Module\\' . $name;
+            return 'Theme\\Module\\' . $name;
         }
 
         return $name;
@@ -72,9 +70,7 @@ class Utility extends Inflector
     {
         $name = self::normalize($name);
 
-        $name = self::dasherize($name);
-
-        return $name;
+        return self::dasherize($name);
     }
 
     /**
@@ -94,7 +90,7 @@ class Utility extends Inflector
         $name = self::underscore($name);
 
         if ($prefixed) {
-            $name = 'group_module_' . $name;
+            return 'group_module_' . $name;
         }
 
         return $name;
@@ -127,9 +123,9 @@ class Utility extends Inflector
             $aux = $k1;
             $k1 = $a * $k1 + $k2;
             $k2 = $aux;
-            $b = $b - $a;
+            $b -= $a;
         } while (abs($n - $h1 / $k1) > $n * $tolerance);
 
-        return "$h1/$k1";
+        return sprintf('%s/%s', $h1, $k1);
     }
 }
