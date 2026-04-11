@@ -230,8 +230,10 @@ class Sloth extends Singleton
     private function registerErrorHandlers(): void
     {
         set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline): bool {
-            Debugger::log($errstr, 'error');
-            return defined('REST_REQUEST') && REST_REQUEST;
+            if (Debugger::$logDirectory !== null) {
+                Debugger::log($errstr, ILogger::WARNING);
+            }
+            return wp_is_serving_rest_request();
         });
     }
 
