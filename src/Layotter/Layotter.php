@@ -62,6 +62,38 @@ class Layotter extends Singleton
     public static array $enabledPostTypes = [];
 
     /**
+     * Get the current template for layout lookup.
+     *
+     * Used by $settingsWeight to find template-specific row layouts.
+     *
+     * @since 1.0.0
+     *
+     * @return string The template filename without extension
+     */
+    private static function getTemplate(): string
+    {
+        $pathinfo = pathinfo((string) get_page_template_slug());
+
+        return $pathinfo['filename'];
+    }
+
+    /**
+     * Get the current post type for layout lookup.
+     *
+     * Used by $settingsWeight to find post-type-specific row layouts.
+     *
+     * @since 1.0.0
+     *
+     * @return string The post type
+     */
+    private static function getPostType(): string
+    {
+        global $post;
+
+        return $post->post_type;
+    }
+
+    /**
      * Get custom column classes for Layotter.
      *
      * @since 1.0.0
