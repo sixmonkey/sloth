@@ -40,7 +40,7 @@ class Layotter extends Singleton
      * @since 1.0.0
      * @var array<string, array<string>>
      */
-    public static array $layoutsForPostType = [];
+    public static array $layoutsForTemplate = [];
 
     /**
      * Enabled post types.
