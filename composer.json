@@ -3,7 +3,7 @@
     "description": "A WordPress theme framework built with Laravel components",
     "license": "MIT",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "brain/hierarchy": "^2.0 || ^3.0",
         "cakephp/utility": "^3.0 || ^4.0",
         "gossi/docblock": "^1.6",
@@ -59,6 +59,6 @@
         "analyse": "phpstan analyse",
         "cs-fix": "php-cs-fixer fix",
         "cs-check": "php-cs-fixer fix --dry-run --diff",
-        "docs": "phpdocumentor"
+        "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api"
     }
 }

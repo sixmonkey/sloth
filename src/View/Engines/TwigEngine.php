@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\View\Engines;
 
 use Illuminate\View\Engines\PhpEngine;
@@ -7,14 +9,25 @@ use Illuminate\View\ViewFinderInterface;
 use Twig\Environment;
 use Twig_Environment;
 
+/**
+ * Twig template engine for rendering .twig files.
+ *
+ * @since 1.0.0
+ */
 class TwigEngine extends PhpEngine
 {
     /**
+     * The Twig environment instance.
+     *
+     * @since 1.0.0
      * @var Twig_Environment
      */
     protected $environment;
 
     /**
+     * The file extension used by this engine.
+     *
+     * @since 1.0.0
      * @var string
      */
     protected $extension = '.twig';

@@ -43,17 +43,6 @@ class Layotter extends Singleton
     public static array $layoutsForTemplate = [];
 
     /**
-     * Settings weight for determining layout priority.
-     *
-     * @since 1.0.0
-     * @var array<string, string>
-     */
-    protected static array $settingsWeight = [
-        'layouts_for_template'  => 'getTemplate',
-        'layouts_for_post_type' => 'getPostType',
-    ];
-
-    /**
      * Enabled post types.
      *
      * @since 1.0.0
@@ -151,18 +140,21 @@ class Layotter extends Singleton
     /**
      * Get allowed row layouts.
      *
+     * Returns layouts configured for the current post type, falling back
+     * to theme configuration or default layouts.
+     *
      * @since 1.0.0
      *
      * @param array<string> $rowLayouts Default row layouts
-     *
      * @return array<string>
      */
     public static function allowedRowLayouts(array $rowLayouts): array
     {
-        foreach (self::$settingsWeight as $setting => $getter) {
-            if (isset(self::${$setting}[call_user_func((self::class . '::' . $getter)(...))])) {
-                return self::${$setting}[call_user_func((self::class . '::' . $getter)(...))];
-            }
+        global $post;
+        $postType = $post->post_type ?? 'post';
+
+        if (isset(self::$layoutsForPostType[$postType])) {
+            return self::$layoutsForPostType[$postType];
         }
 
         return Configure::read('theme.layotter.row_layouts')
@@ -172,16 +164,21 @@ class Layotter extends Singleton
     /**
      * Get the default row layout.
      *
+     * Returns the first layout configured for the current post type,
+     * or the first theme layout, or the provided default.
+     *
      * @since 1.0.0
      *
      * @param string $rowLayout The default row layout
+     * @return string
      */
     public static function defaultRowLayout(string $rowLayout): string
     {
-        foreach (self::$settingsWeight as $setting => $getter) {
-            if (isset(self::${$setting}[call_user_func((self::class . '::' . $getter)(...))])) {
-                return reset(self::${$setting}[call_user_func((self::class . '::' . $getter)(...))]);
-            }
+        global $post;
+        $postType = $post->post_type ?? 'post';
+
+        if (isset(self::$layoutsForPostType[$postType])) {
+            return reset(self::$layoutsForPostType[$postType]);
         }
 
         $themeLayouts = Configure::read('theme.layotter.row_layouts');

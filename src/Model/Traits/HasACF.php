@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Model\Traits;
 
 use Sloth\Model\Model;
@@ -128,6 +130,10 @@ trait HasACF
 
     /**
      * Get the raw ACF key value.
+     *
+     * @since 1.0.0
+     *
+     * @return string|null The ACF key (e.g., '123', 'term_5', 'user_1')
      */
     protected function getAcfKeyValue(): ?string
     {
@@ -139,6 +145,8 @@ trait HasACF
             return 'user_' . ($this->ID ?? null);
         }
 
-        return $this->ID ?? null;
+        $id = $this->ID ?? null;
+
+        return $id !== null ? (string)$id : null;
     }
 }

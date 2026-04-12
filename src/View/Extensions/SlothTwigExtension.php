@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\View\Extensions;
 
 use Sloth\Core\Application;

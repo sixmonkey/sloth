@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Model\Casts;
 
 use Corcel\Model\Attachment;
@@ -18,13 +20,15 @@ class ACFImage implements CastsAttributes
     /**
      * Get the ACF image field as an Image object.
      *
+     * @since 1.0.0
+     *
      * @param Model $model The model instance
      * @param string $key The field name
      * @param mixed $value The raw value from the database
      * @param array $attributes All model attributes
      * @return Image|null The Image object, or null if empty/invalid
      */
-    public function get($model, $key, $value, $attributes)
+    public function get($model, $key, $value, $attributes): ?Image
     {
         $acfKey = $model->getAcfKey();
         $value = get_field($key, $acfKey);
