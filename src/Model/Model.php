@@ -21,6 +21,23 @@ use Sloth\Field\Image;
 use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Traits\HasACF;
 
+/**
+ * Base Model class for WordPress post types.
+ *
+ * This class extends Corcel\Model to provide a foundation for all custom
+ * post types in the Sloth framework. It includes ACF integration, taxonomy
+ * relationships, and WordPress-specific query scopes.
+ *
+ * @since 1.0.0
+ * @see \Corcel\Model For the base Corcel implementation
+ * @see \Sloth\Model\Post For the default post model
+ *
+ * @property int $ID The post ID
+ * @property string $post_title The post title
+ * @property string $post_content The post content
+ * @property string $post_type The post type
+ * @property string $post_status The post status
+ */
 class Model extends CorcelModel
 {
     use HasACF;
