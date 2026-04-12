@@ -1,39 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpdocumentor configVersion="3.0">
-    <title>Sloth Framework Documentation</title>
-    <version>
-        <number>1.1.0</number>
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+    configVersion="3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://www.phpdoc.org"
+    xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>Sloth Framework</title>
+    <paths>
+        <output>docs/api</output>
+        <cache>build/phpdoc-cache</cache>
+    </paths>
+    <version number="latest">
+        <api>
+            <source dsn=".">
+                <path>src</path>
+            </source>
+            <ignore>
+                <path>src/_view</path>
+            </ignore>
+            <extensions>
+                <extension>php</extension>
+            </extensions>
+        </api>
     </version>
-    <source>
-        <directory>src</directory>
-        <exclude>
-            <directory>src/_view</directory>
-            <directory>src/Assets</directory>
-            <file>src/functions.php</file>
-        </exclude>
-    </source>
-
-    <output>
-        <directory>build/api</directory>
-        <format>html</format>
-        <filename>index</filename>
-    </output>
-
-    <include-source>
-        <![CDATA[
-            true
-        ]]>
-    </include-source>
-
-    <extensions>
-        <extension>
-            <name>phpDocumentor</name>
-            <path>vendor/phpdocumentor/phpdocumentor</path>
-        </extension>
-    </extensions>
-
-    <guide-lines>
-        <line number="1">Sloth Framework</line>
-        <line number="2">A modern WordPress theme framework</line>
-    </guide-lines>
 </phpdocumentor>

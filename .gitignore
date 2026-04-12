@@ -8,3 +8,5 @@ node_modules
 /.vagrant
 /.php-cs-fixer.cache
 REFACTOR.md
+/docs/api/
+/build/

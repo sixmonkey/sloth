@@ -1,0 +1,23 @@
+name: Documentation
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate documentation
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/data \
+            phpdoc/phpdoc:3 run
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/api
