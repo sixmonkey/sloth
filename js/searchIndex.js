@@ -1181,6 +1181,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Media-Version.html#property_mv"
         },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\AdminColumns",
+            "name": "AdminColumns",
+            "summary": "Provides\u0020admin\u0020column\u0020configuration\u0020for\u0020post\u0020types.",
+            "url": "classes/Sloth-Model-Concerns-AdminColumns.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\AdminColumns\u003A\u003A\u0024admin_columns",
+            "name": "admin_columns",
+            "summary": "Admin\u0020list\u0020columns\u0020for\u0020this\u0020post\u0020type.",
+            "url": "classes/Sloth-Model-Concerns-AdminColumns.html#property_admin_columns"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\AdminColumns\u003A\u003A\u0024admin_columns_hidden",
+            "name": "admin_columns_hidden",
+            "summary": "Admin\u0020list\u0020columns\u0020to\u0020hide.",
+            "url": "classes/Sloth-Model-Concerns-AdminColumns.html#property_admin_columns_hidden"
+        },                {
             "fqsen": "\\Sloth\\Model\\Menu",
             "name": "Menu",
             "summary": "Model\u0020for\u0020WordPress\u0020navigation\u0020menus.",
@@ -1291,15 +1306,20 @@ Search.appendIndex(
             "summary": "Model\u0020constructor.",
             "url": "classes/Sloth-Model-Model.html#method___construct"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024register",
-            "name": "register",
-            "summary": "Whether\u0020to\u0020register\u0020this\u0020post\u0020type\u0020with\u0020WordPress.",
-            "url": "classes/Sloth-Model-Model.html#property_register"
-        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetPostType\u0028\u0029",
             "name": "getPostType",
             "summary": "Get\u0020the\u0020post\u0020type\u0020identifier\u0020for\u0020this\u0020model.",
             "url": "classes/Sloth-Model-Model.html#method_getPostType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetRegistrationArgs\u0028\u0029",
+            "name": "getRegistrationArgs",
+            "summary": "Get\u0020the\u0020arguments\u0020for\u0020register_post_type\u0028\u0029.",
+            "url": "classes/Sloth-Model-Model.html#method_getRegistrationArgs"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AunregisterExisting\u0028\u0029",
+            "name": "unregisterExisting",
+            "summary": "Unregister\u0020existing\u0020WordPress\u0020post\u0020type\u0020before\u0020re\u002Dregistering.",
+            "url": "classes/Sloth-Model-Model.html#method_unregisterExisting"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetPermalinkAttribute\u0028\u0029",
             "name": "getPermalinkAttribute",
@@ -1310,11 +1330,6 @@ Search.appendIndex(
             "name": "getPostThumbnailAttribute",
             "summary": "Get\u0020the\u0020post\u0020thumbnail\u0020\u0028featured\u0020image\u0029.",
             "url": "classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003Ainit\u0028\u0029",
-            "name": "init",
-            "summary": "Initialize\u0020post\u0020type\u0020options\u0020after\u0020registration.",
-            "url": "classes/Sloth-Model-Model.html#method_init"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetContentAttribute\u0028\u0029",
             "name": "getContentAttribute",
@@ -1370,6 +1385,11 @@ Search.appendIndex(
             "name": "layotter",
             "summary": "Whether\u0020this\u0020model\u0020can\u0020be\u0020used\u0020with\u0020Layotter\u0020page\u0020builder.",
             "url": "classes/Sloth-Model-Model.html#property_layotter"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024register",
+            "name": "register",
+            "summary": "Whether\u0020to\u0020register\u0020this\u0020post\u0020type\u0020with\u0020WordPress.",
+            "url": "classes/Sloth-Model-Model.html#property_register"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024post_content",
             "name": "post_content",
@@ -1735,6 +1755,11 @@ Search.appendIndex(
             "name": "loadModels",
             "summary": "",
             "url": "classes/Sloth-Plugin-Plugin.html#method_loadModels"
+        },                {
+            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AregisterAdminColumns\u0028\u0029",
+            "name": "registerAdminColumns",
+            "summary": "Register\u0020admin\u0020columns\u0020for\u0020a\u0020post\u0020type\u0020model.",
+            "url": "classes/Sloth-Plugin-Plugin.html#method_registerAdminColumns"
         },                {
             "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadTaxonomies\u0028\u0029",
             "name": "loadTaxonomies",
@@ -2375,6 +2400,11 @@ Search.appendIndex(
             "name": "Media",
             "summary": "",
             "url": "namespaces/sloth-media.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns",
+            "name": "Concerns",
+            "summary": "",
+            "url": "namespaces/sloth-model-concerns.html"
         },                {
             "fqsen": "\\Sloth\\Model",
             "name": "Model",
