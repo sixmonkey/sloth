@@ -1,6 +1,11 @@
+<center>
+<img src="https://raw.githubusercontent.com/folivoro/art/refs/heads/main/sloth-logo.svg" alt="Sloth Logo" width="200" height="200" />
+</center>
+
 # Sloth - WordPress Theme Framework
 
-A modern WordPress theme framework built with Laravel components, designed for developers who want to build powerful WordPress themes with a clean, object-oriented architecture.
+A modern WordPress theme framework built with Laravel components, designed for developers who want to build powerful
+WordPress themes with a clean, object-oriented architecture.
 
 ## Features
 
@@ -37,7 +42,8 @@ composer create-project sixmonkey/sloth my-theme
 
 ### 1. Theme Activation
 
-Activate the theme in your WordPress admin panel. The framework will automatically bootstrap and register all service providers.
+Activate the theme in your WordPress admin panel. The framework will automatically bootstrap and register all service
+providers.
 
 ### 2. Creating a Module
 
@@ -48,6 +54,7 @@ php sloth-cli.php make:module MyModule
 ```
 
 This creates:
+
 - `src/Module/MyModule/`
 - `src/Module/MyModule/Module.php`
 - `src/_view/Module/my-module/`
@@ -214,18 +221,18 @@ sloth/
 
 ## Available Facades
 
-| Facade | Description |
-|--------|-------------|
-| `Route` | Routing system |
-| `View` | Template rendering |
-| `Validation` | Form validation |
-| `Configure` | Configuration access |
-| `Pagination` | Pagination helper |
-| `Module` | Module management |
-| `Menu` | Menu system |
+| Facade       | Description          |
+|--------------|----------------------|
+| `Route`      | Routing system       |
+| `View`       | Template rendering   |
+| `Validation` | Form validation      |
+| `Configure`  | Configuration access |
+| `Pagination` | Pagination helper    |
+| `Module`     | Module management    |
+| `Menu`       | Menu system          |
 | `Customizer` | WordPress Customizer |
-| `Deployment` | Deployment helpers |
-| `Layotter` | Page builder |
+| `Deployment` | Deployment helpers   |
+| `Layotter`   | Page builder         |
 
 ## Artisan Commands
 
