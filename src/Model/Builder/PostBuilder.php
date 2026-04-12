@@ -6,14 +6,6 @@ namespace Sloth\Model\Builder;
 
 use Corcel\Model\Builder\PostBuilder as CorcelPostBuilder;
 
-<?php
-
-declare(strict_types=1);
-
-namespace Sloth\Model\Builder;
-
-use Corcel\Model\Builder\PostBuilder as CorcelPostBuilder;
-
 /**
  * Custom query builder for WordPress posts.
  *
