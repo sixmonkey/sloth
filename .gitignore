@@ -10,3 +10,4 @@ node_modules
 REFACTOR.md
 /docs/api/
 /build/
+/.phpunit.cache/
