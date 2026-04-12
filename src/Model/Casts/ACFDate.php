@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Model\Casts;
 
 use Carbon\Carbon;
@@ -17,13 +19,15 @@ class ACFDate implements CastsAttributes
     /**
      * Get the ACF date field as a Carbon instance.
      *
+     * @since 1.0.0
+     *
      * @param Model $model The model instance
      * @param string $key The field name
      * @param mixed $value The raw value from the database
      * @param array $attributes All model attributes
      * @return Carbon|CarbonFaker The parsed date, or CarbonFaker for empty values
      */
-    public function get($model, $key, $value, $attributes)
+    public function get($model, $key, $value, $attributes): Carbon|CarbonFaker
     {
         $acfKey = $model->getAcfKey();
         $value = get_field($key, $acfKey);

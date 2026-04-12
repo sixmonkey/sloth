@@ -17,13 +17,15 @@ class ACF implements CastsAttributes
     /**
      * Get the ACF field value.
      *
+     * @since 1.0.0
+     *
      * @param Model $model The model instance
      * @param string $key The field name
      * @param mixed $value The raw value from the database
      * @param array $attributes All model attributes
      * @return mixed The field value
      */
-    public function get($model, $key, $value, $attributes)
+    public function get($model, $key, $value, $attributes): mixed
     {
         $acfKey = $model->getAcfKey();
 
