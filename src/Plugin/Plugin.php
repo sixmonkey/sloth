@@ -133,8 +133,9 @@ class Plugin extends Singleton
     /**
      * Set default configuration.
      *
-     * @since 1.0.0
+     * Initializes core framework settings that theme configs can override.
      *
+     * @since 1.0.0
      */
     protected function setDefaultConfig(): void
     {
@@ -144,8 +145,13 @@ class Plugin extends Singleton
     /**
      * Load all controllers.
      *
+     * Auto-discovers controller files from the theme's Controller directory
+     * and includes them. Controllers must follow WordPress naming conventions
+     * (e.g., PageController.php) and extend Sloth\Controller\Controller.
+     *
      * @since 1.0.0
      *
+     * @see \Sloth\Controller\Controller
      */
     private function loadControllers(): void
     {
@@ -157,11 +163,14 @@ class Plugin extends Singleton
     /**
      * Load a class from a file.
      *
-     * @param string $file File path
+     * Includes a PHP file and uses reflection to find the class defined in it.
+     * Skips Corcel namespace classes (handled by Corcel itself) and returns
+     * the first matching App\ namespaced class.
      *
-     * @return string Class name
      * @since 1.0.0
      *
+     * @param string $file Absolute path to the PHP file
+     * @return string Class name if found, empty string otherwise
      */
     protected function loadClassFromFile(string $file): string
     {
@@ -192,8 +201,16 @@ class Plugin extends Singleton
     /**
      * Load all models.
      *
+     * Discovers model classes from DIR_APP/Model, instantiates them,
+     * registers post types with WordPress via PostTypes library,
+     * enables/disables Layotter based on model configuration, and
+     * flushes rewrite rules after registration.
+     *
      * @since 1.0.0
      *
+     * @uses PostTypes\PostType For post type registration
+     * @see \Sloth\Model\Model
+     * @see \Sloth\Layotter\Layotter
      */
     public function loadModels(): void
     {
@@ -226,8 +243,12 @@ class Plugin extends Singleton
     /**
      * Load all taxonomies.
      *
+     * Discovers taxonomy classes from DIR_APP/Taxonomy, instantiates them,
+     * and calls their register() method if available.
+     *
      * @since 1.0.0
      *
+     * @see \Sloth\Model\Taxonomy
      */
     public function loadTaxonomies(): void
     {
@@ -251,9 +272,10 @@ class Plugin extends Singleton
      * the JSON response. In dev environments warnings are surfaced
      * as a _warnings key in the response payload.
      *
-     * @return void
-     * @throws \Exception
      * @since 1.0.0
+     *
+     * @throws \Exception If controller doesn't extend Sloth\Api\Controller
+     * @see \Sloth\Api\Controller
      */
     public function loadApiControllers(): void
     {
@@ -377,8 +399,19 @@ class Plugin extends Singleton
     /**
      * Add WordPress filters and actions.
      *
+     * Registers all core WordPress hooks for the framework including:
+     * - ACF auto-sync (in dev mode)
+     * - Deployment hooks
+     * - URL relative path filters
+     * - REST API route registration
+     * - Model, Taxonomy, Module, and Menu loading
+     * - Template routing
+     * - SVG mime type addition
+     *
      * @since 1.0.0
      *
+     * @see Route::boot() For REST route setup
+     * @see Deployment For deployment hooks
      */
     private
     function addFilters(): void
@@ -508,8 +541,14 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make all links root-relative.
      *
+     * Registers filters on WordPress permalink functions to strip the
+     * domain from URLs, making them root-relative (e.g., /about instead
+     * of https://example.com/about). Applies to post links, page links,
+     * term links, archive links, and comment pagination.
+     *
      * @since 1.0.0
      *
+     * @see getRelativePermalink() For the actual URL transformation
      */
     private
     function makeLinksRelative(): void
@@ -541,8 +580,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make all uploads URLs root-relative.
      *
+     * Registers filters on WordPress upload URL functions (wp_get_attachment_url,
+     * wp_get_upload_dir, the_content) to strip the domain from media URLs.
+     * This enables serving uploads from relative paths.
+     *
      * @since 1.0.0
      *
+     * @see getRelativePermalink() For the URL transformation
      */
     private
     function makeUploadsRelative(): void
@@ -565,10 +609,14 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get a relative permalink.
      *
-     * @param string $input The full URL
+     * Strips the domain and scheme from a URL, returning only the path.
+     * Used by makeLinksRelative() and makeUploadsRelative() to convert
+     * absolute URLs to root-relative paths.
      *
      * @since 1.0.0
      *
+     * @param string $input The full URL to convert
+     * @return string The relative path (e.g., /about or /wp-content/uploads/image.jpg)
      */
     public
     function getRelativePermalink(
@@ -578,12 +626,15 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     }
 
     /**
-     * Replace home URL.
+     * Replace home URL in content.
      *
-     * @param string $input The input string
+     * Removes the home URL base from a string, useful for converting
+     * absolute URLs in post content to relative paths.
      *
      * @since 1.0.0
      *
+     * @param string $input The input string containing URLs
+     * @return string The string with home URL removed
      */
     public
     function replaceHomeUrl(
@@ -595,10 +646,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make hrefs in content relative.
      *
-     * @param string $input The content
+     * Finds all href attributes in HTML content and removes the home URL,
+     * converting absolute links to relative paths for makeLinksRelative().
      *
      * @since 1.0.0
      *
+     * @param string $input HTML content with href attributes
+     * @return string Content with relative hrefs
      */
     public
     function getRelativeHrefs(
@@ -610,10 +664,14 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make srcs in content relative.
      *
-     * @param string $input The content
+     * Processes img src attributes in HTML content to remove the home URL.
+     * Note: This implementation appears to have a bug - it doesn't actually
+     * remove the URL, unlike getRelativeHrefs(). Likely should use getRelativePermalink.
      *
      * @since 1.0.0
      *
+     * @param string $input HTML content with src attributes
+     * @return string Content (potentially with relative srcs - see TODO)
      */
     public
     function getRelativeSrcs(
@@ -625,8 +683,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Hide WordPress update notifications.
      *
+     * Returns a fake update response object to suppress WordPress update
+     * notifications. Used when Configure::read('plugins.hide_updates') or
+     * Configure::read('themes.hide_updates') is enabled.
+     *
      * @since 1.0.0
      *
+     * @return object Fake update response with current time and WP version
      */
     public
     function hideUpdates(): object
@@ -642,10 +705,14 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Fix network admin URL.
      *
-     * @param string $url The URL
+     * Rewrites network admin URLs to include /cms/ prefix when accessing
+     * from a multisite installation's main domain. This ensures proper routing
+     * to the network admin dashboard.
      *
      * @since 1.0.0
      *
+     * @param string $url The original admin URL
+     * @return string The modified URL with /cms/ prefix
      */
     public
     function fixNetworkAdminUrl(
@@ -666,8 +733,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Force SSL redirect.
      *
-     * @since 1.0.0
+     * Redirects all HTTP requests to HTTPS when FORCE_SSL environment
+     * variable is set. Uses 301 (permanent) redirect for SEO.
      *
+     * @since 1.0.0
      */
     public
     function forceSsl(): void
@@ -681,9 +750,18 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get the template context.
      *
-     * @return array<string, mixed>
+     * Builds an array of variables to pass to Twig templates, including:
+     * - WordPress info (title, site URL, feed URLs, language, etc.)
+     * - Global theme URLs (home, theme, images)
+     * - Current post/model data when on single post or page
+     * - Current layout name
+     *
+     * This context is used by all Twig templates as global variables.
+     *
      * @since 1.0.0
      *
+     * @return array<string, mixed> Context array for Twig templates
+     * @see TwigEngine For how context is passed to templates
      */
     public
     function getContext(): array
