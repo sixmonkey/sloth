@@ -409,12 +409,6 @@ class Plugin extends Singleton
             $this->makeUploadsRelative();
         }
 
-        if ($this->isDevEnv()) {
-            remove_filter('template_redirect', 'redirect_canonical');
-        }
-
-        $this->obfuscateWP();
-        Customizer::getInstance()->boot();
         Route::getInstance()->boot();
 
 
@@ -427,14 +421,12 @@ class Plugin extends Singleton
         add_action('init', $this->initModels(...), 20);
         add_action('init', $this->loadAppIncludes(...), 20);
         add_action('init', $this->registerImageSizes(...), 20);
-        add_action('init', $this->autoloadPlugins(...), 20);
         add_action('init', $this->registerNavMenus(...), 20);
         add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
         add_action('init', function (): void {
             Sloth::getInstance()->container['route']->flushRewriteRules();
         }, 30);
         add_action('admin_menu', $this->initTaxonomies(...), 20);
-        add_action('save_post', $this->trackDataChange(...), 20);
         add_action('admin_menu', $this->cleanupAdminMenu(...), 20);
 
         add_action('admin_head', function (): void {
@@ -484,6 +476,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * Remove unnecessary WordPress references from wp_head.
      *
      * @since 1.0.0
+     * @deprecated Opinionated theme cleanup, not a framework concern. Remove in refactor/cleanup-and-docs.
      *
      */
     private
