@@ -7,3 +7,4 @@ node_modules
 *.log
 /.vagrant
 /.php-cs-fixer.cache
+REFACTOR.md
