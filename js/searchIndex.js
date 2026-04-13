@@ -316,6 +316,11 @@ Search.appendIndex(
             "summary": "Delete\u0020a\u0020variable\u0020from\u0020Configure.",
             "url": "classes/Sloth-Configure-Configure.html#method_delete"
         },                {
+            "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Areset\u0028\u0029",
+            "name": "reset",
+            "summary": "Reset\u0020the\u0020configuration\u0020to\u0020a\u0020fresh\u0020state.",
+            "url": "classes/Sloth-Configure-Configure.html#method_reset"
+        },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Adebug\u0028\u0029",
             "name": "debug",
             "summary": "Debug\u0020all\u0020set\u0020variables.",
