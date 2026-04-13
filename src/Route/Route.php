@@ -8,9 +8,7 @@ use Brain\Hierarchy\Hierarchy;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use Illuminate\Support\Str;
-
 use Sloth\Singleton\Singleton;
-
 use stdClass;
 
 use function FastRoute\simpleDispatcher;
@@ -138,7 +136,7 @@ final class Route extends Singleton
 
         $cacheDir = DIR_CACHE . DS . 'Route';
         if (!is_dir($cacheDir)) {
-            mkdir($cacheDir, 0755, true);
+            mkdir($cacheDir, 0o755, true);
         }
 
         self::$dispatcher = simpleDispatcher(function (RouteCollector $r): void {
@@ -414,7 +412,7 @@ final class Route extends Singleton
             $request = new StdClass();
             $request->params = [
                 'action' => $routeTarget['action'],
-                'pass' => (array)$routeInfo[2],
+                'pass' => (array) $routeInfo[2],
             ];
             $controller = new $routeTarget['controller']();
             $controller->invokeAction($request);

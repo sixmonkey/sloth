@@ -64,20 +64,21 @@ class Controller
     /**
      * Called before rendering the view.
      *
-     * @since 1.0.0
+     * Override in subclasses to perform setup before the view renders.
      *
+     * @since 1.0.0
      */
-    public function beforeRender(): void
-    {
-    }
+    public function beforeRender(): void {}
 
     /**
      * Called after rendering the view.
      *
-     * @param string $output The rendered output
+     * Override in subclasses to modify the rendered output before it's sent.
      *
      * @since 1.0.0
      *
+     * @param string $output The rendered HTML output
+     * @return string The modified output
      */
     public function afterRender(string $output): string
     {
@@ -87,11 +88,14 @@ class Controller
     /**
      * Invoke the controller action.
      *
-     * @param mixed $request The request object
+     * Uses reflection to call the requested action method with the
+     * URL parameters. Wraps execution in output buffering to capture
+     * the rendered view, then calls afterRender() to modify output.
      *
-     * @throws \ReflectionException
      * @since 1.0.0
      *
+     * @param mixed $request The request object containing params, action, pass
+     * @throws \ReflectionException If the action method doesn't exist
      */
     public function invokeAction(mixed &$request): void
     {
@@ -108,7 +112,13 @@ class Controller
         echo $output;
     }
 
-    public function index()
-    {
-    }
+    /**
+     * Default index action.
+     *
+     * Override in subclasses to define the default action when
+     * no specific action is requested.
+     *
+     * @since 1.0.0
+     */
+    public function index() {}
 }

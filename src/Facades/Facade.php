@@ -50,6 +50,18 @@ abstract class Facade
     }
 
     /**
+     * Gets the application container for all facades.
+     *
+     * @since 1.0.0
+     *
+     * @return Application|null The application container or null
+     */
+    public static function getFacadeApplication(): ?Application
+    {
+        return static::$app;
+    }
+
+    /**
      * Gets the instance from the container.
      *
      * @since 1.0.0

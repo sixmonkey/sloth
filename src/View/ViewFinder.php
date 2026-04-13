@@ -21,6 +21,7 @@ class ViewFinder extends FileViewFinder
      *
      * @return array<int, string>
      */
+    #[\Override]
     public function getViews(): array
     {
         return $this->views;

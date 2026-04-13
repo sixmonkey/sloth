@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Sloth\Configure;
 
-use Cake\Utility\Hash;
+use Illuminate\Config\Repository;
+use Sloth\Core\Application;
+use Sloth\Facades\Facade;
 use Sloth\Singleton\Singleton;
 
 /**
  * Configure class for managing application configuration.
+ *
+ * This is a backwards-compatible wrapper around Laravel's illuminate/config.
+ * Existing themes calling Configure::read() and Configure::write() continue to work unchanged.
  *
  * @since 1.0.0
  * @extends Singleton
@@ -16,36 +21,28 @@ use Sloth\Singleton\Singleton;
 class Configure extends Singleton
 {
     /**
-     * Array of values currently stored in Configure.
+     * Initialize the config container and facade.
+     *
+     * This must be called early in bootstrap.php, before any config files
+     * that use Configure::read(). Sets up the Laravel config repository and
+     * facade system so config() helper works immediately.
      *
      * @since 1.0.0
-     * @var array<string, mixed>
      */
-    protected static array $_values = [
-        'debug' => 0,
-    ];
-
-    /**
-     * Write a value to the configuration.
-     *
-     * @since 1.0.0
-     *
-     * @param string|array<string, mixed> $config The key to write (dot notation supported) or array of keys/values
-     * @param mixed                      $value  Value to set (ignored if $config is array)
-     *
-     * @return bool True if write was successful
-     */
-    public static function write(string|array $config, mixed $value = null): bool
+    public static function boot(): void
     {
-        if (!is_array($config)) {
-            $config = [$config => $value];
-        }
+        $container = new Application();
+        $container->singleton('config', static fn() => new Repository([]));
 
-        foreach ($config as $name => $val) {
-            static::$_values = Hash::insert(static::$_values, $name, $val);
-        }
+        Facade::setFacadeApplication($container);
 
-        return true;
+        $configPath = defined('DIR_CFG') ? DIR_CFG : null;
+        if ($configPath && is_dir($configPath)) {
+            foreach (glob($configPath . '*.php') as $file) {
+                $key = basename($file, '.php');
+                $container['config']->set($key, require $file);
+            }
+        }
     }
 
     /**
@@ -60,10 +57,35 @@ class Configure extends Singleton
     public static function read(?string $var = null): mixed
     {
         if ($var === null) {
-            return static::$_values;
+            return config()->all();
         }
 
-        return Hash::get(static::$_values, $var);
+        return config($var);
+    }
+
+    /**
+     * Write a value to the configuration.
+     *
+     * @since 1.0.0
+     *
+     * @param string|array<string, mixed> $config The key to write (dot notation supported) or array of keys/values
+     * @param mixed                       $value  Value to set (ignored if $config is array)
+     *
+     * @return bool True if write was successful
+     */
+    public static function write(string|array $config, mixed $value = null): bool
+    {
+        if (is_array($config)) {
+            foreach ($config as $key => $val) {
+                config([$key => $val]);
+            }
+
+            return true;
+        }
+
+        config([$config => $value]);
+
+        return true;
     }
 
     /**
@@ -77,20 +99,8 @@ class Configure extends Singleton
      */
     public static function consume(string $var): mixed
     {
-        $simple = !str_contains($var, '.');
-        if ($simple && !isset(static::$_values[$var])) {
-            return null;
-        }
-
-        if ($simple) {
-            $value = static::$_values[$var];
-            unset(static::$_values[$var]);
-
-            return $value;
-        }
-
-        $value = Hash::get(static::$_values, $var);
-        static::$_values = Hash::remove(static::$_values, $var);
+        $value = config($var);
+        config([$var => null]);
 
         return $value;
     }
@@ -110,7 +120,7 @@ class Configure extends Singleton
             return false;
         }
 
-        return Hash::get(static::$_values, $var) !== null;
+        return config($var) !== null;
     }
 
     /**
@@ -122,19 +132,7 @@ class Configure extends Singleton
      */
     public static function delete(string $var): void
     {
-        static::$_values = Hash::remove(static::$_values, $var);
-    }
-
-    /**
-     * Boot Configure from environment variables.
-     *
-     * @since 1.0.0
-     */
-    public static function boot(): void
-    {
-        foreach ($_ENV as $k => $v) {
-            self::write('ENV.' . $k, $v);
-        }
+        config([$var => null]);
     }
 
     /**
@@ -144,6 +142,6 @@ class Configure extends Singleton
      */
     public static function debug(): void
     {
-        debug(self::$_values);
+        debug(config()->all());
     }
 }

@@ -1,144 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Model\Traits;
 
-use Sloth\Model\Model;
-use Sloth\Model\User;
-use Sloth\Model\Casts\ACF;
-use Sloth\Model\Casts\ACFDate;
-use Sloth\Model\Casts\ACFImage;
-use Sloth\Model\Taxonomy;
-
 /**
- * Trait for automatic ACF field casting.
+ * Backwards-compatible ACF field access.
  *
- * When sloth.acf.process is enabled, this trait overrides getAttribute to apply
- * ACF casts based on field type:
- * - image fields → ACFImage cast (returns Sloth\Field\Image object)
- * - date fields → ACFDate cast (returns Carbon or CarbonFaker for empty values)
- * - other fields → ACF cast (returns raw value from get_field)
+ * Allows $post->field_name direct access to ACF fields.
+ * This behavior is deprecated — use $post->acf->field_name instead.
+ *
+ * @deprecated Use $post->acf->field_name instead. Will be removed in a future version.
  */
 trait HasACF
 {
-    /**
-     * Cached ACF field definitions.
-     */
-    protected static array $acfFieldCache = [];
-
-    /**
-     * Get an attribute.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function getAttribute($key)
+    public function getAttribute($key): mixed
     {
-        if (!function_exists('get_field_objects')) {
-            return parent::getAttribute($key);
+        $value = parent::getAttribute($key);
+        if ($value !== null) {
+            return $value;
         }
 
-        $acfKey = $this->getAcfKeyValue();
-        if ($acfKey === null) {
-            return parent::getAttribute($key);
+        try {
+            $acfValue = $this->acf->{$key};
+        } catch (\Throwable) {
+            return null;
         }
 
-        $castType = $this->getAcfCastType($acfKey, $key);
-
-        if ($castType === 'image') {
-            $cast = new ACFImage();
-            return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
+        if ($acfValue === null) {
+            return null;
         }
 
-        if ($castType === 'date') {
-            $cast = new ACFDate();
-            return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
-        }
+        trigger_error(
+            sprintf(
+                'Accessing ACF field "%s" directly on %s is deprecated. '
+                . 'Use $model->acf->%s instead.',
+                $key,
+                static::class,
+                $key
+            ),
+            E_USER_DEPRECATED
+        );
 
-        if ($castType === 'generic') {
-            $cast = new ACF();
-            return $cast->get($this, $key, parent::getAttribute($key), $this->getAttributes());
-        }
-
-        return parent::getAttribute($key);
+        return $acfValue;
     }
 
-    /**
-     * Check if an attribute is set.
-     *
-     * @param string $key
-     */
     public function __isset($key): bool
     {
         if (parent::__isset($key)) {
             return true;
         }
 
-        if ($this->meta->__isset($key)) {
-            return true;
-        }
-
-        $acfKey = $this->getAcfKeyValue();
-        if ($acfKey === null) {
+        try {
+            return $this->acf->{$key} !== null;
+        } catch (\Throwable) {
             return false;
         }
-
-        return $this->getAcfCastType($acfKey, $key) !== null;
-    }
-
-    /**
-     * Get the ACF cast type for a field.
-     */
-    protected function getAcfCastType(?string $acfKey, string $fieldKey): ?string
-    {
-        if ($acfKey === null) {
-            return null;
-        }
-
-        $cacheKey = $acfKey . '_types';
-        if (!isset(self::$acfFieldCache[$cacheKey])) {
-            $fieldObjects = get_field_objects($acfKey) ?: [];
-            self::$acfFieldCache[$cacheKey] = [];
-            foreach ($fieldObjects as $field) {
-                self::$acfFieldCache[$cacheKey][$field['name']] = $field['type'];
-            }
-        }
-
-        if (!isset(self::$acfFieldCache[$cacheKey][$fieldKey])) {
-            return null;
-        }
-
-        $type = self::$acfFieldCache[$cacheKey][$fieldKey];
-
-        return match ($type) {
-            'image' => 'image',
-            'date_picker', 'date_time_picker', 'time_picker' => 'date',
-            default => 'generic'
-        };
-    }
-
-    /**
-     * Get the ACF identifier for this model instance.
-     *
-     * @return string|null Post ID, term_XX for taxonomies, or user_XX for users
-     */
-    public function getAcfKey(): ?string
-    {
-        return $this->getAcfKeyValue();
-    }
-
-    /**
-     * Get the raw ACF key value.
-     */
-    protected function getAcfKeyValue(): ?string
-    {
-        if (is_a($this, Taxonomy::class)) {
-            return 'term_' . ($this->term_id ?? null);
-        }
-
-        if (is_a($this, User::class)) {
-            return 'user_' . ($this->ID ?? null);
-        }
-
-        return $this->ID ?? null;
     }
 }

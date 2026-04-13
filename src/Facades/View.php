@@ -19,6 +19,7 @@ class View extends Facade
      *
      * @return string The service identifier for the view facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'view';

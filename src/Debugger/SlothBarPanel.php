@@ -21,6 +21,7 @@ class SlothBarPanel implements IBarPanel
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function getPanel(): string
     {
         $h = new Hierarchy();
@@ -37,6 +38,7 @@ class SlothBarPanel implements IBarPanel
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function getTab(): string
     {
         $logo = file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'logo.svg');

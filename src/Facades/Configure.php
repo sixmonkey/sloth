@@ -19,6 +19,7 @@ class Configure extends Facade
      *
      * @return string The service identifier for the configure facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'configure';

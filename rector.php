@@ -10,11 +10,13 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
-    ->withPhpSets(php83: true)
+    ->withPhpSets(php84: true)
     ->withSets([
         SetList::DEAD_CODE,
         SetList::CODE_QUALITY,
-        SetList::CODING_STYLE,
         SetList::TYPE_DECLARATION,
         SetList::EARLY_RETURN,
+    ])
+    ->withSkip([
+        \Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class,
     ]);

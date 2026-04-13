@@ -85,6 +85,7 @@ abstract class Finder extends IlluminateFileViewFinder
      *
      * @return array<int|string, string>
      */
+    #[\Override]
     public function getPaths(): array
     {
         return $this->paths;
@@ -111,6 +112,7 @@ abstract class Finder extends IlluminateFileViewFinder
      *
      * @throws FinderException
      */
+    #[\Override]
     public function find(string $name): string
     {
         return $this->files[$name] ?? ($this->files[$name] = $this->findInPaths($name, $this->paths));
@@ -126,6 +128,7 @@ abstract class Finder extends IlluminateFileViewFinder
      *
      * @throws FinderException
      */
+    #[\Override]
     protected function findInPaths(string $name, array $paths): string
     {
         foreach ($paths as $path) {

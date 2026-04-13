@@ -84,10 +84,16 @@ class Sloth extends Singleton
         $this->setDebugging();
         $this->registerErrorHandlers();
 
-        $this->container = new Application();
-        $this->container->addPath('cache', DIR_CACHE);
+        if (Facade::getFacadeApplication() !== null && Facade::getFacadeApplication()->bound('config')) {
+            $this->container = Facade::getFacadeApplication();
+        } else {
+            $this->container = new Application();
+            $this->container->singleton('config', fn() => new \Illuminate\Config\Repository([]));
+            $this->loadConfigFiles();
+            Facade::setFacadeApplication($this->container);
+        }
 
-        Facade::setFacadeApplication($this->container);
+        $this->container->addPath('cache', DIR_CACHE);
 
         $this->registerProviders();
 
@@ -210,8 +216,11 @@ class Sloth extends Singleton
         Debugger::getBar()->addPanel(new Panel());
         Debugger::getBar()->addPanel(new SlothBarPanel());
 
-        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(basename($_SERVER['PHP_SELF'] ?? ''), $this->dontDebug,
-                true)) {
+        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(
+                basename($_SERVER['PHP_SELF'] ?? ''),
+                $this->dontDebug,
+                true
+            )) {
             Debugger::enable($mode, DIR_ROOT . DS . 'logs');
         }
 
@@ -233,6 +242,15 @@ class Sloth extends Singleton
             if (Debugger::$logDirectory !== null) {
                 Debugger::log($errstr, ILogger::WARNING);
             }
+
+            if (config('errors.suppress_wp_deprecated', true) && str_contains($errfile, DIR_CMS)) {
+                return true;
+            }
+
+            if (config('errors.suppress_plugin_deprecated', true) && str_contains($errfile, DIR_PLUGINS)) {
+                return true;
+            }
+
             return wp_is_serving_rest_request();
         });
     }
@@ -265,5 +283,26 @@ class Sloth extends Singleton
         ];
 
         Database::connect($params);
+    }
+
+    /**
+     * Loads configuration files from app/config/ into the Laravel config repository.
+     *
+     * Each PHP file in the config directory becomes a config key.
+     * For example, app/config/theme.php becomes accessible via config('theme').
+     *
+     * @since 1.0.0
+     */
+    private function loadConfigFiles(): void
+    {
+        $configPath = defined('DIR_CFG') ? DIR_CFG : null;
+        if (!$configPath || !is_dir($configPath)) {
+            return;
+        }
+
+        foreach (glob($configPath . '*.php') as $file) {
+            $key = basename($file, '.php');
+            $this->container['config']->set($key, require $file);
+        }
     }
 }

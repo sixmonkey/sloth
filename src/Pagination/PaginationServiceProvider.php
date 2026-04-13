@@ -27,6 +27,7 @@ class PaginationServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function register(): void
     {
         AbstractPaginator::viewFactoryResolver(fn() => $this->app['view']);
@@ -44,6 +45,7 @@ class PaginationServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

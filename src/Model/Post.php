@@ -46,6 +46,7 @@ class Post extends CorcelPost
      *
      * @uses apply_filters() To apply the_content filter
      */
+    #[\Override]
     public function getContentAttribute(): string
     {
         return (string) apply_filters('the_content', $this->post_content ?? '');
@@ -54,11 +55,13 @@ class Post extends CorcelPost
     /**
      * @return PostBuilder
      */
+    #[\Override]
     public function newEloquentBuilder($query)
     {
         return new PostBuilder($query);
     }
 
+    #[\Override]
     public function revision(): HasMany
     {
         return $this->hasMany(static::class, 'post_parent')

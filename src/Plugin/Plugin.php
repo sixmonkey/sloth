@@ -17,9 +17,7 @@ use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
 use Sloth\Media\Version;
 use Sloth\Utility\Utility;
-
 use Symfony\Component\HttpFoundation\Response;
-
 use WP_REST_Response;
 
 use function post_password_required;
@@ -74,7 +72,7 @@ class Plugin extends Singleton
      *
      * @since 1.0.0
      */
-    private mixed $currentModel;
+    private mixed $currentModel = null;
 
     /**
      * Current layout.
@@ -106,8 +104,8 @@ class Plugin extends Singleton
         $this->loadControllers();
         $this->fixPagination();
 
-        $this->current_theme_path = realpath((string)get_template_directory());
-        $this->container->addPath('theme', (string)$this->current_theme_path);
+        $this->current_theme_path = realpath((string) get_template_directory());
+        $this->container->addPath('theme', (string) $this->current_theme_path);
 
         if (is_dir($this->current_theme_path . DS . 'View')) {
             $this->container['view.finder']->addLocation($this->current_theme_path . DS . 'View');
@@ -133,8 +131,9 @@ class Plugin extends Singleton
     /**
      * Set default configuration.
      *
-     * @since 1.0.0
+     * Initializes core framework settings that theme configs can override.
      *
+     * @since 1.0.0
      */
     protected function setDefaultConfig(): void
     {
@@ -144,8 +143,13 @@ class Plugin extends Singleton
     /**
      * Load all controllers.
      *
+     * Auto-discovers controller files from the theme's Controller directory
+     * and includes them. Controllers must follow WordPress naming conventions
+     * (e.g., PageController.php) and extend Sloth\Controller\Controller.
+     *
      * @since 1.0.0
      *
+     * @see \Sloth\Controller\Controller
      */
     private function loadControllers(): void
     {
@@ -157,11 +161,14 @@ class Plugin extends Singleton
     /**
      * Load a class from a file.
      *
-     * @param string $file File path
+     * Includes a PHP file and uses reflection to find the class defined in it.
+     * Skips Corcel namespace classes (handled by Corcel itself) and returns
+     * the first matching App\ namespaced class.
      *
-     * @return string Class name
      * @since 1.0.0
      *
+     * @param string $file Absolute path to the PHP file
+     * @return string Class name if found, empty string otherwise
      */
     protected function loadClassFromFile(string $file): string
     {
@@ -192,8 +199,16 @@ class Plugin extends Singleton
     /**
      * Load all models.
      *
+     * Discovers model classes from DIR_APP/Model, instantiates them,
+     * registers post types with WordPress via PostTypes library,
+     * enables/disables Layotter based on model configuration, and
+     * flushes rewrite rules after registration.
+     *
      * @since 1.0.0
      *
+     * @uses PostTypes\PostType For post type registration
+     * @see \Sloth\Model\Model
+     * @see \Sloth\Layotter\Layotter
      */
     public function loadModels(): void
     {
@@ -212,8 +227,10 @@ class Plugin extends Singleton
             if ($model::$layotter !== false) {
                 $this->container['layotter']->enable_for_post_type($model->getPostType());
                 if (is_array($model::$layotter) && isset($model::$layotter['allowed_row_layouts'])) {
-                    $this->container['layotter']->set_layouts_for_post_type($model->getPostType(),
-                        $model::$layotter['allowed_row_layouts']);
+                    $this->container['layotter']->set_layouts_for_post_type(
+                        $model->getPostType(),
+                        $model::$layotter['allowed_row_layouts']
+                    );
                 }
             } else {
                 $this->container['layotter']->disable_for_post_type($model->getPostType());
@@ -226,8 +243,12 @@ class Plugin extends Singleton
     /**
      * Load all taxonomies.
      *
+     * Discovers taxonomy classes from DIR_APP/Taxonomy, instantiates them,
+     * and calls their register() method if available.
+     *
      * @since 1.0.0
      *
+     * @see \Sloth\Model\Taxonomy
      */
     public function loadTaxonomies(): void
     {
@@ -251,9 +272,10 @@ class Plugin extends Singleton
      * the JSON response. In dev environments warnings are surfaced
      * as a _warnings key in the response payload.
      *
-     * @return void
-     * @throws \Exception
      * @since 1.0.0
+     *
+     * @throws \Exception If controller doesn't extend Sloth\Api\Controller
+     * @see \Sloth\Api\Controller
      */
     public function loadApiControllers(): void
     {
@@ -271,7 +293,10 @@ class Plugin extends Singleton
             $routes = [];
 
             foreach ($methods as $method) {
-                if (str_starts_with($method, '_') || $method === 'single') {
+                if (str_starts_with($method, '_')) {
+                    continue;
+                }
+                if ($method === 'single') {
                     continue;
                 }
                 $routes[$routePrefix . '/' . Utility::viewize($method) . '(?:/(?P<id>\w+))?'] = $method;
@@ -285,9 +310,7 @@ class Plugin extends Singleton
             }
 
             $isDevEnv = $this->isDevEnv();
-            add_filter('rest_post_dispatch', function($response) use ($isDevEnv) {
-                return $response;
-            });
+            add_filter('rest_post_dispatch', fn($response) => $response);
             foreach ($routes as $route => $action) {
                 add_action('rest_api_init', function () use ($route, $action, $controller, $isDevEnv): void {
                     register_rest_route(
@@ -327,8 +350,7 @@ class Plugin extends Singleton
      * @since 1.0.0
      *
      */
-    public
-    function loadModules(): void
+    public function loadModules(): void
     {
         foreach (glob(get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
             $moduleName = $this->loadClassFromFile($file);
@@ -377,11 +399,21 @@ class Plugin extends Singleton
     /**
      * Add WordPress filters and actions.
      *
+     * Registers all core WordPress hooks for the framework including:
+     * - ACF auto-sync (in dev mode)
+     * - Deployment hooks
+     * - URL relative path filters
+     * - REST API route registration
+     * - Model, Taxonomy, Module, and Menu loading
+     * - Template routing
+     * - SVG mime type addition
+     *
      * @since 1.0.0
      *
+     * @see Route::boot() For REST route setup
+     * @see Deployment For deployment hooks
      */
-    private
-    function addFilters(): void
+    private function addFilters(): void
     {
         ACFHelper::getInstance();
         Deployment::getInstance()->boot();
@@ -409,12 +441,6 @@ class Plugin extends Singleton
             $this->makeUploadsRelative();
         }
 
-        if ($this->isDevEnv()) {
-            remove_filter('template_redirect', 'redirect_canonical');
-        }
-
-        $this->obfuscateWP();
-        Customizer::getInstance()->boot();
         Route::getInstance()->boot();
 
 
@@ -427,14 +453,12 @@ class Plugin extends Singleton
         add_action('init', $this->initModels(...), 20);
         add_action('init', $this->loadAppIncludes(...), 20);
         add_action('init', $this->registerImageSizes(...), 20);
-        add_action('init', $this->autoloadPlugins(...), 20);
         add_action('init', $this->registerNavMenus(...), 20);
         add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
         add_action('init', function (): void {
             Sloth::getInstance()->container['route']->flushRewriteRules();
         }, 30);
         add_action('admin_menu', $this->initTaxonomies(...), 20);
-        add_action('save_post', $this->trackDataChange(...), 20);
         add_action('admin_menu', $this->cleanupAdminMenu(...), 20);
 
         add_action('admin_head', function (): void {
@@ -462,7 +486,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         });
 
         if (Configure::read('wp-json.baseUrl')) {
-            add_filter('rest_url_prefix', fn(): string => (string)Configure::read('wp-json.baseUrl'));
+            add_filter('rest_url_prefix', fn(): string => (string) Configure::read('wp-json.baseUrl'));
         }
 
         if (Configure::read('core.hide_updates')) {
@@ -484,10 +508,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * Remove unnecessary WordPress references from wp_head.
      *
      * @since 1.0.0
+     * @deprecated Opinionated theme cleanup, not a framework concern. Remove in refactor/cleanup-and-docs.
      *
      */
-    private
-    function obfuscateWP(): void
+    private function obfuscateWP(): void
     {
         add_action('wp_print_styles', function (): void {
             wp_dequeue_style('wp-block-library');
@@ -515,11 +539,16 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make all links root-relative.
      *
+     * Registers filters on WordPress permalink functions to strip the
+     * domain from URLs, making them root-relative (e.g., /about instead
+     * of https://example.com/about). Applies to post links, page links,
+     * term links, archive links, and comment pagination.
+     *
      * @since 1.0.0
      *
+     * @see getRelativePermalink() For the actual URL transformation
      */
-    private
-    function makeLinksRelative(): void
+    private function makeLinksRelative(): void
     {
         $filters = [
             'day_link',
@@ -548,11 +577,15 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Make all uploads URLs root-relative.
      *
+     * Registers filters on WordPress upload URL functions (wp_get_attachment_url,
+     * wp_get_upload_dir, the_content) to strip the domain from media URLs.
+     * This enables serving uploads from relative paths.
+     *
      * @since 1.0.0
      *
+     * @see getRelativePermalink() For the URL transformation
      */
-    private
-    function makeUploadsRelative(): void
+    private function makeUploadsRelative(): void
     {
         $filters = [
             'wp_get_attachment_url',
@@ -572,75 +605,89 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get a relative permalink.
      *
-     * @param string $input The full URL
+     * Strips the domain and scheme from a URL, returning only the path.
+     * Used by makeLinksRelative() and makeUploadsRelative() to convert
+     * absolute URLs to root-relative paths.
      *
      * @since 1.0.0
      *
+     * @param string $input The full URL to convert
+     * @return string The relative path (e.g., /about or /wp-content/uploads/image.jpg)
      */
-    public
-    function getRelativePermalink(
+    public function getRelativePermalink(
         string $input
     ): string {
-        return (string)parse_url($input, PHP_URL_PATH);
+        return (string) parse_url($input, PHP_URL_PATH);
     }
 
     /**
-     * Replace home URL.
+     * Replace home URL in content.
      *
-     * @param string $input The input string
+     * Removes the home URL base from a string, useful for converting
+     * absolute URLs in post content to relative paths.
      *
      * @since 1.0.0
      *
+     * @param string $input The input string containing URLs
+     * @return string The string with home URL removed
      */
-    public
-    function replaceHomeUrl(
+    public function replaceHomeUrl(
         string $input
     ): string {
-        return str_replace(trim((string)WP_HOME, '/'), '', $input);
+        return str_replace(trim((string) WP_HOME, '/'), '', $input);
     }
 
     /**
      * Make hrefs in content relative.
      *
-     * @param string $input The content
+     * Finds all href attributes in HTML content and removes the home URL,
+     * converting absolute links to relative paths for makeLinksRelative().
      *
      * @since 1.0.0
      *
+     * @param string $input HTML content with href attributes
+     * @return string Content with relative hrefs
      */
-    public
-    function getRelativeHrefs(
+    public function getRelativeHrefs(
         string $input
     ): string {
-        return str_replace('href="' . rtrim((string)WP_HOME, '/'), 'href="', $input);
+        return str_replace('href="' . rtrim((string) WP_HOME, '/'), 'href="', $input);
     }
 
     /**
      * Make srcs in content relative.
      *
-     * @param string $input The content
+     * Processes img src attributes in HTML content to remove the home URL.
+     * Note: This implementation appears to have a bug - it doesn't actually
+     * remove the URL, unlike getRelativeHrefs(). Likely should use getRelativePermalink.
      *
      * @since 1.0.0
      *
+     * @param string $input HTML content with src attributes
+     * @return string Content (potentially with relative srcs - see TODO)
      */
-    public
-    function getRelativeSrcs(
+    public function getRelativeSrcs(
         string $input
     ): string {
-        return str_replace('src="' . rtrim((string)WP_HOME, '/'), 'src="' . rtrim((string)WP_HOME, '/'), $input);
+        return str_replace('src="' . rtrim((string) WP_HOME, '/'), 'src="' . rtrim((string) WP_HOME, '/'), $input);
     }
 
     /**
      * Hide WordPress update notifications.
      *
+     * Returns a fake update response object to suppress WordPress update
+     * notifications. Used when Configure::read('plugins.hide_updates') or
+     * Configure::read('themes.hide_updates') is enabled.
+     *
      * @since 1.0.0
      *
+     * @return object Fake update response with current time and WP version
      */
-    public
-    function hideUpdates(): object
+    public function hideUpdates(): object
     {
         global $wpVersion;
 
-        return (object)[
+        return (object) [
             'last_checked' => time(),
             'version_checked' => $wpVersion,
         ];
@@ -649,18 +696,21 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Fix network admin URL.
      *
-     * @param string $url The URL
+     * Rewrites network admin URLs to include /cms/ prefix when accessing
+     * from a multisite installation's main domain. This ensures proper routing
+     * to the network admin dashboard.
      *
      * @since 1.0.0
      *
+     * @param string $url The original admin URL
+     * @return string The modified URL with /cms/ prefix
      */
-    public
-    function fixNetworkAdminUrl(
+    public function fixNetworkAdminUrl(
         string $url
     ): string {
         $urlInfo = parse_url($url);
 
-        if (!preg_match('/^\/cms/', (string)($urlInfo['path'] ?? ''))) {
+        if (!preg_match('/^\/cms/', (string) ($urlInfo['path'] ?? ''))) {
             $url = $urlInfo['scheme'] . '://' . $urlInfo['host'] . '/cms' . $urlInfo['path'];
             if (isset($urlInfo['query']) && (isset($urlInfo['query']) && ($urlInfo['query'] !== '' && $urlInfo['query'] !== '0'))) {
                 $url .= '?' . $urlInfo['query'];
@@ -673,13 +723,14 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Force SSL redirect.
      *
-     * @since 1.0.0
+     * Redirects all HTTP requests to HTTPS when FORCE_SSL environment
+     * variable is set. Uses 301 (permanent) redirect for SEO.
      *
+     * @since 1.0.0
      */
-    public
-    function forceSsl(): void
+    public function forceSsl(): void
     {
-        if ((bool)getenv('FORCE_SSL') && !is_ssl()) {
+        if ((bool) getenv('FORCE_SSL') && !is_ssl()) {
             wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301);
             exit();
         }
@@ -688,37 +739,45 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     /**
      * Get the template context.
      *
-     * @return array<string, mixed>
+     * Builds an array of variables to pass to Twig templates, including:
+     * - WordPress info (title, site URL, feed URLs, language, etc.)
+     * - Global theme URLs (home, theme, images)
+     * - Current post/model data when on single post or page
+     * - Current layout name
+     *
+     * This context is used by all Twig templates as global variables.
+     *
      * @since 1.0.0
      *
+     * @return array<string, mixed> Context array for Twig templates
+     * @see TwigEngine For how context is passed to templates
      */
-    public
-    function getContext(): array
+    public function getContext(): array
     {
         if (is_array($this->context)) {
             return $this->context;
         }
 
         $this->context = [
-            'wp_title' => trim((string)wp_title('', false)),
+            'wp_title' => trim((string) wp_title('', false)),
             'site' => [
-                'url' => (string)home_url(),
-                'rdf' => (string)get_bloginfo('rdf_url'),
-                'rss' => (string)get_bloginfo('rss_url'),
-                'rss2' => (string)get_bloginfo('rss2_url'),
-                'atom' => (string)get_bloginfo('atom_url'),
+                'url' => (string) home_url(),
+                'rdf' => (string) get_bloginfo('rdf_url'),
+                'rss' => (string) get_bloginfo('rss_url'),
+                'rss2' => (string) get_bloginfo('rss2_url'),
+                'atom' => (string) get_bloginfo('atom_url'),
                 'language' => get_bloginfo('language'),
                 'charset' => get_bloginfo('charset'),
-                'pingback' => (string)get_bloginfo('pingback_url'),
-                'admin_email' => (string)get_bloginfo('admin_email'),
-                'name' => (string)get_bloginfo('name'),
-                'title' => (string)get_bloginfo('name'),
-                'description' => (string)get_bloginfo('description'),
-                'canonical_url' => (string)home_url((string)$_SERVER['REQUEST_URI']),
+                'pingback' => (string) get_bloginfo('pingback_url'),
+                'admin_email' => (string) get_bloginfo('admin_email'),
+                'name' => (string) get_bloginfo('name'),
+                'title' => (string) get_bloginfo('name'),
+                'description' => (string) get_bloginfo('description'),
+                'canonical_url' => (string) home_url((string) $_SERVER['REQUEST_URI']),
             ],
             'globals' => [
-                'home_url' => (string)home_url('/'),
-                'theme_url' => (string)get_template_directory_uri(),
+                'home_url' => (string) home_url('/'),
+                'theme_url' => (string) get_template_directory_uri(),
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],
             'sloth' => [
@@ -767,8 +826,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getTemplate(): void
+    public function getTemplate(): void
     {
         $template = null;
         $this->fixPagination();
@@ -781,7 +839,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
         $post = is_object($post) ? $post : new \StdClass();
 
         if (Configure::read('theme.routes') && is_array(Configure::read('theme.routes'))) {
-            $uri = (string)$_SERVER['REQUEST_URI'];
+            $uri = (string) $_SERVER['REQUEST_URI'];
 
             if (false !== $pos = strpos($uri, '?')) {
                 $uri = substr($uri, 0, $pos);
@@ -792,7 +850,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             $routes = Configure::read('theme.routes');
 
             if (isset($routes[$uri])) {
-                $template = basename((string)$routes[$uri]['Layout'], '.twig');
+                $template = basename((string) $routes[$uri]['Layout'], '.twig');
                 if (isset($routes[$uri]['ContentType'])) {
                     header('Content-Type: ' . $routes[$uri]['ContentType']);
                 }
@@ -812,10 +870,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 
         if ($template === '') {
             if ($this->isDevEnv()) {
-                $ext = pathinfo((string)$_SERVER['REQUEST_URI'], PATHINFO_EXTENSION);
+                $ext = pathinfo((string) $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION);
                 if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'], true)) {
-                    preg_match('/(.+)-(\d+)x(\d+)\.(jpg|jpeg|png|gif)$/', (string)$_SERVER['REQUEST_URI'],
-                        $matches);
+                    preg_match(
+                        '/(.+)-(\d+)x(\d+)\.(jpg|jpeg|png|gif)$/',
+                        (string) $_SERVER['REQUEST_URI'],
+                        $matches
+                    );
 
                     $w = $matches[2] ?? 1024;
                     $h = $matches[3] ?? 768;
@@ -823,7 +884,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
                     header('Location: https://placebeard.it/' . $w . '/' . $h);
                 }
 
-                if (pathinfo((string)$_SERVER['REQUEST_URI'], PATHINFO_EXTENSION) === 'svg') {
+                if (pathinfo((string) $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION) === 'svg') {
                     header('Location: http://placeholder.pics/svg/300/DEDEDE/555555/SVG');
                 }
             }
@@ -839,9 +900,9 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 
         $viewName = basename($template, '.twig');
 
-        $ext = pathinfo((string)$_SERVER['REQUEST_URI'], PATHINFO_EXTENSION);
+        $ext = pathinfo((string) $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION);
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'], true)) {
-            new Version((string)$_SERVER['REQUEST_URI']);
+            new Version((string) $_SERVER['REQUEST_URI']);
         }
 
         $view = View::make('Layout.' . $viewName);
@@ -856,8 +917,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function registerMenus(): void
+    public function registerMenus(): void
     {
         $menus = Configure::read('theme.menus');
         if ($menus && is_array($menus)) {
@@ -873,8 +933,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function registerImageSizes(): void
+    public function registerImageSizes(): void
     {
         $imageSizes = Configure::read('theme.image-sizes');
         if ($imageSizes && is_array($imageSizes)) {
@@ -896,8 +955,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function autoloadPlugins(): void
+    public function autoloadPlugins(): void
     {
         if (!Configure::read('plugins.autoactivate')) {
             return;
@@ -910,7 +968,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             }
 
             $pi = pathinfo($plugin);
-            if (in_array($pi['dirname'], (array)Configure::read('plugins.autoactivate.blacklist'), true)) {
+            if (in_array($pi['dirname'], (array) Configure::read('plugins.autoactivate.blacklist'), true)) {
                 continue;
             }
 
@@ -926,22 +984,21 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    protected
-    function fixPagination(): void
+    protected function fixPagination(): void
     {
         if (isset($_GET['page'])) {
-            $currentPage = (int)$_GET['page'];
+            $currentPage = (int) $_GET['page'];
             \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
 
         global $wpQuery;
         if (isset($wpQuery->query['page'])) {
-            $currentPage = (int)$wpQuery->query['page'];
+            $currentPage = (int) $wpQuery->query['page'];
             \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
 
         if (isset($wpQuery->query['paged'])) {
-            $currentPage = (int)$wpQuery->query['paged'];
+            $currentPage = (int) $wpQuery->query['paged'];
             \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
     }
@@ -952,8 +1009,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function initModels(): void
+    public function initModels(): void
     {
         foreach ($this->models as $v) {
             $model = new $v();
@@ -968,8 +1024,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function initTaxonomies(): void
+    public function initTaxonomies(): void
     {
         foreach ($this->taxonomies as $v) {
             $tax = new $v();
@@ -984,14 +1039,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function loadAppIncludes(): void
+    public function loadAppIncludes(): void
     {
         add_filter('post_type_archive_link', function ($link, $post_type) {
             if ($post_type === 'post') {
                 $pto = get_post_type_object($post_type);
                 if (is_string($pto->has_archive)) {
-                    $link = trailingslashit((string)home_url($pto->has_archive));
+                    $link = trailingslashit((string) home_url($pto->has_archive));
                 }
             }
 
@@ -1020,8 +1074,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function fixRoutes(): void
+    public function fixRoutes(): void
     {
         $routes = Configure::read('theme.routes');
         if ($routes && is_array($routes)) {
@@ -1045,8 +1098,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getModelClass(
+    public function getModelClass(
         string $key = ''
     ): string {
         return $this->models[$key] ?? \Sloth\Model\Post::class;
@@ -1059,8 +1111,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getAllModels(): array
+    public function getAllModels(): array
     {
         return $this->models;
     }
@@ -1073,8 +1124,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getTaxonomyClass(
+    public function getTaxonomyClass(
         string $key = ''
     ): string {
         return $this->taxonomies[$key] ?? \Sloth\Model\Taxonomy::class;
@@ -1087,8 +1137,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getAllTaxonomies(): array
+    public function getAllTaxonomies(): array
     {
         return $this->taxonomies;
     }
@@ -1099,8 +1148,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getCurrentTemplate(): ?string
+    public function getCurrentTemplate(): ?string
     {
         return $this->currentLayout;
     }
@@ -1111,8 +1159,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getCurrentLayout(): ?string
+    public function getCurrentLayout(): ?string
     {
         return $this->currentLayout;
     }
@@ -1123,14 +1170,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function trackDataChange(): bool
+    public function trackDataChange(): bool
     {
         if (!$this->isDevEnv()) {
             return false;
         }
 
-        file_put_contents(DIR_CACHE . DS . 'reload', (string)time());
+        file_put_contents(DIR_CACHE . DS . 'reload', (string) time());
 
         return true;
     }
@@ -1143,8 +1189,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function getPostTypeClass(
+    public function getPostTypeClass(
         string $postType
     ): string {
         return $this->models[$postType] ?? \Sloth\Model\Post::class;
@@ -1156,8 +1201,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function isDevEnv(): bool
+    public function isDevEnv(): bool
     {
         return in_array(WP_ENV ?? '', ['development', 'develop', 'dev'], true);
     }
@@ -1168,13 +1212,12 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function cleanupAdminMenu(): void
+    public function cleanupAdminMenu(): void
     {
         global $menu;
         $used = [];
         foreach ($menu as $offset => $menuItem) {
-            $pi = pathinfo((string)$menuItem[2], PATHINFO_EXTENSION);
+            $pi = pathinfo((string) $menuItem[2], PATHINFO_EXTENSION);
             if (!preg_match('/^php/', $pi)) {
                 continue;
             }
@@ -1194,14 +1237,13 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function isRest(): bool
+    public function isRest(): bool
     {
         $bIsRest = false;
         if (function_exists('rest_url') && !empty($_SERVER['REQUEST_URI'])) {
-            $sRestUrlBase = (string)get_rest_url(get_current_blog_id(), '/');
+            $sRestUrlBase = (string) get_rest_url(get_current_blog_id(), '/');
             $sRestPath = trim(parse_url($sRestUrlBase, PHP_URL_PATH), '/');
-            $sRequestPath = trim((string)$_SERVER['REQUEST_URI'], '/');
+            $sRequestPath = trim((string) $_SERVER['REQUEST_URI'], '/');
             $bIsRest = str_starts_with($sRequestPath, $sRestPath);
         }
 
@@ -1215,8 +1257,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      * @since 1.0.0
      *
      */
-    public
-    function registerNavMenus(): void
+    public function registerNavMenus(): void
     {
         if (Configure::read('theme.menus')) {
             if (!is_array(Configure::read('theme.menus'))) {
@@ -1224,7 +1265,7 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
             }
 
             foreach (Configure::read('theme.menus') as $location => $name) {
-                \register_nav_menu($location, (string)$name);
+                \register_nav_menu($location, (string) $name);
             }
         }
     }

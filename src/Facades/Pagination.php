@@ -19,6 +19,7 @@ class Pagination extends Facade
      *
      * @return string The service identifier for the pagination facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'paginaton';
