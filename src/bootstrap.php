@@ -86,8 +86,8 @@ Configure::boot();
  * env config
  */
 # get current environment
-if (getenv('WP_ENV') !== false) {
-    define('WP_ENV', getenv('WP_ENV'));
+if (env('WP_ENV') !== null) {
+    define('WP_ENV', env('WP_ENV'));
 } elseif (file_exists(DIR_ENVCFG . $_SERVER['HTTP_HOST'] . '.config.php')) {
     define('WP_ENV', $_SERVER['HTTP_HOST']);
 } elseif (file_exists(DIR_ENVCFG . '/config/qundg-config.' . gethostname() . '.config.php')) {
@@ -116,8 +116,8 @@ defined('WP_DEBUG') ? WP_DEBUG : define('WP_DEBUG', false);
 /**
  * URLs
  */
-defined('WP_HOME') ? DS : define('WP_HOME', getenv('WP_HOME'));
-defined('WP_SITEURL') ? DS : define('WP_SITEURL', getenv('WP_SITEURL'));
+defined('WP_HOME') ? DS : define('WP_HOME', env('WP_HOME'));
+defined('WP_SITEURL') ? DS : define('WP_SITEURL', env('WP_SITEURL'));
 
 /**
  * WP custom path
@@ -127,20 +127,19 @@ defined('WP_PATH') ? WP_PATH : define('WP_PATH', substr(WP_SITEURL, strrpos(WP_S
 /**
  * DB settings
  */
-defined('DB_NAME') ? DB_NAME : define('DB_NAME', getenv('DB_NAME'));
-defined('DB_USER') ? DB_USER : define('DB_USER', getenv('DB_USER'));
-defined('DB_PASSWORD') ? DB_PASSWORD : define('DB_PASSWORD', getenv('DB_PASSWORD'));
-defined('DB_HOST') ? DB_HOST : define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+defined('DB_NAME') ? DB_NAME : define('DB_NAME', env('DB_NAME'));
+defined('DB_USER') ? DB_USER : define('DB_USER', env('DB_USER'));
+defined('DB_PASSWORD') ? DB_PASSWORD : define('DB_PASSWORD', env('DB_PASSWORD'));
+defined('DB_HOST') ? DB_HOST : define('DB_HOST', env('DB_HOST', 'localhost'));
 defined('DB_CHARSET') ? DB_CHARSET : define('DB_CHARSET', 'utf8mb4');
 defined('DB_COLLATE') ? DB_COLLATE : define('DB_COLLATE', '');
-$table_prefix = getenv('DB_PREFIX') ?: 'wp_';
-defined('DB_PREFIX') ? DB_PREFIX : define('DB_PREFIX', $table_prefix);
+defined('DB_PREFIX') ? DB_PREFIX : define('DB_PREFIX', env('DB_PREFIX', 'wp_'));
 
 /*
  * Custom Settings
  */
 defined('AUTOMATIC_UPDATER_DISABLED') ? AUTOMATIC_UPDATER_DISABLED : define('AUTOMATIC_UPDATER_DISABLED', true);
-defined('DISABLE_WP_CRON') ? DISABLE_WP_CRON : define('DISABLE_WP_CRON', getenv('DISABLE_WP_CRON') ?: false);
+defined('DISABLE_WP_CRON') ? DISABLE_WP_CRON : define('DISABLE_WP_CRON', env('DISABLE_WP_CRON', false));
 defined('DISALLOW_FILE_EDIT') ? DISALLOW_FILE_EDIT : define('DISALLOW_FILE_EDIT', true);
 
 /**
@@ -154,7 +153,7 @@ defined('ABSPATH') ? ABSPATH : define('ABSPATH', realpath(DIR_WWW . DS . WP_PATH
  * @see https://gist.github.com/tzkmx/4c832432bc63fd67a3a16f940a184145
  */
 define('WP_CONTENT_DIR', DIR_WWW);
-defined('WP_CONTENT_URL') ? WP_CONTENT_URL : define('WP_CONTENT_URL', getenv('WP_CONTENT_URL') ?: WP_HOME);
+defined('WP_CONTENT_URL') ? WP_CONTENT_URL : define('WP_CONTENT_URL', env('WP_CONTENT_URL', WP_HOME));
 define('WP_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'plugins');
 define('WP_PLUGIN_URL', WP_HOME . '/extensions/plugins');
 define('WPMU_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'components');
