@@ -4,9 +4,11 @@
     "license": "MIT",
     "require": {
         "php": ">=8.4",
+        "ext-json": "*",
         "brain/hierarchy": "^2.0 || ^3.0",
         "cakephp/utility": "^3.0 || ^4.0",
         "gossi/docblock": "^1.6",
+        "illuminate/config": "^11.51",
         "illuminate/container": "^8.0 || ^9.0 || ^10.0 || ^11.0",
         "illuminate/filesystem": "^8.0 || ^9.0 || ^10.0 || ^11.0",
         "illuminate/http": "^8.0 || ^9.0 || ^10.0 || ^11.0",
