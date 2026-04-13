@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Concerns\CustomTimestamps;
-use Corcel\Concerns\MetaFields;
-use Corcel\Concerns\OrderScopes;
-use Corcel\Model as CorcelModel;
-use Corcel\Model\Comment;
+use Corcel\Model\Post as CorcelPost;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Meta\ThumbnailMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,17 +15,17 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use PostTypes\PostType;
 use Sloth\Field\Image;
 use Sloth\Model\Builder\PostBuilder;
-use Sloth\Model\Traits\HasACF;
+use Tbruckmaier\Corcelacf\AcfTrait;
 
 /**
  * Base Model class for WordPress post types.
  *
- * This class extends Corcel\Model to provide a foundation for all custom
+ * This class extends Corcel\Model\Post to provide a foundation for all custom
  * post types in the Sloth framework. It includes ACF integration, taxonomy
  * relationships, and WordPress-specific query scopes.
  *
  * @since 1.0.0
- * @see \Corcel\Model For the base Corcel implementation
+ * @see \Corcel\Model\Post For the base Corcel implementation
  * @see \Sloth\Model\Post For the default post model
  *
  * @property int $ID The post ID
@@ -38,12 +34,11 @@ use Sloth\Model\Traits\HasACF;
  * @property string $post_type The post type
  * @property string $post_status The post status
  */
-class Model extends CorcelModel
+class Model extends CorcelPost
 {
-    use HasACF;
-    use MetaFields;
-    use OrderScopes;
-    use CustomTimestamps;
+    use AcfTrait;
+    // AcfTrait::getAcfAttribute() overwrites AdvancedCustomFields::getAcfAttribute()
+    // so Corcel\Acf\AdvancedCustomFields is never instantiated — no more "class not found"
 
     public const CREATED_AT = 'post_date';
 
