@@ -2,34 +2,10 @@
 
 declare(strict_types=1);
 
+use Illuminate\Config\Repository;
+use Sloth\Facades\Facade;
 use Tracy\Debugger;
 
-/**
- * Debug Helper Function
- *
- * Provides a shortcut to Tracy's barDump function for
- * quick debugging in development.
- *
- * @since 1.0.0
- *
- * @param mixed ...$vars Variables to dump
- *
- * @return mixed Returns the first variable unchanged (allows inline debugging)
- *
- * @example
- * ```php
- * // Simple debug
- * debug($variable);
- *
- * // Inline debug
- * $result = debug($data);
- *
- * // Multiple variables
- * debug($var1, $var2, $var3);
- * ```
- *
- * @tracySkipLocation
- */
 if (!function_exists('debug')) {
     /**
      * Dumps variables to Tracy bar for debugging.
@@ -47,5 +23,25 @@ if (!function_exists('debug')) {
         }
 
         return $vars[0] ?? null;
+    }
+}
+
+if (!function_exists('config')) {
+    /**
+     * Get / set the specified configuration value.
+     *
+     * @param array|string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function config($key = null, $default = null): mixed
+    {
+        $app = Facade::getFacadeApplication();
+        if ($app !== null && $app->bound('config')) {
+            /** @var Repository $repository */
+            $repository = $app->make('config');
+            return $repository->get($key, $default);
+        }
+        return $default;
     }
 }
