@@ -601,6 +601,11 @@ Search.appendIndex(
             "summary": "Sets\u0020the\u0020application\u0020container\u0020for\u0020all\u0020facades.",
             "url": "classes/Sloth-Facades-Facade.html#method_setFacadeApplication"
         },                {
+            "fqsen": "\\Sloth\\Facades\\Facade\u003A\u003AgetFacadeApplication\u0028\u0029",
+            "name": "getFacadeApplication",
+            "summary": "Gets\u0020the\u0020application\u0020container\u0020for\u0020all\u0020facades.",
+            "url": "classes/Sloth-Facades-Facade.html#method_getFacadeApplication"
+        },                {
             "fqsen": "\\Sloth\\Facades\\Facade\u003A\u003AgetInstance\u0028\u0029",
             "name": "getInstance",
             "summary": "Gets\u0020the\u0020instance\u0020from\u0020the\u0020container.",
@@ -930,6 +935,11 @@ Search.appendIndex(
             "name": "debug",
             "summary": "Dumps\u0020variables\u0020to\u0020Tracy\u0020bar\u0020for\u0020debugging.",
             "url": "namespaces/default.html#function_debug"
+        },                {
+            "fqsen": "\\config\u0028\u0029",
+            "name": "config",
+            "summary": "Get\u0020\/\u0020set\u0020the\u0020specified\u0020configuration\u0020value.",
+            "url": "namespaces/default.html#function_config"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer",
             "name": "Installer",
