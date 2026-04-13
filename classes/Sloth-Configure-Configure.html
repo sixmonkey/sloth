@@ -217,7 +217,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -289,7 +289,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Legacy boot — config is now loaded by Sloth::loadConfigFiles().</dd>
+<dd>Initialize the config container and facade.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_check">check()</a>
@@ -435,11 +435,11 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Legacy boot — config is now loaded by Sloth::loadConfigFiles().</p>
+        <p class="phpdocumentor-summary">Initialize the config container and facade.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -448,7 +448,9 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Kept for backwards compatibility.</p>
+        <section class="phpdocumentor-description"><p>This must be called early in bootstrap.php, before any config files
+that use Configure::read(). Sets up the Laravel config repository and
+facade system so config() helper works immediately.</p>
 </section>
 
     
@@ -487,7 +489,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">117</span>
 
     </aside>
 
@@ -557,7 +559,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">100</span>
 
     </aside>
 
@@ -623,7 +625,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">125</span>
+    <span class="phpdocumentor-element-found-in__line">143</span>
 
     </aside>
 
@@ -673,7 +675,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">115</span>
+    <span class="phpdocumentor-element-found-in__line">133</span>
 
     </aside>
 
@@ -789,7 +791,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -859,7 +861,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 
     </aside>
 

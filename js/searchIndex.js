@@ -288,7 +288,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Legacy\u0020boot\u0020\u2014\u0020config\u0020is\u0020now\u0020loaded\u0020by\u0020Sloth\u003A\u003AloadConfigFiles\u0028\u0029.",
+            "summary": "Initialize\u0020the\u0020config\u0020container\u0020and\u0020facade.",
             "url": "classes/Sloth-Configure-Configure.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aread\u0028\u0029",
