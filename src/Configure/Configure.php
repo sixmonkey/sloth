@@ -135,6 +135,21 @@ class Configure extends Singleton
     }
 
     /**
+     * Reset the configuration to a fresh state.
+     *
+     * Clears all configuration values. Used primarily for testing.
+     *
+     * @since 1.0.0
+     */
+    public static function reset(): void
+    {
+        $app = Facade::getFacadeApplication();
+        if ($app !== null && $app->bound('config')) {
+            $app->singleton('config', static fn() => new Repository([]));
+        }
+    }
+
+    /**
      * Debug all set variables.
      *
      * @since 1.0.0
