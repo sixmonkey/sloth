@@ -87,6 +87,14 @@ class Sloth extends Singleton
         $this->container = new Application();
         $this->container->addPath('cache', DIR_CACHE);
 
+        // Register Laravel config repository
+        $this->container->singleton('config', function () {
+            return new \Illuminate\Config\Repository([]);
+        });
+
+        // Load config files from app/config/
+        $this->loadConfigFiles();
+
         Facade::setFacadeApplication($this->container);
 
         $this->registerProviders();
@@ -268,5 +276,26 @@ class Sloth extends Singleton
         ];
 
         Database::connect($params);
+    }
+
+    /**
+     * Loads configuration files from app/config/ into the Laravel config repository.
+     *
+     * Each PHP file in the config directory becomes a config key.
+     * For example, app/config/theme.php becomes accessible via config('theme').
+     *
+     * @since 1.0.0
+     */
+    private function loadConfigFiles(): void
+    {
+        $configPath = defined('DIR_CFG') ? DIR_CFG : null;
+        if (!$configPath || !is_dir($configPath)) {
+            return;
+        }
+
+        foreach (glob($configPath . '*.php') as $file) {
+            $key = basename($file, '.php');
+            $this->container['config']->set($key, require $file);
+        }
     }
 }
