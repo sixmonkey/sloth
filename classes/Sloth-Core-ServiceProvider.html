@@ -219,15 +219,17 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Base service provider for Sloth.</p>
+            <p class="phpdocumentor-summary">Base Service Provider</p>
 
 
-    <section class="phpdocumentor-description"><p>Extends Laravel's ServiceProvider to provide a consistent base for all
-Sloth service providers. Handles missing method calls gracefully.</p>
+    <section class="phpdocumentor-description"><p>This is the abstract base class for all Sloth service providers.
+It extends Laravel's ServiceProvider and provides a common
+error handling mechanism for undefined method calls.</p>
+<p>All framework service providers should extend this class.</p>
 </section>
 
 
@@ -244,6 +246,37 @@ Sloth service providers. Handles missing method calls gracefully.</p>
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Support\ServiceProvider">ServiceProvider</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For the base Laravel implementation</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">class MyServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        // Register services
+    }
+
+    public function boot(): void
+    {
+        // Boot services
+    }
+}
+</code></pre>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -273,9 +306,9 @@ Sloth service providers. Handles missing method calls gracefully.</p>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: mixed|null    </span>
 </dt>
-<dd>Handle calls to undefined methods.</dd>
+<dd>Handles calls to undefined methods.</dd>
 
     </dl>
 
@@ -305,20 +338,22 @@ Sloth service providers. Handles missing method calls gracefully.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Handle calls to undefined methods.</p>
+        <p class="phpdocumentor-summary">Handles calls to undefined methods.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Allows boot() to be called without throwing if not implemented.</p>
+        <section class="phpdocumentor-description"><p>This magic method catches any calls to undefined methods.
+The 'boot' method is silently ignored to allow for lazy booting.
+All other undefined method calls throw an exception.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -328,14 +363,18 @@ Sloth service providers. Handles missing method calls gracefully.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The method name that was called</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$parameters</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The parameters passed to the method</p>
+</section>
+
             </dd>
             </dl>
 
@@ -347,18 +386,50 @@ Sloth service providers. Handles missing method calls gracefully.</p>
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">throws</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
                                                             
-                                             
+                                                 <section class="phpdocumentor-description"><p>If the method is not 'boot' and is not defined</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Silently ignored (boot is optional)
+$provider-&gt;optionalBoot();
+
+// Throws exception
+$provider-&gt;undefinedMethod();
+</code></pre>
+</section>
+
                                     </dd>
                                             </dl>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns null for boot(), or throws exception</p>
+</section>
+
+            </section>
+
 </article>
             </section>
 

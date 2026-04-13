@@ -196,7 +196,7 @@
     MenuItem
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a>
+        extends <abbr title="\Corcel\Model\MenuItem">MenuItem</abbr>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -217,13 +217,16 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Model for WordPress navigation menu items.</p>
+            <p class="phpdocumentor-summary">Menu Item Model</p>
 
 
+    <section class="phpdocumentor-description"><p>Represents a WordPress navigation menu item with support for
+various item types (posts, pages, categories, custom links).</p>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -239,6 +242,31 @@
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">extends</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Get menu by location
+$menu = Menu::location('primary');
+
+// Iterate through items
+foreach ($menu-&gt;items as $item) {
+    echo $item-&gt;title;
+    echo $item-&gt;url;
+    echo $item-&gt;current ? 'active' : '';
+}
+</code></pre>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -265,99 +293,45 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Model-Model.html#property_admin_columns">$admin_columns</a>
-    <span>
-                        &nbsp;: array&lt;string, string&gt;            </span>
-</dt>
-<dd>Admin list columns for this post type.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Model-Model.html#property_admin_columns_hidden">$admin_columns_hidden</a>
-    <span>
-                        &nbsp;: array&lt;string|int, string&gt;            </span>
-</dt>
-<dd>Admin list columns to hide.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Model-Model.html#property_layotter">$layotter</a>
-    <span>
-                        &nbsp;: bool|array&lt;string, mixed&gt;            </span>
-</dt>
-<dd>Whether this model can be used with Layotter page builder.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Model-Model.html#property_post_content">$post_content</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-<dd>Default post_content for new posts.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Model-Model.html#property_register">$register</a>
-    <span>
-                        &nbsp;: bool            </span>
-</dt>
-<dd>Whether to register this post type with WordPress.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_attributes">$attributes</a>
-    <span>
-                        &nbsp;: array&lt;string, mixed&gt;            </span>
-</dt>
-<dd>Default attribute values.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_fillable">$fillable</a>
-    <span>
-                        &nbsp;: array&lt;string|int, string&gt;            </span>
-</dt>
-<dd>Attributes that are mass assignable.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_filtered">$filtered</a>
-    <span>
-                        &nbsp;: bool            </span>
-</dt>
-<dd>Whether content has been filtered through the_content.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_icon">$icon</a>
-    <span>
-                        &nbsp;: string|null            </span>
-</dt>
-<dd>Dashicons icon name for the admin menu.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_labels">$labels</a>
-    <span>
-                        &nbsp;: array&lt;string, string&gt;            </span>
-</dt>
-<dd>Custom labels for the post type.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_names">$names</a>
-    <span>
-                        &nbsp;: array&lt;string, string&gt;            </span>
-</dt>
-<dd>Post type names (singular and plural).</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Model.html#property_options">$options</a>
-    <span>
-                        &nbsp;: array&lt;string, mixed&gt;            </span>
-</dt>
-<dd>Post type options passed to register_post_type().</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-MenuItem.html#property_postType">$postType</a>
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_classes">$classes</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Sloth-Model-MenuItem.html#property_instanceRelations">$instanceRelations</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_current">$current</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: bool            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_current_item_ancestor">$current_item_ancestor</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_current_item_parent">$current_item_parent</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_in_current_path">$in_current_path</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_title">$title</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#property_url">$url</a>
+    <span>
+                        &nbsp;: string            </span>
 </dt>
 
     </dl>
@@ -369,166 +343,116 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method___call">__call()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>MenuItem constructor.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method___get">__get()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Get a property, checking for ACF fields first.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method___isset">__isset()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Check if an ACF field exists.</dd>
+<dd>Creates a new MenuItem instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_children">children()</a>
     <span>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
 </dt>
+<dd>Gets the child menu items.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getClassesAttribute">getClassesAttribute()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Get a column value for admin list table display.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_getContentAttribute">getContentAttribute()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Get the filtered post content.</dd>
+<dd>Gets the CSS classes for this menu item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getCurrentAttribute">getCurrentAttribute()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Gets the current state of this menu item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getCurrentItemAncestorAttribute">getCurrentItemAncestorAttribute()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Gets whether this is an ancestor of the current item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getCurrentItemParentAttribute">getCurrentItemParentAttribute()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Gets whether this is a parent of the current item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getInCurrentPathAttribute">getInCurrentPathAttribute()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_getPermalinkAttribute">getPermalinkAttribute()</a>
-    <span>
-                                &nbsp;: false|string    </span>
-</dt>
-<dd>Get the permalink for this post.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute">getPostThumbnailAttribute()</a>
-    <span>
-                                &nbsp;: <a href="classes/Sloth-Field-Image.html"><abbr title="\Sloth\Field\Image">Image</abbr></a>    </span>
-</dt>
-<dd>Get the post thumbnail (featured image).</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_getPostType">getPostType()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Get the post type identifier for this model.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_getRegistrationArgs">getRegistrationArgs()</a>
-    <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
-</dt>
-<dd>Get the arguments for register_post_type().</dd>
+<dd>Gets whether this item is in the current path.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getTitleAttribute">getTitleAttribute()</a>
     <span>
-                                &nbsp;: int|mixed|string|<abbr title="\WP_Error">WP_Error</abbr>|null    </span>
+                                &nbsp;: string    </span>
 </dt>
+<dd>Gets the title for this menu item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_getUrlAttribute">getUrlAttribute()</a>
     <span>
-                                &nbsp;: false|mixed|string|<abbr title="\WP_Error">WP_Error</abbr>    </span>
+                                &nbsp;: string|<abbr title="\WP_Error">WP_Error</abbr>    </span>
 </dt>
+<dd>Gets the URL for this menu item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_instance">instance()</a>
     <span>
-                                &nbsp;: <a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>    </span>
+                                &nbsp;: <a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>|null    </span>
 </dt>
+<dd>Gets the instance (actual post/page/term) this menu item links to.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_parent">parent()</a>
     <span>
-                                &nbsp;: <a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>    </span>
+                                &nbsp;: <a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>|null    </span>
 </dt>
+<dd>Gets the parent menu item.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_scopeOrderByMeta">scopeOrderByMeta()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#method_getClassName">getClassName()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: class-string|null    </span>
 </dt>
-<dd>Order query by a meta field.</dd>
+<dd>Gets the class name for the menu item type.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_toArray">toArray()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#method_get_archive_title">get_archive_title()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Convert model to array including mutated attributes.</dd>
+<dd>Gets the post type archive title.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Model.html#method_unregisterExisting">unregisterExisting()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_title">get_taxonomy_title()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Unregister existing WordPress post type before re-registering.</dd>
+<dd>Gets the taxonomy name for taxonomy-type items.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_url">get_taxonomy_url()</a>
+    <span>
+                                &nbsp;: string|<abbr title="\WP_Error">WP_Error</abbr>    </span>
+</dt>
+<dd>Gets the taxonomy URL for taxonomy-type menu items.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Model-MenuItem.html#method_get_wp_post_classes">get_wp_post_classes()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;|mixed|<abbr title="\WP_Post">WP_Post</abbr>|null    </span>
+                                &nbsp;: <abbr title="\WP_Post">WP_Post</abbr>    </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Model-MenuItem.html#method_getClassName">getClassName()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
+<dd>Gets the WordPress menu item post with processed classes.</dd>
 
     </dl>
 
@@ -550,334 +474,31 @@
             -public
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_admin_columns">
-        $admin_columns
-        <a href="classes/Sloth-Model-Model.html#property_admin_columns" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_classes">
+        $classes
+        <a href="classes/Sloth-Model-MenuItem.html#property_classes" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">0</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Admin list columns for this post type.</p>
-
     
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$admin_columns</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_admin_columns_hidden">
-        $admin_columns_hidden
-        <a href="classes/Sloth-Model-Model.html#property_admin_columns_hidden" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">99</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Admin list columns to hide.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$admin_columns_hidden</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_layotter">
-        $layotter
-        <a href="classes/Sloth-Model-Model.html#property_layotter" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">57</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Whether this model can be used with Layotter page builder.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">bool|array&lt;string, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$layotter</span>
-     = <span class="phpdocumentor-signature__default-value">false</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_post_content">
-        $post_content
-        <a href="classes/Sloth-Model-Model.html#property_post_content" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">71</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Default post_content for new posts.</p>
-
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$post_content</span>
-     = <span class="phpdocumentor-signature__default-value">&#039; &#039;</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_register">
-        $register
-        <a href="classes/Sloth-Model-Model.html#property_register" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">64</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Whether to register this post type with WordPress.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$register</span>
-     = <span class="phpdocumentor-signature__default-value">true</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_attributes">
-        $attributes
-        <a href="classes/Sloth-Model-Model.html#property_attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">106</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Default attribute values.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$attributes</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;post_content&#039; =&gt; &#039;&#039;, &#039;post_title&#039; =&gt; &#039;&#039;, &#039;post_excerpt&#039; =&gt; &#039;&#039;, &#039;to_ping&#039; =&gt; false, &#039;pinged&#039; =&gt; false, &#039;post_content_filtered&#039; =&gt; &#039;&#039;]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_fillable">
-        $fillable
-        <a href="classes/Sloth-Model-Model.html#property_fillable" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">120</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Attributes that are mass assignable.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$fillable</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;post_content&#039;, &#039;post_title&#039;, &#039;post_excerpt&#039;, &#039;post_type&#039;, &#039;to_ping&#039;, &#039;pinged&#039;, &#039;post_content_filtered&#039;, &#039;post_name&#039;, &#039;guid&#039;, &#039;post_parent&#039;]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_filtered">
-        $filtered
-        <a href="classes/Sloth-Model-Model.html#property_filtered" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">85</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Whether content has been filtered through the_content.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$filtered</span>
-     = <span class="phpdocumentor-signature__default-value">false</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_icon">
-        $icon
-        <a href="classes/Sloth-Model-Model.html#property_icon" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">78</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Dashicons icon name for the admin menu.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$icon</span>
+    <span class="phpdocumentor-signature__name">$classes</span>
     </code>
 
-    
+        <section class="phpdocumentor-description"><p>The menu item CSS classes</p>
+</section>
+
     
     
 
@@ -889,126 +510,12 @@
         class="
             phpdocumentor-element
             -property
-            -protected
+            -public
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_labels">
-        $labels
-        <a href="classes/Sloth-Model-Model.html#property_labels" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">50</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Custom labels for the post type.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$labels</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_names">
-        $names
-        <a href="classes/Sloth-Model-Model.html#property_names" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">36</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Post type names (singular and plural).</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$names</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_options">
-        $options
-        <a href="classes/Sloth-Model-Model.html#property_options" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">43</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Post type options passed to register_post_type().</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$options</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_postType">
-        $postType
-        <a href="classes/Sloth-Model-MenuItem.html#property_postType" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_current">
+        $current
+        <a href="classes/Sloth-Model-MenuItem.html#property_current" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -1016,19 +523,177 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">0</span>
 
     </aside>
 
     
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$current</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Whether this item is the current page</p>
+</section>
+
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_current_item_ancestor">
+        $current_item_ancestor
+        <a href="classes/Sloth-Model-MenuItem.html#property_current_item_ancestor" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$current_item_ancestor</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Whether this is an ancestor of current item</p>
+</section>
+
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_current_item_parent">
+        $current_item_parent
+        <a href="classes/Sloth-Model-MenuItem.html#property_current_item_parent" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$current_item_parent</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Whether this is a parent of current item</p>
+</section>
+
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_in_current_path">
+        $in_current_path
+        <a href="classes/Sloth-Model-MenuItem.html#property_in_current_path" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$in_current_path</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Whether in current path</p>
+</section>
+
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_title">
+        $title
+        <a href="classes/Sloth-Model-MenuItem.html#property_title" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$postType</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;nav_menu_item&#039;</span></code>
+    <span class="phpdocumentor-signature__name">$title</span>
+    </code>
 
-    
+        <section class="phpdocumentor-description"><p>The menu item title</p>
+</section>
+
     
     
 
@@ -1040,12 +705,12 @@
         class="
             phpdocumentor-element
             -property
-            -private
+            -public
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_instanceRelations">
-        $instanceRelations
-        <a href="classes/Sloth-Model-MenuItem.html#property_instanceRelations" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_url">
+        $url
+        <a href="classes/Sloth-Model-MenuItem.html#property_url" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -1053,19 +718,21 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">0</span>
 
     </aside>
 
     
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$instanceRelations</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;post&#039; =&gt; \Sloth\Model\Post::class, &#039;page&#039; =&gt; \Corcel\Model\Page::class, &#039;custom&#039; =&gt; \Corcel\Model\CustomLink::class, &#039;category&#039; =&gt; \Corcel\Model\Taxonomy::class]</span></code>
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$url</span>
+    </code>
 
-    
+        <section class="phpdocumentor-description"><p>The menu item URL</p>
+</section>
+
     
     
 
@@ -1087,57 +754,6 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___call">
-        __call()
-        <a href="classes/Sloth-Model-Model.html#method___call" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">332</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$parameters</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
         <a href="classes/Sloth-Model-MenuItem.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1146,15 +762,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">MenuItem constructor.</p>
+        <p class="phpdocumentor-summary">Creates a new MenuItem instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1164,10 +780,12 @@
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$attributes</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Initial attributes</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1179,104 +797,24 @@
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">throws</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><abbr title="\ReflectionException">ReflectionException</abbr></span>
                                                             
-                                             
+                                                 <section class="phpdocumentor-description"><p>If class reflection fails</p>
+</section>
+
                                     </dd>
                                             </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___get">
-        __get()
-        <a href="classes/Sloth-Model-Model.html#method___get" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">287</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get a property, checking for ACF fields first.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__get</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___isset">
-        __isset()
-        <a href="classes/Sloth-Model-Model.html#method___isset" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">276</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Check if an ACF field exists.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__isset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
 
         
     
@@ -1296,11 +834,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">230</span>
+    <span class="phpdocumentor-element-found-in__line">345</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the child menu items.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">children</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span></code>
@@ -1311,12 +850,42 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_children#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-MenuItem.html#method_children#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The children relationship</p>
+</section>
+
             </section>
 
 </article>
@@ -1334,11 +903,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">206</span>
+    <span class="phpdocumentor-element-found-in__line">317</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the CSS classes for this menu item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getClassesAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -1349,102 +919,31 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getClassesAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getColumn">
-        getColumn()
-        <a href="classes/Sloth-Model-Model.html#method_getColumn" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">325</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get a column value for admin list table display.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getColumn</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$which</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$which</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getContentAttribute">
-        getContentAttribute()
-        <a href="classes/Sloth-Model-Model.html#method_getContentAttribute" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">257</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the filtered post content.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getContentAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Applies the_content filter to post_content.</p>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Space-separated CSS classes</p>
 </section>
 
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
 </article>
@@ -1462,14 +961,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the current state of this menu item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getCurrentAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getCurrentAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1477,10 +977,33 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getCurrentAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Whether this is the current page</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1496,14 +1019,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">190</span>
+    <span class="phpdocumentor-element-found-in__line">287</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets whether this is an ancestor of the current item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getCurrentItemAncestorAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getCurrentItemAncestorAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1511,10 +1035,33 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getCurrentItemAncestorAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Whether this is an ancestor</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1530,14 +1077,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">163</span>
+    <span class="phpdocumentor-element-found-in__line">252</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets whether this is a parent of the current item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getCurrentItemParentAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getCurrentItemParentAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1545,10 +1093,33 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getCurrentItemParentAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if this is a parent of current item</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1564,11 +1135,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">199</span>
+    <span class="phpdocumentor-element-found-in__line">301</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets whether this item is in the current path.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getInCurrentPathAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -1579,170 +1151,31 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getInCurrentPathAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getPermalinkAttribute">
-        getPermalinkAttribute()
-        <a href="classes/Sloth-Model-Model.html#method_getPermalinkAttribute" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">234</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the permalink for this post.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getPermalinkAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">false|string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">false|string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getPostThumbnailAttribute">
-        getPostThumbnailAttribute()
-        <a href="classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">245</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the post thumbnail (featured image).</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getPostThumbnailAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Field-Image.html"><abbr title="\Sloth\Field\Image">Image</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Field-Image.html"><abbr title="\Sloth\Field\Image">Image</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getPostType">
-        getPostType()
-        <a href="classes/Sloth-Model-Model.html#method_getPostType" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">168</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the post type identifier for this model.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getPostType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getRegistrationArgs">
-        getRegistrationArgs()
-        <a href="classes/Sloth-Model-Model.html#method_getRegistrationArgs" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">180</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the arguments for register_post_type().</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getRegistrationArgs</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Exposes the model's configuration for external registration.</p>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if current or parent of current</p>
 </section>
 
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
             </section>
 
 </article>
@@ -1760,27 +1193,49 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">125</span>
+    <span class="phpdocumentor-element-found-in__line">184</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the title for this menu item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getTitleAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|mixed|string|<abbr title="\WP_Error">WP_Error</abbr>|null</span></code>
+                    <span class="phpdocumentor-signature__name">getTitleAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Falls back to the linked post/term title if no custom title is set.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getTitleAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int|mixed|string|<abbr title="\WP_Error">WP_Error</abbr>|null</span>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The menu item title</p>
+</section>
+
             </section>
 
 </article>
@@ -1798,14 +1253,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">103</span>
+    <span class="phpdocumentor-element-found-in__line">150</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the URL for this menu item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getUrlAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">false|mixed|string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">getUrlAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1813,12 +1269,31 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getUrlAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">false|mixed|string|<abbr title="\WP_Error">WP_Error</abbr></span>
+        <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The URL or error</p>
+</section>
+
             </section>
 
 </article>
@@ -1836,14 +1311,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">117</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the instance (actual post/page/term) this menu item links to.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">instance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">instance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1851,12 +1327,42 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_instance#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-MenuItem.html#method_instance#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr></span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The instance or null</p>
+</section>
+
             </section>
 
 </article>
@@ -1874,14 +1380,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">69</span>
+    <span class="phpdocumentor-element-found-in__line">97</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the parent menu item.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">parent</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">parent</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1889,101 +1396,68 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_parent#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-MenuItem.html#method_parent#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr></span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Post.html"><abbr title="\Sloth\Model\Post">Post</abbr></a>|<abbr title="\Corcel\Model\Page">Page</abbr>|<abbr title="\Corcel\Model\CustomLink">CustomLink</abbr>|<abbr title="\Corcel\Model\Taxonomy">Taxonomy</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The parent item or null</p>
+</section>
+
             </section>
 
 </article>
                     <article
         class="phpdocumentor-element
             -method
-            -public
+            -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_scopeOrderByMeta">
-        scopeOrderByMeta()
-        <a href="classes/Sloth-Model-Model.html#method_scopeOrderByMeta" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getClassName">
+        getClassName()
+        <a href="classes/Sloth-Model-MenuItem.html#method_getClassName" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">373</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Order query by a meta field.</p>
+        <p class="phpdocumentor-summary">Gets the class name for the menu item type.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">scopeOrderByMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Corcel\Model\Builder\PostBuilder">PostBuilder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$meta</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$direction</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'asc'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$query</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Corcel\Model\Builder\PostBuilder">PostBuilder</abbr></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$meta</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Meta key to order by</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$direction</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">'asc'</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Sort direction (asc/desc)</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_toArray">
-        toArray()
-        <a href="classes/Sloth-Model-Model.html#method_toArray" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">348</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Convert model to array including mutated attributes.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">toArray</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">getClassName</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">class-string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1991,38 +1465,68 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_getClassName#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-MenuItem.html#method_getClassName#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">class-string|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The fully qualified class name or null</p>
+</section>
+
             </section>
 
 </article>
                     <article
         class="phpdocumentor-element
             -method
-            -public
+            -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_unregisterExisting">
-        unregisterExisting()
-        <a href="classes/Sloth-Model-Model.html#method_unregisterExisting" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_get_archive_title">
+        get_archive_title()
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_archive_title" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">211</span>
+    <span class="phpdocumentor-element-found-in__line">224</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Unregister existing WordPress post type before re-registering.</p>
+        <p class="phpdocumentor-summary">Gets the post type archive title.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">unregisterExisting</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">get_archive_title</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2030,10 +1534,149 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_archive_title#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The archive title</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_get_taxonomy_title">
+        get_taxonomy_title()
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_title" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">210</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets the taxonomy name for taxonomy-type items.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">get_taxonomy_title</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
     
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_title#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The taxonomy term name</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_get_taxonomy_url">
+        get_taxonomy_url()
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_url" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">168</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets the taxonomy URL for taxonomy-type menu items.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">get_taxonomy_url</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_url#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The term link or error</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -2049,14 +1692,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gets the WordPress menu item post with processed classes.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">get_wp_post_classes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|mixed|<abbr title="\WP_Post">WP_Post</abbr>|null</span></code>
+                    <span class="phpdocumentor-signature__name">get_wp_post_classes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\WP_Post">WP_Post</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2064,50 +1708,51 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-MenuItem.html#method_get_wp_post_classes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\wp_setup_nav_menu_item()">wp_setup_nav_menu_item()</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>To process the menu item</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\_wp_menu_item_classes_by_context()">_wp_menu_item_classes_by_context()</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>To add classes</p>
+</section>
+
+                                    </dd>
+                        </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|mixed|<abbr title="\WP_Post">WP_Post</abbr>|null</span>
-            </section>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\WP_Post">WP_Post</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The processed menu item post</p>
+</section>
 
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getClassName">
-        getClassName()
-        <a href="classes/Sloth-Model-MenuItem.html#method_getClassName" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/MenuItem.php"><a href="files/src-model-menuitem.html"><abbr title="src/Model/MenuItem.php">MenuItem.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">93</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getClassName</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
 </article>
@@ -2226,51 +1871,35 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_admin_columns">$admin_columns</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_admin_columns_hidden">$admin_columns_hidden</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_layotter">$layotter</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_post_content">$post_content</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_register">$register</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_attributes">$attributes</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_fillable">$fillable</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_filtered">$filtered</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_icon">$icon</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_labels">$labels</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_names">$names</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_options">$options</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_postType">$postType</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_instanceRelations">$instanceRelations</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_classes">$classes</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_current">$current</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_current_item_ancestor">$current_item_ancestor</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_current_item_parent">$current_item_parent</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_in_current_path">$in_current_path</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_title">$title</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-MenuItem.html#property_url">$url</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method___call">__call()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method___construct">__construct()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method___get">__get()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method___isset">__isset()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_children">children()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getClassesAttribute">getClassesAttribute()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getContentAttribute">getContentAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getCurrentAttribute">getCurrentAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getCurrentItemAncestorAttribute">getCurrentItemAncestorAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getCurrentItemParentAttribute">getCurrentItemParentAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getInCurrentPathAttribute">getInCurrentPathAttribute()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getPermalinkAttribute">getPermalinkAttribute()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute">getPostThumbnailAttribute()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getPostType">getPostType()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getRegistrationArgs">getRegistrationArgs()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getTitleAttribute">getTitleAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getUrlAttribute">getUrlAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_instance">instance()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_parent">parent()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_scopeOrderByMeta">scopeOrderByMeta()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_toArray">toArray()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_unregisterExisting">unregisterExisting()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_get_wp_post_classes">get_wp_post_classes()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_getClassName">getClassName()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_get_archive_title">get_archive_title()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_title">get_taxonomy_title()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_get_taxonomy_url">get_taxonomy_url()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-MenuItem.html#method_get_wp_post_classes">get_wp_post_classes()</a></li>
                                     </ul>
             </li>
                     </ul>

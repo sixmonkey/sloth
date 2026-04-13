@@ -217,11 +217,11 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Utility/Utility.php"><a href="files/src-utility-utility.html"><abbr title="src/Utility/Utility.php">Utility.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Utility class for string transformations.</p>
+            <p class="phpdocumentor-summary">Utility class extending CakePHP Inflector with additional helper methods.</p>
 
 
 
@@ -239,6 +239,15 @@
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">@extends</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>Inflector</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -270,35 +279,35 @@
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert a name to an ACF field group name.</dd>
+<dd>Convert a name to an ACF field group format.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Utility-Utility.html#method_float2fraction">float2fraction()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert a float to its fractional representation.</dd>
+<dd>Convert a float to a fraction string.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Utility-Utility.html#method_modulize">modulize()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert a name to a module class name.</dd>
+<dd>Convert a name to a module name format.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Utility-Utility.html#method_normalize">normalize()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Normalize a class or module name.</dd>
+<dd>Normalize a name by removing namespace and cleaning formatting.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Utility-Utility.html#method_viewize">viewize()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert a name to a view file name.</dd>
+<dd>Convert a name to a view-friendly format (dasherized).</dd>
 
     </dl>
 
@@ -328,11 +337,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Utility/Utility.php"><a href="files/src-utility-utility.html"><abbr title="src/Utility/Utility.php">Utility.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">89</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert a name to an ACF field group name.</p>
+        <p class="phpdocumentor-summary">Convert a name to an ACF field group format.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -358,13 +367,28 @@
                 : <span class="phpdocumentor-argument-list__argument__type">bool</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">true</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Whether to prefix with 'group_module_'</p>
+                    <section class="phpdocumentor-description"><p>Whether to add the group_module_ prefix</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Utility-Utility.html#method_acfize#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -372,7 +396,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>ACF field group name</p>
+                <section class="phpdocumentor-description"><p>The ACF-formatted name</p>
 </section>
 
             </section>
@@ -392,11 +416,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Utility/Utility.php"><a href="files/src-utility-utility.html"><abbr title="src/Utility/Utility.php">Utility.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">107</span>
+    <span class="phpdocumentor-element-found-in__line">109</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert a float to its fractional representation.</p>
+        <p class="phpdocumentor-summary">Convert a float to a fraction string.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -422,13 +446,28 @@
                 : <span class="phpdocumentor-argument-list__argument__type">float</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">1.0E-6</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Precision tolerance</p>
+                    <section class="phpdocumentor-description"><p>The tolerance for conversion</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Utility-Utility.html#method_float2fraction#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -436,7 +475,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Fractional representation</p>
+                <section class="phpdocumentor-description"><p>The fraction string</p>
 </section>
 
             </section>
@@ -456,11 +495,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Utility/Utility.php"><a href="files/src-utility-utility.html"><abbr title="src/Utility/Utility.php">Utility.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert a name to a module class name.</p>
+        <p class="phpdocumentor-summary">Convert a name to a module name format.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -486,13 +525,28 @@
                 : <span class="phpdocumentor-argument-list__argument__type">bool</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Whether to add Theme\Module\ namespace</p>
+                    <section class="phpdocumentor-description"><p>Whether to include the Theme namespace</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Utility-Utility.html#method_modulize#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -500,7 +554,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Module class name</p>
+                <section class="phpdocumentor-description"><p>The modulized name</p>
 </section>
 
             </section>
@@ -520,11 +574,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Utility/Utility.php"><a href="files/src-utility-utility.html"><abbr title="src/Utility/Utility.php">Utility.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Normalize a class or module name.</p>
+        <p class="phpdocumentor-summary">Normalize a name by removing namespace and cleaning formatting.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -533,9 +587,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Strips namespace, removes Module suffix, replaces spaces with dashes.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -550,6 +602,21 @@
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Utility-Utility.html#method_normalize#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -557,7 +624,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Normalized name</p>
+                <section class="phpdocumentor-description"><p>The normalized name</p>
 </section>
 
             </section>
@@ -577,11 +644,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Utility/Utility.php"><a href="files/src-utility-utility.html"><abbr title="src/Utility/Utility.php">Utility.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert a name to a view file name.</p>
+        <p class="phpdocumentor-summary">Convert a name to a view-friendly format (dasherized).</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -605,6 +672,21 @@
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Utility-Utility.html#method_viewize#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -612,7 +694,7 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>View file name</p>
+                <section class="phpdocumentor-description"><p>The view-friendly name</p>
 </section>
 
             </section>

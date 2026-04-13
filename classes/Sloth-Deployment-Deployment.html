@@ -195,6 +195,9 @@
         <h2 class="phpdocumentor-content__title">
     Deployment
 
+        <span class="phpdocumentor-element__extends">
+        extends <a href="classes/Sloth-Singleton-Singleton.html"><abbr title="\Sloth\Singleton\Singleton">Singleton</abbr></a>
+    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -208,19 +211,17 @@
 
 <div class="phpdocumentor-label-line">
 
-    <div class="phpdocumentor-label phpdocumentor-label--success"><span>Final</span><span>Yes</span></div>
-
 
 </div>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Deployment/Deployment.php"><a href="files/src-deployment-deployment.html"><abbr title="src/Deployment/Deployment.php">Deployment.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Deployment helper class for cache clearing.</p>
+            <p class="phpdocumentor-summary">Deployment class for triggering deployment webhooks.</p>
 
 
 
@@ -266,15 +267,9 @@
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Deployment-Deployment.html#property_hooks">$hooks</a>
     <span>
-                        &nbsp;: mixed            </span>
+                        &nbsp;: array&lt;string|int, string&gt;            </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Deployment-Deployment.html#property_instance">$instance</a>
-    <span>
-                        &nbsp;: <a href="classes/Sloth-Deployment-Deployment.html"><abbr title="\Sloth\Deployment\Deployment">Deployment</abbr></a>            </span>
-</dt>
-<dd>Sloth\Deployment instance.</dd>
+<dd>WordPress hooks to trigger deployment.</dd>
 
     </dl>
 
@@ -285,25 +280,39 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Deployment-Deployment.html#method_boot">boot()</a>
+    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Add required hooks to WordPress</dd>
+<dd>Prevent singleton instance from being unserialized.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Deployment-Deployment.html#method_instance">instance()</a>
+    <a class="" href="classes/Sloth-Deployment-Deployment.html#method_boot">boot()</a>
     <span>
-                                &nbsp;: <a href="classes/Sloth-Deployment-Deployment.html"><abbr title="\Sloth\Deployment\Deployment">Deployment</abbr></a>    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Retrieve Sloth class instance.</dd>
+<dd>Boot the deployment hooks.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a>
+    <span>
+                                &nbsp;: static    </span>
+</dt>
+<dd>Get the singleton instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Deployment-Deployment.html#method_trigger">trigger()</a>
     <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Trigger the deployment webhook.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a>
+    <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>trigger the deployment</dd>
+<dd>Singleton constructor.</dd>
 
     </dl>
 
@@ -335,59 +344,37 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Deployment/Deployment.php"><a href="files/src-deployment-deployment.html"><abbr title="src/Deployment/Deployment.php">Deployment.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">WordPress hooks to trigger deployment.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">mixed</span>
+            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
     <span class="phpdocumentor-signature__name">$hooks</span>
      = <span class="phpdocumentor-signature__default-value">[&#039;edited_terms&#039;, &#039;created_term&#039;, &#039;post_updated&#039;, &#039;acf/save_post&#039;]</span></code>
 
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Deployment-Deployment.html#property_hooks#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_instance">
-        $instance
-        <a href="classes/Sloth-Deployment-Deployment.html#property_instance" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Deployment/Deployment.php"><a href="files/src-deployment-deployment.html"><abbr title="src/Deployment/Deployment.php">Deployment.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">17</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sloth\Deployment instance.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Deployment-Deployment.html"><abbr title="\Sloth\Deployment\Deployment">Deployment</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$instance</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-    
-    
-    
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
         
@@ -407,6 +394,66 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method___wakeup">
+        __wakeup()
+        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">57</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Prevent singleton instance from being unserialized.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\RuntimeException">RuntimeException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Always throws exception</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_boot">
         boot()
         <a href="classes/Sloth-Deployment-Deployment.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
@@ -415,15 +462,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Deployment/Deployment.php"><a href="files/src-deployment-deployment.html"><abbr title="src/Deployment/Deployment.php">Deployment.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Add required hooks to WordPress</p>
+        <p class="phpdocumentor-summary">Boot the deployment hooks.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -431,6 +478,21 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Deployment-Deployment.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -442,23 +504,23 @@
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_instance">
-        instance()
-        <a href="classes/Sloth-Deployment-Deployment.html#method_instance" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getInstance">
+        getInstance()
+        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Deployment/Deployment.php"><a href="files/src-deployment-deployment.html"><abbr title="src/Deployment/Deployment.php">Deployment.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Retrieve Sloth class instance.</p>
+        <p class="phpdocumentor-summary">Get the singleton instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">instance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Deployment-Deployment.html"><abbr title="\Sloth\Deployment\Deployment">Deployment</abbr></a></span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getInstance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -466,12 +528,27 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Deployment-Deployment.html"><abbr title="\Sloth\Deployment\Deployment">Deployment</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">static</span>
             </section>
 
 </article>
@@ -489,15 +566,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Deployment/Deployment.php"><a href="files/src-deployment-deployment.html"><abbr title="src/Deployment/Deployment.php">Deployment.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">trigger the deployment</p>
+        <p class="phpdocumentor-summary">Trigger the deployment webhook.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">trigger</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">trigger</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -505,6 +582,73 @@
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Deployment-Deployment.html#method_trigger#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Sloth-Singleton-Singleton.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">31</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Singleton constructor.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Protected so it can't be called outside of the class.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Singleton-Singleton.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -626,16 +770,17 @@
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Sloth-Deployment-Deployment.html#property_hooks">$hooks</a></li>
-                                                    <li class=""><a href="classes/Sloth-Deployment-Deployment.html#property_instance">$instance</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a></li>
                                             <li class=""><a href="classes/Sloth-Deployment-Deployment.html#method_boot">boot()</a></li>
-                                            <li class=""><a href="classes/Sloth-Deployment-Deployment.html#method_instance">instance()</a></li>
+                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a></li>
                                             <li class=""><a href="classes/Sloth-Deployment-Deployment.html#method_trigger">trigger()</a></li>
+                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a></li>
                                     </ul>
             </li>
                     </ul>

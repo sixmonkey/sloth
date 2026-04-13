@@ -217,17 +217,16 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Framework bootstrap class.</p>
+            <p class="phpdocumentor-summary">Sloth Framework Bootstrap</p>
 
 
-    <section class="phpdocumentor-description"><p>Initializes the Sloth framework before WordPress loads. Sets up the service container,
-registers all core service providers, establishes database connection via Corcel,
-and enables the Tracy debugger.</p>
-<p>This runs in bootstrap.php before WordPress is loaded.</p>
+    <section class="phpdocumentor-description"><p>This is the main entry point for the Sloth framework.
+It initializes the application container, registers service providers,
+sets up facades, and establishes the database connection.</p>
 </section>
 
 
@@ -249,9 +248,9 @@ and enables the Tracy debugger.</p>
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Plugin-Plugin.html"><abbr title="\Sloth\Plugin\Plugin">Plugin</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Singleton-Singleton.html"><abbr title="\Sloth\Singleton\Singleton">Singleton</abbr></a></span>
                                         
-                                                 <section class="phpdocumentor-description"><p>For theme integration after WordPress loads</p>
+                                                 <section class="phpdocumentor-description"><p>For singleton pattern implementation</p>
 </section>
 
                                     </dd>
@@ -282,22 +281,23 @@ and enables the Tracy debugger.</p>
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/Sloth-Core-Sloth.html#property_container">$container</a>
     <span>
-                        &nbsp;: mixed            </span>
+                        &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>            </span>
 </dt>
+<dd>The application container instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Sloth-Core-Sloth.html#property_class_aliases">$class_aliases</a>
+    <a class="" href="classes/Sloth-Core-Sloth.html#property_classAliases">$classAliases</a>
     <span>
-                        &nbsp;: array&lt;string, string&gt;            </span>
+                        &nbsp;: array&lt;string, class-string&gt;            </span>
 </dt>
-<dd>Class aliases for the Application facade.</dd>
+<dd>Class aliases for convenient access to facades.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Sloth-Core-Sloth.html#property_dont_debug">$dont_debug</a>
+    <a class="" href="classes/Sloth-Core-Sloth.html#property_dontDebug">$dontDebug</a>
     <span>
                         &nbsp;: array&lt;string|int, string&gt;            </span>
 </dt>
-<dd>Files that should not trigger debugger output.</dd>
+<dd>Scripts that should not trigger debug output.</dd>
 
     </dl>
 
@@ -312,68 +312,77 @@ and enables the Tracy debugger.</p>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Sloth constructor.</dd>
+<dd>Creates a new Sloth instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
+<dd>Prevent singleton instance from being unserialized.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_dispatchRouter">dispatchRouter()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Dispatch the router to handle front-end routing.</dd>
+<dd>Dispatches the router to handle the current request.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a>
     <span>
                                 &nbsp;: static    </span>
 </dt>
-<dd>Returns the singleton instance of the called class.</dd>
+<dd>Get the singleton instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_setRouter">setRouter()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Set up the router for front-end routing.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___clone">__clone()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
+<dd>Sets up rewrite rules for the router.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_registerProviders">registerProviders()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Register all core framework service providers.</dd>
+<dd>Registers all core framework service providers.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_connectCorcel">connectCorcel()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Connect to the WordPress database via Corcel.</dd>
+<dd>Establishes a database connection for Corcel.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Core-Sloth.html#method_loadConfigFiles">loadConfigFiles()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Loads configuration files from app/config/ into the Laravel config repository.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Core-Sloth.html#method_registerErrorHandlers">registerErrorHandlers()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Registers error handlers for uncaught exceptions and errors.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_setAliases">setAliases()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Register class aliases for convenient access to facades.</dd>
+<dd>Creates class aliases for commonly used framework classes.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_setDebugging">setDebugging()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Configure Tracy debugger based on WP_DEBUG setting.</dd>
+<dd>Configures and enables the Tracy debugger.</dd>
 
     </dl>
 
@@ -405,21 +414,37 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The application container instance.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__type">mixed</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
     <span class="phpdocumentor-signature__name">$container</span>
     </code>
 
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#property_container#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
         
@@ -432,9 +457,9 @@ and enables the Tracy debugger.</p>
             -private
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_class_aliases">
-        $class_aliases
-        <a href="classes/Sloth-Core-Sloth.html#property_class_aliases" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_classAliases">
+        $classAliases
+        <a href="classes/Sloth-Core-Sloth.html#property_classAliases" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -442,22 +467,40 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Class aliases for the Application facade.</p>
+        <p class="phpdocumentor-summary">Class aliases for convenient access to facades.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$class_aliases</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;Route&#039; =&gt; &#039;\Sloth\Facades\Route&#039;, &#039;View&#039; =&gt; &#039;\Sloth\Facades\View&#039;, &#039;Configure&#039; =&gt; &#039;\Sloth\Facades\Configure&#039;, &#039;Validator&#039; =&gt; &#039;\Sloth\Facades\Validation&#039;, &#039;Deployment&#039; =&gt; &#039;\Sloth\Facades\Deployment&#039;, &#039;Customizer&#039; =&gt; &#039;\Sloth\Facades\Customizer&#039;]</span></code>
+            <span class="phpdocumentor-signature__type">array&lt;string, class-string&gt;</span>
+    <span class="phpdocumentor-signature__name">$classAliases</span>
+     = <span class="phpdocumentor-signature__default-value">[&#039;Route&#039; =&gt; \Sloth\Facades\Route::class, &#039;View&#039; =&gt; \Sloth\Facades\View::class, &#039;Configure&#039; =&gt; \Sloth\Facades\Configure::class, &#039;Validator&#039; =&gt; \Sloth\Facades\Validation::class, &#039;Deployment&#039; =&gt; \Sloth\Facades\Deployment::class, &#039;Customizer&#039; =&gt; \Sloth\Facades\Customizer::class]</span></code>
+
+        <section class="phpdocumentor-description"><p>These shortcuts allow classes to be referenced by their short name
+instead of their fully qualified namespace.</p>
+</section>
 
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#property_classAliases#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
         
@@ -470,9 +513,9 @@ and enables the Tracy debugger.</p>
             -private
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_dont_debug">
-        $dont_debug
-        <a href="classes/Sloth-Core-Sloth.html#property_dont_debug" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_dontDebug">
+        $dontDebug
+        <a href="classes/Sloth-Core-Sloth.html#property_dontDebug" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -480,22 +523,40 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Files that should not trigger debugger output.</p>
+        <p class="phpdocumentor-summary">Scripts that should not trigger debug output.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
             <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$dont_debug</span>
+    <span class="phpdocumentor-signature__name">$dontDebug</span>
      = <span class="phpdocumentor-signature__default-value">[&#039;admin-ajax.php&#039;, &#039;async-upload.php&#039;]</span></code>
+
+        <section class="phpdocumentor-description"><p>These are typically AJAX or media upload endpoints where
+debug output would interfere with the expected response.</p>
+</section>
 
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#property_dontDebug#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
         
@@ -523,11 +584,11 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Sloth constructor.</p>
+        <p class="phpdocumentor-summary">Creates a new Sloth instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -536,9 +597,34 @@ and enables the Tracy debugger.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Initializes the framework by:</p>
+<ol>
+<li>Loading development configuration</li>
+<li>Setting up debugging</li>
+<li>Creating the application container</li>
+<li>Registering all service providers</li>
+<li>Setting up class aliases</li>
+<li>Connecting to the WordPress database via Corcel</li>
+</ol>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -558,14 +644,15 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Prevent singleton instance from being unserialized.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -573,6 +660,31 @@ and enables the Tracy debugger.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\RuntimeException">RuntimeException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Always throws exception</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
     
@@ -592,22 +704,49 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">107</span>
+    <span class="phpdocumentor-element-found-in__line">166</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Dispatch the router to handle front-end routing.</p>
+        <p class="phpdocumentor-summary">Dispatches the router to handle the current request.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">dispatchRouter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">dispatchRouter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>This method is called during WordPress's template redirect
+and processes any matching Sloth routes before WordPress
+falls back to its default template hierarchy.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_dispatchRouter#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Route-Route.html#method_dispatch"><abbr title="\Sloth\Route\Route::dispatch()">Route::dispatch()</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -627,11 +766,11 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the singleton instance of the called class.</p>
+        <p class="phpdocumentor-summary">Get the singleton instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -640,11 +779,24 @@ and enables the Tracy debugger.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Uses late-static-binding so subclasses get their own instance.</p>
-</section>
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-    
-    
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -668,56 +820,48 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">150</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Set up the router for front-end routing.</p>
+        <p class="phpdocumentor-summary">Sets up rewrite rules for the router.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setRouter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setRouter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-    
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___clone">
-        __clone()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___clone" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">20</span>
-
-    </aside>
+        <section class="phpdocumentor-description"><p>Hooks into WordPress to register custom route patterns
+so WordPress knows about Sloth's custom routes.</p>
+</section>
 
     
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">__clone</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_setRouter#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Route-Route.html#method_setRewrite"><abbr title="\Sloth\Route\Route::setRewrite()">Route::setRewrite()</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -737,22 +881,70 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">119</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register all core framework service providers.</p>
+        <p class="phpdocumentor-summary">Registers all core framework service providers.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">registerProviders</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">registerProviders</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Service providers are registered in the order they appear in the array.
+Each provider is responsible for bootstrapping specific framework features.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_registerProviders#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\RouteServiceProvider">RouteServiceProvider</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For routing functionality</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\ViewServiceProvider">ViewServiceProvider</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For template rendering</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\FinderServiceProvider">FinderServiceProvider</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For file finding</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
     
@@ -772,15 +964,191 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">149</span>
+    <span class="phpdocumentor-element-found-in__line">268</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Connect to the WordPress database via Corcel.</p>
+        <p class="phpdocumentor-summary">Establishes a database connection for Corcel.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">connectCorcel</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">connectCorcel</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Corcel is used to access WordPress data as Eloquent models.
+The connection parameters are read from WordPress constants.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_connectCorcel#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Corcel\Database">Database</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For Corcel database configuration</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Corcel\Model\Post">Post</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For post model usage</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\DB_HOST">DB_HOST</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>WordPress database host constant</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\DB_NAME">DB_NAME</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>WordPress database name constant</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\DB_USER">DB_USER</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>WordPress database user constant</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\DB_PASSWORD">DB_PASSWORD</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>WordPress database password constant</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\DB_PREFIX">DB_PREFIX</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>WordPress table prefix constant</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_loadConfigFiles">
+        loadConfigFiles()
+        <a href="classes/Sloth-Core-Sloth.html#method_loadConfigFiles" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">289</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Loads configuration files from app/config/ into the Laravel config repository.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">loadConfigFiles</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Each PHP file in the config directory becomes a config key.
+For example, app/config/theme.php becomes accessible via config('theme').</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_loadConfigFiles#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_registerErrorHandlers">
+        registerErrorHandlers()
+        <a href="classes/Sloth-Core-Sloth.html#method_registerErrorHandlers" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">241</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Registers error handlers for uncaught exceptions and errors.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">registerErrorHandlers</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -788,6 +1156,31 @@ and enables the Tracy debugger.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_registerErrorHandlers#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Tracy\Debugger">Debugger</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For Tracy debugger configuration</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
     
@@ -807,22 +1200,49 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">118</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register class aliases for convenient access to facades.</p>
+        <p class="phpdocumentor-summary">Creates class aliases for commonly used framework classes.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">setAliases</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setAliases</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>This allows developers to use short class names like 'Route'
+instead of the fully qualified '\Sloth\Facades\Route'.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_setAliases#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>Route::get('/about', ['controller' =&gt; 'PageController']);</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
     
@@ -842,22 +1262,61 @@ and enables the Tracy debugger.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">206</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Configure Tracy debugger based on WP_DEBUG setting.</p>
+        <p class="phpdocumentor-summary">Configures and enables the Tracy debugger.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">setDebugging</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setDebugging</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>The debugger is set to DEVELOPMENT mode when WP_DEBUG is true,
+otherwise it runs in PRODUCTION mode. Tracy panels are added
+for vendor versions and custom Sloth debugging information.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-Sloth.html#method_setDebugging#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Tracy\Debugger">Debugger</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For Tracy debugger configuration</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Debugger-SlothBarPanel.html"><abbr title="\Sloth\Debugger\SlothBarPanel">SlothBarPanel</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For custom debug panel</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
     
@@ -979,8 +1438,8 @@ and enables the Tracy debugger.</p>
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Sloth-Core-Sloth.html#property_container">$container</a></li>
-                                                    <li class=""><a href="classes/Sloth-Core-Sloth.html#property_class_aliases">$class_aliases</a></li>
-                                                    <li class=""><a href="classes/Sloth-Core-Sloth.html#property_dont_debug">$dont_debug</a></li>
+                                                    <li class=""><a href="classes/Sloth-Core-Sloth.html#property_classAliases">$classAliases</a></li>
+                                                    <li class=""><a href="classes/Sloth-Core-Sloth.html#property_dontDebug">$dontDebug</a></li>
                                             </ul>
                 </li>
             
@@ -992,9 +1451,10 @@ and enables the Tracy debugger.</p>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_dispatchRouter">dispatchRouter()</a></li>
                                             <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_setRouter">setRouter()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___clone">__clone()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_registerProviders">registerProviders()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_connectCorcel">connectCorcel()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-Sloth.html#method_loadConfigFiles">loadConfigFiles()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-Sloth.html#method_registerErrorHandlers">registerErrorHandlers()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_setAliases">setAliases()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_setDebugging">setDebugging()</a></li>
                                     </ul>

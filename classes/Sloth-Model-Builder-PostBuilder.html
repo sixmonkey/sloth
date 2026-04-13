@@ -188,15 +188,16 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-facades.html">Facades</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model.html">Model</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model-builder.html">Builder</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Validation
+    PostBuilder
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Facades-Facade.html"><abbr title="\Sloth\Facades\Facade">Facade</abbr></a>
+        extends <abbr title="\Corcel\Model\Builder\PostBuilder">PostBuilder</abbr>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -215,20 +216,23 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Facades/Validation.php"><a href="files/src-facades-validation.html"><abbr title="src/Facades/Validation.php">Validation.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Builder/PostBuilder.php"><a href="files/src-model-builder-postbuilder.html"><abbr title="src/Model/Builder/PostBuilder.php">PostBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Validation Facade for accessing the validation service.</p>
+            <p class="phpdocumentor-summary">Custom query builder for WordPress posts.</p>
 
 
+    <section class="phpdocumentor-description"><p>Extends Corcel's PostBuilder to add Sloth-specific query logic,
+particularly for handling post type filters correctly with revisions.</p>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Facades-Validation.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Model-Builder-PostBuilder.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -244,9 +248,11 @@
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Facades-Facade.html"><abbr title="\Sloth\Facades\Facade">Facade</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Corcel\Model\Builder\PostBuilder">PostBuilder</abbr></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For base functionality</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -254,7 +260,7 @@
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Facades-Validation.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Model-Builder-PostBuilder.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -266,54 +272,26 @@
 
 
 
-<h4 id="toc-properties">
-    Properties
-    <a href="classes/Sloth-Facades-Validation.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Facades-Facade.html#property_app">$app</a>
-    <span>
-                        &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>|null            </span>
-</dt>
-<dd>The Application container instance.</dd>
-
-    </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Facades-Validation.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Model-Builder-PostBuilder.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Facades-Facade.html#method___callStatic">__callStatic()</a>
+    <a class="" href="classes/Sloth-Model-Builder-PostBuilder.html#method_type">type()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: $this    </span>
 </dt>
-<dd>Magic method for static calls.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Facades-Facade.html#method_setFacadeApplication">setFacadeApplication()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Sets the application container for all facades.</dd>
+<dd>Add a post type constraint to the query.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Facades-Validation.html#method_getFacadeAccessor">getFacadeAccessor()</a>
+    <a class="" href="classes/Sloth-Model-Builder-PostBuilder.html#method_isQueryingRevisions">isQueryingRevisions()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: bool    </span>
 </dt>
-<dd>Return the service provider key responsible for the validation class.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Facades-Facade.html#method_getInstance">getInstance()</a>
-    <span>
-                                &nbsp;: object    </span>
-</dt>
-<dd>Gets the instance from the container.</dd>
+<dd>Check if the current query is for revisions.</dd>
 
     </dl>
 
@@ -322,121 +300,52 @@
         
 
         
-    <section class="phpdocumentor-properties">
-        <h3 class="phpdocumentor-elements__header" id="properties">
-            Properties
-            <a href="classes/Sloth-Facades-Validation.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-        </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_app">
-        $app
-        <a href="classes/Sloth-Facades-Facade.html#property_app" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Facades/Facade.php"><a href="files/src-facades-facade.html"><abbr title="src/Facades/Facade.php">Facade.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">38</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">The Application container instance.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>|null</span>
-    <span class="phpdocumentor-signature__name">$app</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Facades-Facade.html#property_app#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Facades-Validation.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Model-Builder-PostBuilder.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method___callStatic">
-        __callStatic()
-        <a href="classes/Sloth-Facades-Facade.html#method___callStatic" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_type">
+        type()
+        <a href="classes/Sloth-Model-Builder-PostBuilder.html#method_type" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Facades/Facade.php"><a href="files/src-facades-facade.html"><abbr title="src/Facades/Facade.php">Facade.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Builder/PostBuilder.php"><a href="files/src-model-builder-postbuilder.html"><abbr title="src/Model/Builder/PostBuilder.php">PostBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">104</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Magic method for static calls.</p>
+        <p class="phpdocumentor-summary">Add a post type constraint to the query.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">__callStatic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">type</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Handles dynamic method calls by forwarding them to the
-resolved service instance.</p>
+        <section class="phpdocumentor-description"><p>Skips the filter if currently querying revisions to avoid
+conflicting with revision-specific queries.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$type</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name to call</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$args</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The arguments to pass</p>
+                    <section class="phpdocumentor-description"><p>Post type name or array of types</p>
 </section>
 
             </dd>
@@ -445,127 +354,7 @@ resolved service instance.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Facades-Facade.html#method___callStatic#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The result of the method call</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_setFacadeApplication">
-        setFacadeApplication()
-        <a href="classes/Sloth-Facades-Facade.html#method_setFacadeApplication" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Facades/Facade.php"><a href="files/src-facades-facade.html"><abbr title="src/Facades/Facade.php">Facade.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">47</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sets the application container for all facades.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">setFacadeApplication</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$app</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The application container</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Facades-Facade.html#method_setFacadeApplication#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_getFacadeAccessor">
-        getFacadeAccessor()
-        <a href="classes/Sloth-Facades-Validation.html#method_getFacadeAccessor" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Facades/Validation.php"><a href="files/src-facades-validation.html"><abbr title="src/Facades/Validation.php">Validation.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">22</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Return the service provider key responsible for the validation class.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getFacadeAccessor</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Facades-Validation.html#method_getFacadeAccessor#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Model-Builder-PostBuilder.html#method_type#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -582,7 +371,7 @@ resolved service instance.</p>
         
             <section class="phpdocumentor-attributes">
             <h5 class="phpdocumentor-elements__header" id="attributes">
-                Attributes <a href="classes/Sloth-Facades-Validation.html#method_getFacadeAccessor#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+                Attributes <a href="classes/Sloth-Model-Builder-PostBuilder.html#method_type#attributes" class="headerlink"><i class="fas fa-link"></i></a>
 
             </h5>
                             <dl class="phpdocumentor-argument-list">
@@ -594,11 +383,7 @@ resolved service instance.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The service identifier for the validator facade</p>
-</section>
-
+        <span class="phpdocumentor-signature__response_type">$this</span>
             </section>
 
 </article>
@@ -606,35 +391,38 @@ resolved service instance.</p>
         class="phpdocumentor-element
             -method
             -protected
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getInstance">
-        getInstance()
-        <a href="classes/Sloth-Facades-Facade.html#method_getInstance" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_isQueryingRevisions">
+        isQueryingRevisions()
+        <a href="classes/Sloth-Model-Builder-PostBuilder.html#method_isQueryingRevisions" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Facades/Facade.php"><a href="files/src-facades-facade.html"><abbr title="src/Facades/Facade.php">Facade.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Builder/PostBuilder.php"><a href="files/src-model-builder-postbuilder.html"><abbr title="src/Model/Builder/PostBuilder.php">PostBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the instance from the container.</p>
+        <p class="phpdocumentor-summary">Check if the current query is for revisions.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getInstance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">object</span></code>
+                    <span class="phpdocumentor-signature__name">isQueryingRevisions</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Inspects the query's where conditions to detect if querying
+for post_type = 'revision'.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Facades-Facade.html#method_getInstance#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Model-Builder-PostBuilder.html#method_isQueryingRevisions#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -646,25 +434,15 @@ resolved service instance.</p>
                                                                                 
                                              
                                     </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\RuntimeException">RuntimeException</abbr></span>
-                                                            
-                                                 <section class="phpdocumentor-description"><p>If no application is set</p>
-</section>
-
-                                    </dd>
                                             </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">object</span>
+        <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The resolved service instance</p>
+                <section class="phpdocumentor-description"><p>True if querying revisions</p>
 </section>
 
             </section>
@@ -676,7 +454,7 @@ resolved service instance.</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Facades/Validation.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Model/Builder/PostBuilder.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -777,25 +555,16 @@ resolved service instance.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Sloth-Facades-Validation.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Sloth-Facades-Validation.html#toc-methods">Methods</a></li>
+                                                                                <li><a href="classes/Sloth-Model-Builder-PostBuilder.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
-                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
-                <li>
-                    <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Facades-Facade.html#property_app">$app</a></li>
-                                            </ul>
-                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Facades-Facade.html#method___callStatic">__callStatic()</a></li>
-                                            <li class=""><a href="classes/Sloth-Facades-Facade.html#method_setFacadeApplication">setFacadeApplication()</a></li>
-                                            <li class=""><a href="classes/Sloth-Facades-Validation.html#method_getFacadeAccessor">getFacadeAccessor()</a></li>
-                                            <li class=""><a href="classes/Sloth-Facades-Facade.html#method_getInstance">getInstance()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Builder-PostBuilder.html#method_type">type()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Builder-PostBuilder.html#method_isQueryingRevisions">isQueryingRevisions()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -815,7 +584,7 @@ resolved service instance.</p>
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Facades-Validation.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Model-Builder-PostBuilder.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
