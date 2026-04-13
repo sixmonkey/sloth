@@ -475,7 +475,7 @@ class Model extends CorcelPost
      * @return bool True if the post has this term
      * @see getTermsAttribute() For the terms data
      */
-    public function hasTerm(string $taxonomy, string $term): bool
+    public function hasTerm($taxonomy, $term): bool
     {
         return isset($this->terms[$taxonomy][$term]);
     }
