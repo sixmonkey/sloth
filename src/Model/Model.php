@@ -45,9 +45,9 @@ class Model extends CorcelModel
     use OrderScopes;
     use CustomTimestamps;
 
-    const CREATED_AT = 'post_date';
+    public const CREATED_AT = 'post_date';
 
-    const UPDATED_AT = 'post_modified';
+    public const UPDATED_AT = 'post_modified';
 
     protected $table = 'posts';
 
@@ -185,6 +185,7 @@ class Model extends CorcelModel
      * @return PostBuilder The custom post builder instance
      * @see \Sloth\Model\Builder\PostBuilder
      */
+    #[\Override]
     public function newEloquentBuilder($query): PostBuilder
     {
         return new PostBuilder($query);
@@ -200,6 +201,7 @@ class Model extends CorcelModel
      *
      * @return Builder The filtered query builder
      */
+    #[\Override]
     public function newQuery()
     {
         return $this->postType
@@ -342,7 +344,7 @@ class Model extends CorcelModel
             $this->filtered = true;
         }
 
-        return (string)$this->post_content;
+        return (string) $this->post_content;
     }
 
     /**
@@ -367,7 +369,7 @@ class Model extends CorcelModel
      */
     public function getPostThumbnailAttribute(): Image
     {
-        return new Image((int)$this->meta->_thumbnail_id);
+        return new Image((int) $this->meta->_thumbnail_id);
     }
 
     /**
@@ -395,8 +397,10 @@ class Model extends CorcelModel
      */
     public function getTermsAttribute(): array
     {
-        return $this->taxonomies->groupBy(fn($taxonomy
-        ) => $taxonomy->taxonomy === 'post_tag' ? 'tag' : $taxonomy->taxonomy)->map(fn($group
+        return $this->taxonomies->groupBy(fn(
+            $taxonomy
+        ) => $taxonomy->taxonomy === 'post_tag' ? 'tag' : $taxonomy->taxonomy)->map(fn(
+            $group
         ) => $group->mapWithKeys(fn($item) => [$item->term->slug => $item->term->name]))->toArray();
     }
 
@@ -451,7 +455,7 @@ class Model extends CorcelModel
      */
     public function getKeywordsStrAttribute(): string
     {
-        return implode(',', (array)$this->keywords);
+        return implode(',', (array) $this->keywords);
     }
 
     /**
@@ -463,7 +467,7 @@ class Model extends CorcelModel
      */
     public function getPostType(): string
     {
-        return (string)$this->postType;
+        return (string) $this->postType;
     }
 
     /**
@@ -516,6 +520,7 @@ class Model extends CorcelModel
      * @param string|null $connection The connection name
      * @return static The model instance
      */
+    #[\Override]
     public function newFromBuilder($attributes = [], $connection = null): static
     {
         /** @var static $model */
@@ -590,7 +595,7 @@ class Model extends CorcelModel
 
         if (\post_type_exists($this->getPostType())) {
             $post_type_object = \get_post_type_object($this->getPostType());
-            $this->labels = array_merge((array)\get_post_type_labels($post_type_object), $this->labels);
+            $this->labels = array_merge((array) \get_post_type_labels($post_type_object), $this->labels);
 
             $post_type_object->remove_supports();
             $post_type_object->remove_rewrite_rules();
@@ -598,7 +603,7 @@ class Model extends CorcelModel
             $post_type_object->remove_hooks();
             $post_type_object->unregister_taxonomies();
 
-            $this->options = array_merge((array)$wp_post_types[$this->getPostType()], $this->options);
+            $this->options = array_merge((array) $wp_post_types[$this->getPostType()], $this->options);
             unset($wp_post_types[$this->getPostType()]);
             \do_action('unregistered_post_type', $this->getPostType());
         }
@@ -607,7 +612,7 @@ class Model extends CorcelModel
         $options = $this->options;
         if ($this->icon !== null) {
             $options = array_merge($this->options, [
-                'menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', (string)$this->icon),
+                'menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', (string) $this->icon),
             ]);
         }
 
@@ -619,13 +624,13 @@ class Model extends CorcelModel
         $order = [];
         $sortable = [];
 
-        foreach ($this->admin_columns as $k => $v) {
+        foreach (array_keys($this->admin_columns) as $k) {
             $class = static::class;
             $pt->columns()->populate(
                 $k,
                 function ($column, $post_id) use ($class, $k): void {
                     $r = call_user_func_array([$class, 'find'], [$post_id]);
-                    echo call_user_func([$r, 'get' . ucfirst((string)$k) . 'Column']);
+                    echo call_user_func([$r, 'get' . ucfirst((string) $k) . 'Column']);
                 }
             );
             $sortable[$k] = $k;
@@ -644,7 +649,7 @@ class Model extends CorcelModel
                 'list_table_primary_column',
                 function ($default, $screen) use ($pt, $first_column): string {
                     if ('edit-' . $pt->name === $screen) {
-                        $default = $first_column;
+                        return $first_column;
                     }
 
                     return $default;
@@ -742,6 +747,7 @@ class Model extends CorcelModel
      * @param $parameters
      * @return mixed|string
      */
+    #[\Override]
     public function __call($method, $parameters)
     {
         $parts = preg_split('/(?=[A-Z])/', $method);
@@ -757,6 +763,7 @@ class Model extends CorcelModel
      * @param $key
      * @return mixed
      */
+    #[\Override]
     public function __get($key)
     {
         $value = parent::__get($key);
@@ -768,9 +775,7 @@ class Model extends CorcelModel
         return $value;
     }
 
-    /**
-     * @return array
-     */
+    #[\Override]
     public function toArray(): array
     {
         $array = parent::toArray();
@@ -800,10 +805,6 @@ class Model extends CorcelModel
         return 'post_id';
     }
 
-    /**
-     * @param Builder $query
-     * @return Builder
-     */
     public function scopeHome(Builder $query): Builder
     {
         return $query

@@ -19,6 +19,7 @@ class Customizer extends Facade
      *
      * @return string The service identifier for the customizer facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'customizer';

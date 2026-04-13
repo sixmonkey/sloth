@@ -94,6 +94,7 @@ class MenuItem extends Corcel
      *
      * @return Post|Page|CustomLink|Taxonomy|null The parent item or null
      */
+    #[\Override]
     public function parent(): Post|Page|CustomLink|Taxonomy|null
     {
         $className = $this->getClassName();
@@ -113,6 +114,7 @@ class MenuItem extends Corcel
      *
      * @return Post|Page|CustomLink|Taxonomy|null The instance or null
      */
+    #[\Override]
     public function instance(): Post|Page|CustomLink|Taxonomy|null
     {
         $className = $this->getClassName();
@@ -132,6 +134,7 @@ class MenuItem extends Corcel
      *
      * @return class-string|null The fully qualified class name or null
      */
+    #[\Override]
     protected function getClassName(): ?string
     {
         return Arr::get($this->instanceRelations, $this->meta->_menu_item_object);
@@ -339,6 +342,7 @@ class MenuItem extends Corcel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany The children relationship
      */
+    #[\Override]
     public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasManyThrough(

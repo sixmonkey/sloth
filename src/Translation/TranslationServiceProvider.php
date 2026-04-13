@@ -12,6 +12,7 @@ use Illuminate\Events\Dispatcher;
 
 class TranslationServiceProvider extends ServiceProvider
 {
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(

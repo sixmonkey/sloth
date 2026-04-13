@@ -28,6 +28,7 @@ class ACFImage implements CastsAttributes
      * @param array $attributes All model attributes
      * @return Image|null The Image object, or null if empty/invalid
      */
+    #[\Override]
     public function get($model, $key, $value, $attributes): ?Image
     {
         $acfKey = $model->getAcfKey();
@@ -80,6 +81,7 @@ class ACFImage implements CastsAttributes
      * @param array $attributes All model attributes
      * @return mixed The value to store
      */
+    #[\Override]
     public function set($model, $key, $value, $attributes)
     {
         return $value;

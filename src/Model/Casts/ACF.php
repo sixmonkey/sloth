@@ -25,6 +25,7 @@ class ACF implements CastsAttributes
      * @param array $attributes All model attributes
      * @return mixed The field value
      */
+    #[\Override]
     public function get($model, $key, $value, $attributes): mixed
     {
         $acfKey = $model->getAcfKey();
@@ -45,6 +46,7 @@ class ACF implements CastsAttributes
      * @param array $attributes All model attributes
      * @return mixed The value to store
      */
+    #[\Override]
     public function set($model, $key, $value, $attributes)
     {
         update_field($key, $value, $model->getAcfKey());

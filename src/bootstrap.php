@@ -61,7 +61,7 @@ defined('DIR_SLOTH') ? DIR_SLOTH : define('DIR_SLOTH', DIR_ROOT . 'sloth' . DS);
 /**
  * Include composer autoload
  */
-require_once( DIR_VENDOR . DS . 'autoload.php' );
+require_once(DIR_VENDOR . DS . 'autoload.php');
 
 if (file_exists(DIR_APP . 'config' . DS . 'loader.php')) {
     include DIR_APP . 'config' . DS . 'loader.php';
@@ -154,7 +154,7 @@ defined('ABSPATH') ? ABSPATH : define('ABSPATH', realpath(DIR_WWW . DS . WP_PATH
  * @see https://gist.github.com/tzkmx/4c832432bc63fd67a3a16f940a184145
  */
 define('WP_CONTENT_DIR', DIR_WWW);
-defined('WP_CONTENT_URL') ? WP_CONTENT_URL : define('WP_CONTENT_URL',  getenv('WP_CONTENT_URL') ?: WP_HOME);
+defined('WP_CONTENT_URL') ? WP_CONTENT_URL : define('WP_CONTENT_URL', getenv('WP_CONTENT_URL') ?: WP_HOME);
 define('WP_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'plugins');
 define('WP_PLUGIN_URL', WP_HOME . '/extensions/plugins');
 define('WPMU_PLUGIN_DIR', DIR_WWW . 'extensions' . DS . 'components');

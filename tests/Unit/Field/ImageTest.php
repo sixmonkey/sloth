@@ -22,7 +22,7 @@ describe('Image', function (): void {
     describe('__toString()', function (): void {
         it('returns empty string when URL is null', function (): void {
             $image = new Image(null);
-            expect((string)$image)->toBe('');
+            expect((string) $image)->toBe('');
         });
     });
 });

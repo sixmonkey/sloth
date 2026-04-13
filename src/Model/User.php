@@ -25,8 +25,8 @@ class User extends CorcelBase
         HasACF::getAttribute insteadof Aliases;
     }
 
-    const CREATED_AT = 'user_registered';
-    const UPDATED_AT = null;
+    public const CREATED_AT = 'user_registered';
+    public const UPDATED_AT = null;
 
     /**
      * The database table for WordPress users.
@@ -110,7 +110,6 @@ class User extends CorcelBase
      * model classes. Since we extend Corcel\Model directly we bypass
      * that check by declaring the meta class explicitly.
      *
-     * @return string
      * @see \Corcel\Concerns\MetaFields::getMetaClass()
      */
     protected function getMetaClass(): string
@@ -121,7 +120,6 @@ class User extends CorcelBase
     /**
      * Returns the foreign key used to join usermeta to users.
      *
-     * @return string
      * @see \Corcel\Concerns\MetaFields::getMetaForeignKey()
      */
     protected function getMetaForeignKey(): string
@@ -131,8 +129,6 @@ class User extends CorcelBase
 
     /**
      * All posts authored by this user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -141,8 +137,6 @@ class User extends CorcelBase
 
     /**
      * All comments left by this user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -159,26 +153,19 @@ class User extends CorcelBase
      */
     public function getAvatarAttribute(): string
     {
-        $hash = !empty($this->email) ? md5(strtolower(trim($this->email))) : '';
+        $hash = empty($this->email) ? '' : md5(strtolower(trim($this->email)));
 
         return sprintf('//secure.gravatar.com/avatar/%s?d=mm', $hash);
     }
 
     /**
      * No-op — WordPress users table has no updated_at column.
-     *
-     * @param mixed $value
      */
-    public function setUpdatedAtAttribute(mixed $value): void
-    {
-    }
+    public function setUpdatedAtAttribute(mixed $value): void {}
 
     /**
      * No-op — WordPress users table has no updated_at column.
-     *
-     * @param mixed $value
      */
-    public function setUpdatedAt(mixed $value): void
-    {
-    }
+    #[\Override]
+    public function setUpdatedAt(mixed $value): void {}
 }

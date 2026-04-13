@@ -17,9 +17,7 @@ use Twig\TwigTest;
 
 class SlothTwigExtension extends AbstractExtension
 {
-    public function __construct(protected \Sloth\Core\Application $container)
-    {
-    }
+    public function __construct(protected \Sloth\Core\Application $container) {}
 
     /**
      * Define the extension name.
@@ -29,6 +27,7 @@ class SlothTwigExtension extends AbstractExtension
         return 'sloth';
     }
 
+    #[\Override]
     public function getTests()
     {
         return [
@@ -67,6 +66,7 @@ class SlothTwigExtension extends AbstractExtension
      *
      * @return array|\TwigFunction[]
      */
+    #[\Override]
     public function getFilters()
     {
         $filters = [
@@ -108,6 +108,7 @@ class SlothTwigExtension extends AbstractExtension
      *
      * @return array|\TwigFunction[]
      */
+    #[\Override]
     public function getFunctions()
     {
         $functions = [

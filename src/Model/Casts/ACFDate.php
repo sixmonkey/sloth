@@ -27,6 +27,7 @@ class ACFDate implements CastsAttributes
      * @param array $attributes All model attributes
      * @return Carbon|CarbonFaker The parsed date, or CarbonFaker for empty values
      */
+    #[\Override]
     public function get($model, $key, $value, $attributes): Carbon|CarbonFaker
     {
         $acfKey = $model->getAcfKey();
@@ -55,6 +56,7 @@ class ACFDate implements CastsAttributes
      * @param array $attributes All model attributes
      * @return mixed The value to store
      */
+    #[\Override]
     public function set($model, $key, $value, $attributes)
     {
         return $value;

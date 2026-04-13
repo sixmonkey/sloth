@@ -19,6 +19,7 @@ class CustomizerServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(

@@ -19,6 +19,7 @@ class Layotter extends Facade
      *
      * @return string The service identifier for the Layotter facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'layotter';

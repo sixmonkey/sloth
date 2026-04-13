@@ -19,6 +19,7 @@ class Route extends Facade
      *
      * @return string The service identifier for the route facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'route';

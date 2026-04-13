@@ -23,6 +23,7 @@ class Paginator extends BasePaginator
      *
      * @return string The URL for the given page
      */
+    #[\Override]
     public function url(int $page): string
     {
         if (\is_archive()) {

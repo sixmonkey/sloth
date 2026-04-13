@@ -147,6 +147,6 @@ trait HasACF
 
         $id = $this->ID ?? null;
 
-        return $id !== null ? (string)$id : null;
+        return $id !== null ? (string) $id : null;
     }
 }

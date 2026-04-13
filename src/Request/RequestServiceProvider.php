@@ -20,6 +20,7 @@ class RequestServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->singleton(
@@ -35,6 +36,7 @@ class RequestServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
+    #[\Override]
     public function provides(): array
     {
         return [

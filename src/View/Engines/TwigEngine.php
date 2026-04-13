@@ -45,6 +45,7 @@ class TwigEngine extends PhpEngine
      *
      * @return string
      */
+    #[\Override]
     public function get($path, array $data = [])
     {
 

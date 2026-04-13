@@ -19,6 +19,7 @@ class Deployment extends Facade
      *
      * @return string The service identifier for the deployment facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'deployment';

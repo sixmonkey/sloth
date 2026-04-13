@@ -68,9 +68,7 @@ class Controller
      *
      * @since 1.0.0
      */
-    public function beforeRender(): void
-    {
-    }
+    public function beforeRender(): void {}
 
     /**
      * Called after rendering the view.
@@ -122,7 +120,5 @@ class Controller
      *
      * @since 1.0.0
      */
-    public function index()
-    {
-    }
+    public function index() {}
 }

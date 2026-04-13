@@ -19,6 +19,7 @@ class Validation extends Facade
      *
      * @return string The service identifier for the validator facade
      */
+    #[\Override]
     protected static function getFacadeAccessor(): string
     {
         return 'validator';

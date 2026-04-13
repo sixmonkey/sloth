@@ -28,6 +28,7 @@ class PostBuilder extends CorcelPostBuilder
      * @param mixed $type Post type name or array of types
      * @return $this
      */
+    #[\Override]
     public function type($type)
     {
         if ($this->isQueryingRevisions()) {
@@ -52,9 +53,9 @@ class PostBuilder extends CorcelPostBuilder
         $wheres = $this->query->wheres ?? [];
 
         foreach ($wheres as $where) {
-            if (isset($where['column'], $where['value']) &&
-                $where['value'] === 'revision' &&
-                ($where['column'] === 'post_type' || $where['column'] === 'posts.post_type')) {
+            if (isset($where['column'], $where['value'])
+                && $where['value'] === 'revision'
+                && ($where['column'] === 'post_type' || $where['column'] === 'posts.post_type')) {
                 return true;
             }
         }

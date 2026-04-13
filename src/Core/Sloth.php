@@ -210,8 +210,11 @@ class Sloth extends Singleton
         Debugger::getBar()->addPanel(new Panel());
         Debugger::getBar()->addPanel(new SlothBarPanel());
 
-        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(basename($_SERVER['PHP_SELF'] ?? ''), $this->dontDebug,
-                true)) {
+        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(
+            basename($_SERVER['PHP_SELF'] ?? ''),
+            $this->dontDebug,
+            true
+        )) {
             Debugger::enable($mode, DIR_ROOT . DS . 'logs');
         }
 

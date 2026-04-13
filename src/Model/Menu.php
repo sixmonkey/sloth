@@ -75,6 +75,7 @@ class Menu extends CorcelMenu
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany The items relationship
      */
+    #[\Override]
     public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(

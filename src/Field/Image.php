@@ -128,7 +128,7 @@ class Image implements \Stringable
      *
      * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
      */
-    public function __construct(int|array|null|false|string $url = null)
+    public function __construct(int|array|false|string|null $url = null)
     {
         if ($url === null || $url === false) {
             $this->url = null;
@@ -350,6 +350,7 @@ class Image implements \Stringable
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->url;

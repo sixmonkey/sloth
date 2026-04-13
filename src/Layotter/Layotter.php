@@ -153,11 +153,7 @@ class Layotter extends Singleton
         global $post;
         $postType = $post->post_type ?? 'post';
 
-        if (isset(self::$layoutsForPostType[$postType])) {
-            return self::$layoutsForPostType[$postType];
-        }
-
-        return Configure::read('theme.layotter.row_layouts')
+        return self::$layoutsForPostType[$postType] ?? Configure::read('theme.layotter.row_layouts')
             ?? $rowLayouts;
     }
 
@@ -170,7 +166,6 @@ class Layotter extends Singleton
      * @since 1.0.0
      *
      * @param string $rowLayout The default row layout
-     * @return string
      */
     public static function defaultRowLayout(string $rowLayout): string
     {
