@@ -39,8 +39,7 @@ class Configure extends Singleton
         $configPath = defined('DIR_CFG') ? DIR_CFG : null;
         if ($configPath && is_dir($configPath)) {
             foreach (glob($configPath . '*.php') as $file) {
-                $key = basename($file, '.php');
-                $container['config']->set($key, require $file);
+                require $file;
             }
         }
     }
