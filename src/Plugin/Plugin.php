@@ -72,7 +72,7 @@ class Plugin extends Singleton
      *
      * @since 1.0.0
      */
-    private mixed $currentModel;
+    private ?Model $currentModel = null;
 
     /**
      * Current layout.
