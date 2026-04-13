@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sloth\Configure;
 
+use Illuminate\Config\Repository;
+use Sloth\Core\Application;
+use Sloth\Facades\Facade;
 use Sloth\Singleton\Singleton;
 
 /**
@@ -18,13 +21,28 @@ use Sloth\Singleton\Singleton;
 class Configure extends Singleton
 {
     /**
-     * Legacy boot — config is now loaded by Sloth::loadConfigFiles().
-     * Kept for backwards compatibility.
+     * Initialize the config container and facade.
+     *
+     * This must be called early in bootstrap.php, before any config files
+     * that use Configure::read(). Sets up the Laravel config repository and
+     * facade system so config() helper works immediately.
      *
      * @since 1.0.0
      */
     public static function boot(): void
     {
+        $container = new Application();
+        $container->singleton('config', static fn() => new Repository([]));
+
+        Facade::setFacadeApplication($container);
+
+        $configPath = defined('DIR_CFG') ? DIR_CFG : null;
+        if ($configPath && is_dir($configPath)) {
+            foreach (glob($configPath . '*.php') as $file) {
+                $key = basename($file, '.php');
+                $container['config']->set($key, require $file);
+            }
+        }
     }
 
     /**

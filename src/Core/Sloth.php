@@ -84,18 +84,16 @@ class Sloth extends Singleton
         $this->setDebugging();
         $this->registerErrorHandlers();
 
-        $this->container = new Application();
+        if (Facade::getFacadeApplication() !== null && Facade::getFacadeApplication()->bound('config')) {
+            $this->container = Facade::getFacadeApplication();
+        } else {
+            $this->container = new Application();
+            $this->container->singleton('config', fn() => new \Illuminate\Config\Repository([]));
+            $this->loadConfigFiles();
+            Facade::setFacadeApplication($this->container);
+        }
+
         $this->container->addPath('cache', DIR_CACHE);
-
-        // Register Laravel config repository
-        $this->container->singleton('config', function () {
-            return new \Illuminate\Config\Repository([]);
-        });
-
-        // Load config files from app/config/
-        $this->loadConfigFiles();
-
-        Facade::setFacadeApplication($this->container);
 
         $this->registerProviders();
 
