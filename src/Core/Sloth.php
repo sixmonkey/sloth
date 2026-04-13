@@ -242,6 +242,15 @@ class Sloth extends Singleton
             if (Debugger::$logDirectory !== null) {
                 Debugger::log($errstr, ILogger::WARNING);
             }
+
+            if (config('errors.suppress_wp_deprecated', true) && str_contains($errfile, DIR_CMS)) {
+                return true;
+            }
+
+            if (config('errors.suppress_plugin_deprecated', true) && str_contains($errfile, DIR_PLUGINS)) {
+                return true;
+            }
+
             return wp_is_serving_rest_request();
         });
     }
