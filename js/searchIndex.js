@@ -1211,6 +1211,21 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020the\u0020current\u0020query\u0020is\u0020for\u0020revisions.",
             "url": "classes/Sloth-Model-Builder-PostBuilder.html#method_isQueryingRevisions"
         },                {
+            "fqsen": "\\Sloth\\Model\\Casts\\ACF",
+            "name": "ACF",
+            "summary": "Generic\u0020ACF\u0020field\u0020cast.",
+            "url": "classes/Sloth-Model-Casts-ACF.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Casts\\ACF\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Get\u0020the\u0020ACF\u0020field\u0020value.",
+            "url": "classes/Sloth-Model-Casts-ACF.html#method_get"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Casts\\ACF\u003A\u003Aset\u0028\u0029",
+            "name": "set",
+            "summary": "Set\u0020the\u0020ACF\u0020field\u0020value.",
+            "url": "classes/Sloth-Model-Casts-ACF.html#method_set"
+        },                {
             "fqsen": "\\Sloth\\Model\\Menu",
             "name": "Menu",
             "summary": "Menu\u0020Model",
@@ -1426,16 +1441,6 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020post\u0020type\u0020identifier.",
             "url": "classes/Sloth-Model-Model.html#method_getPostType"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AhasTerm\u0028\u0029",
-            "name": "hasTerm",
-            "summary": "Check\u0020if\u0020this\u0020post\u0020has\u0020a\u0020specific\u0020term.",
-            "url": "classes/Sloth-Model-Model.html#method_hasTerm"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetFormat\u0028\u0029",
-            "name": "getFormat",
-            "summary": "Get\u0020the\u0020post\u0020format\u0020\u0028e.g.,\u0020\u0027standard\u0027,\u0020\u0027aside\u0027,\u0020\u0027gallery\u0027\u0029.",
-            "url": "classes/Sloth-Model-Model.html#method_getFormat"
-        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewFromBuilder\u0028\u0029",
             "name": "newFromBuilder",
             "summary": "Create\u0020a\u0020model\u0020instance\u0020from\u0020a\u0020database\u0020row.",
@@ -1505,6 +1510,11 @@ Search.appendIndex(
             "name": "scopeHome",
             "summary": "",
             "url": "classes/Sloth-Model-Model.html#method_scopeHome"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetAcfKey\u0028\u0029",
+            "name": "getAcfKey",
+            "summary": "",
+            "url": "classes/Sloth-Model-Model.html#method_getAcfKey"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003ACREATED_AT",
             "name": "CREATED_AT",
@@ -1698,33 +1708,33 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF",
             "name": "HasACF",
-            "summary": "Backwards\u002Dcompatible\u0020ACF\u0020field\u0020access.",
+            "summary": "",
             "url": "classes/Sloth-Model-Traits-HasACF.html"
         },                {
-            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetAttribute\u0028\u0029",
-            "name": "getAttribute",
+            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AbootHasACF\u0028\u0029",
+            "name": "bootHasACF",
             "summary": "",
-            "url": "classes/Sloth-Model-Traits-HasACF.html#method_getAttribute"
+            "url": "classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF"
         },                {
-            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003A__isset\u0028\u0029",
-            "name": "__isset",
+            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetAcfKey\u0028\u0029",
+            "name": "getAcfKey",
             "summary": "",
-            "url": "classes/Sloth-Model-Traits-HasACF.html#method___isset"
+            "url": "classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003A\u0024acfFieldCache",
+            "name": "acfFieldCache",
+            "summary": "",
+            "url": "classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache"
         },                {
             "fqsen": "\\Sloth\\Model\\User",
             "name": "User",
             "summary": "WordPress\u0020user\u0020model.",
             "url": "classes/Sloth-Model-User.html"
         },                {
-            "fqsen": "\\Sloth\\Model\\User\u003A\u003ACREATED_AT",
-            "name": "CREATED_AT",
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetAcfKey\u0028\u0029",
+            "name": "getAcfKey",
             "summary": "",
-            "url": "classes/Sloth-Model-User.html#constant_CREATED_AT"
-        },                {
-            "fqsen": "\\Sloth\\Model\\User\u003A\u003AUPDATED_AT",
-            "name": "UPDATED_AT",
-            "summary": "",
-            "url": "classes/Sloth-Model-User.html#constant_UPDATED_AT"
+            "url": "classes/Sloth-Model-User.html#method_getAcfKey"
         },                {
             "fqsen": "\\Sloth\\Module\\LayotterElement",
             "name": "LayotterElement",
@@ -2645,6 +2655,11 @@ Search.appendIndex(
             "name": "Builder",
             "summary": "",
             "url": "namespaces/sloth-model-builder.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Casts",
+            "name": "Casts",
+            "summary": "",
+            "url": "namespaces/sloth-model-casts.html"
         },                {
             "fqsen": "\\Sloth\\Model",
             "name": "Model",

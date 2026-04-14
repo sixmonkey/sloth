@@ -200,23 +200,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">9</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Backwards-compatible ACF field access.</p>
+        
 
-            <div class="phpdocumentor-admonition">
-        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-            <article>
-                <p>Use $post-&gt;acf-&gt;field_name instead. Will be removed in a future version.</p>
-
-            </article>
-        </div>
-    
-    <section class="phpdocumentor-description"><p>Allows $post-&gt;field_name direct access to ACF fields.
-This behavior is deprecated — use $post-&gt;acf-&gt;field_name instead.</p>
-</section>
 
 
 
@@ -236,6 +225,19 @@ This behavior is deprecated — use $post-&gt;acf-&gt;field_name instead.</p>
 
 
 
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/Sloth-Model-Traits-HasACF.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a>
+    <span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+</dt>
+
+    </dl>
 
 <h4 id="toc-methods">
     Methods
@@ -244,15 +246,15 @@ This behavior is deprecated — use $post-&gt;acf-&gt;field_name instead.</p>
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method___isset">__isset()</a>
+    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF">bootHasACF()</a>
     <span>
-                                &nbsp;: bool    </span>
+                                &nbsp;: void    </span>
 </dt>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method_getAttribute">getAttribute()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey">getAcfKey()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: string|null    </span>
 </dt>
 
     </dl>
@@ -263,6 +265,50 @@ This behavior is deprecated — use $post-&gt;acf-&gt;field_name instead.</p>
         
 
         
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Sloth-Model-Traits-HasACF.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_acfFieldCache">
+        $acfFieldCache
+        <a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">11</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$acfFieldCache</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
@@ -274,93 +320,73 @@ This behavior is deprecated — use $post-&gt;acf-&gt;field_name instead.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+                                    -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method___isset">
-        __isset()
-        <a href="classes/Sloth-Model-Traits-HasACF.html#method___isset" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_bootHasACF">
+        bootHasACF()
+        <a href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">13</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__isset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">bootHasACF</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
+    
+    
 
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                        -abstract                                "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getAcfKey">
+        getAcfKey()
+        <a href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">20</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+    <span class="phpdocumentor-signature__abstract">abstract</span>                <span class="phpdocumentor-signature__name">getAcfKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
     
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
             </section>
 
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getAttribute">
-        getAttribute()
-        <a href="classes/Sloth-Model-Traits-HasACF.html#method_getAttribute" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">17</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getAttribute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
 </article>
             </section>
 
@@ -469,14 +495,21 @@ This behavior is deprecated — use $post-&gt;acf-&gt;field_name instead.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                <li><a href="classes/Sloth-Model-Traits-HasACF.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Sloth-Model-Traits-HasACF.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Sloth-Model-Traits-HasACF.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
-                                                <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+                                    <li class="phpdocumentor-on-this-page-section__title">Properties</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method___isset">__isset()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_getAttribute">getAttribute()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a></li>
+                                    </ul>
+            </li>
+                                    <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF">bootHasACF()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey">getAcfKey()</a></li>
                                     </ul>
             </li>
                     </ul>

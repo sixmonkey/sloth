@@ -189,15 +189,13 @@
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model.html">Model</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model-casts.html">Casts</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    User
+    ACF
 
-        <span class="phpdocumentor-element__extends">
-        extends <abbr title="\Corcel\Model\User">User</abbr>
-    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -206,10 +204,10 @@
                             </ul>
         </div>
     
+            <span class="phpdocumentor-element__implements">
+            implements
+                            <abbr title="\Illuminate\Contracts\Database\Eloquent\CastsAttributes">CastsAttributes</abbr>                    </span>
     
-            <span class="phpdocumentor-element__extends">
-            uses
-                            <a href="classes/Sloth-Model-Traits-HasACF.html"><abbr title="\Sloth\Model\Traits\HasACF">HasACF</abbr></a>                    </span>
     </h2>
 
 <div class="phpdocumentor-label-line">
@@ -218,84 +216,63 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/User.php"><a href="files/src-model-user.html"><abbr title="src/Model/User.php">User.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Casts/ACF.php"><a href="files/src-model-casts-acf.html"><abbr title="src/Model/Casts/ACF.php">ACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">WordPress user model.</p>
+            <p class="phpdocumentor-summary">Generic ACF field cast.</p>
 
 
-    <section class="phpdocumentor-description"><p>Rebuilt directly from Corcel\Model to avoid pulling in
-the AdvancedCustomFields trait which requires the optional
-corcel/acf package. ACF access is handled by HasACF instead.</p>
+    <section class="phpdocumentor-description"><p>Retrieves ACF field values using get_field().</p>
 </section>
 
 
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Model-User.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="https://developer.wordpress.org/reference/classes/wp_user/">https://developer.wordpress.org/reference/classes/wp_user/</a></span>
-                                        
-                                             
-                                    </dd>
-                                            </dl>
 
     
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Model-User.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Model-Casts-ACF.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
+    <h4 id="toc-interfaces">
+        Interfaces
+        <a href="classes/Sloth-Model-Casts-ACF.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\Illuminate\Contracts\Database\Eloquent\CastsAttributes">CastsAttributes</abbr></dt>    </dl>
 
 
 
 
 
 
-<h4 id="toc-properties">
-    Properties
-    <a href="classes/Sloth-Model-User.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a>
-    <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
-</dt>
-
-    </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Model-User.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Model-Casts-ACF.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF">bootHasACF()</a>
+    <a class="" href="classes/Sloth-Model-Casts-ACF.html#method_get">get()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
+<dd>Get the ACF field value.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Model-User.html#method_getAcfKey">getAcfKey()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Casts-ACF.html#method_set">set()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: mixed    </span>
 </dt>
+<dd>Set the ACF field value.</dd>
 
     </dl>
 
@@ -304,126 +281,211 @@ corcel/acf package. ACF access is handled by HasACF instead.</p>
         
 
         
-    <section class="phpdocumentor-properties">
-        <h3 class="phpdocumentor-elements__header" id="properties">
-            Properties
-            <a href="classes/Sloth-Model-User.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-        </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_acfFieldCache">
-        $acfFieldCache
-        <a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">11</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$acfFieldCache</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Model-User.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Model-Casts-ACF.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_bootHasACF">
-        bootHasACF()
-        <a href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_get">
+        get()
+        <a href="classes/Sloth-Model-Casts-ACF.html#method_get" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Casts/ACF.php"><a href="files/src-model-casts-acf.html"><abbr title="src/Model/Casts/ACF.php">ACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the ACF field value.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">bootHasACF</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">get</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$model</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$model</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The model instance</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The field name</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The raw value from the database</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$attributes</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>All model attributes</p>
+</section>
+
+            </dd>
+            </dl>
+
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Casts-ACF.html#method_get#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Casts-ACF.html#method_get#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The field value</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
             -method
-            -private
+            -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getAcfKey">
-        getAcfKey()
-        <a href="classes/Sloth-Model-User.html#method_getAcfKey" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_set">
+        set()
+        <a href="classes/Sloth-Model-Casts-ACF.html#method_set" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/User.php"><a href="files/src-model-user.html"><abbr title="src/Model/User.php">User.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Casts/ACF.php"><a href="files/src-model-casts-acf.html"><abbr title="src/Model/Casts/ACF.php">ACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the ACF field value.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getAcfKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">set</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$model</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$model</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The model instance</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The field name</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The value to set</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$attributes</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>All model attributes</p>
+</section>
+
+            </dd>
+            </dl>
+
     
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Casts-ACF.html#method_set#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The value to store</p>
+</section>
+
             </section>
 
 </article>
@@ -433,7 +495,7 @@ corcel/acf package. ACF access is handled by HasACF instead.</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Model/User.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Model/Casts/ACF.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -534,23 +596,16 @@ corcel/acf package. ACF access is handled by HasACF instead.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Sloth-Model-User.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Sloth-Model-User.html#toc-methods">Methods</a></li>
+                                                                                <li><a href="classes/Sloth-Model-Casts-ACF.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
-                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
-                <li>
-                    <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a></li>
-                                            </ul>
-                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF">bootHasACF()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-User.html#method_getAcfKey">getAcfKey()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Casts-ACF.html#method_get">get()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Casts-ACF.html#method_set">set()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -570,7 +625,7 @@ corcel/acf package. ACF access is handled by HasACF instead.</p>
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Model-User.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Model-Casts-ACF.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
