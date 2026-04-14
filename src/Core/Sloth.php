@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sloth\Core;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Events\Dispatcher;
 use Milo\VendorVersions\Panel;
 use Sloth\Debugger\SlothBarPanel;
 use Sloth\Facades\Facade;
@@ -284,6 +286,7 @@ class Sloth extends Singleton
         ];
 
         Database::connect($params);
+        Model::setEventDispatcher(new Dispatcher($this->container));
     }
 
     /**
