@@ -57,6 +57,7 @@ use Sloth\Model\Traits\HasOrderScopes;
  */
 class Model extends CorcelModel
 {
+    use AdminColumns;
     use HasACF;
     use HasAliases;
     use HasCustomTimestamps;
@@ -104,10 +105,6 @@ class Model extends CorcelModel
     protected $icon;
 
     protected bool $filtered = false;
-
-    public array $admin_columns = [];
-
-    public array $admin_columns_hidden = [];
 
     protected static bool $globalScopesBooted = false;
 
@@ -701,118 +698,54 @@ class Model extends CorcelModel
     }
 
     /**
-     * Register this model as a custom post type with WordPress.
-     *
-     * Uses the PostTypes library to register the post type. If the post type
-     * already exists, it removes the old definition first. Also configures
-     * admin column visibility and registers with Layotter if configured.
+     * Get registration arguments for WordPress post type registration.
      *
      * @since 1.0.0
      *
-     * @return bool True if registration succeeded, false if disabled
-     * @see PostTypes\PostType For the underlying registration
+     * @return array<string, mixed> The arguments for register_post_type()
      */
-    public function register(): bool
+    public function getRegistrationArgs(): array
     {
-        global $wp_post_types;
+        $args = $this->options;
+        $args['labels'] = $this->labels;
 
-        if (!$this->register) {
-            return false;
+        if ($this->icon !== null) {
+            $args['menu_icon'] = 'dashicons-' . preg_replace('/^dashicons-/', '', (string) $this->icon);
         }
 
         if (\post_type_exists($this->getPostType())) {
             $post_type_object = \get_post_type_object($this->getPostType());
-            $this->labels = array_merge((array) \get_post_type_labels($post_type_object), $this->labels);
-
-            $post_type_object->remove_supports();
-            $post_type_object->remove_rewrite_rules();
-            $post_type_object->unregister_meta_boxes();
-            $post_type_object->remove_hooks();
-            $post_type_object->unregister_taxonomies();
-
-            $this->options = array_merge((array) $wp_post_types[$this->getPostType()], $this->options);
-            unset($wp_post_types[$this->getPostType()]);
-            \do_action('unregistered_post_type', $this->getPostType());
-        }
-
-        $names = array_merge($this->names, ['name' => $this->getPostType()]);
-        $options = $this->options;
-        if ($this->icon !== null) {
-            $options = array_merge($this->options, [
-                'menu_icon' => 'dashicons-' . preg_replace('/^dashicons-/', '', (string) $this->icon),
-            ]);
-        }
-
-        $pt = new PostType($names, $options, $this->labels);
-        $pt->columns()->hide($this->admin_columns_hidden);
-        $pt->columns()->add($this->admin_columns);
-
-        $idx = in_array('title', $this->admin_columns_hidden) ? 1 : 2;
-        $order = [];
-        $sortable = [];
-
-        foreach (array_keys($this->admin_columns) as $k) {
-            $class = static::class;
-            $pt->columns()->populate(
-                $k,
-                function ($column, $post_id) use ($class, $k): void {
-                    $r = call_user_func_array([$class, 'find'], [$post_id]);
-                    echo call_user_func([$r, 'get' . ucfirst((string) $k) . 'Column']);
-                }
+            $args['labels'] = array_merge(
+                (array) \get_post_type_labels($post_type_object),
+                $args['labels']
             );
-            $sortable[$k] = $k;
-            $order[$k] = $idx;
-            $idx++;
+            global $wp_post_types;
+            $args = array_merge((array) $wp_post_types[$this->getPostType()], $args);
         }
 
-        $order['date'] = $idx + 100;
-        $pt->columns()->order($order);
-        $pt->columns()->sortable($sortable);
-
-        if (in_array('title', $this->admin_columns_hidden)) {
-            $keys = array_keys($this->admin_columns);
-            $first_column = reset($keys);
-            add_filter(
-                'list_table_primary_column',
-                function ($default, $screen) use ($pt, $first_column): string {
-                    if ('edit-' . $pt->name === $screen) {
-                        return $first_column;
-                    }
-
-                    return $default;
-                },
-                10,
-                2
-            );
-        }
-
-        if (method_exists($pt, 'register')) {
-            $pt->register();
-        }
-
-        if (method_exists($pt, 'registerPostType')) {
-            $pt->registerPostType();
-        }
-
-        return true;
+        return $args;
     }
 
     /**
-     * Initialize the post type after WordPress registration.
-     *
-     * Updates the registered post type object with custom options
-     * that need to be set after registration.
+     * Unregister existing post type if it already exists.
      *
      * @since 1.0.0
      */
-    final public function init(): void
+    public function unregisterExisting(): void
     {
-        $object = \get_post_type_object($this->postType);
-        foreach ($this->options as $key => $option) {
-            if ($object) {
-                $object->{$key} = $option;
-            }
+        if (!\post_type_exists($this->getPostType())) {
+            return;
         }
+
+        $post_type_object = \get_post_type_object($this->getPostType());
+        $post_type_object->remove_supports();
+        $post_type_object->remove_rewrite_rules();
+        $post_type_object->unregister_meta_boxes();
+        $post_type_object->remove_hooks();
+        $post_type_object->unregister_taxonomies();
+        global $wp_post_types;
+        unset($wp_post_types[$this->getPostType()]);
+        \do_action('unregistered_post_type', $this->getPostType());
     }
 
     /**
