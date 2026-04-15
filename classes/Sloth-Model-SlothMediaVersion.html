@@ -308,6 +308,12 @@ $options = $version-&gt;options;
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a>
+    <span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/Sloth-Model-Model.html#property_admin_columns">$admin_columns</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
@@ -365,12 +371,6 @@ $options = $version-&gt;options;
     <a class="" href="classes/Sloth-Model-Model.html#property_register">$register</a>
     <span>
                         &nbsp;: bool            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a>
-    <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
@@ -501,6 +501,12 @@ $options = $version-&gt;options;
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
 </dt>
 <dd>Get all comments for this post.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Model.html#method_getAcfKey">getAcfKey()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a>
@@ -715,12 +721,6 @@ $options = $version-&gt;options;
 </dt>
 <dd>Check if we should load the preview version of a post.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey">getAcfKey()</a>
-    <span>
-                                &nbsp;: string|null    </span>
-</dt>
-
     </dl>
 
 
@@ -801,6 +801,43 @@ $options = $version-&gt;options;
             <a href="classes/Sloth-Model-SlothMediaVersion.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_acfFieldCache">
+        $acfFieldCache
+        <a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">11</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$acfFieldCache</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
                     <article
         class="
             phpdocumentor-element
@@ -1174,43 +1211,6 @@ $options = $version-&gt;options;
             <span class="phpdocumentor-signature__type">bool</span>
     <span class="phpdocumentor-signature__name">$register</span>
      = <span class="phpdocumentor-signature__default-value">true</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_acfFieldCache">
-        $acfFieldCache
-        <a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">11</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$acfFieldCache</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
     
     
@@ -2135,6 +2135,44 @@ the post_type, and boots global scopes.</p>
                 <section class="phpdocumentor-description"><p>The comments relationship</p>
 </section>
 
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getAcfKey">
+        getAcfKey()
+        <a href="classes/Sloth-Model-Model.html#method_getAcfKey" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">815</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getAcfKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
             </section>
 
 </article>
@@ -4171,44 +4209,6 @@ and it's not a revision or inherited post.</p>
             </section>
 
 </article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                        -abstract                                "
->
-    <h4 class="phpdocumentor-element__name" id="method_getAcfKey">
-        getAcfKey()
-        <a href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">20</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-    <span class="phpdocumentor-signature__abstract">abstract</span>                <span class="phpdocumentor-signature__name">getAcfKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string|null</span>
-            </section>
-
-</article>
             </section>
 
         <div class="phpdocumentor-modal" id="source-view">
@@ -4332,6 +4332,7 @@ and it's not a revision or inherited post.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_admin_columns">$admin_columns</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_admin_columns_hidden">$admin_columns_hidden</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_ID">$ID</a></li>
@@ -4342,7 +4343,6 @@ and it's not a revision or inherited post.</p>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_post_title">$post_title</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_post_type">$post_type</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_register">$register</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache">$acfFieldCache</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_attributes">$attributes</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_dates">$dates</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_fillable">$fillable</a></li>
@@ -4368,6 +4368,7 @@ and it's not a revision or inherited post.</p>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF">bootHasACF()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_children">children()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_comments">comments()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getAcfKey">getAcfKey()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getContentAttribute">getContentAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getFormat">getFormat()</a></li>
@@ -4399,7 +4400,6 @@ and it's not a revision or inherited post.</p>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getMetaForeignKey">getMetaForeignKey()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_loadPreview">loadPreview()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_shouldLoadPreview">shouldLoadPreview()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey">getAcfKey()</a></li>
                                     </ul>
             </li>
                     </ul>

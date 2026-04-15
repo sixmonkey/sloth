@@ -16,6 +16,11 @@ Search.appendIndex(
             "summary": "Add\u0020ACF\u0020filters.",
             "url": "classes/Sloth-ACF-ACFHelper.html#method_addFilters"
         },                {
+            "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003Aload_image\u0028\u0029",
+            "name": "load_image",
+            "summary": "",
+            "url": "classes/Sloth-ACF-ACFHelper.html#method_load_image"
+        },                {
             "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003AautoSyncAcfFields\u0028\u0029",
             "name": "autoSyncAcfFields",
             "summary": "Auto\u002Dsync\u0020ACF\u0020JSON\u0020field\u0020groups.",
@@ -701,26 +706,6 @@ Search.appendIndex(
             "summary": "Return\u0020the\u0020service\u0020provider\u0020key\u0020responsible\u0020for\u0020the\u0020view\u0020class.",
             "url": "classes/Sloth-Facades-View.html#method_getFacadeAccessor"
         },                {
-            "fqsen": "\\Sloth\\Field\\AcfImageField",
-            "name": "AcfImageField",
-            "summary": "Custom\u0020ACF\u0020image\u0020field\u0020that\u0020returns\u0020a\u0020Sloth\u0020Image\u0020instance.",
-            "url": "classes/Sloth-Field-AcfImageField.html"
-        },                {
-            "fqsen": "\\Sloth\\Field\\AcfImageField\u003A\u003AgetValueAttribute\u0028\u0029",
-            "name": "getValueAttribute",
-            "summary": "",
-            "url": "classes/Sloth-Field-AcfImageField.html#method_getValueAttribute"
-        },                {
-            "fqsen": "\\Sloth\\Field\\CarbonFaker",
-            "name": "CarbonFaker",
-            "summary": "Carbon\u0020Faker\u0020placeholder\u0020class.",
-            "url": "classes/Sloth-Field-CarbonFaker.html"
-        },                {
-            "fqsen": "\\Sloth\\Field\\CarbonFaker\u003A\u003A__call\u0028\u0029",
-            "name": "__call",
-            "summary": "Handle\u0020undefined\u0020method\u0020calls.",
-            "url": "classes/Sloth-Field-CarbonFaker.html#method___call"
-        },                {
             "fqsen": "\\Sloth\\Field\\Image",
             "name": "Image",
             "summary": "Image\u0020field\u0020wrapper\u0020with\u0020manipulation\u0020capabilities.",
@@ -1211,20 +1196,20 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020the\u0020current\u0020query\u0020is\u0020for\u0020revisions.",
             "url": "classes/Sloth-Model-Builder-PostBuilder.html#method_isQueryingRevisions"
         },                {
-            "fqsen": "\\Sloth\\Model\\Casts\\ACF",
-            "name": "ACF",
+            "fqsen": "\\Sloth\\Model\\Casts\\AcfBase",
+            "name": "AcfBase",
             "summary": "Generic\u0020ACF\u0020field\u0020cast.",
-            "url": "classes/Sloth-Model-Casts-ACF.html"
+            "url": "classes/Sloth-Model-Casts-AcfBase.html"
         },                {
-            "fqsen": "\\Sloth\\Model\\Casts\\ACF\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\Sloth\\Model\\Casts\\AcfBase\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Get\u0020the\u0020ACF\u0020field\u0020value.",
-            "url": "classes/Sloth-Model-Casts-ACF.html#method_get"
+            "url": "classes/Sloth-Model-Casts-AcfBase.html#method_get"
         },                {
-            "fqsen": "\\Sloth\\Model\\Casts\\ACF\u003A\u003Aset\u0028\u0029",
+            "fqsen": "\\Sloth\\Model\\Casts\\AcfBase\u003A\u003Aset\u0028\u0029",
             "name": "set",
             "summary": "Set\u0020the\u0020ACF\u0020field\u0020value.",
-            "url": "classes/Sloth-Model-Casts-ACF.html#method_set"
+            "url": "classes/Sloth-Model-Casts-AcfBase.html#method_set"
         },                {
             "fqsen": "\\Sloth\\Model\\Menu",
             "name": "Menu",
@@ -1740,6 +1725,11 @@ Search.appendIndex(
             "name": "User",
             "summary": "WordPress\u0020user\u0020model.",
             "url": "classes/Sloth-Model-User.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetAcfKey\u0028\u0029",
+            "name": "getAcfKey",
+            "summary": "",
+            "url": "classes/Sloth-Model-User.html#method_getAcfKey"
         },                {
             "fqsen": "\\Sloth\\Model\\User\u003A\u003ACREATED_AT",
             "name": "CREATED_AT",
