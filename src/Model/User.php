@@ -18,4 +18,9 @@ class User extends CorcelUser
 
     public const CREATED_AT = 'user_registered';
     public const UPDATED_AT = null;
+
+    public function getAcfKey(): ?string
+    {
+        return 'user_' . $this->ID;
+    }
 }
