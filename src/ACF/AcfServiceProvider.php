@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace Sloth\ACF;
 
-use Sloth\Core\ServiceProvider;
-
 /**
  * ACF Service Provider
  *
  * @since 1.0.0
  */
-class AcfServiceProvider extends ServiceProvider
+class AcfServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(ACFHelper::class);
     }
 
     public function boot(): void
     {
-        $this->app->call([$this->app->make(ACFHelper::class), 'addFilters']);
+        $acfHelper = new ACFHelper();
+        $acfHelper->addFilters();
     }
 }
