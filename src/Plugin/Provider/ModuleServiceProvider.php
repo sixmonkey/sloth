@@ -67,8 +67,9 @@ class ModuleServiceProvider
     {
         foreach (glob(get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
             $moduleName = $this->loadClassFromFile($file);
-
-            $this->registerLayotterElement($moduleName);
+            add_action('init', function () use ($moduleName): void {
+                $this->registerLayotterElement($moduleName);
+            });
             $this->registerJsonEndpoints($moduleName);
 
             $this->modules[] = $moduleName;
@@ -82,9 +83,9 @@ class ModuleServiceProvider
      * it with Layotter::register_element(). This allows modules to
      * be used as page builder elements.
      *
+     * @param string $moduleName The fully qualified module class name
      * @since 1.0.0
      *
-     * @param string $moduleName The fully qualified module class name
      */
     protected function registerLayotterElement(string $moduleName): void
     {
@@ -107,9 +108,9 @@ class ModuleServiceProvider
      * Sets up both AJAX handlers (wp_ajax and wp_ajax_nopriv) and
      * REST API routes for module JSON data retrieval.
      *
+     * @param string $moduleName The fully qualified module class name
      * @since 1.0.0
      *
-     * @param string $moduleName The fully qualified module class name
      */
     protected function registerJsonEndpoints(string $moduleName): void
     {
@@ -146,9 +147,9 @@ class ModuleServiceProvider
     /**
      * Get all registered modules.
      *
+     * @return array<int, string> Array of module class names
      * @since 1.0.0
      *
-     * @return array<int, string> Array of module class names
      */
     public function getModules(): array
     {
@@ -162,10 +163,10 @@ class ModuleServiceProvider
      * Skips Corcel namespace classes (handled by Corcel itself) and returns
      * the first matching App\ namespaced class.
      *
-     * @since 1.0.0
-     *
      * @param string $file Absolute path to the PHP file
      * @return string Class name if found, empty string otherwise
+     * @since 1.0.0
+     *
      */
     protected function loadClassFromFile(string $file): string
     {
