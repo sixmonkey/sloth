@@ -2708,27 +2708,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Anormalize\u0028\u0029",
             "name": "normalize",
-            "summary": "",
+            "summary": "Normalize\u0020a\u0020name\u0020by\u0020removing\u0020namespace\u0020prefix\u0020and\u0020cleaning\u0020formatting.",
             "url": "classes/Sloth-Utility-Utility.html#method_normalize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Amodulize\u0028\u0029",
             "name": "modulize",
-            "summary": "",
+            "summary": "Convert\u0020a\u0020name\u0020to\u0020a\u0020module\u0020class\u0020name\u0020format.",
             "url": "classes/Sloth-Utility-Utility.html#method_modulize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Aviewize\u0028\u0029",
             "name": "viewize",
-            "summary": "",
+            "summary": "Convert\u0020a\u0020name\u0020to\u0020a\u0020view\u002Dfriendly\u0020kebab\u002Dcase\u0020format.",
             "url": "classes/Sloth-Utility-Utility.html#method_viewize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Aacfize\u0028\u0029",
             "name": "acfize",
-            "summary": "",
+            "summary": "Convert\u0020a\u0020name\u0020to\u0020an\u0020ACF\u0020field\u0020group\u0020format.",
             "url": "classes/Sloth-Utility-Utility.html#method_acfize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Afloat2fraction\u0028\u0029",
             "name": "float2fraction",
-            "summary": "",
+            "summary": "Convert\u0020a\u0020floating\u0020point\u0020number\u0020to\u0020its\u0020closest\u0020fractional\u0020representation.",
             "url": "classes/Sloth-Utility-Utility.html#method_float2fraction"
         },                {
             "fqsen": "\\Sloth\\Validation\\ValidationServiceProvider",
