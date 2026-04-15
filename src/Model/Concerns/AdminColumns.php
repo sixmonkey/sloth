@@ -127,9 +127,10 @@ trait AdminColumns
             $firstColumn = array_key_first($this->admin_columns);
 
             if ($firstColumn !== null) {
+                $postType = $this->getPostType();
                 add_filter(
                     'list_table_primary_column',
-                    function (string $default, string $screen) use ($firstColumn, $postType = $this->getPostType()): string {
+                    function (string $default, string $screen) use ($firstColumn, $postType): string {
                         if ('edit-' . $postType === $screen) {
                             return $firstColumn;
                         }
