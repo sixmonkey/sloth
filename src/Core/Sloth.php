@@ -171,7 +171,6 @@ class Sloth extends Singleton
             mkdir($logDirectory);
         }
 
-        Debugger::getBar()->addPanel(new Panel());
         Debugger::getBar()->addPanel(new SlothBarPanel());
 
         if (defined('WP_DEBUG') && WP_DEBUG && !in_array(
