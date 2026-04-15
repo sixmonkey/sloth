@@ -137,10 +137,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-route.html" class="">Route</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
                 
             </li>
@@ -217,7 +213,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
@@ -322,25 +318,11 @@ sets up facades, and establishes the database connection.</p>
 <dd>Prevent singleton instance from being unserialized.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Core-Sloth.html#method_dispatchRouter">dispatchRouter()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Dispatches the router to handle the current request.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a>
     <span>
                                 &nbsp;: static    </span>
 </dt>
 <dd>Get the singleton instance.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Core-Sloth.html#method_setRouter">setRouter()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Sets up rewrite rules for the router.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Core-Sloth.html#method_registerProviders">registerProviders()</a>
@@ -414,7 +396,7 @@ sets up facades, and establishes the database connection.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -467,7 +449,7 @@ sets up facades, and establishes the database connection.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -478,7 +460,7 @@ sets up facades, and establishes the database connection.</p>
         <span class="phpdocumentor-signature__visibility">private</span>
             <span class="phpdocumentor-signature__type">array&lt;string, class-string&gt;</span>
     <span class="phpdocumentor-signature__name">$classAliases</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;Route&#039; =&gt; \Sloth\Facades\Route::class, &#039;View&#039; =&gt; \Sloth\Facades\View::class, &#039;Configure&#039; =&gt; \Sloth\Facades\Configure::class, &#039;Validator&#039; =&gt; \Sloth\Facades\Validation::class, &#039;Deployment&#039; =&gt; \Sloth\Facades\Deployment::class, &#039;Customizer&#039; =&gt; \Sloth\Facades\Customizer::class]</span></code>
+     = <span class="phpdocumentor-signature__default-value">[&#039;View&#039; =&gt; \Sloth\Facades\View::class, &#039;Configure&#039; =&gt; \Sloth\Facades\Configure::class, &#039;Validator&#039; =&gt; \Sloth\Facades\Validation::class, &#039;Deployment&#039; =&gt; \Sloth\Facades\Deployment::class, &#039;Customizer&#039; =&gt; \Sloth\Facades\Customizer::class]</span></code>
 
         <section class="phpdocumentor-description"><p>These shortcuts allow classes to be referenced by their short name
 instead of their fully qualified namespace.</p>
@@ -523,7 +505,7 @@ instead of their fully qualified namespace.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -584,7 +566,7 @@ debug output would interfere with the expected response.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">79</span>
 
     </aside>
 
@@ -694,68 +676,6 @@ debug output would interfere with the expected response.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_dispatchRouter">
-        dispatchRouter()
-        <a href="classes/Sloth-Core-Sloth.html#method_dispatchRouter" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">167</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Dispatches the router to handle the current request.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">dispatchRouter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>This method is called during WordPress's template redirect
-and processes any matching Sloth routes before WordPress
-falls back to its default template hierarchy.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Core-Sloth.html#method_dispatchRouter#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Route-Route.html#method_dispatch"><abbr title="\Sloth\Route\Route::dispatch()">Route::dispatch()</abbr></a></span>
-                                        
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_getInstance">
@@ -809,67 +729,6 @@ falls back to its default template hierarchy.</p>
                     <article
         class="phpdocumentor-element
             -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_setRouter">
-        setRouter()
-        <a href="classes/Sloth-Core-Sloth.html#method_setRouter" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">151</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sets up rewrite rules for the router.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setRouter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Hooks into WordPress to register custom route patterns
-so WordPress knows about Sloth's custom routes.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Core-Sloth.html#method_setRouter#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Route-Route.html#method_setRewrite"><abbr title="\Sloth\Route\Route::setRewrite()">Route::setRewrite()</abbr></a></span>
-                                        
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
             -protected
                                                         "
 >
@@ -881,7 +740,7 @@ so WordPress knows about Sloth's custom routes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">120</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 
     </aside>
 
@@ -915,16 +774,6 @@ Each provider is responsible for bootstrapping specific framework features.</p>
                                              
                                     </dd>
                                                 <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Core\RouteServiceProvider">RouteServiceProvider</abbr></span>
-                                        
-                                                 <section class="phpdocumentor-description"><p>For routing functionality</p>
-</section>
-
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -964,7 +813,7 @@ Each provider is responsible for bootstrapping specific framework features.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">278</span>
+    <span class="phpdocumentor-element-found-in__line">232</span>
 
     </aside>
 
@@ -1087,7 +936,7 @@ The connection parameters are read from WordPress constants.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">300</span>
+    <span class="phpdocumentor-element-found-in__line">254</span>
 
     </aside>
 
@@ -1140,7 +989,7 @@ For example, app/config/theme.php becomes accessible via config('theme').</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">196</span>
 
     </aside>
 
@@ -1200,7 +1049,7 @@ For example, app/config/theme.php becomes accessible via config('theme').</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">186</span>
+    <span class="phpdocumentor-element-found-in__line">141</span>
 
     </aside>
 
@@ -1213,10 +1062,7 @@ For example, app/config/theme.php becomes accessible via config('theme').</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>This allows developers to use short class names like 'Route'
-instead of the fully qualified '\Sloth\Facades\Route'.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -1232,15 +1078,6 @@ instead of the fully qualified '\Sloth\Facades\Route'.</p>
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">example</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>Route::get('/about', ['controller' =&gt; 'PageController']);</p>
-</section>
-
                                     </dd>
                                             </dl>
 
@@ -1262,7 +1099,7 @@ instead of the fully qualified '\Sloth\Facades\Route'.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Sloth.php"><a href="files/src-core-sloth.html"><abbr title="src/Core/Sloth.php">Sloth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">207</span>
+    <span class="phpdocumentor-element-found-in__line">162</span>
 
     </aside>
 
@@ -1448,9 +1285,7 @@ for vendor versions and custom Sloth debugging information.</p>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a></li>
-                                            <li class=""><a href="classes/Sloth-Core-Sloth.html#method_dispatchRouter">dispatchRouter()</a></li>
                                             <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a></li>
-                                            <li class=""><a href="classes/Sloth-Core-Sloth.html#method_setRouter">setRouter()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_registerProviders">registerProviders()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_connectCorcel">connectCorcel()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Sloth.html#method_loadConfigFiles">loadConfigFiles()</a></li>

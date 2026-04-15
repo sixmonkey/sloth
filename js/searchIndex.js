@@ -486,16 +486,6 @@ Search.appendIndex(
             "summary": "Registers\u0020all\u0020core\u0020framework\u0020service\u0020providers.",
             "url": "classes/Sloth-Core-Sloth.html#method_registerProviders"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AsetRouter\u0028\u0029",
-            "name": "setRouter",
-            "summary": "Sets\u0020up\u0020rewrite\u0020rules\u0020for\u0020the\u0020router.",
-            "url": "classes/Sloth-Core-Sloth.html#method_setRouter"
-        },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AdispatchRouter\u0028\u0029",
-            "name": "dispatchRouter",
-            "summary": "Dispatches\u0020the\u0020router\u0020to\u0020handle\u0020the\u0020current\u0020request.",
-            "url": "classes/Sloth-Core-Sloth.html#method_dispatchRouter"
-        },                {
             "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AsetAliases\u0028\u0029",
             "name": "setAliases",
             "summary": "Creates\u0020class\u0020aliases\u0020for\u0020commonly\u0020used\u0020framework\u0020classes.",
@@ -695,16 +685,6 @@ Search.appendIndex(
             "name": "getFacadeAccessor",
             "summary": "Return\u0020the\u0020service\u0020provider\u0020key\u0020responsible\u0020for\u0020the\u0020pagination\u0020class.",
             "url": "classes/Sloth-Facades-Pagination.html#method_getFacadeAccessor"
-        },                {
-            "fqsen": "\\Sloth\\Facades\\Route",
-            "name": "Route",
-            "summary": "Route\u0020Facade\u0020for\u0020accessing\u0020the\u0020routing\u0020service.",
-            "url": "classes/Sloth-Facades-Route.html"
-        },                {
-            "fqsen": "\\Sloth\\Facades\\Route\u003A\u003AgetFacadeAccessor\u0028\u0029",
-            "name": "getFacadeAccessor",
-            "summary": "Return\u0020the\u0020service\u0020provider\u0020key\u0020responsible\u0020for\u0020the\u0020route\u0020class.",
-            "url": "classes/Sloth-Facades-Route.html#method_getFacadeAccessor"
         },                {
             "fqsen": "\\Sloth\\Facades\\Validation",
             "name": "Validation",
@@ -2416,11 +2396,6 @@ Search.appendIndex(
             "summary": "Load\u0020app\u0020includes.",
             "url": "classes/Sloth-Plugin-Plugin.html#method_loadAppIncludes"
         },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AfixRoutes\u0028\u0029",
-            "name": "fixRoutes",
-            "summary": "Fix\u0020routes.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_fixRoutes"
-        },                {
             "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetModelClass\u0028\u0029",
             "name": "getModelClass",
             "summary": "Get\u0020model\u0020class\u0020name.",
@@ -2535,136 +2510,6 @@ Search.appendIndex(
             "name": "provides",
             "summary": "Get\u0020the\u0020services\u0020provided\u0020by\u0020the\u0020provider.",
             "url": "classes/Sloth-Request-RequestServiceProvider.html#method_provides"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route",
-            "name": "Route",
-            "summary": "Router",
-            "url": "classes/Sloth-Route-Route.html"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024instance",
-            "name": "instance",
-            "summary": "Singleton\u0020instance\u0020of\u0020the\u0020Route\u0020class.",
-            "url": "classes/Sloth-Route-Route.html#property_instance"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Aboot\u0028\u0029",
-            "name": "boot",
-            "summary": "Boots\u0020the\u0020router\u0020and\u0020compiles\u0020all\u0020registered\u0020routes.",
-            "url": "classes/Sloth-Route-Route.html#method_boot"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003AaddRoute\u0028\u0029",
-            "name": "addRoute",
-            "summary": "Adds\u0020a\u0020route\u0020to\u0020the\u0020initial\u0020collection.",
-            "url": "classes/Sloth-Route-Route.html#method_addRoute"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Aadd\u0028\u0029",
-            "name": "add",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020GET\u0020and\u0020POST\u0020methods.",
-            "url": "classes/Sloth-Route-Route.html#method_add"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020GET\u0020requests.",
-            "url": "classes/Sloth-Route-Route.html#method_get"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Apost\u0028\u0029",
-            "name": "post",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020POST\u0020requests.",
-            "url": "classes/Sloth-Route-Route.html#method_post"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Aput\u0028\u0029",
-            "name": "put",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020PUT\u0020requests.",
-            "url": "classes/Sloth-Route-Route.html#method_put"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Apatch\u0028\u0029",
-            "name": "patch",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020PATCH\u0020requests.",
-            "url": "classes/Sloth-Route-Route.html#method_patch"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Adelete\u0028\u0029",
-            "name": "delete",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020DELETE\u0020requests.",
-            "url": "classes/Sloth-Route-Route.html#method_delete"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Ahead\u0028\u0029",
-            "name": "head",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020HEAD\u0020requests.",
-            "url": "classes/Sloth-Route-Route.html#method_head"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Aany\u0028\u0029",
-            "name": "any",
-            "summary": "Registers\u0020a\u0020route\u0020for\u0020all\u0020HTTP\u0020methods.",
-            "url": "classes/Sloth-Route-Route.html#method_any"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Anormalize\u0028\u0029",
-            "name": "normalize",
-            "summary": "Normalizes\u0020a\u0020route\u0020pattern\u0020for\u0020FastRoute.",
-            "url": "classes/Sloth-Route-Route.html#method_normalize"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003Adispatch\u0028\u0029",
-            "name": "dispatch",
-            "summary": "Dispatches\u0020the\u0020current\u0020request\u0020to\u0020the\u0020appropriate\u0020controller.",
-            "url": "classes/Sloth-Route-Route.html#method_dispatch"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003AgetController\u0028\u0029",
-            "name": "getController",
-            "summary": "Resolves\u0020the\u0020controller\u0020class\u0020name\u0020from\u0020a\u0020template\u0020name.",
-            "url": "classes/Sloth-Route-Route.html#method_getController"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003AgetRewriteRuleRegex\u0028\u0029",
-            "name": "getRewriteRuleRegex",
-            "summary": "Converts\u0020a\u0020FastRoute\u0020regex\u0020to\u0020a\u0020WordPress\u0020rewrite\u0020rule\u0020regex.",
-            "url": "classes/Sloth-Route-Route.html#method_getRewriteRuleRegex"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003AsetRewrite\u0028\u0029",
-            "name": "setRewrite",
-            "summary": "Registers\u0020WordPress\u0020rewrite\u0020rules\u0020for\u0020all\u0020routes.",
-            "url": "classes/Sloth-Route-Route.html#method_setRewrite"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003AflushRewriteRules\u0028\u0029",
-            "name": "flushRewriteRules",
-            "summary": "",
-            "url": "classes/Sloth-Route-Route.html#method_flushRewriteRules"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024dispatched",
-            "name": "dispatched",
-            "summary": "Flag\u0020indicating\u0020if\u0020routes\u0020have\u0020been\u0020dispatched.",
-            "url": "classes/Sloth-Route-Route.html#property_dispatched"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024dispatcher",
-            "name": "dispatcher",
-            "summary": "The\u0020FastRoute\u0020dispatcher\u0020instance.",
-            "url": "classes/Sloth-Route-Route.html#property_dispatcher"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024routes",
-            "name": "routes",
-            "summary": "Collection\u0020of\u0020registered\u0020routes.",
-            "url": "classes/Sloth-Route-Route.html#property_routes"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024rewriteTagPrefix",
-            "name": "rewriteTagPrefix",
-            "summary": "Prefix\u0020for\u0020custom\u0020WordPress\u0020rewrite\u0020tags.",
-            "url": "classes/Sloth-Route-Route.html#property_rewriteTagPrefix"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024regexes",
-            "name": "regexes",
-            "summary": "Collection\u0020of\u0020compiled\u0020route\u0020regex\u0020patterns.",
-            "url": "classes/Sloth-Route-Route.html#property_regexes"
-        },                {
-            "fqsen": "\\Sloth\\Route\\Route\u003A\u003A\u0024routeTargetDefaults",
-            "name": "routeTargetDefaults",
-            "summary": "Default\u0020values\u0020for\u0020route\u0020targets.",
-            "url": "classes/Sloth-Route-Route.html#property_routeTargetDefaults"
-        },                {
-            "fqsen": "\\Sloth\\Route\\RouteServiceProvider",
-            "name": "RouteServiceProvider",
-            "summary": "Route\u0020Service\u0020Provider",
-            "url": "classes/Sloth-Route-RouteServiceProvider.html"
-        },                {
-            "fqsen": "\\Sloth\\Route\\RouteServiceProvider\u003A\u003Aregister\u0028\u0029",
-            "name": "register",
-            "summary": "Registers\u0020services\u0020with\u0020the\u0020container.",
-            "url": "classes/Sloth-Route-RouteServiceProvider.html#method_register"
         },                {
             "fqsen": "\\Sloth\\Singleton\\Singleton",
             "name": "Singleton",
@@ -3000,11 +2845,6 @@ Search.appendIndex(
             "name": "Request",
             "summary": "",
             "url": "namespaces/sloth-request.html"
-        },                {
-            "fqsen": "\\Sloth\\Route",
-            "name": "Route",
-            "summary": "",
-            "url": "namespaces/sloth-route.html"
         },                {
             "fqsen": "\\Sloth\\Singleton",
             "name": "Singleton",
