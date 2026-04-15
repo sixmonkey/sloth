@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Sloth\Module;
 
-use Cake\Utility\Hash;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Sloth\Facades\View;
-use Sloth\Utility\Utility;
 
 /**
  * Base module class for creating modular components.
@@ -254,7 +253,7 @@ class Module
      */
     final protected function get(string $k): mixed
     {
-        return Hash::get($this->viewVars, $k);
+        return Arr::get($this->viewVars, $k);
     }
 
     /**
@@ -267,7 +266,7 @@ class Module
      */
     final public function isSet(string $key): bool
     {
-        return Hash::get($this->viewVars, $key) !== null;
+        return Arr::get($this->viewVars, $key) !== null;
     }
 
     /**
@@ -280,7 +279,7 @@ class Module
      */
     final public function unset(string $key): void
     {
-        $this->viewVars = Hash::remove($this->viewVars, $key);
+        Arr::forget($this->viewVars, $key);
     }
 
     /**
@@ -354,7 +353,7 @@ class Module
      */
     final public function getAjaxAction(): string
     {
-        return 'module_' . Utility::underscore(class_basename($this));
+            return 'module_' . Str::snake(class_basename($this));
     }
 
     /**
