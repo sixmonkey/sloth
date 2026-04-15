@@ -997,14 +997,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @since 1.0.0
      *
+     * @deprecated init() removed from Model - options are now set during registration
      */
     public function initModels(): void
     {
-        foreach ($this->models as $v) {
-            $model = new $v();
-            $model->init();
-            unset($model);
-        }
     }
 
     /**
@@ -1012,14 +1008,10 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
      *
      * @since 1.0.0
      *
+     * @deprecated init() removed from Taxonomy - metabox handling moved to TaxonomyServiceProvider (Step 3)
      */
     public function initTaxonomies(): void
     {
-        foreach ($this->taxonomies as $v) {
-            $tax = new $v();
-            $tax->init();
-            unset($tax);
-        }
     }
 
     /**
