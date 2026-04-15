@@ -52,27 +52,6 @@ use Illuminate\Support\Arr;
 trait HasAliases
 {
     /**
-     * Static aliases configuration for the class.
-     *
-     * Override this in your model to define aliases. Keys are the alias
-     * names, values can be:
-     * - A string: The original column name
-     * - An array with 'meta' key: A meta field reference
-     *
-     * @var array<string, string|array>
-     *
-     * @example
-     * ```php
-     * protected static $aliases = [
-     *     'title' => 'post_title',                    // Column alias
-     *     'author' => ['meta' => 'user_id'],          // Meta alias
-     *     'slug' => 'post_name',                      // Column alias
-     * ];
-     * ```
-     */
-    protected static array $aliases = [];
-
-    /**
      * Get all aliases, merging parent and static definitions.
      *
      * Combines the aliases from parent classes with the current class's
@@ -88,13 +67,20 @@ trait HasAliases
      */
     public static function getAliases(): array
     {
-        // Check if parent has aliases and merge them
-        if (isset(parent::$aliases) && count(parent::$aliases)) {
-            return array_merge(parent::$aliases, static::$aliases);
+        $aliases = [];
+
+        if (property_exists(static::class, 'aliases')) {
+            $aliases = static::$aliases;
         }
 
-        // No parent aliases, return only static definitions
-        return static::$aliases;
+        if (property_exists(parent::class, 'aliases')) {
+            $parentAliases = parent::$aliases;
+            if (is_array($parentAliases)) {
+                $aliases = array_merge($parentAliases, $aliases);
+            }
+        }
+
+        return $aliases;
     }
 
     /**
@@ -114,6 +100,9 @@ trait HasAliases
      */
     public static function addAlias(string $new, string $old): void
     {
+        if (!property_exists(static::class, 'aliases')) {
+            static::$aliases = [];
+        }
         static::$aliases[$new] = $old;
     }
 

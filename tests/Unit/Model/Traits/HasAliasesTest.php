@@ -45,11 +45,11 @@ describe('HasAliases', function (): void {
     });
 
     describe('Static $aliases property', function (): void {
-        it('can be accessed through reflection', function (): void {
-            // The trait defines a protected static $aliases property
-            // Verify the class has this property through reflection
-            $reflection = new \ReflectionClass(TestModelWithAliases::class);
-            expect($reflection->hasProperty('aliases'))->toBeTrue();
+        it('returns empty array when no aliases defined', function (): void {
+            // When a class uses the trait but doesn't define $aliases,
+            // getAliases() should return an empty array
+            $aliases = TestModelWithAliases::getAliases();
+            expect($aliases)->toEqual([]);
         });
     });
 
