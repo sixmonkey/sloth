@@ -61,9 +61,9 @@ class ModelServiceProvider
     /**
      * Set the container instance.
      *
+     * @param \Illuminate\Container\Container $container
      * @since 1.0.0
      *
-     * @param \Illuminate\Container\Container $container
      */
     public function setContainer($container): void
     {
@@ -131,9 +131,9 @@ class ModelServiceProvider
      * Layotter for the post type accordingly. If $layotter is an
      * array with 'allowed_row_layouts', those layouts are set.
      *
+     * @param object $model The model instance
      * @since 1.0.0
      *
-     * @param object $model The model instance
      */
     protected function configureLayotter(object $model): void
     {
@@ -157,9 +157,9 @@ class ModelServiceProvider
     /**
      * Get all registered models.
      *
+     * @return array<string, string> Post type slug to class name mapping
      * @since 1.0.0
      *
-     * @return array<string, string> Post type slug to class name mapping
      */
     public function getModels(): array
     {
@@ -173,10 +173,10 @@ class ModelServiceProvider
      * Skips Corcel namespace classes (handled by Corcel itself) and returns
      * the first matching App\ namespaced class.
      *
-     * @since 1.0.0
-     *
      * @param string $file Absolute path to the PHP file
      * @return string Class name if found, empty string otherwise
+     * @since 1.0.0
+     *
      */
     protected function loadClassFromFile(string $file): string
     {
