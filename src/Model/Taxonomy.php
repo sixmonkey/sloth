@@ -269,20 +269,14 @@ class Taxonomy extends CorcelModel
     }
 
     /**
-     * Registers the taxonomy with WordPress.
-     *
-     * Uses direct WordPress registration to attach the taxonomy
-     * to the specified post types.
+     * Get registration arguments for WordPress taxonomy registration.
      *
      * @since 1.0.0
+     *
+     * @return array<string, mixed> The arguments for register_taxonomy()
      */
-    public function register(): void
+    public function getRegistrationArgs(): array
     {
-        $taxonomyName = $this->getTaxonomy();
-        if (!$taxonomyName || \taxonomy_exists($taxonomyName)) {
-            return;
-        }
-
         $options = $this->options;
         $options['labels'] = $this->getLabels();
 
@@ -292,47 +286,19 @@ class Taxonomy extends CorcelModel
             $options['parent_item_colon'] = null;
         }
 
-        \register_taxonomy($taxonomyName, null, $options);
-
-        foreach ($this->postTypes as $postType) {
-            if (\post_type_exists($postType)) {
-                \register_taxonomy_for_object_type($taxonomyName, $postType);
-            }
-        }
+        return $options;
     }
 
     /**
-     * Initializes the taxonomy after WordPress registration.
-     *
-     * For unique (non-hierarchical) taxonomies, this removes
-     * the default meta box and adds a custom one.
+     * Get post types that this taxonomy is attached to.
      *
      * @since 1.0.0
+     *
+     * @return array<string> Array of post type slugs
      */
-    public function init(): void
+    public function getPostTypes(): array
     {
-        if ($this->unique) {
-            $me = $this;
-
-            foreach ($this->postTypes as $post_type) {
-                \remove_meta_box('tagsdiv-' . $this->getTaxonomy(), $post_type, null);
-            }
-
-            $post_types = $this->postTypes;
-
-            add_action(
-                'add_meta_boxes',
-                static function () use ($me, $post_types): void {
-                    \add_meta_box(
-                        'sloth-taxonomy-' . $me->getTaxonomy(),
-                        $me->names['singular'],
-                        $me->metabox(...),
-                        $post_types,
-                        'side'
-                    );
-                }
-            );
-        }
+        return $this->postTypes;
     }
 
     /**
