@@ -812,8 +812,8 @@ class Model extends CorcelModel\Post
             ->limit(1);
     }
 
-    private function getAcfKey(): ?string
+    public function getAcfKey(): ?string
     {
-        return $this->getAttribute('ID');
+        return (string)$this->getAttribute('ID');
     }
 }
