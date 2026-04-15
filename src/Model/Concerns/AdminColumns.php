@@ -53,26 +53,89 @@ namespace Sloth\Model\Concerns;
 trait AdminColumns
 {
     /**
-     * Custom columns to add to the admin list table.
+     * Custom columns to display in the admin list table.
      *
-     * Array format: [column_key => column_label]
+     * Defines additional columns beyond the default WordPress columns
+     * (title, author, date, categories, tags, etc.).
      *
-     * Each column key should have a corresponding get{ColumnKey}Column() method
-     * on the model that returns the HTML content for the cell.
+     * ## Array Format
+     * ```php
+     * [
+     *     'column_key' => 'Column Label',
+     *     'client' => 'Client',
+     *     'status' => 'Status',
+     * ]
+     * ```
+     *
+     * ## Method Requirement
+     * For each column key, the model must implement a corresponding
+     * getter method: get{ColumnKey}Column()
+     *
+     * Example for 'client' column:
+     * ```php
+     * public function getClientColumn(): string
+     * {
+     *     return esc_html($this->client ?? '-');
+     * }
+     * ```
+     *
+     * ## Usage Example
+     * ```php
+     * class Project extends Model
+     * {
+     *     use AdminColumns;
+     *
+     *     public array $admin_columns = [
+     *         'client' => 'Client',
+     *         'deadline' => 'Deadline',
+     *     ];
+     *
+     *     public function getClientColumn(): string
+     *     {
+     *         return $this->client
+     *             ? '<a href="/clients/' . $this->client->ID . '">' . esc_html($this->client->post_title) . '</a>'
+     *             : '-';
+     *     }
+     * }
+     * ```
      *
      * @since 1.0.0
-     * @var array<string, string>
+     * @see AdminColumns::registerColumns() For how columns are registered
+     * @see AdminColumns::populateColumns() For how column content is rendered
+     * @var array<string, string> Column key to label mapping
      */
     public array $admin_columns = [];
 
     /**
-     * Default columns to hide from the admin list table.
+     * Default WordPress columns to hide from the admin list table.
      *
-     * Common values include 'title', 'author', 'date', 'categories', 'tags', etc.
-     * These are hidden in addition to any custom columns defined.
+     * Specifies which of the standard columns should be hidden from
+     * the admin interface. Common columns include:
+     * - 'title' — The post title (required for primary column logic)
+     * - 'author' — The post author
+     * - 'date' — The publish date
+     * - 'categories' — Category assignment
+     * - 'tags' — Tag assignment
+     * - 'comments' — Comment count
+     * - 'thumbnail' — Featured image
+     *
+     * ## Usage Example
+     * ```php
+     * class Project extends Model
+     * {
+     *     use AdminColumns;
+     *
+     *     public array $admin_columns_hidden = ['title', 'author', 'date'];
+     * }
+     * ```
+     *
+     * ## Primary Column Handling
+     * When 'title' is hidden, the first column in $admin_columns
+     * becomes the primary column (used for row actions like Edit, Trash).
      *
      * @since 1.0.0
-     * @var array<string>
+     * @see AdminColumns::registerColumnHooks() For how primary column is handled
+     * @var array<string> List of column keys to hide
      */
     public array $admin_columns_hidden = [];
 
