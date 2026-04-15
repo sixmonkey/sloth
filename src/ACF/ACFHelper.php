@@ -6,54 +6,43 @@ namespace Sloth\ACF;
 
 use Sloth\Configure\Configure;
 use Sloth\Field\Image;
-use Sloth\Singleton\Singleton;
 
 /**
  * Helper class for Advanced Custom Fields integration.
  *
  * @since 1.0.0
  */
-class ACFHelper extends Singleton
+class ACFHelper
 {
-    /**
-     * ACFHelper constructor.
-     *
-     * @since 1.0.0
-     */
-    public function __construct()
-    {
-        add_action('init', $this->addFilters(...));
-    }
-
     /**
      * Add ACF filters.
      *
      * @since 1.0.0
      */
-    final public function addFilters(): void
+    public function addFilters(): void
     {
-        if ( \Configure::read( 'layotter_prepare_fields' ) == 2 ) {
-            add_filter( 'acf/format_value/type=image', [ $this, 'load_image' ], 10, 3 );
+        if (\Configure::read('layotter_prepare_fields') == 2) {
+            add_filter('acf/format_value/type=image', [$this, 'load_image'], 10, 3);
         }
         add_action('admin_init', $this->autoSyncAcfFields(...));
     }
 
     /**
-     * @param $value
-     * @param $post_id
-     * @param $field
-     * @return Image|null
+     * @param mixed $value
+     * @param mixed $post_id
+     * @param mixed $field
      */
-    final public function load_image( $value, $post_id, $field ): ?Image
+    public function load_image(mixed $value, mixed $post_id, mixed $field): ?Image
     {
         if (str_starts_with($field['_name'], '_qundg')) {
             return $value;
         }
 
-        $id = is_array( $value ) ? (int) $value['ID'] : $value;
+        $id = is_array($value) ? (int) $value['ID'] : $value;
 
-        return $id ? new Image( $id ) : null;
+        return $id ? new Image($id) : null;
     }
+
     /**
      * Auto-sync ACF JSON field groups.
      *
@@ -64,7 +53,7 @@ class ACFHelper extends Singleton
         $autosyncAcf = Configure::read('autosync_acf');
         if (
             !function_exists('acf_get_field_groups')
-            || !$GLOBALS['sloth::plugin']->isDevEnv()
+            || ! $this->isDevEnv()
             || $autosyncAcf === false
         ) {
             return;
@@ -89,7 +78,7 @@ class ACFHelper extends Singleton
             }
 
             if (
-                !$group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
+                ! $group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
             ) {
                 acf_disable_filters();
                 acf_enable_filter('local');
@@ -98,5 +87,10 @@ class ACFHelper extends Singleton
                 $group = acf_import_field_group($group);
             }
         }
+    }
+
+    private function isDevEnv(): bool
+    {
+        return in_array(env('WP_ENV', ''), ['development', 'develop', 'dev'], true);
     }
 }

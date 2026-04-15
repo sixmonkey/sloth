@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin;
 
-use Sloth\ACF\ACFHelper;
+use Sloth\ACF\AcfServiceProvider;
 use Sloth\Facades\Configure;
 use Sloth\Facades\Deployment;
 use Sloth\Plugin\Provider\AdminServiceProvider;
@@ -168,6 +168,7 @@ class Plugin extends Singleton
         $menuProvider = new MenuServiceProvider();
         $taxonomyProvider = new TaxonomyServiceProvider();
         $modelProvider = new ModelServiceProvider();
+        $acfProvider = new AcfServiceProvider();
         $apiProvider = new ApiServiceProvider();
         $moduleProvider = new ModuleServiceProvider();
         $templateProvider = new TemplateServiceProvider();
@@ -183,6 +184,7 @@ class Plugin extends Singleton
             $menuProvider,
             $taxonomyProvider,
             $modelProvider,
+            $acfProvider,
             $apiProvider,
             $moduleProvider,
             $templateProvider,
@@ -200,7 +202,7 @@ class Plugin extends Singleton
 
         $this->templateProvider = $templateProvider;
 
-        ACFHelper::getInstance();
+        $acfProvider->register();
         Deployment::getInstance()->boot();
         $this->container['layotter']->addFilters();
     }
