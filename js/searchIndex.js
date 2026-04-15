@@ -416,31 +416,6 @@ Search.appendIndex(
             "summary": "The\u0020response\u0020object.",
             "url": "classes/Sloth-Controller-Controller.html#property_response"
         },                {
-            "fqsen": "\\Corcel\\Acf\\AdvancedCustomFields",
-            "name": "AdvancedCustomFields",
-            "summary": "",
-            "url": "classes/Corcel-Acf-AdvancedCustomFields.html"
-        },                {
-            "fqsen": "\\Corcel\\Acf\\AdvancedCustomFields\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Corcel-Acf-AdvancedCustomFields.html#method___construct"
-        },                {
-            "fqsen": "\\Corcel\\Acf\\AdvancedCustomFields\u003A\u003Aboolean\u0028\u0029",
-            "name": "boolean",
-            "summary": "",
-            "url": "classes/Corcel-Acf-AdvancedCustomFields.html#method_boolean"
-        },                {
-            "fqsen": "\\Corcel\\Acf\\AdvancedCustomFields\u003A\u003A__get\u0028\u0029",
-            "name": "__get",
-            "summary": "",
-            "url": "classes/Corcel-Acf-AdvancedCustomFields.html#method___get"
-        },                {
-            "fqsen": "\\Corcel\\Acf\\AdvancedCustomFields\u003A\u003A\u0024model",
-            "name": "model",
-            "summary": "",
-            "url": "classes/Corcel-Acf-AdvancedCustomFields.html#property_model"
-        },                {
             "fqsen": "\\Sloth\\Core\\Application",
             "name": "Application",
             "summary": "Application\u0020Container",
@@ -2670,16 +2645,6 @@ Search.appendIndex(
             "name": "Controller",
             "summary": "",
             "url": "namespaces/sloth-controller.html"
-        },                {
-            "fqsen": "\\Corcel\\Acf",
-            "name": "Acf",
-            "summary": "",
-            "url": "namespaces/corcel-acf.html"
-        },                {
-            "fqsen": "\\Corcel",
-            "name": "Corcel",
-            "summary": "",
-            "url": "namespaces/corcel.html"
         },                {
             "fqsen": "\\Sloth\\Core",
             "name": "Core",
