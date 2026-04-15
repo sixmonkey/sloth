@@ -775,6 +775,35 @@ class Model extends CorcelModel\Post
         return $value;
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    #[\Override]
+    public function __isset($key): bool
+    {
+        $exists = parent::__isset($key);
+
+        if ($exists) {
+            return true;
+        }
+
+        if ($this->hasCast($key)) {
+            return true;
+        }
+
+        if (isset($this->meta) && $this->meta->has($key)) {
+            return true;
+        }
+
+        if (method_exists($this, 'getAcfKey') && isset(\Sloth\Model\Traits\HasACF::$acfFieldCache[$this->getAcfKey()]) 
+            && \Sloth\Model\Traits\HasACF::$acfFieldCache[$this->getAcfKey()]->has($key)) {
+            return true;
+        }
+
+        return false;
+    }
+
     #[\Override]
     public function toArray(): array
     {
