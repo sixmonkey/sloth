@@ -39,7 +39,8 @@ trait HasACF
 
     abstract public function getAcfKey(): ?string;
 
-    public function getAcfAttribute()
+    #[\Override]
+    public function getAcfAttribute(): AcfProxy
     {
         return new AcfProxy($this->getFields($this));
     }
