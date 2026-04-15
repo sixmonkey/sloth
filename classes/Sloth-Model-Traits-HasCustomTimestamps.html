@@ -189,15 +189,72 @@
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model.html">Model</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model-traits.html">Traits</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -namespace">
-        <h2 class="phpdocumentor-content__title">Traits</h2>
+    <article class="phpdocumentor-element -trait">
+        <h2 class="phpdocumentor-content__title">
+    HasCustomTimestamps
+    </h2>
 
-        
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">31</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Provides custom timestamp handling for WordPress models.</p>
+
+
+    <section class="phpdocumentor-description"><p>This trait extends Laravel's timestamp behavior to also set the
+GMT version of timestamp fields (e.g., post_date_gmt alongside post_date).
+This is important for WordPress compatibility as WordPress stores both
+local and GMT timestamps.</p>
+<p>It replaces Corcel's CustomTimestamps trait to maintain control over
+the model's behavior without depending on Corcel's internal traits.</p>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">class Post extends Model
+{
+    use HasCustomTimestamps;
+
+    public const CREATED_AT = 'post_date';
+    public const UPDATED_AT = 'post_modified';
+}
+</code></pre>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Corcel\Concerns\CustomTimestamps">CustomTimestamps</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>Original source</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+    
+    
 <h3 id="toc">
     Table of Contents
-    <a href="namespaces/sloth-model-traits.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -205,28 +262,207 @@
 
 
 
-    <h4 id="toc-traits">
-        Traits
-        <a href="namespaces/sloth-model-traits.html#toc-traits" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt">setCreatedAt()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Set the created_at timestamp while also updating the GMT version.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt">setUpdatedAt()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Set the updated_at timestamp while also updating the GMT version.</dd>
+
+    </dl>
+
+
+
+
+        
+
+        
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setCreatedAt">
+        setCreatedAt()
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
-    <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Sloth-Model-Traits-HasACF.html"><abbr title="\Sloth\Model\Traits\HasACF">HasACF</abbr></a></dt>        <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Sloth-Model-Traits-HasAliases.html"><abbr title="\Sloth\Model\Traits\HasAliases">HasAliases</abbr></a></dt><dd>Provides attribute alias resolution for WordPress compatibility.</dd>        <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html"><abbr title="\Sloth\Model\Traits\HasCustomTimestamps">HasCustomTimestamps</abbr></a></dt><dd>Provides custom timestamp handling for WordPress models.</dd>        <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Sloth-Model-Traits-HasMetaFields.html"><abbr title="\Sloth\Model\Traits\HasMetaFields">HasMetaFields</abbr></a></dt><dd>Provides WordPress meta field management capabilities.</dd>        <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Sloth-Model-Traits-HasOrderScopes.html"><abbr title="\Sloth\Model\Traits\HasOrderScopes">HasOrderScopes</abbr></a></dt><dd>Provides ordering query scopes for models.</dd>    </dl>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
+    </aside>
 
+        <p class="phpdocumentor-summary">Set the created_at timestamp while also updating the GMT version.</p>
 
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setCreatedAt</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>When a model is created, both the local timestamp field (e.g., post_date)
+and its GMT equivalent (e.g., post_date_gmt) are set.</p>
+</section>
 
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The timestamp value to set</p>
+</section>
 
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$post = new Post();
+$post-&gt;setCreatedAt('2024-01-15 10:30:00');
+// Sets both post_date and post_date_gmt
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The result of the parent's setCreatedAt method</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setUpdatedAt">
+        setUpdatedAt()
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">78</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set the updated_at timestamp while also updating the GMT version.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setUpdatedAt</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>When a model is updated, both the local timestamp field (e.g., post_modified)
+and its GMT equivalent (e.g., post_modified_gmt) are set.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The timestamp value to set</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$post = Post::find(1);
+$post-&gt;setUpdatedAt('2024-01-15 14:45:00');
+// Sets both post_modified and post_modified_gmt
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The result of the parent's setUpdatedAt method</p>
+</section>
+
+            </section>
+
+</article>
+            </section>
+
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Model/Traits/HasCustomTimestamps.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -319,7 +555,7 @@
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                            
+                                
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -327,11 +563,16 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                        <li><a href="namespaces/sloth-model-traits.html#toc-traits">Traits</a></li>
-                                                                                                </ul>
+                                                                                <li><a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#toc-methods">Methods</a></li>
+                                    </ul>
             </li>
-
-            
+                                                <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt">setCreatedAt()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt">setUpdatedAt()</a></li>
+                                    </ul>
+            </li>
                     </ul>
     </section>
 
@@ -349,7 +590,7 @@
     </section>
 </section>
         </div>
-        <a href="namespaces/sloth-model-traits.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

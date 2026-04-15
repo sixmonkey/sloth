@@ -1351,6 +1351,21 @@ Search.appendIndex(
             "summary": "Boot\u0020global\u0020query\u0020scopes.",
             "url": "classes/Sloth-Model-Model.html#method_bootGlobalScopes"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewFromBuilder\u0028\u0029",
+            "name": "newFromBuilder",
+            "summary": "Create\u0020a\u0020model\u0020instance\u0020from\u0020a\u0020database\u0020row.",
+            "url": "classes/Sloth-Model-Model.html#method_newFromBuilder"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AshouldLoadPreview\u0028\u0029",
+            "name": "shouldLoadPreview",
+            "summary": "Check\u0020if\u0020we\u0020should\u0020load\u0020the\u0020preview\u0020version\u0020of\u0020a\u0020post.",
+            "url": "classes/Sloth-Model-Model.html#method_shouldLoadPreview"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AloadPreview\u0028\u0029",
+            "name": "loadPreview",
+            "summary": "Load\u0020the\u0020preview\u0020revision\u0020for\u0020a\u0020post.",
+            "url": "classes/Sloth-Model-Model.html#method_loadPreview"
+        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewEloquentBuilder\u0028\u0029",
             "name": "newEloquentBuilder",
             "summary": "Create\u0020a\u0020new\u0020Eloquent\u0020query\u0020builder\u0020for\u0020the\u0020model.",
@@ -1360,6 +1375,16 @@ Search.appendIndex(
             "name": "newQuery",
             "summary": "Get\u0020a\u0020new\u0020query\u0020builder\u0020for\u0020the\u0020model\u0027s\u0020table.",
             "url": "classes/Sloth-Model-Model.html#method_newQuery"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AregisterPostType\u0028\u0029",
+            "name": "registerPostType",
+            "summary": "Register\u0020a\u0020post\u0020type\u0020class\u0020to\u0020be\u0020instantiated\u0020for\u0020specific\u0020post\u0020types.",
+            "url": "classes/Sloth-Model-Model.html#method_registerPostType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AclearRegisteredPostTypes\u0028\u0029",
+            "name": "clearRegisteredPostTypes",
+            "summary": "Clear\u0020all\u0020registered\u0020post\u0020types.",
+            "url": "classes/Sloth-Model-Model.html#method_clearRegisteredPostTypes"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003Athumbnail\u0028\u0029",
             "name": "thumbnail",
@@ -1405,6 +1430,11 @@ Search.appendIndex(
             "name": "getContentAttribute",
             "summary": "Get\u0020the\u0020post\u0020content\u0020with\u0020WordPress\u0020filters\u0020applied.",
             "url": "classes/Sloth-Model-Model.html#method_getContentAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetExcerptAttribute\u0028\u0029",
+            "name": "getExcerptAttribute",
+            "summary": "Get\u0020the\u0020post\u0020excerpt\u0020with\u0020shortcodes\u0020stripped.",
+            "url": "classes/Sloth-Model-Model.html#method_getExcerptAttribute"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetPermalinkAttribute\u0028\u0029",
             "name": "getPermalinkAttribute",
@@ -1456,21 +1486,6 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020post\u0020format\u0020\u0028e.g.,\u0020\u0027standard\u0027,\u0020\u0027aside\u0027,\u0020\u0027gallery\u0027\u0029.",
             "url": "classes/Sloth-Model-Model.html#method_getFormat"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewFromBuilder\u0028\u0029",
-            "name": "newFromBuilder",
-            "summary": "Create\u0020a\u0020model\u0020instance\u0020from\u0020a\u0020database\u0020row.",
-            "url": "classes/Sloth-Model-Model.html#method_newFromBuilder"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AshouldLoadPreview\u0028\u0029",
-            "name": "shouldLoadPreview",
-            "summary": "Check\u0020if\u0020we\u0020should\u0020load\u0020the\u0020preview\u0020version\u0020of\u0020a\u0020post.",
-            "url": "classes/Sloth-Model-Model.html#method_shouldLoadPreview"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AloadPreview\u0028\u0029",
-            "name": "loadPreview",
-            "summary": "Load\u0020the\u0020preview\u0020revision\u0020for\u0020a\u0020post.",
-            "url": "classes/Sloth-Model-Model.html#method_loadPreview"
-        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024register",
             "name": "register",
             "summary": "",
@@ -1496,6 +1511,16 @@ Search.appendIndex(
             "summary": "Get\u0020a\u0020formatted\u0020column\u0020value\u0020for\u0020admin\u0020list\u0020view.",
             "url": "classes/Sloth-Model-Model.html#method_getColumn"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AscopeHome\u0028\u0029",
+            "name": "scopeHome",
+            "summary": "Scope\u0020to\u0020get\u0020the\u0020homepage\u0020post.",
+            "url": "classes/Sloth-Model-Model.html#method_scopeHome"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetAcfKey\u0028\u0029",
+            "name": "getAcfKey",
+            "summary": "Get\u0020the\u0020ACF\u0020key\u0020for\u0020this\u0020post.",
+            "url": "classes/Sloth-Model-Model.html#method_getAcfKey"
+        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A__call\u0028\u0029",
             "name": "__call",
             "summary": "",
@@ -1518,23 +1543,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetMetaClass\u0028\u0029",
             "name": "getMetaClass",
-            "summary": "",
+            "summary": "Get\u0020the\u0020meta\u0020class\u0020for\u0020this\u0020model.",
             "url": "classes/Sloth-Model-Model.html#method_getMetaClass"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetMetaForeignKey\u0028\u0029",
             "name": "getMetaForeignKey",
-            "summary": "",
+            "summary": "Get\u0020the\u0020foreign\u0020key\u0020for\u0020the\u0020meta\u0020relationship.",
             "url": "classes/Sloth-Model-Model.html#method_getMetaForeignKey"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AscopeHome\u0028\u0029",
-            "name": "scopeHome",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#method_scopeHome"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetAcfKey\u0028\u0029",
-            "name": "getAcfKey",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#method_getAcfKey"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003ACREATED_AT",
             "name": "CREATED_AT",
@@ -1545,6 +1560,16 @@ Search.appendIndex(
             "name": "UPDATED_AT",
             "summary": "",
             "url": "classes/Sloth-Model-Model.html#constant_UPDATED_AT"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024postType",
+            "name": "postType",
+            "summary": "Post\u0020type\u0020identifier\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Model.html#property_postType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024postTypes",
+            "name": "postTypes",
+            "summary": "Post\u0020types\u0020registered\u0020with\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Model.html#property_postTypes"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024table",
             "name": "table",
@@ -1616,6 +1641,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Model-Model.html#property_globalScopesBooted"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024aliases",
+            "name": "aliases",
+            "summary": "Aliases\u0020for\u0020attribute\u0020access.",
+            "url": "classes/Sloth-Model-Model.html#property_aliases"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024appends",
+            "name": "appends",
+            "summary": "Accessors\u0020to\u0020append\u0020to\u0020array\/JSON\u0020representation.",
+            "url": "classes/Sloth-Model-Model.html#property_appends"
+        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024attributes",
             "name": "attributes",
             "summary": "Default\u0020attribute\u0020values\u0020for\u0020new\u0020model\u0020instances.",
@@ -1636,14 +1671,9 @@ Search.appendIndex(
             "summary": "Gets\u0020the\u0020post\u0020content\u0020with\u0020WordPress\u0020filters\u0020applied.",
             "url": "classes/Sloth-Model-Post.html#method_getContentAttribute"
         },                {
-            "fqsen": "\\Sloth\\Model\\Post\u003A\u003AnewEloquentBuilder\u0028\u0029",
-            "name": "newEloquentBuilder",
-            "summary": "",
-            "url": "classes/Sloth-Model-Post.html#method_newEloquentBuilder"
-        },                {
             "fqsen": "\\Sloth\\Model\\Post\u003A\u003Arevision\u0028\u0029",
             "name": "revision",
-            "summary": "",
+            "summary": "Get\u0020post\u0020revisions.",
             "url": "classes/Sloth-Model-Post.html#method_revision"
         },                {
             "fqsen": "\\Sloth\\Model\\SlothMediaVersion",
@@ -1666,6 +1696,36 @@ Search.appendIndex(
             "summary": "Creates\u0020a\u0020new\u0020Taxonomy\u0020instance.",
             "url": "classes/Sloth-Model-Taxonomy.html#method___construct"
         },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Aterm\u0028\u0029",
+            "name": "term",
+            "summary": "Get\u0020the\u0020term\u0020relationship.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_term"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Aparent\u0028\u0029",
+            "name": "parent",
+            "summary": "Get\u0020the\u0020parent\u0020taxonomy.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_parent"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Achildren\u0028\u0029",
+            "name": "children",
+            "summary": "Get\u0020child\u0020taxonomy\u0020terms.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_children"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Aposts\u0028\u0029",
+            "name": "posts",
+            "summary": "Get\u0020all\u0020posts\u0020associated\u0020with\u0020this\u0020taxonomy\u0020term.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_posts"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetTermLinkAttribute\u0028\u0029",
+            "name": "getTermLinkAttribute",
+            "summary": "Get\u0020the\u0020term\u0020link\u0020URL.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_getTermLinkAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A__get\u0028\u0029",
+            "name": "__get",
+            "summary": "Magic\u0020method\u0020to\u0020return\u0020term\u0020attributes\u0020directly.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method___get"
+        },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetLabels\u0028\u0029",
             "name": "getLabels",
             "summary": "Get\u0020the\u0020taxonomy\u0020labels.",
@@ -1686,15 +1746,40 @@ Search.appendIndex(
             "summary": "Gets\u0020the\u0020taxonomy\u0020identifier.",
             "url": "classes/Sloth-Model-Taxonomy.html#method_getTaxonomy"
         },                {
-            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetTermLinkAttribute\u0028\u0029",
-            "name": "getTermLinkAttribute",
-            "summary": "Gets\u0020the\u0020term\u0020link\u0020URL.",
-            "url": "classes/Sloth-Model-Taxonomy.html#method_getTermLinkAttribute"
-        },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Ametabox\u0028\u0029",
             "name": "metabox",
             "summary": "Render\u0020the\u0020taxonomy\u0020metabox.",
             "url": "classes/Sloth-Model-Taxonomy.html#method_metabox"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetMetaClass\u0028\u0029",
+            "name": "getMetaClass",
+            "summary": "Get\u0020the\u0020meta\u0020class\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_getMetaClass"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetMetaForeignKey\u0028\u0029",
+            "name": "getMetaForeignKey",
+            "summary": "Get\u0020the\u0020foreign\u0020key\u0020for\u0020the\u0020meta\u0020relationship.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_getMetaForeignKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024timestamps",
+            "name": "timestamps",
+            "summary": "Indicates\u0020if\u0020the\u0020model\u0020should\u0020be\u0020timestamped.",
+            "url": "classes/Sloth-Model-Taxonomy.html#property_timestamps"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024table",
+            "name": "table",
+            "summary": "The\u0020table\u0020associated\u0020with\u0020the\u0020model.",
+            "url": "classes/Sloth-Model-Taxonomy.html#property_table"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024primaryKey",
+            "name": "primaryKey",
+            "summary": "The\u0020primary\u0020key\u0020for\u0020the\u0020model.",
+            "url": "classes/Sloth-Model-Taxonomy.html#property_primaryKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024with",
+            "name": "with",
+            "summary": "The\u0020relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
+            "url": "classes/Sloth-Model-Taxonomy.html#property_with"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024names",
             "name": "names",
@@ -1756,15 +1841,165 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache"
         },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasAliases",
+            "name": "HasAliases",
+            "summary": "Provides\u0020attribute\u0020alias\u0020resolution\u0020for\u0020WordPress\u0020compatibility.",
+            "url": "classes/Sloth-Model-Traits-HasAliases.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasAliases\u003A\u003AgetAliases\u0028\u0029",
+            "name": "getAliases",
+            "summary": "Get\u0020all\u0020aliases,\u0020merging\u0020parent\u0020and\u0020static\u0020definitions.",
+            "url": "classes/Sloth-Model-Traits-HasAliases.html#method_getAliases"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasAliases\u003A\u003AaddAlias\u0028\u0029",
+            "name": "addAlias",
+            "summary": "Add\u0020a\u0020single\u0020alias\u0020to\u0020the\u0020class.",
+            "url": "classes/Sloth-Model-Traits-HasAliases.html#method_addAlias"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasAliases\u003A\u003AgetAttribute\u0028\u0029",
+            "name": "getAttribute",
+            "summary": "Get\u0020an\u0020attribute\u0020value,\u0020resolving\u0020aliases\u0020if\u0020necessary.",
+            "url": "classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasAliases\u003A\u003AmutateAttribute\u0028\u0029",
+            "name": "mutateAttribute",
+            "summary": "Mutate\u0020an\u0020attribute\u0020value\u0020for\u0020access.",
+            "url": "classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasCustomTimestamps",
+            "name": "HasCustomTimestamps",
+            "summary": "Provides\u0020custom\u0020timestamp\u0020handling\u0020for\u0020WordPress\u0020models.",
+            "url": "classes/Sloth-Model-Traits-HasCustomTimestamps.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasCustomTimestamps\u003A\u003AsetCreatedAt\u0028\u0029",
+            "name": "setCreatedAt",
+            "summary": "Set\u0020the\u0020created_at\u0020timestamp\u0020while\u0020also\u0020updating\u0020the\u0020GMT\u0020version.",
+            "url": "classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasCustomTimestamps\u003A\u003AsetUpdatedAt\u0028\u0029",
+            "name": "setUpdatedAt",
+            "summary": "Set\u0020the\u0020updated_at\u0020timestamp\u0020while\u0020also\u0020updating\u0020the\u0020GMT\u0020version.",
+            "url": "classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields",
+            "name": "HasMetaFields",
+            "summary": "Provides\u0020WordPress\u0020meta\u0020field\u0020management\u0020capabilities.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003Afields\u0028\u0029",
+            "name": "fields",
+            "summary": "Alternative\u0020names\u0020for\u0020accessing\u0020meta\u0020relationships.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_fields"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003Ameta\u0028\u0029",
+            "name": "meta",
+            "summary": "Get\u0020the\u0020meta\u0020relationship\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_meta"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AgetMetaClass\u0028\u0029",
+            "name": "getMetaClass",
+            "summary": "Determines\u0020the\u0020appropriate\u0020meta\u0020class\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_getMetaClass"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AgetMetaForeignKey\u0028\u0029",
+            "name": "getMetaForeignKey",
+            "summary": "Determines\u0020the\u0020foreign\u0020key\u0020name\u0020for\u0020the\u0020meta\u0020relationship.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_getMetaForeignKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AscopeHasMeta\u0028\u0029",
+            "name": "scopeHasMeta",
+            "summary": "Scope\u0020to\u0020filter\u0020records\u0020by\u0020meta\u0020field\u0020existence\u0020and\u0020value.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMeta"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AscopeHasMetaLike\u0028\u0029",
+            "name": "scopeHasMetaLike",
+            "summary": "Scope\u0020to\u0020filter\u0020records\u0020where\u0020meta\u0020value\u0020contains\u0020a\u0020string\u0020\u0028LIKE\u0020query\u0029.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMetaLike"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AsaveField\u0028\u0029",
+            "name": "saveField",
+            "summary": "Save\u0020a\u0020single\u0020meta\u0020field.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AsaveMeta\u0028\u0029",
+            "name": "saveMeta",
+            "summary": "Save\u0020one\u0020or\u0020more\u0020meta\u0020fields.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_saveMeta"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AcreateField\u0028\u0029",
+            "name": "createField",
+            "summary": "Create\u0020a\u0020new\u0020meta\u0020field.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_createField"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AcreateMeta\u0028\u0029",
+            "name": "createMeta",
+            "summary": "Create\u0020one\u0020or\u0020more\u0020new\u0020meta\u0020fields.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_createMeta"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003AgetMeta\u0028\u0029",
+            "name": "getMeta",
+            "summary": "Get\u0020a\u0020specific\u0020meta\u0020value\u0020by\u0020key.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasMetaFields\u003A\u003A\u0024metaClassMap",
+            "name": "metaClassMap",
+            "summary": "Mapping\u0020of\u0020model\u0020classes\u0020to\u0020their\u0020corresponding\u0020meta\u0020classes.",
+            "url": "classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasOrderScopes",
+            "name": "HasOrderScopes",
+            "summary": "Provides\u0020ordering\u0020query\u0020scopes\u0020for\u0020models.",
+            "url": "classes/Sloth-Model-Traits-HasOrderScopes.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasOrderScopes\u003A\u003AscopeNewest\u0028\u0029",
+            "name": "scopeNewest",
+            "summary": "Order\u0020results\u0020by\u0020creation\u0020date,\u0020newest\u0020first.",
+            "url": "classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasOrderScopes\u003A\u003AscopeOldest\u0028\u0029",
+            "name": "scopeOldest",
+            "summary": "Order\u0020results\u0020by\u0020creation\u0020date,\u0020oldest\u0020first.",
+            "url": "classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest"
+        },                {
             "fqsen": "\\Sloth\\Model\\User",
             "name": "User",
             "summary": "WordPress\u0020user\u0020model.",
             "url": "classes/Sloth-Model-User.html"
         },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003Aposts\u0028\u0029",
+            "name": "posts",
+            "summary": "Get\u0020the\u0020posts\u0020authored\u0020by\u0020this\u0020user.",
+            "url": "classes/Sloth-Model-User.html#method_posts"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003Acomments\u0028\u0029",
+            "name": "comments",
+            "summary": "Get\u0020the\u0020comments\u0020made\u0020by\u0020this\u0020user.",
+            "url": "classes/Sloth-Model-User.html#method_comments"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetAvatarAttribute\u0028\u0029",
+            "name": "getAvatarAttribute",
+            "summary": "Get\u0020the\u0020avatar\u0020URL\u0020from\u0020Gravatar.",
+            "url": "classes/Sloth-Model-User.html#method_getAvatarAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AsetUpdatedAt\u0028\u0029",
+            "name": "setUpdatedAt",
+            "summary": "Set\u0020the\u0020updated_at\u0020timestamp\u0020\u0028no\u002Dop\u0020for\u0020users\u0029.",
+            "url": "classes/Sloth-Model-User.html#method_setUpdatedAt"
+        },                {
             "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetAcfKey\u0028\u0029",
             "name": "getAcfKey",
-            "summary": "",
+            "summary": "Get\u0020the\u0020ACF\u0020key\u0020for\u0020this\u0020user.",
             "url": "classes/Sloth-Model-User.html#method_getAcfKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetMetaClass\u0028\u0029",
+            "name": "getMetaClass",
+            "summary": "Get\u0020the\u0020meta\u0020class\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-User.html#method_getMetaClass"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetMetaForeignKey\u0028\u0029",
+            "name": "getMetaForeignKey",
+            "summary": "Get\u0020the\u0020foreign\u0020key\u0020for\u0020the\u0020meta\u0020relationship.",
+            "url": "classes/Sloth-Model-User.html#method_getMetaForeignKey"
         },                {
             "fqsen": "\\Sloth\\Model\\User\u003A\u003ACREATED_AT",
             "name": "CREATED_AT",
@@ -1775,6 +2010,41 @@ Search.appendIndex(
             "name": "UPDATED_AT",
             "summary": "",
             "url": "classes/Sloth-Model-User.html#constant_UPDATED_AT"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024table",
+            "name": "table",
+            "summary": "The\u0020table\u0020associated\u0020with\u0020the\u0020model.",
+            "url": "classes/Sloth-Model-User.html#property_table"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024primaryKey",
+            "name": "primaryKey",
+            "summary": "The\u0020primary\u0020key\u0020for\u0020the\u0020model.",
+            "url": "classes/Sloth-Model-User.html#property_primaryKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024hidden",
+            "name": "hidden",
+            "summary": "Attributes\u0020that\u0020should\u0020be\u0020hidden\u0020for\u0020serialization.",
+            "url": "classes/Sloth-Model-User.html#property_hidden"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024casts",
+            "name": "casts",
+            "summary": "The\u0020attributes\u0020that\u0020should\u0020be\u0020cast.",
+            "url": "classes/Sloth-Model-User.html#property_casts"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024with",
+            "name": "with",
+            "summary": "The\u0020relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
+            "url": "classes/Sloth-Model-User.html#property_with"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024aliases",
+            "name": "aliases",
+            "summary": "Aliases\u0020for\u0020attribute\u0020access.",
+            "url": "classes/Sloth-Model-User.html#property_aliases"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003A\u0024appends",
+            "name": "appends",
+            "summary": "Accessors\u0020to\u0020append\u0020to\u0020array\/JSON\u0020representation.",
+            "url": "classes/Sloth-Model-User.html#property_appends"
         },                {
             "fqsen": "\\Sloth\\Module\\LayotterElement",
             "name": "LayotterElement",
