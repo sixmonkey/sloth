@@ -74,6 +74,15 @@ class Plugin extends Singleton
     private array $providers = [];
 
     /**
+     * Template service provider reference.
+     *
+     * Stored to delegate getContext() calls.
+     *
+     * @since 1.0.0
+     */
+    private ?TemplateServiceProvider $templateProvider = null;
+
+    /**
      * Plugin constructor.
      *
      * Initializes the theme by:
@@ -189,6 +198,8 @@ class Plugin extends Singleton
         $moduleProvider->register();
         $templateProvider->register();
 
+        $this->templateProvider = $templateProvider;
+
         ACFHelper::getInstance();
         Deployment::getInstance()->boot();
         $this->container['layotter']->addFilters();
@@ -216,5 +227,25 @@ class Plugin extends Singleton
     public function getProviders(): array
     {
         return $this->providers;
+    }
+
+    /**
+     * Get the template context.
+     *
+     * Delegates to TemplateServiceProvider's getContext() method.
+     * Kept for backwards compatibility with themes that access this method
+     * via $GLOBALS['sloth::plugin']->getContext().
+     *
+     * @since 1.0.0
+     *
+     * @return array<string, mixed>
+     */
+    public function getContext(): array
+    {
+        if ($this->templateProvider !== null) {
+            return $this->templateProvider->getContext();
+        }
+
+        return [];
     }
 }
