@@ -520,6 +520,13 @@ relationships, and WordPress-specific query scopes.</p>
 <dd>Get the post content with WordPress filters applied.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Model.html#method_getFormat">getFormat()</a>
+    <span>
+                                &nbsp;: bool|string    </span>
+</dt>
+<dd>Get the post format (e.g., &#039;standard&#039;, &#039;aside&#039;, &#039;gallery&#039;).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_getImageAttribute">getImageAttribute()</a>
     <span>
                                 &nbsp;: <a href="classes/Sloth-Field-Image.html"><abbr title="\Sloth\Field\Image">Image</abbr></a>    </span>
@@ -574,6 +581,13 @@ relationships, and WordPress-specific query scopes.</p>
                                 &nbsp;: array&lt;string, array&lt;string, string&gt;&gt;    </span>
 </dt>
 <dd>Get all terms (taxonomies) grouped by taxonomy type.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Model.html#method_hasTerm">hasTerm()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Check if this post has a specific term.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_init">init()</a>
@@ -1659,7 +1673,7 @@ relationships, and WordPress-specific query scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">712</span>
+    <span class="phpdocumentor-element-found-in__line">750</span>
 
     </aside>
 
@@ -1791,7 +1805,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">728</span>
+    <span class="phpdocumentor-element-found-in__line">766</span>
 
     </aside>
 
@@ -2130,7 +2144,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">700</span>
+    <span class="phpdocumentor-element-found-in__line">738</span>
 
     </aside>
 
@@ -2245,6 +2259,66 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The filtered HTML content</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFormat">
+        getFormat()
+        <a href="classes/Sloth-Model-Model.html#method_getFormat" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">497</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the post format (e.g., &#039;standard&#039;, &#039;aside&#039;, &#039;gallery&#039;).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFormat</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Looks up the post_format taxonomy for this post.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_getFormat#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool|string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The post format slug or false if not found</p>
 </section>
 
             </section>
@@ -2774,6 +2848,95 @@ with each group containing slug =&gt; name pairs.</p>
         class="phpdocumentor-element
             -method
             -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_hasTerm">
+        hasTerm()
+        <a href="classes/Sloth-Model-Model.html#method_hasTerm" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">483</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Check if this post has a specific term.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">hasTerm</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$taxonomy</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The taxonomy name (e.g., 'category', 'post_tag')</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$term</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The term slug to check for</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_hasTerm#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\getTermsAttribute()">getTermsAttribute()</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For the terms data</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the post has this term</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                 -final        "
 >
     <h4 class="phpdocumentor-element__name" id="method_init">
@@ -2784,7 +2947,7 @@ with each group containing slug =&gt; name pairs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">643</span>
+    <span class="phpdocumentor-element-found-in__line">681</span>
 
     </aside>
 
@@ -2929,7 +3092,7 @@ query methods like whereStatus(), withArchives(), etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">485</span>
+    <span class="phpdocumentor-element-found-in__line">523</span>
 
     </aside>
 
@@ -3152,7 +3315,7 @@ queries only return posts of the specific custom post type.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">550</span>
+    <span class="phpdocumentor-element-found-in__line">588</span>
 
     </aside>
 
@@ -3284,7 +3447,7 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">683</span>
+    <span class="phpdocumentor-element-found-in__line">721</span>
 
     </aside>
 
@@ -3365,7 +3528,7 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">770</span>
+    <span class="phpdocumentor-element-found-in__line">808</span>
 
     </aside>
 
@@ -3413,7 +3576,7 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">665</span>
+    <span class="phpdocumentor-element-found-in__line">703</span>
 
     </aside>
 
@@ -3630,7 +3793,7 @@ Uses FIELD() MySQL function for explicit ordering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">740</span>
+    <span class="phpdocumentor-element-found-in__line">778</span>
 
     </aside>
 
@@ -3733,7 +3896,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">760</span>
+    <span class="phpdocumentor-element-found-in__line">798</span>
 
     </aside>
 
@@ -3771,7 +3934,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">765</span>
+    <span class="phpdocumentor-element-found-in__line">803</span>
 
     </aside>
 
@@ -3809,7 +3972,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">530</span>
+    <span class="phpdocumentor-element-found-in__line">568</span>
 
     </aside>
 
@@ -3881,7 +4044,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">512</span>
+    <span class="phpdocumentor-element-found-in__line">550</span>
 
     </aside>
 
@@ -3954,7 +4117,7 @@ and it's not a revision or inherited post.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">777</span>
+    <span class="phpdocumentor-element-found-in__line">815</span>
 
     </aside>
 
@@ -4139,6 +4302,7 @@ and it's not a revision or inherited post.</p>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_comments">comments()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getContentAttribute">getContentAttribute()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getFormat">getFormat()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getImageAttribute">getImageAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getKeywordsAttribute">getKeywordsAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getKeywordsStrAttribute">getKeywordsStrAttribute()</a></li>
@@ -4147,6 +4311,7 @@ and it's not a revision or inherited post.</p>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute">getPostThumbnailAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getPostType">getPostType()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getTermsAttribute">getTermsAttribute()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_hasTerm">hasTerm()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_init">init()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_newEloquentBuilder">newEloquentBuilder()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_newFromBuilder">newFromBuilder()</a></li>

@@ -1441,6 +1441,16 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020post\u0020type\u0020identifier.",
             "url": "classes/Sloth-Model-Model.html#method_getPostType"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AhasTerm\u0028\u0029",
+            "name": "hasTerm",
+            "summary": "Check\u0020if\u0020this\u0020post\u0020has\u0020a\u0020specific\u0020term.",
+            "url": "classes/Sloth-Model-Model.html#method_hasTerm"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetFormat\u0028\u0029",
+            "name": "getFormat",
+            "summary": "Get\u0020the\u0020post\u0020format\u0020\u0028e.g.,\u0020\u0027standard\u0027,\u0020\u0027aside\u0027,\u0020\u0027gallery\u0027\u0029.",
+            "url": "classes/Sloth-Model-Model.html#method_getFormat"
+        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewFromBuilder\u0028\u0029",
             "name": "newFromBuilder",
             "summary": "Create\u0020a\u0020model\u0020instance\u0020from\u0020a\u0020database\u0020row.",
@@ -1731,10 +1741,15 @@ Search.appendIndex(
             "summary": "WordPress\u0020user\u0020model.",
             "url": "classes/Sloth-Model-User.html"
         },                {
-            "fqsen": "\\Sloth\\Model\\User\u003A\u003AgetAcfKey\u0028\u0029",
-            "name": "getAcfKey",
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003ACREATED_AT",
+            "name": "CREATED_AT",
             "summary": "",
-            "url": "classes/Sloth-Model-User.html#method_getAcfKey"
+            "url": "classes/Sloth-Model-User.html#constant_CREATED_AT"
+        },                {
+            "fqsen": "\\Sloth\\Model\\User\u003A\u003AUPDATED_AT",
+            "name": "UPDATED_AT",
+            "summary": "",
+            "url": "classes/Sloth-Model-User.html#constant_UPDATED_AT"
         },                {
             "fqsen": "\\Sloth\\Module\\LayotterElement",
             "name": "LayotterElement",
