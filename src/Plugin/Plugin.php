@@ -11,7 +11,6 @@ use Sloth\Core\Sloth;
 use Sloth\Facades\Configure;
 use Sloth\Facades\Deployment;
 use Sloth\Facades\View;
-use Sloth\Route\Route;
 use Sloth\Singleton\Singleton;
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
@@ -405,12 +404,10 @@ class Plugin extends Singleton
      * - URL relative path filters
      * - REST API route registration
      * - Model, Taxonomy, Module, and Menu loading
-     * - Template routing
      * - SVG mime type addition
      *
      * @since 1.0.0
      *
-     * @see Route::boot() For REST route setup
      * @see Deployment For deployment hooks
      */
     private function addFilters(): void
@@ -427,7 +424,6 @@ class Plugin extends Singleton
             return $query;
         });
 
-        $this->fixRoutes();
         if (Configure::read('urls.relative')) {
             $this->makeUploadsRelative();
             $this->makeLinksRelative();
@@ -441,8 +437,6 @@ class Plugin extends Singleton
             $this->makeUploadsRelative();
         }
 
-        Route::getInstance()->boot();
-
 
         add_filter('network_admin_url', $this->fixNetworkAdminUrl(...));
         add_action('init', $this->loadApiControllers(...), 20);
@@ -454,10 +448,6 @@ class Plugin extends Singleton
         add_action('init', $this->loadAppIncludes(...), 20);
         add_action('init', $this->registerImageSizes(...), 20);
         add_action('init', $this->registerNavMenus(...), 20);
-        add_action('init', [Sloth::getInstance(), 'setRouter'], 20);
-        add_action('init', function (): void {
-            Sloth::getInstance()->container['route']->flushRewriteRules();
-        }, 30);
         add_action('admin_menu', $this->initTaxonomies(...), 20);
         add_action('admin_menu', $this->cleanupAdminMenu(...), 20);
 
@@ -472,7 +462,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 </style>';
         });
 
-        add_action('template_redirect', [Sloth::getInstance(), 'dispatchRouter'], 20);
         add_action('template_redirect', $this->getTemplate(...), 20);
 
         if (getenv('FORCE_SSL')) {
@@ -1065,28 +1054,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 
         foreach ($filesInclude as $file) {
             include_once realpath($file);
-        }
-    }
-
-    /**
-     * Fix routes.
-     *
-     * @since 1.0.0
-     *
-     */
-    public function fixRoutes(): void
-    {
-        $routes = Configure::read('theme.routes');
-        if ($routes && is_array($routes)) {
-            foreach (array_keys($routes) as $route) {
-                $regex = trim($route, '/');
-
-                add_action('init', function () use ($regex): void {
-                    add_rewrite_tag('%is_some_other_route%', '(\d)');
-                    add_rewrite_rule($regex, 'index.php?is_some_other_route=1', 'top');
-                    flush_rewrite_rules();
-                });
-            }
         }
     }
 

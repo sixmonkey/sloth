@@ -6,10 +6,8 @@ namespace Sloth\Core;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
-use Milo\VendorVersions\Panel;
 use Sloth\Debugger\SlothBarPanel;
 use Sloth\Facades\Facade;
-use Sloth\Route\Route;
 use Tracy\Debugger;
 use Corcel\Database;
 use Sloth\Singleton\Singleton;
@@ -44,7 +42,6 @@ class Sloth extends Singleton
      * @var array<string, class-string>
      */
     private array $classAliases = [
-        'Route' => \Sloth\Facades\Route::class,
         'View' => \Sloth\Facades\View::class,
         'Configure' => \Sloth\Facades\Configure::class,
         'Validator' => \Sloth\Facades\Validation::class,
@@ -113,14 +110,12 @@ class Sloth extends Singleton
      *
      * @since 1.0.0
      *
-     * @see RouteServiceProvider For routing functionality
      * @see ViewServiceProvider For template rendering
      * @see FinderServiceProvider For file finding
      */
     protected function registerProviders(): void
     {
         $providers = [
-            \Sloth\Route\RouteServiceProvider::class,
             \Sloth\Finder\FinderServiceProvider::class,
             \Sloth\View\ViewServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
@@ -139,49 +134,9 @@ class Sloth extends Singleton
     }
 
     /**
-     * Sets up rewrite rules for the router.
-     *
-     * Hooks into WordPress to register custom route patterns
-     * so WordPress knows about Sloth's custom routes.
-     *
-     * @since 1.0.0
-     *
-     * @see Route::setRewrite()
-     */
-    public function setRouter(): void
-    {
-        $this->container['route']->setRewrite();
-    }
-
-    /**
-     * Dispatches the router to handle the current request.
-     *
-     * This method is called during WordPress's template redirect
-     * and processes any matching Sloth routes before WordPress
-     * falls back to its default template hierarchy.
-     *
-     * @since 1.0.0
-     *
-     * @see Route::dispatch()
-     */
-    public function dispatchRouter(): void
-    {
-        if (\is_feed() || \is_comment_feed()) {
-            return;
-        }
-
-        $this->container['route']->dispatch();
-    }
-
-    /**
      * Creates class aliases for commonly used framework classes.
      *
-     * This allows developers to use short class names like 'Route'
-     * instead of the fully qualified '\Sloth\Facades\Route'.
-     *
      * @since 1.0.0
-     *
-     * @example Route::get('/about', ['controller' => 'PageController']);
      */
     private function setAliases(): void
     {
