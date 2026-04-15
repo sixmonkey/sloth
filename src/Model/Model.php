@@ -945,7 +945,7 @@ class Model extends CorcelModel
             return true;
         }
 
-        if (isset($this->meta) && $this->meta->has($key)) {
+        if ($this->relationLoaded('meta') && $this->meta->has($key)) {
             return true;
         }
 
