@@ -26,6 +26,26 @@ Search.appendIndex(
             "summary": "Auto\u002Dsync\u0020ACF\u0020JSON\u0020field\u0020groups.",
             "url": "classes/Sloth-ACF-ACFHelper.html#method_autoSyncAcfFields"
         },                {
+            "fqsen": "\\Sloth\\ACF\\AcfProxy",
+            "name": "AcfProxy",
+            "summary": "",
+            "url": "classes/Sloth-ACF-AcfProxy.html"
+        },                {
+            "fqsen": "\\Sloth\\ACF\\AcfProxy\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-ACF-AcfProxy.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\ACF\\AcfProxy\u003A\u003A__call\u0028\u0029",
+            "name": "__call",
+            "summary": "",
+            "url": "classes/Sloth-ACF-AcfProxy.html#method___call"
+        },                {
+            "fqsen": "\\Sloth\\ACF\\AcfProxy\u003A\u003A\u0024fields",
+            "name": "fields",
+            "summary": "",
+            "url": "classes/Sloth-ACF-AcfProxy.html#property_fields"
+        },                {
             "fqsen": "\\Sloth\\Admin\\Customizer",
             "name": "Customizer",
             "summary": "Admin\u0020Customizer\u0020class\u0020for\u0020WordPress\u0020admin\u0020customization.",
@@ -1716,10 +1736,20 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF"
         },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetFields\u0028\u0029",
+            "name": "getFields",
+            "summary": "",
+            "url": "classes/Sloth-Model-Traits-HasACF.html#method_getFields"
+        },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetAcfKey\u0028\u0029",
             "name": "getAcfKey",
             "summary": "",
             "url": "classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetAcfAttribute\u0028\u0029",
+            "name": "getAcfAttribute",
+            "summary": "",
+            "url": "classes/Sloth-Model-Traits-HasACF.html#method_getAcfAttribute"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003A\u0024acfFieldCache",
             "name": "acfFieldCache",
