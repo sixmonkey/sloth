@@ -98,11 +98,37 @@ class Application extends Container
         $this->loadedProviders[$providerName] = true;
         $provider->register();
 
-        if (method_exists($provider, 'boot')) {
-            $provider->boot();
-        }
-
         return $provider;
+    }
+
+    /**
+     * Check if the application is running in a local/development environment.
+     *
+     * @since 1.0.0
+     */
+    public function isLocal(): bool
+    {
+        return in_array(env('WP_ENV', 'production'), ['development', 'develop', 'dev'], true);
+    }
+
+    /**
+     * Check if the application is running in production.
+     *
+     * @since 1.0.0
+     */
+    public function isProduction(): bool
+    {
+        return env('WP_ENV', 'production') === 'production';
+    }
+
+    /**
+     * Get the current environment name.
+     *
+     * @since 1.0.0
+     */
+    public function environment(): string
+    {
+        return env('WP_ENV', 'production');
     }
 
     /**

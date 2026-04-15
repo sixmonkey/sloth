@@ -53,7 +53,7 @@ class ACFHelper
         $autosyncAcf = Configure::read('autosync_acf');
         if (
             !function_exists('acf_get_field_groups')
-            || ! $this->isDevEnv()
+            || ! app()->isLocal()
             || $autosyncAcf === false
         ) {
             return;
@@ -89,8 +89,4 @@ class ACFHelper
         }
     }
 
-    private function isDevEnv(): bool
-    {
-        return in_array(env('WP_ENV', ''), ['development', 'develop', 'dev'], true);
-    }
 }
