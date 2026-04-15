@@ -6,6 +6,7 @@ namespace Sloth\Plugin\Provider;
 
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
+use Sloth\Core\ServiceProvider;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Model\User;
@@ -21,38 +22,11 @@ use Sloth\Model\User;
  * - SSL force redirect
  * - REST URL prefix customization
  *
- * ## Template Resolution
- *
- * Uses Brain Hierarchy to find the appropriate Twig template based on
- * the current WordPress query. Templates are resolved from theme View/Layout/.
- *
- * ## Context Building
- *
- * Builds a comprehensive context array passed to all Twig templates:
- * - WordPress info (title, URLs, feeds, language)
- * - Global theme URLs
- * - Current post/model data
- * - Current taxonomy data
- * - Layout name
- *
- * ## Dependencies
- *
- * This provider should be registered AFTER ModelServiceProvider and
- * TaxonomyServiceProvider so that sloth.models and sloth.taxonomies
- * are populated in the container.
- *
  * @since 1.0.0
  * @see \Sloth\Plugin\Plugin
  */
-class TemplateServiceProvider
+class TemplateServiceProvider extends ServiceProvider
 {
-    /**
-     * Container reference.
-     *
-     * @var \Illuminate\Container\Container|null
-     */
-    protected $container;
-
     /**
      * Current theme path.
      *
@@ -82,18 +56,6 @@ class TemplateServiceProvider
     protected mixed $currentModel = null;
 
     /**
-     * Set the container instance.
-     *
-     * @since 1.0.0
-     *
-     * @param \Illuminate\Container\Container $container
-     */
-    public function setContainer($container): void
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Set the current theme path.
      *
      * @since 1.0.0
@@ -108,29 +70,41 @@ class TemplateServiceProvider
     /**
      * Register template-related hooks.
      *
-     * Sets up template rendering and REST URL customization.
+     * @since 1.0.0
+     */
+    public function getHooks(): array
+    {
+        $hooks = [
+            ['callback' => fn() => $this->getTemplate(), 'priority' => 20],
+        ];
+
+        if (getenv('FORCE_SSL')) {
+            $hooks[] = ['callback' => fn() => $this->forceSsl(), 'priority' => 30];
+        }
+
+        return [
+            'template_redirect' => $hooks,
+        ];
+    }
+
+    /**
+     * Register filters.
      *
      * @since 1.0.0
      */
-    public function register(): void
+    public function getFilters(): array
     {
-        add_action('template_redirect', $this->getTemplate(...), 20);
-
-        if (getenv('FORCE_SSL')) {
-            add_action('template_redirect', $this->forceSsl(...), 30);
-        }
+        $filters = [];
 
         if (Configure::read('wp-json.baseUrl')) {
-            add_filter('rest_url_prefix', fn(): string => (string) Configure::read('wp-json.baseUrl'));
+            $filters['rest_url_prefix'] = fn() => (string) Configure::read('wp-json.baseUrl');
         }
+
+        return $filters;
     }
 
     /**
      * Fix pagination for custom queries.
-     *
-     * Resolves the current page number from WordPress query parameters
-     * and configures Laravel's paginator to use it. This ensures
-     * pagination works correctly with WordPress's query system.
      *
      * @since 1.0.0
      */
@@ -156,9 +130,6 @@ class TemplateServiceProvider
     /**
      * Force HTTPS redirect.
      *
-     * Redirects all HTTP requests to HTTPS when FORCE_SSL environment
-     * variable is set. Uses 301 (permanent) redirect for SEO.
-     *
      * @since 1.0.0
      */
     public function forceSsl(): void
@@ -171,16 +142,6 @@ class TemplateServiceProvider
 
     /**
      * Get the template context for Twig.
-     *
-     * Builds an array of variables passed to all Twig templates including:
-     * - WordPress info (title, site URL, feed URLs, language)
-     * - Global theme URLs
-     * - Current post/model data (when on single post/page)
-     * - Current taxonomy data (when on taxonomy archive)
-     * - Current user data (when on author archive)
-     * - Layout name
-     *
-     * The context is cached after first build for the request.
      *
      * @since 1.0.0
      *
@@ -223,9 +184,7 @@ class TemplateServiceProvider
         $this->populateTaxonomyContext();
         $this->populateAuthorContext();
 
-        if ($this->container !== null) {
-            $this->container['sloth.context'] = $this->context;
-        }
+        $this->app['sloth.context'] = $this->context;
 
         return $this->context;
     }
@@ -244,7 +203,7 @@ class TemplateServiceProvider
         $qo = get_queried_object();
 
         if ($this->currentModel === null) {
-            $models = $this->container['sloth.models'] ?? [];
+            $models = $this->app['sloth.models'] ?? [];
             $modelClass = $models[$qo->post_type] ?? \Sloth\Model\Post::class;
             $a = call_user_func([$modelClass, 'find'], [$qo->ID]);
             $this->currentModel = $a->first();
@@ -267,7 +226,7 @@ class TemplateServiceProvider
 
         global $taxonomy;
         if ($this->currentModel === null) {
-            $taxonomies = $this->container['sloth.taxonomies'] ?? [];
+            $taxonomies = $this->app['sloth.taxonomies'] ?? [];
             $taxonomyClass = $taxonomies[$taxonomy] ?? \Sloth\Model\Taxonomy::class;
             $a = call_user_func([$taxonomyClass, 'find'], [get_queried_object()->term_id]);
             $this->currentModel = $a->first();
@@ -299,15 +258,10 @@ class TemplateServiceProvider
     /**
      * Get and render the template.
      *
-     * Resolves the appropriate Twig template using Brain Hierarchy,
-     * builds the context, and renders the template to the browser.
-     * Ends execution after rendering.
-     *
      * @since 1.0.0
      */
     public function getTemplate(): void
     {
-        $template = null;
         $this->fixPagination();
 
         if (!is_dir($this->currentThemePath . DS . 'View' . DS . 'Layout')) {
@@ -329,9 +283,7 @@ class TemplateServiceProvider
 
         $this->currentLayout = $template;
 
-        if ($this->container !== null) {
-            $this->container['sloth.current_layout'] = basename($this->currentLayout, '.twig');
-        }
+        $this->app['sloth.current_layout'] = basename($this->currentLayout, '.twig');
 
         $viewName = basename($template, '.twig');
         $view = View::make('Layout.' . $viewName);
@@ -371,7 +323,7 @@ class TemplateServiceProvider
         }
 
         $layoutPaths = [];
-        foreach ($this->container['view.finder']->getPaths() as $path) {
+        foreach ($this->app['view.finder']->getPaths() as $path) {
             $layoutPaths[] = $path . DS . 'Layout';
         }
 

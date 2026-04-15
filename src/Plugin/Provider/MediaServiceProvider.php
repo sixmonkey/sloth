@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin\Provider;
 
+use Sloth\Core\ServiceProvider;
 use Sloth\Facades\Configure;
 
 /**
@@ -14,70 +15,59 @@ use Sloth\Facades\Configure;
  * - SVG mime type for media uploads
  * - Converting absolute URLs to root-relative paths
  *
- * ## Image Sizes
- *
- * Register custom image sizes via config('theme.image-sizes'):
- * ```php
- * Configure::write('theme.image-sizes', [
- *     'thumbnail' => ['width' => 300, 'height' => 200, 'crop' => true],
- *     'hero' => ['width' => 1200, 'height' => 600],
- * ]);
- * ```
- *
- * ## Relative URLs
- *
- * When enabled via config, converts absolute URLs to root-relative:
- * - `urls.relative` - Enable both links and uploads relative
- * - `links.urls.relative` - Only convert post/term links
- * - `uploads.urls.relative` - Only convert media upload URLs
- *
- * This is useful for local development or when serving from multiple domains.
- *
  * @since 1.0.0
  * @see \Sloth\Plugin\Plugin
  */
-class MediaServiceProvider
+class MediaServiceProvider extends ServiceProvider
 {
     /**
      * Register media hooks and filters.
      *
      * @since 1.0.0
      */
-    public function register(): void
+    public function getHooks(): array
     {
-        add_action('init', $this->registerImageSizes(...), 20);
+        return [
+            'init' => ['callback' => fn() => $this->registerImageSizes(), 'priority' => 20],
+        ];
+    }
 
-        add_filter('upload_mimes', function (array $mimes): array {
-            $mimes['svg'] = 'image/svg+xml';
-
-            return $mimes;
-        });
+    /**
+     * Register media filters.
+     *
+     * @since 1.0.0
+     */
+    public function getFilters(): array
+    {
+        $filters = [
+            'upload_mimes' => fn(array $mimes) => $this->addSvgMime($mimes),
+        ];
 
         if (Configure::read('urls.relative')) {
-            $this->makeUploadsRelative();
-            $this->makeLinksRelative();
+            $filters['the_content'] = fn(string $c) => $this->makeHrefsRelative($c);
         }
 
-        if (Configure::read('links.urls.relative')) {
-            $this->makeLinksRelative();
-        }
+        return $filters;
+    }
 
-        if (Configure::read('uploads.urls.relative')) {
-            $this->makeUploadsRelative();
-        }
+    /**
+     * Add SVG mime type.
+     *
+     * @param array<string, string> $mimes
+     *
+     * @return array<string, string>
+     *
+     * @since 1.0.0
+     */
+    protected function addSvgMime(array $mimes): array
+    {
+        $mimes['svg'] = 'image/svg+xml';
+
+        return $mimes;
     }
 
     /**
      * Register custom image sizes from config.
-     *
-     * Reads image size definitions from config('theme.image-sizes') and
-     * registers them with WordPress using add_image_size().
-     *
-     * Each size can define:
-     * - width (default: 800)
-     * - height (default: 600)
-     * - crop (default: false)
-     * - upscale (default: false)
      *
      * @since 1.0.0
      */
@@ -95,19 +85,26 @@ class MediaServiceProvider
                 \add_image_size($name, $options['width'], $options['height'], $options['crop']);
             }
         }
+
+        if (Configure::read('urls.relative')) {
+            $this->makeUploadsRelative();
+            $this->makeLinksRelative();
+        }
+
+        if (Configure::read('links.urls.relative')) {
+            $this->makeLinksRelative();
+        }
+
+        if (Configure::read('uploads.urls.relative')) {
+            $this->makeUploadsRelative();
+        }
     }
 
     /**
      * Convert all links to root-relative URLs.
      *
-     * Registers filters on WordPress permalink functions to strip the
-     * domain from URLs, making them root-relative (e.g., /about instead
-     * of https://example.com/about).
-     *
-     * Filters applied to: post links, page links, term links, archive links,
-     * comment pagination, and content href attributes.
-     *
      * @since 1.0.0
+     *
      * @see toRelativeUrl() For the URL transformation
      */
     public function makeLinksRelative(): void
@@ -139,13 +136,8 @@ class MediaServiceProvider
     /**
      * Convert all upload URLs to root-relative.
      *
-     * Registers filters on WordPress upload URL functions to strip the
-     * domain from media URLs. This enables serving uploads from relative paths.
-     *
-     * Filters applied to: attachment URLs, template directory URI,
-     * attachment links, and content src attributes.
-     *
      * @since 1.0.0
+     *
      * @see toRelativeUrl() For the URL transformation
      */
     public function makeUploadsRelative(): void
@@ -168,14 +160,11 @@ class MediaServiceProvider
     /**
      * Convert a URL to a root-relative path.
      *
-     * Strips the domain and scheme from a URL, returning only the path.
-     * This is the core function used by makeLinksRelative() and
-     * makeUploadsRelative() to convert absolute URLs to relative paths.
-     *
      * @since 1.0.0
      *
      * @param string $url The full URL to convert
-     * @return string The relative path (e.g., /about or /wp-content/uploads/image.jpg)
+     *
+     * @return string The relative path
      */
     public function toRelativeUrl(string $url): string
     {
@@ -185,12 +174,10 @@ class MediaServiceProvider
     /**
      * Convert href attributes in content to relative paths.
      *
-     * Processes all href attributes in HTML content and removes the home URL,
-     * converting absolute links to relative paths.
-     *
      * @since 1.0.0
      *
      * @param string $content HTML content with href attributes
+     *
      * @return string Content with relative hrefs
      */
     public function makeHrefsRelative(string $content): string
@@ -201,12 +188,10 @@ class MediaServiceProvider
     /**
      * Convert src attributes in content to relative paths.
      *
-     * Processes all src attributes in HTML content and removes the home URL,
-     * converting absolute media URLs to relative paths.
-     *
      * @since 1.0.0
      *
      * @param string $content HTML content with src attributes
+     *
      * @return string Content with relative srcs
      */
     public function makeSrcsRelative(string $content): string

@@ -6,7 +6,6 @@ namespace Sloth\Plugin;
 
 use Sloth\ACF\AcfServiceProvider;
 use Sloth\Facades\Configure;
-use Sloth\Facades\Deployment;
 use Sloth\Plugin\Provider\AdminServiceProvider;
 use Sloth\Plugin\Provider\ApiServiceProvider;
 use Sloth\Plugin\Provider\MediaServiceProvider;
@@ -163,48 +162,93 @@ class Plugin extends Singleton
      */
     protected function registerProviders(): void
     {
-        $adminProvider = new AdminServiceProvider();
-        $mediaProvider = new MediaServiceProvider();
-        $menuProvider = new MenuServiceProvider();
-        $taxonomyProvider = new TaxonomyServiceProvider();
-        $modelProvider = new ModelServiceProvider();
-        $acfProvider = new AcfServiceProvider();
-        $apiProvider = new ApiServiceProvider();
-        $moduleProvider = new ModuleServiceProvider();
-        $templateProvider = new TemplateServiceProvider();
-
-        $taxonomyProvider->setContainer($this->container);
-        $modelProvider->setContainer($this->container);
-        $templateProvider->setContainer($this->container);
-        $templateProvider->setThemePath($this->current_theme_path);
-
-        $this->providers = [
-            $adminProvider,
-            $mediaProvider,
-            $menuProvider,
-            $taxonomyProvider,
-            $modelProvider,
-            $acfProvider,
-            $apiProvider,
-            $moduleProvider,
-            $templateProvider,
+        $providerClasses = [
+            AdminServiceProvider::class,
+            MediaServiceProvider::class,
+            MenuServiceProvider::class,
+            TaxonomyServiceProvider::class,
+            ModelServiceProvider::class,
+            AcfServiceProvider::class,
+            ApiServiceProvider::class,
+            ModuleServiceProvider::class,
+            TemplateServiceProvider::class,
         ];
 
-        $adminProvider->register();
-        $mediaProvider->register();
-        $menuProvider->register();
-        $taxonomyProvider->register();
-        $taxonomyProvider->boot();
-        $modelProvider->register();
-        $apiProvider->register();
-        $moduleProvider->register();
-        $templateProvider->register();
+        foreach ($providerClasses as $providerClass) {
+            $this->providers[] = $this->container->register($providerClass);
+        }
 
-        $this->templateProvider = $templateProvider;
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof TemplateServiceProvider) {
+                $provider->setThemePath($this->current_theme_path);
+                break;
+            }
+        }
 
-        $acfProvider->register();
-        Deployment::getInstance()->boot();
+        $this->registerProviderHooks();
+
+        foreach ($this->providers as $provider) {
+            $provider->boot();
+        }
+
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof TemplateServiceProvider) {
+                $this->templateProvider = $provider;
+                break;
+            }
+        }
+
         $this->container['layotter']->addFilters();
+    }
+
+    /**
+     * Normalize callbacks from getHooks/getFilters format.
+     *
+     * @since 1.0.0
+     *
+     * @param mixed $value
+     *
+     * @return array<int, array{fn: callable, priority: int}>
+     */
+    private function normalizeCallbacks(mixed $value): array
+    {
+        if (is_callable($value)) {
+            return [['fn' => $value, 'priority' => 10]];
+        }
+
+        if (isset($value['callback'])) {
+            return [['fn' => $value['callback'], 'priority' => $value['priority'] ?? 10]];
+        }
+
+        return array_map(function ($item) {
+            if (is_callable($item)) {
+                return ['fn' => $item, 'priority' => 10];
+            }
+
+            return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
+        }, $value);
+    }
+
+    /**
+     * Register all WordPress hooks and filters from providers.
+     *
+     * @since 1.0.0
+     */
+    private function registerProviderHooks(): void
+    {
+        foreach ($this->providers as $provider) {
+            foreach ($provider->getHooks() as $hook => $value) {
+                foreach ($this->normalizeCallbacks($value) as $callback) {
+                    add_action($hook, $callback['fn'], $callback['priority']);
+                }
+            }
+
+            foreach ($provider->getFilters() as $filter => $value) {
+                foreach ($this->normalizeCallbacks($value) as $callback) {
+                    add_filter($filter, $callback['fn'], $callback['priority']);
+                }
+            }
+        }
     }
 
     /**
@@ -254,7 +298,7 @@ class Plugin extends Singleton
     /**
      * Check if this is a development environment.
      *
-     * Checks if WP_ENV is set to 'development', 'develop', or 'dev'.
+     * @deprecated Use app()->isLocal() instead
      *
      * @since 1.0.0
      *
@@ -262,6 +306,6 @@ class Plugin extends Singleton
      */
     public function isDevEnv(): bool
     {
-        return in_array(WP_ENV ?? '', ['development', 'develop', 'dev'], true);
+        return app()->isLocal();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin\Provider;
 
+use Sloth\Core\ServiceProvider;
 use Sloth\Facades\Configure;
 
 /**
@@ -14,72 +15,58 @@ use Sloth\Facades\Configure;
  * - Admin menu cleanup (removing duplicate PHP pages)
  * - Layotter admin styling
  *
- * ## Update Notifications
- *
- * Configure via config:
- * - `core.hide_updates` - Hide WordPress core update notifications
- * - `plugins.hide_updates` - Hide plugin update notifications
- * - `themes.hide_updates` - Hide theme update notifications
- *
- * ## Admin Menu Cleanup
- *
- * Removes duplicate entries from the admin menu that point to PHP files
- * with the same path (common when multiple plugins register the same page).
- *
- * ## Layotter Styling
- *
- * Injects CSS for improved Layotter preview tables and SVG media display.
- *
  * @since 1.0.0
  * @see \Sloth\Plugin\Plugin
  */
-class AdminServiceProvider
+class AdminServiceProvider extends ServiceProvider
 {
     /**
      * Register admin hooks and filters.
      *
      * @since 1.0.0
      */
-    public function register(): void
+    public function getHooks(): array
     {
-        add_action('admin_menu', $this->cleanupAdminMenu(...), 20);
+        return [
+            'admin_menu' => ['callback' => fn() => $this->cleanupAdminMenu(), 'priority' => 20],
+            'admin_head' => fn() => $this->renderLayotterStyles(),
+        ];
+    }
 
-        add_action('admin_head', function (): void {
-            echo '<style>
-.layotter-preview { border-collapse: collapse; }
-.layotter-preview th, .layotter-preview td { text-align: left !important; vertical-align: top; }
-.layotter-preview th { padding-right: 10px; }
-.layotter-preview tr:nth-child(even), .layotter-preview tr:nth-child(even) { background: #eee; }
-td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { width: 100% !important; height: auto !important; }
-.media-icon img[src$=".svg"] { width: 60px; }
-</style>';
-        });
+    /**
+     * Register admin filters.
+     *
+     * @since 1.0.0
+     */
+    public function getFilters(): array
+    {
+        $filters = [];
 
         if (Configure::read('core.hide_updates')) {
-            add_filter('pre_site_transient_update_core', $this->hideUpdates(...));
+            $filters['pre_site_transient_update_core'] = fn($t) => $this->hideUpdates($t);
         }
 
         if (Configure::read('plugins.hide_updates')) {
-            add_filter('pre_site_transient_update_plugins', $this->hideUpdates(...));
+            $filters['pre_site_transient_update_plugins'] = fn($t) => $this->hideUpdates($t);
         }
 
         if (Configure::read('themes.hide_updates')) {
-            add_filter('pre_site_transient_update_themes', $this->hideUpdates(...));
+            $filters['pre_site_transient_update_themes'] = fn($t) => $this->hideUpdates($t);
         }
+
+        return $filters;
     }
 
     /**
      * Hide WordPress update notifications.
      *
-     * Returns a fake update response object to suppress WordPress update
-     * notifications. This prevents users from seeing update nags for
-     * managed WordPress installations.
-     *
      * @since 1.0.0
+     *
+     * @param mixed $value
      *
      * @return object Fake update response with current time and WP version
      */
-    public function hideUpdates(): object
+    public function hideUpdates(mixed $value = null): object
     {
         global $wpVersion;
 
@@ -91,12 +78,6 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 
     /**
      * Clean up admin menu by removing duplicate PHP pages.
-     *
-     * Iterates through the admin menu and removes entries that point
-     * to the same PHP file as a previously seen entry. This commonly
-     * happens when multiple plugins register the same admin page.
-     *
-     * Only processes menu items with `.php` extensions.
      *
      * @since 1.0.0
      */
@@ -117,5 +98,22 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
 
             $used[] = $menuItem[2];
         }
+    }
+
+    /**
+     * Render Layotter admin styles.
+     *
+     * @since 1.0.0
+     */
+    public function renderLayotterStyles(): void
+    {
+        echo '<style>
+.layotter-preview { border-collapse: collapse; }
+.layotter-preview th, .layotter-preview td { text-align: left !important; vertical-align: top; }
+.layotter-preview th { padding-right: 10px; }
+.layotter-preview tr:nth-child(even), .layotter-preview tr:nth-child(even) { background: #eee; }
+td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { width: 100% !important; height: auto !important; }
+.media-icon img[src$=".svg"] { width: 60px; }
+</style>';
     }
 }

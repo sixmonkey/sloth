@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin\Provider;
 
+use Sloth\Core\ServiceProvider;
 use Sloth\Utility\Utility;
 
 /**
@@ -14,31 +15,12 @@ use Sloth\Utility\Utility;
  * - Layotter element registration for page builder integration
  * - JSON/AJAX endpoint registration for module data
  *
- * ## Module Discovery
- *
- * Discovers all PHP files in the theme's Module/ directory that
- * end with Module.php (e.g., HeroModule.php, TestimonialModule.php).
- *
- * ## Layotter Integration
- *
- * Modules with a $layotter array property are registered as
- * Layotter page builder elements. The dynamic class is created
- * via eval() and registered with Layotter::register_element().
- *
- * ## JSON Endpoints
- *
- * Modules with $json = true (or an array with 'params') get:
- * - AJAX handlers for wp_ajax and wp_ajax_nopriv
- * - REST API routes under /sloth/v1/module/
- *
- * Example route: GET /sloth/v1/module/testimonial/latest
- *
  * @since 1.0.0
  * @see \Sloth\Module\Module
  * @see \Sloth\Module\LayotterElement
  * @see \Sloth\Plugin\Plugin
  */
-class ModuleServiceProvider
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
      * Registered module class names.
@@ -48,44 +30,52 @@ class ModuleServiceProvider
     protected array $modules = [];
 
     /**
-     * Register modules from theme Module/ directory.
+     * Boot the provider.
      *
-     * Discovers module classes from get_template_directory()/Module/,
-     * registers them with Layotter if configured, and sets up
-     * JSON/AJAX endpoints.
-     *
-     * ## Registration Process
-     *
-     * For each module class found:
-     * 1. Load the class file
-     * 2. If $layotter is configured and Layotter exists, register element
-     * 3. If $json is configured, register AJAX and REST endpoints
+     * Dynamic hooks per module - getHooks() cannot return these
+     * because module discovery must happen first.
      *
      * @since 1.0.0
      */
-    public function register(): void
+    public function boot(): void
     {
         foreach (glob(get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
             $moduleName = $this->loadClassFromFile($file);
-            add_action('init', function () use ($moduleName): void {
-                $this->registerLayotterElement($moduleName);
-            });
             $this->registerJsonEndpoints($moduleName);
-
             $this->modules[] = $moduleName;
+        }
+    }
+
+    /**
+     * Register Layotter elements on init.
+     *
+     * @since 1.0.0
+     */
+    public function getHooks(): array
+    {
+        return [
+            'init' => fn() => $this->registerLayotterElements(),
+        ];
+    }
+
+    /**
+     * Register all Layotter elements.
+     *
+     * @since 1.0.0
+     */
+    protected function registerLayotterElements(): void
+    {
+        foreach ($this->modules as $moduleName) {
+            $this->registerLayotterElement($moduleName);
         }
     }
 
     /**
      * Register a module as a Layotter element.
      *
-     * Creates a dynamic class extending LayotterElement and registers
-     * it with Layotter::register_element(). This allows modules to
-     * be used as page builder elements.
-     *
      * @param string $moduleName The fully qualified module class name
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     protected function registerLayotterElement(string $moduleName): void
     {
@@ -97,20 +87,17 @@ class ModuleServiceProvider
         $moduleClassName = $moduleName;
 
         eval("class {$className} extends \\Sloth\\Module\\LayotterElement {
-\t\t\t\tstatic \$module = '{$moduleClassName}';
-\t\t\t}");
+				static \$module = '{$moduleClassName}';
+			}");
         \Layotter::register_element(strtolower(substr(strrchr($moduleName, '\\'), 1)), $className);
     }
 
     /**
      * Register JSON/AJAX endpoints for a module.
      *
-     * Sets up both AJAX handlers (wp_ajax and wp_ajax_nopriv) and
-     * REST API routes for module JSON data retrieval.
-     *
      * @param string $moduleName The fully qualified module class name
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     protected function registerJsonEndpoints(string $moduleName): void
     {
@@ -148,8 +135,8 @@ class ModuleServiceProvider
      * Get all registered modules.
      *
      * @return array<int, string> Array of module class names
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function getModules(): array
     {
@@ -159,14 +146,11 @@ class ModuleServiceProvider
     /**
      * Load a class from a file.
      *
-     * Includes a PHP file and uses reflection to find the class defined in it.
-     * Skips Corcel namespace classes (handled by Corcel itself) and returns
-     * the first matching App\ namespaced class.
-     *
      * @param string $file Absolute path to the PHP file
-     * @return string Class name if found, empty string otherwise
-     * @since 1.0.0
      *
+     * @return string Class name if found, empty string otherwise
+     *
+     * @since 1.0.0
      */
     protected function loadClassFromFile(string $file): string
     {

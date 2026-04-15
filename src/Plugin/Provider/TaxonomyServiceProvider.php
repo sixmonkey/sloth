@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin\Provider;
 
-use Sloth\Facades\Configure;
+use Sloth\Core\ServiceProvider;
 use Sloth\Utility\Utility;
 
 /**
@@ -16,36 +16,12 @@ use Sloth\Utility\Utility;
  * - Storing taxonomies in container as 'sloth.taxonomies'
  * - Metabox customization for unique (non-hierarchical) taxonomies
  *
- * ## Taxonomy Discovery
- *
- * Automatically discovers all PHP files in DIR_APP/Taxonomy/ and
- * registers them as WordPress taxonomies using their getRegistrationArgs()
- * and getPostTypes() methods.
- *
- * ## Container Registration
- *
- * Registers 'sloth.taxonomies' in the container as an array mapping
- * taxonomy slugs to their class names. This allows other components
- * to look up taxonomy classes by slug.
- *
- * ## Unique Taxonomies
- *
- * For taxonomies with $unique = true, replaces the default tag-style
- * metabox with a custom checklist metabox for better UX.
- *
  * @since 1.0.0
  * @see \Sloth\Model\Taxonomy
  * @see \Sloth\Plugin\Plugin
  */
-class TaxonomyServiceProvider
+class TaxonomyServiceProvider extends ServiceProvider
 {
-    /**
-     * Container reference for storing taxonomies.
-     *
-     * @var \Illuminate\Container\Container|null
-     */
-    protected $container;
-
     /**
      * Registered taxonomies mapping.
      *
@@ -54,99 +30,94 @@ class TaxonomyServiceProvider
     protected array $taxonomies = [];
 
     /**
-     * Set the container instance.
-     *
-     * @since 1.0.0
-     *
-     * @param \Illuminate\Container\Container $container
-     */
-    public function setContainer($container): void
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Register taxonomies from DIR_APP/Taxonomy/.
      *
      * Discovers taxonomy classes from DIR_APP/Taxonomy/, instantiates them,
      * and registers them with WordPress using getRegistrationArgs() and
      * getPostTypes() methods.
      *
-     * ## Registration Process
-     *
-     * For each taxonomy class found:
-     * 1. Load the class file via loadClassFromFile()
-     * 2. Instantiate the taxonomy
-     * 3. Call register_taxonomy() with the taxonomy's arguments
-     * 4. Store in $this->taxonomies and container
-     *
-     * Note: This must be called on 'init' hook to ensure WordPress
-     * rewrite system is initialized.
-     *
      * @since 1.0.0
      *
      * @see \Sloth\Model\Taxonomy::getRegistrationArgs() For registration arguments
      * @see \Sloth\Model\Taxonomy::getPostTypes() For attached post types
      */
-    public function register(): void
+    public function getHooks(): array
     {
-        add_action('init', function (): void {
-            foreach (glob(DIR_APP . 'Taxonomy' . DS . '*.php') as $file) {
-                $taxonomyName = $this->loadClassFromFile($file);
-                $taxonomy = new $taxonomyName();
-                \register_taxonomy(
-                    $taxonomy->getTaxonomy(),
-                    $taxonomy->getPostTypes(),
-                    $taxonomy->getRegistrationArgs()
-                );
-
-                $this->taxonomies[$taxonomy->getTaxonomy()] = $taxonomyName;
-            }
-
-            if ($this->container !== null) {
-                $this->container['sloth.taxonomies'] = $this->taxonomies;
-            }
-        }, 20);
+        return [
+            'init' => [
+                ['callback' => fn() => $this->registerTaxonomies(), 'priority' => 20],
+                ['callback' => fn() => $this->registerMetaboxes(), 'priority' => 20],
+            ],
+            'add_meta_boxes' => fn() => $this->addMetaBoxes(),
+        ];
     }
 
     /**
-     * Initialize taxonomies after registration (admin only).
-     *
-     * Sets up custom metaboxes for unique (non-hierarchical) taxonomies.
-     * This runs on admin_menu hook to ensure taxonomies are registered first.
-     *
-     * ## Unique Taxonomies
-     *
-     * For taxonomies with $unique = true, removes the default tag-style
-     * metabox and adds a custom category-style checklist metabox.
+     * Register taxonomies with WordPress.
      *
      * @since 1.0.0
      */
-    public function boot(): void
+    protected function registerTaxonomies(): void
     {
-        add_action('admin_menu', function (): void {
-            foreach ($this->taxonomies as $taxonomySlug => $taxonomyClass) {
-                $taxonomy = new $taxonomyClass();
+        foreach (glob(DIR_APP . 'Taxonomy' . DS . '*.php') as $file) {
+            $taxonomyName = $this->loadClassFromFile($file);
+            $taxonomy = new $taxonomyName();
+            \register_taxonomy(
+                $taxonomy->getTaxonomy(),
+                $taxonomy->getPostTypes(),
+                $taxonomy->getRegistrationArgs()
+            );
 
-                if ($taxonomy->unique) {
-                    foreach ($taxonomy->postTypes as $postType) {
-                        \remove_meta_box('tagsdiv-' . $taxonomy->getTaxonomy(), $postType, null);
-                    }
+            $this->taxonomies[$taxonomy->getTaxonomy()] = $taxonomyName;
+        }
 
-                    $postTypes = $taxonomy->postTypes;
+        $this->app['sloth.taxonomies'] = $this->taxonomies;
+    }
 
-                    add_action('add_meta_boxes', static function () use ($taxonomy, $postTypes): void {
-                        \add_meta_box(
-                            'sloth-taxonomy-' . $taxonomy->getTaxonomy(),
-                            $taxonomy->names['singular'],
-                            $taxonomy->metabox(...),
-                            $postTypes,
-                            'side'
-                        );
-                    });
-                }
+    /**
+     * Register metaboxes for unique taxonomies.
+     *
+     * @since 1.0.0
+     */
+    protected function registerMetaboxes(): void
+    {
+        foreach ($this->taxonomies as $taxonomySlug => $taxonomyClass) {
+            $taxonomy = new $taxonomyClass();
+
+            if (!$taxonomy->unique) {
+                continue;
             }
-        }, 20);
+
+            foreach ($taxonomy->postTypes as $postType) {
+                \remove_meta_box('tagsdiv-' . $taxonomy->getTaxonomy(), $postType, null);
+            }
+        }
+    }
+
+    /**
+     * Add metaboxes for unique taxonomies.
+     *
+     * @since 1.0.0
+     */
+    protected function addMetaBoxes(): void
+    {
+        foreach ($this->taxonomies as $taxonomySlug => $taxonomyClass) {
+            $taxonomy = new $taxonomyClass();
+
+            if (!$taxonomy->unique) {
+                continue;
+            }
+
+            $postTypes = $taxonomy->postTypes;
+
+            \add_meta_box(
+                'sloth-taxonomy-' . $taxonomy->getTaxonomy(),
+                $taxonomy->names['singular'],
+                $taxonomy->metabox(...),
+                $postTypes,
+                'side'
+            );
+        }
     }
 
     /**
@@ -164,13 +135,10 @@ class TaxonomyServiceProvider
     /**
      * Load a class from a file.
      *
-     * Includes a PHP file and uses reflection to find the class defined in it.
-     * Skips Corcel namespace classes (handled by Corcel itself) and returns
-     * the first matching App\ namespaced class.
-     *
      * @since 1.0.0
      *
      * @param string $file Absolute path to the PHP file
+     *
      * @return string Class name if found, empty string otherwise
      */
     protected function loadClassFromFile(string $file): string
