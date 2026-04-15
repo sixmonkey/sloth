@@ -187,51 +187,275 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model.html">Model</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-model-traits.html">Traits</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -file">
-        <h2 class="phpdocumentor-content__title">Version.php</h2>
+    <article class="phpdocumentor-element -trait">
+        <h2 class="phpdocumentor-content__title">
+    HasOrderScopes
+    </h2>
 
-        
-        
-        
-        
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">27</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Provides ordering query scopes for models.</p>
 
 
-        
+    <section class="phpdocumentor-description"><p>This trait adds common query scopes for ordering results by creation date.
+It replaces Corcel's OrderScopes trait to maintain control over the
+model's behavior without depending on Corcel's internal traits.</p>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Get newest posts first
+$posts = Post::newest()-&gt;get();
+
+// Get oldest comments first
+$comments = Comment::oldest()-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Corcel\Concerns\OrderScopes">OrderScopes</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>Original source</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+    
+    
 <h3 id="toc">
     Table of Contents
-    <a href="files/src-media-version.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
 
-    <h4 id="toc-classes">
-        Classes
-        <a href="files/src-media-version.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+
+
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest">scopeNewest()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Order results by creation date, newest first.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest">scopeOldest()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Order results by creation date, oldest first.</dd>
+
+    </dl>
+
+
+
+
+        
+
+        
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_scopeNewest">
+        scopeNewest()
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
-    <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Media-Version.html"><abbr title="\Sloth\Media\Version">Version</abbr></a></dt><dd>Image Version Generator</dd>    </dl>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
+    </aside>
 
+        <p class="phpdocumentor-summary">Order results by creation date, newest first.</p>
 
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scopeNewest</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Applies an ORDER BY clause on the model's CREATED_AT constant
+in descending order (most recent first).</p>
+</section>
 
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The query builder instance</p>
+</section>
 
+            </dd>
+            </dl>
 
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Get the 10 most recent posts
+$recentPosts = Post::newest()-&gt;limit(10)-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The modified query builder</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_scopeOldest">
+        scopeOldest()
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">66</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Order results by creation date, oldest first.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scopeOldest</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Applies an ORDER BY clause on the model's CREATED_AT constant
+in ascending order (oldest first).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The query builder instance</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Get posts from the beginning
+$oldestPosts = Post::oldest()-&gt;limit(10)-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The modified query builder</p>
+</section>
+
+            </section>
+
+</article>
+            </section>
+
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Media/Version.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Model/Traits/HasOrderScopes.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -324,7 +548,7 @@
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                            
+                                
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -332,11 +556,16 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                        <li><a href="files/src-media-version.html#toc-classes">Classes</a></li>
-                                                                                                                    </ul>
+                                                                                <li><a href="classes/Sloth-Model-Traits-HasOrderScopes.html#toc-methods">Methods</a></li>
+                                    </ul>
             </li>
-
-            
+                                                <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest">scopeNewest()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest">scopeOldest()</a></li>
+                                    </ul>
+            </li>
                     </ul>
     </section>
 
@@ -354,7 +583,7 @@
     </section>
 </section>
         </div>
-        <a href="files/src-media-version.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

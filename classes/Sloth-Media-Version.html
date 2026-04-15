@@ -214,14 +214,59 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Version.php"><a href="files/src-media-version.html"><abbr title="src/Media/Version.php">Version.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
-        
+            <p class="phpdocumentor-summary">Image Version Generator</p>
 
 
+    <section class="phpdocumentor-description"><p>This class handles on-the-fly generation of image versions based on
+configuration stored in WordPress meta fields. It uses the Spatie Image
+library to apply transformations like cropping, resizing, and format
+conversion.</p>
+<h2>How It Works</h2>
+<ol>
+<li>Looks up the version configuration by URL in SlothMediaVersion</li>
+<li>Loads the original image from the WordPress uploads directory</li>
+<li>Applies transformations defined in the version options</li>
+<li>Caches the result to avoid repeated processing</li>
+<li>Serves the processed image</li>
+</ol>
+<h2>Version Options</h2>
+<p>The version configuration (stored as JSON in SlothMediaVersion) supports
+these Spatie Image methods:</p>
+<ul>
+<li>width, height: Resize dimensions</li>
+<li>crop: Crop to specific dimensions [width, height]</li>
+<li>format: Output format (jpeg, png, webp, etc.)</li>
+<li>quality: Compression quality (0-100)</li>
+<li>orientation: Auto-orientation based on EXIF data</li>
+<li>flip, flopp: Mirror horizontally/vertically</li>
+</ul>
+<h2>URL Structure</h2>
+<p>Versioned images are requested via URL with size info encoded:
+/path/to/image-300x200.jpg</p>
+</section>
 
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Media-Version.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="https://github.com/spatie/image">https://github.com/spatie/image</a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>Spatie Image library</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
     
@@ -250,6 +295,7 @@
     <span>
                         &nbsp;: <a href="classes/Sloth-Model-SlothMediaVersion.html"><abbr title="\Sloth\Model\SlothMediaVersion">SlothMediaVersion</abbr></a>|null            </span>
 </dt>
+<dd>The SlothMediaVersion model instance for this version.</dd>
 
     </dl>
 
@@ -262,14 +308,16 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Media-Version.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
+<dd>Create a new image version.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Media-Version.html#method_serveFile">serveFile()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Serve a file to the browser.</dd>
 
     </dl>
 
@@ -301,11 +349,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Version.php"><a href="files/src-media-version.html"><abbr title="src/Media/Version.php">Version.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The SlothMediaVersion model instance for this version.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -313,7 +362,9 @@
     <span class="phpdocumentor-signature__name">$mediaVersion</span>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Contains the URL and transformation options for this image version.</p>
+</section>
+
     
     
 
@@ -343,19 +394,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Version.php"><a href="files/src-media-version.html"><abbr title="src/Media/Version.php">Version.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Create a new image version.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Accepts the versioned image URL, looks up the original image,
+applies transformations, and serves the result.</p>
+<p>The URL typically contains size information in the filename:
+original-image-300x200.jpg</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -363,7 +420,9 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The versioned image URL to process</p>
+</section>
+
             </dd>
             </dl>
 
@@ -387,11 +446,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Version.php"><a href="files/src-media-version.html"><abbr title="src/Media/Version.php">Version.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Serve a file to the browser.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
                     <span class="phpdocumentor-signature__name">serveFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -399,7 +459,11 @@
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Reads the file contents, sets appropriate headers, and outputs
+the file. This method terminates script execution after sending
+the file.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -407,11 +471,50 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Absolute path to the file to serve</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Media-Version.html#method_serveFile#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Media\header()">header()</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>To set Content-Type and Content-Length headers</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Media\file_get_contents()">file_get_contents()</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>To read file contents</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">uses</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Media\finfo_file()">finfo_file()</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>To determine MIME type</p>
+</section>
+
+                                    </dd>
+                        </dl>
 
         
     

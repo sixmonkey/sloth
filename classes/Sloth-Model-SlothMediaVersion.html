@@ -374,6 +374,20 @@ $options = $version-&gt;options;
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Model-Model.html#property_aliases">$aliases</a>
+    <span>
+                        &nbsp;: array&lt;string, string|array&lt;string|int, mixed&gt;&gt;            </span>
+</dt>
+<dd>Aliases for attribute access.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Model-Model.html#property_appends">$appends</a>
+    <span>
+                        &nbsp;: array&lt;string|int, string&gt;            </span>
+</dt>
+<dd>Accessors to append to array/JSON representation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Model.html#property_attributes">$attributes</a>
     <span>
                         &nbsp;: array&lt;string, mixed&gt;            </span>
@@ -418,10 +432,31 @@ $options = $version-&gt;options;
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap">$metaClassMap</a>
+    <span>
+                        &nbsp;: array&lt;class-string, class-string&gt;            </span>
+</dt>
+<dd>Mapping of model classes to their corresponding meta classes.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Model.html#property_names">$names</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Model-Model.html#property_postType">$postType</a>
+    <span>
+                        &nbsp;: string|false            </span>
+</dt>
+<dd>Post type identifier for this model.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Model-Model.html#property_postTypes">$postTypes</a>
+    <span>
+                        &nbsp;: array&lt;string, class-string&gt;            </span>
+</dt>
+<dd>Post types registered with this model.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Model.html#property_primaryKey">$primaryKey</a>
@@ -475,6 +510,13 @@ $options = $version-&gt;options;
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasAliases.html#method_addAlias">addAlias()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Add a single alias to the class.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_attachment">attachment()</a>
     <span>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
@@ -502,6 +544,13 @@ $options = $version-&gt;options;
 <dd>Get child posts (for hierarchical post types like pages).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Model.html#method_clearRegisteredPostTypes">clearRegisteredPostTypes()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Clear all registered post types.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_comments">comments()</a>
     <span>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
@@ -509,16 +558,52 @@ $options = $version-&gt;options;
 <dd>Get all comments for this post.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createField">createField()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>    </span>
+</dt>
+<dd>Create a new meta field.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createMeta">createMeta()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>|<abbr title="\Illuminate\Support\Collection">Collection</abbr>    </span>
+</dt>
+<dd>Create one or more new meta fields.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_fields">fields()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
+</dt>
+<dd>Alternative names for accessing meta relationships.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfAttribute">getAcfAttribute()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: <a href="classes/Sloth-ACF-AcfProxy.html"><abbr title="\Sloth\ACF\AcfProxy">AcfProxy</abbr></a>    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_getAcfKey">getAcfKey()</a>
     <span>
-                                &nbsp;: string|null    </span>
+                                &nbsp;: string    </span>
 </dt>
+<dd>Get the ACF key for this post.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasAliases.html#method_getAliases">getAliases()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Get all aliases, merging parent and static definitions.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute">getAttribute()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Get an attribute value, resolving aliases if necessary.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a>
@@ -533,6 +618,13 @@ $options = $version-&gt;options;
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get the post content with WordPress filters applied.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Model.html#method_getExcerptAttribute">getExcerptAttribute()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the post excerpt with shortcodes stripped.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_getFormat">getFormat()</a>
@@ -568,6 +660,13 @@ $options = $version-&gt;options;
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get the primary/first category for this post.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta">getMeta()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Get a specific meta value by key.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-SlothMediaVersion.html#method_getOptionsAttribute">getOptionsAttribute()</a>
@@ -619,6 +718,20 @@ $options = $version-&gt;options;
 <dd>Initialize the post type after WordPress registration.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_meta">meta()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
+</dt>
+<dd>Get the meta relationship for this model.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute">mutateAttribute()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Mutate an attribute value for access.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_newEloquentBuilder">newEloquentBuilder()</a>
     <span>
                                 &nbsp;: <a href="classes/Sloth-Model-Builder-PostBuilder.html"><abbr title="\Sloth\Model\Builder\PostBuilder">PostBuilder</abbr></a>    </span>
@@ -654,11 +767,32 @@ $options = $version-&gt;options;
 <dd>Register this model as a custom post type with WordPress.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Model.html#method_registerPostType">registerPostType()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Register a post type class to be instantiated for specific post types.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_revision">revision()</a>
     <span>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>    </span>
 </dt>
 <dd>Get post revisions.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField">saveField()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Save a single meta field.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveMeta">saveMeta()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Save one or more meta fields.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_scopeFindBySlugOrId">scopeFindBySlugOrId()</a>
@@ -668,10 +802,39 @@ $options = $version-&gt;options;
 <dd>Scope to find a post by slug or ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMeta">scopeHasMeta()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Scope to filter records by meta field existence and value.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMetaLike">scopeHasMetaLike()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Scope to filter records where meta value contains a string (LIKE query).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_scopeHome">scopeHome()</a>
     <span>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
 </dt>
+<dd>Scope to get the homepage post.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest">scopeNewest()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Order results by creation date, newest first.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest">scopeOldest()</a>
+    <span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+</dt>
+<dd>Order results by creation date, oldest first.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_scopeOrderByMeta">scopeOrderByMeta()</a>
@@ -679,6 +842,20 @@ $options = $version-&gt;options;
                                 &nbsp;: void    </span>
 </dt>
 <dd>Scope query to order by a meta field.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt">setCreatedAt()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Set the created_at timestamp while also updating the GMT version.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt">setUpdatedAt()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Set the updated_at timestamp while also updating the GMT version.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_taxonomies">taxonomies()</a>
@@ -712,12 +889,14 @@ $options = $version-&gt;options;
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Get the meta class for this model.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-Model.html#method_getMetaForeignKey">getMetaForeignKey()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Get the foreign key for the meta relationship.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-Model.html#method_loadPreview">loadPreview()</a>
@@ -760,7 +939,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
@@ -790,7 +969,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
@@ -873,7 +1052,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 
     </aside>
 
@@ -910,7 +1089,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">110</span>
 
     </aside>
 
@@ -986,7 +1165,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 
     </aside>
 
@@ -1218,7 +1397,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">100</span>
 
     </aside>
 
@@ -1229,6 +1408,84 @@ $options = $version-&gt;options;
             <span class="phpdocumentor-signature__type">bool</span>
     <span class="phpdocumentor-signature__name">$register</span>
      = <span class="phpdocumentor-signature__default-value">true</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_aliases">
+        $aliases
+        <a href="classes/Sloth-Model-Model.html#property_aliases" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">121</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Aliases for attribute access.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, string|array&lt;string|int, mixed&gt;&gt;</span>
+    <span class="phpdocumentor-signature__name">$aliases</span>
+     = <span class="phpdocumentor-signature__default-value">[&#039;title&#039; =&gt; &#039;post_title&#039;, &#039;content&#039; =&gt; &#039;post_content&#039;, &#039;excerpt&#039; =&gt; &#039;post_excerpt&#039;, &#039;slug&#039; =&gt; &#039;post_name&#039;, &#039;type&#039; =&gt; &#039;post_type&#039;, &#039;mime_type&#039; =&gt; &#039;post_mime_type&#039;, &#039;url&#039; =&gt; &#039;guid&#039;, &#039;author_id&#039; =&gt; &#039;post_author&#039;, &#039;parent_id&#039; =&gt; &#039;post_parent&#039;, &#039;created_at&#039; =&gt; &#039;post_date&#039;, &#039;updated_at&#039; =&gt; &#039;post_modified&#039;, &#039;status&#039; =&gt; &#039;post_status&#039;]</span></code>
+
+        <section class="phpdocumentor-description"><p>Maps alternative property names to their original database columns.</p>
+</section>
+
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_appends">
+        $appends
+        <a href="classes/Sloth-Model-Model.html#property_appends" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">141</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Accessors to append to array/JSON representation.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
+    <span class="phpdocumentor-signature__name">$appends</span>
+     = <span class="phpdocumentor-signature__default-value">[&#039;title&#039;, &#039;slug&#039;, &#039;content&#039;, &#039;type&#039;, &#039;mime_type&#039;, &#039;url&#039;, &#039;author_id&#039;, &#039;parent_id&#039;, &#039;created_at&#039;, &#039;updated_at&#039;, &#039;excerpt&#039;, &#039;status&#039;, &#039;image&#039;, &#039;terms&#039;, &#039;main_category&#039;, &#039;keywords&#039;, &#039;keywords_str&#039;]</span></code>
 
     
     
@@ -1255,7 +1512,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">88</span>
+    <span class="phpdocumentor-element-found-in__line">167</span>
 
     </aside>
 
@@ -1308,7 +1565,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 
     </aside>
 
@@ -1345,7 +1602,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">103</span>
+    <span class="phpdocumentor-element-found-in__line">182</span>
 
     </aside>
 
@@ -1398,7 +1655,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -1435,7 +1692,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">80</span>
+    <span class="phpdocumentor-element-found-in__line">112</span>
 
     </aside>
 
@@ -1472,7 +1729,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">104</span>
 
     </aside>
 
@@ -1509,7 +1766,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">96</span>
 
     </aside>
 
@@ -1534,6 +1791,66 @@ $options = $version-&gt;options;
             phpdocumentor-element
             -property
             -protected
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_metaClassMap">
+        $metaClassMap
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">82</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Mapping of model classes to their corresponding meta classes.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;class-string, class-string&gt;</span>
+    <span class="phpdocumentor-signature__name">$metaClassMap</span>
+     = <span class="phpdocumentor-signature__default-value">[\Corcel\Model\Meta\CommentMeta::class =&gt; \Corcel\Model\Meta\CommentMeta::class, \Corcel\Model\Meta\PostMeta::class =&gt; \Corcel\Model\Meta\PostMeta::class, \Corcel\Model\Meta\TermMeta::class =&gt; \Corcel\Model\Meta\TermMeta::class, \Corcel\Model\Meta\UserMeta::class =&gt; \Corcel\Model\Meta\UserMeta::class]</span></code>
+
+        <section class="phpdocumentor-description"><p>This array determines which Eloquent model should be used when
+accessing meta fields for a given model. Both Corcel's native
+models and Sloth's custom models are supported.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// When accessing $post-&gt;meta, the trait looks up the model class
+// in this array to determine PostMeta::class should be used
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
                                                                     "
 >
     <h4 class="phpdocumentor-element__name" id="property_names">
@@ -1546,7 +1863,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
@@ -1556,6 +1873,82 @@ $options = $version-&gt;options;
         <span class="phpdocumentor-signature__visibility">protected</span>
             <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">$names</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_postType">
+        $postType
+        <a href="classes/Sloth-Model-Model.html#property_postType" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">71</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Post type identifier for this model.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">string|false</span>
+    <span class="phpdocumentor-signature__name">$postType</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_postTypes">
+        $postTypes
+        <a href="classes/Sloth-Model-Model.html#property_postTypes" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">78</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Post types registered with this model.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, class-string&gt;</span>
+    <span class="phpdocumentor-signature__name">$postTypes</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
     
@@ -1583,7 +1976,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
@@ -1620,7 +2013,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">84</span>
 
     </aside>
 
@@ -1657,7 +2050,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
@@ -1699,7 +2092,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">750</span>
+    <span class="phpdocumentor-element-found-in__line">903</span>
 
     </aside>
 
@@ -1765,7 +2158,7 @@ $options = $version-&gt;options;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">206</span>
 
     </aside>
 
@@ -1831,7 +2224,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">766</span>
+    <span class="phpdocumentor-element-found-in__line">919</span>
 
     </aside>
 
@@ -1886,7 +2279,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">782</span>
+    <span class="phpdocumentor-element-found-in__line">935</span>
 
     </aside>
 
@@ -1931,6 +2324,83 @@ the post_type, and boots global scopes.</p>
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_addAlias">
+        addAlias()
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_addAlias" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasAliases.php"><a href="files/src-model-traits-hasaliases.html"><abbr title="src/Model/Traits/HasAliases.php">HasAliases.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">101</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Add a single alias to the class.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">addAlias</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$new</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$old</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Useful for dynamically adding aliases at runtime, for example
+when loading aliases from configuration.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$new</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The alias name (how it will be accessed)</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$old</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The original column or meta field name</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_addAlias#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">Post::addAlias('headline', 'post_title');
+// Now $post-&gt;headline is equivalent to $post-&gt;post_title
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_attachment">
@@ -1941,7 +2411,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">305</span>
+    <span class="phpdocumentor-element-found-in__line">485</span>
 
     </aside>
 
@@ -2001,7 +2471,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">267</span>
+    <span class="phpdocumentor-element-found-in__line">447</span>
 
     </aside>
 
@@ -2101,7 +2571,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">291</span>
+    <span class="phpdocumentor-element-found-in__line">471</span>
 
     </aside>
 
@@ -2149,6 +2619,56 @@ the post_type, and boots global scopes.</p>
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_clearRegisteredPostTypes">
+        clearRegisteredPostTypes()
+        <a href="classes/Sloth-Model-Model.html#method_clearRegisteredPostTypes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">387</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Clear all registered post types.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">clearRegisteredPostTypes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_clearRegisteredPostTypes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_comments">
@@ -2159,7 +2679,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">254</span>
+    <span class="phpdocumentor-element-found-in__line">434</span>
 
     </aside>
 
@@ -2217,6 +2737,242 @@ the post_type, and boots global scopes.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_createField">
+        createField()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createField" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">402</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Create a new meta field.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">createField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Similar to saveMeta, but always creates a new record
+even if the key already exists.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The value to store</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createField#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$meta = $post-&gt;createMeta('tracking_id', 'ABC123');
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The created meta model</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_createMeta">
+        createMeta()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createMeta" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">430</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Create one or more new meta fields.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">createMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>|<abbr title="\Illuminate\Support\Collection">Collection</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Always creates new records, even if the key already exists.
+Returns a Collection if multiple fields are created.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key(s) to create</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The value(s) to store (ignored if $key is an array)</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createMeta#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Create single meta
+$meta = $post-&gt;createMeta('sku', 'PROD-001');
+
+// Create multiple meta
+$metas = $post-&gt;createMeta([
+    'sku' =&gt; 'PROD-001',
+    'ean' =&gt; '1234567890123',
+]);
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>|<abbr title="\Illuminate\Support\Collection">Collection</abbr></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_fields">
+        fields()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_fields" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">104</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Alternative names for accessing meta relationships.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">fields</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>This allows using <code class="prettyprint">fields()</code> as an alias for <code class="prettyprint">meta()</code>,
+providing a more semantic API for content fields.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_fields#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Both of these are equivalent:
+$post-&gt;meta-&gt;custom_field;
+$post-&gt;fields-&gt;custom_field;
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The meta relationship</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getAcfAttribute">
         getAcfAttribute()
         <a href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfAttribute" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2232,7 +2988,7 @@ the post_type, and boots global scopes.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getAcfAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getAcfAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-ACF-AcfProxy.html"><abbr title="\Sloth\ACF\AcfProxy">AcfProxy</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2243,7 +2999,11 @@ the post_type, and boots global scopes.</p>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-ACF-AcfProxy.html"><abbr title="\Sloth\ACF\AcfProxy">AcfProxy</abbr></a></span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -2259,14 +3019,15 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">844</span>
+    <span class="phpdocumentor-element-found-in__line">893</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the ACF key for this post.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getAcfKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+                    <span class="phpdocumentor-signature__name">getAcfKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2274,12 +3035,194 @@ the post_type, and boots global scopes.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_getAcfKey#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string|null</span>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The ACF field group key (post ID)</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getAliases">
+        getAliases()
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAliases" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasAliases.php"><a href="files/src-model-traits-hasaliases.html"><abbr title="src/Model/Traits/HasAliases.php">HasAliases.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">68</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get all aliases, merging parent and static definitions.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getAliases</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Combines the aliases from parent classes with the current class's
+aliases, allowing for inheritance of alias configurations.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAliases#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$aliases = Post::getAliases();
+// Returns inherited + local aliases
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The merged aliases array</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getAttribute">
+        getAttribute()
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasAliases.php"><a href="files/src-model-traits-hasaliases.html"><abbr title="src/Model/Traits/HasAliases.php">HasAliases.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">137</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get an attribute value, resolving aliases if necessary.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getAttribute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>This method extends Laravel's default attribute resolution to check
+for aliases when an attribute is not found. If an alias is found,
+the method resolves it to the original column or meta field.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The attribute key to retrieve</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Direct access
+$post-&gt;title;  // Resolves to post_title if 'title' is an alias
+
+// With meta alias
+$post-&gt;author; // Resolves to $post-&gt;meta-&gt;user_id
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The attribute value, or the resolved alias value</p>
+<h2>Resolution Order</h2>
+<ol>
+<li>First, try to get the value directly (parent::getAttribute)</li>
+<li>If null and aliases exist, check if the key is an alias</li>
+<li>If it's a simple alias (string), get the original column</li>
+<li>If it's a meta alias (array), get from meta relationship</li>
+<li>Return the resolved value or null</li>
+</ol>
+</section>
+
             </section>
 
 </article>
@@ -2297,7 +3240,7 @@ the post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">738</span>
+    <span class="phpdocumentor-element-found-in__line">864</span>
 
     </aside>
 
@@ -2370,7 +3313,7 @@ Used by PostTypes column customization.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">336</span>
+    <span class="phpdocumentor-element-found-in__line">516</span>
 
     </aside>
 
@@ -2423,6 +3366,64 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getExcerptAttribute">
+        getExcerptAttribute()
+        <a href="classes/Sloth-Model-Model.html#method_getExcerptAttribute" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">537</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the post excerpt with shortcodes stripped.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getExcerptAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_getExcerptAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The stripped excerpt</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getFormat">
         getFormat()
         <a href="classes/Sloth-Model-Model.html#method_getFormat" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2431,7 +3432,7 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">497</span>
+    <span class="phpdocumentor-element-found-in__line">690</span>
 
     </aside>
 
@@ -2491,7 +3492,7 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">382</span>
+    <span class="phpdocumentor-element-found-in__line">574</span>
 
     </aside>
 
@@ -2549,7 +3550,7 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">443</span>
+    <span class="phpdocumentor-element-found-in__line">635</span>
 
     </aside>
 
@@ -2619,7 +3620,7 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">456</span>
+    <span class="phpdocumentor-element-found-in__line">648</span>
 
     </aside>
 
@@ -2687,7 +3688,7 @@ and paragraph formatting. Result is cached to avoid re-processing.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">418</span>
+    <span class="phpdocumentor-element-found-in__line">610</span>
 
     </aside>
 
@@ -2739,6 +3740,94 @@ Falls back to 'Uncategorized' if no terms exist.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The main category name</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getMeta">
+        getMeta()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">486</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get a specific meta value by key.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attribute</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Retrieves a single meta field's value from the loaded meta
+relationship. This is a convenience method for accessing
+meta values without manually iterating through the relationship.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$attribute</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key to retrieve</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$title = $post-&gt;getMeta('title');
+$views = $post-&gt;getMeta('views') ?? 0;
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\ReturnTypeWillChange">ReturnTypeWillChange</abbr>]
+    </dt>
+    </dl>
+                    </section>
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The meta value, or null if not found</p>
 </section>
 
             </section>
@@ -2818,7 +3907,7 @@ Falls back to 'Uncategorized' if no terms exist.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">357</span>
+    <span class="phpdocumentor-element-found-in__line">549</span>
 
     </aside>
 
@@ -2876,7 +3965,7 @@ Falls back to 'Uncategorized' if no terms exist.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">370</span>
+    <span class="phpdocumentor-element-found-in__line">562</span>
 
     </aside>
 
@@ -2942,7 +4031,7 @@ Falls back to 'Uncategorized' if no terms exist.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">468</span>
+    <span class="phpdocumentor-element-found-in__line">660</span>
 
     </aside>
 
@@ -3000,7 +4089,7 @@ Falls back to 'Uncategorized' if no terms exist.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">398</span>
+    <span class="phpdocumentor-element-found-in__line">590</span>
 
     </aside>
 
@@ -3071,7 +4160,7 @@ with each group containing slug =&gt; name pairs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">483</span>
+    <span class="phpdocumentor-element-found-in__line">675</span>
 
     </aside>
 
@@ -3160,7 +4249,7 @@ with each group containing slug =&gt; name pairs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">681</span>
+    <span class="phpdocumentor-element-found-in__line">808</span>
 
     </aside>
 
@@ -3205,6 +4294,195 @@ that need to be set after registration.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_meta">
+        meta()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_meta" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">128</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the meta relationship for this model.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">meta</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Returns a HasMany relationship to the corresponding meta model
+(PostMeta, UserMeta, TermMeta, or CommentMeta) based on the
+model class hierarchy.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_meta#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\UnexpectedValueException">UnexpectedValueException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the model doesn't extend a known Corcel model</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$post = Post::find(1);
+foreach ($post-&gt;meta as $meta) {
+    echo $meta-&gt;meta_key . ': ' . $meta-&gt;meta_value;
+}
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The meta relationship</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_mutateAttribute">
+        mutateAttribute()
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasAliases.php"><a href="files/src-model-traits-hasaliases.html"><abbr title="src/Model/Traits/HasAliases.php">HasAliases.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">198</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Mutate an attribute value for access.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">mutateAttribute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>This method is called by Laravel when accessing an attribute that
+has a defined get mutator. It ensures that alias resolution happens
+correctly before applying the mutator.</p>
+<h2>Critical Fix: No Recursion</h2>
+<p>IMPORTANT: This method MUST NOT call <code class="prettyprint">$this-&gt;getAttribute()</code> at the end.
+The original Corcel implementation did this, which caused infinite
+recursion when:</p>
+<ol>
+<li>An attribute is accessed that doesn't exist</li>
+<li>It resolves to an alias</li>
+<li>The alias triggers another attribute access</li>
+<li>Which triggers another alias resolution</li>
+<li>...infinite loop</li>
+</ol>
+<p>The fix is to call <code class="prettyprint">parent::getAttribute()</code> directly, which bypasses
+the alias logic and goes straight to Laravel's attribute resolution.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The attribute key being accessed</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The current value of the attribute</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// When accessing an attribute with a mutator:
+// 1. Check if the key has a get mutator
+// 2. If yes, call the mutator with the resolved value
+// 3. Return the mutated result
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The mutated value</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_newEloquentBuilder">
         newEloquentBuilder()
         <a href="classes/Sloth-Model-Model.html#method_newEloquentBuilder" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3213,7 +4491,7 @@ that need to be set after registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">188</span>
+    <span class="phpdocumentor-element-found-in__line">345</span>
 
     </aside>
 
@@ -3305,7 +4583,7 @@ query methods like whereStatus(), withArchives(), etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">523</span>
+    <span class="phpdocumentor-element-found-in__line">267</span>
 
     </aside>
 
@@ -3313,20 +4591,20 @@ query methods like whereStatus(), withArchives(), etc.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newFromBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">newFromBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">object|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Handles preview/draft loading - if the fetched post is a preview
-and a published version exists, returns that instead.</p>
+        <section class="phpdocumentor-description"><p>Handles post type instantiation - returns the correct class based
+on the post_type attribute.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$attributes</span>
-                : <span class="phpdocumentor-argument-list__argument__type">object</span>
+                : <span class="phpdocumentor-argument-list__argument__type">object|array&lt;string|int, mixed&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The database row attributes</p>
@@ -3398,7 +4676,7 @@ and a published version exists, returns that instead.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">204</span>
+    <span class="phpdocumentor-element-found-in__line">361</span>
 
     </aside>
 
@@ -3470,7 +4748,7 @@ queries only return posts of the specific custom post type.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">279</span>
+    <span class="phpdocumentor-element-found-in__line">459</span>
 
     </aside>
 
@@ -3528,7 +4806,7 @@ queries only return posts of the specific custom post type.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">588</span>
+    <span class="phpdocumentor-element-found-in__line">715</span>
 
     </aside>
 
@@ -3590,6 +4868,77 @@ admin column visibility and registers with Layotter if configured.</p>
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_registerPostType">
+        registerPostType()
+        <a href="classes/Sloth-Model-Model.html#method_registerPostType" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">377</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register a post type class to be instantiated for specific post types.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">registerPostType</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">class-string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$class</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The post type slug</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$class</span>
+                : <span class="phpdocumentor-argument-list__argument__type">class-string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The fully qualified class name</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_registerPostType#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_revision">
@@ -3600,7 +4949,7 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">320</span>
+    <span class="phpdocumentor-element-found-in__line">500</span>
 
     </aside>
 
@@ -3652,6 +5001,179 @@ admin column visibility and registers with Layotter if configured.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_saveField">
+        saveField()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">313</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Save a single meta field.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">saveField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The value to save</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$post-&gt;saveMeta('views', 100);
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_saveMeta">
+        saveMeta()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveMeta" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">342</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Save one or more meta fields.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">saveMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Can save a single key-value pair or multiple fields at once.
+When saving multiple fields, the meta relationship is reloaded
+after all saves complete.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key to save, or an array of key =&gt; value pairs</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The value to save (ignored if $key is an array)</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveMeta#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Save single field
+$post-&gt;saveMeta('author', 'John Doe');
+
+// Save multiple fields
+$post-&gt;saveMeta([
+    'author' =&gt; 'John Doe',
+    'source' =&gt; 'API',
+]);
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_scopeFindBySlugOrId">
         scopeFindBySlugOrId()
         <a href="classes/Sloth-Model-Model.html#method_scopeFindBySlugOrId" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3660,7 +5182,7 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">721</span>
+    <span class="phpdocumentor-element-found-in__line">848</span>
 
     </aside>
 
@@ -3733,6 +5255,211 @@ admin column visibility and registers with Layotter if configured.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_scopeHasMeta">
+        scopeHasMeta()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMeta" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">250</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Scope to filter records by meta field existence and value.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scopeHasMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$meta</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$operator</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'='</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Allows querying models based on their meta field values using
+Laravel's query builder.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The query builder instance</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$meta</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key to filter by, or an array of key =&gt; value pairs</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The expected value (optional, use null for existence check)</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$operator</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'='</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The comparison operator (default: '=')</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMeta#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Find posts with a specific featured flag
+$featured = Post::hasMeta('featured', true)-&gt;get();
+
+// Find posts where custom_field exists (any value)
+$withCustom = Post::hasMeta('custom_field')-&gt;get();
+
+// Find posts with multiple meta conditions
+$results = Post::hasMeta([
+    'status' =&gt; 'published',
+    'featured' =&gt; true,
+])-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The modified query builder</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_scopeHasMetaLike">
+        scopeHasMetaLike()
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMetaLike" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">295</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Scope to filter records where meta value contains a string (LIKE query).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scopeHasMetaLike</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$meta</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Convenience method for text searches within meta values.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The query builder instance</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$meta</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The meta key to search</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The value pattern to search for</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMetaLike#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Find posts where the title meta contains &quot;important&quot;
+$important = Post::hasMetaLike('title', '%important%')-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The modified query builder</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_scopeHome">
         scopeHome()
         <a href="classes/Sloth-Model-Model.html#method_scopeHome" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3741,11 +5468,12 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">837</span>
+    <span class="phpdocumentor-element-found-in__line">879</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Scope to get the homepage post.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">scopeHome</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
@@ -3761,17 +5489,190 @@ admin column visibility and registers with Layotter if configured.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The query builder</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_scopeHome#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The filtered query</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_scopeNewest">
+        scopeNewest()
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">45</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Order results by creation date, newest first.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scopeNewest</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Applies an ORDER BY clause on the model's CREATED_AT constant
+in descending order (most recent first).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The query builder instance</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Get the 10 most recent posts
+$recentPosts = Post::newest()-&gt;limit(10)-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The modified query builder</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_scopeOldest">
+        scopeOldest()
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">66</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Order results by creation date, oldest first.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scopeOldest</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Applies an ORDER BY clause on the model's CREATED_AT constant
+in ascending order (oldest first).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The query builder instance</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Get posts from the beginning
+$oldestPosts = Post::oldest()-&gt;limit(10)-&gt;get();
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The modified query builder</p>
+</section>
+
             </section>
 
 </article>
@@ -3789,7 +5690,7 @@ admin column visibility and registers with Layotter if configured.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">703</span>
+    <span class="phpdocumentor-element-found-in__line">830</span>
 
     </aside>
 
@@ -3864,6 +5765,160 @@ Uses FIELD() MySQL function for explicit ordering.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_setCreatedAt">
+        setCreatedAt()
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set the created_at timestamp while also updating the GMT version.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setCreatedAt</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>When a model is created, both the local timestamp field (e.g., post_date)
+and its GMT equivalent (e.g., post_date_gmt) are set.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The timestamp value to set</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$post = new Post();
+$post-&gt;setCreatedAt('2024-01-15 10:30:00');
+// Sets both post_date and post_date_gmt
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The result of the parent's setCreatedAt method</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setUpdatedAt">
+        setUpdatedAt()
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">78</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set the updated_at timestamp while also updating the GMT version.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setUpdatedAt</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>When a model is updated, both the local timestamp field (e.g., post_modified)
+and its GMT equivalent (e.g., post_modified_gmt) are set.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The timestamp value to set</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">$post = Post::find(1);
+$post-&gt;setUpdatedAt('2024-01-15 14:45:00');
+// Sets both post_modified and post_modified_gmt
+</code></pre>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The result of the parent's setUpdatedAt method</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_taxonomies">
         taxonomies()
         <a href="classes/Sloth-Model-Model.html#method_taxonomies" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3872,7 +5927,7 @@ Uses FIELD() MySQL function for explicit ordering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">236</span>
+    <span class="phpdocumentor-element-found-in__line">416</span>
 
     </aside>
 
@@ -3940,7 +5995,7 @@ Uses FIELD() MySQL function for explicit ordering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">220</span>
+    <span class="phpdocumentor-element-found-in__line">400</span>
 
     </aside>
 
@@ -4006,7 +6061,7 @@ Uses FIELD() MySQL function for explicit ordering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">807</span>
+    <span class="phpdocumentor-element-found-in__line">964</span>
 
     </aside>
 
@@ -4055,7 +6110,7 @@ Uses FIELD() MySQL function for explicit ordering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">240</span>
 
     </aside>
 
@@ -4109,11 +6164,12 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">827</span>
+    <span class="phpdocumentor-element-found-in__line">991</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the meta class for this model.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
                     <span class="phpdocumentor-signature__name">getMetaClass</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -4124,12 +6180,31 @@ Runs once per class to avoid duplicate scope registration.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_getMetaClass#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The fully qualified class name of the meta model</p>
+</section>
+
             </section>
 
 </article>
@@ -4147,11 +6222,12 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">832</span>
+    <span class="phpdocumentor-element-found-in__line">1003</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the foreign key for the meta relationship.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
                     <span class="phpdocumentor-signature__name">getMetaForeignKey</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -4162,12 +6238,31 @@ Runs once per class to avoid duplicate scope registration.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Model.html#method_getMetaForeignKey#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The foreign key name</p>
+</section>
+
             </section>
 
 </article>
@@ -4185,7 +6280,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">568</span>
+    <span class="phpdocumentor-element-found-in__line">325</span>
 
     </aside>
 
@@ -4257,7 +6352,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">550</span>
+    <span class="phpdocumentor-element-found-in__line">307</span>
 
     </aside>
 
@@ -4498,6 +6593,8 @@ and it's not a revision or inherited post.</p>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_post_title">$post_title</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_post_type">$post_type</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_register">$register</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_aliases">$aliases</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_appends">$appends</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_attributes">$attributes</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_dates">$dates</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_fillable">$fillable</a></li>
@@ -4505,7 +6602,10 @@ and it's not a revision or inherited post.</p>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_globalScopesBooted">$globalScopesBooted</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_icon">$icon</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_labels">$labels</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap">$metaClassMap</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_names">$names</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_postType">$postType</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Model.html#property_postTypes">$postTypes</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_primaryKey">$primaryKey</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_table">$table</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Model.html#property_with">$with</a></li>
@@ -4519,20 +6619,29 @@ and it's not a revision or inherited post.</p>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method___get">__get()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method___isset">__isset()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_addAlias">addAlias()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_attachment">attachment()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_author">author()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF">bootHasACF()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_children">children()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_clearRegisteredPostTypes">clearRegisteredPostTypes()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_comments">comments()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createField">createField()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_createMeta">createMeta()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_fields">fields()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasACF.html#method_getAcfAttribute">getAcfAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getAcfKey">getAcfKey()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAliases">getAliases()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute">getAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getColumn">getColumn()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getContentAttribute">getContentAttribute()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_getExcerptAttribute">getExcerptAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getFormat">getFormat()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getImageAttribute">getImageAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getKeywordsAttribute">getKeywordsAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getKeywordsStrAttribute">getKeywordsStrAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getMainCategoryAttribute">getMainCategoryAttribute()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta">getMeta()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-SlothMediaVersion.html#method_getOptionsAttribute">getOptionsAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getPermalinkAttribute">getPermalinkAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute">getPostThumbnailAttribute()</a></li>
@@ -4540,15 +6649,26 @@ and it's not a revision or inherited post.</p>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_getTermsAttribute">getTermsAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_hasTerm">hasTerm()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_init">init()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_meta">meta()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute">mutateAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_newEloquentBuilder">newEloquentBuilder()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_newFromBuilder">newFromBuilder()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_newQuery">newQuery()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_parent">parent()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Model.html#method_registerPostType">registerPostType()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_revision">revision()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField">saveField()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveMeta">saveMeta()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_scopeFindBySlugOrId">scopeFindBySlugOrId()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMeta">scopeHasMeta()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMetaLike">scopeHasMetaLike()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_scopeHome">scopeHome()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeNewest">scopeNewest()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest">scopeOldest()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_scopeOrderByMeta">scopeOrderByMeta()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setCreatedAt">setCreatedAt()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Traits-HasCustomTimestamps.html#method_setUpdatedAt">setUpdatedAt()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_taxonomies">taxonomies()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_thumbnail">thumbnail()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Model.html#method_toArray">toArray()</a></li>
