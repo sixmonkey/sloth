@@ -219,7 +219,9 @@ class Plugin extends Singleton
                 continue;
             }
 
-            $model->register();
+            $model->unregisterExisting();
+            \register_post_type($model->getPostType(), $model->getRegistrationArgs());
+            $model->registerColumnHooks();
 
             $this->models[$model->getPostType()] = $modelName;
 
@@ -254,9 +256,7 @@ class Plugin extends Singleton
         foreach (glob(DIR_APP . 'Taxonomy' . DS . '*.php') as $file) {
             $taxonomyName = $this->loadClassFromFile($file);
             $taxonomy = new $taxonomyName();
-            if (method_exists($taxonomy, 'register')) {
-                $taxonomy->register();
-            }
+            \register_taxonomy($taxonomy->getTaxonomy(), $taxonomy->getPostTypes(), $taxonomy->getRegistrationArgs());
 
             $this->taxonomies[$taxonomy->getTaxonomy()] = $taxonomyName;
         }
