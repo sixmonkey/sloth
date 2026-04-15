@@ -248,4 +248,18 @@ class Plugin extends Singleton
 
         return [];
     }
+
+    /**
+     * Check if this is a development environment.
+     *
+     * Checks if WP_ENV is set to 'development', 'develop', or 'dev'.
+     *
+     * @since 1.0.0
+     *
+     * @return bool True if in development mode
+     */
+    public function isDevEnv(): bool
+    {
+        return in_array(WP_ENV ?? '', ['development', 'develop', 'dev'], true);
+    }
 }
