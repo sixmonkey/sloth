@@ -2703,32 +2703,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility",
             "name": "Utility",
-            "summary": "Utility\u0020class\u0020extending\u0020CakePHP\u0020Inflector\u0020with\u0020additional\u0020helper\u0020methods.",
+            "summary": "Utility\u0020class\u0020with\u0020helper\u0020methods\u0020for\u0020name\u0020conversion.",
             "url": "classes/Sloth-Utility-Utility.html"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Anormalize\u0028\u0029",
             "name": "normalize",
-            "summary": "Normalize\u0020a\u0020name\u0020by\u0020removing\u0020namespace\u0020and\u0020cleaning\u0020formatting.",
+            "summary": "",
             "url": "classes/Sloth-Utility-Utility.html#method_normalize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Amodulize\u0028\u0029",
             "name": "modulize",
-            "summary": "Convert\u0020a\u0020name\u0020to\u0020a\u0020module\u0020name\u0020format.",
+            "summary": "",
             "url": "classes/Sloth-Utility-Utility.html#method_modulize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Aviewize\u0028\u0029",
             "name": "viewize",
-            "summary": "Convert\u0020a\u0020name\u0020to\u0020a\u0020view\u002Dfriendly\u0020format\u0020\u0028dasherized\u0029.",
+            "summary": "",
             "url": "classes/Sloth-Utility-Utility.html#method_viewize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Aacfize\u0028\u0029",
             "name": "acfize",
-            "summary": "Convert\u0020a\u0020name\u0020to\u0020an\u0020ACF\u0020field\u0020group\u0020format.",
+            "summary": "",
             "url": "classes/Sloth-Utility-Utility.html#method_acfize"
         },                {
             "fqsen": "\\Sloth\\Utility\\Utility\u003A\u003Afloat2fraction\u0028\u0029",
             "name": "float2fraction",
-            "summary": "Convert\u0020a\u0020float\u0020to\u0020a\u0020fraction\u0020string.",
+            "summary": "",
             "url": "classes/Sloth-Utility-Utility.html#method_float2fraction"
         },                {
             "fqsen": "\\Sloth\\Validation\\ValidationServiceProvider",
