@@ -9,7 +9,6 @@ use Sloth\Facades\Configure;
 use Twig_SimpleTest;
 use Twig_SimpleFilter;
 use Twig_Extension;
-use Org\Heigl\Hyphenator as h;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -70,20 +69,10 @@ class SlothTwigExtension extends AbstractExtension
     public function getFilters()
     {
         $filters = [
-            new TwigFilter('hyphenate', function ($input): \Twig_Markup {
-                $input = ' ' . $input;
-                $o     = new h\Options();
-                $o->setHyphen('&shy;')
-                  ->setMinWordLength(10)
-                  ->setDefaultLocale('de_DE')
-                  ->setFilters('Simple')
-                  ->setTokenizers('Whitespace');
-                $h = new h\Hyphenator();
-                $h->setOptions($o);
+            new TwigFilter('hyphenate', function (string $input): string {
+                _deprecated_function('The "hyphenate" Twig filter', '1.0', 'Use CSS "hyphens: auto" instead.');
 
-                $hyphenate_string = $h->hyphenate($input);
-
-                return new \Twig_Markup($hyphenate_string, 'UTF-8');
+                return $input;
             }),
             new TwigFilter('debug', fn($input): mixed => debug($input)),
             new TwigFilter('print_r', fn($input): mixed => debug($input)),
