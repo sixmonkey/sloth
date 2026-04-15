@@ -157,7 +157,19 @@ class Taxonomy extends CorcelModel
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Taxonomy::class, 'parent');
+        return $this->belongsTo(self::class, 'parent');
+    }
+
+    /**
+     * Get child taxonomy terms.
+     *
+     * Returns all taxonomy terms that have this term as their parent.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany The child terms relationship
+     */
+    public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(self::class, 'parent', 'term_id');
     }
 
     /**
