@@ -32,9 +32,28 @@ class ACFHelper extends Singleton
      */
     final public function addFilters(): void
     {
+        if ( \Configure::read( 'layotter_prepare_fields' ) == 2 ) {
+            add_filter( 'acf/format_value/type=image', [ $this, 'load_image' ], 10, 3 );
+        }
         add_action('admin_init', $this->autoSyncAcfFields(...));
     }
 
+    /**
+     * @param $value
+     * @param $post_id
+     * @param $field
+     * @return Image|null
+     */
+    final public function load_image( $value, $post_id, $field ): ?Image
+    {
+        if (str_starts_with($field['_name'], '_qundg')) {
+            return $value;
+        }
+
+        $id = is_array( $value ) ? (int) $value['ID'] : $value;
+
+        return $id ? new Image( $id ) : null;
+    }
     /**
      * Auto-sync ACF JSON field groups.
      *
