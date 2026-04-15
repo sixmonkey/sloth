@@ -4,25 +4,14 @@ declare(strict_types=1);
 
 namespace Sloth\Utility;
 
-use Cake\Utility\Inflector;
+use Illuminate\Support\Str;
 
 /**
- * Utility class extending CakePHP Inflector with additional helper methods.
- *
- * @since 1.0.0
- * @extends Inflector
+ * Utility class with helper methods for name conversion.
+ * Uses Laravel's Str class under the hood.
  */
-class Utility extends Inflector
+class Utility
 {
-    /**
-     * Normalize a name by removing namespace and cleaning formatting.
-     *
-     * @since 1.0.0
-     *
-     * @param string $name The name to normalize
-     *
-     * @return string The normalized name
-     */
     public static function normalize(string $name): string
     {
         if (strstr($name, '\\')) {
@@ -34,21 +23,11 @@ class Utility extends Inflector
         return str_replace(' ', '-', $name);
     }
 
-    /**
-     * Convert a name to a module name format.
-     *
-     * @since 1.0.0
-     *
-     * @param string $name       The name to convert
-     * @param bool   $namespaced Whether to include the Theme namespace
-     *
-     * @return string The modulized name
-     */
     public static function modulize(string $name, bool $namespaced = false): string
     {
         $name = self::normalize($name);
 
-        $name = self::camelize(str_replace('-', '_', $name)) . 'Module';
+        $name = ucfirst(Str::camel(str_replace('-', '_', $name))) . 'Module';
 
         if ($namespaced) {
             return 'Theme\\Module\\' . $name;
@@ -57,37 +36,18 @@ class Utility extends Inflector
         return $name;
     }
 
-    /**
-     * Convert a name to a view-friendly format (dasherized).
-     *
-     * @since 1.0.0
-     *
-     * @param string $name The name to convert
-     *
-     * @return string The view-friendly name
-     */
     public static function viewize(string $name): string
     {
         $name = self::normalize($name);
 
-        return self::dasherize($name);
+        return Str::kebab($name);
     }
 
-    /**
-     * Convert a name to an ACF field group format.
-     *
-     * @since 1.0.0
-     *
-     * @param string $name     The name to convert
-     * @param bool   $prefixed Whether to add the group_module_ prefix
-     *
-     * @return string The ACF-formatted name
-     */
     public static function acfize(string $name, bool $prefixed = true): string
     {
         $name = self::normalize($name);
 
-        $name = self::underscore($name);
+        $name = Str::snake($name);
 
         if ($prefixed) {
             return 'group_module_' . $name;
@@ -96,16 +56,6 @@ class Utility extends Inflector
         return $name;
     }
 
-    /**
-     * Convert a float to a fraction string.
-     *
-     * @since 1.0.0
-     *
-     * @param float $n          The number to convert
-     * @param float $tolerance  The tolerance for conversion
-     *
-     * @return string The fraction string
-     */
     public static function float2fraction(float $n, float $tolerance = 1.e-6): string
     {
         $h1 = 1;
