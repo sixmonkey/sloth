@@ -7,8 +7,6 @@ namespace Sloth\Model;
 use Corcel\Model as CorcelModel;
 use Corcel\Model\Comment;
 use Corcel\Model\Meta\UserMeta;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Sloth\Model\Traits\HasACF;
 use Sloth\Model\Traits\HasAliases;
@@ -19,19 +17,17 @@ use Sloth\Model\Traits\HasOrderScopes;
  * WordPress user model.
  *
  * This model extends Corcel\Model directly to provide WordPress user functionality.
- * It implements Laravel's authentication interfaces and uses Sloth's own trait
- * implementations for meta fields and aliases.
+ * It uses Sloth's own trait implementations for meta fields and aliases.
  *
  * ## Independence from Corcel
  *
  * This model does NOT extend Corcel\Model\User. Instead, it implements all
- * necessary features directly, ensuring full control over attribute resolution
- * and preventing issues like infinite recursion in alias handling.
+ * necessary features directly, ensuring full control over attribute resolution.
  *
  * @since 1.0.0
  * @see https://developer.wordpress.org/reference/classes/wp_user/
  */
-class User extends CorcelModel implements Authenticatable, CanResetPassword
+class User extends CorcelModel
 {
     use HasACF;
     use HasAliases;
@@ -135,86 +131,6 @@ class User extends CorcelModel implements Authenticatable, CanResetPassword
     }
 
     /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string The primary key name
-     */
-    public function getAuthIdentifierName(): string
-    {
-        return $this->primaryKey;
-    }
-
-    /**
-     * Get the unique identifier for the user.
-     *
-     * @return mixed The user's ID
-     */
-    public function getAuthIdentifier(): mixed
-    {
-        return $this->attributes[$this->primaryKey];
-    }
-
-    /**
-     * Get the password for the user.
-     *
-     * @return string The password hash
-     */
-    public function getAuthPassword(): string
-    {
-        return $this->user_pass;
-    }
-
-    /**
-     * Get the column name for the "remember me" token.
-     *
-     * @return string The token column name
-     */
-    public function getRememberTokenName(): string
-    {
-        return 'remember_token';
-    }
-
-    /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string|null The remember token value
-     */
-    public function getRememberToken(): ?string
-    {
-        return $this->meta->remember_token ?? null;
-    }
-
-    /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param string $value The token value to set
-     */
-    public function setRememberToken($value): void
-    {
-        $this->saveMeta('remember_token', $value);
-    }
-
-    /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string The user's email
-     */
-    public function getEmailForPasswordReset(): string
-    {
-        return $this->user_email;
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param string $token The reset token
-     */
-    public function sendPasswordResetNotification($token): void
-    {
-        // Implementation depends on notification system
-    }
-
-    /**
      * Get the avatar URL from Gravatar.
      *
      * @return string The Gravatar URL
@@ -235,7 +151,6 @@ class User extends CorcelModel implements Authenticatable, CanResetPassword
      */
     public function setUpdatedAt($value): void
     {
-        // WordPress users don't have an updated_at field
     }
 
     /**
