@@ -271,9 +271,35 @@ class Taxonomy extends CorcelModel
     /**
      * Get registration arguments for WordPress taxonomy registration.
      *
-     * @since 1.0.0
+     * Builds and returns the arguments array required by WordPress's
+     * register_taxonomy() function. This includes:
+     * - Labels generated from $this->names via getLabels()
+     * - Options from $this->options
+     * - Special handling for unique (non-hierarchical) taxonomies
      *
-     * @return array<string, mixed> The arguments for register_taxonomy()
+     * ## Unique Taxonomies
+     *
+     * If $this->unique is true, the taxonomy is treated as non-hierarchical
+     * (like tags). This sets hierarchical=false, parent_item=null, and
+     * parent_item_colon=null to remove parent-related UI elements.
+     *
+     * ## Usage
+     *
+     * Called by Plugin::loadTaxonomies():
+     * ```php
+     * register_taxonomy(
+     *     $taxonomy->getTaxonomy(),
+     *     $taxonomy->getPostTypes(),
+     *     $taxonomy->getRegistrationArgs()
+     * );
+     * ```
+     *
+     * @since 1.0.0
+     * @see getLabels() For label generation
+     * @see getPostTypes() For attached post types
+     * @see \register_taxonomy() WordPress function
+     *
+     * @return array<string, mixed> Arguments for register_taxonomy()
      */
     public function getRegistrationArgs(): array
     {
@@ -292,9 +318,28 @@ class Taxonomy extends CorcelModel
     /**
      * Get post types that this taxonomy is attached to.
      *
-     * @since 1.0.0
+     * Returns the array of post type slugs that this taxonomy should
+     * be associated with. When registering the taxonomy with WordPress,
+     * these post types will be able to use this taxonomy for organizing
+     * their content.
      *
-     * @return array<string> Array of post type slugs
+     * ## Example
+     *
+     * ```php
+     * class Category extends Taxonomy
+     * {
+     *     protected array $postTypes = ['post', 'project'];
+     * }
+     *
+     * // Returns ['post', 'project']
+     * $category->getPostTypes();
+     * ```
+     *
+     * @since 1.0.0
+     * @see getRegistrationArgs() For full taxonomy registration
+     * @see \register_taxonomy_for_object_type() WordPress function (used internally)
+     *
+     * @return array<string> Array of post type slugs (e.g., ['post', 'page'])
      */
     public function getPostTypes(): array
     {

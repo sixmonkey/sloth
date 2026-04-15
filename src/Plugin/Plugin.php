@@ -205,7 +205,10 @@ class Plugin extends Singleton
      *
      * @since 1.0.0
      *
-     * @uses PostTypes\PostType For post type registration
+     * @uses \register_post_type() For post type registration
+     * @uses \Sloth\Model\Model::unregisterExisting() For removing existing post types
+     * @uses \Sloth\Model\Model::getRegistrationArgs() For registration arguments
+     * @uses \Sloth\Model\Model::registerColumnHooks() For admin column hooks
      * @see \Sloth\Model\Model
      * @see \Sloth\Layotter\Layotter
      */
@@ -245,10 +248,26 @@ class Plugin extends Singleton
      * Load all taxonomies.
      *
      * Discovers taxonomy classes from DIR_APP/Taxonomy, instantiates them,
-     * and calls their register() method if available.
+     * and registers them with WordPress using the model's getRegistrationArgs()
+     * and getPostTypes() methods.
+     *
+     * ## Registration Process
+     *
+     * For each taxonomy class found:
+     * 1. Load the class file and instantiate
+     * 2. Call register_taxonomy() with arguments from getRegistrationArgs()
+     * 3. Associate with post types returned by getPostTypes()
+     * 4. Store in $this->taxonomies for later reference
+     *
+     * ## Post Type Association
+     *
+     * If a post type doesn't exist yet (loaded after taxonomies), the
+     * association is handled when that post type is registered via
+     * register_taxonomy_for_object_type().
      *
      * @since 1.0.0
-     *
+     * @see \Sloth\Model\Taxonomy::getRegistrationArgs() For registration arguments
+     * @see \Sloth\Model\Taxonomy::getPostTypes() For attached post types
      * @see \Sloth\Model\Taxonomy
      */
     public function loadTaxonomies(): void
@@ -993,22 +1012,31 @@ td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail { wid
     }
 
     /**
-     * Initialize models.
+     * Initialize models after registration (deprecated).
+     *
+     * This method previously called init() on each model to set post type
+     * options after registration. This functionality is now handled directly
+     * in loadModels() via getRegistrationArgs().
      *
      * @since 1.0.0
-     *
-     * @deprecated init() removed from Model - options are now set during registration
+     * @deprecated Since 1.0.0 - init() method removed from Model class
+     * @see loadModels() For post type registration (includes option handling)
      */
     public function initModels(): void
     {
     }
 
     /**
-     * Initialize taxonomies.
+     * Initialize taxonomies after registration (deprecated).
+     *
+     * This method previously called init() on each taxonomy to set up
+     * custom metaboxes for unique (non-hierarchical) taxonomies.
+     * This functionality will be handled by TaxonomyServiceProvider in Step 3.
      *
      * @since 1.0.0
-     *
-     * @deprecated init() removed from Taxonomy - metabox handling moved to TaxonomyServiceProvider (Step 3)
+     * @deprecated Since 1.0.0 - init() removed from Taxonomy class, metabox handling deferred to Step 3
+     * @see loadTaxonomies() For taxonomy registration
+     * @see TaxonomyServiceProvider For future metabox registration (Step 3)
      */
     public function initTaxonomies(): void
     {

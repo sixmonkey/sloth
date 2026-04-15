@@ -700,9 +700,36 @@ class Model extends CorcelModel
     /**
      * Get registration arguments for WordPress post type registration.
      *
-     * @since 1.0.0
+     * Builds and returns the arguments array required by WordPress's
+     * register_post_type() function. This includes:
+     * - Labels from $this->labels
+     * - Options from $this->options
+     * - Menu icon (dashicons) from $this->icon
+     * - Existing post type settings (if already registered) merged in
      *
-     * @return array<string, mixed> The arguments for register_post_type()
+     * If the post type already exists (e.g., from a plugin), this method
+     * preserves any existing labels and options while allowing the model
+     * to override them. This enables seamless re-registration of post types.
+     *
+     * ## Usage
+     *
+     * Called by Plugin::loadModels() to get the registration arguments:
+     * ```php
+     * register_post_type($model->getPostType(), $model->getRegistrationArgs());
+     * ```
+     *
+     * ## Label Merging
+     *
+     * When a post type already exists, existing labels are merged with
+     * model-defined labels. Model labels take precedence, allowing
+     * customization while preserving settings from other sources.
+     *
+     * @since 1.0.0
+     * @see unregisterExisting() For removing an existing post type before re-registration
+     * @see registerColumnHooks() For registering admin list columns
+     * @see \register_post_type() WordPress function
+     *
+     * @return array<string, mixed> Arguments for register_post_type()
      */
     public function getRegistrationArgs(): array
     {
@@ -727,9 +754,44 @@ class Model extends CorcelModel
     }
 
     /**
-     * Unregister existing post type if it already exists.
+     * Unregister an existing post type to allow re-registration.
+     *
+     * This method removes a previously registered post type from WordPress
+     * by:
+     * - Removing all supports (title, editor, thumbnails, etc.)
+     * - Clearing rewrite rules
+     * - Unregistering meta boxes
+     * - Removing all hooks attached to the post type
+     * - Unregistering associated taxonomies
+     * - Removing from the global $wp_post_types array
+     * - Firing the 'unregistered_post_type' action
+     *
+     * ## Why Unregister?
+     *
+     * WordPress does not allow re-registering post types. If a post type
+     * already exists (from a theme, plugin, or WordPress core), attempting
+     * to register it again will fail silently. This method cleanly removes
+     * the existing registration so our model can define the post type
+     * with its own settings.
+     *
+     * ## Safety
+     *
+     * If the post type does not exist, this method returns early without
+     * error. Posts of that type are not affected—only the registration
+     * metadata is removed.
+     *
+     * ## Usage
+     *
+     * Called before register_post_type() in Plugin::loadModels():
+     * ```php
+     * $model->unregisterExisting();
+     * register_post_type($model->getPostType(), $model->getRegistrationArgs());
+     * ```
      *
      * @since 1.0.0
+     * @see getRegistrationArgs() For getting the new registration arguments
+     * @see \unregister_post_type() WordPress function (internal)
+     * @see \do_action('unregistered_post_type') Action fired after unregistration
      */
     public function unregisterExisting(): void
     {
