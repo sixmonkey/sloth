@@ -56,6 +56,9 @@ if (!is_dir($cacheDir)) {
 // Autoload
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Initialize Configure for testing
+\Sloth\Configure\Configure::boot();
+
 // Stub WordPress functions
 if (!function_exists('apply_filters')) {
     function apply_filters(string $tag, mixed $value, mixed ...$args): mixed

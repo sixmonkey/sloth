@@ -40,6 +40,12 @@ if (!function_exists('config')) {
         if ($app !== null && $app->bound('config')) {
             /** @var Repository $repository */
             $repository = $app->make('config');
+            if (is_array($key)) {
+                foreach ($key as $k => $v) {
+                    $repository->set($k, $v);
+                }
+                return true;
+            }
             return $repository->get($key, $default);
         }
         return $default;

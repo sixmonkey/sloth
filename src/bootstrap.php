@@ -134,7 +134,7 @@ defined('DB_HOST') ? DB_HOST : define('DB_HOST', env('DB_HOST', 'localhost'));
 defined('DB_CHARSET') ? DB_CHARSET : define('DB_CHARSET', 'utf8mb4');
 defined('DB_COLLATE') ? DB_COLLATE : define('DB_COLLATE', '');
 defined('DB_PREFIX') ? DB_PREFIX : define('DB_PREFIX', env('DB_PREFIX', 'wp_'));
-
+$table_prefix = DB_PREFIX;
 /*
  * Custom Settings
  */

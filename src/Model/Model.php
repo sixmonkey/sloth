@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Model\Post as CorcelPost;
+use Corcel\Model as CorcelModel;
+use Corcel\Model\Comment;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Meta\ThumbnailMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,17 +16,37 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use PostTypes\PostType;
 use Sloth\Field\Image;
 use Sloth\Model\Builder\PostBuilder;
-use Tbruckmaier\Corcelacf\AcfTrait;
+use Sloth\Model\Traits\HasACF;
+use Sloth\Model\Traits\HasAliases;
+use Sloth\Model\Traits\HasCustomTimestamps;
+use Sloth\Model\Traits\HasMetaFields;
+use Sloth\Model\Traits\HasOrderScopes;
 
 /**
  * Base Model class for WordPress post types.
  *
- * This class extends Corcel\Model\Post to provide a foundation for all custom
+ * This class extends Corcel\Model directly to provide a foundation for all custom
  * post types in the Sloth framework. It includes ACF integration, taxonomy
  * relationships, and WordPress-specific query scopes.
  *
+ * ## Independence from Corcel
+ *
+ * This model does NOT extend Corcel\Model\Post, Corcel\Model\User, or any other
+ * Corcel model class. Instead, it implements all necessary features directly or
+ * uses Sloth's own trait implementations. This ensures full control over attribute
+ * resolution and prevents issues like infinite recursion in alias handling.
+ *
+ * ## Traits
+ *
+ * This model uses Sloth's own trait implementations:
+ * - HasACF: ACF field integration
+ * - HasAliases: Attribute alias resolution (with critical recursion fix)
+ * - HasCustomTimestamps: WordPress GMT timestamp support
+ * - HasMetaFields: WordPress meta field management
+ * - HasOrderScopes: Query scopes for ordering
+ *
  * @since 1.0.0
- * @see \Corcel\Model\Post For the base Corcel implementation
+ * @see \Corcel\Model For the base Corcel implementation
  * @see \Sloth\Model\Post For the default post model
  *
  * @property int $ID The post ID
@@ -34,11 +55,27 @@ use Tbruckmaier\Corcelacf\AcfTrait;
  * @property string $post_type The post type
  * @property string $post_status The post status
  */
-class Model extends CorcelPost
+class Model extends CorcelModel
 {
-    use AcfTrait;
-    // AcfTrait::getAcfAttribute() overwrites AdvancedCustomFields::getAcfAttribute()
-    // so Corcel\Acf\AdvancedCustomFields is never instantiated — no more "class not found"
+    use HasACF;
+    use HasAliases;
+    use HasCustomTimestamps;
+    use HasMetaFields;
+    use HasOrderScopes;
+
+    /**
+     * Post type identifier for this model.
+     *
+     * @var string|false
+     */
+    protected $postType = false;
+
+    /**
+     * Post types registered with this model.
+     *
+     * @var array<string, class-string>
+     */
+    protected static array $postTypes = [];
 
     public const CREATED_AT = 'post_date';
 
@@ -73,6 +110,53 @@ class Model extends CorcelPost
     public array $admin_columns_hidden = [];
 
     protected static bool $globalScopesBooted = false;
+
+    /**
+     * Aliases for attribute access.
+     *
+     * Maps alternative property names to their original database columns.
+     *
+     * @var array<string, string|array>
+     */
+    protected static array $aliases = [
+        'title' => 'post_title',
+        'content' => 'post_content',
+        'excerpt' => 'post_excerpt',
+        'slug' => 'post_name',
+        'type' => 'post_type',
+        'mime_type' => 'post_mime_type',
+        'url' => 'guid',
+        'author_id' => 'post_author',
+        'parent_id' => 'post_parent',
+        'created_at' => 'post_date',
+        'updated_at' => 'post_modified',
+        'status' => 'post_status',
+    ];
+
+    /**
+     * Accessors to append to array/JSON representation.
+     *
+     * @var array<string>
+     */
+    protected $appends = [
+        'title',
+        'slug',
+        'content',
+        'type',
+        'mime_type',
+        'url',
+        'author_id',
+        'parent_id',
+        'created_at',
+        'updated_at',
+        'excerpt',
+        'status',
+        'image',
+        'terms',
+        'main_category',
+        'keywords',
+        'keywords_str',
+    ];
 
     /**
      * Default attribute values for new model instances.
@@ -169,6 +253,84 @@ class Model extends CorcelPost
     }
 
     /**
+     * Create a model instance from a database row.
+     *
+     * Handles post type instantiation - returns the correct class based
+     * on the post_type attribute.
+     *
+     * @since 1.0.0
+     *
+     * @param object|array $attributes The database row attributes
+     * @param string|null $connection The connection name
+     * @return static The model instance
+     */
+    #[\Override]
+    public function newFromBuilder($attributes = [], $connection = null): static
+    {
+        $attributes = (array) $attributes;
+        $class = static::class;
+
+        if (isset($attributes['post_type']) && $attributes['post_type']) {
+            if (isset(static::$postTypes[$attributes['post_type']])) {
+                $class = static::$postTypes[$attributes['post_type']];
+            }
+        }
+
+        /** @var static $model */
+        $model = new $class();
+        $model->exists = true;
+        $model->setRawAttributes($attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
+        $model->fireModelEvent('retrieved', false);
+
+        if ($this->shouldLoadPreview($model)) {
+            $preview = $this->loadPreview($model);
+            if ($preview !== null) {
+                return $preview;
+            }
+        }
+
+        return $model;
+    }
+
+    /**
+     * Check if we should load the preview version of a post.
+     *
+     * Returns true when preview mode is active, user is logged in,
+     * and it's not a revision or inherited post.
+     *
+     * @since 1.0.0
+     *
+     * @param Model $model The model to check
+     * @return bool True if preview should be loaded
+     */
+    protected function shouldLoadPreview(self $model): bool
+    {
+        return isset($_GET['preview'])
+            && is_user_logged_in()
+            && $model->post_status !== 'inherit'
+            && $model->post_type !== 'revision';
+    }
+
+    /**
+     * Load the preview revision for a post.
+     *
+     * Finds the newest revision authored by the current user.
+     *
+     * @since 1.0.0
+     *
+     * @param Model $model The model to load preview for
+     * @return static|null The preview model or null if not found
+     */
+    protected function loadPreview(self $model): ?static
+    {
+        return $model->revision()
+            ->where('post_author', get_current_user_id())
+            ->newest()
+            ->first();
+    }
+
+    /**
      * Create a new Eloquent query builder for the model.
      *
      * Uses Sloth's custom PostBuilder which adds WordPress-specific
@@ -202,6 +364,29 @@ class Model extends CorcelPost
         return $this->postType
             ? parent::newQuery()->type($this->postType)
             : parent::newQuery();
+    }
+
+    /**
+     * Register a post type class to be instantiated for specific post types.
+     *
+     * @since 1.0.0
+     *
+     * @param string $name The post type slug
+     * @param class-string $class The fully qualified class name
+     */
+    public static function registerPostType(string $name, string $class): void
+    {
+        static::$postTypes[$name] = $class;
+    }
+
+    /**
+     * Clear all registered post types.
+     *
+     * @since 1.0.0
+     */
+    public static function clearRegisteredPostTypes(): void
+    {
+        static::$postTypes = [];
     }
 
     /**
@@ -343,6 +528,18 @@ class Model extends CorcelPost
     }
 
     /**
+     * Get the post excerpt with shortcodes stripped.
+     *
+     * @since 1.0.0
+     *
+     * @return string The stripped excerpt
+     */
+    public function getExcerptAttribute(): string
+    {
+        return strip_shortcodes($this->post_excerpt ?? '');
+    }
+
+    /**
      * Get the permalink for this post.
      *
      * @since 1.0.0
@@ -477,7 +674,8 @@ class Model extends CorcelPost
      */
     public function hasTerm($taxonomy, $term): bool
     {
-        return isset($this->terms[$taxonomy][$term]);
+        return isset($this->terms[$taxonomy]) &&
+            isset($this->terms[$taxonomy][$term]);
     }
 
     /**
@@ -500,72 +698,6 @@ class Model extends CorcelPost
         }
 
         return false;
-    }
-
-
-    /**
-     * Create a model instance from a database row.
-     *
-     * Handles preview/draft loading - if the fetched post is a preview
-     * and a published version exists, returns that instead.
-     *
-     * @since 1.0.0
-     *
-     * @param object $attributes The database row attributes
-     * @param string|null $connection The connection name
-     * @return static The model instance
-     */
-    #[\Override]
-    public function newFromBuilder($attributes = [], $connection = null): static
-    {
-        /** @var static $model */
-        $model = parent::newFromBuilder($attributes, $connection);
-
-        if ($this->shouldLoadPreview($model)) {
-            $preview = $this->loadPreview($model);
-            if ($preview !== null) {
-                return $preview;
-            }
-        }
-
-        return $model;
-    }
-
-    /**
-     * Check if we should load the preview version of a post.
-     *
-     * Returns true when preview mode is active, user is logged in,
-     * and it's not a revision or inherited post.
-     *
-     * @since 1.0.0
-     *
-     * @param Model $model The model to check
-     * @return bool True if preview should be loaded
-     */
-    protected function shouldLoadPreview(self $model): bool
-    {
-        return isset($_GET['preview'])
-            && is_user_logged_in()
-            && $model->post_status !== 'inherit'
-            && $model->post_type !== 'revision';
-    }
-
-    /**
-     * Load the preview revision for a post.
-     *
-     * Finds the newest revision authored by the current user.
-     *
-     * @since 1.0.0
-     *
-     * @param Model $model The model to load preview for
-     * @return static|null The preview model or null if not found
-     */
-    protected function loadPreview(self $model): ?static
-    {
-        return $model->revision()
-            ->where('post_author', get_current_user_id())
-            ->newest()
-            ->first();
     }
 
     /**
@@ -718,7 +850,6 @@ class Model extends CorcelPost
         return $query->where('post_name', $slug)->orWhere('ID', $slug);
     }
 
-
     /**
      * Get a formatted column value for admin list view.
      *
@@ -735,6 +866,33 @@ class Model extends CorcelPost
         $value = $this->{$which} ?? $this->{strtolower($which)};
 
         return '<a href="' . get_edit_post_link($this->ID) . '">' . $value . '</a>';
+    }
+
+    /**
+     * Scope to get the homepage post.
+     *
+     * @since 1.0.0
+     *
+     * @param Builder $query The query builder
+     * @return Builder The filtered query
+     */
+    public function scopeHome(Builder $query): Builder
+    {
+        return $query
+            ->where('ID', '=', get_options('page_on_front'))
+            ->limit(1);
+    }
+
+    /**
+     * Get the ACF key for this post.
+     *
+     * @since 1.0.0
+     *
+     * @return string The ACF field group key (post ID)
+     */
+    public function getAcfKey(): ?string
+    {
+        return (string) $this->getAttribute('ID');
     }
 
     /**
@@ -770,6 +928,39 @@ class Model extends CorcelPost
         return $value;
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    #[\Override]
+    public function __isset($key): bool
+    {
+        $exists = parent::__isset($key);
+
+        if ($exists) {
+            return true;
+        }
+
+        if ($this->hasCast($key)) {
+            return true;
+        }
+
+        if ($this->relationLoaded('meta') && $this->meta->contains('meta_key', $key)) {
+            return true;
+        }
+
+        if (method_exists($this, 'getAcfKey') && isset(\Sloth\Model\Traits\HasACF::$acfFieldCache[$this->getAcfKey()])
+            && \Sloth\Model\Traits\HasACF::$acfFieldCache[$this->getAcfKey()]->has($key)) {
+            return true;
+        }
+
+        if (function_exists('acf_maybe_get_field') && method_exists($this, 'getAcfKey')) {
+            return acf_maybe_get_field($key, $this->getAcfKey()) !== false;
+        }
+
+        return false;
+    }
+
     #[\Override]
     public function toArray(): array
     {
@@ -790,20 +981,27 @@ class Model extends CorcelPost
         return $array;
     }
 
+    /**
+     * Get the meta class for this model.
+     *
+     * @since 1.0.0
+     *
+     * @return string The fully qualified class name of the meta model
+     */
     protected function getMetaClass(): string
     {
         return PostMeta::class;
     }
 
+    /**
+     * Get the foreign key for the meta relationship.
+     *
+     * @since 1.0.0
+     *
+     * @return string The foreign key name
+     */
     protected function getMetaForeignKey(): string
     {
         return 'post_id';
-    }
-
-    public function scopeHome(Builder $query): Builder
-    {
-        return $query
-            ->where('ID', '=', get_options('page_on_front'))
-            ->limit(1);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 
 /**
@@ -158,16 +159,17 @@ class Application extends Container
      *
      * This method provides custom resolution for specific classes like the Paginator.
      *
-     * @since 1.0.0
-     * @since 1.1.0 Renamed from resolve to avoid conflict with protected parent method
-     *
      * @param class-string|object $abstract The class or interface to resolve
      * @param array<string, mixed> $parameters Constructor parameters
      * @param bool $raiseEvents Whether to fire resolution events
      *
      * @return mixed The resolved instance
      *
+     * @throws BindingResolutionException
+     * @since 1.1.0 Renamed from resolve to avoid conflict with protected parent method
+     *
      * @see \Illuminate\Container\Container::make()
+     * @since 1.0.0
      */
     public function resolveFromContainer($abstract, array $parameters = [], $raiseEvents = true): mixed
     {

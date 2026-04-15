@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sloth\Core;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Events\Dispatcher;
 use Milo\VendorVersions\Panel;
 use Sloth\Debugger\SlothBarPanel;
 use Sloth\Facades\Facade;
@@ -84,14 +86,15 @@ class Sloth extends Singleton
         $this->setDebugging();
         $this->registerErrorHandlers();
 
+        $this->container = new Application();
         if (Facade::getFacadeApplication() !== null && Facade::getFacadeApplication()->bound('config')) {
-            $this->container = Facade::getFacadeApplication();
+            $existingConfig = Facade::getFacadeApplication()->make('config');
+            $this->container->singleton('config', fn() => $existingConfig);
         } else {
-            $this->container = new Application();
             $this->container->singleton('config', fn() => new \Illuminate\Config\Repository([]));
             $this->loadConfigFiles();
-            Facade::setFacadeApplication($this->container);
         }
+        Facade::setFacadeApplication($this->container);
 
         $this->container->addPath('cache', DIR_CACHE);
 
@@ -283,6 +286,7 @@ class Sloth extends Singleton
         ];
 
         Database::connect($params);
+        Model::setEventDispatcher(new Dispatcher($this->container));
     }
 
     /**

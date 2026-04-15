@@ -39,8 +39,7 @@ class Configure extends Singleton
         $configPath = defined('DIR_CFG') ? DIR_CFG : null;
         if ($configPath && is_dir($configPath)) {
             foreach (glob($configPath . '*.php') as $file) {
-                $key = basename($file, '.php');
-                $container['config']->set($key, require $file);
+                require $file;
             }
         }
     }
@@ -133,6 +132,21 @@ class Configure extends Singleton
     public static function delete(string $var): void
     {
         config([$var => null]);
+    }
+
+    /**
+     * Reset the configuration to a fresh state.
+     *
+     * Clears all configuration values. Used primarily for testing.
+     *
+     * @since 1.0.0
+     */
+    public static function reset(): void
+    {
+        $app = Facade::getFacadeApplication();
+        if ($app !== null && $app->bound('config')) {
+            $app->singleton('config', static fn() => new Repository([]));
+        }
     }
 
     /**

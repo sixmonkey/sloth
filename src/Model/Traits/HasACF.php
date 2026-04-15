@@ -4,57 +4,43 @@ declare(strict_types=1);
 
 namespace Sloth\Model\Traits;
 
-/**
- * Backwards-compatible ACF field access.
- *
- * Allows $post->field_name direct access to ACF fields.
- * This behavior is deprecated — use $post->acf->field_name instead.
- *
- * @deprecated Use $post->acf->field_name instead. Will be removed in a future version.
- */
+use Illuminate\Support\Collection;
+use Sloth\ACF\AcfProxy;
+use Sloth\Model\Casts\AcfBase;
+
 trait HasACF
 {
-    public function getAttribute($key): mixed
+    public static array $acfFieldCache = [];
+
+    public static function bootHasACF(): void
     {
-        $value = parent::getAttribute($key);
-        if ($value !== null) {
-            return $value;
-        }
+        static::retrieved(function (self $model) {
+            $key = $model->getAcfKey();
+            $fields = $model->getFields($model);
+            $acf_fields = $fields->keys();
+            $native_fields = collect($model->getAttributes())->keys();
 
-        try {
-            $acfValue = $this->acf->{$key};
-        } catch (\Throwable) {
-            return null;
-        }
+            $acf_casts = $acf_fields->diff($native_fields)->mapWithKeys(function ($item) {
+                return [$item => AcfBase::class];
+            });
 
-        if ($acfValue === null) {
-            return null;
-        }
-
-        trigger_error(
-            sprintf(
-                'Accessing ACF field "%s" directly on %s is deprecated. '
-                . 'Use $model->acf->%s instead.',
-                $key,
-                static::class,
-                $key
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return $acfValue;
+            $model->mergeCasts($acf_casts->toArray());
+        });
     }
 
-    public function __isset($key): bool
+    private function getFields($model): Collection
     {
-        if (parent::__isset($key)) {
-            return true;
+        $key = $model->getAcfKey();
+        if (!isset(static::$acfFieldCache[$key])) {
+            static::$acfFieldCache[$key] = collect(get_fields($key) ?? []);
         }
+        return static::$acfFieldCache[$key];
+    }
 
-        try {
-            return $this->acf->{$key} !== null;
-        } catch (\Throwable) {
-            return false;
-        }
+    abstract public function getAcfKey(): ?string;
+
+    public function getAcfAttribute(): AcfProxy
+    {
+        return new AcfProxy($this->getFields($this));
     }
 }
