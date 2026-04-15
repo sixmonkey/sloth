@@ -80,6 +80,9 @@ class TaxonomyServiceProvider
      * 3. Call register_taxonomy() with the taxonomy's arguments
      * 4. Store in $this->taxonomies and container
      *
+     * Note: This must be called on 'init' hook to ensure WordPress
+     * rewrite system is initialized.
+     *
      * @since 1.0.0
      *
      * @see \Sloth\Model\Taxonomy::getRegistrationArgs() For registration arguments
@@ -87,21 +90,23 @@ class TaxonomyServiceProvider
      */
     public function register(): void
     {
-        foreach (glob(DIR_APP . 'Taxonomy' . DS . '*.php') as $file) {
-            $taxonomyName = $this->loadClassFromFile($file);
-            $taxonomy = new $taxonomyName();
-            \register_taxonomy(
-                $taxonomy->getTaxonomy(),
-                $taxonomy->getPostTypes(),
-                $taxonomy->getRegistrationArgs()
-            );
+        add_action('init', function (): void {
+            foreach (glob(DIR_APP . 'Taxonomy' . DS . '*.php') as $file) {
+                $taxonomyName = $this->loadClassFromFile($file);
+                $taxonomy = new $taxonomyName();
+                \register_taxonomy(
+                    $taxonomy->getTaxonomy(),
+                    $taxonomy->getPostTypes(),
+                    $taxonomy->getRegistrationArgs()
+                );
 
-            $this->taxonomies[$taxonomy->getTaxonomy()] = $taxonomyName;
-        }
+                $this->taxonomies[$taxonomy->getTaxonomy()] = $taxonomyName;
+            }
 
-        if ($this->container !== null) {
-            $this->container['sloth.taxonomies'] = $this->taxonomies;
-        }
+            if ($this->container !== null) {
+                $this->container['sloth.taxonomies'] = $this->taxonomies;
+            }
+        }, 20);
     }
 
     /**

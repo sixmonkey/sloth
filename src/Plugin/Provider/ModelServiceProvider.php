@@ -87,6 +87,9 @@ class ModelServiceProvider
      * 6. Configure Layotter integration
      * 7. Flush rewrite rules
      *
+     * Note: This must be called on 'init' hook to ensure WordPress
+     * rewrite system is initialized.
+     *
      * @since 1.0.0
      *
      * @see \Sloth\Model\Model::unregisterExisting() For removing existing post types
@@ -95,28 +98,30 @@ class ModelServiceProvider
      */
     public function register(): void
     {
-        foreach (glob(DIR_APP . 'Model' . DS . '*.php') as $file) {
-            $modelName = $this->loadClassFromFile($file);
+        add_action('init', function (): void {
+            foreach (glob(DIR_APP . 'Model' . DS . '*.php') as $file) {
+                $modelName = $this->loadClassFromFile($file);
 
-            $model = new $modelName();
-            if (!$model->register) {
-                continue;
+                $model = new $modelName();
+                if (!$model->register) {
+                    continue;
+                }
+
+                $model->unregisterExisting();
+                \register_post_type($model->getPostType(), $model->getRegistrationArgs());
+                $model->registerColumnHooks();
+
+                $this->models[$model->getPostType()] = $modelName;
+
+                $this->configureLayotter($model);
+
+                \flush_rewrite_rules(true);
             }
 
-            $model->unregisterExisting();
-            \register_post_type($model->getPostType(), $model->getRegistrationArgs());
-            $model->registerColumnHooks();
-
-            $this->models[$model->getPostType()] = $modelName;
-
-            $this->configureLayotter($model);
-
-            \flush_rewrite_rules(true);
-        }
-
-        if ($this->container !== null) {
-            $this->container['sloth.models'] = $this->models;
-        }
+            if ($this->container !== null) {
+                $this->container['sloth.models'] = $this->models;
+            }
+        }, 20);
     }
 
     /**
