@@ -12,29 +12,30 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Retrieves ACF field values using get_field().
  */
-class ACF implements CastsAttributes
+class AcfBase implements CastsAttributes
 {
     /**
      * Get the ACF field value.
-     *
-     * @since 1.0.0
      *
      * @param Model $model The model instance
      * @param string $key The field name
      * @param mixed $value The raw value from the database
      * @param array $attributes All model attributes
      * @return mixed The field value
+     * @since 1.0.0
+     *
      */
-    #[\Override]
-    public function get($model, $key, $value, $attributes): mixed
+    public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         $acfKey = $model->getAcfKey();
 
-        if (property_exists($model, 'acfFieldCache') && isset($model::$acfFieldCache[$acfKey]['values'])) {
-            return $model::$acfFieldCache[$acfKey]['values'][$key] ?? null;
-        }
+        // Check the cache first
+        #if (property_exists($model, 'acfFieldCache') && isset($model::$acfFieldCache[$acfKey][$key])) {
+        #    return $model::$acfFieldCache[$acfKey][$key];
+        #}
 
-        return get_field($key, $acfKey);
+        // Fallback to get_field() if the field doesn't exist in the cache
+        return get_field($key, $model->getAcfKey());
     }
 
     /**
@@ -46,8 +47,7 @@ class ACF implements CastsAttributes
      * @param array $attributes All model attributes
      * @return mixed The value to store
      */
-    #[\Override]
-    public function set($model, $key, $value, $attributes)
+    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         update_field($key, $value, $model->getAcfKey());
 
