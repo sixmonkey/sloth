@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Concerns\CustomTimestamps;
-use Corcel\Concerns\MetaFields;
-use Corcel\Concerns\OrderScopes;
 use Corcel\Model as CorcelModel;
 use Corcel\Model\Comment;
 use Corcel\Model\Meta\PostMeta;
@@ -20,6 +17,10 @@ use PostTypes\PostType;
 use Sloth\Field\Image;
 use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Traits\HasACF;
+use Sloth\Model\Traits\HasAliases;
+use Sloth\Model\Traits\HasCustomTimestamps;
+use Sloth\Model\Traits\HasMetaFields;
+use Sloth\Model\Traits\HasOrderScopes;
 
 /**
  * Base Model class for WordPress post types.
@@ -27,6 +28,12 @@ use Sloth\Model\Traits\HasACF;
  * This class extends Corcel\Model to provide a foundation for all custom
  * post types in the Sloth framework. It includes ACF integration, taxonomy
  * relationships, and WordPress-specific query scopes.
+ *
+ * ## Traits
+ *
+ * This model uses Sloth's own trait implementations instead of Corcel's
+ * internal traits to maintain full control over attribute resolution
+ * and prevent issues like infinite recursion in alias handling.
  *
  * @since 1.0.0
  * @see \Corcel\Model For the base Corcel implementation
@@ -41,9 +48,10 @@ use Sloth\Model\Traits\HasACF;
 class Model extends CorcelModel\Post
 {
     use HasACF;
-    use MetaFields;
-    use OrderScopes;
-    use CustomTimestamps;
+    use HasAliases;
+    use HasCustomTimestamps;
+    use HasMetaFields;
+    use HasOrderScopes;
 
     public const CREATED_AT = 'post_date';
 

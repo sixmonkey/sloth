@@ -6,12 +6,17 @@ namespace Sloth\Model;
 
 use Corcel\Model\Taxonomy as CorcelTaxonomy;
 use Sloth\Model\Post;
+use Sloth\Model\Traits\HasAliases;
+use Sloth\Model\Traits\HasMetaFields;
 
 /**
  * Taxonomy Model
  *
  * Extends Corcel's Taxonomy model to provide WordPress custom
  * taxonomy registration and management functionality.
+ *
+ * This model uses Sloth's own trait implementations for meta fields
+ * and aliases, providing full control over attribute resolution.
  *
  * @since 1.0.0
  * @see CorcelTaxonomy For the base Corcel implementation
@@ -29,6 +34,9 @@ use Sloth\Model\Post;
  */
 class Taxonomy extends CorcelTaxonomy
 {
+    use HasAliases;
+    use HasMetaFields;
+
     /**
      * Taxonomy names configuration for PostTypes library.
      *
