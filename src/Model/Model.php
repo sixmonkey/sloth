@@ -98,7 +98,7 @@ class Model extends CorcelModel
 
     protected array $labels = [];
 
-    public static array $layotter = [];
+    public static $layotter = false;
 
     public bool $register = true;
 

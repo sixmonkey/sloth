@@ -141,7 +141,7 @@ class ModelServiceProvider
             return;
         }
 
-        if ($model::$layotter !== false) {
+        if (is_array($model::$layotter) || $model::$layotter === true) {
             $this->container['layotter']->enable_for_post_type($model->getPostType());
             if (is_array($model::$layotter) && isset($model::$layotter['allowed_row_layouts'])) {
                 $this->container['layotter']->set_layouts_for_post_type(
