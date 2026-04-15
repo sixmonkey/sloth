@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Model\Post as CorcelPost;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Sloth\Model\Builder\PostBuilder;
 
 /**
  * Post Model
  *
- * Extends Corcel's Post model to add Sloth-specific functionality,
- * primarily the processed content attribute.
+ * Extends Sloth's base Model class. This model inherits all functionality
+ * from Sloth\Model\Model, including ACF integration, taxonomy relationships,
+ * and WordPress-specific query scopes.
  *
  * @since 1.0.0
- * @see CorcelPost For the base Corcel Post implementation
+ * @see \Sloth\Model\Model For the base implementation
  *
  * @property string $content The post content with WordPress filters applied
  *
@@ -31,7 +30,7 @@ use Sloth\Model\Builder\PostBuilder;
  * $posts = Post::where('category', 'news')->get();
  * ```
  */
-class Post extends CorcelPost
+class Post extends Model
 {
     /**
      * Gets the post content with WordPress filters applied.
@@ -53,14 +52,12 @@ class Post extends CorcelPost
     }
 
     /**
-     * @return PostBuilder
+     * Get post revisions.
+     *
+     * @since 1.0.0
+     *
+     * @return HasMany The revisions relationship
      */
-    #[\Override]
-    public function newEloquentBuilder($query)
-    {
-        return new PostBuilder($query);
-    }
-
     #[\Override]
     public function revision(): HasMany
     {

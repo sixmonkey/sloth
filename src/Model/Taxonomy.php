@@ -4,22 +4,29 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Model\Taxonomy as CorcelTaxonomy;
-use Sloth\Model\Post;
+use Corcel\Model as CorcelModel;
+use Corcel\Model\Meta\TermMeta;
+use Corcel\Model\Term;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Sloth\Model\Traits\HasAliases;
 use Sloth\Model\Traits\HasMetaFields;
 
 /**
  * Taxonomy Model
  *
- * Extends Corcel's Taxonomy model to provide WordPress custom
+ * Extends Corcel\Model directly to provide WordPress custom
  * taxonomy registration and management functionality.
  *
+ * ## Independence from Corcel
+ *
+ * This model does NOT extend Corcel\Model\Taxonomy. Instead, it implements
+ * all necessary features directly, ensuring full control over attribute resolution.
+ *
  * This model uses Sloth's own trait implementations for meta fields
- * and aliases, providing full control over attribute resolution.
+ * and aliases.
  *
  * @since 1.0.0
- * @see CorcelTaxonomy For the base Corcel implementation
  *
  * @example
  * ```php
@@ -32,10 +39,40 @@ use Sloth\Model\Traits\HasMetaFields;
  * }
  * ```
  */
-class Taxonomy extends CorcelTaxonomy
+class Taxonomy extends CorcelModel
 {
     use HasAliases;
     use HasMetaFields;
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * WordPress taxonomies don't use Laravel timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'term_taxonomy';
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'term_taxonomy_id';
+
+    /**
+     * The relationships to eager-load on every query.
+     *
+     * @var array<string>
+     */
+    protected $with = ['term'];
 
     /**
      * Taxonomy names configuration for PostTypes library.
@@ -101,6 +138,74 @@ class Taxonomy extends CorcelTaxonomy
         }
 
         parent::__construct($attributes);
+    }
+
+    /**
+     * Get the term relationship.
+     *
+     * @return BelongsTo The term relationship
+     */
+    public function term(): BelongsTo
+    {
+        return $this->belongsTo(Term::class, 'term_id');
+    }
+
+    /**
+     * Get the parent taxonomy.
+     *
+     * @return BelongsTo The parent relationship
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Taxonomy::class, 'parent');
+    }
+
+    /**
+     * Get all posts associated with this taxonomy term.
+     *
+     * @return BelongsToMany The posts relationship
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'term_relationships',
+            'term_taxonomy_id',
+            'object_id'
+        );
+    }
+
+    /**
+     * Get the term link URL.
+     *
+     * @return string|\WP_Error The term link URL or error
+     */
+    public function getTermLinkAttribute(): string|\WP_Error
+    {
+        $t = \get_term($this->term_id, $this->taxonomy);
+        if ($t instanceof \WP_Error) {
+            return $t;
+        }
+
+        return \get_term_link($t);
+    }
+
+    /**
+     * Magic method to return term attributes directly.
+     *
+     * Provides access to term attributes as if they were taxonomy attributes.
+     *
+     * @param string $key The attribute key
+     *
+     * @return mixed The attribute value
+     */
+    public function __get($key)
+    {
+        if (!isset($this->$key) && isset($this->term->$key)) {
+            return $this->term->$key;
+        }
+
+        return parent::__get($key);
     }
 
     /**
@@ -229,21 +334,6 @@ class Taxonomy extends CorcelTaxonomy
     }
 
     /**
-     * Gets the term link URL.
-     *
-     * @since 1.0.0
-     */
-    public function getTermLinkAttribute(): string|\WP_Error
-    {
-        $t = \get_term($this->term_id, $this->taxonomy);
-        if ($t instanceof \WP_Error) {
-            return $t;
-        }
-
-        return \get_term_link($t);
-    }
-
-    /**
      * Render the taxonomy metabox.
      *
      * @since 1.0.0
@@ -320,5 +410,25 @@ class Taxonomy extends CorcelTaxonomy
             });
         });
         </script>';
+    }
+
+    /**
+     * Get the meta class for this model.
+     *
+     * @return string The fully qualified class name of the meta model
+     */
+    protected function getMetaClass(): string
+    {
+        return TermMeta::class;
+    }
+
+    /**
+     * Get the foreign key for the meta relationship.
+     *
+     * @return string The foreign key name
+     */
+    protected function getMetaForeignKey(): string
+    {
+        return 'term_id';
     }
 }
