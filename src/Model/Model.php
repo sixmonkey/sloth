@@ -698,11 +698,77 @@ class Model extends CorcelModel
     }
 
     /**
+     * Get labels for WordPress post type registration.
+     *
+     * If $this->labels is already populated, returns those labels
+     * (with translation). Otherwise, generates labels from $this->names.
+     *
+     * ## Label Generation
+     *
+     * When $labels is empty, labels are auto-generated from $names:
+     * - $names['singular'] → singular_name, parent_item, edit_item, etc.
+     * - $names['plural'] → name, menu_name, all_items, search_items, etc.
+     *
+     * Falls back to ucfirst($postType) for singular and singular + 's' for plural.
+     *
+     * @since 1.0.0
+     * @see getRegistrationArgs() For using labels in post type registration
+     *
+     * @return array<string, string> WordPress post type labels
+     */
+    public function getLabels(): array
+    {
+        if ($this->labels !== []) {
+            $labels = $this->labels;
+            foreach ($labels as $key => $label) {
+                if (is_string($label)) {
+                    $labels[$key] = __($label);
+                }
+            }
+
+            return $labels;
+        }
+
+        $singular = $this->names['singular'] ?? ucfirst($this->getPostType());
+        $plural = $this->names['plural'] ?? $singular . 's';
+
+        return [
+            'name' => __($plural),
+            'singular_name' => __($singular),
+            'add_new' => __('Add New'),
+            'add_new_item' => sprintf(__('Add New %s'), __($singular)),
+            'edit_item' => sprintf(__('Edit %s'), __($singular)),
+            'new_item' => sprintf(__('New %s'), __($singular)),
+            'view_item' => sprintf(__('View %s'), __($singular)),
+            'view_items' => sprintf(__('View %s'), __($plural)),
+            'search_items' => sprintf(__('Search %s'), __($plural)),
+            'not_found' => sprintf(__('No %s found'), __($plural)),
+            'not_found_in_trash' => sprintf(__('No %s found in Trash'), __($plural)),
+            'parent_item_colon' => sprintf(__('Parent %s:'), __($singular)),
+            'all_items' => sprintf(__('All %s'), __($plural)),
+            'archives' => sprintf(__('%s Archives'), __($singular)),
+            'attributes' => sprintf(__('%s Attributes'), __($singular)),
+            'insert_into_item' => sprintf(__('Insert into %s'), __($singular)),
+            'uploaded_to_this_item' => sprintf(__('Uploaded to this %s'), __($singular)),
+            'filter_items_list' => sprintf(__('Filter %s list'), __($plural)),
+            'items_list_navigation' => sprintf(__('%s list navigation'), __($plural)),
+            'items_list' => sprintf(__('%s list'), __($plural)),
+            'menu_name' => __($plural),
+            'name_admin_bar' => __($singular),
+            'popular_items' => sprintf(__('Popular %s'), __($singular)),
+            'separate_items_with_commas' => sprintf(__('Separate %s with commas'), __($plural)),
+            'add_or_remove_items' => sprintf(__('Add or remove %s'), __($plural)),
+            'choose_from_most_used' => sprintf(__('Choose from the most used %s'), __($plural)),
+            'not_found_in_trash' => sprintf(__('No %s found in Trash'), __($plural)),
+        ];
+    }
+
+    /**
      * Get registration arguments for WordPress post type registration.
      *
      * Builds and returns the arguments array required by WordPress's
      * register_post_type() function. This includes:
-     * - Labels from $this->labels
+     * - Labels generated via getLabels() (from $this->labels or $this->names)
      * - Options from $this->options
      * - Menu icon (dashicons) from $this->icon
      * - Existing post type settings (if already registered) merged in
@@ -734,7 +800,7 @@ class Model extends CorcelModel
     public function getRegistrationArgs(): array
     {
         $args = $this->options;
-        $args['labels'] = $this->labels;
+        $args['labels'] = $this->getLabels();
 
         if ($this->icon !== null) {
             $args['menu_icon'] = 'dashicons-' . preg_replace('/^dashicons-/', '', (string) $this->icon);
