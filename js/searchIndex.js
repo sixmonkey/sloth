@@ -1486,6 +1486,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Model-Model.html#method___get"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A__isset\u0028\u0029",
+            "name": "__isset",
+            "summary": "",
+            "url": "classes/Sloth-Model-Model.html#method___isset"
+        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AtoArray\u0028\u0029",
             "name": "toArray",
             "summary": "",
