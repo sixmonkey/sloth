@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Sloth\Field\Image;
 use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Concerns\AdminColumns;
+use Sloth\Model\Concerns\PostScopes;
 use Sloth\Model\Traits\HasACF;
 use Sloth\Model\Traits\HasAliases;
 use Sloth\Model\Traits\HasCustomTimestamps;
@@ -58,6 +59,7 @@ use Sloth\Model\Traits\HasOrderScopes;
 class Model extends CorcelModel
 {
     use AdminColumns;
+    use PostScopes;
     use HasACF;
     use HasAliases;
     use HasCustomTimestamps;
@@ -877,41 +879,6 @@ class Model extends CorcelModel
     }
 
     /**
-     * Scope query to order by a meta field.
-     *
-     * WordPress-specific scope that orders posts by a custom field value.
-     * Uses FIELD() MySQL function for explicit ordering.
-     *
-     * @since 1.0.0
-     *
-     * @param PostBuilder $query The query builder
-     * @param string $meta The meta key to order by
-     * @param string $direction Sort direction ('asc' or 'desc')
-     */
-    public function scopeOrderByMeta(PostBuilder $query, string $meta, string $direction = 'asc'): void
-    {
-        $metaRows = PostMeta::where('meta_key', $meta)->orderBy('meta_value', $direction)->get();
-        $postIds = $metaRows->pluck('post_id')->toArray();
-        $query->orderByRaw('FIELD(ID, ' . implode(',', $postIds) . ')');
-    }
-
-    /**
-     * Scope to find a post by slug or ID.
-     *
-     * Allows finding a post either by its post_name (slug) or ID.
-     *
-     * @since 1.0.0
-     *
-     * @param PostBuilder $query The query builder
-     * @param string $slug The slug or ID to search for
-     * @return PostBuilder The filtered query
-     */
-    public function scopeFindBySlugOrId(PostBuilder $query, string $slug): PostBuilder
-    {
-        return $query->where('post_name', $slug)->orWhere('ID', $slug);
-    }
-
-    /**
      * Get a formatted column value for admin list view.
      *
      * Returns the value wrapped in a link to the post edit screen.
@@ -927,21 +894,6 @@ class Model extends CorcelModel
         $value = $this->{$which} ?? $this->{strtolower($which)};
 
         return '<a href="' . get_edit_post_link($this->ID) . '">' . $value . '</a>';
-    }
-
-    /**
-     * Scope to get the homepage post.
-     *
-     * @since 1.0.0
-     *
-     * @param Builder $query The query builder
-     * @return Builder The filtered query
-     */
-    public function scopeHome(Builder $query): Builder
-    {
-        return $query
-            ->where('ID', '=', get_options('page_on_front'))
-            ->limit(1);
     }
 
     /**
