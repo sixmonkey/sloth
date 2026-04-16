@@ -134,7 +134,6 @@ class Sloth extends Singleton
             \Sloth\Deployment\DeploymentServiceProvider::class,
             \Sloth\Admin\AdminServiceProvider::class,
             \Sloth\Context\ContextServiceProvider::class,
-
             \Sloth\Model\ModelServiceProvider::class,
 
             \Sloth\Api\ApiServiceProvider::class,
