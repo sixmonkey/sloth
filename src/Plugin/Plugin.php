@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\Configure;
 use Sloth\Singleton\Singleton;
 use Sloth\Template\TemplateServiceProvider;
@@ -88,7 +89,7 @@ class Plugin extends Singleton
             return;
         }
 
-        $this->container = $GLOBALS['sloth']->container;
+        $this->container = app();
         $this->setupTheme();
         $this->container->boot();
     }
@@ -157,9 +158,10 @@ class Plugin extends Singleton
      * Kept for backwards compatibility with themes that access this method
      * via $GLOBALS['sloth::plugin']->getContext().
      *
+     * @return array<string, mixed>
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @return array<string, mixed>
      */
     public function getContext(): array
     {
@@ -173,11 +175,12 @@ class Plugin extends Singleton
     /**
      * Check if this is a development environment.
      *
+     * @return bool True if in development mode
+     * @throws BindingResolutionException
      * @deprecated Use app()->isLocal() instead
      *
      * @since 1.0.0
      *
-     * @return bool True if in development mode
      */
     public function isDevEnv(): bool
     {
