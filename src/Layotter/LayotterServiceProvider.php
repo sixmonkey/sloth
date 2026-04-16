@@ -38,19 +38,31 @@ class LayotterServiceProvider extends ServiceProvider
     public function getFilters(): array
     {
         return [
-            'layotter/enable_example_element' => ['callback' => '__return_false'],
-            'layotter/enable_default_css' => ['callback' => '__return_false'],
-            'layotter/enable_element_templates' => ['callback' => '__return_true'],
-            'layotter/enable_post_layouts' => ['callback' => '__return_true'],
+            'layotter/enable_example_element' => '__return_false',
+            'layotter/enable_default_css' => '__return_false',
+            'layotter/enable_element_templates' => '__return_true',
+            'layotter/enable_post_layouts' => '__return_true',
 
-            'layotter/enabled_post_types' => ['callback' => app('layotter')->enabledPostTypes(...)],
-            'layotter/rows/allowed_layouts' => ['callback' => app('layotter')->allowedRowLayouts(...)],
-            'layotter/rows/default_layout' => ['callback' => app('layotter')->defaultRowLayout(...)],
-            'layotter/columns/classes' => ['callback' => app('layotter')->customColumnClasses(...)],
-            'layotter/view/element' => ['callback' => app('layotter')->customElementView(...), 'priority' => 10],
-            'layotter/view/column' => ['callback' => app('layotter')->customColumnView(...), 'priority' => 10],
-            'layotter/view/row' => ['callback' => app('layotter')->customRowView(...), 'priority' => 10],
-            'layotter/view/post' => ['callback' => app('layotter')->customPostView(...), 'priority' => 10],
+            'layotter/enabled_post_types' => fn(...$args) => app('layotter')->enabledPostTypes(...$args),
+            'layotter/rows/allowed_layouts' => fn(...$args) => app('layotter')->allowedRowLayouts(...$args),
+            'layotter/rows/default_layout' => fn(...$args) => app('layotter')->defaultRowLayout(...$args),
+            'layotter/columns/classes' => fn(...$args) => app('layotter')->customColumnClasses(...$args),
+            'layotter/view/element' => [
+                'callback' => fn(...$args) => app('layotter')->customElementView(...$args),
+                'priority' => 10
+            ],
+            'layotter/view/column' => [
+                'callback' => fn(...$args) => app('layotter')->customColumnView(...$args),
+                'priority' => 10
+            ],
+            'layotter/view/row' => [
+                'callback' => fn(...$args) => app('layotter')->customRowView(...$args),
+                'priority' => 10
+            ],
+            'layotter/view/post' => [
+                'callback' => fn(...$args) => app('layotter')->customPostView(...$args),
+                'priority' => 10
+            ],
 
             'admin_head' => fn() => app('layotter')->renderLayotterStyles(),
         ];
