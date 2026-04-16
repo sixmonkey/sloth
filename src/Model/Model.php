@@ -792,30 +792,49 @@ class Model extends CorcelModel
      * model-defined labels. Model labels take precedence, allowing
      * customization while preserving settings from other sources.
      *
-     * @since 1.0.0
+     * @return array<string, mixed> Arguments for register_post_type()
      * @see unregisterExisting() For removing an existing post type before re-registration
      * @see registerColumnHooks() For registering admin list columns
      * @see \register_post_type() WordPress function
      *
-     * @return array<string, mixed> Arguments for register_post_type()
+     * @since 1.0.0
      */
     public function getRegistrationArgs(): array
     {
-        $args = $this->options;
+        $args = array_merge(
+            [
+                'public' => true,
+                'hierarchical' => false,
+                'supports' => [
+                    'title',
+                    'editor',
+                    'excerpt',
+                    'author',
+                    'thumbnail',
+                    'revisions',
+                    'page-attributes',
+                    'post-formats',
+                ],
+                'menu_position' => 5,
+                'show_ui' => true,
+
+            ],
+            $this->options
+        );
         $args['labels'] = $this->getLabels();
 
         if ($this->icon !== null) {
-            $args['menu_icon'] = 'dashicons-' . preg_replace('/^dashicons-/', '', (string) $this->icon);
+            $args['menu_icon'] = 'dashicons-' . preg_replace('/^dashicons-/', '', (string)$this->icon);
         }
 
         if (\post_type_exists($this->getPostType())) {
             $post_type_object = \get_post_type_object($this->getPostType());
             $args['labels'] = array_merge(
-                (array) \get_post_type_labels($post_type_object),
+                (array)\get_post_type_labels($post_type_object),
                 $args['labels']
             );
             global $wp_post_types;
-            $args = array_merge((array) $wp_post_types[$this->getPostType()], $args);
+            $args = array_merge((array)$wp_post_types[$this->getPostType()], $args);
         }
 
         return $args;
