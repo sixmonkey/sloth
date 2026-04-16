@@ -26,11 +26,11 @@ class AcfProxy
      *
      * @param string $name The field name
      * @param array<string, mixed> $arguments Method arguments (unused)
-     * @return mixed The field value
+     * @return mixed The field value or null if not found
      * @since 1.0.0
      */
     public function __call($name, $arguments)
     {
-        return $this->fields[$name];
+        return $this->fields[$name] ?? null;
     }
 }
