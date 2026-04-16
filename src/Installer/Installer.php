@@ -223,19 +223,6 @@ class Installer
     }
 
     /**
-     * Add the CLI script.
-     *
-     * @since 1.0.0
-     */
-    protected static function addCLI(): void
-    {
-        copy(
-            self::mkPath([dirname(__DIR__), 'sloth-cli.php']),
-            self::mkPath([(string) self::$baseDir, 'sloth.php'])
-        );
-    }
-
-    /**
      * Initialize the bootstrap file.
      *
      * @since 1.0.0
