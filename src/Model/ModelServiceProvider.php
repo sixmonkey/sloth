@@ -6,6 +6,8 @@ use Sloth\Core\ServiceProvider;
 use Sloth\Model\Registrars\MenuRegistrar;
 use Sloth\Model\Registrars\ModelRegistrar;
 use Sloth\Model\Registrars\TaxonomyRegistrar;
+use Sloth\Module\Module;
+use Sloth\Module\Registrars\ModuleRegistrar;
 
 /**
  * Service provider for model/post type registration and management.
@@ -25,26 +27,39 @@ use Sloth\Model\Registrars\TaxonomyRegistrar;
 class ModelServiceProvider extends ServiceProvider
 {
     /**
-     * Register hooks for model registration.
+     * Register the Module service provider.
      *
      * @since 1.0.0
+     */
+    #[\Override]
+    public function register(): void
+    {
+        $this->app->bind(
+            'module',
+            fn(): Module => new Module()
+        );
+        $this->app->singleton(MenuRegistrar::class);
+        $this->app->singleton(TaxonomyRegistrar::class);
+        $this->app->singleton(ModelRegistrar::class);
+    }
+
+    /**
+     * Register hooks for model registration.
      *
      * @return array<string, callable|array<callable>>
+     * @since 1.0.0
+     *
      */
     public function getHooks(): array
     {
-        $menuRegistrar = new MenuRegistrar();
-        $taxonomyRegistrar = new TaxonomyRegistrar();
-        $modelRegistrar = new ModelRegistrar();
-
         return [
             'init' => [
-                fn() => $menuRegistrar->init(),
-                fn() => $taxonomyRegistrar->init(),
-                fn() => $modelRegistrar->init(),
+                fn() => app(MenuRegistrar::class)->init(),
+                fn() => app(TaxonomyRegistrar::class)->init(),
+                fn() => app(ModelRegistrar::class)->init(),
             ],
             'add_meta_boxes' => [
-                fn() => $taxonomyRegistrar->addMetaBoxes(),
+                fn() => app(TaxonomyRegistrar::class)->addMetaBoxes(),
             ],
         ];
     }
