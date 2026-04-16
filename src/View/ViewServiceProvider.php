@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Sloth\View;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\Factory;
 use Sloth\Core\ServiceProvider;
 use Sloth\View\Engines\TwigEngine;
