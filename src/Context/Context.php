@@ -92,7 +92,7 @@ class Context
         $this->populateTaxonomyContext();
         $this->populateAuthorContext();
 
-        $this->app['sloth.context'] = $this->context;
+        $this->app->insance('sloth.context', $this->context);
 
         return $this->context;
     }
