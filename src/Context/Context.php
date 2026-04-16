@@ -2,6 +2,7 @@
 
 namespace Sloth\Context;
 
+use Sloth\Core\Application;
 use Sloth\Model\User;
 
 /**
@@ -17,6 +18,13 @@ use Sloth\Model\User;
  */
 class Context
 {
+    /**
+     * The application instance.
+     *
+     * @var Application|mixed|null
+     */
+    private ?Application $app;
+
     /**
      * Template context.
      *
