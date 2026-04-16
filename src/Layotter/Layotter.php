@@ -8,7 +8,6 @@ use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
-use Sloth\Singleton\Singleton;
 use Sloth\Utility\Utility;
 
 /**
@@ -16,7 +15,7 @@ use Sloth\Utility\Utility;
  *
  * @since 1.0.0
  */
-class Layotter extends Singleton
+class Layotter
 {
     /**
      * Disabled post types.
@@ -51,13 +50,20 @@ class Layotter extends Singleton
     public static array $enabledPostTypes = [];
 
     /**
+     * The constructor for Layotter
+     */
+    public function __construct()
+    {
+    }
+
+    /**
      * Get custom column classes for Layotter.
-     *
-     * @since 1.0.0
      *
      * @param array<string> $defaultClasses Default column classes
      *
      * @return array<string, string>
+     * @since 1.0.0
+     *
      */
     public function customColumnClasses(array $defaultClasses): array
     {
