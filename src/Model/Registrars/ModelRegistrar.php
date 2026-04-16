@@ -20,7 +20,7 @@ use Sloth\Model\Resolvers\ModelsResolver;
  * @since 1.0.0
  * @see \Sloth\Model\Model
  * @see \Sloth\Layotter\Layotter
- * @see \Sloth\Plugin\Provider\TaxonomyServiceProvider
+ * @see \Sloth\Model\Registrars\TaxonomyRegistrar
  */
 class ModelRegistrar
 {
