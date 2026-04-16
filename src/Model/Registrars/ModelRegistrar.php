@@ -41,6 +41,10 @@ class ModelRegistrar
     public function __construct()
     {
         $this->app = app();
+    }
+
+    public function init(): void
+    {
         $this->registerModels();
     }
 

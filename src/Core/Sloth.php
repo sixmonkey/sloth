@@ -135,12 +135,8 @@ class Sloth extends Singleton
             \Sloth\Admin\AdminServiceProvider::class,
             \Sloth\Context\ContextServiceProvider::class,
             \Sloth\Model\ModelServiceProvider::class,
-
             \Sloth\Api\ApiServiceProvider::class,
             \Sloth\Media\MediaServiceProvider::class,
-            \Sloth\Plugin\Provider\MenuServiceProvider::class,
-            \Sloth\Plugin\Provider\ModuleServiceProvider::class,
-            \Sloth\Plugin\Provider\TaxonomyServiceProvider::class,
             \Sloth\Template\TemplateServiceProvider::class,
         ];
 
