@@ -198,9 +198,9 @@ class Model extends CorcelModel
      * translates labels via __(), sets default attributes including
      * the post_type, and boots global scopes.
      *
+     * @param array<string, mixed> $attributes Initial model attributes
      * @since 1.0.0
      *
-     * @param array<string, mixed> $attributes Initial model attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -257,16 +257,16 @@ class Model extends CorcelModel
      * Handles post type instantiation - returns the correct class based
      * on the post_type attribute.
      *
-     * @since 1.0.0
-     *
      * @param object|array $attributes The database row attributes
      * @param string|null $connection The connection name
      * @return static The model instance
+     * @since 1.0.0
+     *
      */
     #[\Override]
     public function newFromBuilder($attributes = [], $connection = null): static
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
         $class = static::class;
 
         if (isset($attributes['post_type']) && $attributes['post_type']) {
@@ -298,10 +298,10 @@ class Model extends CorcelModel
      * Returns true when preview mode is active, user is logged in,
      * and it's not a revision or inherited post.
      *
-     * @since 1.0.0
-     *
      * @param Model $model The model to check
      * @return bool True if preview should be loaded
+     * @since 1.0.0
+     *
      */
     protected function shouldLoadPreview(self $model): bool
     {
@@ -316,10 +316,10 @@ class Model extends CorcelModel
      *
      * Finds the newest revision authored by the current user.
      *
-     * @since 1.0.0
-     *
      * @param Model $model The model to load preview for
      * @return static|null The preview model or null if not found
+     * @since 1.0.0
+     *
      */
     protected function loadPreview(self $model): ?static
     {
@@ -335,10 +335,10 @@ class Model extends CorcelModel
      * Uses Sloth's custom PostBuilder which adds WordPress-specific
      * query methods like whereStatus(), withArchives(), etc.
      *
-     * @since 1.0.0
-     *
      * @param \Illuminate\Database\Eloquent\Builder $query The base query builder
      * @return PostBuilder The custom post builder instance
+     * @since 1.0.0
+     *
      * @see \Sloth\Model\Builder\PostBuilder
      */
     #[\Override]
@@ -353,9 +353,9 @@ class Model extends CorcelModel
      * Filters by the model's post type if one is set. This ensures
      * queries only return posts of the specific custom post type.
      *
+     * @return Builder The filtered query builder
      * @since 1.0.0
      *
-     * @return Builder The filtered query builder
      */
     #[\Override]
     public function newQuery()
@@ -368,10 +368,10 @@ class Model extends CorcelModel
     /**
      * Register a post type class to be instantiated for specific post types.
      *
-     * @since 1.0.0
-     *
      * @param string $name The post type slug
      * @param class-string $class The fully qualified class name
+     * @since 1.0.0
+     *
      */
     public static function registerPostType(string $name, string $class): void
     {
@@ -391,9 +391,9 @@ class Model extends CorcelModel
     /**
      * Get the post thumbnail relationship.
      *
+     * @return HasOne The thumbnail meta relationship
      * @since 1.0.0
      *
-     * @return HasOne The thumbnail meta relationship
      * @see \Corcel\Model\Meta\ThumbnailMeta
      */
     public function thumbnail(): HasOne
@@ -407,9 +407,9 @@ class Model extends CorcelModel
      *
      * Many-to-many relationship via term_relationships table.
      *
+     * @return BelongsToMany The taxonomies relationship
      * @since 1.0.0
      *
-     * @return BelongsToMany The taxonomies relationship
      * @see \Sloth\Model\Taxonomy
      */
     public function taxonomies(): BelongsToMany
@@ -425,9 +425,9 @@ class Model extends CorcelModel
     /**
      * Get all comments for this post.
      *
+     * @return HasMany The comments relationship
      * @since 1.0.0
      *
-     * @return HasMany The comments relationship
      * @see \Corcel\Model\Comment
      */
     public function comments(): HasMany
@@ -438,9 +438,9 @@ class Model extends CorcelModel
     /**
      * Get the post author.
      *
+     * @return BelongsTo The author relationship
      * @since 1.0.0
      *
-     * @return BelongsTo The author relationship
      * @see \Sloth\Model\User
      */
     public function author(): BelongsTo
@@ -451,9 +451,9 @@ class Model extends CorcelModel
     /**
      * Get the parent post if this is a hierarchical post type.
      *
+     * @return BelongsTo The parent post relationship
      * @since 1.0.0
      *
-     * @return BelongsTo The parent post relationship
      */
     public function parent(): BelongsTo
     {
@@ -463,9 +463,9 @@ class Model extends CorcelModel
     /**
      * Get child posts (for hierarchical post types like pages).
      *
+     * @return HasMany The children relationship
      * @since 1.0.0
      *
-     * @return HasMany The children relationship
      */
     public function children(): HasMany
     {
@@ -477,9 +477,9 @@ class Model extends CorcelModel
      *
      * Filters to only return posts with post_type 'attachment'.
      *
+     * @return HasMany The attachments relationship
      * @since 1.0.0
      *
-     * @return HasMany The attachments relationship
      */
     public function attachment(): HasMany
     {
@@ -492,9 +492,9 @@ class Model extends CorcelModel
      *
      * Filters to only return posts with post_type 'revision'.
      *
+     * @return HasMany The revisions relationship
      * @since 1.0.0
      *
-     * @return HasMany The revisions relationship
      */
     public function revision(): HasMany
     {
@@ -508,9 +508,9 @@ class Model extends CorcelModel
      * Applies the_content filter which handles shortcodes, embeds,
      * and paragraph formatting. Result is cached to avoid re-processing.
      *
+     * @return string The filtered HTML content
      * @since 1.0.0
      *
-     * @return string The filtered HTML content
      */
     public function getContentAttribute(): string
     {
@@ -523,15 +523,15 @@ class Model extends CorcelModel
             $this->filtered = true;
         }
 
-        return (string) $this->post_content;
+        return (string)$this->post_content;
     }
 
     /**
      * Get the post excerpt with shortcodes stripped.
      *
+     * @return string The stripped excerpt
      * @since 1.0.0
      *
-     * @return string The stripped excerpt
      */
     public function getExcerptAttribute(): string
     {
@@ -541,9 +541,9 @@ class Model extends CorcelModel
     /**
      * Get the permalink for this post.
      *
+     * @return bool|string The permalink URL or false on failure
      * @since 1.0.0
      *
-     * @return bool|string The permalink URL or false on failure
      */
     public function getPermalinkAttribute(): bool|string
     {
@@ -553,22 +553,22 @@ class Model extends CorcelModel
     /**
      * Get the featured image/thumbnail for this post.
      *
+     * @return Image The Image object wrapping the thumbnail
      * @since 1.0.0
      *
-     * @return Image The Image object wrapping the thumbnail
      * @see \Sloth\Field\Image
      */
     public function getPostThumbnailAttribute(): Image
     {
-        return new Image((int) $this->meta->_thumbnail_id);
+        return new Image((int)$this->meta->_thumbnail_id);
     }
 
     /**
      * Get the featured image (alias for getPostThumbnailAttribute).
      *
+     * @return Image The Image object wrapping the thumbnail
      * @since 1.0.0
      *
-     * @return Image The Image object wrapping the thumbnail
      */
     public function getImageAttribute(): Image
     {
@@ -581,9 +581,9 @@ class Model extends CorcelModel
      * Returns an array grouped by taxonomy name (or 'tag' for post_tag),
      * with each group containing slug => name pairs.
      *
+     * @return array<string, array<string, string>> Grouped terms by taxonomy
      * @since 1.0.0
      *
-     * @return array<string, array<string, string>> Grouped terms by taxonomy
      * @see taxonomies() For the relationship used
      */
     public function getTermsAttribute(): array
@@ -601,9 +601,9 @@ class Model extends CorcelModel
      * Returns the first term name from the first non-empty taxonomy.
      * Falls back to 'Uncategorized' if no terms exist.
      *
+     * @return string The main category name
      * @since 1.0.0
      *
-     * @return string The main category name
      * @see getTermsAttribute() For the terms data source
      */
     public function getMainCategoryAttribute(): string
@@ -626,9 +626,9 @@ class Model extends CorcelModel
      *
      * Collapses all terms from all taxonomies into a single array.
      *
+     * @return array<string> All term names as flat array
      * @since 1.0.0
      *
-     * @return array<string> All term names as flat array
      * @see getTermsAttribute() For the source data
      */
     public function getKeywordsAttribute(): array
@@ -639,36 +639,36 @@ class Model extends CorcelModel
     /**
      * Get all keywords as a comma-separated string.
      *
+     * @return string Comma-separated keyword string
      * @since 1.0.0
      *
-     * @return string Comma-separated keyword string
      * @see getKeywordsAttribute() For the source data
      */
     public function getKeywordsStrAttribute(): string
     {
-        return implode(',', (array) $this->keywords);
+        return implode(',', (array)$this->keywords);
     }
 
     /**
      * Get the post type identifier.
      *
+     * @return string The post type (e.g., 'post', 'page', or custom post type)
      * @since 1.0.0
      *
-     * @return string The post type (e.g., 'post', 'page', or custom post type)
      */
     public function getPostType(): string
     {
-        return (string) $this->postType;
+        return (string)$this->postType;
     }
 
     /**
      * Check if this post has a specific term.
      *
-     * @since 1.0.0
-     *
      * @param string $taxonomy The taxonomy name (e.g., 'category', 'post_tag')
      * @param string $term The term slug to check for
      * @return bool True if the post has this term
+     * @since 1.0.0
+     *
      * @see getTermsAttribute() For the terms data
      */
     public function hasTerm($taxonomy, $term): bool
@@ -682,9 +682,9 @@ class Model extends CorcelModel
      *
      * Looks up the post_format taxonomy for this post.
      *
+     * @return bool|string The post format slug or false if not found
      * @since 1.0.0
      *
-     * @return bool|string The post format slug or false if not found
      */
     public function getFormat(): bool|string
     {
@@ -713,10 +713,10 @@ class Model extends CorcelModel
      *
      * Falls back to ucfirst($postType) for singular and singular + 's' for plural.
      *
-     * @since 1.0.0
+     * @return array<string, string> WordPress post type labels
      * @see getRegistrationArgs() For using labels in post type registration
      *
-     * @return array<string, string> WordPress post type labels
+     * @since 1.0.0
      */
     public function getLabels(): array
     {
@@ -884,10 +884,10 @@ class Model extends CorcelModel
      * Returns the value wrapped in a link to the post edit screen.
      * Used by PostTypes column customization.
      *
-     * @since 1.0.0
-     *
      * @param string $which The column key (case-insensitive)
      * @return string HTML anchor element linking to edit screen
+     * @since 1.0.0
+     *
      */
     public function getColumn(string $which): string
     {
@@ -899,13 +899,13 @@ class Model extends CorcelModel
     /**
      * Get the ACF key for this post.
      *
+     * @return string The ACF field group key (post ID)
      * @since 1.0.0
      *
-     * @return string The ACF field group key (post ID)
      */
     public function getAcfKey(): ?string
     {
-        return (string) $this->getAttribute('ID');
+        return (string)$this->getAttribute('ID');
     }
 
     /**
@@ -997,9 +997,9 @@ class Model extends CorcelModel
     /**
      * Get the meta class for this model.
      *
+     * @return string The fully qualified class name of the meta model
      * @since 1.0.0
      *
-     * @return string The fully qualified class name of the meta model
      */
     protected function getMetaClass(): string
     {
@@ -1009,9 +1009,9 @@ class Model extends CorcelModel
     /**
      * Get the foreign key for the meta relationship.
      *
+     * @return string The foreign key name
      * @since 1.0.0
      *
-     * @return string The foreign key name
      */
     protected function getMetaForeignKey(): string
     {
