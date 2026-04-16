@@ -49,22 +49,9 @@ class ModuleRegistrar
     {
         ModulesResolver::resolve()->each(function ($moduleClass) {
             $this->registerJsonEndpoints($moduleClass);
+            $this->registerLayotterElement($moduleClass);
             $this->modules[] = $moduleClass;
         });
-
-        $this->registerLayotterElements();
-    }
-
-    /**
-     * Register all Layotter elements.
-     *
-     * @since 1.0.0
-     */
-    protected function registerLayotterElements(): void
-    {
-        foreach ($this->modules as $moduleName) {
-            $this->registerLayotterElement($moduleName);
-        }
     }
 
     /**
