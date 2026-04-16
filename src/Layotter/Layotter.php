@@ -78,11 +78,11 @@ class Layotter extends Singleton
     /**
      * Get enabled post types.
      *
-     * @since 1.0.0
-     *
      * @param array<string> $postTypes The post types to filter
      *
      * @return array<string>
+     * @since 1.0.0
+     *
      */
     public static function enabledPostTypes(array $postTypes): array
     {
@@ -101,9 +101,9 @@ class Layotter extends Singleton
     /**
      * Disable Layotter for a specific post type.
      *
+     * @param string $postType The post type to disable
      * @since 1.0.0
      *
-     * @param string $postType The post type to disable
      */
     public static function disable_for_post_type(string $postType): void
     {
@@ -115,9 +115,9 @@ class Layotter extends Singleton
     /**
      * Enable Layotter for a specific post type.
      *
+     * @param string $postType The post type to enable
      * @since 1.0.0
      *
-     * @param string $postType The post type to enable
      */
     public static function enable_for_post_type(string $postType): void
     {
@@ -127,10 +127,10 @@ class Layotter extends Singleton
     /**
      * Set layouts for a specific post type.
      *
-     * @since 1.0.0
-     *
      * @param string $postType The post type
      * @param array<string> $layouts The layout names
+     * @since 1.0.0
+     *
      */
     public static function set_layouts_for_post_type(string $postType, array $layouts): void
     {
@@ -143,10 +143,10 @@ class Layotter extends Singleton
      * Returns layouts configured for the current post type, falling back
      * to theme configuration or default layouts.
      *
-     * @since 1.0.0
-     *
      * @param array<string> $rowLayouts Default row layouts
      * @return array<string>
+     * @since 1.0.0
+     *
      */
     public static function allowedRowLayouts(array $rowLayouts): array
     {
@@ -163,9 +163,9 @@ class Layotter extends Singleton
      * Returns the first layout configured for the current post type,
      * or the first theme layout, or the provided default.
      *
+     * @param string $rowLayout The default row layout
      * @since 1.0.0
      *
-     * @param string $rowLayout The default row layout
      */
     public static function defaultRowLayout(string $rowLayout): string
     {
@@ -179,7 +179,7 @@ class Layotter extends Singleton
         $themeLayouts = Configure::read('theme.layotter.row_layouts');
 
         if (is_array($themeLayouts)) {
-            return (string) reset($themeLayouts);
+            return (string)reset($themeLayouts);
         }
 
         return $rowLayout;
@@ -188,10 +188,10 @@ class Layotter extends Singleton
     /**
      * Set layouts for a post type.
      *
+     * @param string $postType The post type slug
+     * @param array<string> $layouts The layouts to enable
      * @since 1.0.0
      *
-     * @param string          $postType The post type slug
-     * @param array<string>   $layouts  The layouts to enable
      */
     public static function setLayoutsForPostType(string $postType, array $layouts): void
     {
@@ -201,10 +201,10 @@ class Layotter extends Singleton
     /**
      * Set layouts for a template.
      *
+     * @param string $template The template slug
+     * @param array<string> $layouts The layouts to enable
      * @since 1.0.0
      *
-     * @param string          $template The template slug
-     * @param array<string>   $layouts  The layouts to enable
      */
     public static function setLayoutsForTemplate(string $template, array $layouts): void
     {
@@ -214,9 +214,9 @@ class Layotter extends Singleton
     /**
      * Disable Layotter for a post type.
      *
+     * @param string $postType The post type slug
      * @since 1.0.0
      *
-     * @param string $postType The post type slug
      */
     public static function disableForPostType(string $postType): void
     {
@@ -226,9 +226,9 @@ class Layotter extends Singleton
     /**
      * Enable Layotter for a post type.
      *
+     * @param string $postType The post type slug
      * @since 1.0.0
      *
-     * @param string $postType The post type slug
      */
     public static function enableForPostType(string $postType): void
     {
@@ -238,13 +238,13 @@ class Layotter extends Singleton
     /**
      * Render a Layotter element.
      *
-     * @since 1.0.0
-     *
-     * @param string                $elementHtml The rendered element HTML
-     * @param array<string, mixed>|null $options    Element options
+     * @param string $elementHtml The rendered element HTML
+     * @param array<string, mixed>|null $options Element options
      * @param array<string, mixed>|null $colOptions Column options
      * @param array<string, mixed>|null $rowOptions Row options
      * @param array<string, mixed>|null $postOptions Post options
+     * @since 1.0.0
+     *
      */
     public function customElementView(
         string $elementHtml,
@@ -267,13 +267,13 @@ class Layotter extends Singleton
     /**
      * Render a Layotter column.
      *
-     * @since 1.0.0
-     *
-     * @param string                $elementsHtml The rendered elements HTML
-     * @param string                $class        Column class
-     * @param array<string, mixed>|null $options    Column options
+     * @param string $elementsHtml The rendered elements HTML
+     * @param string $class Column class
+     * @param array<string, mixed>|null $options Column options
      * @param array<string, mixed>|null $rowOptions Row options
      * @param array<string, mixed>|null $postOptions Post options
+     * @since 1.0.0
+     *
      */
     public function customColumnView(
         string $elementsHtml,
@@ -296,11 +296,11 @@ class Layotter extends Singleton
     /**
      * Render a Layotter row.
      *
+     * @param string $colsHtml The rendered columns HTML
+     * @param array<string, mixed> $options Row options
+     * @param array<string, mixed>|null $postOptions Post options
      * @since 1.0.0
      *
-     * @param string                $colsHtml      The rendered columns HTML
-     * @param array<string, mixed> $options       Row options
-     * @param array<string, mixed>|null $postOptions Post options
      */
     public function customRowView(string $colsHtml, array $options = [], ?array $postOptions = null): string
     {
@@ -326,10 +326,10 @@ class Layotter extends Singleton
     /**
      * Render a Layotter post.
      *
+     * @param string $rowsHtml The rendered rows HTML
+     * @param array<string, mixed> $options Post options
      * @since 1.0.0
      *
-     * @param string                $rowsHtml The rendered rows HTML
-     * @param array<string, mixed>  $options  Post options
      */
     public function customPostView(string $rowsHtml, array $options): string
     {
@@ -344,9 +344,9 @@ class Layotter extends Singleton
     /**
      * Get the current view path for a Layotter component.
      *
+     * @param string $for The component type (element, column, row, post)
      * @since 1.0.0
      *
-     * @param string $for The component type (element, column, row, post)
      */
     final protected function getCurrentView(string $for): string
     {
