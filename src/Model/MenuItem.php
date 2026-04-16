@@ -57,12 +57,12 @@ class MenuItem extends Corcel
         parent::__construct($attributes);
 
         $this->instanceRelations = array_merge(
-            $GLOBALS['sloth::plugin']->getAllModels() ?? [],
+            app('sloth.models') ?? [],
             $this->instanceRelations
         );
 
         $this->instanceRelations = array_merge(
-            $GLOBALS['sloth::plugin']->getAllTaxonomies() ?? [],
+            app('sloth.taxonomies') ?? [],
             $this->instanceRelations
         );
     }
