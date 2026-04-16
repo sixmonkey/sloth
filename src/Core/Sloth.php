@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sloth\Core;
 
+use Corcel\Database;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
 use Sloth\Debugger\SlothBarPanel;
 use Sloth\Facades\Facade;
-use Tracy\Debugger;
-use Corcel\Database;
 use Sloth\Singleton\Singleton;
+use Tracy\Debugger;
 use Tracy\ILogger;
 
 /**
@@ -93,7 +93,14 @@ class Sloth extends Singleton
         }
         Facade::setFacadeApplication($this->container);
 
-        $this->container->addPath('cache', DIR_CACHE);
+        collect([
+            'app' => DIR_APP,
+            'cache' => DIR_CACHE,
+            'vendor' => DIR_VENDOR,
+            'public' => DIR_WWW,
+            'plugins' => DIR_PLUGINS,
+            'cms' => DIR_CMS,
+        ])->each(fn($path, $key) => $this->container->addPath($key, $path));
 
         $this->registerProviders();
 
@@ -125,7 +132,17 @@ class Sloth extends Singleton
             \Sloth\Request\RequestServiceProvider::class,
             \Sloth\Validation\ValidationServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
-            \Sloth\Admin\CustomizerServiceProvider::class,
+            \Sloth\Admin\AdminServiceProvider::class,
+            \Sloth\Context\ContextServiceProvider::class,
+
+            \Sloth\Model\ModelServiceProvider::class,
+
+            \Sloth\Api\ApiServiceProvider::class,
+            \Sloth\Media\MediaServiceProvider::class,
+            \Sloth\Plugin\Provider\MenuServiceProvider::class,
+            \Sloth\Plugin\Provider\ModuleServiceProvider::class,
+            \Sloth\Plugin\Provider\TaxonomyServiceProvider::class,
+            \Sloth\Template\TemplateServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {
