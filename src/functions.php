@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Config\Repository;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\Facade;
 use Tracy\Debugger;
 
@@ -33,6 +35,7 @@ if (!function_exists('config')) {
      * @param array|string|null $key
      * @param mixed $default
      * @return mixed
+     * @throws BindingResolutionException
      */
     function config($key = null, $default = null): mixed
     {
@@ -49,5 +52,23 @@ if (!function_exists('config')) {
             return $repository->get($key, $default);
         }
         return $default;
+    }
+}
+
+if (!function_exists('app')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param null $abstract
+     * @param array $parameters
+     * @return mixed
+     * @throws BindingResolutionException
+     */
+    function app($abstract = null, array $parameters = []): mixed
+    {
+        if (is_null($abstract)) {
+            return Container::getInstance();
+        }
+        return Container::getInstance()->make($abstract, $parameters);
     }
 }
