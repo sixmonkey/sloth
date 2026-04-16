@@ -94,7 +94,6 @@ class Installer
         self::initializeWpconfig();
         self::initializeHtaccess();
         self::initializePlugin();
-        self::addCLI();
         self::initializeBootstrap();
         self::renameTheme();
     }
