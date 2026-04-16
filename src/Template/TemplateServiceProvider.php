@@ -158,21 +158,21 @@ class TemplateServiceProvider extends ServiceProvider
         $viewName = basename($template, '.twig');
         $view = View::make('Layout.' . $viewName);
 
-        echo $view->with($this->getContext())->render();
+        echo $view->with(app('context')->getContext())->render();
         die();
     }
 
     /**
      * Resolve the template using Brain Hierarchy.
      *
+     * @return string The resolved template path or empty string if none found
      * @since 1.0.0
      *
-     * @return string The resolved template path or empty string if none found
      */
     protected function resolveTemplate(): string
     {
         if (Configure::read('theme.routes') && is_array(Configure::read('theme.routes'))) {
-            $uri = (string) $_SERVER['REQUEST_URI'];
+            $uri = (string)$_SERVER['REQUEST_URI'];
 
             if (false !== $pos = strpos($uri, '?')) {
                 $uri = substr($uri, 0, $pos);
