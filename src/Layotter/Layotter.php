@@ -256,10 +256,10 @@ class Layotter extends Singleton
         $view = View::make($this->getCurrentView('element'));
 
         return $view->with([
-            'content'      => $elementHtml,
-            'options'      => $options,
-            'col_options'  => $colOptions,
-            'row_options'  => $rowOptions,
+            'content' => $elementHtml,
+            'options' => $options,
+            'col_options' => $colOptions,
+            'row_options' => $rowOptions,
             'post_options' => $postOptions,
         ])->render();
     }
@@ -285,10 +285,10 @@ class Layotter extends Singleton
         $view = View::make($this->getCurrentView('column'));
 
         return $view->with([
-            'content'      => $elementsHtml,
-            'class'        => trim($class),
-            'options'      => $options,
-            'row_options'  => $rowOptions,
+            'content' => $elementsHtml,
+            'class' => trim($class),
+            'options' => $options,
+            'row_options' => $rowOptions,
             'post_options' => $postOptions,
         ])->render();
     }
@@ -317,8 +317,8 @@ class Layotter extends Singleton
         $view = View::make($this->getCurrentView('row'));
 
         return $view->with([
-            'content'      => $colsHtml,
-            'options'      => $options,
+            'content' => $colsHtml,
+            'options' => $options,
             'post_options' => $postOptions,
         ])->render();
     }
