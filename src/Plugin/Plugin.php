@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace Sloth\Plugin;
 
-use Sloth\ACF\AcfServiceProvider;
 use Sloth\Facades\Configure;
-use Sloth\Plugin\Provider\AdminServiceProvider;
-use Sloth\Plugin\Provider\ApiServiceProvider;
-use Sloth\Plugin\Provider\MediaServiceProvider;
-use Sloth\Plugin\Provider\MenuServiceProvider;
-use Sloth\Plugin\Provider\ModelServiceProvider;
-use Sloth\Plugin\Provider\ModuleServiceProvider;
-use Sloth\Plugin\Provider\TaxonomyServiceProvider;
-use Sloth\Plugin\Provider\TemplateServiceProvider;
 use Sloth\Singleton\Singleton;
+use Sloth\Template\TemplateServiceProvider;
 
 /**
  * Theme bootstrapper for Sloth framework.
@@ -99,7 +91,7 @@ class Plugin extends Singleton
 
         $this->container = $GLOBALS['sloth']->container;
         $this->setupTheme();
-        $this->registerProviders();
+        $this->container->boot();
     }
 
     /**
@@ -132,11 +124,6 @@ class Plugin extends Singleton
             include_once $themeConfig;
         }
 
-        $routesFile = $this->current_theme_path . DS . 'routes.php';
-        if (file_exists($routesFile)) {
-            include_once $routesFile;
-        }
-
         $this->setDefaultConfig();
     }
 
@@ -153,105 +140,6 @@ class Plugin extends Singleton
     }
 
     /**
-     * Register all service providers.
-     *
-     * Registers providers in the correct order to ensure proper dependencies.
-     * Each provider's register() method is called to set up WordPress hooks.
-     *
-     * @since 1.0.0
-     */
-    protected function registerProviders(): void
-    {
-        $providerClasses = [
-            AdminServiceProvider::class,
-            MediaServiceProvider::class,
-            MenuServiceProvider::class,
-            TaxonomyServiceProvider::class,
-            ModelServiceProvider::class,
-            AcfServiceProvider::class,
-            ApiServiceProvider::class,
-            ModuleServiceProvider::class,
-            TemplateServiceProvider::class,
-        ];
-
-        foreach ($providerClasses as $providerClass) {
-            $this->providers[] = $this->container->register($providerClass);
-        }
-
-        foreach ($this->providers as $provider) {
-            if ($provider instanceof TemplateServiceProvider) {
-                $provider->setThemePath($this->current_theme_path);
-                break;
-            }
-        }
-
-        $this->registerProviderHooks();
-
-        foreach ($this->providers as $provider) {
-            $provider->boot();
-        }
-
-        foreach ($this->providers as $provider) {
-            if ($provider instanceof TemplateServiceProvider) {
-                $this->templateProvider = $provider;
-                break;
-            }
-        }
-
-        $this->container['layotter']->addFilters();
-    }
-
-    /**
-     * Normalize callbacks from getHooks/getFilters format.
-     *
-     * @since 1.0.0
-     *
-     * @param mixed $value
-     *
-     * @return array<int, array{fn: callable, priority: int}>
-     */
-    private function normalizeCallbacks(mixed $value): array
-    {
-        if (is_callable($value)) {
-            return [['fn' => $value, 'priority' => 10]];
-        }
-
-        if (isset($value['callback'])) {
-            return [['fn' => $value['callback'], 'priority' => $value['priority'] ?? 10]];
-        }
-
-        return array_map(function ($item) {
-            if (is_callable($item)) {
-                return ['fn' => $item, 'priority' => 10];
-            }
-
-            return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
-        }, $value);
-    }
-
-    /**
-     * Register all WordPress hooks and filters from providers.
-     *
-     * @since 1.0.0
-     */
-    private function registerProviderHooks(): void
-    {
-        foreach ($this->providers as $provider) {
-            foreach ($provider->getHooks() as $hook => $value) {
-                foreach ($this->normalizeCallbacks($value) as $callback) {
-                    add_action($hook, $callback['fn'], $callback['priority']);
-                }
-            }
-
-            foreach ($provider->getFilters() as $filter => $value) {
-                foreach ($this->normalizeCallbacks($value) as $callback) {
-                    add_filter($filter, $callback['fn'], $callback['priority']);
-                }
-            }
-        }
-    }
-
-    /**
      * Get the container instance.
      *
      * @since 1.0.0
@@ -261,18 +149,6 @@ class Plugin extends Singleton
     public function getContainer()
     {
         return $this->container;
-    }
-
-    /**
-     * Get all registered providers.
-     *
-     * @since 1.0.0
-     *
-     * @return array<int, object>
-     */
-    public function getProviders(): array
-    {
-        return $this->providers;
     }
 
     /**
@@ -288,8 +164,8 @@ class Plugin extends Singleton
      */
     public function getContext(): array
     {
-        if ($this->templateProvider !== null) {
-            return $this->templateProvider->getContext();
+        if (app('context') !== null) {
+            return app('context')->getContext();
         }
 
         return [];
