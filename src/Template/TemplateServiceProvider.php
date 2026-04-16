@@ -10,10 +10,6 @@ use Sloth\Core\ServiceProvider;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
-use function is_ssl;
-use function post_password_required;
-use function wp_redirect;
-
 /**
  * Service provider for template rendering and context management.
  *
@@ -122,8 +118,8 @@ class TemplateServiceProvider extends ServiceProvider
      */
     public function forceSsl(): void
     {
-        if ((bool) getenv('FORCE_SSL') && !is_ssl()) {
-            wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301);
+        if (env('FORCE_SSL', false) && !\is_ssl()) {
+            \wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 301);
             exit();
         }
     }
@@ -151,7 +147,7 @@ class TemplateServiceProvider extends ServiceProvider
             return;
         }
 
-        if (post_password_required()) {
+        if (\post_password_required()) {
             $template = 'password-form';
         }
 
