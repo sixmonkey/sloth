@@ -35,20 +35,21 @@ class ModuleServiceProvider extends ServiceProvider
             'module',
             fn(): Module => new Module()
         );
+        $this->app->singleton(ModuleRegistrar::class);
     }
 
     /**
      * Register module hooks.
      *
+     * @return array<string, callable|array<callable>>
      * @since 1.0.0
      *
-     * @return array<string, callable|array<callable>>
      */
     public function getHooks(): array
     {
-        $moduleRegister = new ModuleRegistrar();
         return [
-            'init' => fn() => $moduleRegister->init(),
+            'init' => fn() => app(ModuleRegistrar::class)->init(),
+            'rest_api_init' => fn() => app(ModuleRegistrar::class)->registerJsonEndpoints()
         ];
     }
 }
