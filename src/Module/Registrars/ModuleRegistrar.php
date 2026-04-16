@@ -83,26 +83,26 @@ class ModuleRegistrar
      *
      * @since 1.0.0
      */
-    protected function registerJsonEndpoints(string $moduleName): void
+    public function registerJsonEndpoints(): void
     {
-        if (!$moduleName::$json) {
-            return;
-        }
-
-        $m = new $moduleName();
-
-        add_action('wp_ajax_nopriv_' . $m->getAjaxAction(), [new $moduleName(), 'getJSON']);
-        add_action('wp_ajax_' . $m->getAjaxAction(), [new $moduleName(), 'getJSON']);
-
-        $route = [Utility::viewize(Utility::normalize(class_basename($m)))];
-        if (is_array($moduleName::$json) && isset($moduleName::$json['params'])) {
-            foreach ($moduleName::$json['params'] as $param) {
-                $route[] = '(?P<' . $param . '>[a-z0-9._-]+)';
+        foreach ($this->modules as $moduleName) {
+            if (!$moduleName::$json) {
+                return;
             }
-        }
 
-        add_action('rest_api_init', function () use ($route, $m): void {
-            register_rest_route(
+            $m = new $moduleName();
+
+            add_action('wp_ajax_nopriv_' . $m->getAjaxAction(), [new $moduleName(), 'getJSON']);
+            add_action('wp_ajax_' . $m->getAjaxAction(), [new $moduleName(), 'getJSON']);
+
+            $route = [Utility::viewize(Utility::normalize(class_basename($m)))];
+            if (is_array($moduleName::$json) && isset($moduleName::$json['params'])) {
+                foreach ($moduleName::$json['params'] as $param) {
+                    $route[] = '(?P<' . $param . '>[a-z0-9._-]+)';
+                }
+            }
+
+            \register_rest_route(
                 'sloth/v1/module',
                 '/' . implode('/', $route),
                 [
@@ -112,7 +112,7 @@ class ModuleRegistrar
                     },
                 ]
             );
-        });
+        }
     }
 
     /**
