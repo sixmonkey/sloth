@@ -10,8 +10,16 @@ use Sloth\Module\Registrars\ModuleRegistrar;
 /**
  * Service provider for the Module component.
  *
+ * Handles:
+ * - Module binding in the container
+ * - Module discovery and registration via ModuleRegistrar
+ * - Layotter element registration
+ * - JSON/AJAX endpoint registration
+ *
  * @since 1.0.0
- * @see ServiceProvider
+ * @see \Sloth\Module\Module
+ * @see \Sloth\Module\Registrars\ModuleRegistrar
+ * @see \Sloth\Plugin\Plugin
  */
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -29,6 +37,13 @@ class ModuleServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register module hooks.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string, callable|array<callable>>
+     */
     public function getHooks(): array
     {
         $moduleRegister = new ModuleRegistrar();

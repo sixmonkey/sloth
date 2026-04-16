@@ -8,7 +8,7 @@ use Sloth\Core\Application;
 use Sloth\Model\Resolvers\ModelsResolver;
 
 /**
- * SRegistrar for model/post type registration.
+ * Registrar for model/post type registration.
  *
  * Handles:
  * - Discovery and registration of model classes from DIR_APP/Model/
@@ -38,11 +38,23 @@ class ModelRegistrar
      */
     private ?Application $app;
 
+    /**
+     * Constructor for ModelRegistrar.
+     *
+     * @since 1.0.0
+     */
     public function __construct()
     {
         $this->app = app();
     }
 
+    /**
+     * Initialize the model registrar.
+     *
+     * Discovers and registers all models with WordPress.
+     *
+     * @since 1.0.0
+     */
     public function init(): void
     {
         $this->registerModels();

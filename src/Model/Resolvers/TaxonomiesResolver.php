@@ -5,10 +5,22 @@ namespace Sloth\Model\Resolvers;
 use Sloth\Model\Taxonomy;
 use Sloth\Utility\ClassResolver\ClassResolver;
 
+/**
+ * Resolver for discovering taxonomy classes.
+ *
+ * Automatically discovers and caches all classes in the Taxonomy/ directory
+ * that extend \Sloth\Model\Taxonomy.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Model\Taxonomy
+ * @see \Sloth\Utility\ClassResolver\ClassResolver
+ */
 class TaxonomiesResolver extends ClassResolver
 {
     /**
-     * @var string The directory where taxonomies classes are located.
+     * The directory where taxonomy classes are located.
+     *
+     * @var string
      */
     protected static string $dir = 'Taxonomy';
 
@@ -19,10 +31,10 @@ class TaxonomiesResolver extends ClassResolver
      */
     protected static string $cacheKey = 'sloth.class-resolver.taxonomies';
 
-
     /**
-     * @var string The base class that all txonomy classes should extend.
+     * The base class that all taxonomy classes should extend.
+     *
+     * @var string
      */
     protected static string $subclassOf = Taxonomy::class;
-
 }

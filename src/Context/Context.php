@@ -4,6 +4,17 @@ namespace Sloth\Context;
 
 use Sloth\Model\User;
 
+/**
+ * Template context builder for Twig templates.
+ *
+ * Builds and provides the context array used when rendering Twig templates.
+ * Includes WordPress site data, post/taxonomy/author context, and
+ * Sloth-specific variables like current layout.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Context\ContextServiceProvider
+ * @see \Sloth\Template\TemplateServiceProvider
+ */
 class Context
 {
     /**
@@ -21,7 +32,9 @@ class Context
     protected mixed $currentModel = null;
 
     /**
-     * The template context for Twig.
+     * Constructor for Context.
+     *
+     * @since 1.0.0
      */
     public function __construct()
     {
@@ -141,5 +154,4 @@ class Context
         $this->context['user'] = $this->currentModel;
         $this->context['author'] = $this->currentModel;
     }
-
 }

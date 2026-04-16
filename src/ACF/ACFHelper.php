@@ -28,9 +28,13 @@ class ACFHelper
     }
 
     /**
-     * @param mixed $value
-     * @param mixed $post_id
-     * @param mixed $field
+     * Load an image from ACF field value.
+     *
+     * @param mixed $value The ACF field value
+     * @param mixed $post_id The post ID
+     * @param mixed $field The field configuration
+     * @return Image|null The Image object or null
+     * @since 1.0.0
      */
     public function load_image(mixed $value, mixed $post_id, mixed $field): ?Image
     {

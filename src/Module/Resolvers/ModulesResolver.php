@@ -5,10 +5,22 @@ namespace Sloth\Module\Resolvers;
 use Sloth\Module\Module;
 use Sloth\Utility\ClassResolver\ClassResolver;
 
+/**
+ * Resolver for discovering module classes.
+ *
+ * Automatically discovers and caches all classes in the Module/ directory
+ * that extend \Sloth\Module\Module.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Module\Module
+ * @see \Sloth\Utility\ClassResolver\ClassResolver
+ */
 class ModulesResolver extends ClassResolver
 {
     /**
-     * @var string The directory where module classes are located.
+     * The directory where module classes are located.
+     *
+     * @var string
      */
     protected static string $dir = 'Module';
 
@@ -19,10 +31,10 @@ class ModulesResolver extends ClassResolver
      */
     protected static string $cacheKey = 'sloth.class-resolver.modules';
 
-
     /**
-     * @var string The base class that all module classes should extend.
+     * The base class that all module classes should extend.
+     *
+     * @var string
      */
     protected static string $subclassOf = Module::class;
-
 }

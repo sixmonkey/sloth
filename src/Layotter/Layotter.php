@@ -13,7 +13,15 @@ use Sloth\Utility\Utility;
 /**
  * Layotter page builder integration.
  *
+ * This class provides integration with the Layotter page builder plugin,
+ * handling:
+ * - Post type enable/disable for page builder
+ * - Row layout configuration per post type
+ * - Custom view rendering for elements, columns, rows, and posts
+ * - Admin CSS styling for Layotter interface
+ *
  * @since 1.0.0
+ * @see https://github.com/layotter/layotter Layotter plugin
  */
 class Layotter
 {
@@ -50,7 +58,9 @@ class Layotter
     public static array $enabledPostTypes = [];
 
     /**
-     * The constructor for Layotter
+     * Constructor for Layotter.
+     *
+     * @since 1.0.0
      */
     public function __construct()
     {
@@ -373,7 +383,15 @@ class Layotter
         return implode('.', $viewParts);
     }
 
-    public function renderLayotterStyles()
+    /**
+     * Render Layotter admin CSS styles.
+     *
+     * Outputs inline CSS for styling the Layotter page builder
+     * interface in the WordPress admin.
+     *
+     * @since 1.0.0
+     */
+    public function renderLayotterStyles(): void
     {
         echo "<style>" . file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '_assets' . DIRECTORY_SEPARATOR . 'layotter.css') . "</style>";
     }

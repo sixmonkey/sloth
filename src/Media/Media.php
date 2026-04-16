@@ -4,6 +4,17 @@ namespace Sloth\Media;
 
 use Sloth\Facades\Configure;
 
+/**
+ * Media handling utilities for WordPress.
+ *
+ * Provides functionality for:
+ * - Custom image sizes registration
+ * - SVG mime type support
+ * - Converting absolute URLs to root-relative paths
+ *
+ * @since 1.0.0
+ * @see \Sloth\Media\MediaServiceProvider
+ */
 class Media
 {
 
