@@ -6,7 +6,13 @@ namespace Sloth\Core;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
+use function Illuminate\Filesystem\join_paths;
 
 /**
  * Application Container
@@ -20,6 +26,11 @@ use Illuminate\Support\Str;
  */
 class Application extends Container
 {
+    /**
+     * Application version.
+     */
+    const string version = '1.0.0';
+
     /**
      * Project paths mapped by key.
      * These are stored in the container as 'path.{key}'.
@@ -73,17 +84,14 @@ class Application extends Container
      * If the provider hasn't been loaded yet, it will be instantiated
      * (if a string class name was provided), registered, and then booted.
      *
-     * @since 1.0.0
-     *
      * @param ServiceProvider|string $provider The service provider instance or class name
-     * @param array<string, mixed> $options Optional configuration options
      * @param bool $force Force registration even if already loaded
      *
      * @return ServiceProvider The registered service provider
      *
-     * @throws \Exception If provider registration fails
+     * @since 1.0.0
      */
-    public function register($provider, array $options = [], bool $force = false): ServiceProvider
+    public function register(string|ServiceProvider $provider, bool $force = false): ServiceProvider
     {
         if (!$provider instanceof ServiceProvider) {
             $provider = new $provider($this);
@@ -95,10 +103,64 @@ class Application extends Container
             return $provider;
         }
 
-        $this->loadedProviders[$providerName] = true;
+        $this->instance($providerName, $provider);
+
         $provider->register();
+        $this->loadedProviders[$providerName] = $provider;
 
         return $provider;
+    }
+
+    /**
+     * Boots all registered service providers.
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+        $this->getLoadedProviders()->each(function (ServiceProvider $provider) {
+            $provider->boot();
+
+            foreach ($provider->getHooks() as $hook => $value) {
+                foreach ($this->normalizeCallbacks($value) as $callback) {
+                    add_action($hook, $callback['fn'], $callback['priority'], PHP_INT_MAX);
+                }
+            }
+
+            foreach ($provider->getFilters() as $filter => $value) {
+                foreach ($this->normalizeCallbacks($value) as $callback) {
+                    add_filter($filter, $callback['fn'], $callback['priority'], PHP_INT_MAX);
+                }
+            }
+        });
+    }
+
+    /**
+     * Normalize callbacks from getHooks/getFilters format.
+     *
+     * @param mixed $value
+     *
+     * @return array<int, array{fn: callable, priority: int}>
+     * @since 1.0.0
+     *
+     */
+    private function normalizeCallbacks(mixed $value): array
+    {
+        if (is_callable($value)) {
+            return [['fn' => $value, 'priority' => 10]];
+        }
+
+        if (isset($value['callback'])) {
+            return [['fn' => $value['callback'], 'priority' => $value['priority'] ?? 10]];
+        }
+
+        return array_map(function ($item) {
+            if (is_callable($item)) {
+                return ['fn' => $item, 'priority' => 10];
+            }
+
+            return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
+        }, $value);
     }
 
     /**
@@ -137,10 +199,10 @@ class Application extends Container
      * Paths are stored in the container with the key prefixed by 'path.'.
      * For example, 'cache' becomes 'path.cache'.
      *
-     * @since 1.0.0
-     *
      * @param string $key The path identifier (e.g., 'cache', 'views')
      * @param string $path The full filesystem path
+     *
+     * @since 1.0.0
      *
      * @example $app->addPath('cache', '/var/www/cache');
      */
@@ -156,8 +218,6 @@ class Application extends Container
      * the naming convention: '{Name}Module' where {Name} is the camel-cased
      * module name.
      *
-     * @since 1.0.0
-     *
      * @param string $name The module name (kebab-case or snake_case)
      * @param array<string, mixed> $data Key-value pairs to set on the module
      * @param array<string, mixed> $options Module configuration options
@@ -165,6 +225,8 @@ class Application extends Container
      * @return string The rendered module output
      *
      * @throws \Exception If the module class doesn't exist
+     *
+     * @since 1.0.0
      *
      * @example $app->callModule('my-module', ['title' => 'Hello'], ['theme' => 'dark']);
      */
@@ -204,5 +266,37 @@ class Application extends Container
         }
 
         return $this->make($abstract, $parameters);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLoadedProviders(): Collection
+    {
+        return collect($this->loadedProviders);
+    }
+
+    /**
+     * Get current application version.
+     *
+     * @return string
+     */
+    public function version(): string
+    {
+        return self::version;
+    }
+
+    /**
+     * Get the path to the application "app" directory.
+     *
+     * @param string $path
+     * @param string $prefix
+     * @return string
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function path(string $path = '', $prefix = 'app'): string
+    {
+        return join_paths($this->get('path.' . $prefix), $path);
     }
 }
