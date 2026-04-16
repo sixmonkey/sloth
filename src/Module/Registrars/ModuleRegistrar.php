@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Plugin\Provider;
+namespace Sloth\Module\Registrars;
 
-use Sloth\Core\ServiceProvider;
+use Sloth\Core\Application;
+use Sloth\Module\Resolvers\ModulesResolver;
 use Sloth\Utility\Utility;
 
 /**
@@ -20,7 +21,7 @@ use Sloth\Utility\Utility;
  * @see \Sloth\Module\LayotterElement
  * @see \Sloth\Plugin\Plugin
  */
-class ModuleServiceProvider extends ServiceProvider
+class ModuleRegistrar
 {
     /**
      * Registered module class names.
@@ -28,6 +29,13 @@ class ModuleServiceProvider extends ServiceProvider
      * @var array<int, string>
      */
     protected array $modules = [];
+
+    protected ?Application $app;
+
+    public function __construct()
+    {
+        $this->app = app();
+    }
 
     /**
      * Boot the provider.
@@ -37,25 +45,14 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    public function boot(): void
+    public function init(): void
     {
-        foreach (glob(get_template_directory() . DS . 'Module' . DS . '*Module.php') as $file) {
-            $moduleName = $this->loadClassFromFile($file);
-            $this->registerJsonEndpoints($moduleName);
-            $this->modules[] = $moduleName;
-        }
-    }
-
-    /**
-     * Register Layotter elements on init.
-     *
-     * @since 1.0.0
-     */
-    public function getHooks(): array
-    {
-        return [
-            'init' => fn() => $this->registerLayotterElements(),
-        ];
+        ModulesResolver::resolve()->each(function ($moduleClass) {
+            $this->registerJsonEndpoints($moduleClass);
+            $this->modules[] = $moduleClass;
+        });
+        
+        $this->registerLayotterElements();
     }
 
     /**
