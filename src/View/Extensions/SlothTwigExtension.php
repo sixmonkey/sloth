@@ -98,7 +98,7 @@ class SlothTwigExtension extends AbstractExtension
      * @return array|\TwigFunction[]
      */
     #[\Override]
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $functions = [
             new TwigFunction(
