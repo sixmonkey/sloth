@@ -122,6 +122,7 @@ class ModelRegistrar
      *
      * @return string Class name if found, empty string otherwise
      *
+     * @throws \ReflectionException
      * @since 1.0.0
      */
     protected function loadClassFromFile(string $file): string

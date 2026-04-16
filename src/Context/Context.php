@@ -19,13 +19,6 @@ use Sloth\Model\User;
 class Context
 {
     /**
-     * The application instance.
-     *
-     * @var Application|mixed|null
-     */
-    private ?Application $app;
-
-    /**
      * Template context.
      *
      * @var array<string, mixed>|null
@@ -44,16 +37,16 @@ class Context
      *
      * @since 1.0.0
      */
-    public function __construct()
+    public function __construct(private Application $app)
     {
     }
 
     /**
      * Get the template context for Twig.
      *
+     * @return array<string, mixed> Context array for Twig templates
      * @since 1.0.0
      *
-     * @return array<string, mixed> Context array for Twig templates
      */
     public function getContext(): array
     {
@@ -92,7 +85,7 @@ class Context
         $this->populateTaxonomyContext();
         $this->populateAuthorContext();
 
-        $this->app->insance('sloth.context', $this->context);
+        $this->app->instance('sloth.context', $this->context);
 
         return $this->context;
     }

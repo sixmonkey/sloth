@@ -206,9 +206,9 @@ class TemplateServiceProvider extends ServiceProvider
     /**
      * Get the current layout name.
      *
+     * @return string|null The current layout name without extension
      * @since 1.0.0
      *
-     * @return string|null The current layout name without extension
      */
     public function getCurrentLayout(): ?string
     {

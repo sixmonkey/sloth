@@ -25,7 +25,7 @@ class ContextServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('context', function () {
-            return new Context();
+            return new Context($this->app);
         });
     }
 }
