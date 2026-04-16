@@ -118,9 +118,13 @@ class Application extends Container
      */
     public function boot(): void
     {
-        $this->getLoadedProviders()->each(function (ServiceProvider $provider) {
-            $provider->boot();
+        $providers = $this->getLoadedProviders();
 
+        $providers->each(function (ServiceProvider $provider) {
+            $provider->boot();
+        });
+
+        $providers->each(function (ServiceProvider $provider) {
             foreach ($provider->getHooks() as $hook => $value) {
                 foreach ($this->normalizeCallbacks($value) as $callback) {
                     add_action($hook, $callback['fn'], $callback['priority'], PHP_INT_MAX);
