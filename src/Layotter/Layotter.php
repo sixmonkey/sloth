@@ -373,25 +373,8 @@ class Layotter
         return implode('.', $viewParts);
     }
 
-    /**
-     * Add Layotter filters.
-     *
-     * @since 1.0.0
-     */
-    final public function addFilters(): void
+    public function renderLayotterStyles()
     {
-        add_filter('layotter/enable_example_element', '__return_false');
-        add_filter('layotter/enable_default_css', '__return_false');
-        add_filter('layotter/enable_element_templates', '__return_true');
-        add_filter('layotter/enable_post_layouts', '__return_true');
-
-        add_filter('layotter/enabled_post_types', $this->enabledPostTypes(...));
-        add_filter('layotter/rows/allowed_layouts', $this->allowedRowLayouts(...));
-        add_filter('layotter/rows/default_layout', $this->defaultRowLayout(...));
-        add_filter('layotter/columns/classes', $this->customColumnClasses(...));
-        add_filter('layotter/view/element', $this->customElementView(...), 10, 5);
-        add_filter('layotter/view/column', $this->customColumnView(...), 10, 5);
-        add_filter('layotter/view/row', $this->customRowView(...), 10, 3);
-        add_filter('layotter/view/post', $this->customPostView(...), 10, 2);
+        echo "<style>" . file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '_assets' . DIRECTORY_SEPARATOR . 'layotter.css') . "</style>";
     }
 }

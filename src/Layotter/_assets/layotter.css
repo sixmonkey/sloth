@@ -2,6 +2,10 @@
     border-collapse: collapse;
 }
 
+.layotter-preview {
+    width: 100%;
+}
+
 .layotter-preview th, .layotter-preview td {
     text-align: left !important;
     vertical-align: top;
@@ -9,6 +13,7 @@
 
 .layotter-preview th {
     padding-right: 10px;
+    width: 200px;
 }
 
 .layotter-preview tr:nth-child(even), .layotter-preview tr:nth-child(even) {
