@@ -10,9 +10,9 @@ use Sloth\Core\ServiceProvider;
 use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
-use function Sloth\Plugin\Provider\is_ssl;
-use function Sloth\Plugin\Provider\post_password_required;
-use function Sloth\Plugin\Provider\wp_redirect;
+use function is_ssl;
+use function post_password_required;
+use function wp_redirect;
 
 /**
  * Service provider for template rendering and context management.
