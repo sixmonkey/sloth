@@ -51,7 +51,7 @@ class ModuleRegistrar
             $this->registerJsonEndpoints($moduleClass);
             $this->modules[] = $moduleClass;
         });
-        
+
         $this->registerLayotterElements();
     }
 

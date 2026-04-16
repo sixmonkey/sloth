@@ -39,7 +39,6 @@ use Sloth\Template\TemplateServiceProvider;
  * 8. TemplateServiceProvider - Template rendering (depends on models/taxonomies)
  *
  * @since 1.0.0
- * @see \Sloth\Plugin\Provider
  */
 class Plugin extends Singleton
 {
