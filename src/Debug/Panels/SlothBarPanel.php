@@ -31,7 +31,6 @@ class SlothBarPanel implements IBarPanel
      * in one section never breaks the entire panel or the page.
      *
      * @since 1.0.0
-     *
      * @return string HTML for the panel content.
      */
     #[\Override]
@@ -116,7 +115,6 @@ class SlothBarPanel implements IBarPanel
      * Collect Sloth container state information.
      *
      * @since 1.0.0
-     *
      * @return array{providers: int, bindings: int, environment: string}
      */
     private function getContainerData(): array
@@ -136,8 +134,7 @@ class SlothBarPanel implements IBarPanel
      * Collect WordPress context for the current request.
      *
      * @since 1.0.0
-     *
-     * @return array{post_type: string, queried_object_id: int, template_slug: string, hooks: int}
+     * @return array{post_type: string, queried_object_id: int, template_slug: string, hooks: int, is_admin: string}
      */
     private function getWordPressData(): array
     {
@@ -165,12 +162,8 @@ class SlothBarPanel implements IBarPanel
     /**
      * Collect ACF field groups active on the current page.
      *
-     * Returns an empty array if ACF is not installed or no groups
-     * are registered for the current post.
-     *
      * @since 1.0.0
-     *
-     * @return array<string> List of active ACF field group titles.
+     * @return array<string>
      */
     private function getAcfData(): array
     {
@@ -179,9 +172,9 @@ class SlothBarPanel implements IBarPanel
                 return [];
             }
 
-            $groups = acf_get_field_groups(['post_id' => get_the_ID()]);
-
-            return collect($groups)->pluck('title')->toArray();
+            return collect(acf_get_field_groups(['post_id' => get_the_ID()]))
+                ->pluck('title')
+                ->toArray();
         } catch (\Throwable) {
             return [];
         }
@@ -190,11 +183,7 @@ class SlothBarPanel implements IBarPanel
     /**
      * Collect Sloth-specific debug data.
      *
-     * Shows which Models and Taxonomies are registered in the container,
-     * giving developers a quick overview of the current theme's data model.
-     *
      * @since 1.0.0
-     *
      * @return array{models: array<string>, taxonomies: array<string>}
      */
     private function getSlothData(): array

@@ -7,12 +7,9 @@ namespace Sloth\Core;
 use Corcel\Database;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
-use Sloth\Debug\DebugServiceProvider;
-use Sloth\Debug\SlothBarPanel;
+use Sloth\Debug\Panels\SlothBarPanel;
 use Sloth\Facades\Facade;
 use Sloth\Singleton\Singleton;
-use Tracy\Debugger;
-use Tracy\ILogger;
 
 /**
  * Sloth Framework Bootstrap

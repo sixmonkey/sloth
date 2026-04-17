@@ -114,40 +114,4 @@ class ModelRegistrar
             $this->app['layotter']->disable_for_post_type($model->getPostType());
         }
     }
-
-    /**
-     * Load a class from a file.
-     *
-     * @param string $file Absolute path to the PHP file
-     *
-     * @return string Class name if found, empty string otherwise
-     *
-     * @throws \ReflectionException
-     * @since 1.0.0
-     */
-    protected function loadClassFromFile(string $file): string
-    {
-        $file = realpath($file);
-        include_once $file;
-
-        $matchingClass = null;
-
-        foreach (get_declared_classes() as $class) {
-            $rc = new \ReflectionClass($class);
-            if ($rc->getFilename() === $file) {
-                if (str_starts_with($class, 'Corcel\\')) {
-                    continue;
-                }
-
-                if (str_starts_with($class, 'App\\')) {
-                    $matchingClass = $class;
-                    break;
-                }
-
-                $matchingClass = $class;
-            }
-        }
-
-        return $matchingClass ?? '';
-    }
 }

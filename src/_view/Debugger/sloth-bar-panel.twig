@@ -9,12 +9,12 @@
             <td><strong>{{ currentTemplate }}</strong></td>
         </tr>
         {% for template in templates %}
-            <tr>
-                <th>{% if loop.first %}Candidates{% endif %}</th>
-                <td {% if template == currentTemplate %}style="font-weight:bold"{% endif %}>
-                    {{ template }}
-                </td>
-            </tr>
+        <tr>
+            <th>{% if loop.first %}Candidates{% endif %}</th>
+            <td {% if template == currentTemplate %}style="font-weight:bold"{% endif %}>
+                {{ template }}
+            </td>
+        </tr>
         {% endfor %}
     </table>
 
