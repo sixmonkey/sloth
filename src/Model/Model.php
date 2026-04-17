@@ -92,16 +92,6 @@ class Model extends CorcelModel
 
     protected $with = ['meta'];
 
-    protected array $names = [];
-
-    protected array $options = [];
-
-    protected array $labels = [];
-
-    public static $layotter = false;
-
-    public bool $register = true;
-
     public string $post_content = ' ';
 
     protected $icon;
@@ -959,6 +949,15 @@ class Model extends CorcelModel
 
         if ($value === null && !property_exists($this, $key)) {
             return $this->meta->$key;
+        }
+        /**
+         *
+         * Proxy method to get legacy arguments.
+         *
+         * @see HasLegacyArgs
+         */
+        if ($value === null && method_exists($this, 'hasLegacyArg') && $this->hasLegacyArg($key)) {
+            return $this->getLegacyArg($key);
         }
 
         return $value;
