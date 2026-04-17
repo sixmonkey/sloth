@@ -299,7 +299,7 @@ class Application extends Container
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function path(string $path = '', $prefix = 'app'): string
+    public function path(string $path = '', string $prefix = 'app'): string
     {
         return join_paths($this->get('path.' . $prefix), $path);
     }

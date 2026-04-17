@@ -44,8 +44,8 @@ class SlothBarPanel implements IBarPanel
      * All data collection is wrapped in try/catch so that a failure
      * in one section never breaks the entire panel or the page.
      *
-     * @since 1.0.0
      * @return string HTML for the panel content.
+     * @since 1.0.0
      */
     #[\Override]
     public function getPanel(): string
@@ -60,13 +60,13 @@ class SlothBarPanel implements IBarPanel
 
         return View::make('Debugger.sloth-bar-panel')->with([
             'currentTemplate' => $currentLayout,
-            'templates'       => $h->templates(),
-            'performance'     => $this->getPerformanceData(),
-            'container'       => $this->getContainerData(),
-            'wordpress'       => $this->getWordPressData(),
-            'acf'             => $this->getAcfData(),
-            'sloth'           => $this->getSlothData(),
-            'queries'         => $this->getQueryData(),
+            'templates' => $h->templates(),
+            'performance' => $this->getPerformanceData(),
+            'container' => $this->getContainerData(),
+            'wordpress' => $this->getWordPressData(),
+            'acf' => $this->getAcfData(),
+            'sloth' => $this->getSlothData(),
+            'queries' => $this->getQueryData(),
         ])->render();
     }
 
@@ -76,15 +76,13 @@ class SlothBarPanel implements IBarPanel
      * Shows a query count badge to help spot N+1 problems at a glance:
      * green ≤10, orange ≤20, red >20.
      *
-     * @since 1.0.0
      * @return string HTML for the tab.
+     * @since 1.0.0
      */
     #[\Override]
     public function getTab(): string
     {
-        $logo = file_get_contents(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'logo.svg');
-
-        $queryData  = $this->getQueryData();
+        $queryData = $this->getQueryData();
         $queryCount = $queryData['count'];
 
         $badge = $queryCount > 0
@@ -95,36 +93,36 @@ class SlothBarPanel implements IBarPanel
             )
             : '';
 
-        return '<span title="SLOTH">' . $logo . $badge . '</span>';
+        return '<span title="SLOTH">🦥' . $badge . '</span>';
     }
 
     /**
      * Collect performance metrics for the current request.
      *
-     * @since 1.0.0
      * @return array{memory: string, peak_memory: string, time: string}
+     * @since 1.0.0
      */
     private function getPerformanceData(): array
     {
         return [
-            'memory'      => round(memory_get_usage() / 1024 / 1024, 2) . ' MB',
+            'memory' => round(memory_get_usage() / 1024 / 1024, 2) . ' MB',
             'peak_memory' => round(memory_get_peak_usage() / 1024 / 1024, 2) . ' MB',
-            'time'        => round((microtime(true) - ($_SERVER['REQUEST_TIME_FLOAT'] ?? microtime(true))) * 1000) . ' ms',
+            'time' => round((microtime(true) - ($_SERVER['REQUEST_TIME_FLOAT'] ?? microtime(true))) * 1000) . ' ms',
         ];
     }
 
     /**
      * Collect Sloth container state information.
      *
-     * @since 1.0.0
      * @return array{providers: int, bindings: int, environment: string}
+     * @since 1.0.0
      */
     private function getContainerData(): array
     {
         try {
             return [
-                'providers'   => count(app()->getLoadedProviders()),
-                'bindings'    => count(app()->getBindings()),
+                'providers' => count(app()->getLoadedProviders()),
+                'bindings' => count(app()->getBindings()),
                 'environment' => app()->environment(),
             ];
         } catch (\Throwable) {
@@ -135,8 +133,8 @@ class SlothBarPanel implements IBarPanel
     /**
      * Collect WordPress context for the current request.
      *
-     * @since 1.0.0
      * @return array{post_type: string, queried_object_id: int, template_slug: string, hooks: int, is_admin: string}
+     * @since 1.0.0
      */
     private function getWordPressData(): array
     {
@@ -144,19 +142,19 @@ class SlothBarPanel implements IBarPanel
             global $wp_filter;
 
             return [
-                'post_type'         => get_post_type() ?: 'none',
+                'post_type' => get_post_type() ?: 'none',
                 'queried_object_id' => get_queried_object_id(),
-                'template_slug'     => get_page_template_slug() ?: 'default',
-                'hooks'             => is_array($wp_filter) ? count($wp_filter) : 0,
-                'is_admin'          => is_admin() ? 'yes' : 'no',
+                'template_slug' => get_page_template_slug() ?: 'default',
+                'hooks' => is_array($wp_filter) ? count($wp_filter) : 0,
+                'is_admin' => is_admin() ? 'yes' : 'no',
             ];
         } catch (\Throwable) {
             return [
-                'post_type'         => 'unknown',
+                'post_type' => 'unknown',
                 'queried_object_id' => 0,
-                'template_slug'     => 'unknown',
-                'hooks'             => 0,
-                'is_admin'          => 'unknown',
+                'template_slug' => 'unknown',
+                'hooks' => 0,
+                'is_admin' => 'unknown',
             ];
         }
     }
@@ -164,8 +162,8 @@ class SlothBarPanel implements IBarPanel
     /**
      * Collect ACF field groups active on the current page.
      *
-     * @since 1.0.0
      * @return array<string>
+     * @since 1.0.0
      */
     private function getAcfData(): array
     {
@@ -185,14 +183,14 @@ class SlothBarPanel implements IBarPanel
     /**
      * Collect Sloth-specific debug data.
      *
-     * @since 1.0.0
      * @return array{models: array<string>, taxonomies: array<string>}
+     * @since 1.0.0
      */
     private function getSlothData(): array
     {
         try {
             return [
-                'models'     => array_keys(app('sloth.models') ?? []),
+                'models' => array_keys(app('sloth.models') ?? []),
                 'taxonomies' => array_keys(app('sloth.taxonomies') ?? []),
             ];
         } catch (\Throwable) {
@@ -207,16 +205,16 @@ class SlothBarPanel implements IBarPanel
      * via Connection::enableQueryLog() after Database::connect().
      * Slow queries (>100ms) are flagged for easy identification.
      *
-     * @since 1.0.0
      * @return array{queries: array, count: int, total_time: float, slow: int}
+     * @since 1.0.0
      */
     private function getQueryData(): array
     {
         try {
             $queries = collect(\Corcel\Model\Post::resolveConnection()->getQueryLog())
                 ->map(fn($q) => [
-                    'sql'        => $q['query'],
-                    'time'       => round($q['time'], 2),
+                    'sql' => $q['query'],
+                    'time' => round($q['time'], 2),
                     'connection' => 'default',
                 ])
                 ->toArray();
@@ -228,10 +226,10 @@ class SlothBarPanel implements IBarPanel
         $slowCount = count(array_filter($queries, fn($q) => $q['time'] > 100));
 
         return [
-            'queries'    => $queries,
-            'count'      => count($queries),
+            'queries' => $queries,
+            'count' => count($queries),
             'total_time' => $totalTime,
-            'slow'       => $slowCount,
+            'slow' => $slowCount,
         ];
     }
 }

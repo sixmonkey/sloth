@@ -101,6 +101,7 @@ class Sloth extends Singleton
 
         $this->setAliases();
 
+
         $this->connectCorcel();
     }
 

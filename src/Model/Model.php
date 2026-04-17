@@ -504,6 +504,7 @@ class Model extends CorcelModel
      */
     public function getContentAttribute(): string
     {
+        dd('triggered');
         if (!$this->filtered) {
             $post_content = $this->getAttribute('post_content');
             if (!is_null($post_content)) {

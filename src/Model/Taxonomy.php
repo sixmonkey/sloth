@@ -333,10 +333,10 @@ class Taxonomy extends CorcelModel
     /**
      * Render the taxonomy metabox.
      *
-     * @since 1.0.0
-     *
      * @param object $post The post object
      * @param array $box The metabox configuration
+     * @since 1.0.0
+     *
      */
     public function metabox($post, array $box): void
     {
@@ -370,8 +370,10 @@ class Taxonomy extends CorcelModel
         echo '<p class="description">';
         \esc_html_e('Enter a comma-separated list of new terms or select existing ones above.', 'sloth');
         echo '</p>';
-        echo '<p><input type="text" value="" placeholder="' . \esc_attr__('Add new terms', 'sloth') . '" class="widefat" id="sloth-new-terms-' . \esc_attr($taxonomy) . '"></p>';
-        echo '<p><button type="button" class="button sloth-add-terms" data-taxonomy="' . \esc_attr($taxonomy) . '">' . \esc_html__('Add', 'sloth') . '</button></p>';
+        echo '<p><input type="text" value="" placeholder="' . \esc_attr__('Add new terms',
+                'sloth') . '" class="widefat" id="sloth-new-terms-' . \esc_attr($taxonomy) . '"></p>';
+        echo '<p><button type="button" class="button sloth-add-terms" data-taxonomy="' . \esc_attr($taxonomy) . '">' . \esc_html__('Add',
+                'sloth') . '</button></p>';
         echo '</div>';
 
         echo '<script>
