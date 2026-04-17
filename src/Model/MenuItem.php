@@ -47,11 +47,11 @@ class MenuItem extends Corcel
     /**
      * Creates a new MenuItem instance.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $attributes Initial attributes
      *
      * @throws \ReflectionException If class reflection fails
+     * @since 1.0.0
+     *
      */
     public function __construct(array $attributes = [])
     {
@@ -71,9 +71,9 @@ class MenuItem extends Corcel
     /**
      * Gets the WordPress menu item post with processed classes.
      *
-     * @since 1.0.0
-     *
      * @return \WP_Post The processed menu item post
+     *
+     * @since 1.0.0
      *
      * @uses wp_setup_nav_menu_item() To process the menu item
      * @uses _wp_menu_item_classes_by_context() To add classes
@@ -129,9 +129,9 @@ class MenuItem extends Corcel
     /**
      * Gets the class name for the menu item type.
      *
+     * @return class-string|null The fully qualified class name or null
      * @since 1.0.0
      *
-     * @return class-string|null The fully qualified class name or null
      */
     #[\Override]
     protected function getClassName(): ?string
@@ -142,9 +142,9 @@ class MenuItem extends Corcel
     /**
      * Gets the URL for this menu item.
      *
+     * @return string|\WP_Error The URL or error
      * @since 1.0.0
      *
-     * @return string|\WP_Error The URL or error
      */
     public function getUrlAttribute(): string|\WP_Error
     {
@@ -160,15 +160,15 @@ class MenuItem extends Corcel
     /**
      * Gets the taxonomy URL for taxonomy-type menu items.
      *
+     * @return string|\WP_Error The term link or error
      * @since 1.0.0
      *
-     * @return string|\WP_Error The term link or error
      */
     private function get_taxonomy_url(): string|\WP_Error
     {
         $tax = $this->instance()->toArray();
 
-        return \get_term_link((int) ($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '');
+        return \get_term_link((int)($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '');
     }
 
     /**
@@ -176,9 +176,9 @@ class MenuItem extends Corcel
      *
      * Falls back to the linked post/term title if no custom title is set.
      *
+     * @return string The menu item title
      * @since 1.0.0
      *
-     * @return string The menu item title
      */
     public function getTitleAttribute(): string
     {
@@ -202,23 +202,23 @@ class MenuItem extends Corcel
     /**
      * Gets the taxonomy name for taxonomy-type items.
      *
+     * @return string The taxonomy term name
      * @since 1.0.0
      *
-     * @return string The taxonomy term name
      */
     private function get_taxonomy_title(): string
     {
         $tax = $this->instance()->toArray();
 
-        return (string) \get_term_field('name', (int) ($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '', 'raw');
+        return (string)\get_term_field('name', (int)($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '', 'raw');
     }
 
     /**
      * Gets the post type archive title.
      *
+     * @return string The archive title
      * @since 1.0.0
      *
-     * @return string The archive title
      */
     private function get_archive_title(): string
     {
@@ -230,23 +230,23 @@ class MenuItem extends Corcel
     /**
      * Gets the current state of this menu item.
      *
+     * @return bool Whether this is the current page
      * @since 1.0.0
      *
-     * @return bool Whether this is the current page
      */
     public function getCurrentAttribute(): bool
     {
         $post = $this->get_wp_post_classes();
 
-        return (bool) ($post->current ?? false);
+        return (bool)($post->current ?? false);
     }
 
     /**
      * Gets whether this is a parent of the current item.
      *
+     * @return bool True if this is a parent of current item
      * @since 1.0.0
      *
-     * @return bool True if this is a parent of current item
      */
     public function getCurrentItemParentAttribute(): bool
     {
@@ -256,7 +256,7 @@ class MenuItem extends Corcel
             $instance = $this->instance();
             $id = is_object($instance) ? ($instance->ID ?? 0) : ($instance['ID'] ?? 0);
 
-            if ((int) $context['post']->parent_id === $id) {
+            if ((int)$context['post']->parent_id === $id) {
                 return true;
             }
 
@@ -267,35 +267,35 @@ class MenuItem extends Corcel
 
             $option_key = 'link_overview_' . $context['post']->postType;
             if (get_option($option_key)) {
-                return (int) get_option($option_key) === $id;
+                return (int)get_option($option_key) === $id;
             }
         }
 
         $post = $this->get_wp_post_classes();
 
-        return (bool) ($post->current_item_parent ?? false);
+        return (bool)($post->current_item_parent ?? false);
     }
 
     /**
      * Gets whether this is an ancestor of the current item.
      *
+     * @return bool Whether this is an ancestor
      * @since 1.0.0
      *
-     * @return bool Whether this is an ancestor
      */
     public function getCurrentItemAncestorAttribute(): bool
     {
         $post = $this->get_wp_post_classes();
 
-        return (bool) ($post->current_item_ancestor ?? false);
+        return (bool)($post->current_item_ancestor ?? false);
     }
 
     /**
      * Gets whether this item is in the current path.
      *
+     * @return bool True if current or parent of current
      * @since 1.0.0
      *
-     * @return bool True if current or parent of current
      */
     public function getInCurrentPathAttribute(): bool
     {
@@ -309,9 +309,9 @@ class MenuItem extends Corcel
     /**
      * Gets the CSS classes for this menu item.
      *
+     * @return string Space-separated CSS classes
      * @since 1.0.0
      *
-     * @return string Space-separated CSS classes
      */
     public function getClassesAttribute(): string
     {
@@ -331,15 +331,15 @@ class MenuItem extends Corcel
             $classes[] = 'current_item_ancestor';
         }
 
-        return trim(implode(' ', array_filter((array) $classes)));
+        return trim(implode(' ', array_filter((array)$classes)));
     }
 
     /**
      * Gets the child menu items.
      *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany The children relationship
      * @since 1.0.0
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany The children relationship
      */
     #[\Override]
     public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
