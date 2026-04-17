@@ -74,8 +74,10 @@ class ModelRegistrar
                 return;
             }
 
+            $args = $model->getRegistrationArgs();
             $model->unregisterExisting();
-            \register_post_type($model->getPostType(), $model->getRegistrationArgs());
+            \register_post_type($model->getPostType(), $args);
+
             $model->registerColumnHooks();
 
             $models[$model->getPostType()] = $modelName;

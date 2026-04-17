@@ -834,9 +834,13 @@ class Model extends CorcelModel
                 $args['labels']
             );
             global $wp_post_types;
+
+            if (!isset($this->options['rewrite'])) {
+                unset($args['rewrite']);
+            }
+
             $args = array_merge((array)$wp_post_types[$this->getPostType()], $args);
         }
-
         return $args;
     }
 
