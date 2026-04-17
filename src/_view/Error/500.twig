@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 — Something went wrong</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0a;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.72);
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 2.5rem 3rem;
+            backdrop-filter: blur(2px);
+            width: min(480px, 90vw);
+        }
+
+        .logo {
+            width: 90px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-3deg); }
+            50%       { transform: rotate(3deg); }
+        }
+
+        .code {
+            font-size: 80px;
+            font-weight: 500;
+            color: #00ff41;
+            font-family: monospace;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 500;
+            color: #e0e0e0;
+            margin: 0.5rem 0 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px;
+            color: #00ff41;
+            background: #0f1f0f;
+            border: 1px solid #1a3a1a;
+            border-radius: 5px;
+            padding: 4px 10px;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+        }
+
+        .btn {
+            font-size: 14px;
+            color: #00ff41;
+            background: transparent;
+            border: 1px solid rgba(0, 255, 65, 0.4);
+            border-radius: 7px;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: monospace;
+            transition: all 0.15s;
+            margin: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #0f1f0f;
+            border-color: #00ff41;
+        }
+
+        .quip {
+            margin-top: 1.25rem;
+            font-size: 12px;
+            color: #444;
+            font-style: italic;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="overlay">
+    <img
+        class="logo"
+        src="https://raw.githubusercontent.com/folivoro/art/refs/heads/main/sloth-logo.svg"
+        alt="Sloth"
+    >
+    <div class="code">{{ status ?? 500 }}</div>
+    <div class="title" id="title">Bummr. What's that?</div>
+    <div class="subtitle" id="subtitle">Something broke so hard even our error handler needed a nap.</div>
+    <div class="badge" id="badge">Sloth\Exceptions\TooTiredToWorkException</div>
+    <br>
+    <a href="/" class="btn">← back to safety</a>
+    <button class="btn" onclick="nextQuip()">another excuse ↺</button>
+    <div class="quip">The sloth is aware. It just doesn't care.</div>
+</div>
+
+{% if exception %}
+<div style="position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(0,0,0,0.9);border-top:1px solid #1a3a1a;padding:1rem 1.5rem;max-height:30vh;overflow-y:auto;text-align:left;">
+    <h3 style="font-size:13px;font-weight:500;color:#00ff41;font-family:monospace;margin-bottom:0.5rem;">
+        {{ exception.message }} — {{ exception.file }}:{{ exception.line }}
+    </h3>
+    <pre style="font-size:11px;color:#555;white-space:pre-wrap;word-break:break-all;line-height:1.5;font-family:monospace;">{{ exception.traceAsString }}</pre>
+</div>
+{% endif %}
+
+<script>
+const canvas = document.getElementById('matrix');
+const ctx    = canvas.getContext('2d');
+const fontSize = 14;
+let drops = [];
+
+const chars = '<?php declare(strict_types=1); namespace Sloth\\Core; use Illuminate\\Container\\Container; class Application extends Container { public function boot(): void { foreach ($this->loadedProviders as $provider) { $provider->boot(); } } } ERROR 500 NULL TRUE FALSE EXCEPTION THROWABLE FATAL UNDEFINED';
+
+function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const cols = Math.floor(canvas.width / fontSize);
+    drops = Array(cols).fill(0).map(() => Math.random() * -100);
+}
+resize();
+window.addEventListener('resize', resize);
+
+function draw() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    drops.forEach((y, i) => {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fontSize;
+
+        ctx.fillStyle = '#aaffaa';
+        ctx.font = fontSize + 'px monospace';
+        ctx.fillText(char, x, y * fontSize);
+
+        ctx.fillStyle = '#00ff41';
+        ctx.font = (fontSize - 1) + 'px monospace';
+        if (y > 1) {
+            ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, (y - 1) * fontSize);
+        }
+
+        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i] += 0.5 + Math.random() * 0.5;
+    });
+}
+
+setInterval(draw, 33);
+
+const quips = [
+    { title: "Bummr. What's that?",           sub: "Something broke so hard even our error handler needed a nap.",          badge: "Sloth\\Exceptions\\TooTiredToWorkException" },
+    { title: "Well, this is awkward.",          sub: "The server tripped over its own feet. How? Nobody knows.",               badge: "Sloth\\Exceptions\\GravityUnexpectedException" },
+    { title: "Oops. Big oops.",                 sub: "We asked the server nicely. It declined. Twice. Then crashed anyway.",   badge: "Sloth\\Exceptions\\NapTimeInterruptedException" },
+    { title: "Something went sideways.",        sub: "Like a sloth climbing the wrong tree entirely. In the dark.",            badge: "Sloth\\Exceptions\\WrongTreeClimbedException" },
+    { title: "Uh oh. This wasn't the plan.",    sub: "The code had one job. It thought about it really hard. Still failed.",   badge: "Sloth\\Exceptions\\OneJobException" },
+    { title: "Even the 500 page crashed once.", sub: "But we fixed that. This is a different crash. Progress.",               badge: "Sloth\\Exceptions\\DefinitelyNotTheSameBugException" },
+    { title: "Hang tight. Or don't.",           sub: "The sloth is just glad you visited. The error is how it shows love.",    badge: "Sloth\\Exceptions\\AffectionateCrashException" },
+];
+
+let idx = 0;
+function nextQuip() {
+    idx = (idx + 1) % quips.length;
+    document.getElementById('title').textContent    = quips[idx].title;
+    document.getElementById('subtitle').textContent = quips[idx].sub;
+    document.getElementById('badge').textContent    = quips[idx].badge;
+}
+</script>
+
+</body>
+</html>
