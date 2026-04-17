@@ -94,7 +94,6 @@ class Installer
         self::initializeWpconfig();
         self::initializeHtaccess();
         self::initializePlugin();
-        self::addCLI();
         self::initializeBootstrap();
         self::renameTheme();
     }
@@ -219,19 +218,6 @@ class Installer
         copy(
             self::mkPath([dirname(__DIR__), 'sloth.php']),
             self::mkPath([$dirComponents, 'sloth.php'])
-        );
-    }
-
-    /**
-     * Add the CLI script.
-     *
-     * @since 1.0.0
-     */
-    protected static function addCLI(): void
-    {
-        copy(
-            self::mkPath([dirname(__DIR__), 'sloth-cli.php']),
-            self::mkPath([(string) self::$baseDir, 'sloth.php'])
         );
     }
 
