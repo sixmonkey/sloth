@@ -10,6 +10,7 @@ use Corcel\Model\Page;
 use Corcel\Model\CustomLink;
 use Corcel\Model\Taxonomy;
 use Corcel\Model\MenuItem as Corcel;
+use Corcel\Model as CorcelModel;
 
 /**
  * Menu Item Model
@@ -90,12 +91,11 @@ class MenuItem extends Corcel
     /**
      * Gets the parent menu item.
      *
+     * @return CustomLink|Model|CorcelModel|null The parent item or null
      * @since 1.0.0
-     *
-     * @return Post|Page|CustomLink|Taxonomy|null The parent item or null
      */
     #[\Override]
-    public function parent(): Post|Page|CustomLink|Taxonomy|null
+    public function parent(): CustomLink|Model|CorcelModel|null
     {
         $className = $this->getClassName();
 
@@ -110,12 +110,11 @@ class MenuItem extends Corcel
     /**
      * Gets the instance (actual post/page/term) this menu item links to.
      *
+     * @return CustomLink|Model|CorcelModel|null The instance or null
      * @since 1.0.0
-     *
-     * @return Post|Page|CustomLink|Taxonomy|null The instance or null
      */
     #[\Override]
-    public function instance(): Post|Page|CustomLink|Taxonomy|null
+    public function instance(): CustomLink|Model|CorcelModel|null
     {
         $className = $this->getClassName();
 
