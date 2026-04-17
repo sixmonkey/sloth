@@ -6,6 +6,7 @@
         "php": ">=8.4",
         "ext-json": "*",
         "brain/hierarchy": "^2.0 || ^3.0",
+        "filp/whoops": "^2.18",
         "illuminate/config": "^12.0",
         "illuminate/container": "^12.0",
         "illuminate/database": "^12.0",
