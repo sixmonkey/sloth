@@ -976,11 +976,6 @@ Search.appendIndex(
             "summary": "Initialize\u0020the\u0020Sloth\u0020plugin.",
             "url": "classes/Sloth-Installer-Installer.html#method_initializePlugin"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AaddCLI\u0028\u0029",
-            "name": "addCLI",
-            "summary": "Add\u0020the\u0020CLI\u0020script.",
-            "url": "classes/Sloth-Installer-Installer.html#method_addCLI"
-        },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeBootstrap\u0028\u0029",
             "name": "initializeBootstrap",
             "summary": "Initialize\u0020the\u0020bootstrap\u0020file.",
