@@ -146,7 +146,7 @@ class Plugin extends Singleton
      *
      * @return mixed
      */
-    public function getContainer()
+    public function getContainer(): mixed
     {
         return $this->container;
     }
