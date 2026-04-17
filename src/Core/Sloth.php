@@ -7,7 +7,8 @@ namespace Sloth\Core;
 use Corcel\Database;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
-use Sloth\Debugger\SlothBarPanel;
+use Sloth\Debug\DebugServiceProvider;
+use Sloth\Debug\SlothBarPanel;
 use Sloth\Facades\Facade;
 use Sloth\Singleton\Singleton;
 use Tracy\Debugger;
@@ -80,9 +81,6 @@ class Sloth extends Singleton
     {
         @include(DIR_ROOT . DS . 'develop.config.php');
 
-        $this->setDebugging();
-        $this->registerErrorHandlers();
-
         $this->container = new Application();
         if (Facade::getFacadeApplication() !== null && Facade::getFacadeApplication()->bound('config')) {
             $existingConfig = Facade::getFacadeApplication()->make('config');
@@ -123,6 +121,7 @@ class Sloth extends Singleton
     protected function registerProviders(): void
     {
         $providers = [
+            \Sloth\Debug\DebugServiceProvider::class,
             \Sloth\Finder\FinderServiceProvider::class,
             \Sloth\View\ViewServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
@@ -157,69 +156,6 @@ class Sloth extends Singleton
                 class_alias($class, $alias);
             }
         }
-    }
-
-    /**
-     * Configures and enables the Tracy debugger.
-     *
-     * The debugger is set to DEVELOPMENT mode when WP_DEBUG is true,
-     * otherwise it runs in PRODUCTION mode. Tracy panels are added
-     * for vendor versions and custom Sloth debugging information.
-     *
-     * @since 1.0.0
-     *
-     * @see Debugger For Tracy debugger configuration
-     * @see SlothBarPanel For custom debug panel
-     */
-    private function setDebugging(): void
-    {
-        $mode = defined('WP_DEBUG') && \WP_DEBUG ? Debugger::DEVELOPMENT : Debugger::PRODUCTION;
-
-        Debugger::$showLocation = true;
-
-        $logDirectory = DIR_ROOT . DS . 'logs';
-
-        if (!is_dir($logDirectory)) {
-            mkdir($logDirectory);
-        }
-
-        if (defined('WP_DEBUG') && WP_DEBUG && !in_array(
-                basename($_SERVER['PHP_SELF'] ?? ''),
-                $this->dontDebug,
-                true
-            )) {
-            Debugger::enable($mode, DIR_ROOT . DS . 'logs');
-        }
-
-        if (getenv('SLOTH_DEBUGGER_EDITOR')) {
-            Debugger::$editor = getenv('SLOTH_DEBUGGER_EDITOR');
-        }
-    }
-
-    /**
-     * Registers error handlers for uncaught exceptions and errors.
-     *
-     * @since 1.0.0
-     *
-     * @see Debugger For Tracy debugger configuration
-     */
-    private function registerErrorHandlers(): void
-    {
-        set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline): bool {
-            if (Debugger::$logDirectory !== null) {
-                Debugger::log($errstr, ILogger::WARNING);
-            }
-
-            if (config('errors.suppress_wp_deprecated', true) && str_contains($errfile, DIR_CMS)) {
-                return true;
-            }
-
-            if (config('errors.suppress_plugin_deprecated', true) && str_contains($errfile, DIR_PLUGINS)) {
-                return true;
-            }
-
-            return wp_is_serving_rest_request();
-        });
     }
 
     /**
