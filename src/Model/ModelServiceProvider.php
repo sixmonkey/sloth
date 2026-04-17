@@ -38,9 +38,10 @@ class ModelServiceProvider extends ServiceProvider
             'module',
             fn(): Module => new Module()
         );
-        $this->app->singleton(MenuRegistrar::class);
-        $this->app->singleton(TaxonomyRegistrar::class);
-        $this->app->singleton(ModelRegistrar::class);
+        $this->app->singleton(MenuRegistrar::class, fn($app) => new MenuRegistrar($app));
+        $this->app->singleton(TaxonomyRegistrar::class, fn($app) => new TaxonomyRegistrar($app));
+
+        $this->app->singleton(ModelRegistrar::class, fn($app) => new ModelRegistrar($app));
     }
 
     /**
