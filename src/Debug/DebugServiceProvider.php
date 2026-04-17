@@ -49,7 +49,7 @@ use Tracy\ILogger;
  *
  * @since 1.0.0
  * @see \Sloth\Debug\ExceptionHandler
- * @see \Sloth\Debug\Panels\SlothBarPanel
+ * @see \Sloth\Debug\SlothBarPanel
  */
 class DebugServiceProvider extends ServiceProvider
 {
