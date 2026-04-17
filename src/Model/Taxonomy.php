@@ -10,6 +10,7 @@ use Corcel\Model\Term;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Sloth\Model\Traits\HasAliases;
+use Sloth\Model\Traits\HasLegacyArgs;
 use Sloth\Model\Traits\HasMetaFields;
 
 /**
@@ -43,6 +44,7 @@ class Taxonomy extends CorcelModel
 {
     use HasAliases;
     use HasMetaFields;
+    use HasLegacyArgs;
 
     /**
      * Indicates if the model should be timestamped.
@@ -74,44 +76,6 @@ class Taxonomy extends CorcelModel
      */
     protected $with = ['term'];
 
-    /**
-     * Taxonomy names configuration for PostTypes library.
-     *
-     * @since 1.0.0
-     * @var array<string, mixed>
-     */
-    protected $names = [];
-
-    /**
-     * Taxonomy options for WordPress registration.
-     *
-     * @since 1.0.0
-     * @var array<string, mixed>
-     */
-    protected $options = [];
-
-    /**
-     * Taxonomy labels for WordPress admin UI.
-     *
-     * @since 1.0.0
-     * @var array<string, string>
-     */
-    protected $labels = [];
-
-    /**
-     * Post types that this taxonomy should be attached to.
-     *
-     * @since 1.0.0
-     * @var array<string>
-     */
-    protected $postTypes = [];
-
-    /**
-     * Whether this is a unique (non-hierarchical) taxonomy.
-     *
-     * @since 1.0.0
-     */
-    protected bool $unique = false;
 
     /**
      * The taxonomy identifier.
@@ -126,9 +90,9 @@ class Taxonomy extends CorcelModel
      * Initializes the taxonomy identifier from the class name
      * if not explicitly set, and processes labels.
      *
+     * @param array<string, mixed> $attributes Initial attributes
      * @since 1.0.0
      *
-     * @param array<string, mixed> $attributes Initial attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -213,19 +177,29 @@ class Taxonomy extends CorcelModel
      */
     public function __get($key)
     {
+        $value = parent::__get($key);
         if (!isset($this->$key) && isset($this->term->$key)) {
             return $this->term->$key;
         }
 
-        return parent::__get($key);
+        /**
+         * Proxy method to get legacy arguments.
+         *
+         * @see HasLegacyArgs
+         */
+        if ($value === null && method_exists($this, 'hasLegacyArg') && $this->hasLegacyArg($key)) {
+            return $this->getLegacyArg($key);
+        }
+
+        return $value;
     }
 
     /**
      * Get the taxonomy labels.
      *
+     * @return array<string, mixed>
      * @since 1.0.0
      *
-     * @return array<string, mixed>
      */
     public function getLabels(): array
     {
@@ -242,7 +216,7 @@ class Taxonomy extends CorcelModel
             return $labels;
         }
 
-        $singular = $this->names['singular'] ?? ucfirst((string) $this->taxonomy);
+        $singular = $this->names['singular'] ?? ucfirst((string)$this->taxonomy);
         $plural = $this->names['plural'] ?? $singular . 's';
 
         return [
