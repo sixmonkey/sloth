@@ -71,12 +71,39 @@
 
     {# ACF #}
     {% if acf is not empty %}
-        <h2>ACF Field Groups</h2>
-        <table>
-            {% for group in acf %}
-                <tr><td>{{ group }}</td></tr>
-            {% endfor %}
-        </table>
+    <h2>ACF Field Groups</h2>
+    <table>
+        {% for group in acf %}
+        <tr><td>{{ group }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {# DB Queries #}
+    <h2>
+        DB Queries
+        <span style="font-weight:normal;font-size:11px;margin-left:8px;color:{{ queries.slow > 0 ? '#ef4444' : '#888' }}">
+            {{ queries.count }} queries &mdash; {{ queries.total_time }}ms total
+            {% if queries.slow > 0 %} &mdash; {{ queries.slow }} slow{% endif %}
+        </span>
+    </h2>
+    {% if queries.queries is not empty %}
+    <table>
+        <tr>
+            <th>SQL</th>
+            <th style="text-align:right;white-space:nowrap">Time</th>
+        </tr>
+        {% for query in queries.queries %}
+        <tr style="{{ query.time > 100 ? 'background:rgba(239,68,68,0.08)' : '' }}">
+            <td style="font-family:monospace;font-size:11px;word-break:break-all">{{ query.sql }}</td>
+            <td style="text-align:right;white-space:nowrap;font-family:monospace;font-size:11px;color:{{ query.time > 100 ? '#ef4444' : (query.time > 50 ? '#f97316' : '#888') }}">
+                {{ query.time }}ms
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="color:#888;font-size:12px;padding:4px 0">No queries recorded.</p>
     {% endif %}
 
 </div>

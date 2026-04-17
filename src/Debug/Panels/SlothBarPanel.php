@@ -18,6 +18,20 @@ use Tracy\IBarPanel;
  * - WordPress context (post type, queried object, hooks)
  * - ACF field groups active on the current page
  * - Registered Sloth models and taxonomies
+ * - Corcel/Eloquent database queries via enableQueryLog()
+ *
+ * ## Query tracking
+ *
+ * Corcel does not fire Illuminate QueryExecuted events reliably outside
+ * Laravel, and Connection::listen() does not work in this context.
+ * Instead, we use Connection::enableQueryLog() after Database::connect()
+ * and read the log when the panel renders.
+ *
+ * In Core\Sloth::connectCorcel():
+ *
+ *     if ($this->container->isLocal()) {
+ *         \Corcel\Model\Post::resolveConnection()->enableQueryLog();
+ *     }
  *
  * @since 1.0.0
  * @implements IBarPanel
@@ -42,64 +56,52 @@ class SlothBarPanel implements IBarPanel
             $currentLayout = 'none';
         }
 
+        $h = new Hierarchy();
+
         return View::make('Debugger.sloth-bar-panel')->with([
             'currentTemplate' => $currentLayout,
-            'templates'       => $this->getTemplateHierarchy(),
+            'templates'       => $h->templates(),
             'performance'     => $this->getPerformanceData(),
             'container'       => $this->getContainerData(),
             'wordpress'       => $this->getWordPressData(),
             'acf'             => $this->getAcfData(),
             'sloth'           => $this->getSlothData(),
+            'queries'         => $this->getQueryData(),
         ])->render();
     }
 
     /**
      * Render the tab label shown in the Tracy Bar.
      *
-     * Uses the Sloth logo SVG if available, otherwise falls back
-     * to a plain text label.
+     * Shows a query count badge to help spot N+1 problems at a glance:
+     * green ≤10, orange ≤20, red >20.
      *
      * @since 1.0.0
-     *
      * @return string HTML for the tab.
      */
     #[\Override]
     public function getTab(): string
     {
-        $logoPath = dirname(__DIR__) . '/logo.svg';
+        $logo = file_get_contents(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'logo.svg');
 
-        if (file_exists($logoPath)) {
-            $logo = file_get_contents($logoPath);
-            return '<span title="SLOTH">' . $logo . '</span>';
-        }
+        $queryData  = $this->getQueryData();
+        $queryCount = $queryData['count'];
 
-        return '<span title="SLOTH">🦥</span>';
-    }
+        $badge = $queryCount > 0
+            ? sprintf(
+                '<span style="background:%s;color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;margin-left:3px;">%d</span>',
+                $queryCount > 20 ? '#ef4444' : ($queryCount > 10 ? '#f97316' : '#22c55e'),
+                $queryCount
+            )
+            : '';
 
-    /**
-     * Get the Brain\Hierarchy template resolution chain.
-     *
-     * Shows which templates WordPress would look for in order,
-     * helping developers understand template precedence.
-     *
-     * @since 1.0.0
-     *
-     * @return array<string> Ordered list of template candidates.
-     */
-    private function getTemplateHierarchy(): array
-    {
-        try {
-            return (new Hierarchy())->templates();
-        } catch (\Throwable) {
-            return [];
-        }
+        return '<span title="SLOTH">' . $logo . $badge . '</span>';
     }
 
     /**
      * Collect performance metrics for the current request.
      *
      * @since 1.0.0
-     *
      * @return array{memory: string, peak_memory: string, time: string}
      */
     private function getPerformanceData(): array
@@ -196,5 +198,40 @@ class SlothBarPanel implements IBarPanel
         } catch (\Throwable) {
             return ['models' => [], 'taxonomies' => []];
         }
+    }
+
+    /**
+     * Collect Corcel/Eloquent query data for this request.
+     *
+     * Reads from the Connection query log which must have been enabled
+     * via Connection::enableQueryLog() after Database::connect().
+     * Slow queries (>100ms) are flagged for easy identification.
+     *
+     * @since 1.0.0
+     * @return array{queries: array, count: int, total_time: float, slow: int}
+     */
+    private function getQueryData(): array
+    {
+        try {
+            $queries = collect(\Corcel\Model\Post::resolveConnection()->getQueryLog())
+                ->map(fn($q) => [
+                    'sql'        => $q['query'],
+                    'time'       => round($q['time'], 2),
+                    'connection' => 'default',
+                ])
+                ->toArray();
+        } catch (\Throwable) {
+            $queries = [];
+        }
+
+        $totalTime = round(array_sum(array_column($queries, 'time')), 2);
+        $slowCount = count(array_filter($queries, fn($q) => $q['time'] > 100));
+
+        return [
+            'queries'    => $queries,
+            'count'      => count($queries),
+            'total_time' => $totalTime,
+            'slow'       => $slowCount,
+        ];
     }
 }

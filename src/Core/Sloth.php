@@ -184,6 +184,7 @@ class Sloth extends Singleton
 
         Database::connect($params);
         Model::setEventDispatcher(new Dispatcher($this->container));
+        \Corcel\Model\Post::resolveConnection()->enableQueryLog();
     }
 
     /**
