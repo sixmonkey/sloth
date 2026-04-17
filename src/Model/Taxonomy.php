@@ -268,12 +268,12 @@ class Taxonomy extends CorcelModel
      * );
      * ```
      *
-     * @since 1.0.0
+     * @return array<string, mixed> Arguments for register_taxonomy()
      * @see getLabels() For label generation
      * @see getPostTypes() For attached post types
      * @see \register_taxonomy() WordPress function
      *
-     * @return array<string, mixed> Arguments for register_taxonomy()
+     * @since 1.0.0
      */
     public function getRegistrationArgs(): array
     {
@@ -309,11 +309,11 @@ class Taxonomy extends CorcelModel
      * $category->getPostTypes();
      * ```
      *
-     * @since 1.0.0
+     * @return array<string> Array of post type slugs (e.g., ['post', 'page'])
      * @see getRegistrationArgs() For full taxonomy registration
      * @see \register_taxonomy_for_object_type() WordPress function (used internally)
      *
-     * @return array<string> Array of post type slugs (e.g., ['post', 'page'])
+     * @since 1.0.0
      */
     public function getPostTypes(): array
     {
