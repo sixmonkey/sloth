@@ -163,4 +163,28 @@ define('WPMU_PLUGIN_URL', WP_HOME . '/extensions/components');
 /**
  * Initialize Sloth container
  */
-$GLOBALS['sloth'] = Sloth::getInstance();
+$container = Sloth::getInstance();
+
+$GLOBALS['sloth'] = new class ($container) {
+    public function __construct(private $container) {}
+
+    public function __get(string $key): mixed
+    {
+        trigger_error(
+            '$GLOBALS[\'sloth\'] is deprecated. Use app() instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->container->$key;
+    }
+
+    public function __call(string $method, array $args): mixed
+    {
+        trigger_error(
+            '$GLOBALS[\'sloth\']->' . $method . '() is deprecated. Use app() instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->container->$method(...$args);
+    }
+};

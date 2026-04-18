@@ -408,7 +408,7 @@ class Model extends CorcelModel
     #[\Override]
     public function newFromBuilder($attributes = [], $connection = null): Model|CorcelModel
     {
-        $attributes = (array)$attributes;
+        $attributes = (array) $attributes;
         $class = static::class;
 
         if (isset($attributes['post_type'], static::$postTypes[$attributes['post_type']])) {
@@ -501,7 +501,7 @@ class Model extends CorcelModel
      */
     public function getPostType(): string
     {
-        return (string)$this->postType;
+        return (string) $this->postType;
     }
 
     // -------------------------------------------------------------------------
@@ -714,7 +714,7 @@ class Model extends CorcelModel
      */
     public function getPostThumbnailAttribute(): Image
     {
-        return new Image((int)$this->meta->_thumbnail_id);
+        return new Image((int) $this->meta->_thumbnail_id);
     }
 
     /**
@@ -794,7 +794,7 @@ class Model extends CorcelModel
      */
     public function getKeywordsStrAttribute(): string
     {
-        return implode(',', (array)$this->keywords);
+        return implode(',', (array) $this->keywords);
     }
 
     // -------------------------------------------------------------------------
@@ -864,7 +864,7 @@ class Model extends CorcelModel
      */
     public function getAcfKey(): ?string
     {
-        return (string)$this->getAttribute('ID');
+        return (string) $this->getAttribute('ID');
     }
 
     // -------------------------------------------------------------------------

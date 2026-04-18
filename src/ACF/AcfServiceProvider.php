@@ -21,9 +21,7 @@ class AcfServiceProvider
      *
      * @since 1.0.0
      */
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     /**
      * Boot the ACF service provider.

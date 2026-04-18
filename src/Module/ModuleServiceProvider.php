@@ -49,7 +49,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         return [
             'init' => fn() => app(ModuleRegistrar::class)->init(),
-            'rest_api_init' => fn() => app(ModuleRegistrar::class)->registerJsonEndpoints()
+            'rest_api_init' => fn() => app(ModuleRegistrar::class)->registerJsonEndpoints(),
         ];
     }
 }

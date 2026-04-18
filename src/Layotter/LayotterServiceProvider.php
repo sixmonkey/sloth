@@ -49,19 +49,19 @@ class LayotterServiceProvider extends ServiceProvider
             'layotter/columns/classes' => fn(...$args) => app('layotter')->customColumnClasses(...$args),
             'layotter/view/element' => [
                 'callback' => fn(...$args) => app('layotter')->customElementView(...$args),
-                'priority' => 10
+                'priority' => 10,
             ],
             'layotter/view/column' => [
                 'callback' => fn(...$args) => app('layotter')->customColumnView(...$args),
-                'priority' => 10
+                'priority' => 10,
             ],
             'layotter/view/row' => [
                 'callback' => fn(...$args) => app('layotter')->customRowView(...$args),
-                'priority' => 10
+                'priority' => 10,
             ],
             'layotter/view/post' => [
                 'callback' => fn(...$args) => app('layotter')->customPostView(...$args),
-                'priority' => 10
+                'priority' => 10,
             ],
 
             'admin_head' => fn() => app('layotter')->renderLayotterStyles(),

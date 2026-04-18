@@ -50,9 +50,7 @@ class ModelRegistrar
      *
      * @param Application $app The application container instance.
      */
-    public function __construct(private Application $app)
-    {
-    }
+    public function __construct(private Application $app) {}
 
     /**
      * Discover and register all models with WordPress.

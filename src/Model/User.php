@@ -149,9 +149,7 @@ class User extends CorcelModel
      *
      * @param mixed $value The timestamp value
      */
-    public function setUpdatedAt($value): void
-    {
-    }
+    public function setUpdatedAt($value): void {}
 
     /**
      * Get the ACF key for this user.

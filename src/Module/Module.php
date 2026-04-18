@@ -196,13 +196,13 @@ class Module
     public function render(): string
     {
         if (!$this->doingAjax) {
-            $this->set($GLOBALS['sloth::plugin']->getContext(), false);
+            $this->set(app('sloth.context') ?? [], false);
         }
 
         $this->set('ajax_url', $this->getAjaxUrl());
         $this->beforeRender();
         $this->makeView();
-        $vars = array_merge($GLOBALS['sloth::plugin']->getContext(), $this->viewVars);
+        $vars = array_merge(app('sloth.context') ?? [], $this->viewVars);
         $output = $this->view->with($vars)->render();
 
         if ($this->render) {
@@ -353,7 +353,7 @@ class Module
      */
     final public function getAjaxAction(): string
     {
-            return 'module_' . Str::snake(class_basename($this));
+        return 'module_' . Str::snake(class_basename($this));
     }
 
     /**
@@ -367,7 +367,7 @@ class Module
     final protected function prepareValue(mixed $value): mixed
     {
         if (is_a($value, 'WP_Post')) {
-            $modelName = $GLOBALS['sloth::plugin']->getPostTypeClass($value->post_type);
+            $modelName = (app('sloth.models') ?? [])[$value->post_type] ?? \Sloth\Model\Model::class;
             $post = call_user_func([$modelName, 'find'], $value->ID);
             $value = $post;
         }

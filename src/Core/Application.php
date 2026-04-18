@@ -8,7 +8,6 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -29,7 +28,7 @@ class Application extends Container
     /**
      * Application version.
      */
-    const string version = '1.0.0';
+    public const string version = '1.0.0';
 
     /**
      * Project paths mapped by key.

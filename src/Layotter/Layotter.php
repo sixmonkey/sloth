@@ -62,9 +62,7 @@ class Layotter
      *
      * @since 1.0.0
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get custom column classes for Layotter.
@@ -195,7 +193,7 @@ class Layotter
         $themeLayouts = Configure::read('theme.layotter.row_layouts');
 
         if (is_array($themeLayouts)) {
-            return (string)reset($themeLayouts);
+            return (string) reset($themeLayouts);
         }
 
         return $rowLayout;
@@ -369,7 +367,7 @@ class Layotter
         $viewParts = ['Layotter', $for];
         $layoutPaths = [];
 
-        foreach ($GLOBALS['sloth']->container['view.finder']->getPaths() as $path) {
+        foreach (app('view.finder')->getPaths() as $path) {
             $layoutPaths[] = $path . DS . implode(DS, $viewParts);
         }
 

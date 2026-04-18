@@ -17,7 +17,6 @@ use Sloth\Facades\Configure;
  */
 class MenuRegistrar
 {
-
     /**
      * Constructor.
      *
@@ -25,9 +24,7 @@ class MenuRegistrar
      * @since 1.0.0
      *
      */
-    public function __construct(private Application $app)
-    {
-    }
+    public function __construct(private Application $app) {}
 
     /**
      * Register navigation menus from config.
@@ -41,7 +38,7 @@ class MenuRegistrar
         $menus = [];
         foreach (config('theme.menus', []) as $location => $name) {
             $menus[$location] = $name;
-            \register_nav_menu($location, (string)$name);
+            \register_nav_menu($location, (string) $name);
         }
         $this->app->instance('sloth.menus', $menus);
     }

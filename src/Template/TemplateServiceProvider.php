@@ -81,7 +81,7 @@ class TemplateServiceProvider extends ServiceProvider
         $filters = [];
 
         if (Configure::read('wp-json.baseUrl')) {
-            $filters['rest_url_prefix'] = fn() => (string)Configure::read('wp-json.baseUrl');
+            $filters['rest_url_prefix'] = fn() => (string) Configure::read('wp-json.baseUrl');
         }
 
         return $filters;
@@ -95,18 +95,18 @@ class TemplateServiceProvider extends ServiceProvider
     public function fixPagination(): void
     {
         if (isset($_GET['page'])) {
-            $currentPage = (int)$_GET['page'];
+            $currentPage = (int) $_GET['page'];
             \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
 
         global $wpQuery;
         if (isset($wpQuery->query['page'])) {
-            $currentPage = (int)$wpQuery->query['page'];
+            $currentPage = (int) $wpQuery->query['page'];
             \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
 
         if (isset($wpQuery->query['paged'])) {
-            $currentPage = (int)$wpQuery->query['paged'];
+            $currentPage = (int) $wpQuery->query['paged'];
             \Illuminate\Pagination\Paginator::currentPageResolver(fn(): int => $currentPage);
         }
     }
@@ -172,7 +172,7 @@ class TemplateServiceProvider extends ServiceProvider
     protected function resolveTemplate(): string
     {
         if (Configure::read('theme.routes') && is_array(Configure::read('theme.routes'))) {
-            $uri = (string)$_SERVER['REQUEST_URI'];
+            $uri = (string) $_SERVER['REQUEST_URI'];
 
             if (false !== $pos = strpos($uri, '?')) {
                 $uri = substr($uri, 0, $pos);
@@ -183,7 +183,7 @@ class TemplateServiceProvider extends ServiceProvider
             $routes = Configure::read('theme.routes');
 
             if (isset($routes[$uri])) {
-                $template = basename((string)$routes[$uri]['Layout'], '.twig');
+                $template = basename((string) $routes[$uri]['Layout'], '.twig');
                 if (isset($routes[$uri]['ContentType'])) {
                     header('Content-Type: ' . $routes[$uri]['ContentType']);
                 }

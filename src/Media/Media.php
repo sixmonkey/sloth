@@ -17,13 +17,10 @@ use Sloth\Facades\Configure;
  */
 class Media
 {
-
     /**
      * Constructor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Add SVG mime type.
@@ -143,7 +140,7 @@ class Media
      */
     public function toRelativeUrl(string $url): string
     {
-        return (string)parse_url($url, PHP_URL_PATH);
+        return (string) parse_url($url, PHP_URL_PATH);
     }
 
     /**
@@ -157,7 +154,7 @@ class Media
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim((string)WP_HOME, '/'), 'href="', $content);
+        return str_replace('href="' . rtrim((string) WP_HOME, '/'), 'href="', $content);
     }
 
     /**
@@ -171,6 +168,6 @@ class Media
      */
     public function makeSrcsRelative(string $content): string
     {
-        return str_replace('src="' . rtrim((string)WP_HOME, '/'), 'src="' . rtrim((string)WP_HOME, '/'), $content);
+        return str_replace('src="' . rtrim((string) WP_HOME, '/'), 'src="' . rtrim((string) WP_HOME, '/'), $content);
     }
 }

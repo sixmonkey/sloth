@@ -105,7 +105,7 @@ class SlothTwigExtension extends AbstractExtension
                 'module',
                 function ($name, $values = [], $options = []): string|false {
                     ob_start();
-                    $GLOBALS['sloth']->container->callModule($name, $values, $options);
+                    $this->container->callModule($name, $values, $options);
 
                     return ob_get_clean();
                 }

@@ -113,7 +113,7 @@ class DebugServiceProvider extends ServiceProvider
         }
 
         if (!is_dir($path)) {
-            mkdir($path, 0755, true);
+            mkdir($path, 0o755, true);
         }
 
         return $path;

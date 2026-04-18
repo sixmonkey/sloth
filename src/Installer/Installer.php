@@ -121,7 +121,7 @@ class Installer
      */
     public static function config(Event $event): void
     {
-        (new self($event))->run();
+        new self($event)->run();
     }
 
     /**
@@ -259,7 +259,7 @@ class Installer
     private function resolveInstallerPath(array $installerPaths, string $type): string
     {
         foreach ($installerPaths as $path => $conditions) {
-            if (in_array($type, (array)$conditions, strict: true)) {
+            if (in_array($type, (array) $conditions, strict: true)) {
                 return $this->absPath(str_replace('/{$name}', '', $path));
             }
         }

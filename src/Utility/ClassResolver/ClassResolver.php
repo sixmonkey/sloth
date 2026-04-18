@@ -81,21 +81,21 @@ abstract class ClassResolver
 
         $classes = [];
 
-        foreach ((new Finder)->in($paths->toArray())->files() as $class) {
+        foreach (new Finder()->in($paths->toArray())->files() as $class) {
             $file = realpath($class->getPathname());
 
             include_once $file;
 
             $class = collect(get_declared_classes())
-                ->filter(function($c) use ($file) {
+                ->filter(function ($c) use ($file) {
                     $reflection = new ReflectionClass($c);
                     return $reflection->getFilename() === $file;
-            })
+                })
             ->first();
             if (
-                $class &&
-                is_subclass_of($class, static::$subclassOf) &&
-                !new ReflectionClass($class)->isAbstract()
+                $class
+                && is_subclass_of($class, static::$subclassOf)
+                && !new ReflectionClass($class)->isAbstract()
             ) {
                 $classes[] = $class;
             }
