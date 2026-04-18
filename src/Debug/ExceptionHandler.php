@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Debug;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Sloth\Facades\View;
 use Tracy\Debugger;
@@ -50,9 +51,9 @@ class ExceptionHandler implements ExceptionHandlerContract
      * In development: Tracy logs to the log directory.
      * In production: Tracy logs silently without displaying anything.
      *
+     * @param Throwable $e The exception to report.
      * @since 1.0.0
      *
-     * @param Throwable $e The exception to report.
      */
     public function report(Throwable $e): void
     {
@@ -64,10 +65,10 @@ class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Determine if the exception should be reported.
      *
-     * @since 1.0.0
-     *
      * @param Throwable $e The exception to check.
      * @return bool True if the exception should be reported.
+     * @since 1.0.0
+     *
      */
     public function shouldReport(Throwable $e): bool
     {
@@ -87,10 +88,11 @@ class ExceptionHandler implements ExceptionHandlerContract
      *
      * Tracy is used only for logging — never for rendering in this handler.
      *
+     * @param mixed $request The current HTTP request (unused — WP handles routing).
+     * @param Throwable $e The exception to render.
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param mixed     $request The current HTTP request (unused — WP handles routing).
-     * @param Throwable $e       The exception to render.
      */
     public function render($request, Throwable $e): void
     {
@@ -114,9 +116,9 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Requires filp/whoops — installed automatically with illuminate/foundation,
      * or via: composer require filp/whoops
      *
+     * @param Throwable $e The exception to render.
      * @since 1.0.0
      *
-     * @param Throwable $e The exception to render.
      */
     protected function renderWithWhoops(Throwable $e): void
     {
@@ -131,7 +133,22 @@ class ExceptionHandler implements ExceptionHandlerContract
             $handler->setPageTitle('Sloth — Whoops!');
 
             if ($editor = env('SLOTH_DEBUGGER_EDITOR')) {
-                $handler->setEditor($editor);
+                $localPath = env('SLOTH_DEBUGGER_LOCAL_PATH');
+                $remotePath = env('SLOTH_DEBUGGER_REMOTE_PATH');
+
+                if ($localPath && $remotePath) {
+                    $handler->setEditor(function ($file, $line) use ($editor, $localPath, $remotePath) {
+                        $file = str_replace($remotePath, $localPath, $file);
+                        $editors = [
+                            'phpstorm' => "phpstorm://open?file=$file&line=$line",
+                            'vscode' => "vscode://file/$file:$line",
+                            'cursor' => "cursor://file/$file:$line",
+                        ];
+                        return $editors[$editor] ?? "phpstorm://open?file=$file&line=$line";
+                    });
+                } else {
+                    $handler->setEditor($editor);
+                }
             }
         }
 
@@ -144,10 +161,10 @@ class ExceptionHandler implements ExceptionHandlerContract
      *
      * Not used in WordPress context but required by the interface.
      *
+     * @param mixed $output Console output (unused).
+     * @param Throwable $e The exception to render.
      * @since 1.0.0
      *
-     * @param mixed     $output Console output (unused).
-     * @param Throwable $e      The exception to render.
      */
     public function renderForConsole($output, Throwable $e): void
     {
@@ -161,9 +178,9 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Looks for View/Error/{statusCode}.twig in the theme,
      * falling back to View/Error/500.twig, then to a plain message.
      *
+     * @param Throwable $e The exception to render.
      * @since 1.0.0
      *
-     * @param Throwable $e The exception to render.
      */
     protected function renderErrorPage(Throwable $e): void
     {
@@ -181,8 +198,8 @@ class ExceptionHandler implements ExceptionHandlerContract
             try {
                 echo View::make($template)->with([
                     'exception' => app()->isLocal() ? $e : null,
-                    'status'    => $status,
-                    'message'   => app()->isLocal() ? $e->getMessage() : 'An error occurred.',
+                    'status' => $status,
+                    'message' => app()->isLocal() ? $e->getMessage() : 'An error occurred.',
                 ])->render();
                 return;
             } catch (Throwable) {
@@ -200,10 +217,10 @@ class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Determine the HTTP status code for the given exception.
      *
-     * @since 1.0.0
-     *
      * @param Throwable $e The exception.
      * @return int HTTP status code.
+     * @since 1.0.0
+     *
      */
     protected function getStatusCode(Throwable $e): int
     {
@@ -220,9 +237,9 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Tracy BlueScreen should not be rendered for AJAX responses
      * as it would corrupt the JSON/XML response.
      *
+     * @return bool True if this is an AJAX or background request.
      * @since 1.0.0
      *
-     * @return bool True if this is an AJAX or background request.
      */
     protected function isAjaxRequest(): bool
     {
