@@ -12,23 +12,19 @@ use Sloth\Model\Resolvers\TaxonomiesResolver;
  * Registrar for WordPress taxonomy registration.
  *
  * Discovers all Taxonomy subclasses via TaxonomiesResolver and registers
- * them with WordPress. Also owns the label generation and registration
- * args building logic that previously lived in Taxonomy.
+ * them with WordPress.
  *
- * ## Why registration logic lives here
+ * ## Registration flow per taxonomy
  *
- * Taxonomy is a data object — it should not know about WordPress registration.
- * The Registrar owns the full registration pipeline:
- *
- *   buildLabels() → buildRegistrationArgs() → register_taxonomy()
- *
- * Taxonomy properties ($options, $names, $labels, $postTypes, $unique) are
- * accessed via __get() which falls back to HasLegacyArgs defaults if not
- * declared in the theme taxonomy. The Registrar reads these transparently.
+ * 1. Skip if $taxonomyClass::$register is false
+ * 2. Build labels from $taxonomyClass::$labels or $taxonomyClass::$names
+ * 3. Merge labels and $taxonomyClass::$options into registration args
+ * 4. Handle unique (single-value) taxonomy settings
+ * 5. Register with WordPress
+ * 6. Remove default metabox for unique taxonomies
  *
  * @since 1.0.0
  * @see \Sloth\Model\Taxonomy
- * @see \Sloth\Model\Traits\HasLegacyArgs
  */
 class TaxonomyRegistrar
 {
@@ -36,7 +32,7 @@ class TaxonomyRegistrar
      * Registered taxonomies mapping taxonomy slug to class name.
      *
      * @since 1.0.0
-     * @var array<string, class-string>
+     * @var array<string, class-string<Taxonomy>>
      */
     protected array $taxonomies = [];
 
@@ -73,13 +69,20 @@ class TaxonomyRegistrar
     {
         $taxonomies = [];
 
+        /**
+         * @param class-string<Taxonomy> $taxonomyClass
+         */
         TaxonomiesResolver::resolve()->each(function (string $taxonomyClass) use (&$taxonomies): void {
+            if (!$taxonomyClass::$register) {
+                return;
+            }
+
             $taxonomy = new $taxonomyClass();
 
             \register_taxonomy(
                 $taxonomy->getTaxonomy(),
-                $this->getPostTypes($taxonomy),
-                $this->buildRegistrationArgs($taxonomy)
+                $taxonomyClass::$postTypes,
+                $this->buildRegistrationArgs($taxonomyClass, $taxonomy)
             );
 
             $taxonomies[$taxonomy->getTaxonomy()] = $taxonomyClass;
@@ -92,23 +95,21 @@ class TaxonomyRegistrar
     /**
      * Remove default metaboxes for unique taxonomies.
      *
-     * Unique taxonomies (non-hierarchical, single-value) replace the
-     * default tag-style metabox with a custom radio-button metabox.
-     * The default metabox is removed here; the custom one is added via
-     * addMetaBoxes() on the 'add_meta_boxes' hook.
+     * Unique taxonomies replace the default tag-style metabox with a
+     * custom radio-button metabox. The default is removed here.
+     * The custom one is added via addMetaBoxes() on 'add_meta_boxes'.
      *
      * @since 1.0.0
      */
     protected function registerMetaboxes(): void
     {
         foreach ($this->taxonomies as $taxonomyClass) {
-            $taxonomy = new $taxonomyClass();
-
-            if (!($taxonomy->unique ?? false)) {
+            if (!$taxonomyClass::$unique) {
                 continue;
             }
 
-            foreach ($this->getPostTypes($taxonomy) as $postType) {
+            $taxonomy = new $taxonomyClass();
+            foreach ($taxonomyClass::$postTypes as $postType) {
                 \remove_meta_box('tagsdiv-' . $taxonomy->getTaxonomy(), $postType, null);
             }
         }
@@ -117,51 +118,50 @@ class TaxonomyRegistrar
     /**
      * Add custom metaboxes for unique taxonomies.
      *
-     * Called on the 'add_meta_boxes' WordPress hook. Adds a custom
-     * metabox for each unique taxonomy on each of its post types.
+     * Called on the 'add_meta_boxes' WordPress hook.
      *
      * @since 1.0.0
      */
     public function addMetaBoxes(): void
     {
         foreach ($this->taxonomies as $taxonomyClass) {
-            $taxonomy = new $taxonomyClass();
-
-            if (!($taxonomy->unique ?? false)) {
+            if (!$taxonomyClass::$unique) {
                 continue;
             }
 
-            $names = (array)($taxonomy->names ?? []);
+            $taxonomy = new $taxonomyClass();
+            $names = $taxonomyClass::$names;
             $singular = $names['singular'] ?? ucfirst($taxonomy->getTaxonomy());
 
             \add_meta_box(
                 'sloth-taxonomy-' . $taxonomy->getTaxonomy(),
                 $singular,
                 $taxonomy->metabox(...),
-                $this->getPostTypes($taxonomy),
+                $taxonomyClass::$postTypes,
                 'side'
             );
         }
     }
 
     /**
-     * Build WordPress taxonomy registration arguments for a taxonomy.
+     * Build WordPress taxonomy registration arguments.
      *
-     * Merges the taxonomy's $options (via __get()) with generated labels.
-     * For unique (single-value) taxonomies, forces hierarchical=false and
-     * removes parent item UI elements.
+     * Merges the taxonomy's $options with generated labels.
+     * For unique (single-value) taxonomies, forces hierarchical=false
+     * and removes parent item UI elements.
      *
+     * @param class-string<Taxonomy> $taxonomyClass The taxonomy class name.
      * @param Taxonomy $taxonomy The taxonomy instance.
      * @return array<string, mixed> Arguments for register_taxonomy().
      * @since 1.0.0
      *
      */
-    protected function buildRegistrationArgs(Taxonomy $taxonomy): array
+    protected function buildRegistrationArgs(string $taxonomyClass, Taxonomy $taxonomy): array
     {
-        $args = (array)($taxonomy->options ?? []);
-        $args['labels'] = $this->buildLabels($taxonomy);
+        $args = $taxonomyClass::$options;
+        $args['labels'] = $this->buildLabels($taxonomyClass, $taxonomy);
 
-        if ($taxonomy->unique ?? false) {
+        if ($taxonomyClass::$unique) {
             $args['hierarchical'] = false;
             $args['parent_item'] = null;
             $args['parent_item_colon'] = null;
@@ -171,24 +171,29 @@ class TaxonomyRegistrar
     }
 
     /**
-     * Build WordPress taxonomy labels for a taxonomy.
+     * Build WordPress taxonomy labels.
      *
-     * If the taxonomy declares $labels (via __get() / HasLegacyArgs), those
-     * are used directly (with translation). Otherwise labels are auto-generated
-     * from $names['singular'] and $names['plural'].
+     * Only sets labels that contain the taxonomy name — WordPress generates
+     * the remaining labels automatically from name and singular_name, correctly
+     * translated into the active WordPress language.
      *
-     * Falls back to ucfirst($taxonomy) for singular and singular + 's' for
-     * plural if $names is not set.
+     * If $taxonomyClass::$labels is set, those are used directly (with translation).
+     * Otherwise labels are auto-generated from $taxonomyClass::$names['singular']
+     * and $taxonomyClass::$names['plural'].
      *
+     * Falls back to ucfirst($taxonomy->getTaxonomy()) for singular
+     * and singular + 's' for plural if $names is not set.
+     *
+     * @param class-string<Taxonomy> $taxonomyClass The taxonomy class name.
      * @param Taxonomy $taxonomy The taxonomy instance.
      * @return array<string, string> WordPress taxonomy labels.
      * @since 1.0.0
      *
      */
-    protected function buildLabels(Taxonomy $taxonomy): array
+    protected function buildLabels(string $taxonomyClass, Taxonomy $taxonomy): array
     {
-        $labels = (array)($taxonomy->labels ?? []);
-        $names = (array)($taxonomy->names ?? []);
+        $labels = $taxonomyClass::$labels;
+        $names = $taxonomyClass::$names;
 
         if ($labels !== []) {
             foreach ($labels as $key => $label) {
@@ -203,49 +208,25 @@ class TaxonomyRegistrar
         $plural = $names['plural'] ?? $singular . 's';
 
         return [
-            'name' => __($plural),
-            'singular_name' => __($singular),
-            'search_items' => sprintf(__('Search %s'), __($plural)),
-            'popular_items' => sprintf(__('Popular %s'), __($plural)),
-            'all_items' => sprintf(__('All %s'), __($plural)),
-            'parent_item' => sprintf(__('Parent %s'), __($singular)),
-            'parent_item_colon' => sprintf(__('Parent %s:'), __($singular)),
-            'edit_item' => sprintf(__('Edit %s'), __($singular)),
-            'view_item' => sprintf(__('View %s'), __($singular)),
-            'update_item' => sprintf(__('Update %s'), __($singular)),
-            'add_new_item' => sprintf(__('Add New %s'), __($singular)),
-            'new_item_name' => sprintf(__('New %s Name'), __($singular)),
-            'not_found' => sprintf(__('No %s found'), __($plural)),
-            'no_terms' => sprintf(__('No %s'), __($plural)),
-            'filter_by_item' => sprintf(__('Filter by %s'), __($singular)),
-            'items_list_navigation' => sprintf(__('%s list navigation'), __($plural)),
-            'items_list' => sprintf(__('%s list'), __($plural)),
-            'back_to_items' => sprintf(__('&larr; Back to %s'), __($plural)),
-            'menu_name' => __($plural),
+            'name' => $plural,
+            'singular_name' => $singular,
+            'search_items' => sprintf(__('Search %s'), $plural),
+            'all_items' => sprintf(__('All %s'), $plural),
+            'edit_item' => sprintf(__('Edit %s'), $singular),
+            'update_item' => sprintf(__('Update %s'), $singular),
+            'add_new_item' => sprintf(__('Add New %s'), $singular),
+            'new_item_name' => sprintf(__('New %s Name'), $singular),
+            'not_found' => sprintf(__('No %s found'), $plural),
+            'menu_name' => $plural,
         ];
-    }
-
-    /**
-     * Get the post types this taxonomy is attached to.
-     *
-     * Reads $taxonomy->postTypes via __get() which falls back to
-     * HasLegacyArgs default ([]) if not declared in the theme taxonomy.
-     *
-     * @param Taxonomy $taxonomy The taxonomy instance.
-     * @return array<string> Post type slugs.
-     * @since 1.0.0
-     *
-     */
-    protected function getPostTypes(Taxonomy $taxonomy): array
-    {
-        return (array)($taxonomy->postTypes ?? []);
     }
 
     /**
      * Get all registered taxonomies.
      *
-     * @return array<string, class-string> Taxonomy slug to class name mapping.
+     * @return array<string, class-string<Taxonomy>> Taxonomy slug to class name mapping.
      * @since 1.0.0
+     *
      */
     public function getTaxonomies(): array
     {
