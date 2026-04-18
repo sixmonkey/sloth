@@ -40,7 +40,6 @@ class ModelServiceProvider extends ServiceProvider
         );
         $this->app->singleton(MenuRegistrar::class, fn($app) => new MenuRegistrar($app));
         $this->app->singleton(TaxonomyRegistrar::class, fn($app) => new TaxonomyRegistrar($app));
-
         $this->app->singleton(ModelRegistrar::class, fn($app) => new ModelRegistrar($app));
     }
 
