@@ -18,13 +18,15 @@ use Sloth\Model\Resolvers\ModelsResolver;
  *
  * 1. Skip if $modelClass::$register is false
  * 2. Merge Sloth defaults with model $options
- * 3. Build labels from $modelClass::$labels or $modelClass::$names
- * 4. Set menu icon from $modelClass::$icon if not null
- * 5. Unregister existing post type (if present)
- * 6. Register with WordPress
- * 7. Register admin column hooks
- * 8. Register model class for newFromBuilder() resolution
- * 9. Configure Layotter
+ * 3. For existing post types (e.g. WP Core 'page'): rescue rewrite settings
+ *    BEFORE unregistering — otherwise rewrite: false is lost
+ * 4. Build labels from $modelClass::$labels or $modelClass::$names
+ * 5. Set menu icon from $modelClass::$icon if not null
+ * 6. Unregister existing post type (if present)
+ * 7. Register with WordPress
+ * 8. Register admin column hooks
+ * 9. Register model class for newFromBuilder() resolution
+ * 10. Configure Layotter
  *
  * flush_rewrite_rules() is called once after all models are registered.
  *
@@ -106,28 +108,36 @@ class ModelRegistrar
                 $modelClass::$options
             );
 
-            // 3. Build labels
+            // 3. Rescue WP defaults BEFORE unregistering.
+            // For core post types like 'page', rewrite: false must be
+            // read from the existing WP object before we delete it.
+            // If rewrite is explicitly set in $options, that wins.
+            if (\post_type_exists($postType) && !isset($modelClass::$options['rewrite'])) {
+                $args['rewrite'] = \get_post_type_object($postType)->rewrite;
+            }
+
+            // 4. Build labels
             $args['labels'] = $this->buildLabels($modelClass, $postType);
 
-            // 4. Menu icon — only set if explicitly defined (not null)
+            // 5. Menu icon — only set if explicitly defined (not null)
             if ($modelClass::$icon !== null) {
                 $args['menu_icon'] = 'dashicons-' . preg_replace('/^dashicons-/', '', $modelClass::$icon);
             }
 
-            // 5. Unregister existing post type
+            // 6. Unregister existing post type
             $this->unregisterExisting($postType);
 
-            // 6. Register with WordPress
+            // 7. Register with WordPress
             \register_post_type($postType, $args);
 
-            // 7. Admin column hooks
+            // 8. Admin column hooks
             $instance->registerColumnHooks();
 
-            // 8. Register model class for newFromBuilder() resolution
+            // 9. Register model class for newFromBuilder() resolution
             $models[$postType] = $modelClass;
             Model::registerPostType($postType, $modelClass);
 
-            // 9. Layotter
+            // 10. Layotter
             $this->configureLayotter($modelClass, $postType);
         });
 
