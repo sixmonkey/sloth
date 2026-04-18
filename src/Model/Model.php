@@ -114,6 +114,13 @@ class Model extends CorcelModel
      */
     protected $with = ['meta'];
 
+    /**
+     * The filtered content for this post.
+     *
+     * @var string|null
+     */
+    protected static ?string $filedContent = null;
+
     // -------------------------------------------------------------------------
     // Eloquent-inherited properties — cannot be typed (PHP 8.4 compat)
     // -------------------------------------------------------------------------
@@ -664,16 +671,14 @@ class Model extends CorcelModel
      */
     public function getContentAttribute(): string
     {
-        $post_content = $this->getAttribute('post_content');
-
-        if (!$this->filtered) {
-            if (!is_null($post_content)) {
-                $post_content = \apply_filters('the_content', $post_content);
-            }
-            $this->filtered = true;
+        if ($this->filteredContent === null) {
+            $post_content = $this->getAttribute('post_content');
+            $this->filteredContent = !is_null($post_content)
+                ? \apply_filters('the_content', $post_content)
+                : '';
         }
 
-        return (string)$post_content;
+        return $this->filteredContent;
     }
 
     /**
