@@ -95,6 +95,7 @@ class Sloth extends Singleton
             'public' => DIR_WWW,
             'plugins' => DIR_PLUGINS,
             'cms' => DIR_CMS,
+            'logs'    => DIR_ROOT . '/logs',
         ])->each(fn($path, $key) => $this->container->addPath($key, $path));
 
         $this->registerProviders();
