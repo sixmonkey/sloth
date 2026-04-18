@@ -100,16 +100,16 @@ class DebugServiceProvider extends ServiceProvider
      * Uses app()->path('logs') if available, otherwise falls back
      * to a logs/ directory next to the project root.
      *
+     * @return string Absolute path to the log directory.
      * @since 1.0.0
      *
-     * @return string Absolute path to the log directory.
      */
     private function resolveLogPath(): string
     {
         try {
-            $path = $this->app->path('logs');
+            $path = app('path.logs');
         } catch (\Throwable) {
-            $path = dirname(__DIR__, 4) . '/logs';
+            $path = dirname(__DIR__, 5) . '/logs';
         }
 
         if (!is_dir($path)) {
@@ -134,9 +134,9 @@ class DebugServiceProvider extends ServiceProvider
      * editor link format shown in Whoops and Tracy, e.g.:
      *   SLOTH_DEBUGGER_EDITOR=phpstorm://open?file=%file&line=%line
      *
+     * @param string $logPath Absolute path to the log directory.
      * @since 1.0.0
      *
-     * @param string $logPath Absolute path to the log directory.
      */
     private function configureTracy(string $logPath): void
     {
@@ -186,10 +186,10 @@ class DebugServiceProvider extends ServiceProvider
     private function registerErrorHandler(): void
     {
         set_error_handler(function (
-            int    $errno,
+            int $errno,
             string $errstr,
             string $errfile,
-            int    $errline
+            int $errline
         ): bool {
             // Log everything via Tracy
             if (Debugger::$logDirectory !== null) {
