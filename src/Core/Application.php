@@ -224,8 +224,6 @@ class Application extends Container
 
             // WordPress integration
             \Sloth\Database\DatabaseServiceProvider::class,
-            \Sloth\Database\DatabaseServiceProvider::class,
-            \Sloth\Database\DatabaseServiceProvider::class,
             \Sloth\Model\ModelServiceProvider::class,
             \Sloth\Context\ContextServiceProvider::class,
             \Sloth\Template\TemplateServiceProvider::class,
