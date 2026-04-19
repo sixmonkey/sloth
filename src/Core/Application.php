@@ -92,6 +92,7 @@ class Application extends Container
      * @var array<string, class-string>
      */
     private array $classAliases = [
+        'Cache'      => \Sloth\Facades\Cache::class,
         'File'       => \Sloth\Facades\File::class,
         'View'       => \Sloth\Facades\View::class,
         'Configure'  => \Sloth\Facades\Configure::class,
@@ -305,6 +306,7 @@ class Application extends Container
         $providers = [
             \Sloth\Compatibility\LegacyGlobalsServiceProvider::class,
             \Sloth\Filesystem\FilesystemServiceProvider::class,
+            \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
             \Sloth\Finder\FinderServiceProvider::class,
             \Sloth\View\ViewServiceProvider::class,
