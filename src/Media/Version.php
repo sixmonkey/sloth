@@ -108,10 +108,10 @@ class Version
         // We preserve the URL structure in the saved filename for caching
         $piRealpath = pathinfo($realpath);
         $piDest = pathinfo($url);
-        $savedPath = $piRealpath['dirname'] . DIRECTORY_SEPARATOR . $piDest['basename'];
+        $savedPath = $piRealpath['dirname'] . '/' . $piDest['basename'];
 
         // Step 6: If already processed, serve cached version
-        if (file_exists($savedPath)) {
+        if (app('files')->exists($savedPath)) {
             $this->serveFile($savedPath);
         }
 
@@ -186,7 +186,7 @@ class Version
     protected function serveFile(string $path): void
     {
         // Read the entire file into memory
-        $content = file_get_contents($path);
+        $content = app('files')->get($path);
 
         // Determine the MIME type using PHP's fileinfo extension
         $finfo = finfo_open(FILEINFO_MIME_TYPE);

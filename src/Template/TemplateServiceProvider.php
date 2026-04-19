@@ -133,7 +133,7 @@ class TemplateServiceProvider extends ServiceProvider
     {
         $this->fixPagination();
 
-        if (!is_dir($this->currentThemePath . DS . 'View' . DS . 'Layout')) {
+        if (!app('files')->isDirectory($this->currentThemePath . '/' . 'View' . '/' . 'Layout')) {
             return;
         }
 

@@ -112,8 +112,8 @@ class DebugServiceProvider extends ServiceProvider
             $path = dirname(__DIR__, 5) . '/logs';
         }
 
-        if (!is_dir($path)) {
-            mkdir($path, 0o755, true);
+        if (!app('files')->isDirectory($path)) {
+            app('files')->ensureDirectoryExists($path, 0o755);
         }
 
         return $path;

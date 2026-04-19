@@ -390,6 +390,6 @@ class Layotter
      */
     public function renderLayotterStyles(): void
     {
-        echo "<style>" . file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '_assets' . DIRECTORY_SEPARATOR . 'layotter.css') . "</style>";
+        echo "<style>" . app('files')->get(__DIR__ . '/' . '_assets' . '/' . 'layotter.css') . "</style>";
     }
 }

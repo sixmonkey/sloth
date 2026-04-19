@@ -134,7 +134,7 @@ abstract class Finder extends IlluminateFileViewFinder
         foreach ($paths as $path) {
             foreach ($this->getPossibleFiles($name) as $file) {
                 $filePath = $path . $file;
-                if (file_exists($filePath)) {
+                if (app('files')->exists($filePath)) {
                     return $filePath;
                 }
             }

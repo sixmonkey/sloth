@@ -780,8 +780,8 @@ class Customizer extends Singleton
             'Sloth ' . app()->version(),
         ];
 
-        if (file_exists(DIR_ROOT . DS . '.version')) {
-            $appVersion = file_get_contents(DIR_ROOT . DS . '.version');
+        if (app('files')->exists(app()->path('base') . '/' . '.version')) {
+            $appVersion = app('files')->get(app()->path('base') . '/' . '.version');
             $versions[] = 'App ' . $appVersion;
         }
 

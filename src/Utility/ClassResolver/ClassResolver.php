@@ -75,7 +75,7 @@ abstract class ClassResolver
             app()->path(static::$dir),
             app()->path(static::$dir, 'theme'),
         ])
-            ->filter(fn($path) => is_dir($path));
+            ->filter(fn($path) => app('files')->isDirectory($path));
 
         #$namespace = app()->getNamespace();
 
