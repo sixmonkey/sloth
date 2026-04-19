@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Sloth
  * Description: Sloth Framework Bootstrap

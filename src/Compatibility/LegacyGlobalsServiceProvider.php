@@ -57,7 +57,7 @@ class LegacyGlobalsServiceProvider extends ServiceProvider
      */
     private function makeProxy(): object
     {
-        return new class () {
+        return new class {
             /**
              * Proxy a property access to the Application container.
              *

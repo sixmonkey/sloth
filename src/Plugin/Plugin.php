@@ -134,10 +134,7 @@ class Plugin extends Singleton
      *
      * @since 1.0.0
      */
-    protected function setDefaultConfig(): void
-    {
-        Configure::write('layotter_prepare_fields', 2);
-    }
+    protected function setDefaultConfig(): void {}
 
     /**
      * Get the container instance.

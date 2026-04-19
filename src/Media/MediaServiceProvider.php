@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sloth\Media;
 
 use Sloth\Core\ServiceProvider;
-use Sloth\Facades\Configure;
 
 /**
  * Service provider for media and URL handling.
@@ -48,7 +47,7 @@ class MediaServiceProvider extends ServiceProvider
             'upload_mimes' => fn(array $mimes) => app('media')->addSvgMime($mimes),
         ];
 
-        if (Configure::read('urls.relative')) {
+        if (config('urls.relative')) {
             $filters['the_content'] = fn(string $c) => app('media')->makeHrefsRelative($c);
         }
 

@@ -258,19 +258,19 @@ class Application extends Container
     {
         $base = $this->guessBasePath();
 
-        $this->addPath('base',      $base);
-        $this->addPath('app',       $base . '/app');
-        $this->addPath('vendor',    $base . '/vendor');
-        $this->addPath('cms',       ABSPATH);
-        $this->addPath('plugins',   WP_PLUGIN_DIR);
-        $this->addPath('theme',     get_template_directory());
+        $this->addPath('base', $base);
+        $this->addPath('app', $base . '/app');
+        $this->addPath('vendor', $base . '/vendor');
+        $this->addPath('cms', ABSPATH);
+        $this->addPath('plugins', WP_PLUGIN_DIR);
+        $this->addPath('theme', get_template_directory());
         $this->addPath('framework', dirname(__DIR__));
 
         // Cache and logs live in the theme directory — auto-create if missing
         foreach (['cache', 'logs'] as $key) {
             $path = get_template_directory() . '/' . $key;
             if (!is_dir($path)) {
-                mkdir($path, 0755, true);
+                mkdir($path, 0o755, true);
             }
             $this->addPath($key, $path);
         }
@@ -316,8 +316,8 @@ class Application extends Container
         }
 
         throw new \RuntimeException(
-            'Sloth could not determine the project base path. ' .
-            'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
+            'Sloth could not determine the project base path. '
+            . 'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
         );
     }
 
@@ -463,7 +463,7 @@ class Application extends Container
     /**
      * Load theme configuration files before providers register.
      *
-     * Loads app.config.php and theme config.php so that Configure::write()
+     * Loads app.config.php and theme config.php so that config()
      * values (e.g. theme.twig.filters) are available when providers like
      * ViewServiceProvider register their services.
      *
@@ -477,8 +477,6 @@ class Application extends Container
         if (file_exists($themeConfig)) {
             include_once $themeConfig;
         }
-
-        Configure::write('layotter_prepare_fields', 2);
     }
 
     /**

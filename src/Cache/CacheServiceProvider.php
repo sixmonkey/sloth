@@ -113,8 +113,10 @@ class CacheServiceProvider extends ServiceProvider
         ]);
 
         // Register WordPress transients as a custom cache driver
-        $this->app['cache']->extend('wp-transients', fn() =>
-        new Repository(new WordPressTransientStore())
+        $this->app['cache']->extend(
+            'wp-transients',
+            fn()
+        => new Repository(new WordPressTransientStore())
         );
     }
 }

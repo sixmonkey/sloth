@@ -6,7 +6,6 @@ namespace Sloth\Layotter;
 
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
-use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Utility\Utility;
 
@@ -75,7 +74,7 @@ class Layotter
      */
     public function customColumnClasses(array $defaultClasses): array
     {
-        $layotterCustomClasses = Configure::read('layotter_custom_classes');
+        $layotterCustomClasses = config('layotter_custom_classes');
         $columnClasses = [];
 
         for ($i = 1; $i <= 12; $i++) {
@@ -167,7 +166,7 @@ class Layotter
         global $post;
         $postType = $post->post_type ?? 'post';
 
-        return self::$layoutsForPostType[$postType] ?? Configure::read('theme.layotter.row_layouts')
+        return self::$layoutsForPostType[$postType] ?? config('theme.layotter.row_layouts')
             ?? $rowLayouts;
     }
 
@@ -190,7 +189,7 @@ class Layotter
             return reset(self::$layoutsForPostType[$postType]);
         }
 
-        $themeLayouts = Configure::read('theme.layotter.row_layouts');
+        $themeLayouts = config('theme.layotter.row_layouts');
 
         if (is_array($themeLayouts)) {
             return (string) reset($themeLayouts);

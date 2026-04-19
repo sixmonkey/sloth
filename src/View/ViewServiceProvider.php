@@ -11,7 +11,6 @@ use Sloth\Core\ServiceProvider;
 use Sloth\Facades\File;
 use Sloth\View\Engines\TwigEngine;
 use Sloth\View\Extensions\SlothTwigExtension;
-use Sloth\Configure\Configure;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
@@ -100,7 +99,7 @@ class ViewServiceProvider extends ServiceProvider
             fn($c): \Twig\Environment => new Environment($c['twig.loader'], [
                 'auto_reload' => true,
                 'cache'       => $c['path.cache'] . 'Twig',
-                'autoescape'  => (bool) Configure::read('twig.autoescape'),
+                'autoescape'  => (bool) config('twig.autoescape'),
             ])
         );
 

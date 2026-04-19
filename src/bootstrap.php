@@ -60,20 +60,20 @@ if (file_exists(__DIR__ . '/.env')) {
 // WordPress URLs
 // -------------------------------------------------------------------------
 
-defined('WP_HOME')    || define('WP_HOME',    env('WP_HOME'));
+defined('WP_HOME')    || define('WP_HOME', env('WP_HOME'));
 defined('WP_SITEURL') || define('WP_SITEURL', env('WP_SITEURL'));
 
 // -------------------------------------------------------------------------
 // WordPress database
 // -------------------------------------------------------------------------
 
-defined('DB_NAME')     || define('DB_NAME',     env('DB_NAME'));
-defined('DB_USER')     || define('DB_USER',     env('DB_USER'));
+defined('DB_NAME')     || define('DB_NAME', env('DB_NAME'));
+defined('DB_USER')     || define('DB_USER', env('DB_USER'));
 defined('DB_PASSWORD') || define('DB_PASSWORD', env('DB_PASSWORD'));
-defined('DB_HOST')     || define('DB_HOST',     env('DB_HOST', 'localhost'));
-defined('DB_CHARSET')  || define('DB_CHARSET',  'utf8mb4');
-defined('DB_COLLATE')  || define('DB_COLLATE',  '');
-defined('DB_PREFIX')   || define('DB_PREFIX',   env('DB_PREFIX', 'wp_'));
+defined('DB_HOST')     || define('DB_HOST', env('DB_HOST', 'localhost'));
+defined('DB_CHARSET')  || define('DB_CHARSET', 'utf8mb4');
+defined('DB_COLLATE')  || define('DB_COLLATE', '');
+defined('DB_PREFIX')   || define('DB_PREFIX', env('DB_PREFIX', 'wp_'));
 
 $table_prefix = DB_PREFIX;
 
@@ -92,14 +92,14 @@ $table_prefix = DB_PREFIX;
 
 $_salt_secret = env('APP_SECRET', 'changeme-' . gethostname());
 
-defined('AUTH_KEY')         || define('AUTH_KEY',         env('AUTH_KEY',         hash('sha256', $_salt_secret . 'AUTH_KEY')));
-defined('SECURE_AUTH_KEY')  || define('SECURE_AUTH_KEY',  env('SECURE_AUTH_KEY',  hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY')));
-defined('LOGGED_IN_KEY')    || define('LOGGED_IN_KEY',    env('LOGGED_IN_KEY',    hash('sha256', $_salt_secret . 'LOGGED_IN_KEY')));
-defined('NONCE_KEY')        || define('NONCE_KEY',        env('NONCE_KEY',        hash('sha256', $_salt_secret . 'NONCE_KEY')));
-defined('AUTH_SALT')        || define('AUTH_SALT',        env('AUTH_SALT',        hash('sha256', $_salt_secret . 'AUTH_SALT')));
+defined('AUTH_KEY')         || define('AUTH_KEY', env('AUTH_KEY', hash('sha256', $_salt_secret . 'AUTH_KEY')));
+defined('SECURE_AUTH_KEY')  || define('SECURE_AUTH_KEY', env('SECURE_AUTH_KEY', hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY')));
+defined('LOGGED_IN_KEY')    || define('LOGGED_IN_KEY', env('LOGGED_IN_KEY', hash('sha256', $_salt_secret . 'LOGGED_IN_KEY')));
+defined('NONCE_KEY')        || define('NONCE_KEY', env('NONCE_KEY', hash('sha256', $_salt_secret . 'NONCE_KEY')));
+defined('AUTH_SALT')        || define('AUTH_SALT', env('AUTH_SALT', hash('sha256', $_salt_secret . 'AUTH_SALT')));
 defined('SECURE_AUTH_SALT') || define('SECURE_AUTH_SALT', env('SECURE_AUTH_SALT', hash('sha256', $_salt_secret . 'SECURE_AUTH_SALT')));
-defined('LOGGED_IN_SALT')   || define('LOGGED_IN_SALT',   env('LOGGED_IN_SALT',   hash('sha256', $_salt_secret . 'LOGGED_IN_SALT')));
-defined('NONCE_SALT')       || define('NONCE_SALT',       env('NONCE_SALT',       hash('sha256', $_salt_secret . 'NONCE_SALT')));
+defined('LOGGED_IN_SALT')   || define('LOGGED_IN_SALT', env('LOGGED_IN_SALT', hash('sha256', $_salt_secret . 'LOGGED_IN_SALT')));
+defined('NONCE_SALT')       || define('NONCE_SALT', env('NONCE_SALT', hash('sha256', $_salt_secret . 'NONCE_SALT')));
 
 unset($_salt_secret);
 
@@ -107,19 +107,19 @@ unset($_salt_secret);
 // WordPress debug
 // -------------------------------------------------------------------------
 
-defined('WP_DEBUG')          || define('WP_DEBUG',          (bool) env('WP_DEBUG', false));
-defined('WP_DEBUG_LOG')      || define('WP_DEBUG_LOG',      (bool) env('WP_DEBUG_LOG', false));
-defined('WP_DEBUG_DISPLAY')  || define('WP_DEBUG_DISPLAY',  (bool) env('WP_DEBUG_DISPLAY', false));
-defined('SCRIPT_DEBUG')      || define('SCRIPT_DEBUG',       (bool) env('SCRIPT_DEBUG', false));
+defined('WP_DEBUG')          || define('WP_DEBUG', (bool) env('WP_DEBUG', false));
+defined('WP_DEBUG_LOG')      || define('WP_DEBUG_LOG', (bool) env('WP_DEBUG_LOG', false));
+defined('WP_DEBUG_DISPLAY')  || define('WP_DEBUG_DISPLAY', (bool) env('WP_DEBUG_DISPLAY', false));
+defined('SCRIPT_DEBUG')      || define('SCRIPT_DEBUG', (bool) env('SCRIPT_DEBUG', false));
 
 // -------------------------------------------------------------------------
 // WordPress settings
 // -------------------------------------------------------------------------
 
-defined('WP_POST_REVISIONS')          || define('WP_POST_REVISIONS',          (int)  env('WP_POST_REVISIONS', 5));
+defined('WP_POST_REVISIONS')          || define('WP_POST_REVISIONS', (int) env('WP_POST_REVISIONS', 5));
 defined('AUTOMATIC_UPDATER_DISABLED') || define('AUTOMATIC_UPDATER_DISABLED', true);
-defined('DISABLE_WP_CRON')            || define('DISABLE_WP_CRON',            (bool) env('DISABLE_WP_CRON', false));
-defined('DISALLOW_FILE_EDIT')         || define('DISALLOW_FILE_EDIT',          true);
+defined('DISABLE_WP_CRON')            || define('DISABLE_WP_CRON', (bool) env('DISABLE_WP_CRON', false));
+defined('DISALLOW_FILE_EDIT')         || define('DISALLOW_FILE_EDIT', true);
 
 // -------------------------------------------------------------------------
 // WordPress paths
@@ -130,10 +130,10 @@ $_wp_path = substr(WP_SITEURL, strrpos(WP_SITEURL, '/'));
 
 defined('ABSPATH') || define('ABSPATH', realpath($_webroot . $_wp_path) . '/');
 
-define('WP_CONTENT_DIR',  $_webroot);
-define('WP_CONTENT_URL',  env('WP_CONTENT_URL', WP_HOME));
-define('WP_PLUGIN_DIR',   $_webroot . '/extensions/plugins');
-define('WP_PLUGIN_URL',   WP_HOME . '/extensions/plugins');
+define('WP_CONTENT_DIR', $_webroot);
+define('WP_CONTENT_URL', env('WP_CONTENT_URL', WP_HOME));
+define('WP_PLUGIN_DIR', $_webroot . '/extensions/plugins');
+define('WP_PLUGIN_URL', WP_HOME . '/extensions/plugins');
 define('WPMU_PLUGIN_DIR', $_webroot . '/extensions/components');
 define('WPMU_PLUGIN_URL', WP_HOME . '/extensions/components');
 
@@ -146,13 +146,13 @@ unset($_webroot, $_wp_path);
 // Will be removed in a future major version — see MIGRATE.md.
 // -------------------------------------------------------------------------
 
-defined('DS')          || define('DS',          DIRECTORY_SEPARATOR);
-defined('DIR_ROOT')    || define('DIR_ROOT',     __DIR__ . DS);
-defined('DIR_APP')     || define('DIR_APP',      DIR_ROOT . 'app'    . DS);
-defined('DIR_CACHE')   || define('DIR_CACHE',    DIR_APP  . 'cache'  . DS);
-defined('DIR_CFG')     || define('DIR_CFG',      DIR_APP  . 'config' . DS);
-defined('DIR_ENVCFG')  || define('DIR_ENVCFG',   DIR_CFG  . 'environments' . DS);
-defined('DIR_WWW')     || define('DIR_WWW',      DIR_ROOT . 'public' . DS);
-defined('DIR_CMS')     || define('DIR_CMS',      DIR_WWW  . 'cms'    . DS);
-defined('DIR_VENDOR')  || define('DIR_VENDOR',   DIR_ROOT . 'vendor' . DS);
-defined('DIR_PLUGINS') || define('DIR_PLUGINS',  DIR_WWW  . 'extensions' . DS . 'plugins' . DS);
+defined('DS')          || define('DS', DIRECTORY_SEPARATOR);
+defined('DIR_ROOT')    || define('DIR_ROOT', __DIR__ . DS);
+defined('DIR_APP')     || define('DIR_APP', DIR_ROOT . 'app' . DS);
+defined('DIR_CACHE')   || define('DIR_CACHE', DIR_APP . 'cache' . DS);
+defined('DIR_CFG')     || define('DIR_CFG', DIR_APP . 'config' . DS);
+defined('DIR_ENVCFG')  || define('DIR_ENVCFG', DIR_CFG . 'environments' . DS);
+defined('DIR_WWW')     || define('DIR_WWW', DIR_ROOT . 'public' . DS);
+defined('DIR_CMS')     || define('DIR_CMS', DIR_WWW . 'cms' . DS);
+defined('DIR_VENDOR')  || define('DIR_VENDOR', DIR_ROOT . 'vendor' . DS);
+defined('DIR_PLUGINS') || define('DIR_PLUGINS', DIR_WWW . 'extensions' . DS . 'plugins' . DS);

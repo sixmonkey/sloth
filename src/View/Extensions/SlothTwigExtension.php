@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sloth\View\Extensions;
 
 use Sloth\Core\Application;
-use Sloth\Facades\Configure;
 use Twig_SimpleTest;
 use Twig_SimpleFilter;
 use Twig_Extension;
@@ -84,8 +83,8 @@ class SlothTwigExtension extends AbstractExtension
         ];
 
 
-        if (Configure::read('theme.twig.filters')) {
-            $theme_filters = Configure::read('theme.twig.filters');
+        if (config('theme.twig.filters')) {
+            $theme_filters = config('theme.twig.filters');
             $filters       = array_merge($filters, $theme_filters);
         }
 
@@ -163,8 +162,8 @@ class SlothTwigExtension extends AbstractExtension
         ];
 
 
-        if (Configure::read('theme.twig.functions')) {
-            $theme_functions = Configure::read('theme.twig.functions');
+        if (config('theme.twig.functions')) {
+            $theme_functions = config('theme.twig.functions');
             $functions       = array_merge($functions, $theme_functions);
         }
 

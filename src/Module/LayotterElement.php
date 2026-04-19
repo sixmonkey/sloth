@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Module;
 
-use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 use Sloth\Field\Image;
 
@@ -151,7 +150,7 @@ class LayotterElement extends \Layotter_Element
     final protected function prepareFields(array $values, $options = []): array
     {
         $fields = $this->getFields();
-        if (Configure::read('layotter_prepare_fields') === true && $fields) {
+        if (config('layotter_prepare_fields', 2) === 2 && $fields) {
             foreach ($fields as $field) {
                 if ($field['type'] === 'image') {
                     $v = new Image($values[$field['name']]);

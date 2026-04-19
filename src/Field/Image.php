@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Field;
 
-use Sloth\Facades\Configure;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
 
@@ -187,7 +186,7 @@ class Image implements \Stringable
             return $this->sizes[$size];
         }
 
-        $imageSizes = Configure::read('theme.image-sizes');
+        $imageSizes = config('theme.image-sizes');
 
         if (isset($imageSizes[$size])) {
             return $this->resize($imageSizes[$size]);
@@ -411,7 +410,7 @@ class Image implements \Stringable
      */
     public function sizes(): array
     {
-        $imageSizes = Configure::read('theme.image-sizes');
+        $imageSizes = config('theme.image-sizes');
         $sizes = [];
 
         if (is_array($imageSizes)) {

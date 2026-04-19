@@ -7,7 +7,6 @@ namespace Sloth\Template;
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
 use Sloth\Core\ServiceProvider;
-use Sloth\Facades\Configure;
 use Sloth\Facades\View;
 
 /**
@@ -80,8 +79,8 @@ class TemplateServiceProvider extends ServiceProvider
     {
         $filters = [];
 
-        if (Configure::read('wp-json.baseUrl')) {
-            $filters['rest_url_prefix'] = fn() => (string) Configure::read('wp-json.baseUrl');
+        if (config('wp-json.baseUrl')) {
+            $filters['rest_url_prefix'] = fn() => (string) config('wp-json.baseUrl');
         }
 
         return $filters;
@@ -171,7 +170,7 @@ class TemplateServiceProvider extends ServiceProvider
      */
     protected function resolveTemplate(): string
     {
-        if (Configure::read('theme.routes') && is_array(Configure::read('theme.routes'))) {
+        if (config('theme.routes') && is_array(config('theme.routes'))) {
             $uri = (string) $_SERVER['REQUEST_URI'];
 
             if (false !== $pos = strpos($uri, '?')) {
@@ -180,7 +179,7 @@ class TemplateServiceProvider extends ServiceProvider
 
             $uri = rtrim(rawurldecode($uri), '/');
 
-            $routes = Configure::read('theme.routes');
+            $routes = config('theme.routes');
 
             if (isset($routes[$uri])) {
                 $template = basename((string) $routes[$uri]['Layout'], '.twig');

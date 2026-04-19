@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\ACF;
 
-use Sloth\Configure\Configure;
 use Sloth\Field\Image;
 
 /**
@@ -21,7 +20,7 @@ class ACFHelper
      */
     public function addFilters(): void
     {
-        if (\Configure::read('layotter_prepare_fields') == 2) {
+        if (config('layotter_prepare_fields') == 2) {
             add_filter('acf/format_value/type=image', [$this, 'load_image'], 10, 3);
         }
         add_action('admin_init', $this->autoSyncAcfFields(...));
@@ -54,7 +53,7 @@ class ACFHelper
      */
     public function autoSyncAcfFields(): void
     {
-        $autosyncAcf = Configure::read('autosync_acf');
+        $autosyncAcf = config('autosync_acf');
         if (
             !function_exists('acf_get_field_groups')
             || ! app()->isLocal()

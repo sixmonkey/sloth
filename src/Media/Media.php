@@ -2,8 +2,6 @@
 
 namespace Sloth\Media;
 
-use Sloth\Facades\Configure;
-
 /**
  * Media handling utilities for WordPress.
  *
@@ -45,7 +43,7 @@ class Media
      */
     public function registerImageSizes(): void
     {
-        $imageSizes = Configure::read('theme.image-sizes');
+        $imageSizes = config('theme.image-sizes');
         if ($imageSizes && is_array($imageSizes)) {
             foreach ($imageSizes as $name => $options) {
                 $options = array_merge([
@@ -58,16 +56,16 @@ class Media
             }
         }
 
-        if (Configure::read('urls.relative')) {
+        if (config('urls.relative')) {
             $this->makeUploadsRelative();
             $this->makeLinksRelative();
         }
 
-        if (Configure::read('links.urls.relative')) {
+        if (config('links.urls.relative')) {
             $this->makeLinksRelative();
         }
 
-        if (Configure::read('uploads.urls.relative')) {
+        if (config('uploads.urls.relative')) {
             $this->makeUploadsRelative();
         }
     }
