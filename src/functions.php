@@ -72,3 +72,28 @@ if (!function_exists('app')) {
         return Container::getInstance()->make($abstract, $parameters);
     }
 }
+
+if (!function_exists('module')) {
+    /**
+     * Instantiate and render a theme module.
+     *
+     * Thin wrapper around app('module.factory')->render().
+     *
+     * @param string $name Module name (kebab-case or snake_case).
+     * @param array<string, mixed> $data Key-value pairs passed to the module.
+     * @param array<string, mixed> $options Constructor options for the module.
+     * @return string The rendered module HTML.
+     * @throws \InvalidArgumentException|BindingResolutionException If the module class does not exist.
+     *
+     * @example
+     * ```php
+     * // In a Twig template or PHP view:
+     * echo module('hero', ['title' => 'Hello World']);
+     * echo module('hero-section', ['posts' => $posts], ['wrapInRow' => true]);
+     * ```
+     */
+    function module(string $name, array $data = [], array $options = []): string
+    {
+        return app('module.factory')->render($name, $data, $options);
+    }
+}

@@ -5,36 +5,32 @@ declare(strict_types=1);
 namespace Sloth\Module;
 
 use Sloth\Core\ServiceProvider;
+use Sloth\Module\Factory\ModuleFactory;
 use Sloth\Module\Registrars\ModuleRegistrar;
 
 /**
  * Service provider for the Module component.
  *
- * Handles:
- * - Module binding in the container
- * - Module discovery and registration via ModuleRegistrar
- * - Layotter element registration
- * - JSON/AJAX endpoint registration
- *
  * @since 1.0.0
- * @see \Sloth\Module\Module
- * @see \Sloth\Module\Registrars\ModuleRegistrar
- * @see \Sloth\Plugin\Plugin
  */
 class ModuleServiceProvider extends ServiceProvider
 {
     /**
-     * Register the Module service provider.
+     * Register module services.
      *
      * @since 1.0.0
      */
     #[\Override]
     public function register(): void
     {
-        $this->app->bind(
-            'module',
-            fn(): Module => new Module()
-        );
+        // ModuleFactory — resolves and instantiates theme modules.
+        // Bound as singleton since the factory itself is stateless.
+        $this->app->singleton('module.factory', ModuleFactory::class);
+
+        // Legacy binding — kept for backwards compatibility.
+        // Use app('module.factory')->make() or the module() helper instead.
+        $this->app->bind('module', fn(): Module => new Module());
+
         $this->app->singleton(ModuleRegistrar::class);
     }
 
