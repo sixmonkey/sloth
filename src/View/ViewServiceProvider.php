@@ -8,6 +8,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory;
 use Sloth\Core\ServiceProvider;
+use Sloth\Facades\File;
 use Sloth\View\Engines\TwigEngine;
 use Sloth\View\Extensions\SlothTwigExtension;
 use Sloth\Configure\Configure;
