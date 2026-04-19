@@ -32,7 +32,7 @@ vendor/bin/rector process app/ --config vendor/sixmonkey/sloth-rector/config/slo
 
 ```json
 "scripts": {
-    "sloth:migrate": "rector process app/ --config vendor/sixmonkey/sloth-rector/config/sloth-migrate.php"
+"sloth:migrate": "rector process app/ --config vendor/sixmonkey/sloth-rector/config/sloth-migrate.php"
 }
 ```
 
