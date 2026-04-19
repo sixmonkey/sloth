@@ -80,39 +80,70 @@ defined('DB_PREFIX')   || define('DB_PREFIX',   env('DB_PREFIX', 'wp_'));
 $table_prefix = DB_PREFIX;
 
 // -------------------------------------------------------------------------
+// WordPress salts
+//
+// Salts are derived from APP_SECRET if not explicitly set in .env.
+// This means you only need to set one value instead of eight.
+//
+// For production, we recommend setting all eight explicitly using:
+//   composer require rbdwllr/wordpress-salts-generator --dev
+//   vendor/bin/wpsalts dotenv >> .env
+//
+// See MIGRATE.md if you are upgrading from the legacy salts.php approach.
+// -------------------------------------------------------------------------
+
+$_salt_secret = env('APP_SECRET', 'changeme-' . gethostname());
+
+defined('AUTH_KEY')         || define('AUTH_KEY',         env('AUTH_KEY',         hash('sha256', $_salt_secret . 'AUTH_KEY')));
+defined('SECURE_AUTH_KEY')  || define('SECURE_AUTH_KEY',  env('SECURE_AUTH_KEY',  hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY')));
+defined('LOGGED_IN_KEY')    || define('LOGGED_IN_KEY',    env('LOGGED_IN_KEY',    hash('sha256', $_salt_secret . 'LOGGED_IN_KEY')));
+defined('NONCE_KEY')        || define('NONCE_KEY',        env('NONCE_KEY',        hash('sha256', $_salt_secret . 'NONCE_KEY')));
+defined('AUTH_SALT')        || define('AUTH_SALT',        env('AUTH_SALT',        hash('sha256', $_salt_secret . 'AUTH_SALT')));
+defined('SECURE_AUTH_SALT') || define('SECURE_AUTH_SALT', env('SECURE_AUTH_SALT', hash('sha256', $_salt_secret . 'SECURE_AUTH_SALT')));
+defined('LOGGED_IN_SALT')   || define('LOGGED_IN_SALT',   env('LOGGED_IN_SALT',   hash('sha256', $_salt_secret . 'LOGGED_IN_SALT')));
+defined('NONCE_SALT')       || define('NONCE_SALT',       env('NONCE_SALT',       hash('sha256', $_salt_secret . 'NONCE_SALT')));
+
+unset($_salt_secret);
+
+// -------------------------------------------------------------------------
 // WordPress debug
 // -------------------------------------------------------------------------
 
-defined('WP_DEBUG') || define('WP_DEBUG', (bool) env('WP_DEBUG', false));
-
-// -------------------------------------------------------------------------
-// WordPress paths
-// -------------------------------------------------------------------------
-
-$webroot = __DIR__ . '/public';
-$wpPath  = substr(WP_SITEURL, strrpos(WP_SITEURL, '/'));
-
-defined('ABSPATH') || define('ABSPATH', realpath($webroot . $wpPath) . '/');
-
-define('WP_CONTENT_DIR',  $webroot);
-define('WP_CONTENT_URL',  env('WP_CONTENT_URL', WP_HOME));
-define('WP_PLUGIN_DIR',   $webroot . '/extensions/plugins');
-define('WP_PLUGIN_URL',   WP_HOME . '/extensions/plugins');
-define('WPMU_PLUGIN_DIR', $webroot . '/extensions/components');
-define('WPMU_PLUGIN_URL', WP_HOME . '/extensions/components');
+defined('WP_DEBUG')          || define('WP_DEBUG',          (bool) env('WP_DEBUG', false));
+defined('WP_DEBUG_LOG')      || define('WP_DEBUG_LOG',      (bool) env('WP_DEBUG_LOG', false));
+defined('WP_DEBUG_DISPLAY')  || define('WP_DEBUG_DISPLAY',  (bool) env('WP_DEBUG_DISPLAY', false));
+defined('SCRIPT_DEBUG')      || define('SCRIPT_DEBUG',       (bool) env('SCRIPT_DEBUG', false));
 
 // -------------------------------------------------------------------------
 // WordPress settings
 // -------------------------------------------------------------------------
 
+defined('WP_POST_REVISIONS')          || define('WP_POST_REVISIONS',          (int)  env('WP_POST_REVISIONS', 5));
 defined('AUTOMATIC_UPDATER_DISABLED') || define('AUTOMATIC_UPDATER_DISABLED', true);
-defined('DISABLE_WP_CRON')            || define('DISABLE_WP_CRON', (bool) env('DISABLE_WP_CRON', false));
-defined('DISALLOW_FILE_EDIT')         || define('DISALLOW_FILE_EDIT', true);
+defined('DISABLE_WP_CRON')            || define('DISABLE_WP_CRON',            (bool) env('DISABLE_WP_CRON', false));
+defined('DISALLOW_FILE_EDIT')         || define('DISALLOW_FILE_EDIT',          true);
+
+// -------------------------------------------------------------------------
+// WordPress paths
+// -------------------------------------------------------------------------
+
+$_webroot = __DIR__ . '/public';
+$_wp_path = substr(WP_SITEURL, strrpos(WP_SITEURL, '/'));
+
+defined('ABSPATH') || define('ABSPATH', realpath($_webroot . $_wp_path) . '/');
+
+define('WP_CONTENT_DIR',  $_webroot);
+define('WP_CONTENT_URL',  env('WP_CONTENT_URL', WP_HOME));
+define('WP_PLUGIN_DIR',   $_webroot . '/extensions/plugins');
+define('WP_PLUGIN_URL',   WP_HOME . '/extensions/plugins');
+define('WPMU_PLUGIN_DIR', $_webroot . '/extensions/components');
+define('WPMU_PLUGIN_URL', WP_HOME . '/extensions/components');
+
+unset($_webroot, $_wp_path);
 
 // -------------------------------------------------------------------------
 // Deprecated DIR_* constants
 //
-// Kept for backwards compatibility with themes that reference these directly.
 // Use app()->path('app'), app()->path('cache') etc. instead.
 // Will be removed in a future major version — see MIGRATE.md.
 // -------------------------------------------------------------------------

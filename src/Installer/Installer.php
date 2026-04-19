@@ -149,7 +149,7 @@ class Installer
 
         $this->mkDirs();
         $this->rebuildIndex();
-        $this->initializeSalts();
+        $this->removeLegacySalts();
         $this->initializeDotenv();
         $this->initializeWpconfig();
         $this->initializeHtaccess();
@@ -294,22 +294,27 @@ class Installer
     }
 
     /**
-     * Generate WordPress authentication salt keys and write them to a PHP file.
+     * Remove the legacy salts.php file if it exists.
      *
-     * Fetches fresh salts from the WordPress.org API and stores them in
-     * app/config/salts.php. Skipped if the file already exists so that
-     * re-running the installer does not rotate keys on an existing install.
+     * Salts are now derived from APP_SECRET in .env.
+     * See MIGRATE.md for migration instructions.
      *
      * @since 1.0.0
      */
-    private function initializeSalts(): void
+    private function removeLegacySalts(): void
     {
         $saltsFile = Path::join($this->dirs['config'], 'salts.php');
 
         if (!$this->fs->exists($saltsFile)) {
-            $salts = "<?php\n" . file_get_contents('https://api.wordpress.org/secret-key/1.1/salt/');
-            file_put_contents($saltsFile, $salts);
+            return;
         }
+
+        $this->io->write('');
+        $this->io->write('<info>ℹ️  Removing legacy salts.php — salts are now derived from APP_SECRET in .env.</info>');
+        $this->io->write('<info>   See MIGRATE.md for migration instructions.</info>');
+        $this->io->write('');
+
+        $this->fs->remove($saltsFile);
     }
 
     /**
@@ -341,15 +346,13 @@ class Installer
     {
         $this->fs->copy(
             Path::join(dirname(__DIR__), 'wp-config.php'),
-            Path::join($this->dirs['webroot'], 'wp-config.php')
+            Path::join($this->dirs['webroot'], 'wp-config.php'),
+            true
         );
     }
 
     /**
      * Copy the bundled .htaccess into the web root if one does not exist yet.
-     *
-     * Preserves any .htaccess customisations the developer may have made after
-     * the initial install.
      *
      * @since 1.0.0
      */
