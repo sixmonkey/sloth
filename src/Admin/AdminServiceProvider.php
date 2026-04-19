@@ -25,7 +25,7 @@ class AdminServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'customizer',
-            fn($container): \Sloth\Admin\Customizer => Customizer::getInstance()
+            fn($container): \Sloth\Admin\Customizer => new Customizer($container),
         );
     }
 
