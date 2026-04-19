@@ -142,14 +142,91 @@ class Application extends Container
     }
 
     /**
-     * Registers the Application class into the container.
+     * Boot the application.
      *
-     * This allows the application instance to be accessed from
-     * the container itself via dependency injection or the
-     * static setInstance method.
+     * Idempotent — subsequent calls are no-ops. On first call:
+     * 1. Load development config
+     * 2. Set up config repository
+     * 3. Register base paths
+     * 4. Register all service providers
+     * 5. Set class aliases
+     * 6. Connect Corcel to WordPress database
+     * 7. Set up theme paths and view locations
+     * 8. Boot all providers and register hooks/filters
      *
      * @since 1.0.0
-     * @see Application::getInstance()
+     */
+    public function boot(): static
+    {
+        if (static::$booted) {
+            return $this;
+        }
+
+        if (!is_blog_installed()) {
+            return $this;
+        }
+
+        @include(get_template_directory() . '/develop.config.php');
+
+        // Config repository
+        if (Facade::getFacadeApplication() !== null && Facade::getFacadeApplication()->bound('config')) {
+            $existingConfig = Facade::getFacadeApplication()->make('config');
+            $this->singleton('config', fn() => $existingConfig);
+        } else {
+            $this->singleton('config', fn() => new \Illuminate\Config\Repository([]));
+        }
+
+        Facade::setFacadeApplication($this);
+
+        // Paths
+        $this->registerBasePaths();
+
+        // Configure must be first — everything below may call Configure::write/read
+        $this->register(\Sloth\Configure\ConfigureServiceProvider::class);
+
+        // Load framework config files (app/config/*.php)
+        $this->loadConfigFiles();
+
+        // Load theme config — registers theme.twig.filters etc. before ViewServiceProvider
+        $this->loadThemeConfig();
+
+        // Remaining providers
+        $this->registerProviders();
+        $this->setAliases();
+
+        // Database
+        $this->connectCorcel();
+
+        // Set up theme view paths AFTER providers — view.finder is now available.
+        $this->setupThemeViews();
+
+        // Boot providers + register hooks
+        $this->bootProviders();
+
+        static::$booted = true;
+
+        return $this;
+    }
+
+    /**
+     * Check whether the application has been booted.
+     *
+     * @since 1.0.0
+     */
+    public static function isBooted(): bool
+    {
+        return static::$booted;
+    }
+
+    // -------------------------------------------------------------------------
+    // Application registration
+    // -------------------------------------------------------------------------
+
+    /**
+     * Registers the Application instance in the container and sets up
+     * legacy $GLOBALS deprecation proxies.
+     *
+     * @since 1.0.0
      */
     public function registerApplication(): void
     {
@@ -271,7 +348,6 @@ class Application extends Container
         }
 
         $this->instance($providerName, $provider);
-
         $provider->register();
         $this->loadedProviders[$providerName] = $provider;
 
@@ -310,10 +386,8 @@ class Application extends Container
      * Normalize callbacks from getHooks/getFilters format.
      *
      * @param mixed $value
-     *
      * @return array<int, array{fn: callable, priority: int}>
      * @since 1.0.0
-     *
      */
     private function normalizeCallbacks(mixed $value): array
     {
@@ -329,10 +403,176 @@ class Application extends Container
             if (is_callable($item)) {
                 return ['fn' => $item, 'priority' => 10];
             }
-
             return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
         }, $value);
     }
+
+    // -------------------------------------------------------------------------
+    // Aliases
+    // -------------------------------------------------------------------------
+
+    /**
+     * Create class aliases for commonly used framework classes.
+     *
+     * @since 1.0.0
+     */
+    private function setAliases(): void
+    {
+        foreach ($this->classAliases as $alias => $class) {
+            if (!class_exists($alias)) {
+                class_alias($class, $alias);
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Theme setup
+    // -------------------------------------------------------------------------
+
+    /**
+     * Load theme configuration files before providers register.
+     *
+     * Loads app.config.php and theme config.php so that Configure::write()
+     * values (e.g. theme.twig.filters) are available when providers like
+     * ViewServiceProvider register their services.
+     *
+     * @since 1.0.0
+     */
+    protected function loadThemeConfig(): void
+    {
+        $this->current_theme_path = realpath(get_template_directory());
+
+        $themeConfig = $this->current_theme_path . '/config.php';
+        if (file_exists($themeConfig)) {
+            include_once $themeConfig;
+        }
+
+        Configure::write('layotter_prepare_fields', 2);
+    }
+
+    /**
+     * Set up theme view paths and Twig loader after providers are registered.
+     *
+     * Must run after ViewServiceProvider — requires view.finder and twig.loader
+     * to be bound in the container.
+     *
+     * @since 1.0.0
+     */
+    protected function setupThemeViews(): void
+    {
+        if (is_dir($this->current_theme_path . '/View')) {
+            $this['view.finder']->addLocation($this->current_theme_path . '/View');
+        }
+
+        $this['view.finder']->addLocation(dirname(__DIR__) . '/_view');
+        $this['twig.loader']->setPaths($this['view.finder']->getPaths());
+    }
+
+    // -------------------------------------------------------------------------
+    // Database
+    // -------------------------------------------------------------------------
+
+    /**
+     * Establish a database connection for Corcel.
+     *
+     * Corcel is used to access WordPress data as Eloquent models.
+     * Connection parameters are read from WordPress constants.
+     *
+     * @since 1.0.0
+     * @uses DB_HOST
+     * @uses DB_NAME
+     * @uses DB_USER
+     * @uses DB_PASSWORD
+     * @uses DB_PREFIX
+     */
+    private function connectCorcel(): void
+    {
+        Database::connect([
+            'host'     => DB_HOST,
+            'database' => DB_NAME,
+            'username' => DB_USER,
+            'password' => DB_PASSWORD,
+            'prefix'   => DB_PREFIX,
+        ]);
+
+        Model::setEventDispatcher(new Dispatcher($this));
+        \Corcel\Model\Post::resolveConnection()->enableQueryLog();
+    }
+
+    // -------------------------------------------------------------------------
+    // Config
+    // -------------------------------------------------------------------------
+
+    /**
+     * Load configuration files from app/config/ into the config repository.
+     *
+     * Each PHP file in the config directory becomes a config key.
+     * For example, app/config/theme.php becomes config('theme').
+     *
+     * @since 1.0.0
+     */
+    private function loadConfigFiles(): void
+    {
+        $configPath = $this->guessBasePath() . '/app/config/';
+
+        if (!is_dir($configPath)) {
+            return;
+        }
+
+        // Load app.config.php first — it may register Configure::write() values
+        // (e.g. theme.twig.filters) that providers read during registration.
+        $appConfig = $configPath . 'app.config.php';
+        if (file_exists($appConfig)) {
+            require_once $appConfig;
+        }
+
+        // Load remaining config files into the Laravel config repository.
+        // Each file becomes a config key: theme.php → config('theme').
+        foreach (glob($configPath . '*.php') as $file) {
+            if (realpath($file) === realpath($appConfig)) {
+                continue; // already loaded above
+            }
+            $key = basename($file, '.php');
+            $this['config']->set($key, require $file);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Backwards compatibility
+    // -------------------------------------------------------------------------
+
+    /**
+     * Get the template context.
+     *
+     * Kept for backwards compatibility with themes that call
+     * $GLOBALS['sloth::plugin']->getContext().
+     *
+     * @deprecated Use app('context')->getContext() instead.
+     * @since 1.0.0
+     * @return array<string, mixed>
+     */
+    public function getContext(): array
+    {
+        if ($this->bound('context')) {
+            return $this['context']->getContext();
+        }
+        return [];
+    }
+
+    /**
+     * Check if this is a development environment.
+     *
+     * @deprecated Use app()->isLocal() instead.
+     * @since 1.0.0
+     */
+    public function isDevEnv(): bool
+    {
+        return $this->isLocal();
+    }
+
+    // -------------------------------------------------------------------------
+    // Environment
+    // -------------------------------------------------------------------------
 
     /**
      * Check if the application is running in a local/development environment.
@@ -438,24 +678,20 @@ class Application extends Container
         return $myModule->render();
     }
 
+    // -------------------------------------------------------------------------
+    // Misc
+    // -------------------------------------------------------------------------
+
     /**
-     * Resolves the given type from the container with custom handling.
+     * Resolve a type from the container with custom handling.
      *
-     * This method provides custom resolution for specific classes like the Paginator.
-     *
-     * @param class-string|object $abstract The class or interface to resolve
-     * @param array<string, mixed> $parameters Constructor parameters
-     * @param bool $raiseEvents Whether to fire resolution events
-     *
-     * @return mixed The resolved instance
-     *
+     * @param class-string|object  $abstract   The class or interface to resolve.
+     * @param array<string, mixed> $parameters Constructor parameters.
+     * @return mixed The resolved instance.
      * @throws BindingResolutionException
-     * @since 1.1.0 Renamed from resolve to avoid conflict with protected parent method
-     *
-     * @see \Illuminate\Container\Container::make()
      * @since 1.0.0
      */
-    public function resolveFromContainer($abstract, array $parameters = [], $raiseEvents = true): mixed
+    public function resolveFromContainer($abstract, array $parameters = []): mixed
     {
         if ($abstract === \Illuminate\Pagination\LengthAwarePaginator::class) {
             $abstract = \Sloth\Pagination\Paginator::class;
