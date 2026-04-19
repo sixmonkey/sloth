@@ -65,6 +65,13 @@ class Application extends Container
     private static bool $booted = false;
 
     /**
+     * Cached base path — set once by guessBasePath().
+     *
+     * @since 1.0.0
+     */
+    private static ?string $cachedBasePath = null;
+
+    /**
      * Project paths mapped by key.
      * Stored in the container as 'path.{key}'.
      *
@@ -278,9 +285,14 @@ class Application extends Container
      */
     protected function guessBasePath(): string
     {
+        // Cached statically — may be called multiple times during boot
+        if (static::$cachedBasePath !== null) {
+            return static::$cachedBasePath;
+        }
+
         // 1. Explicit override — for non-standard project structures
         if (defined('SLOTH_BASE_PATH')) {
-            return rtrim(SLOTH_BASE_PATH, '/');
+            return static::$cachedBasePath = rtrim(SLOTH_BASE_PATH, '/');
         }
 
         // 2. Walk up from this file looking for composer.json outside vendor/
@@ -290,7 +302,7 @@ class Application extends Container
                 file_exists($dir . '/composer.json')
                 && !str_contains($dir, '/vendor/')
             ) {
-                return $dir;
+                return static::$cachedBasePath = $dir;
             }
             $dir = dirname($dir);
         }
@@ -299,7 +311,7 @@ class Application extends Container
         if (function_exists('get_template_directory')) {
             $themePath = get_template_directory();
             if (is_dir($themePath . '/app')) {
-                return $themePath;
+                return static::$cachedBasePath = $themePath;
             }
         }
 
