@@ -15,9 +15,7 @@ use Twig\TwigTest;
 
 class SlothTwigExtension extends AbstractExtension
 {
-    public function __construct(protected \Sloth\Core\Application $container)
-    {
-    }
+    public function __construct(protected \Sloth\Core\Application $container) {}
 
     /**
      * Define the extension name.
@@ -77,7 +75,7 @@ class SlothTwigExtension extends AbstractExtension
             }),
             new TwigFilter('debug', fn($input): mixed => debug($input)),
             new TwigFilter('print_r', fn($input): mixed => debug($input)),
-            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string)$phone)),
+            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string) $phone)),
             new TwigFilter(
                 'sanitize',
                 fn($string) => sanitize_title($string)
@@ -122,8 +120,10 @@ class SlothTwigExtension extends AbstractExtension
              * WordPress formatting functions.
              */
             new TwigFunction('wpautop', fn($text, $br = true) => wpautop($text, $br)),
-            new TwigFunction('wp_trim_words',
-                fn($text, $num_words = 55, $more = null) => wp_trim_words($text, $num_words, $more)),
+            new TwigFunction(
+                'wp_trim_words',
+                fn($text, $num_words = 55, $more = null) => wp_trim_words($text, $num_words, $more)
+            ),
             new TwigFunction('get_field', fn($field_name, $post = null) => get_field($field_name, $post)),
             /*
              * Use this to call any core, WordPress or user defined functions.
@@ -143,30 +143,52 @@ class SlothTwigExtension extends AbstractExtension
             /*
              * Retrieve any meta data from post, comment, user, ...
              */
-            new TwigFunction('meta',
-                fn($key, $id = null, $context = 'post', $single = true) => meta($key, $id, $context, $single)),
+            new TwigFunction(
+                'meta',
+                fn($key, $id = null, $context = 'post', $single = true) => meta($key, $id, $context, $single)
+            ),
             /*
              * Gettext functions.
              */
             new TwigFunction('translate', fn($text, $domain = 'default') => translate($text, $domain)),
             new TwigFunction('__', fn($text, $domain = 'default') => __($text, $domain)),
             new TwigFunction('_e', fn($text, $domain = 'default') => _e($text, $domain)),
-            new TwigFunction('_n',
-                fn($single, $plural, $number, $domain = 'default') => _n($single, $plural, $number, $domain)),
+            new TwigFunction(
+                '_n',
+                fn($single, $plural, $number, $domain = 'default') => _n($single, $plural, $number, $domain)
+            ),
             new TwigFunction('_x', fn($text, $context, $domain = 'default') => _x($text, $context, $domain)),
             new TwigFunction('_ex', fn($text, $context, $domain = 'default') => _ex($text, $context, $domain)),
-            new TwigFunction('_nx',
-                fn($single, $plural, $number, $context, $domain = 'default') => _nx($single, $plural, $number, $context,
-                    $domain)),
-            new TwigFunction('_n_noop',
-                fn($singular, $plural, $domain = 'default') => _n_noop($singular, $plural, $domain)),
-            new TwigFunction('_nx_noop',
-                fn($singular, $plural, $context, $domain = 'default') => _nx_noop($singular, $plural, $context,
-                    $domain)),
+            new TwigFunction(
+                '_nx',
+                fn($single, $plural, $number, $context, $domain = 'default') => _nx(
+                    $single,
+                    $plural,
+                    $number,
+                    $context,
+                    $domain
+                )
+            ),
+            new TwigFunction(
+                '_n_noop',
+                fn($singular, $plural, $domain = 'default') => _n_noop($singular, $plural, $domain)
+            ),
+            new TwigFunction(
+                '_nx_noop',
+                fn($singular, $plural, $context, $domain = 'default') => _nx_noop(
+                    $singular,
+                    $plural,
+                    $context,
+                    $domain
+                )
+            ),
             new TwigFunction(
                 'translate_nooped_plural',
-                fn($nooped_plural, $count, $domain = 'default') => translate_nooped_plural($nooped_plural, $count,
-                    $domain)
+                fn($nooped_plural, $count, $domain = 'default') => translate_nooped_plural(
+                    $nooped_plural,
+                    $count,
+                    $domain
+                )
             ),
             new TwigFunction('pll_e', 'pll_e'),
             new TwigFunction('pll__', 'pll__'),
@@ -181,7 +203,5 @@ class SlothTwigExtension extends AbstractExtension
         return $functions;
     }
 
-    public function initRuntime(\Twig_Environment $environment)
-    {
-    }
+    public function initRuntime(\Twig_Environment $environment) {}
 }

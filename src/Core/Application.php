@@ -375,7 +375,7 @@ class Application extends Container
         foreach (['cache', 'logs'] as $key) {
             $path = get_template_directory() . '/' . $key;
             if (!is_dir($path)) {
-                mkdir($path, 0755, true);
+                mkdir($path, 0o755, true);
             }
             $this->addPath($key, $path);
         }
@@ -420,8 +420,8 @@ class Application extends Container
         }
 
         throw new \RuntimeException(
-            'Sloth could not determine the project base path. ' .
-            'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
+            'Sloth could not determine the project base path. '
+            . 'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
         );
     }
 

@@ -52,8 +52,8 @@ class ModuleFactory
 
         if (!class_exists($class)) {
             throw new \InvalidArgumentException(
-                "Module class [{$class}] not found. " .
-                "Make sure the module exists in Theme\\Module\\."
+                "Module class [{$class}] not found. "
+                . "Make sure the module exists in Theme\\Module\\."
             );
         }
 
