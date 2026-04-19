@@ -355,6 +355,64 @@ or understand the business logic inside closures.
 3. Return `TwigFilter` instances referencing the methods
 4. Remove the `Configure::write('theme.twig.filters', ...)` call
 
+
+---
+
+## Plugin autoactivation removed
+
+Sloth no longer autoactivates WordPress plugins automatically.
+
+**Before** — Sloth would activate plugins listed in Configure:
+```php
+Configure::write('plugins.autoactivate', true);
+Configure::write('plugins.autoactivate.blacklist', ['cachify']);
+```
+
+**After** — use `alleyinteractive/wp-plugin-loader` for code-based plugin loading:
+
+```bash
+composer require alleyinteractive/wp-plugin-loader
+```
+
+Create `app/Providers/PluginServiceProvider.php` in your theme:
+
+```php
+namespace App\Providers;
+
+use Alley\WP\WP_Plugin_Loader;
+use Sloth\Core\ServiceProvider;
+
+class PluginServiceProvider extends ServiceProvider
+{
+    public function boot(): void
+    {
+        WP_Plugin_Loader::create()
+            ->add(config('plugins.active', []))
+            ->when(fn() => app()->isLocal(), config('plugins.dev', []))
+            ->load();
+    }
+}
+```
+
+And `app/config/plugins.php`:
+
+```php
+return [
+    'active' => [
+        'advanced-custom-fields-pro/acf.php',
+        'yoast-seo/wp-seo.php',
+    ],
+    'dev' => [
+        'query-monitor/query-monitor.php',
+    ],
+];
+```
+
+The plugin loader marks plugins as active in the WordPress admin UI
+and supports conditional loading via `->when()`.
+
+**Rector:** ⚠️ Manual
+
 ## Changelog
 
 | Version | Branch | Breaking Changes |
