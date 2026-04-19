@@ -251,12 +251,13 @@ class Application extends Container
     {
         $base = $this->guessBasePath();
 
-        $this->addPath('base',    $base);
-        $this->addPath('app',     $base . '/app');
-        $this->addPath('vendor',  $base . '/vendor');
-        $this->addPath('cms',     ABSPATH);
-        $this->addPath('plugins', WP_PLUGIN_DIR);
-        $this->addPath('theme',   get_template_directory());
+        $this->addPath('base',      $base);
+        $this->addPath('app',       $base . '/app');
+        $this->addPath('vendor',    $base . '/vendor');
+        $this->addPath('cms',       ABSPATH);
+        $this->addPath('plugins',   WP_PLUGIN_DIR);
+        $this->addPath('theme',     get_template_directory());
+        $this->addPath('framework', dirname(__DIR__));
 
         // Cache and logs live in the theme directory — auto-create if missing
         foreach (['cache', 'logs'] as $key) {
@@ -277,8 +278,13 @@ class Application extends Container
      */
     protected function guessBasePath(): string
     {
-        $dir = __DIR__;
+        // 1. Explicit override — for non-standard project structures
+        if (defined('SLOTH_BASE_PATH')) {
+            return rtrim(SLOTH_BASE_PATH, '/');
+        }
 
+        // 2. Walk up from this file looking for composer.json outside vendor/
+        $dir = __DIR__;
         while ($dir !== '/') {
             if (
                 file_exists($dir . '/composer.json')
@@ -289,7 +295,18 @@ class Application extends Container
             $dir = dirname($dir);
         }
 
-        throw new \RuntimeException('Sloth could not determine the project base path.');
+        // 3. Theme-only fallback — app/ lives inside the theme directory
+        if (function_exists('get_template_directory')) {
+            $themePath = get_template_directory();
+            if (is_dir($themePath . '/app')) {
+                return $themePath;
+            }
+        }
+
+        throw new \RuntimeException(
+            'Sloth could not determine the project base path. ' .
+            'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -466,7 +483,7 @@ class Application extends Container
             $this['view.finder']->addLocation($this->current_theme_path . '/View');
         }
 
-        $this['view.finder']->addLocation(dirname(__DIR__) . '/_view');
+        $this['view.finder']->addLocation($this->path('_view', 'framework'));
         $this['twig.loader']->setPaths($this['view.finder']->getPaths());
     }
 
@@ -535,7 +552,7 @@ class Application extends Container
                 continue; // already loaded above
             }
             $key = basename($file, '.php');
-            $this['config']->set($key, require $file);
+            $this['config']->set($key, require_once $file);
         }
     }
 
