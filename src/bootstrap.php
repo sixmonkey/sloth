@@ -5,28 +5,29 @@
  *
  * WordPress environment configuration.
  *
- * This file is the only entry point that must exist before WordPress loads.
- * It is responsible for exactly three things:
+ * This file is owned by the project — not by Sloth. It is copied once
+ * by the Sloth installer and then maintained by the project team.
  *
- *   1. Loading the Composer autoloader
- *   2. Loading environment variables from .env
- *   3. Defining WordPress constants (DB, URLs, paths)
+ * ## Responsibilities
+ *
+ * 1. Load the Composer autoloader
+ * 2. Load environment variables from .env
+ * 3. Define WordPress constants (DB, URLs, paths, salts)
  *
  * Everything else — framework boot, service providers, Corcel, Twig — is
- * handled by Sloth itself on the `after_setup_theme` hook.
+ * handled by Sloth on the `after_setup_theme` hook (priority 0).
  *
  * ## What does NOT belong here
  *
- * - Sloth\Core\Application or any framework class instantiation
- * - Configure::boot() or any facade usage
- * - DIR_* constants (deprecated — use app()->path() instead)
+ * - Any Sloth class instantiation
+ * - Configure::boot() or facade usage
  * - ServiceProvider registration
  *
- * ## Deprecation notice
+ * ## Deprecated
  *
- * The DIR_* constants below are kept for backwards compatibility with themes
- * that reference them directly. They will be removed in a future major version.
- * Use app()->path('app'), app()->path('cache') etc. instead.
+ * The DIR_* constants are kept as a compatibility layer for themes that
+ * reference them directly. Use app()->path() instead. They will be removed
+ * in a future major version — see MIGRATE.md.
  */
 
 // -------------------------------------------------------------------------
@@ -38,11 +39,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 // -------------------------------------------------------------------------
 // Configure — must be available before WordPress loads
 //
-// Theme includes (e.g. nav-menus.php) may reference Configure before
-// after_setup_theme fires. The class_alias allows themes to use
-// Configure:: without the full namespace.
-//
-// TODO: move into ConfigServiceProvider once Step 6 is complete.
+// Theme includes may reference Configure before after_setup_theme fires.
+// TODO: remove when all themes have migrated to config() — see MIGRATE.md.
 // -------------------------------------------------------------------------
 
 class_alias(\Sloth\Configure\Configure::class, 'Configure');
@@ -157,5 +155,4 @@ defined('DIR_ENVCFG')  || define('DIR_ENVCFG',   DIR_CFG  . 'environments' . DS)
 defined('DIR_WWW')     || define('DIR_WWW',      DIR_ROOT . 'public' . DS);
 defined('DIR_CMS')     || define('DIR_CMS',      DIR_WWW  . 'cms'    . DS);
 defined('DIR_VENDOR')  || define('DIR_VENDOR',   DIR_ROOT . 'vendor' . DS);
-defined('DIR_PLUGINS') || define('DIR_PLUGINS',  DIR_WWW  . 'extensions' . DS . 'plugins'    . DS);
-defined('DIR_SLOTH')   || define('DIR_SLOTH',    DIR_ROOT . 'sloth'  . DS);
+defined('DIR_PLUGINS') || define('DIR_PLUGINS',  DIR_WWW  . 'extensions' . DS . 'plugins' . DS);

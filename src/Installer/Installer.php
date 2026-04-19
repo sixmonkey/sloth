@@ -387,11 +387,9 @@ class Installer
     /**
      * Copy the bootstrap file into the project root.
      *
-     * If bootstrap.php already exists, the user is warned and must confirm
-     * before it is overwritten — any local changes will be lost.
-     *
-     * In non-interactive mode (e.g. CI), the file is always overwritten
-     * without prompting.
+     * bootstrap.php is a project file — it is copied once on first install
+     * and then owned by the project. On subsequent runs, the user is warned
+     * before it is overwritten.
      *
      * @since 1.0.0
      */
@@ -428,9 +426,6 @@ class Installer
 
     /**
      * Check whether the bundled default "sloth-theme" directory is present.
-     *
-     * Used to decide whether the renaming dialog and {@see renameTheme()}
-     * should run. Returns false after the theme has already been renamed.
      *
      * @return bool True if the default theme directory exists.
      * @since 1.0.0
