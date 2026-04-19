@@ -106,11 +106,9 @@ class DebugServiceProvider extends ServiceProvider
      */
     private function resolveLogPath(): string
     {
-        try {
-            $path = app('path.logs');
-        } catch (\Throwable) {
-            $path = dirname(__DIR__, 5) . '/logs';
-        }
+        $path = app('path.logs')
+            ?? env('LOG_DIR')
+            ?? sys_get_temp_dir() . '/sloth-logs';
 
         if (!app('files')->isDirectory($path)) {
             app('files')->ensureDirectoryExists($path, 0o755);
