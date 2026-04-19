@@ -313,7 +313,7 @@ class Installer
     /**
      * Create all required project directories if they do not already exist.
      *
-     * Uses {@see Filesystem::mkdir()} which is a no-op for directories that
+     * Uses {@see Files::mkdir()} which is a no-op for directories that
      * already exist, making this step safely idempotent.
      *
      * @since 1.0.0

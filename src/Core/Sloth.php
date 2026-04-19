@@ -40,6 +40,7 @@ class Sloth extends Singleton
      * @var array<string, class-string>
      */
     private array $classAliases = [
+        'Files' => \Sloth\Facades\File::class,
         'View' => \Sloth\Facades\View::class,
         'Configure' => \Sloth\Facades\Configure::class,
         'Validator' => \Sloth\Facades\Validation::class,
@@ -120,6 +121,7 @@ class Sloth extends Singleton
     protected function registerProviders(): void
     {
         $providers = [
+            \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
             \Sloth\Finder\FinderServiceProvider::class,
             \Sloth\View\ViewServiceProvider::class,
