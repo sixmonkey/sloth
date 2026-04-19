@@ -25,9 +25,6 @@ class Installer
     /**
      * Filesystem helper from symfony/filesystem.
      *
-     * Composer depends on symfony/filesystem itself, so this is always
-     * available without adding an explicit require to composer.json.
-     *
      * @since 1.0.0
      */
     private Filesystem $fs;
@@ -60,17 +57,12 @@ class Installer
     /**
      * Human-readable name of the theme to be created.
      *
-     * Defaults to the project root directory name and may be overridden
-     * interactively during {@see dialog()}.
-     *
      * @since 1.0.0
      */
     private string $themeName;
 
     /**
      * Author name written into style.css.
-     *
-     * Defaults to the OS user running Composer.
      *
      * @since 1.0.0
      */
@@ -86,17 +78,12 @@ class Installer
     /**
      * Absolute path to the bundled default "sloth-theme" directory.
      *
-     * Set during {@see gatherInfo()} and used by {@see defaultThemeExists()}
-     * and {@see renameTheme()}.
-     *
      * @since 1.0.0
      */
     private string $dirThemeDefault;
 
     /**
      * Absolute path to the renamed theme directory.
-     *
-     * Populated by {@see renameTheme()} after the user has confirmed the name.
      *
      * @since 1.0.0
      */
@@ -109,13 +96,6 @@ class Installer
     /**
      * Primary Composer script entrypoint.
      *
-     * Registers in composer.json as:
-     *   "post-install-cmd": "Sloth\\Installer\\Installer::config"
-     *
-     * When called interactively (without --no-interaction) and the default
-     * theme directory is present, the user is prompted for theme name, author,
-     * and description before files are set up.
-     *
      * @param Event $event The Composer script event injected by Composer.
      * @since 1.0.0
      */
@@ -127,17 +107,9 @@ class Installer
     /**
      * Silent Composer script entrypoint.
      *
-     * Equivalent to calling config() with --no-interaction. Kept for
-     * backwards compatibility with existing composer.json configurations.
-     *
-     * Registers in composer.json as:
-     *   "post-install-cmd": "Sloth\\Installer\\Installer::config_quiet"
-     *
      * @param Event $event The Composer script event injected by Composer.
-     *
-     * @deprecated Use config() with the --no-interaction flag instead:
-     *             composer install --no-interaction
-     * @since      1.0.0
+     * @deprecated Use config() with the --no-interaction flag instead.
+     * @since 1.0.0
      */
     public static function config_quiet(Event $event): void
     {
@@ -153,11 +125,6 @@ class Installer
     // -------------------------------------------------------------------------
 
     /**
-     * Initialise the installer for a single Composer run.
-     *
-     * Bootstraps the Filesystem helper, resolves all paths from the Composer
-     * configuration, and sets sensible defaults for theme metadata.
-     *
      * @param Event $event The Composer script event.
      * @since 1.0.0
      */
@@ -170,10 +137,6 @@ class Installer
 
     /**
      * Execute the full setup sequence.
-     *
-     * If the installer is running interactively and the default theme directory
-     * is present, the user is first asked for theme metadata before any files
-     * are written.
      *
      * @since 1.0.0
      */
@@ -200,14 +163,6 @@ class Installer
 
     /**
      * Resolve all paths and default metadata from the Composer configuration.
-     *
-     * Reads the `extra` section of the project's composer.json to determine:
-     * - The web root (default: public/)
-     * - The WordPress install directory
-     * - The mu-plugins directory (via installer-paths)
-     * - The themes directory (via installer-paths)
-     *
-     * Also sets default values for {@see $themeName} and {@see $authorName}.
      *
      * @param Event $event The Composer script event.
      * @since 1.0.0
@@ -247,13 +202,9 @@ class Installer
     /**
      * Resolve a directory from the installer-paths extra config by type condition.
      *
-     * Searches the installer-paths map for the first entry whose conditions
-     * include the given type string (e.g. "type:wordpress-muplugin") and
-     * returns the absolute path with the `/{$name}/` placeholder stripped.
-     *
-     * @param array<string, mixed> $installerPaths The installer-paths map from composer.json extra.
-     * @param string               $type           The type condition to match (e.g. "type:wordpress-theme").
-     * @return string Absolute resolved path, or the project base dir if not found.
+     * @param array<string, mixed> $installerPaths The installer-paths map.
+     * @param string               $type           The type condition to match.
+     * @return string Absolute resolved path.
      * @since 1.0.0
      */
     private function resolveInstallerPath(array $installerPaths, string $type): string
@@ -272,11 +223,7 @@ class Installer
     // -------------------------------------------------------------------------
 
     /**
-     * Prompt the user for theme metadata via the Composer IO interface.
-     *
-     * Only called when {@see IOInterface::isInteractive()} returns true and
-     * the default theme directory exists. Updates {@see $themeName},
-     * {@see $authorName}, and {@see $themeDescription} in place.
+     * Prompt the user for theme metadata.
      *
      * @since 1.0.0
      */
@@ -298,7 +245,6 @@ class Installer
             $this->authorName
         );
 
-        // Rebuild default description now that we have the final theme name.
         $this->themeDescription = $this->themeName . ': Just another WordPress theme.';
         $this->themeDescription = $this->io->ask(
             'Please describe your theme [<comment>' . $this->themeDescription . '</comment>]: ',
@@ -311,10 +257,7 @@ class Installer
     // -------------------------------------------------------------------------
 
     /**
-     * Create all required project directories if they do not already exist.
-     *
-     * Uses {@see Filesystem::mkdir()} which is a no-op for directories that
-     * already exist, making this step safely idempotent.
+     * Create all required project directories.
      *
      * @since 1.0.0
      */
@@ -327,11 +270,6 @@ class Installer
 
     /**
      * Write a custom index.php into the web root that points to WordPress.
-     *
-     * WordPress ships its own index.php which hard-codes a relative path to
-     * wp-blog-header.php. When WordPress lives in a subdirectory the path
-     * needs to be rewritten so that requests routed through the web root
-     * still bootstrap WordPress correctly.
      *
      * @since 1.0.0
      */
@@ -395,8 +333,7 @@ class Installer
     /**
      * Copy the bundled wp-config.php into the web root.
      *
-     * Always overwrites to ensure the web root contains the latest version
-     * of the config stub shipped with this package.
+     * Always overwrites to ensure the web root contains the latest version.
      *
      * @since 1.0.0
      */
@@ -431,11 +368,7 @@ class Installer
     /**
      * Copy the Sloth mu-plugin into the mu-plugins directory.
      *
-     * Must-use plugins are loaded automatically by WordPress without
-     * activation, making this the right place for framework-level code.
-     *
-     * Always overwrites to ensure themes get the latest bootstrap version
-     * shipped with this package.
+     * Always overwrites to ensure themes get the latest bootstrap version.
      *
      * @since 1.0.0
      */
@@ -507,10 +440,6 @@ class Installer
     /**
      * Rename the default theme directory and write style.css.
      *
-     * Transforms {@see $themeName} into a slug via {@see Utility::viewize()}
-     * and renames the directory accordingly, then delegates to
-     * {@see buildStyleCss()} to write the theme header.
-     *
      * @since 1.0.0
      */
     private function renameTheme(): void
@@ -527,10 +456,6 @@ class Installer
 
     /**
      * Write the WordPress theme header into style.css.
-     *
-     * WordPress reads theme metadata (name, author, version, description)
-     * from the comment block at the top of style.css. This method generates
-     * that block from the values collected during {@see dialog()}.
      *
      * @since 1.0.0
      */
@@ -549,10 +474,8 @@ class Installer
     /**
      * Generate a screenshot for the theme.
      *
-     * Uses the bundled screenshot.svg template, substituting theme name and
-     * author. If the Imagick extension is available, converts the SVG to PNG
-     * (required by WordPress theme browser). Falls back to writing an SVG
-     * file if Imagick is not installed.
+     * Uses Imagick if available to convert SVG to PNG.
+     * Falls back to writing an SVG file if Imagick is not installed.
      *
      * @since 1.0.0
      */
@@ -576,7 +499,6 @@ class Installer
             return;
         }
 
-        // Fallback: SVG as-is — besser als nichts
         $this->fs->dumpFile(
             Path::join($this->dirThemeNew, 'screenshot.svg'),
             $svg
@@ -591,9 +513,6 @@ class Installer
 
     /**
      * Resolve a relative path against the project base directory.
-     *
-     * Thin wrapper around {@see Path::join()} and {@see Path::canonicalize()}
-     * so callers don't need to reference $this->baseDir directly.
      *
      * @param string $relative A path relative to the project root.
      * @return string Absolute, canonicalized path.
