@@ -6,6 +6,7 @@ namespace Sloth\Core;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Container\CircularDependencyException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;
@@ -211,7 +212,29 @@ class Application extends Container
      */
     public function addPath(string $key, string $path): void
     {
+        if (is_dir($path)) {
+            $path = realpath($path);
+        }
         $this->instance('path.' . $key, $path);
+    }
+
+    /**
+     * Gets a file path from the container.
+     *
+     * Paths are stored in the container with the key prefixed by 'path.'.
+     * For example, 'cache' becomes 'path.cache'.
+     *
+     * @param string $key The path identifier (e.g., 'cache', 'views')
+     * @since 1.0.0
+     *
+     * @example $app->getPath('cache');
+     */
+    public function getPath(string $key): void
+    {
+        try {
+            $this->resolve('path.' . $key);
+        } catch (BindingResolutionException|CircularDependencyException $e) {
+        }
     }
 
     /**
