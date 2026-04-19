@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Sloth\Core;
 
+use Corcel\Database;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\CircularDependencyException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Sloth\Facades\Configure;
+use Sloth\Facades\Facade;
 
 use function Illuminate\Filesystem\join_paths;
 
@@ -18,8 +23,24 @@ use function Illuminate\Filesystem\join_paths;
  * Application Container
  *
  * This is the main application container for the Sloth framework.
- * It extends Laravel's Container to provide dependency injection
- * and service provider registration.
+ * It extends Laravel's Container to provide dependency injection,
+ * service provider registration, and theme bootstrapping.
+ *
+ * ## Boot lifecycle
+ *
+ * The application boots once on the `after_setup_theme` hook (priority 0).
+ * Subsequent calls to `configure()->boot()` are no-ops — the application
+ * tracks its own boot state via `$booted`.
+ *
+ * ## Usage
+ *
+ * In the Sloth MU-plugin (sloth.php):
+ *
+ * ```php
+ * add_action('after_setup_theme', function () {
+ *     Application::configure()->boot();
+ * }, 0);
+ * ```
  *
  * @since 1.0.0
  * @see \Illuminate\Container\Container
@@ -28,12 +49,24 @@ class Application extends Container
 {
     /**
      * Application version.
+     *
+     * @since 1.0.0
      */
     public const version = '1.0.0';
 
     /**
+     * Whether the application has already been booted.
+     *
+     * Prevents double-booting when both the MU-plugin and a theme
+     * call configure()->boot().
+     *
+     * @since 1.0.0
+     */
+    private static bool $booted = false;
+
+    /**
      * Project paths mapped by key.
-     * These are stored in the container as 'path.{key}'.
+     * Stored in the container as 'path.{key}'.
      *
      * @since 1.0.0
      * @var array<string, string>
@@ -42,18 +75,64 @@ class Application extends Container
 
     /**
      * Registry of loaded service providers.
-     * Maps provider class name to boolean (always true when loaded).
+     * Maps provider class name to provider instance.
      *
      * @since 1.0.0
-     * @var array<string, bool>
+     * @var array<string, ServiceProvider>
      */
     protected array $loadedProviders = [];
 
     /**
+     * Class aliases for convenient access to facades.
+     *
+     * These shortcuts allow classes to be referenced by their short name
+     * instead of their fully qualified namespace.
+     *
+     * @since 1.0.0
+     * @var array<string, class-string>
+     */
+    private array $classAliases = [
+        'File'       => \Sloth\Facades\File::class,
+        'View'       => \Sloth\Facades\View::class,
+        'Configure'  => \Sloth\Facades\Configure::class,
+        'Validator'  => \Sloth\Facades\Validation::class,
+        'Deployment' => \Sloth\Facades\Deployment::class,
+        'Customizer' => \Sloth\Facades\Customizer::class,
+    ];
+
+    /**
+     * Current theme path.
+     *
+     * @since 1.0.0
+     */
+    public ?string $current_theme_path = null;
+
+    // -------------------------------------------------------------------------
+    // Boot lifecycle
+    // -------------------------------------------------------------------------
+
+    /**
+     * Create and return the application instance.
+     *
+     * If the application is already booted, returns the existing instance.
+     * This is the preferred entry point — call configure()->boot() to start.
+     *
+     * @since 1.0.0
+     */
+    public static function configure(): static
+    {
+        if (static::$booted) {
+            return static::getInstance();
+        }
+
+        return new static();
+    }
+
+    /**
      * Creates a new Application instance.
      *
-     * Initializes the application container and registers itself
-     * into the container so it can be accessed from anywhere.
+     * Registers the application in the container and sets up the
+     * legacy $GLOBALS deprecation proxies.
      *
      * @since 1.0.0
      */
@@ -78,17 +157,105 @@ class Application extends Container
         $this->instance('app', $this);
     }
 
+    // -------------------------------------------------------------------------
+    // Paths
+    // -------------------------------------------------------------------------
+
+    /**
+     * Register all base paths for the application.
+     *
+     * Paths are derived from WordPress constants and functions.
+     * Called after after_setup_theme so get_template_directory() is available.
+     *
+     * @since 1.0.0
+     */
+    protected function registerBasePaths(): void
+    {
+        $base = $this->guessBasePath();
+
+        $this->addPath('base',    $base);
+        $this->addPath('app',     $base . '/app');
+        $this->addPath('vendor',  $base . '/vendor');
+        $this->addPath('cms',     ABSPATH);
+        $this->addPath('plugins', WP_PLUGIN_DIR);
+        $this->addPath('theme',   get_template_directory());
+
+        // Cache and logs live in the theme directory — auto-create if missing
+        foreach (['cache', 'logs'] as $key) {
+            $path = get_template_directory() . '/' . $key;
+            if (!is_dir($path)) {
+                mkdir($path, 0755, true);
+            }
+            $this->addPath($key, $path);
+        }
+    }
+
+    /**
+     * Guess the project root by walking up from this file until
+     * a composer.json outside of vendor/ is found.
+     *
+     * @since 1.0.0
+     * @throws \RuntimeException If the base path cannot be determined.
+     */
+    protected function guessBasePath(): string
+    {
+        $dir = __DIR__;
+
+        while ($dir !== '/') {
+            if (
+                file_exists($dir . '/composer.json')
+                && !str_contains($dir, '/vendor/')
+            ) {
+                return $dir;
+            }
+            $dir = dirname($dir);
+        }
+
+        throw new \RuntimeException('Sloth could not determine the project base path.');
+    }
+
+    // -------------------------------------------------------------------------
+    // Providers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Registers all core framework service providers.
+     *
+     * @since 1.0.0
+     */
+    protected function registerProviders(): void
+    {
+        $providers = [
+            \Sloth\Compatibility\LegacyGlobalsServiceProvider::class,
+            \Sloth\Filesystem\FilesystemServiceProvider::class,
+            \Sloth\Debug\DebugServiceProvider::class,
+            \Sloth\Finder\FinderServiceProvider::class,
+            \Sloth\View\ViewServiceProvider::class,
+            \Sloth\Module\ModuleServiceProvider::class,
+            \Sloth\Pagination\PaginationServiceProvider::class,
+            \Sloth\Layotter\LayotterServiceProvider::class,
+            \Sloth\Request\RequestServiceProvider::class,
+            \Sloth\Validation\ValidationServiceProvider::class,
+            \Sloth\Deployment\DeploymentServiceProvider::class,
+            \Sloth\Admin\AdminServiceProvider::class,
+            \Sloth\Context\ContextServiceProvider::class,
+            \Sloth\Model\ModelServiceProvider::class,
+            \Sloth\Api\ApiServiceProvider::class,
+            \Sloth\Media\MediaServiceProvider::class,
+            \Sloth\Template\TemplateServiceProvider::class,
+        ];
+
+        foreach ($providers as $provider) {
+            $this->register($provider);
+        }
+    }
+
     /**
      * Registers a service provider with the application.
      *
-     * If the provider hasn't been loaded yet, it will be instantiated
-     * (if a string class name was provided), registered, and then booted.
-     *
-     * @param ServiceProvider|string $provider The service provider instance or class name
-     * @param bool $force Force registration even if already loaded
-     *
-     * @return ServiceProvider The registered service provider
-     *
+     * @param ServiceProvider|string $provider The service provider instance or class name.
+     * @param bool                   $force    Force re-registration even if already loaded.
+     * @return ServiceProvider The registered service provider.
      * @since 1.0.0
      */
     public function register(string|ServiceProvider $provider, bool $force = false): ServiceProvider
@@ -112,19 +279,19 @@ class Application extends Container
     }
 
     /**
-     * Boots all registered service providers.
+     * Boot all registered providers and register their hooks and filters.
      *
-     * @return void
+     * @since 1.0.0
      */
-    public function boot(): void
+    protected function bootProviders(): void
     {
         $providers = $this->getLoadedProviders();
 
-        $providers->each(function (ServiceProvider $provider) {
+        $providers->each(function (ServiceProvider $provider): void {
             $provider->boot();
         });
 
-        $providers->each(function (ServiceProvider $provider) {
+        $providers->each(function (ServiceProvider $provider): void {
             foreach ($provider->getHooks() as $hook => $value) {
                 foreach ($this->normalizeCallbacks($value) as $callback) {
                     add_action($hook, $callback['fn'], $callback['priority'], PHP_INT_MAX);
@@ -197,18 +364,16 @@ class Application extends Container
         return env('WP_ENV', 'production');
     }
 
+    // -------------------------------------------------------------------------
+    // Path helpers
+    // -------------------------------------------------------------------------
+
     /**
-     * Adds a file path to the container.
+     * Add a file path to the container.
      *
-     * Paths are stored in the container with the key prefixed by 'path.'.
-     * For example, 'cache' becomes 'path.cache'.
-     *
-     * @param string $key The path identifier (e.g., 'cache', 'views')
-     * @param string $path The full filesystem path
-     *
+     * @param string $key  The path identifier (e.g. 'cache', 'theme').
+     * @param string $path The full filesystem path.
      * @since 1.0.0
-     *
-     * @example $app->addPath('cache', '/var/www/cache');
      */
     public function addPath(string $key, string $path): void
     {
@@ -219,47 +384,52 @@ class Application extends Container
     }
 
     /**
-     * Gets a file path from the container.
+     * Get a file path from the container.
      *
-     * Paths are stored in the container with the key prefixed by 'path.'.
-     * For example, 'cache' becomes 'path.cache'.
-     *
-     * @param string $key The path identifier (e.g., 'cache', 'views')
+     * @param string $key    The path identifier.
+     * @param string $prefix Prefix (default: 'app').
      * @since 1.0.0
-     *
-     * @example $app->getPath('cache');
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function getPath(string $key): void
+    public function path(string $path = '', string $prefix = 'app'): string
     {
-        try {
-            $this->resolve('path.' . $key);
-        } catch (BindingResolutionException|CircularDependencyException $e) {
-        }
+        return join_paths($this->get('path.' . $prefix), $path);
     }
 
+    // -------------------------------------------------------------------------
+    // Providers registry
+    // -------------------------------------------------------------------------
+
     /**
-     * Calls a theme module with the given data and options.
-     *
-     * Modules are stored in the Theme\Module namespace and must follow
-     * the naming convention: '{Name}Module' where {Name} is the camel-cased
-     * module name.
-     *
-     * @param string $name The module name (kebab-case or snake_case)
-     * @param array<string, mixed> $data Key-value pairs to set on the module
-     * @param array<string, mixed> $options Module configuration options
-     *
-     * @return string The rendered module output
-     *
-     * @throws \Exception If the module class doesn't exist
+     * Get all loaded service providers as a Collection.
      *
      * @since 1.0.0
+     * @return Collection<string, ServiceProvider>
+     */
+    public function getLoadedProviders(): Collection
+    {
+        return collect($this->loadedProviders);
+    }
+
+    // -------------------------------------------------------------------------
+    // Module helper
+    // -------------------------------------------------------------------------
+
+    /**
+     * Instantiate and render a theme module.
      *
-     * @example $app->callModule('my-module', ['title' => 'Hello'], ['theme' => 'dark']);
+     * @param string               $name    Module name (kebab-case or snake_case).
+     * @param array<string, mixed> $data    Key-value pairs to set on the module.
+     * @param array<string, mixed> $options Module configuration options.
+     * @return string The rendered module output.
+     * @throws \Exception If the module class does not exist.
+     * @since 1.0.0
      */
     public function callModule(string $name, array $data = [], array $options = []): string
     {
         $moduleName = 'Theme\\Module\\' . Str::camel(str_replace('-', '_', $name)) . 'Module';
-        $myModule = new $moduleName($options);
+        $myModule   = new $moduleName($options);
 
         foreach ($data as $k => $v) {
             $myModule->set($k, $v);
@@ -295,34 +465,12 @@ class Application extends Container
     }
 
     /**
-     * @return Collection
-     */
-    public function getLoadedProviders(): Collection
-    {
-        return collect($this->loadedProviders);
-    }
-
-    /**
-     * Get current application version.
+     * Get the current application version.
      *
-     * @return string
+     * @since 1.0.0
      */
     public function version(): string
     {
         return self::version;
-    }
-
-    /**
-     * Get the path to the application "app" directory.
-     *
-     * @param string $path
-     * @param string $prefix
-     * @return string
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function path(string $path = '', string $prefix = 'app'): string
-    {
-        return join_paths($this->get('path.' . $prefix), $path);
     }
 }
