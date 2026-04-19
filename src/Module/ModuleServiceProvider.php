@@ -39,7 +39,6 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @return array<string, callable|array<callable>>
      * @since 1.0.0
-     *
      */
     public function getHooks(): array
     {

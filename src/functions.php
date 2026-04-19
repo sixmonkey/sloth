@@ -13,7 +13,6 @@ if (!function_exists('debug')) {
      * Dumps variables to Tracy bar for debugging.
      *
      * @param mixed ...$vars Variables to dump
-     *
      * @return mixed Returns the first variable unchanged
      */
     function debug(mixed ...$vars): mixed
@@ -59,8 +58,8 @@ if (!function_exists('app')) {
     /**
      * Get the available container instance.
      *
-     * @param null $abstract
-     * @param array $parameters
+     * @param mixed $abstract
+     * @param array<string, mixed> $parameters
      * @return mixed
      * @throws BindingResolutionException
      */

@@ -117,7 +117,9 @@ class Module
      *
      * @since 1.0.0
      */
-    protected function beforeRender() {}
+    protected function beforeRender()
+    {
+    }
 
     /**
      * Called before getting JSON output.
@@ -125,11 +127,13 @@ class Module
      * Override this method in subclasses to modify the JSON
      * payload before it's returned in AJAX/REST responses.
      *
+     * @param mixed $payload The payload to process (usually array or object)
      * @since 1.0.0
      *
-     * @param mixed $payload The payload to process (usually array or object)
      */
-    protected function beforeGetJSON(mixed $payload) {}
+    protected function beforeGetJSON(mixed $payload)
+    {
+    }
 
     /**
      * Get the template name.
@@ -140,9 +144,9 @@ class Module
      * 3. Converting to kebab-case
      * 4. Adding 'Module.' prefix (e.g., 'HeaderModule' -> 'Module.header')
      *
+     * @return string The template name with prefix (e.g., 'Module.hero-section')
      * @since 1.0.0
      *
-     * @return string The template name with prefix (e.g., 'Module.hero-section')
      */
     public function getTemplate(): string
     {
@@ -151,7 +155,7 @@ class Module
             $this->template = Str::kebab(preg_replace('/Module$/', '', substr(strrchr($class, '\\'), 1)));
         }
 
-        if (!str_contains((string) $this->template, '.')) {
+        if (!str_contains((string)$this->template, '.')) {
             $this->template = $this->viewPrefix . '.' . $this->template;
         }
 
@@ -176,9 +180,9 @@ class Module
      * Used by the Layotter page builder to configure the element
      * for this module. Returns the static $layotter configuration.
      *
+     * @return array<string, mixed>|false The Layotter config or false if disabled
      * @since 1.0.0
      *
-     * @return array<string, mixed>|false The Layotter config or false if disabled
      */
     final public function getLayotterAttributes(): array|false
     {
@@ -209,7 +213,7 @@ class Module
             if ($this->wrapInRow) {
                 $output = View::make('Layotter.row')->with([
                     'content' => $output,
-                    'options' => (array) $this->wrapInRow,
+                    'options' => (array)$this->wrapInRow,
                 ])->render();
             }
 
@@ -338,7 +342,7 @@ class Module
      */
     final public function getAjaxUrl(): string
     {
-        return (string) str_replace(
+        return (string)str_replace(
             \home_url(),
             '',
             \admin_url('admin-ajax.php?action=' . $this->getAjaxAction())
