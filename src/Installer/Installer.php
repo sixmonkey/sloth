@@ -214,34 +214,34 @@ class Installer
      */
     private function gatherInfo(Event $event): void
     {
-        $composer = $event->getComposer();
+        $composer    = $event->getComposer();
         $extraConfig = $composer->getPackage()->getExtra();
 
         $this->baseDir = Path::canonicalize(
             dirname($composer->getConfig()->getConfigSource()->getName())
         );
 
-        $webRoot = $this->absPath($extraConfig['webroot'] ?? 'public');
+        $webRoot      = $this->absPath($extraConfig['webroot'] ?? 'public');
         $wpInstallDir = $this->absPath($extraConfig['wordpress-install-dir'] ?? '');
 
         $installerPaths = $extraConfig['installer-paths'] ?? [];
-        $muPluginsDir = $this->resolveInstallerPath($installerPaths, 'type:wordpress-muplugin');
-        $themesDir = $this->resolveInstallerPath($installerPaths, 'type:wordpress-theme');
+        $muPluginsDir   = $this->resolveInstallerPath($installerPaths, 'type:wordpress-muplugin');
+        $themesDir      = $this->resolveInstallerPath($installerPaths, 'type:wordpress-theme');
 
         $this->dirs = [
             'webroot' => $webRoot,
-            'wp' => $wpInstallDir,
-            'mu' => $muPluginsDir,
-            'themes' => $themesDir,
-            'app' => $this->absPath('app'),
-            'config' => $this->absPath('app/config'),
-            'cache' => $this->absPath('app/cache'),
+            'wp'      => $wpInstallDir,
+            'mu'      => $muPluginsDir,
+            'themes'  => $themesDir,
+            'app'     => $this->absPath('app'),
+            'config'  => $this->absPath('app/config'),
+            'cache'   => $this->absPath('app/cache'),
         ];
 
-        $this->themeName = basename($this->baseDir);
-        $this->authorName = get_current_user();
+        $this->themeName        = basename($this->baseDir);
+        $this->authorName       = get_current_user();
         $this->themeDescription = $this->themeName . ': Just another WordPress theme.';
-        $this->dirThemeDefault = Path::join($themesDir, 'sloth-theme');
+        $this->dirThemeDefault  = Path::join($themesDir, 'sloth-theme');
     }
 
     /**
@@ -252,7 +252,7 @@ class Installer
      * returns the absolute path with the `/{$name}/` placeholder stripped.
      *
      * @param array<string, mixed> $installerPaths The installer-paths map from composer.json extra.
-     * @param string $type The type condition to match (e.g. "type:wordpress-theme").
+     * @param string               $type           The type condition to match (e.g. "type:wordpress-theme").
      * @return string Absolute resolved path, or the project base dir if not found.
      * @since 1.0.0
      */
@@ -313,7 +313,7 @@ class Installer
     /**
      * Create all required project directories if they do not already exist.
      *
-     * Uses {@see Files::mkdir()} which is a no-op for directories that
+     * Uses {@see Filesystem::mkdir()} which is a no-op for directories that
      * already exist, making this step safely idempotent.
      *
      * @since 1.0.0
@@ -337,7 +337,7 @@ class Installer
      */
     private function rebuildIndex(): void
     {
-        $wpIndexPath = Path::join($this->dirs['wp'], 'index.php');
+        $wpIndexPath  = Path::join($this->dirs['wp'], 'index.php');
         $webIndexPath = Path::join($this->dirs['webroot'], 'index.php');
 
         $relativeHeader = Path::makeRelative(
@@ -346,7 +346,7 @@ class Installer
         );
 
         $original = file_get_contents($wpIndexPath);
-        $custom = str_replace(
+        $custom   = str_replace(
             "__DIR__ . '/wp-blog-header.php'",
             "__DIR__ . '/" . $relativeHeader . "'",
             $original
@@ -384,7 +384,7 @@ class Installer
      */
     private function initializeDotenv(): void
     {
-        $envFile = Path::join($this->baseDir, '.env');
+        $envFile    = Path::join($this->baseDir, '.env');
         $envExample = Path::join($this->baseDir, '.env.example');
 
         if (!$this->fs->exists($envFile) && $this->fs->exists($envExample)) {
@@ -434,27 +434,56 @@ class Installer
      * Must-use plugins are loaded automatically by WordPress without
      * activation, making this the right place for framework-level code.
      *
+     * Always overwrites to ensure themes get the latest bootstrap version
+     * shipped with this package.
+     *
      * @since 1.0.0
      */
     private function initializePlugin(): void
     {
         $this->fs->copy(
             Path::join(dirname(__DIR__), 'sloth.php'),
-            Path::join($this->dirs['mu'], 'sloth.php')
+            Path::join($this->dirs['mu'], 'sloth.php'),
+            true
         );
     }
 
     /**
      * Copy the bootstrap file into the project root.
      *
+     * If bootstrap.php already exists, the user is warned and must confirm
+     * before it is overwritten — any local changes will be lost.
+     *
+     * In non-interactive mode (e.g. CI), the file is always overwritten
+     * without prompting.
+     *
      * @since 1.0.0
      */
     private function initializeBootstrap(): void
     {
-        $this->fs->copy(
-            Path::join(dirname(__DIR__), 'bootstrap.php'),
-            Path::join($this->baseDir, 'bootstrap.php')
-        );
+        $target = Path::join($this->baseDir, 'bootstrap.php');
+        $source = Path::join(dirname(__DIR__), 'bootstrap.php');
+
+        if ($this->fs->exists($target) && $this->io->isInteractive()) {
+            $this->io->write('');
+            $this->io->write('<warning>⚠️  Warning! Sloth will overwrite bootstrap.php!</warning>');
+            $this->io->write('<warning>   Any local changes you made to this file will be lost.</warning>');
+            $this->io->write('');
+
+            $confirmed = $this->io->askConfirmation(
+                '   Did you make a backup? [<comment>y/N</comment>]: ',
+                false
+            );
+
+            if (!$confirmed) {
+                $this->io->write('');
+                $this->io->write('<info>Skipping bootstrap.php — please make a backup and run composer install again.</info>');
+                $this->io->write('');
+                return;
+            }
+        }
+
+        $this->fs->copy($source, $target, true);
     }
 
     // -------------------------------------------------------------------------
@@ -517,6 +546,45 @@ class Installer
         $this->fs->dumpFile(Path::join($this->dirThemeNew, 'style.css'), $css);
     }
 
+    /**
+     * Generate a screenshot for the theme.
+     *
+     * Uses the bundled screenshot.svg template, substituting theme name and
+     * author. If the Imagick extension is available, converts the SVG to PNG
+     * (required by WordPress theme browser). Falls back to writing an SVG
+     * file if Imagick is not installed.
+     *
+     * @since 1.0.0
+     */
+    private function buildScreenshot(): void
+    {
+        $template = file_get_contents(Path::join(dirname(__DIR__), 'screenshot.svg'));
+
+        $svg = strtr($template, [
+            '{{themeName}}'  => htmlspecialchars($this->themeName),
+            '{{authorName}}' => htmlspecialchars($this->authorName),
+        ]);
+
+        $pngPath = Path::join($this->dirThemeNew, 'screenshot.png');
+
+        if (extension_loaded('imagick')) {
+            $imagick = new \Imagick();
+            $imagick->readImageBlob($svg);
+            $imagick->setImageFormat('png');
+            $this->fs->dumpFile($pngPath, $imagick->getImageBlob());
+            $imagick->destroy();
+            return;
+        }
+
+        // Fallback: SVG as-is — besser als nichts
+        $this->fs->dumpFile(
+            Path::join($this->dirThemeNew, 'screenshot.svg'),
+            $svg
+        );
+
+        $this->io->writeError('<warning>Imagick not available — screenshot.svg created instead of screenshot.png.</warning>');
+    }
+
     // -------------------------------------------------------------------------
     // Path helper
     // -------------------------------------------------------------------------
@@ -534,37 +602,5 @@ class Installer
     private function absPath(string $relative): string
     {
         return Path::canonicalize(Path::join($this->baseDir, $relative));
-    }
-
-    /**
-     * @return void
-     */
-    private function buildScreenshot(): void
-    {
-        $template = file_get_contents(Path::join(dirname(__DIR__), 'screenshot.svg'));
-
-        $svg = strtr($template, [
-            '{{themeName}}' => htmlspecialchars($this->themeName),
-            '{{authorName}}' => htmlspecialchars($this->authorName),
-        ]);
-
-        $pngPath = Path::join($this->dirThemeNew, 'screenshot.png');
-
-        if (extension_loaded('imagick')) {
-            $imagick = new \Imagick();
-            $imagick->readImageBlob($svg);
-            $imagick->setImageFormat('png');
-            $this->fs->dumpFile($pngPath, $imagick->getImageBlob());
-            $imagick->destroy();
-            return;
-        }
-
-        // Fallback: SVG as-is, besser als nichts
-        $this->fs->dumpFile(
-            Path::join($this->dirThemeNew, 'screenshot.svg'),
-            $svg
-        );
-
-        $this->io->writeError('<warning>Imagick not available – screenshot.svg created instead of screenshot.png.</warning>');
     }
 }
