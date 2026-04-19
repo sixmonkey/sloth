@@ -156,7 +156,7 @@ class Image implements \Stringable
             $this->metaData = is_string($metadata) ? @unserialize($metadata) : null;
 
             $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
-            $path = realpath(WP_CONTENT_DIR . DS . 'uploads' . DS . ($this->post->meta->_wp_attached_file ?? ''));
+            $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
             if ($this->file !== null) {

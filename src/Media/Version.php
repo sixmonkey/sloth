@@ -89,7 +89,7 @@ class Version
         $uploadDir = realpath($uploadInfo['basedir']);
 
         // Get the original file path from meta field
-        $realpath = realpath($uploadDir . DIRECTORY_SEPARATOR . $original->meta->_wp_attached_file);
+        $realpath = realpath($uploadDir . '/' . $original->meta->_wp_attached_file);
 
         // Exit early if file doesn't exist
         if (!$realpath) {

@@ -155,7 +155,7 @@ abstract class Finder extends IlluminateFileViewFinder
     protected function getPossibleFiles(string $name): array
     {
         return array_map(
-            fn(string $extension): string => str_replace('.', DS, $name) . '.' . $extension,
+            fn(string $extension): string => str_replace('.', '/', $name) . '.' . $extension,
             $this->extensions
         );
     }

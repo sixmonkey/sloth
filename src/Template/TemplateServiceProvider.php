@@ -193,7 +193,7 @@ class TemplateServiceProvider extends ServiceProvider
 
         $layoutPaths = [];
         foreach ($this->app['view.finder']->getPaths() as $path) {
-            $layoutPaths[] = $path . DS . 'Layout';
+            $layoutPaths[] = $path . '/' . 'Layout';
         }
 
         $finder = new ByFolders($layoutPaths, 'twig');

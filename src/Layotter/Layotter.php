@@ -367,7 +367,7 @@ class Layotter
         $layoutPaths = [];
 
         foreach (app('view.finder')->getPaths() as $path) {
-            $layoutPaths[] = $path . DS . implode(DS, $viewParts);
+            $layoutPaths[] = $path . '/' . implode('/', $viewParts);
         }
 
         $finder = new ByFolders($layoutPaths, 'twig');
