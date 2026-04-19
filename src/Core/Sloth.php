@@ -7,7 +7,6 @@ namespace Sloth\Core;
 use Corcel\Database;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
-use Sloth\Debug\Panels\SlothBarPanel;
 use Sloth\Facades\Facade;
 use Sloth\Singleton\Singleton;
 
@@ -89,6 +88,7 @@ class Sloth extends Singleton
         }
         Facade::setFacadeApplication($this->container);
 
+        // Register the paths for the application.
         collect([
             'app' => DIR_APP,
             'cache' => DIR_CACHE,

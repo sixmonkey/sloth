@@ -109,7 +109,7 @@ class Plugin extends Singleton
      */
     protected function setupTheme(): void
     {
-        $this->current_theme_path = realpath((string) get_template_directory());
+        $this->current_theme_path = realpath(get_template_directory());
         $this->container->addPath('theme', (string) $this->current_theme_path);
 
         if (is_dir($this->current_theme_path . DS . 'View')) {

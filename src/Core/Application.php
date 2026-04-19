@@ -29,7 +29,7 @@ class Application extends Container
     /**
      * Application version.
      */
-    public const string version = '1.0.0';
+    public const version = '1.0.0';
 
     /**
      * Project paths mapped by key.
