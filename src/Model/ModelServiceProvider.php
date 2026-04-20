@@ -44,6 +44,27 @@ class ModelServiceProvider extends ServiceProvider
     }
 
     /**
+     * Hook into WordPress' registered_post_type action to bind model classes.
+     *
+     * Called automatically by WordPress whenever register_post_type() completes.
+     * Checks if the registered post type has a corresponding Sloth model and
+     * calls Model::registerPostType() to enable newFromBuilder() resolution.
+     *
+     * This replaces the explicit Model::registerPostType() call in the registrar,
+     * making it work for both the manifest fast path and the normal discovery path.
+     *
+     * @since 1.0.0
+     */
+    protected function onPostTypeRegistered(string $postType): void
+    {
+        $models = app()->bound('sloth.models') ? app('sloth.models') : [];
+
+        if (isset($models[$postType])) {
+            Model::registerPostType($postType, $models[$postType]);
+        }
+    }
+
+    /**
      * Register hooks for model registration.
      *
      * @return array<string, callable|array<callable>>
@@ -61,6 +82,7 @@ class ModelServiceProvider extends ServiceProvider
             'add_meta_boxes' => [
                 fn() => app(TaxonomyRegistrar::class)->addMetaBoxes(),
             ],
+            'registered_post_type' => fn(string $postType) => $this->onPostTypeRegistered($postType),
         ];
     }
 }
