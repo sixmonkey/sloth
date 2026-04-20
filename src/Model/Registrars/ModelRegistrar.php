@@ -28,7 +28,6 @@ use Sloth\Model\Resolvers\ModelsResolver;
  * 7. Register with WordPress
  * 8. Register admin column hooks
  * 9. Register model class for newFromBuilder() resolution
- * 10. Configure Layotter
  *
  * flush_rewrite_rules() is called once after all models are registered.
  *
@@ -78,12 +77,6 @@ class ModelRegistrar
         }
 
         require_once $manifest;
-
-        collect(app()->get('sloth.models'))->each(function ($className, $postType) {
-            #$instance = new $className;
-            #$instance->registerColumnHooks();
-            $this->configureLayotter($className, $postType);
-        });
     }
 
     /**
@@ -225,60 +218,19 @@ class ModelRegistrar
             $method = 'get' . ucfirst($key) . 'Column';
 
             if (method_exists($modelClass, $method)) {
-                debug($method, $modelClass);
                 $adminCols[$key] = [
                     'title' => $label,
                     'function' => [CurrentModelProxy::class, $method . 'Echo'],
                 ];
             } else {
-                $adminCols[$key] = [
+                $adminCols[$key] = !is_array($label) ? [
                     'title' => $label,
                     'meta_key' => $key,
-                ];
+                ] : $label;
             }
         }
 
         return $adminCols;
-    }
-
-    /**
-     * Configure Layotter page builder integration for a model.
-     *
-     * Reads $modelClass::$layotter — falls back to false if not declared.
-     *
-     * - false → Layotter disabled for this post type
-     * - true  → Layotter enabled with default settings
-     * - array → Layotter enabled with custom settings (e.g. allowed_row_layouts)
-     *
-     * Skips silently if Layotter is not bound in the container.
-     *
-     * @param class-string<Model> $modelClass The model class name.
-     * @param string $postType The post type slug.
-     * @since 1.0.0
-     *
-     */
-    protected function configureLayotter(string $modelClass, string $postType): void
-    {
-        try {
-            $layotter = $modelClass::$layotter;
-            $layotterService = $this->app['layotter'];
-        } catch (\Throwable) {
-            return;
-        }
-
-        if ($layotter === false) {
-            $layotterService->disable_for_post_type($postType);
-            return;
-        }
-
-        $layotterService->enable_for_post_type($postType);
-
-        if (is_array($layotter) && isset($layotter['allowed_row_layouts'])) {
-            $layotterService->set_layouts_for_post_type(
-                $postType,
-                $layotter['allowed_row_layouts']
-            );
-        }
     }
 
     /**
