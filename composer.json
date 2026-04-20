@@ -23,6 +23,8 @@
     "illuminate/validation": "^12.0",
     "illuminate/view": "^12.0",
     "jgrossi/corcel": "^9.0",
+    "johnbillion/args": "^2.4",
+    "johnbillion/extended-cpts": "^5.1",
     "spatie/image": "^1.10 || ^2.0 || ^3.0",
     "symfony/filesystem": "^8.0",
     "symfony/process": "^7.4",
