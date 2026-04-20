@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 use Sloth\Field\Image;
 use Sloth\Model\Builder\PostBuilder;
-use Sloth\Model\Concerns\AdminColumns;
 use Sloth\Model\Concerns\PostScopes;
 use Sloth\Model\Traits\HasACF;
 use Sloth\Model\Traits\HasAliases;
@@ -69,7 +69,6 @@ use Sloth\Model\Traits\HasOrderScopes;
  */
 class Model extends CorcelModel
 {
-    use AdminColumns;
     use PostScopes;
     use HasACF;
     use HasAliases;
@@ -216,6 +215,11 @@ class Model extends CorcelModel
      * @since 1.0.0
      */
     protected bool $filtered = false;
+
+
+    public static $admin_columns = [];
+
+    public static $admin_columns_hidden = [];
 
     /**
      * Whether global scopes have been booted for this class.
@@ -408,7 +412,7 @@ class Model extends CorcelModel
     #[\Override]
     public function newFromBuilder($attributes = [], $connection = null): Model|CorcelModel
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
         $class = static::class;
 
         if (isset($attributes['post_type'], static::$postTypes[$attributes['post_type']])) {
@@ -501,7 +505,7 @@ class Model extends CorcelModel
      */
     public function getPostType(): string
     {
-        return (string) $this->postType;
+        return $this->postType ?: Str::lower((new \ReflectionClass($this))->getShortName());
     }
 
     // -------------------------------------------------------------------------
@@ -714,7 +718,7 @@ class Model extends CorcelModel
      */
     public function getPostThumbnailAttribute(): Image
     {
-        return new Image((int) $this->meta->_thumbnail_id);
+        return new Image((int)$this->meta->_thumbnail_id);
     }
 
     /**
@@ -794,7 +798,7 @@ class Model extends CorcelModel
      */
     public function getKeywordsStrAttribute(): string
     {
-        return implode(',', (array) $this->keywords);
+        return implode(',', (array)$this->keywords);
     }
 
     // -------------------------------------------------------------------------
@@ -864,7 +868,7 @@ class Model extends CorcelModel
      */
     public function getAcfKey(): ?string
     {
-        return (string) $this->getAttribute('ID');
+        return (string)$this->getAttribute('ID');
     }
 
     // -------------------------------------------------------------------------
