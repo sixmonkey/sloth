@@ -3,11 +3,9 @@
 namespace Sloth\Model;
 
 use Sloth\Core\ServiceProvider;
+use Sloth\Model\Manifest\ModelManifestBuilder;
+use Sloth\Model\Manifest\TaxonomyManifestBuilder;
 use Sloth\Model\Registrars\MenuRegistrar;
-use Sloth\Model\Registrars\ModelRegistrar;
-use Sloth\Model\Registrars\TaxonomyRegistrar;
-use Sloth\Module\Module;
-use Sloth\Module\Registrars\ModuleRegistrar;
 
 /**
  * Service provider for model/post type registration and management.
@@ -19,10 +17,9 @@ use Sloth\Module\Registrars\ModuleRegistrar;
  * - Metabox registration for unique taxonomies
  *
  * @since 1.0.0
- * @see \Sloth\Model\Registrars\MenuRegistrar
- * @see \Sloth\Model\Registrars\TaxonomyRegistrar
+ * @see \Sloth\Model\Manifest\MenuRegistrar
+ * @see \Sloth\Model\Manifest\axonomyRegistrar
  * @see \Sloth\Model\Registrars\ModelRegistrar
- * @see \Sloth\Plugin\Plugin
  */
 class ModelServiceProvider extends ServiceProvider
 {
@@ -34,13 +31,9 @@ class ModelServiceProvider extends ServiceProvider
     #[\Override]
     public function register(): void
     {
-        $this->app->bind(
-            'module',
-            fn(): Module => new Module()
-        );
         $this->app->singleton(MenuRegistrar::class, fn($app) => new MenuRegistrar($app));
-        $this->app->singleton(TaxonomyRegistrar::class, fn($app) => new TaxonomyRegistrar($app));
-        $this->app->singleton(ModelRegistrar::class, fn($app) => new ModelRegistrar($app));
+        $this->app->singleton(TaxonomyManifestBuilder::class, fn($app) => new TaxonomyManifestBuilder($app));
+        $this->app->singleton(ModelManifestBuilder::class, fn($app) => new ModelManifestBuilder($app));
     }
 
     /**
@@ -64,6 +57,18 @@ class ModelServiceProvider extends ServiceProvider
         }
     }
 
+    protected function hideAdminColumns(array $columns)
+    {
+        $postType = get_current_screen()?->post_type;
+        $modelClass = app('sloth.models')[$postType] ?? null;
+
+        if ($modelClass && !empty($modelClass::$admin_columns_hidden)) {
+            return array_diff_key($columns, array_flip($modelClass::$admin_columns_hidden));
+        }
+
+        return $columns;
+    }
+
     /**
      * Register hooks for model registration.
      *
@@ -76,13 +81,14 @@ class ModelServiceProvider extends ServiceProvider
         return [
             'init' => [
                 fn() => app(MenuRegistrar::class)->init(),
-                fn() => app(TaxonomyRegistrar::class)->init(),
-                fn() => app(ModelRegistrar::class)->init(),
+                fn() => app(TaxonomyManifestBuilder::class)->init(),
+                fn() => app(ModelManifestBuilder::class)->init(),
             ],
             'add_meta_boxes' => [
-                fn() => app(TaxonomyRegistrar::class)->addMetaBoxes(),
+                fn() => app(TaxonomyManifestBuilder::class)->addMetaBoxes(),
             ],
             'registered_post_type' => fn(string $postType) => $this->onPostTypeRegistered($postType),
+            'manage_posts_columns' => fn(array $columns) => $this->hideAdminColumns($columns),
         ];
     }
 }
