@@ -6,6 +6,7 @@ namespace Sloth\Layotter;
 
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\View;
 use Sloth\Utility\Utility;
 
@@ -158,6 +159,7 @@ class Layotter
      *
      * @param array<string> $rowLayouts Default row layouts
      * @return array<string>
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
      */
@@ -177,6 +179,7 @@ class Layotter
      * or the first theme layout, or the provided default.
      *
      * @param string $rowLayout The default row layout
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
      */
