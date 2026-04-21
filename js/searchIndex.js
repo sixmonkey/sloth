@@ -546,6 +546,116 @@ Search.appendIndex(
             "summary": "Load\u0020all\u0020project\u0020config\u0020files\u0020into\u0020the\u0020Laravel\u0020config\u0020repository.",
             "url": "classes/Sloth-Configure-ConfigureServiceProvider.html#method_boot"
         },                {
+            "fqsen": "\\Sloth\\Console\\Command",
+            "name": "Command",
+            "summary": "Base\u0020class\u0020for\u0020all\u0020Sloth\u0020console\u0020commands.",
+            "url": "classes/Sloth-Console-Command.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ClearManifestsCommand",
+            "name": "ClearManifestsCommand",
+            "summary": "Clears\u0020all\u0020Sloth\u0020manifest\u0020files\u0020from\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ClearManifestsCommand\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "Execute\u0020the\u0020command.",
+            "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#method_handle"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ClearManifestsCommand\u003A\u003A\u0024signature",
+            "name": "signature",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_signature"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ClearManifestsCommand\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_description"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ClearManifestsCommand\u003A\u003A\u0024manifests",
+            "name": "manifests",
+            "summary": "All\u0020manifest\u0020filenames\u0020managed\u0020by\u0020Sloth.",
+            "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand",
+            "name": "InspireCommand",
+            "summary": "Display\u0020a\u0020welcome\u0020message.",
+            "url": "classes/Sloth-Console-Commands-InspireCommand.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-InspireCommand.html#method_handle"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand\u003A\u003A\u0024signature",
+            "name": "signature",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-InspireCommand.html#property_signature"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-InspireCommand.html#property_description"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleServiceProvider",
+            "name": "ConsoleServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020WP\u002DCLI\u0020integration.",
+            "url": "classes/Sloth-Console-ConsoleServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020console\u0020kernel.",
+            "url": "classes/Sloth-Console-ConsoleServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Register\u0020the\u0020\u0060wp\u0020sloth\u0060\u0020WP\u002DCLI\u0020command.",
+            "url": "classes/Sloth-Console-ConsoleServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel",
+            "name": "Kernel",
+            "summary": "Sloth\u0020Console\u0020Kernel.",
+            "url": "classes/Sloth-Console-Kernel.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Console-Kernel.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "Handle\u0020a\u0020WP\u002DCLI\u0020invocation.",
+            "url": "classes/Sloth-Console-Kernel.html#method_handle"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003Aadd\u0028\u0029",
+            "name": "add",
+            "summary": "Register\u0020a\u0020single\u0020command\u0020with\u0020the\u0020console\u0020application.",
+            "url": "classes/Sloth-Console-Kernel.html#method_add"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003AdiscoverCommands\u0028\u0029",
+            "name": "discoverCommands",
+            "summary": "Discover\u0020and\u0020register\u0020all\u0020commands.",
+            "url": "classes/Sloth-Console-Kernel.html#method_discoverCommands"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003A\u0024console",
+            "name": "console",
+            "summary": "The\u0020underlying\u0020Illuminate\u0020console\u0020application.",
+            "url": "classes/Sloth-Console-Kernel.html#property_console"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Console-Kernel.html#property_app"
+        },                {
+            "fqsen": "\\Sloth\\Console\\SlothCommand",
+            "name": "SlothCommand",
+            "summary": "WP\u002DCLI\u0020command\u0020handler\u0020for\u0020\u0060wp\u0020sloth\u0060.",
+            "url": "classes/Sloth-Console-SlothCommand.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\SlothCommand\u003A\u003A__invoke\u0028\u0029",
+            "name": "__invoke",
+            "summary": "Handle\u0020a\u0020\u0060wp\u0020sloth\u0020\u003Ccommand\u003E\u0060\u0020invocation.",
+            "url": "classes/Sloth-Console-SlothCommand.html#method___invoke"
+        },                {
             "fqsen": "\\Sloth\\Context\\Context",
             "name": "Context",
             "summary": "Template\u0020context\u0020builder\u0020for\u0020Twig\u0020templates.",
@@ -760,6 +870,11 @@ Search.appendIndex(
             "name": "version",
             "summary": "Application\u0020version.",
             "url": "classes/Sloth-Core-Application.html#constant_version"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003ArunningUnitTests\u0028\u0029",
+            "name": "runningUnitTests",
+            "summary": "",
+            "url": "classes/Sloth-Core-Application.html#method_runningUnitTests"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024booted",
             "name": "booted",
@@ -1045,6 +1160,16 @@ Search.appendIndex(
             "name": "defer",
             "summary": "Indicates\u0020if\u0020loading\u0020of\u0020the\u0020provider\u0020is\u0020deferred.",
             "url": "classes/Sloth-Deployment-DeploymentServiceProvider.html#property_defer"
+        },                {
+            "fqsen": "\\Sloth\\Event\\EventServiceProvider",
+            "name": "EventServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020Events\/Dispatcher.",
+            "url": "classes/Sloth-Event-EventServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Event\\EventServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020events\u0020service.",
+            "url": "classes/Sloth-Event-EventServiceProvider.html#method_register"
         },                {
             "fqsen": "\\Sloth\\Facades\\Cache",
             "name": "Cache",
@@ -3641,6 +3766,16 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-configure.html"
         },                {
+            "fqsen": "\\Sloth\\Console",
+            "name": "Console",
+            "summary": "",
+            "url": "namespaces/sloth-console.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands",
+            "name": "Commands",
+            "summary": "",
+            "url": "namespaces/sloth-console-commands.html"
+        },                {
             "fqsen": "\\Sloth\\Context",
             "name": "Context",
             "summary": "",
@@ -3680,6 +3815,11 @@ Search.appendIndex(
             "name": "Deployment",
             "summary": "",
             "url": "namespaces/sloth-deployment.html"
+        },                {
+            "fqsen": "\\Sloth\\Event",
+            "name": "Event",
+            "summary": "",
+            "url": "namespaces/sloth-event.html"
         },                {
             "fqsen": "\\Sloth\\Facades",
             "name": "Facades",
