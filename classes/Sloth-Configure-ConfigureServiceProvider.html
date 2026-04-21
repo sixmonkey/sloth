@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -213,13 +237,32 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/ConfigureServiceProvider.php"><a href="files/src-configure-configureserviceprovider.html"><abbr title="src/Configure/ConfigureServiceProvider.php">ConfigureServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for the Configure component.</p>
 
 
+    <section class="phpdocumentor-description"><p>Registers the Configure singleton and loads all project config files
+from app/config/ into the Laravel config repository.</p>
+<h2>Config loading order</h2>
+<ol>
+<li>
+<p><code class="prettyprint">app/config/app.config.php</code> — loaded first via require_once.
+May contain procedural code (Configure::write, define).
+Already loaded by bootstrap.php in most setups — require_once
+is a no-op in that case.</p>
+</li>
+<li>
+<p>All other <code class="prettyprint">app/config/*.php</code> files — loaded as Laravel config
+arrays (must return an array). Each filename becomes a config key:
+<code class="prettyprint">theme.php</code> → <code class="prettyprint">config('theme')</code>.</p>
+<p>Uses require_once to prevent double-execution of files already
+loaded by bootstrap.php (e.g. salts.php, app.config.php).</p>
+</li>
+</ol>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -234,14 +277,6 @@
                 <dd class="phpdocumentor-tag-list__definition">
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Core-ServiceProvider.html"><abbr title="\Sloth\Core\ServiceProvider">ServiceProvider</abbr></a></span>
-                                        
                                              
                                     </dd>
                                             </dl>
@@ -277,11 +312,32 @@
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_boot">boot()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Load all project config files into the Laravel config repository.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
+    <span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+</dt>
+<dd>Returns WordPress filters this provider wants to register.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a>
+    <span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+</dt>
+<dd>Returns WordPress actions this provider wants to register.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_register">register()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register the Configure service provider.</dd>
+<dd>Register the Configure singleton.</dd>
 
     </dl>
 
@@ -311,7 +367,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
@@ -410,6 +466,145 @@ $provider-&gt;undefinedMethod();
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_boot">
+        boot()
+        <a href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/ConfigureServiceProvider.php"><a href="files/src-configure-configureserviceprovider.html"><abbr title="src/Configure/ConfigureServiceProvider.php">ConfigureServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">53</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Load all project config files into the Laravel config repository.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFilters">
+        getFilters()
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">62</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns WordPress filters this provider wants to register.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Same format as getHooks().</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getHooks">
+        getHooks()
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">51</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns WordPress actions this provider wants to register.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The framework calls add_action() for each entry — never call
+add_action() directly inside a provider.</p>
+<p>Supports three formats per hook:</p>
+<ul>
+<li>Single callable:   'init' =&gt; fn() =&gt; $this-&gt;doSomething()</li>
+<li>Array of callables: 'init' =&gt; [fn() =&gt; ..., fn() =&gt; ...]</li>
+<li>With priority:     'init' =&gt; ['callback' =&gt; fn() =&gt; ..., 'priority' =&gt; 20]</li>
+</ul>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_register">
         register()
         <a href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
@@ -418,11 +613,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/ConfigureServiceProvider.php"><a href="files/src-configure-configureserviceprovider.html"><abbr title="src/Configure/ConfigureServiceProvider.php">ConfigureServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the Configure service provider.</p>
+        <p class="phpdocumentor-summary">Register the Configure singleton.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -581,6 +776,9 @@ $provider-&gt;undefinedMethod();
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_boot">boot()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-ConfigureServiceProvider.html#method_register">register()</a></li>
                                     </ul>
             </li>

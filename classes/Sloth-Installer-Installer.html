@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -210,13 +234,18 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Installer class for setting up the Sloth WordPress theme.</p>
 
 
+    <section class="phpdocumentor-description"><p>This class serves as the Composer script entrypoint. The two public static
+methods (config, config_quiet) are registered in composer.json and called
+by Composer during post-install/post-update. Internally, each call creates
+a fresh instance so all state is encapsulated and never shared between runs.</p>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -257,54 +286,68 @@
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#property_authorname">$authorname</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#property_authorName">$authorName</a>
     <span>
-                        &nbsp;: string|null            </span>
+                        &nbsp;: string            </span>
 </dt>
-<dd>Author name.</dd>
+<dd>Author name written into style.css.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#property_baseDir">$baseDir</a>
     <span>
-                        &nbsp;: string|null            </span>
+                        &nbsp;: string            </span>
 </dt>
-<dd>Base directory path.</dd>
+<dd>Absolute path to the project root (where composer.json lives).</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#property_dirsRequired">$dirsRequired</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#property_dirs">$dirs</a>
     <span>
-                        &nbsp;: array&lt;string|int, array&lt;string|int, string&gt;&gt;            </span>
+                        &nbsp;: array&lt;string, string&gt;            </span>
 </dt>
-<dd>Required directories to create.</dd>
+<dd>Resolved directory paths derived from composer.json extra config.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#property_dirThemeDefault">$dirThemeDefault</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>Absolute path to the bundled default &quot;sloth-theme&quot; directory.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#property_dirThemeNew">$dirThemeNew</a>
     <span>
-                        &nbsp;: string|null            </span>
+                        &nbsp;: string            </span>
 </dt>
-<dd>New theme directory path.</dd>
+<dd>Absolute path to the renamed theme directory.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#property_httpDir">$httpDir</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#property_fs">$fs</a>
     <span>
-                        &nbsp;: string|null            </span>
+                        &nbsp;: <abbr title="\Symfony\Component\Filesystem\Filesystem">Filesystem</abbr>            </span>
 </dt>
-<dd>HTTP directory path.</dd>
+<dd>Filesystem helper from symfony/filesystem.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#property_themedescription">$themedescription</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#property_io">$io</a>
     <span>
-                        &nbsp;: string|null            </span>
+                        &nbsp;: <abbr title="\Composer\IO\IOInterface">IOInterface</abbr>            </span>
 </dt>
-<dd>Theme description.</dd>
+<dd>Composer IO interface used for all terminal interaction.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#property_themeDescription">$themeDescription</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>One-line description written into style.css.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#property_themeName">$themeName</a>
     <span>
-                        &nbsp;: string|null            </span>
+                        &nbsp;: string            </span>
 </dt>
-<dd>Theme name.</dd>
+<dd>Human-readable name of the theme to be created.</dd>
 
     </dl>
 
@@ -315,102 +358,143 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#method_buildStyleCss">buildStyleCss()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Build the style.css file.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_config">config()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run the configuration process with interactive prompts.</dd>
+<dd>Primary Composer script entrypoint.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#method_config_quiet">config_quiet()</a>
+    <a class="-deprecated" href="classes/Sloth-Installer-Installer.html#method_config_quiet">config_quiet()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run the configuration process silently.</dd>
+<dd>Silent Composer script entrypoint.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method___construct">__construct()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_absPath">absPath()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Resolve a relative path against the project base directory.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_buildScreenshot">buildScreenshot()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Generate a screenshot for the theme.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_buildStyleCss">buildStyleCss()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Write the WordPress theme header into style.css.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_defaultThemeExists">defaultThemeExists()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Check whether the bundled default &quot;sloth-theme&quot; directory is present.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_dialog">dialog()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run the interactive dialog.</dd>
+<dd>Prompt the user for theme metadata.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#method_mkPath">mkPath()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Join path parts with the directory separator.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Installer-Installer.html#method_renameTheme">renameTheme()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_gatherInfo">gatherInfo()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Rename the default theme to the configured name.</dd>
+<dd>Resolve all paths and default metadata from the Composer configuration.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_initializeBootstrap">initializeBootstrap()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Initialize the bootstrap file.</dd>
+<dd>Copy the bootstrap file into the project root.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_initializeDotenv">initializeDotenv()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Initialize .env file from example.</dd>
+<dd>Copy .env.example to .env if no .env file exists yet.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_initializeHtaccess">initializeHtaccess()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Initialize the .htaccess file.</dd>
+<dd>Copy the bundled .htaccess into the web root if one does not exist yet.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_initializePlugin">initializePlugin()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Initialize the Sloth plugin.</dd>
+<dd>Copy the Sloth mu-plugin into the mu-plugins directory.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Installer-Installer.html#method_initializeSalts">initializeSalts()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Initialize WordPress salt keys.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_initializeWpconfig">initializeWpconfig()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Initialize wp-config.php file.</dd>
+<dd>Copy the bundled wp-config.php into the web root.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_mkDirs">mkDirs()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Create required directories.</dd>
+<dd>Create all required project directories.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Installer-Installer.html#method_rebuildIndex">rebuildIndex()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Rebuild the index.php file.</dd>
+<dd>Write a custom index.php into the web root that points to WordPress.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_removeLegacySalts">removeLegacySalts()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Remove the legacy salts.php file if it exists.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_renameTheme">renameTheme()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Rename the default theme directory and write style.css.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_resolveInstallerPath">resolveInstallerPath()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Resolve a directory from the installer-paths extra config by type condition.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Installer-Installer.html#method_run">run()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Execute the full setup sequence.</dd>
 
     </dl>
 
@@ -429,12 +513,12 @@
         class="
             phpdocumentor-element
             -property
-            -public
-            -static                                                        "
+            -private
+                                                                    "
 >
-    <h4 class="phpdocumentor-element__name" id="property_authorname">
-        $authorname
-        <a href="classes/Sloth-Installer-Installer.html#property_authorname" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_authorName">
+        $authorName
+        <a href="classes/Sloth-Installer-Installer.html#property_authorName" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -442,25 +526,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Author name.</p>
+        <p class="phpdocumentor-summary">Author name written into style.css.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$authorname</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$authorName</span>
+    </code>
 
     
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Installer-Installer.html#property_authorname#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Installer-Installer.html#property_authorName#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -482,8 +566,8 @@
         class="
             phpdocumentor-element
             -property
-            -public
-            -static                                                        "
+            -private
+                                                                    "
 >
     <h4 class="phpdocumentor-element__name" id="property_baseDir">
         $baseDir
@@ -495,18 +579,18 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Base directory path.</p>
+        <p class="phpdocumentor-summary">Absolute path to the project root (where composer.json lives).</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$baseDir</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
+    </code>
 
     
     
@@ -535,12 +619,12 @@
         class="
             phpdocumentor-element
             -property
-            -public
-            -static                                                        "
+            -private
+                                                                    "
 >
-    <h4 class="phpdocumentor-element__name" id="property_dirsRequired">
-        $dirsRequired
-        <a href="classes/Sloth-Installer-Installer.html#property_dirsRequired" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_dirs">
+        $dirs
+        <a href="classes/Sloth-Installer-Installer.html#property_dirs" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -548,25 +632,28 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Required directories to create.</p>
+        <p class="phpdocumentor-summary">Resolved directory paths derived from composer.json extra config.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, array&lt;string|int, string&gt;&gt;</span>
-    <span class="phpdocumentor-signature__name">$dirsRequired</span>
-     = <span class="phpdocumentor-signature__default-value">[[&#039;app&#039;], [&#039;app&#039;, &#039;config&#039;], [&#039;app&#039;, &#039;cache&#039;]]</span></code>
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
+    <span class="phpdocumentor-signature__name">$dirs</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Keys: webroot, wp, mu, themes, app, config, cache.
+Values: absolute paths.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Installer-Installer.html#property_dirsRequired#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Installer-Installer.html#property_dirs#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -588,8 +675,61 @@
         class="
             phpdocumentor-element
             -property
-            -public
-            -static                                                        "
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_dirThemeDefault">
+        $dirThemeDefault
+        <a href="classes/Sloth-Installer-Installer.html#property_dirThemeDefault" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">83</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Absolute path to the bundled default &quot;sloth-theme&quot; directory.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$dirThemeDefault</span>
+    </code>
+
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#property_dirThemeDefault#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
 >
     <h4 class="phpdocumentor-element__name" id="property_dirThemeNew">
         $dirThemeNew
@@ -601,18 +741,18 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">New theme directory path.</p>
+        <p class="phpdocumentor-summary">Absolute path to the renamed theme directory.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$dirThemeNew</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
+    </code>
 
     
     
@@ -641,12 +781,12 @@
         class="
             phpdocumentor-element
             -property
-            -public
-            -static                                                        "
+            -private
+                                                                    "
 >
-    <h4 class="phpdocumentor-element__name" id="property_httpDir">
-        $httpDir
-        <a href="classes/Sloth-Installer-Installer.html#property_httpDir" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_fs">
+        $fs
+        <a href="classes/Sloth-Installer-Installer.html#property_fs" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -654,25 +794,25 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">HTTP directory path.</p>
+        <p class="phpdocumentor-summary">Filesystem helper from symfony/filesystem.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$httpDir</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\Filesystem\Filesystem">Filesystem</abbr></span>
+    <span class="phpdocumentor-signature__name">$fs</span>
+    </code>
 
     
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Installer-Installer.html#property_httpDir#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Installer-Installer.html#property_fs#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -694,65 +834,12 @@
         class="
             phpdocumentor-element
             -property
-            -public
-            -static                                                        "
+            -private
+                                                                    "
 >
-    <h4 class="phpdocumentor-element__name" id="property_themedescription">
-        $themedescription
-        <a href="classes/Sloth-Installer-Installer.html#property_themedescription" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">70</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Theme description.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$themedescription</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Installer-Installer.html#property_themedescription#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_themeName">
-        $themeName
-        <a href="classes/Sloth-Installer-Installer.html#property_themeName" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_io">
+        $io
+        <a href="classes/Sloth-Installer-Installer.html#property_io" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -764,14 +851,120 @@
 
     </aside>
 
-        <p class="phpdocumentor-summary">Theme name.</p>
+        <p class="phpdocumentor-summary">Composer IO interface used for all terminal interaction.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type"><abbr title="\Composer\IO\IOInterface">IOInterface</abbr></span>
+    <span class="phpdocumentor-signature__name">$io</span>
+    </code>
+
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#property_io#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_themeDescription">
+        $themeDescription
+        <a href="classes/Sloth-Installer-Installer.html#property_themeDescription" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">76</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">One-line description written into style.css.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$themeDescription</span>
+    </code>
+
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#property_themeDescription#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_themeName">
+        $themeName
+        <a href="classes/Sloth-Installer-Installer.html#property_themeName" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">62</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Human-readable name of the theme to be created.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$themeName</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
+    </code>
 
     
     
@@ -810,56 +1003,6 @@
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_buildStyleCss">
-        buildStyleCss()
-        <a href="classes/Sloth-Installer-Installer.html#method_buildStyleCss" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">284</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Build the style.css file.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildStyleCss</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Installer-Installer.html#method_buildStyleCss#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
     <h4 class="phpdocumentor-element__name" id="method_config">
         config()
         <a href="classes/Sloth-Installer-Installer.html#method_config" class="headerlink"><i class="fas fa-link"></i></a>
@@ -868,11 +1011,11 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">79</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run the configuration process with interactive prompts.</p>
+        <p class="phpdocumentor-summary">Primary Composer script entrypoint.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -889,7 +1032,7 @@
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Composer\Script\Event">Event</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The Composer event</p>
+                    <section class="phpdocumentor-description"><p>The Composer script event injected by Composer.</p>
 </section>
 
             </dd>
@@ -920,7 +1063,7 @@
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+            -deprecated                        -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_config_quiet">
         config_quiet()
@@ -930,17 +1073,24 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">114</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run the configuration process silently.</p>
+        <p class="phpdocumentor-summary">Silent Composer script entrypoint.</p>
 
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">config_quiet</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Composer\Script\Event">Event</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Use config() with the --no-interaction flag instead.</p>
+
+            </article>
         </div>
     
     
@@ -951,7 +1101,7 @@
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Composer\Script\Event">Event</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The Composer event</p>
+                    <section class="phpdocumentor-description"><p>The Composer script event injected by Composer.</p>
 </section>
 
             </dd>
@@ -981,8 +1131,300 @@
                     <article
         class="phpdocumentor-element
             -method
-            -public
-                                    -static                    "
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Sloth-Installer-Installer.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">131</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Composer\Script\Event">Event</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Composer\Script\Event">Event</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The Composer script event.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_absPath">
+        absPath()
+        <a href="classes/Sloth-Installer-Installer.html#method_absPath" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">519</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Resolve a relative path against the project base directory.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">absPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$relative</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$relative</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>A path relative to the project root.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_absPath#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Absolute, canonicalized path.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_buildScreenshot">
+        buildScreenshot()
+        <a href="classes/Sloth-Installer-Installer.html#method_buildScreenshot" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">480</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Generate a screenshot for the theme.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">buildScreenshot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Uses Imagick if available to convert SVG to PNG.
+Falls back to writing an SVG file if Imagick is not installed.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_buildScreenshot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_buildStyleCss">
+        buildStyleCss()
+        <a href="classes/Sloth-Installer-Installer.html#method_buildStyleCss" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">460</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Write the WordPress theme header into style.css.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">buildStyleCss</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_buildStyleCss#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_defaultThemeExists">
+        defaultThemeExists()
+        <a href="classes/Sloth-Installer-Installer.html#method_defaultThemeExists" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">433</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Check whether the bundled default &quot;sloth-theme&quot; directory is present.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">defaultThemeExists</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_defaultThemeExists#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the default theme directory exists.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_dialog">
         dialog()
@@ -992,15 +1434,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">258</span>
+    <span class="phpdocumentor-element-found-in__line">230</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run the interactive dialog.</p>
+        <p class="phpdocumentor-summary">Prompt the user for theme metadata.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">dialog</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">dialog</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1031,26 +1473,26 @@
                     <article
         class="phpdocumentor-element
             -method
-            -public
-                                    -static                    "
+            -private
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_mkPath">
-        mkPath()
-        <a href="classes/Sloth-Installer-Installer.html#method_mkPath" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_gatherInfo">
+        gatherInfo()
+        <a href="classes/Sloth-Installer-Installer.html#method_gatherInfo" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">322</span>
+    <span class="phpdocumentor-element-found-in__line">170</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Join path parts with the directory separator.</p>
+        <p class="phpdocumentor-summary">Resolve all paths and default metadata from the Composer configuration.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">mkPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parts</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">gatherInfo</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Composer\Script\Event">Event</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1059,11 +1501,11 @@
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$parts</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, string&gt;</span>
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Composer\Script\Event">Event</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Path parts to join</p>
+                    <section class="phpdocumentor-description"><p>The Composer script event.</p>
 </section>
 
             </dd>
@@ -1072,61 +1514,7 @@
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Installer-Installer.html#method_mkPath#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_renameTheme">
-        renameTheme()
-        <a href="classes/Sloth-Installer-Installer.html#method_renameTheme" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">300</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Rename the default theme to the configured name.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">renameTheme</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Installer-Installer.html#method_renameTheme#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Installer-Installer.html#method_gatherInfo#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -1147,8 +1535,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_initializeBootstrap">
         initializeBootstrap()
@@ -1158,20 +1546,24 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">229</span>
+    <span class="phpdocumentor-element-found-in__line">396</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initialize the bootstrap file.</p>
+        <p class="phpdocumentor-summary">Copy the bootstrap file into the project root.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initializeBootstrap</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">initializeBootstrap</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>bootstrap.php is a project file — it is copied once on first install
+and then owned by the project. On subsequent runs, the user is warned
+before it is overwritten.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -1197,8 +1589,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_initializeDotenv">
         initializeDotenv()
@@ -1208,20 +1600,23 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">328</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initialize .env file from example.</p>
+        <p class="phpdocumentor-summary">Copy .env.example to .env if no .env file exists yet.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initializeDotenv</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">initializeDotenv</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Allows developers to customise their local environment without
+accidentally overwriting an existing configuration on subsequent runs.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -1247,8 +1642,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_initializeHtaccess">
         initializeHtaccess()
@@ -1258,15 +1653,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">359</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initialize the .htaccess file.</p>
+        <p class="phpdocumentor-summary">Copy the bundled .htaccess into the web root if one does not exist yet.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initializeHtaccess</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">initializeHtaccess</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1297,8 +1692,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_initializePlugin">
         initializePlugin()
@@ -1308,20 +1703,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">211</span>
+    <span class="phpdocumentor-element-found-in__line">378</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initialize the Sloth plugin.</p>
+        <p class="phpdocumentor-summary">Copy the Sloth mu-plugin into the mu-plugins directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initializePlugin</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">initializePlugin</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Always overwrites to ensure themes get the latest bootstrap version.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -1347,58 +1744,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_initializeSalts">
-        initializeSalts()
-        <a href="classes/Sloth-Installer-Installer.html#method_initializeSalts" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">165</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Initialize WordPress salt keys.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initializeSalts</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Installer-Installer.html#method_initializeSalts#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_initializeWpconfig">
         initializeWpconfig()
@@ -1408,20 +1755,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">345</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initialize wp-config.php file.</p>
+        <p class="phpdocumentor-summary">Copy the bundled wp-config.php into the web root.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initializeWpconfig</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">initializeWpconfig</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Always overwrites to ensure the web root contains the latest version.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -1447,8 +1796,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_mkDirs">
         mkDirs()
@@ -1458,15 +1807,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">264</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Create required directories.</p>
+        <p class="phpdocumentor-summary">Create all required project directories.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">mkDirs</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">mkDirs</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1497,8 +1846,8 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                    -static                    "
+            -private
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_rebuildIndex">
         rebuildIndex()
@@ -1508,15 +1857,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">146</span>
+    <span class="phpdocumentor-element-found-in__line">276</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Rebuild the index.php file.</p>
+        <p class="phpdocumentor-summary">Write a custom index.php into the web root that points to WordPress.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">rebuildIndex</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">rebuildIndex</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1527,6 +1876,238 @@
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
         <a href="classes/Sloth-Installer-Installer.html#method_rebuildIndex#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_removeLegacySalts">
+        removeLegacySalts()
+        <a href="classes/Sloth-Installer-Installer.html#method_removeLegacySalts" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">304</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Remove the legacy salts.php file if it exists.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">removeLegacySalts</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Salts are now derived from APP_SECRET in .env.
+See MIGRATE.md for migration instructions.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_removeLegacySalts#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_renameTheme">
+        renameTheme()
+        <a href="classes/Sloth-Installer-Installer.html#method_renameTheme" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">443</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Rename the default theme directory and write style.css.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">renameTheme</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_renameTheme#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_resolveInstallerPath">
+        resolveInstallerPath()
+        <a href="classes/Sloth-Installer-Installer.html#method_resolveInstallerPath" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">210</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Resolve a directory from the installer-paths extra config by type condition.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">resolveInstallerPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$installerPaths</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$installerPaths</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The installer-paths map.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$type</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The type condition to match.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_resolveInstallerPath#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Absolute resolved path.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_run">
+        run()
+        <a href="classes/Sloth-Installer-Installer.html#method_run" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Installer/Installer.php"><a href="files/src-installer-installer.html"><abbr title="src/Installer/Installer.php">Installer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">143</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Execute the full setup sequence.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">run</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Installer-Installer.html#method_run#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -1659,12 +2240,14 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_authorname">$authorname</a></li>
+                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_authorName">$authorName</a></li>
                                                     <li class=""><a href="classes/Sloth-Installer-Installer.html#property_baseDir">$baseDir</a></li>
-                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_dirsRequired">$dirsRequired</a></li>
+                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_dirs">$dirs</a></li>
+                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_dirThemeDefault">$dirThemeDefault</a></li>
                                                     <li class=""><a href="classes/Sloth-Installer-Installer.html#property_dirThemeNew">$dirThemeNew</a></li>
-                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_httpDir">$httpDir</a></li>
-                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_themedescription">$themedescription</a></li>
+                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_fs">$fs</a></li>
+                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_io">$io</a></li>
+                                                    <li class=""><a href="classes/Sloth-Installer-Installer.html#property_themeDescription">$themeDescription</a></li>
                                                     <li class=""><a href="classes/Sloth-Installer-Installer.html#property_themeName">$themeName</a></li>
                                             </ul>
                 </li>
@@ -1672,20 +2255,26 @@
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_buildStyleCss">buildStyleCss()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_config">config()</a></li>
-                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_config_quiet">config_quiet()</a></li>
+                                            <li class="-deprecated"><a href="classes/Sloth-Installer-Installer.html#method_config_quiet">config_quiet()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_absPath">absPath()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_buildScreenshot">buildScreenshot()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_buildStyleCss">buildStyleCss()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_defaultThemeExists">defaultThemeExists()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_dialog">dialog()</a></li>
-                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_mkPath">mkPath()</a></li>
-                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_renameTheme">renameTheme()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_gatherInfo">gatherInfo()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_initializeBootstrap">initializeBootstrap()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_initializeDotenv">initializeDotenv()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_initializeHtaccess">initializeHtaccess()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_initializePlugin">initializePlugin()</a></li>
-                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_initializeSalts">initializeSalts()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_initializeWpconfig">initializeWpconfig()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_mkDirs">mkDirs()</a></li>
                                             <li class=""><a href="classes/Sloth-Installer-Installer.html#method_rebuildIndex">rebuildIndex()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_removeLegacySalts">removeLegacySalts()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_renameTheme">renameTheme()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_resolveInstallerPath">resolveInstallerPath()</a></li>
+                                            <li class=""><a href="classes/Sloth-Installer-Installer.html#method_run">run()</a></li>
                                     </ul>
             </li>
                     </ul>

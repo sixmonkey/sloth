@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -191,9 +215,6 @@
         <h2 class="phpdocumentor-content__title">
     Customizer
 
-        <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Singleton-Singleton.html"><abbr title="\Sloth\Singleton\Singleton">Singleton</abbr></a>
-    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -379,6 +400,12 @@
 </dt>
 <dd>SEO features to use.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Admin-Customizer.html#property_app">$app</a>
+    <span>
+                        &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>            </span>
+</dt>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -388,11 +415,11 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a>
+    <a class="" href="classes/Sloth-Admin-Customizer.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Prevent singleton instance from being unserialized.</dd>
+<dd>The Customizer constructor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Admin-Customizer.html#method_addCustomDashboardItem">addCustomDashboardItem()</a>
@@ -444,6 +471,13 @@
 <dd>Clean up the user profile edit form.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Admin-Customizer.html#method_cleanupAdminMenu">cleanupAdminMenu()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Clean up admin menu by removing duplicate PHP pages.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Admin-Customizer.html#method_dashboardWelcome">dashboardWelcome()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -451,11 +485,11 @@
 <dd>Render the dashboard welcome box.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a>
+    <a class="" href="classes/Sloth-Admin-Customizer.html#method_hideUpdates">hideUpdates()</a>
     <span>
-                                &nbsp;: static    </span>
+                                &nbsp;: object    </span>
 </dt>
-<dd>Get the singleton instance.</dd>
+<dd>Hide WordPress update notifications.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Admin-Customizer.html#method_loadScriptsAsynchronously">loadScriptsAsynchronously()</a>
@@ -502,7 +536,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Admin-Customizer.html#method_renderFooter">renderFooter()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: mixed    </span>
 </dt>
 <dd>Render the footer for WordPress admin.</dd>
 
@@ -519,13 +553,6 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Remove a TinyMCE button.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Singleton constructor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Admin-Customizer.html#method_done">done()</a>
@@ -1455,6 +1482,43 @@
         
 
 </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_app">
+        $app
+        <a href="classes/Sloth-Admin-Customizer.html#property_app" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">168</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$app</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
             </section>
 
             <section class="phpdocumentor-methods">
@@ -1469,55 +1533,42 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___wakeup">
-        __wakeup()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Sloth-Admin-Customizer.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">168</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Prevent singleton instance from being unserialized.</p>
+        <p class="phpdocumentor-summary">The Customizer constructor.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\RuntimeException">RuntimeException</abbr></span>
-                                                            
-                                                 <section class="phpdocumentor-description"><p>Always throws exception</p>
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$app</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Application instance</p>
 </section>
 
-                                    </dd>
-                                            </dl>
+            </dd>
+            </dl>
+
+    
 
         
     
@@ -1537,7 +1588,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">702</span>
+    <span class="phpdocumentor-element-found-in__line">705</span>
 
     </aside>
 
@@ -1617,7 +1668,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">602</span>
+    <span class="phpdocumentor-element-found-in__line">600</span>
 
     </aside>
 
@@ -1715,7 +1766,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">451</span>
+    <span class="phpdocumentor-element-found-in__line">449</span>
 
     </aside>
 
@@ -1777,7 +1828,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">643</span>
+    <span class="phpdocumentor-element-found-in__line">646</span>
 
     </aside>
 
@@ -1866,7 +1917,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">177</span>
 
     </aside>
 
@@ -1916,7 +1967,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">345</span>
+    <span class="phpdocumentor-element-found-in__line">343</span>
 
     </aside>
 
@@ -1966,7 +2017,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">416</span>
+    <span class="phpdocumentor-element-found-in__line">414</span>
 
     </aside>
 
@@ -2006,6 +2057,56 @@
         class="phpdocumentor-element
             -method
             -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_cleanupAdminMenu">
+        cleanupAdminMenu()
+        <a href="classes/Sloth-Admin-Customizer.html#method_cleanupAdminMenu" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">833</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Clean up admin menu by removing duplicate PHP pages.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">cleanupAdminMenu</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Admin-Customizer.html#method_cleanupAdminMenu#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_dashboardWelcome">
@@ -2016,7 +2117,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">731</span>
+    <span class="phpdocumentor-element-found-in__line">737</span>
 
     </aside>
 
@@ -2056,35 +2157,45 @@
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getInstance">
-        getInstance()
-        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_hideUpdates">
+        hideUpdates()
+        <a href="classes/Sloth-Admin-Customizer.html#method_hideUpdates" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">817</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the singleton instance.</p>
+        <p class="phpdocumentor-summary">Hide WordPress update notifications.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getInstance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">hideUpdates</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">object</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Admin-Customizer.html#method_hideUpdates#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -2102,7 +2213,11 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">static</span>
+        <span class="phpdocumentor-signature__response_type">object</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Fake update response with current time and WP version</p>
+</section>
+
             </section>
 
 </article>
@@ -2120,7 +2235,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">676</span>
+    <span class="phpdocumentor-element-found-in__line">679</span>
 
     </aside>
 
@@ -2170,7 +2285,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">496</span>
+    <span class="phpdocumentor-element-found-in__line">494</span>
 
     </aside>
 
@@ -2241,7 +2356,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">394</span>
+    <span class="phpdocumentor-element-found-in__line">392</span>
 
     </aside>
 
@@ -2303,7 +2418,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">540</span>
+    <span class="phpdocumentor-element-found-in__line">538</span>
 
     </aside>
 
@@ -2365,7 +2480,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">236</span>
+    <span class="phpdocumentor-element-found-in__line">234</span>
 
     </aside>
 
@@ -2436,7 +2551,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">570</span>
+    <span class="phpdocumentor-element-found-in__line">568</span>
 
     </aside>
 
@@ -2507,7 +2622,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">775</span>
+    <span class="phpdocumentor-element-found-in__line">785</span>
 
     </aside>
 
@@ -2515,7 +2630,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">renderFooter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">renderFooter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2541,11 +2656,7 @@
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -2561,7 +2672,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">304</span>
+    <span class="phpdocumentor-element-found-in__line">302</span>
 
     </aside>
 
@@ -2641,7 +2752,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">267</span>
+    <span class="phpdocumentor-element-found-in__line">265</span>
 
     </aside>
 
@@ -2701,58 +2812,6 @@
                     <article
         class="phpdocumentor-element
             -method
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___construct">
-        __construct()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">31</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Singleton constructor.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Protected so it can't be called outside of the class.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
             -private
                                     -static                    "
 >
@@ -2764,7 +2823,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">217</span>
+    <span class="phpdocumentor-element-found-in__line">215</span>
 
     </aside>
 
@@ -2830,7 +2889,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Admin/Customizer.php"><a href="files/src-admin-customizer.html"><abbr title="src/Admin/Customizer.php">Customizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">199</span>
+    <span class="phpdocumentor-element-found-in__line">197</span>
 
     </aside>
 
@@ -3023,13 +3082,14 @@
                                                     <li class=""><a href="classes/Sloth-Admin-Customizer.html#property_tinymceStyles">$tinymceStyles</a></li>
                                                     <li class=""><a href="classes/Sloth-Admin-Customizer.html#property_useMetaDescriptionAsExcerpt">$useMetaDescriptionAsExcerpt</a></li>
                                                     <li class=""><a href="classes/Sloth-Admin-Customizer.html#property_useSeoFeatures">$useSeoFeatures</a></li>
+                                                    <li class=""><a href="classes/Sloth-Admin-Customizer.html#property_app">$app</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a></li>
+                                            <li class=""><a href="classes/Sloth-Admin-Customizer.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_addCustomDashboardItem">addCustomDashboardItem()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_addMenuItem">addMenuItem()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_addMenuSeparator">addMenuSeparator()</a></li>
@@ -3037,8 +3097,9 @@
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_cleanDashboard">cleanDashboard()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_cleanProfileEditForm">cleanProfileEditForm()</a></li>
+                                            <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_cleanupAdminMenu">cleanupAdminMenu()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_dashboardWelcome">dashboardWelcome()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a></li>
+                                            <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_hideUpdates">hideUpdates()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_loadScriptsAsynchronously">loadScriptsAsynchronously()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_moveMenuItem">moveMenuItem()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_removeAdminBarItem">removeAdminBarItem()</a></li>
@@ -3048,7 +3109,6 @@
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_renderFooter">renderFooter()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_tinymceAddButton">tinymceAddButton()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_tinymceRemoveButton">tinymceRemoveButton()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_done">done()</a></li>
                                             <li class=""><a href="classes/Sloth-Admin-Customizer.html#method_joinArray">joinArray()</a></li>
                                     </ul>

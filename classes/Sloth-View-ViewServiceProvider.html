@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -213,13 +237,21 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for the View rendering component.</p>
 
 
+    <section class="phpdocumentor-description"><h2>Boot sequence</h2>
+<p>register() only binds singletons — it does NOT resolve them.
+Resolving a singleton during register() can cause infinite loops
+if the singleton's closure calls config() or other container bindings
+that are still being built.</p>
+<p>Twig extensions are added in boot() — after all providers have
+registered their services and the container is fully built.</p>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -234,14 +266,6 @@
                 <dd class="phpdocumentor-tag-list__definition">
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Core-ServiceProvider.html"><abbr title="\Sloth\Core\ServiceProvider">ServiceProvider</abbr></a></span>
-                                        
                                              
                                     </dd>
                                             </dl>
@@ -277,11 +301,32 @@
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_boot">boot()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Boot View services.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
+    <span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+</dt>
+<dd>Returns WordPress filters this provider wants to register.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a>
+    <span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+</dt>
+<dd>Returns WordPress actions this provider wants to register.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_register">register()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register the View service provider.</dd>
+<dd>Register View services.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_createEngineResolver">createEngineResolver()</a>
@@ -295,35 +340,35 @@
     <span>
                                 &nbsp;: <abbr title="\Illuminate\View\Factory">Factory</abbr>    </span>
 </dt>
-<dd>Create and configure the view factory.</dd>
+<dd>Create and configure the View Factory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_registerEngineResolver">registerEngineResolver()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register the EngineResolver instance to the application.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEngine">registerTwigEngine()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Register the Twig engine to the EngineResolver.</dd>
+<dd>Register the EngineResolver.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment">registerTwigEnvironment()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register Twig environment and its loader.</dd>
+<dd>Register the Twig environment.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigLoader">registerTwigLoader()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Register the Twig filesystem loader.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-View-ViewServiceProvider.html#method_registerViewFactory">registerViewFactory()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register the view factory.</dd>
+<dd>Register the ViewFinder and View Factory.</dd>
 
     </dl>
 
@@ -353,7 +398,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
@@ -452,6 +497,148 @@ $provider-&gt;undefinedMethod();
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_boot">
+        boot()
+        <a href="classes/Sloth-View-ViewServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">58</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Boot View services.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Adds Twig extensions after all providers are registered and
+the container is fully built. Safe to resolve singletons here.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-ViewServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFilters">
+        getFilters()
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">62</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns WordPress filters this provider wants to register.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Same format as getHooks().</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getHooks">
+        getHooks()
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">51</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns WordPress actions this provider wants to register.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The framework calls add_action() for each entry — never call
+add_action() directly inside a provider.</p>
+<p>Supports three formats per hook:</p>
+<ul>
+<li>Single callable:   'init' =&gt; fn() =&gt; $this-&gt;doSomething()</li>
+<li>Array of callables: 'init' =&gt; [fn() =&gt; ..., fn() =&gt; ...]</li>
+<li>With priority:     'init' =&gt; ['callback' =&gt; fn() =&gt; ..., 'priority' =&gt; 20]</li>
+</ul>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_register">
         register()
         <a href="classes/Sloth-View-ViewServiceProvider.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
@@ -460,11 +647,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the View service provider.</p>
+        <p class="phpdocumentor-summary">Register View services.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -473,7 +660,9 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Binds singletons only — does not resolve any of them.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -521,7 +710,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">128</span>
 
     </aside>
 
@@ -575,11 +764,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">143</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Create and configure the view factory.</p>
+        <p class="phpdocumentor-summary">Create and configure the View Factory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -596,9 +785,7 @@ $provider-&gt;undefinedMethod();
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The container instance</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -641,11 +828,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">115</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the EngineResolver instance to the application.</p>
+        <p class="phpdocumentor-summary">Register the EngineResolver.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -683,54 +870,37 @@ $provider-&gt;undefinedMethod();
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_registerTwigEngine">
-        registerTwigEngine()
-        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEngine" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_registerTwigEnvironment">
+        registerTwigEnvironment()
+        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the Twig engine to the EngineResolver.</p>
+        <p class="phpdocumentor-summary">Register the Twig environment.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">registerTwigEngine</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$engine</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\View\Engines\EngineResolver">EngineResolver</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$resolver</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">registerTwigEnvironment</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Uses $c['config']-&gt;get() instead of config() to avoid triggering
+the container's make() while the singleton closure is being built,
+which would cause an infinite loop.</p>
+</section>
+
     
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$engine</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The engine name</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$resolver</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\View\Engines\EngineResolver">EngineResolver</abbr></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The engine resolver</p>
-</section>
-
-            </dd>
-            </dl>
-
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEngine#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -754,33 +924,36 @@ $provider-&gt;undefinedMethod();
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_registerTwigEnvironment">
-        registerTwigEnvironment()
-        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_registerTwigLoader">
+        registerTwigLoader()
+        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigLoader" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register Twig environment and its loader.</p>
+        <p class="phpdocumentor-summary">Register the Twig filesystem loader.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">registerTwigEnvironment</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">registerTwigLoader</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Starts with an empty paths array — ThemeServiceProvider adds
+theme and framework view paths after providers are registered.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigLoader#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -812,11 +985,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/ViewServiceProvider.php"><a href="files/src-view-viewserviceprovider.html"><abbr title="src/View/ViewServiceProvider.php">ViewServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">146</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the view factory.</p>
+        <p class="phpdocumentor-summary">Register the ViewFinder and View Factory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -964,12 +1137,15 @@ $provider-&gt;undefinedMethod();
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_boot">boot()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_register">register()</a></li>
                                             <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_createEngineResolver">createEngineResolver()</a></li>
                                             <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_createViewFactory">createViewFactory()</a></li>
                                             <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_registerEngineResolver">registerEngineResolver()</a></li>
-                                            <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEngine">registerTwigEngine()</a></li>
                                             <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment">registerTwigEnvironment()</a></li>
+                                            <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_registerTwigLoader">registerTwigLoader()</a></li>
                                             <li class=""><a href="classes/Sloth-View-ViewServiceProvider.html#method_registerViewFactory">registerViewFactory()</a></li>
                                     </ul>
             </li>

@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -216,20 +240,22 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Taxonomy Model</p>
+            <p class="phpdocumentor-summary">Base Taxonomy class for WordPress custom taxonomies.</p>
 
 
-    <section class="phpdocumentor-description"><p>Extends Corcel\Model directly to provide WordPress custom
-taxonomy registration and management functionality.</p>
-<h2>Independence from Corcel</h2>
-<p>This model does NOT extend Corcel\Model\Taxonomy. Instead, it implements
-all necessary features directly, ensuring full control over attribute resolution.</p>
-<p>This model uses Sloth's own trait implementations for meta fields
-and aliases.</p>
+    <section class="phpdocumentor-description"><p>Extends Corcel\Model directly to provide WordPress taxonomy registration
+and management. All necessary features are implemented directly without
+extending Corcel\Model\Taxonomy, ensuring full control over attribute
+resolution.</p>
+<h2>Registration properties</h2>
+<p>Registration-related properties ($names, $options, $labels, $postTypes,
+$unique, $register) are intentionally untyped static properties.
+This allows theme developers to override them in child classes without
+PHP 8.4 typed property inheritance errors. PHPStan is satisfied via</p>
 </section>
 
 
@@ -248,16 +274,26 @@ and aliases.</p>
                                              
                                     </dd>
                                                 <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\Registrars\TaxonomyRegistrar">TaxonomyRegistrar</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For taxonomy registration</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">example</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">class Category extends Taxonomy {
-    protected array $names = [
-        'singular' =&gt; 'Category',
-        'plural' =&gt; 'Categories',
-    ];
-    protected array $postTypes = ['project', 'post'];
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">class OrtTaxonomy extends Taxonomy
+{
+    protected ?string $taxonomy = 'ort';
+
+    public static $names = ['singular' =&gt; 'Ort', 'plural' =&gt; 'Orte'];
+    public static $postTypes = ['event'];
 }
 </code></pre>
 </section>
@@ -288,18 +324,53 @@ and aliases.</p>
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_labels">$labels</a>
+    <span>
+                        &nbsp;: array&lt;string, string&gt;            </span>
+</dt>
+<dd>WordPress taxonomy labels.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_names">$names</a>
+    <span>
+                        &nbsp;: array&lt;string, string&gt;            </span>
+</dt>
+<dd>Singular and plural display names for label generation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_options">$options</a>
+    <span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
+</dt>
+<dd>WordPress taxonomy registration arguments.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_postTypes">$postTypes</a>
+    <span>
+                        &nbsp;: array&lt;string|int, string&gt;            </span>
+</dt>
+<dd>Post types that this taxonomy is attached to.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_register">$register</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+<dd>Whether this taxonomy should be registered with WordPress.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#property_timestamps">$timestamps</a>
     <span>
                         &nbsp;: bool            </span>
 </dt>
 <dd>Indicates if the model should be timestamped.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_labels">$labels</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_unique">$unique</a>
     <span>
-                        &nbsp;: array&lt;string, string&gt;            </span>
+                        &nbsp;: bool            </span>
 </dt>
-<dd>Taxonomy labels for WordPress admin UI.</dd>
+<dd>Whether this is a unique (single-value) taxonomy.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap">$metaClassMap</a>
@@ -307,27 +378,6 @@ and aliases.</p>
                         &nbsp;: array&lt;class-string, class-string&gt;            </span>
 </dt>
 <dd>Mapping of model classes to their corresponding meta classes.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_names">$names</a>
-    <span>
-                        &nbsp;: array&lt;string, mixed&gt;            </span>
-</dt>
-<dd>Taxonomy names configuration for PostTypes library.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_options">$options</a>
-    <span>
-                        &nbsp;: array&lt;string, mixed&gt;            </span>
-</dt>
-<dd>Taxonomy options for WordPress registration.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_postTypes">$postTypes</a>
-    <span>
-                        &nbsp;: array&lt;string|int, string&gt;            </span>
-</dt>
-<dd>Post types that this taxonomy should be attached to.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#property_primaryKey">$primaryKey</a>
@@ -341,28 +391,21 @@ and aliases.</p>
     <span>
                         &nbsp;: string            </span>
 </dt>
-<dd>The table associated with the model.</dd>
+<dd>The database table used by the model.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#property_taxonomy">$taxonomy</a>
     <span>
                         &nbsp;: string|null            </span>
 </dt>
-<dd>The taxonomy identifier.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#property_unique">$unique</a>
-    <span>
-                        &nbsp;: bool            </span>
-</dt>
-<dd>Whether this is a unique (non-hierarchical) taxonomy.</dd>
+<dd>The WordPress taxonomy identifier.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#property_with">$with</a>
     <span>
                         &nbsp;: array&lt;string|int, string&gt;            </span>
 </dt>
-<dd>The relationships to eager-load on every query.</dd>
+<dd>Relationships to eager-load on every query.</dd>
 
     </dl>
 
@@ -377,14 +420,14 @@ and aliases.</p>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Creates a new Taxonomy instance.</dd>
+<dd>Create a new Taxonomy instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#method___get">__get()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Magic method to return term attributes directly.</dd>
+<dd>Handle dynamic property access.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Traits-HasAliases.html#method_addAlias">addAlias()</a>
@@ -436,13 +479,6 @@ and aliases.</p>
 <dd>Get an attribute value, resolving aliases if necessary.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#method_getLabels">getLabels()</a>
-    <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
-</dt>
-<dd>Get the taxonomy labels.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta">getMeta()</a>
     <span>
                                 &nbsp;: mixed    </span>
@@ -450,11 +486,18 @@ and aliases.</p>
 <dd>Get a specific meta value by key.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Model-Taxonomy.html#method_getPostTypes">getPostTypes()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, string&gt;    </span>
+</dt>
+<dd>Get the post types this taxonomy is attached to.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#method_getTaxonomy">getTaxonomy()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Gets the taxonomy identifier.</dd>
+<dd>Get the WordPress taxonomy identifier.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#method_getTermLinkAttribute">getTermLinkAttribute()</a>
@@ -462,13 +505,6 @@ and aliases.</p>
                                 &nbsp;: string|<abbr title="\WP_Error">WP_Error</abbr>    </span>
 </dt>
 <dd>Get the term link URL.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#method_init">init()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Initializes the taxonomy after WordPress registration.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_meta">meta()</a>
@@ -482,7 +518,7 @@ and aliases.</p>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Render the taxonomy metabox.</dd>
+<dd>Render the custom metabox for unique (single-value) taxonomies.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute">mutateAttribute()</a>
@@ -496,7 +532,7 @@ and aliases.</p>
     <span>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\BelongsTo">BelongsTo</abbr>    </span>
 </dt>
-<dd>Get the parent taxonomy.</dd>
+<dd>Get the parent taxonomy term.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#method_posts">posts()</a>
@@ -504,13 +540,6 @@ and aliases.</p>
                                 &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Relations\BelongsToMany">BelongsToMany</abbr>    </span>
 </dt>
 <dd>Get all posts associated with this taxonomy term.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Model-Taxonomy.html#method_register">register()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Registers the taxonomy with WordPress.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField">saveField()</a>
@@ -552,7 +581,7 @@ and aliases.</p>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Get the meta class for this model.</dd>
+<dd>Get the meta model class for this taxonomy.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-Taxonomy.html#method_getMetaForeignKey">getMetaForeignKey()</a>
@@ -579,6 +608,286 @@ and aliases.</p>
             phpdocumentor-element
             -property
             -public
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_labels">
+        $labels
+        <a href="classes/Sloth-Model-Taxonomy.html#property_labels" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">152</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">WordPress taxonomy labels.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
+    <span class="phpdocumentor-signature__name">$labels</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>When set, these override the auto-generated labels from $names.
+Supports all WordPress taxonomy label keys.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_labels#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_names">
+        $names
+        <a href="classes/Sloth-Model-Taxonomy.html#property_names" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">130</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Singular and plural display names for label generation.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
+    <span class="phpdocumentor-signature__name">$names</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>Used by TaxonomyRegistrar::buildLabels() to auto-generate WordPress
+taxonomy labels when $labels is empty.</p>
+</section>
+
+        <section class="phpdocumentor-description"><p>e.g. ['singular' =&gt; 'Ort', 'plural' =&gt; 'Orte']</p>
+</section>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_names#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_options">
+        $options
+        <a href="classes/Sloth-Model-Taxonomy.html#property_options" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">141</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">WordPress taxonomy registration arguments.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$options</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>Merged with WordPress defaults in TaxonomyRegistrar::buildRegistrationArgs().
+Any valid register_taxonomy() argument can be set here.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_options#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_postTypes">
+        $postTypes
+        <a href="classes/Sloth-Model-Taxonomy.html#property_postTypes" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">160</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Post types that this taxonomy is attached to.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
+    <span class="phpdocumentor-signature__name">$postTypes</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>e.g. ['event', 'news']</p>
+</section>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_postTypes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_register">
+        $register
+        <a href="classes/Sloth-Model-Taxonomy.html#property_register" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">182</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Whether this taxonomy should be registered with WordPress.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$register</span>
+     = <span class="phpdocumentor-signature__default-value">true</span></code>
+
+        <section class="phpdocumentor-description"><p>Set to false to use the taxonomy for querying only.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_register#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
                                                                     "
 >
     <h4 class="phpdocumentor-element__name" id="property_timestamps">
@@ -591,7 +900,7 @@ and aliases.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 
     </aside>
 
@@ -618,12 +927,12 @@ and aliases.</p>
         class="
             phpdocumentor-element
             -property
-            -protected
-                                                                    "
+            -public
+            -static                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_labels">
-        $labels
-        <a href="classes/Sloth-Model-Taxonomy.html#property_labels" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_unique">
+        $unique
+        <a href="classes/Sloth-Model-Taxonomy.html#property_unique" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -631,25 +940,29 @@ and aliases.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">172</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Taxonomy labels for WordPress admin UI.</p>
+        <p class="phpdocumentor-summary">Whether this is a unique (single-value) taxonomy.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$labels</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$unique</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>When true, the taxonomy behaves like a radio button instead of
+a checkbox — only one term can be selected per post. The default
+tag-style metabox is replaced with a custom radio-button metabox.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#property_labels#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Model-Taxonomy.html#property_unique#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -734,165 +1047,6 @@ models and Sloth's custom models are supported.</p>
             -protected
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_names">
-        $names
-        <a href="classes/Sloth-Model-Taxonomy.html#property_names" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">83</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Taxonomy names configuration for PostTypes library.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$names</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#property_names#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_options">
-        $options
-        <a href="classes/Sloth-Model-Taxonomy.html#property_options" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">91</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Taxonomy options for WordPress registration.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">$options</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#property_options#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_postTypes">
-        $postTypes
-        <a href="classes/Sloth-Model-Taxonomy.html#property_postTypes" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">107</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Post types that this taxonomy should be attached to.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$postTypes</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#property_postTypes#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
     <h4 class="phpdocumentor-element__name" id="property_primaryKey">
         $primaryKey
         <a href="classes/Sloth-Model-Taxonomy.html#property_primaryKey" class="headerlink"><i class="fas fa-link"></i></a>
@@ -903,7 +1057,7 @@ models and Sloth's custom models are supported.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
@@ -919,6 +1073,22 @@ models and Sloth's custom models are supported.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_primaryKey#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">corcel-compat</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>Cannot be typed — Corcel declares $primaryKey without a type.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
         
@@ -941,11 +1111,11 @@ models and Sloth's custom models are supported.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">The table associated with the model.</p>
+        <p class="phpdocumentor-summary">The database table used by the model.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
@@ -957,6 +1127,22 @@ models and Sloth's custom models are supported.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_table#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">corcel-compat</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>Cannot be typed — Corcel declares $table without a type.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
         
@@ -979,11 +1165,11 @@ models and Sloth's custom models are supported.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">109</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">The taxonomy identifier.</p>
+        <p class="phpdocumentor-summary">The WordPress taxonomy identifier.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
@@ -992,65 +1178,15 @@ models and Sloth's custom models are supported.</p>
     <span class="phpdocumentor-signature__name">$taxonomy</span>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Set automatically from the class name (lowercased) if not explicitly
+defined in the child class.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
         <a href="classes/Sloth-Model-Taxonomy.html#property_taxonomy#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_unique">
-        $unique
-        <a href="classes/Sloth-Model-Taxonomy.html#property_unique" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">114</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Whether this is a unique (non-hierarchical) taxonomy.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$unique</span>
-     = <span class="phpdocumentor-signature__default-value">false</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#property_unique#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -1085,11 +1221,11 @@ models and Sloth's custom models are supported.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">The relationships to eager-load on every query.</p>
+        <p class="phpdocumentor-summary">Relationships to eager-load on every query.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
@@ -1101,6 +1237,22 @@ models and Sloth's custom models are supported.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#property_with#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">corcel-compat</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>Cannot be typed — Corcel declares $with without a type.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
         
         
@@ -1128,11 +1280,11 @@ models and Sloth's custom models are supported.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">133</span>
+    <span class="phpdocumentor-element-found-in__line">198</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a new Taxonomy instance.</p>
+        <p class="phpdocumentor-summary">Create a new Taxonomy instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1141,8 +1293,8 @@ models and Sloth's custom models are supported.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Initializes the taxonomy identifier from the class name
-if not explicitly set, and processes labels.</p>
+        <section class="phpdocumentor-description"><p>Initializes the taxonomy identifier from the class name (lowercased)
+if not explicitly set in the child class.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1152,7 +1304,7 @@ if not explicitly set, and processes labels.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Initial attributes</p>
+                    <section class="phpdocumentor-description"><p>Initial attributes.</p>
 </section>
 
             </dd>
@@ -1193,11 +1345,11 @@ if not explicitly set, and processes labels.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">330</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Magic method to return term attributes directly.</p>
+        <p class="phpdocumentor-summary">Handle dynamic property access.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1206,7 +1358,8 @@ if not explicitly set, and processes labels.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Provides access to term attributes as if they were taxonomy attributes.</p>
+        <section class="phpdocumentor-description"><p>Falls back to term attributes (e.g. $taxonomy-&gt;name, $taxonomy-&gt;slug)
+when the key is not found on the taxonomy model itself.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1216,25 +1369,43 @@ if not explicitly set, and processes labels.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The attribute key</p>
+                    <section class="phpdocumentor-description"><p>The property name.</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method___get#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Taxonomy.html#method___get#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The attribute value</p>
-</section>
-
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -1327,7 +1498,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">170</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 
     </aside>
 
@@ -1340,21 +1511,30 @@ when loading aliases from configuration.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Returns all taxonomy terms that have this term as their parent.</p>
-</section>
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method_children#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-    
-    
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The child terms relationship</p>
-</section>
-
             </section>
 
 </article>
@@ -1763,60 +1943,6 @@ $post-&gt;author; // Resolves to $post-&gt;meta-&gt;user_id
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getLabels">
-        getLabels()
-        <a href="classes/Sloth-Model-Taxonomy.html#method_getLabels" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">230</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the taxonomy labels.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getLabels</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#method_getLabels#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getMeta">
         getMeta()
         <a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1905,6 +2031,64 @@ $views = $post-&gt;getMeta('views') ?? 0;
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getPostTypes">
+        getPostTypes()
+        <a href="classes/Sloth-Model-Taxonomy.html#method_getPostTypes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">231</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the post types this taxonomy is attached to.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getPostTypes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method_getPostTypes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Array of post type slugs.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getTaxonomy">
         getTaxonomy()
         <a href="classes/Sloth-Model-Taxonomy.html#method_getTaxonomy" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1913,11 +2097,11 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">343</span>
+    <span class="phpdocumentor-element-found-in__line">219</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the taxonomy identifier.</p>
+        <p class="phpdocumentor-summary">Get the WordPress taxonomy identifier.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1950,6 +2134,10 @@ $views = $post-&gt;getMeta('views') ?? 0;
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The taxonomy slug (e.g. 'category', 'ort').</p>
+</section>
+
             </section>
 
 </article>
@@ -1967,7 +2155,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">195</span>
+    <span class="phpdocumentor-element-found-in__line">304</span>
 
     </aside>
 
@@ -1983,55 +2171,9 @@ $views = $post-&gt;getMeta('views') ?? 0;
     
     
     
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The term link URL or error</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_init">
-        init()
-        <a href="classes/Sloth-Model-Taxonomy.html#method_init" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">312</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Initializes the taxonomy after WordPress registration.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">init</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>For unique (non-hierarchical) taxonomies, this removes
-the default meta box and adds a custom one.</p>
-</section>
-
-    
-    
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#method_init#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Model-Taxonomy.html#method_getTermLinkAttribute#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -2047,7 +2189,15 @@ the default meta box and adds a custom one.</p>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The term link URL or a WP_Error on failure.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -2140,20 +2290,24 @@ foreach ($post-&gt;meta as $meta) {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">356</span>
+    <span class="phpdocumentor-element-found-in__line">358</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Render the taxonomy metabox.</p>
+        <p class="phpdocumentor-summary">Render the custom metabox for unique (single-value) taxonomies.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">metabox</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$post</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$box</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">metabox</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$post</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$box</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Displays a checklist of terms with an &quot;add new term&quot; input.
+Only used when $unique is true — the default tag metabox is replaced
+with this custom implementation via TaxonomyRegistrar::addMetaBoxes().</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2161,16 +2315,16 @@ foreach ($post-&gt;meta as $meta) {
                 : <span class="phpdocumentor-argument-list__argument__type">object</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The post object</p>
+                    <section class="phpdocumentor-description"><p>The post object.</p>
 </section>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$box</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The metabox configuration</p>
+                    <section class="phpdocumentor-description"><p>The metabox configuration.</p>
 </section>
 
             </dd>
@@ -2323,11 +2477,11 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">158</span>
+    <span class="phpdocumentor-element-found-in__line">259</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the parent taxonomy.</p>
+        <p class="phpdocumentor-summary">Get the parent taxonomy term.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -2339,16 +2493,27 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method_parent#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\BelongsTo">BelongsTo</abbr></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The parent relationship</p>
-</section>
-
             </section>
 
 </article>
@@ -2366,7 +2531,7 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">180</span>
+    <span class="phpdocumentor-element-found-in__line">283</span>
 
     </aside>
 
@@ -2382,55 +2547,9 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
     
     
     
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\BelongsToMany">BelongsToMany</abbr></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The posts relationship</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_register">
-        register()
-        <a href="classes/Sloth-Model-Taxonomy.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">279</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Registers the taxonomy with WordPress.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">register</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Uses direct WordPress registration to attach the taxonomy
-to the specified post types.</p>
-</section>
-
-    
-    
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Model-Taxonomy.html#method_register#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Model-Taxonomy.html#method_posts#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -2446,7 +2565,11 @@ to the specified post types.</p>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\BelongsToMany">BelongsToMany</abbr></span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -2840,7 +2963,7 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">148</span>
+    <span class="phpdocumentor-element-found-in__line">247</span>
 
     </aside>
 
@@ -2856,16 +2979,27 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method_term#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Relations\BelongsTo">BelongsTo</abbr></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The term relationship</p>
-</section>
-
             </section>
 
 </article>
@@ -2883,11 +3017,11 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">432</span>
+    <span class="phpdocumentor-element-found-in__line">435</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the meta class for this model.</p>
+        <p class="phpdocumentor-summary">Get the meta model class for this taxonomy.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -2899,6 +3033,21 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method_getMetaClass#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -2906,7 +3055,7 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The fully qualified class name of the meta model</p>
+                <section class="phpdocumentor-description"><p>The fully qualified class name of the meta model.</p>
 </section>
 
             </section>
@@ -2926,7 +3075,7 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Taxonomy.php"><a href="files/src-model-taxonomy.html"><abbr title="src/Model/Taxonomy.php">Taxonomy.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">442</span>
+    <span class="phpdocumentor-element-found-in__line">447</span>
 
     </aside>
 
@@ -2942,6 +3091,21 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Taxonomy.html#method_getMetaForeignKey#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -2949,7 +3113,7 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The foreign key name</p>
+                <section class="phpdocumentor-description"><p>The foreign key name.</p>
 </section>
 
             </section>
@@ -3070,16 +3234,17 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_timestamps">$timestamps</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_labels">$labels</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap">$metaClassMap</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_names">$names</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_options">$options</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_postTypes">$postTypes</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_register">$register</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_timestamps">$timestamps</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_unique">$unique</a></li>
+                                                    <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#property_metaClassMap">$metaClassMap</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_primaryKey">$primaryKey</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_table">$table</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_taxonomy">$taxonomy</a></li>
-                                                    <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_unique">$unique</a></li>
                                                     <li class=""><a href="classes/Sloth-Model-Taxonomy.html#property_with">$with</a></li>
                                             </ul>
                 </li>
@@ -3096,17 +3261,15 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_fields">fields()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAliases">getAliases()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_getAttribute">getAttribute()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_getLabels">getLabels()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_getMeta">getMeta()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_getPostTypes">getPostTypes()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_getTaxonomy">getTaxonomy()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_getTermLinkAttribute">getTermLinkAttribute()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_init">init()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_meta">meta()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_metabox">metabox()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasAliases.html#method_mutateAttribute">mutateAttribute()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_parent">parent()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_posts">posts()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Taxonomy.html#method_register">register()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveField">saveField()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_saveMeta">saveMeta()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Traits-HasMetaFields.html#method_scopeHasMeta">scopeHasMeta()</a></li>

@@ -74,7 +74,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -86,7 +98,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -99,6 +115,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -130,15 +150,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -193,12 +217,21 @@
                         <h3>Table of Contents</h3>
             <table class="phpdocumentor-table_of_contents">
                                     <tr>
-                        <td class="phpdocumentor-cell"><a href="reports/deprecated.html#src/Plugin/Plugin.php">src/Plugin/Plugin.php</a></td>
+                        <td class="phpdocumentor-cell"><a href="reports/deprecated.html#src/Compatibility/LegacyGlobalsServiceProvider.php">src/Compatibility/LegacyGlobalsServiceProvider.php</a></td>
+                    </tr>
+                                    <tr>
+                        <td class="phpdocumentor-cell"><a href="reports/deprecated.html#src/Configure/Configure.php">src/Configure/Configure.php</a></td>
+                    </tr>
+                                    <tr>
+                        <td class="phpdocumentor-cell"><a href="reports/deprecated.html#src/Core/Application.php">src/Core/Application.php</a></td>
+                    </tr>
+                                    <tr>
+                        <td class="phpdocumentor-cell"><a href="reports/deprecated.html#src/Installer/Installer.php">src/Installer/Installer.php</a></td>
                     </tr>
                             </table>
             
-                            <a id="src/Plugin/Plugin.php"></a>
-                <h3><abbr title="src/Plugin/Plugin.php">Plugin.php</abbr></h3>
+                            <a id="src/Compatibility/LegacyGlobalsServiceProvider.php"></a>
+                <h3><abbr title="src/Compatibility/LegacyGlobalsServiceProvider.php">LegacyGlobalsServiceProvider.php</abbr></h3>
                 <table>
                     <tr>
                         <th class="phpdocumentor-heading">Line</th>
@@ -206,9 +239,60 @@
                         <th class="phpdocumentor-heading">Reason</th>
                     </tr>
                                                                         <tr>
-                                <td class="phpdocumentor-cell">503</td>
-                                <td class="phpdocumentor-cell"><a href="classes/Sloth-Plugin-Plugin.html#method_obfuscateWP"><abbr title="\Sloth\Plugin\Plugin::obfuscateWP()">Plugin::obfuscateWP()</abbr></a></td>
-                                <td class="phpdocumentor-cell"><p>Opinionated theme cleanup, not a framework concern. Remove in refactor/cleanup-and-docs.</p>
+                                <td class="phpdocumentor-cell">30</td>
+                                <td class="phpdocumentor-cell"><a href="classes/Sloth-Compatibility-LegacyGlobalsServiceProvider.html"><abbr title="\Sloth\Compatibility\LegacyGlobalsServiceProvider">LegacyGlobalsServiceProvider</abbr></a></td>
+                                <td class="phpdocumentor-cell"><p>Will be removed in a future major version.</p>
+</td>
+                            </tr>
+                                                            </table>
+                            <a id="src/Configure/Configure.php"></a>
+                <h3><abbr title="src/Configure/Configure.php">Configure.php</abbr></h3>
+                <table>
+                    <tr>
+                        <th class="phpdocumentor-heading">Line</th>
+                        <th class="phpdocumentor-heading">Element</th>
+                        <th class="phpdocumentor-heading">Reason</th>
+                    </tr>
+                                                                        <tr>
+                                <td class="phpdocumentor-cell">136</td>
+                                <td class="phpdocumentor-cell"><a href="classes/Sloth-Configure-Configure.html#method_boot"><abbr title="\Sloth\Configure\Configure::boot()">Configure::boot()</abbr></a></td>
+                                <td class="phpdocumentor-cell"><p>ENV values are now available via env() directly.</p>
+</td>
+                            </tr>
+                                                            </table>
+                            <a id="src/Core/Application.php"></a>
+                <h3><abbr title="src/Core/Application.php">Application.php</abbr></h3>
+                <table>
+                    <tr>
+                        <th class="phpdocumentor-heading">Line</th>
+                        <th class="phpdocumentor-heading">Element</th>
+                        <th class="phpdocumentor-heading">Reason</th>
+                    </tr>
+                                                                        <tr>
+                                <td class="phpdocumentor-cell">501</td>
+                                <td class="phpdocumentor-cell"><a href="classes/Sloth-Core-Application.html#method_getContext"><abbr title="\Sloth\Core\Application::getContext()">Application::getContext()</abbr></a></td>
+                                <td class="phpdocumentor-cell"><p>Use app('context')-&gt;getContext() instead.</p>
+</td>
+                            </tr>
+                                                                                                <tr>
+                                <td class="phpdocumentor-cell">512</td>
+                                <td class="phpdocumentor-cell"><a href="classes/Sloth-Core-Application.html#method_isDevEnv"><abbr title="\Sloth\Core\Application::isDevEnv()">Application::isDevEnv()</abbr></a></td>
+                                <td class="phpdocumentor-cell"><p>Use app()-&gt;isLocal() instead.</p>
+</td>
+                            </tr>
+                                                            </table>
+                            <a id="src/Installer/Installer.php"></a>
+                <h3><abbr title="src/Installer/Installer.php">Installer.php</abbr></h3>
+                <table>
+                    <tr>
+                        <th class="phpdocumentor-heading">Line</th>
+                        <th class="phpdocumentor-heading">Element</th>
+                        <th class="phpdocumentor-heading">Reason</th>
+                    </tr>
+                                                                        <tr>
+                                <td class="phpdocumentor-cell">114</td>
+                                <td class="phpdocumentor-cell"><a href="classes/Sloth-Installer-Installer.html#method_config_quiet"><abbr title="\Sloth\Installer\Installer::config_quiet()">Installer::config_quiet()</abbr></a></td>
+                                <td class="phpdocumentor-cell"><p>Use config() with the --no-interaction flag instead.</p>
 </td>
                             </tr>
                                                             </table>

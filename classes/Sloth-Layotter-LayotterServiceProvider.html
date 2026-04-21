@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -213,7 +237,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/LayotterServiceProvider.php"><a href="files/src-layotter-layotterserviceprovider.html"><abbr title="src/Layotter/LayotterServiceProvider.php">LayotterServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 
     </aside>
 
@@ -277,11 +301,32 @@
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getFilters">getFilters()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;|array&lt;string|int, array&lt;string|int, mixed&gt;&gt;|array&lt;string|int, callable&gt;    </span>
+</dt>
+<dd>Get the required filters for the Layotter service provider.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getHooks">getHooks()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, array&lt;string|int, mixed&gt;&gt;    </span>
+</dt>
+<dd>Returns WordPress actions this provider wants to register.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_register">register()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Register the Layotter service provider.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_configurePostTypes">configurePostTypes()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Configure Layotter page builder integration for a model.</dd>
 
     </dl>
 
@@ -311,7 +356,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
@@ -410,6 +455,99 @@ $provider-&gt;undefinedMethod();
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getFilters">
+        getFilters()
+        <a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/LayotterServiceProvider.php"><a href="files/src-layotter-layotterserviceprovider.html"><abbr title="src/Layotter/LayotterServiceProvider.php">LayotterServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">91</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the required filters for the Layotter service provider.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, array&lt;string|int, mixed&gt;&gt;|array&lt;string|int, callable&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getFilters#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, array&lt;string|int, mixed&gt;&gt;|array&lt;string|int, callable&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getHooks">
+        getHooks()
+        <a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getHooks" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/LayotterServiceProvider.php"><a href="files/src-layotter-layotterserviceprovider.html"><abbr title="src/Layotter/LayotterServiceProvider.php">LayotterServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">78</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns WordPress actions this provider wants to register.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string|int, mixed&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string|int, mixed&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_register">
         register()
         <a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
@@ -418,7 +556,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/LayotterServiceProvider.php"><a href="files/src-layotter-layotterserviceprovider.html"><abbr title="src/Layotter/LayotterServiceProvider.php">LayotterServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -462,6 +600,64 @@ $provider-&gt;undefinedMethod();
     </dt>
     </dl>
                     </section>
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_configurePostTypes">
+        configurePostTypes()
+        <a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_configurePostTypes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/LayotterServiceProvider.php"><a href="files/src-layotter-layotterserviceprovider.html"><abbr title="src/Layotter/LayotterServiceProvider.php">LayotterServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">49</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Configure Layotter page builder integration for a model.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">configurePostTypes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Reads $modelClass::$layotter — falls back to false if not declared.</p>
+<ul>
+<li>false → Layotter disabled for this post type</li>
+<li>true  → Layotter enabled with default settings</li>
+<li>array → Layotter enabled with custom settings (e.g. allowed_row_layouts)</li>
+</ul>
+<p>Skips silently if Layotter is not bound in the container.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_configurePostTypes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
     
     
 </article>
@@ -581,7 +777,10 @@ $provider-&gt;undefinedMethod();
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getFilters">getFilters()</a></li>
+                                            <li class=""><a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-Layotter-LayotterServiceProvider.html#method_configurePostTypes">configurePostTypes()</a></li>
                                     </ul>
             </li>
                     </ul>

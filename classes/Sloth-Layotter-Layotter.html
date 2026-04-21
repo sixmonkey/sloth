@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -191,9 +215,6 @@
         <h2 class="phpdocumentor-content__title">
     Layotter
 
-        <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Singleton-Singleton.html"><abbr title="\Sloth\Singleton\Singleton">Singleton</abbr></a>
-    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -213,13 +234,22 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Layotter page builder integration.</p>
 
 
+    <section class="phpdocumentor-description"><p>This class provides integration with the Layotter page builder plugin,
+handling:</p>
+<ul>
+<li>Post type enable/disable for page builder</li>
+<li>Row layout configuration per post type</li>
+<li>Custom view rendering for elements, columns, rows, and posts</li>
+<li>Admin CSS styling for Layotter interface</li>
+</ul>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -235,6 +265,16 @@
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="https://github.com/layotter/layotter">https://github.com/layotter/layotter</a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>Layotter plugin</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -297,18 +337,11 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a>
+    <a class="" href="classes/Sloth-Layotter-Layotter.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Prevent singleton instance from being unserialized.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Layotter-Layotter.html#method_addFilters">addFilters()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Add Layotter filters.</dd>
+<dd>Constructor for Layotter.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Layotter-Layotter.html#method_allowedRowLayouts">allowedRowLayouts()</a>
@@ -395,11 +428,11 @@
 <dd>Enable Layotter for a post type.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a>
+    <a class="" href="classes/Sloth-Layotter-Layotter.html#method_renderLayotterStyles">renderLayotterStyles()</a>
     <span>
-                                &nbsp;: static    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Get the singleton instance.</dd>
+<dd>Render Layotter admin CSS styles.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Layotter-Layotter.html#method_set_layouts_for_post_type">set_layouts_for_post_type()</a>
@@ -421,13 +454,6 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Set layouts for a template.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Singleton constructor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Layotter-Layotter.html#method_getCurrentView">getCurrentView()</a>
@@ -466,7 +492,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -519,7 +545,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 
     </aside>
 
@@ -572,7 +598,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -625,7 +651,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -675,83 +701,23 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___wakeup">
-        __wakeup()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">57</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Prevent singleton instance from being unserialized.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\RuntimeException">RuntimeException</abbr></span>
-                                                            
-                                                 <section class="phpdocumentor-description"><p>Always throws exception</p>
-</section>
-
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                -final        "
->
-    <h4 class="phpdocumentor-element__name" id="method_addFilters">
-        addFilters()
-        <a href="classes/Sloth-Layotter-Layotter.html#method_addFilters" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Sloth-Layotter-Layotter.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">375</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Add Layotter filters.</p>
+        <p class="phpdocumentor-summary">Constructor for Layotter.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__final">final</span>            <span class="phpdocumentor-signature__name">addFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -761,7 +727,7 @@
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Layotter-Layotter.html#method_addFilters#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Layotter-Layotter.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -793,7 +759,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">151</span>
+    <span class="phpdocumentor-element-found-in__line">166</span>
 
     </aside>
 
@@ -831,6 +797,14 @@ to theme configuration or default layouts.</p>
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -862,7 +836,7 @@ to theme configuration or default layouts.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">62</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 
     </aside>
 
@@ -928,7 +902,7 @@ to theme configuration or default layouts.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">278</span>
+    <span class="phpdocumentor-element-found-in__line">294</span>
 
     </aside>
 
@@ -1030,7 +1004,7 @@ to theme configuration or default layouts.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">249</span>
+    <span class="phpdocumentor-element-found-in__line">265</span>
 
     </aside>
 
@@ -1132,7 +1106,7 @@ to theme configuration or default layouts.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">334</span>
+    <span class="phpdocumentor-element-found-in__line">350</span>
 
     </aside>
 
@@ -1207,7 +1181,7 @@ to theme configuration or default layouts.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">305</span>
+    <span class="phpdocumentor-element-found-in__line">321</span>
 
     </aside>
 
@@ -1291,7 +1265,7 @@ to theme configuration or default layouts.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">170</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 
     </aside>
 
@@ -1329,6 +1303,14 @@ or the first theme layout, or the provided default.</p>
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -1360,7 +1342,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
@@ -1422,7 +1404,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">221</span>
+    <span class="phpdocumentor-element-found-in__line">237</span>
 
     </aside>
 
@@ -1484,7 +1466,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">122</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
@@ -1546,7 +1528,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">87</span>
+    <span class="phpdocumentor-element-found-in__line">101</span>
 
     </aside>
 
@@ -1612,7 +1594,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">233</span>
+    <span class="phpdocumentor-element-found-in__line">249</span>
 
     </aside>
 
@@ -1664,35 +1646,38 @@ or the first theme layout, or the provided default.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getInstance">
-        getInstance()
-        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_renderLayotterStyles">
+        renderLayotterStyles()
+        <a href="classes/Sloth-Layotter-Layotter.html#method_renderLayotterStyles" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">394</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the singleton instance.</p>
+        <p class="phpdocumentor-summary">Render Layotter admin CSS styles.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getInstance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">renderLayotterStyles</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Outputs inline CSS for styling the Layotter page builder
+interface in the WordPress admin.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Layotter-Layotter.html#method_renderLayotterStyles#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -1708,11 +1693,7 @@ or the first theme layout, or the provided default.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">static</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -1728,7 +1709,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">135</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 
     </aside>
 
@@ -1799,7 +1780,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">196</span>
+    <span class="phpdocumentor-element-found-in__line">212</span>
 
     </aside>
 
@@ -1870,7 +1851,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">209</span>
+    <span class="phpdocumentor-element-found-in__line">225</span>
 
     </aside>
 
@@ -1931,58 +1912,6 @@ or the first theme layout, or the provided default.</p>
         class="phpdocumentor-element
             -method
             -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___construct">
-        __construct()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">31</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Singleton constructor.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Protected so it can't be called outside of the class.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
                                                 -final        "
 >
     <h4 class="phpdocumentor-element__name" id="method_getCurrentView">
@@ -1993,7 +1922,7 @@ or the first theme layout, or the provided default.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Layotter/Layotter.php"><a href="files/src-layotter-layotter.html"><abbr title="src/Layotter/Layotter.php">Layotter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">351</span>
+    <span class="phpdocumentor-element-found-in__line">367</span>
 
     </aside>
 
@@ -2170,8 +2099,7 @@ or the first theme layout, or the provided default.</p>
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a></li>
-                                            <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_addFilters">addFilters()</a></li>
+                                            <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_allowedRowLayouts">allowedRowLayouts()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_customColumnClasses">customColumnClasses()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_customColumnView">customColumnView()</a></li>
@@ -2184,11 +2112,10 @@ or the first theme layout, or the provided default.</p>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_enable_for_post_type">enable_for_post_type()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_enabledPostTypes">enabledPostTypes()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_enableForPostType">enableForPostType()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a></li>
+                                            <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_renderLayotterStyles">renderLayotterStyles()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_set_layouts_for_post_type">set_layouts_for_post_type()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_setLayoutsForPostType">setLayoutsForPostType()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_setLayoutsForTemplate">setLayoutsForTemplate()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Layotter-Layotter.html#method_getCurrentView">getCurrentView()</a></li>
                                     </ul>
             </li>

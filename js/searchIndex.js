@@ -6,11 +6,6 @@ Search.appendIndex(
             "summary": "Helper\u0020class\u0020for\u0020Advanced\u0020Custom\u0020Fields\u0020integration.",
             "url": "classes/Sloth-ACF-ACFHelper.html"
         },                {
-            "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "ACFHelper\u0020constructor.",
-            "url": "classes/Sloth-ACF-ACFHelper.html#method___construct"
-        },                {
             "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003AaddFilters\u0028\u0029",
             "name": "addFilters",
             "summary": "Add\u0020ACF\u0020filters.",
@@ -18,7 +13,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003Aload_image\u0028\u0029",
             "name": "load_image",
-            "summary": "",
+            "summary": "Load\u0020an\u0020image\u0020from\u0020ACF\u0020field\u0020value.",
             "url": "classes/Sloth-ACF-ACFHelper.html#method_load_image"
         },                {
             "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003AautoSyncAcfFields\u0028\u0029",
@@ -28,17 +23,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\ACF\\AcfProxy",
             "name": "AcfProxy",
-            "summary": "",
+            "summary": "Proxy\u0020for\u0020accessing\u0020ACF\u0020field\u0020values.",
             "url": "classes/Sloth-ACF-AcfProxy.html"
         },                {
             "fqsen": "\\Sloth\\ACF\\AcfProxy\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Constructor\u0020for\u0020AcfProxy.",
             "url": "classes/Sloth-ACF-AcfProxy.html#method___construct"
         },                {
             "fqsen": "\\Sloth\\ACF\\AcfProxy\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "",
+            "summary": "Magic\u0020method\u0020to\u0020get\u0020field\u0020values.",
             "url": "classes/Sloth-ACF-AcfProxy.html#method___call"
         },                {
             "fqsen": "\\Sloth\\ACF\\AcfProxy\u003A\u003A\u0024fields",
@@ -46,10 +41,50 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-ACF-AcfProxy.html#property_fields"
         },                {
+            "fqsen": "\\Sloth\\ACF\\AcfServiceProvider",
+            "name": "AcfServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020Advanced\u0020Custom\u0020Fields\u0020integration.",
+            "url": "classes/Sloth-ACF-AcfServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\ACF\\AcfServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020ACF\u0020service\u0020provider.",
+            "url": "classes/Sloth-ACF-AcfServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\ACF\\AcfServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020ACF\u0020service\u0020provider.",
+            "url": "classes/Sloth-ACF-AcfServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Admin\\AdminServiceProvider",
+            "name": "AdminServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020Admin\u0020Customizer\u0020component.",
+            "url": "classes/Sloth-Admin-AdminServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Admin\\AdminServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Customizer\u0020service\u0020provider.",
+            "url": "classes/Sloth-Admin-AdminServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Admin\\AdminServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Add\u0020the\u0020filters\u0020for\u0020the\u0020Customizer.",
+            "url": "classes/Sloth-Admin-AdminServiceProvider.html#method_getFilters"
+        },                {
+            "fqsen": "\\Sloth\\Admin\\AdminServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020hooks.",
+            "url": "classes/Sloth-Admin-AdminServiceProvider.html#method_getHooks"
+        },                {
             "fqsen": "\\Sloth\\Admin\\Customizer",
             "name": "Customizer",
             "summary": "Admin\u0020Customizer\u0020class\u0020for\u0020WordPress\u0020admin\u0020customization.",
             "url": "classes/Sloth-Admin-Customizer.html"
+        },                {
+            "fqsen": "\\Sloth\\Admin\\Customizer\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "The\u0020Customizer\u0020constructor.",
+            "url": "classes/Sloth-Admin-Customizer.html#method___construct"
         },                {
             "fqsen": "\\Sloth\\Admin\\Customizer\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
@@ -146,6 +181,16 @@ Search.appendIndex(
             "summary": "Render\u0020the\u0020footer\u0020for\u0020WordPress\u0020admin.",
             "url": "classes/Sloth-Admin-Customizer.html#method_renderFooter"
         },                {
+            "fqsen": "\\Sloth\\Admin\\Customizer\u003A\u003AhideUpdates\u0028\u0029",
+            "name": "hideUpdates",
+            "summary": "Hide\u0020WordPress\u0020update\u0020notifications.",
+            "url": "classes/Sloth-Admin-Customizer.html#method_hideUpdates"
+        },                {
+            "fqsen": "\\Sloth\\Admin\\Customizer\u003A\u003AcleanupAdminMenu\u0028\u0029",
+            "name": "cleanupAdminMenu",
+            "summary": "Clean\u0020up\u0020admin\u0020menu\u0020by\u0020removing\u0020duplicate\u0020PHP\u0020pages.",
+            "url": "classes/Sloth-Admin-Customizer.html#method_cleanupAdminMenu"
+        },                {
             "fqsen": "\\Sloth\\Admin\\Customizer\u003A\u003A\u0024removeMetaBoxes",
             "name": "removeMetaBoxes",
             "summary": "Meta\u0020boxes\u0020to\u0020remove.",
@@ -226,15 +271,35 @@ Search.appendIndex(
             "summary": "Custom\u0020dashboard\u0020items.",
             "url": "classes/Sloth-Admin-Customizer.html#property_customDashboard"
         },                {
-            "fqsen": "\\Sloth\\Admin\\CustomizerServiceProvider",
-            "name": "CustomizerServiceProvider",
-            "summary": "Service\u0020provider\u0020for\u0020the\u0020Admin\u0020Customizer\u0020component.",
-            "url": "classes/Sloth-Admin-CustomizerServiceProvider.html"
+            "fqsen": "\\Sloth\\Admin\\Customizer\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Admin-Customizer.html#property_app"
         },                {
-            "fqsen": "\\Sloth\\Admin\\CustomizerServiceProvider\u003A\u003Aregister\u0028\u0029",
-            "name": "register",
-            "summary": "Register\u0020the\u0020Customizer\u0020service\u0020provider.",
-            "url": "classes/Sloth-Admin-CustomizerServiceProvider.html#method_register"
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider",
+            "name": "ApiServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020REST\u0020API\u0020controller\u0020registration.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020API\u0020controllers\u0020hooks.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Register\u0020API\u0020controllers\u0020filters.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html#method_getFilters"
+        },                {
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AregisterControllers\u0028\u0029",
+            "name": "registerControllers",
+            "summary": "Register\u0020API\u0020controllers\u0020from\u0020DIR_APP\/Api\/.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html#method_registerControllers"
+        },                {
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AregisterControllerRoutes\u0028\u0029",
+            "name": "registerControllerRoutes",
+            "summary": "Register\u0020REST\u0020routes\u0020for\u0020a\u0020controller.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html#method_registerControllerRoutes"
         },                {
             "fqsen": "\\Sloth\\Api\\Controller",
             "name": "Controller",
@@ -276,15 +341,35 @@ Search.appendIndex(
             "summary": "The\u0020response\u0020object.",
             "url": "classes/Sloth-Api-Controller.html#property_response"
         },                {
-            "fqsen": "\\WP_ENV",
-            "name": "WP_ENV",
-            "summary": "",
-            "url": "namespaces/default.html#constant_WP_ENV"
+            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver",
+            "name": "ApiControllersResolver",
+            "summary": "Resolver\u0020for\u0020discovering\u0020API\u0020controller\u0020classes.",
+            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html"
+        },                {
+            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver\u003A\u003A\u0024dir",
+            "name": "dir",
+            "summary": "The\u0020directory\u0020where\u0020API\u0020controller\u0020classes\u0020are\u0020located.",
+            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html#property_dir"
+        },                {
+            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver\u003A\u003A\u0024cacheKey",
+            "name": "cacheKey",
+            "summary": "The\u0020cache\u0020key\u0020for\u0020storing\u0020resolved\u0020classes.",
+            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html#property_cacheKey"
+        },                {
+            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver\u003A\u003A\u0024subclassOf",
+            "name": "subclassOf",
+            "summary": "The\u0020base\u0020class\u0020that\u0020all\u0020API\u0020controller\u0020classes\u0020should\u0020extend.",
+            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html#property_subclassOf"
         },                {
             "fqsen": "\\WP_CONTENT_DIR",
             "name": "WP_CONTENT_DIR",
-            "summary": "Custom\u0020Media,\u0020Plugins\u0020and\u0020Theme\u0020paths",
+            "summary": "",
             "url": "namespaces/default.html#constant_WP_CONTENT_DIR"
+        },                {
+            "fqsen": "\\WP_CONTENT_URL",
+            "name": "WP_CONTENT_URL",
+            "summary": "",
+            "url": "namespaces/default.html#constant_WP_CONTENT_URL"
         },                {
             "fqsen": "\\WP_PLUGIN_DIR",
             "name": "WP_PLUGIN_DIR",
@@ -306,50 +391,145 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html#constant_WPMU_PLUGIN_URL"
         },                {
+            "fqsen": "\\Sloth\\Cache\\CacheServiceProvider",
+            "name": "CacheServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020Cache\u0020component.",
+            "url": "classes/Sloth-Cache-CacheServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\CacheServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Cache\u0020service\u0020in\u0020the\u0020container.",
+            "url": "classes/Sloth-Cache-CacheServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\CacheServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020Cache\u0020service.",
+            "url": "classes/Sloth-Cache-CacheServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore",
+            "name": "WordPressTransientStore",
+            "summary": "WordPress\u0020Transients\u0020Cache\u0020Store.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Retrieve\u0020an\u0020item\u0020from\u0020the\u0020cache\u0020by\u0020key.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_get"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Amany\u0028\u0029",
+            "name": "many",
+            "summary": "Retrieve\u0020multiple\u0020items\u0020from\u0020the\u0020cache\u0020by\u0020key.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_many"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aput\u0028\u0029",
+            "name": "put",
+            "summary": "Store\u0020an\u0020item\u0020in\u0020the\u0020cache\u0020for\u0020a\u0020given\u0020number\u0020of\u0020seconds.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_put"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003AputMany\u0028\u0029",
+            "name": "putMany",
+            "summary": "Store\u0020multiple\u0020items\u0020in\u0020the\u0020cache\u0020for\u0020a\u0020given\u0020number\u0020of\u0020seconds.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_putMany"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aincrement\u0028\u0029",
+            "name": "increment",
+            "summary": "Increment\u0020the\u0020value\u0020of\u0020an\u0020item\u0020in\u0020the\u0020cache.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_increment"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Adecrement\u0028\u0029",
+            "name": "decrement",
+            "summary": "Decrement\u0020the\u0020value\u0020of\u0020an\u0020item\u0020in\u0020the\u0020cache.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_decrement"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aforever\u0028\u0029",
+            "name": "forever",
+            "summary": "Store\u0020an\u0020item\u0020in\u0020the\u0020cache\u0020indefinitely.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_forever"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aforget\u0028\u0029",
+            "name": "forget",
+            "summary": "Remove\u0020an\u0020item\u0020from\u0020the\u0020cache.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_forget"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aflush\u0028\u0029",
+            "name": "flush",
+            "summary": "Remove\u0020all\u0020items\u0020from\u0020the\u0020cache.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_flush"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003AgetPrefix\u0028\u0029",
+            "name": "getPrefix",
+            "summary": "Get\u0020the\u0020cache\u0020key\u0020prefix.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method_getPrefix"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003A\u0024prefix",
+            "name": "prefix",
+            "summary": "Key\u0020prefix\u0020to\u0020avoid\u0020collisions\u0020with\u0020other\u0020plugins.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#property_prefix"
+        },                {
+            "fqsen": "\\Sloth\\Compatibility\\LegacyGlobalsServiceProvider",
+            "name": "LegacyGlobalsServiceProvider",
+            "summary": "Legacy\u0020Globals\u0020Service\u0020Provider",
+            "url": "classes/Sloth-Compatibility-LegacyGlobalsServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Compatibility\\LegacyGlobalsServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020legacy\u0020\u0024GLOBALS\u0020deprecation\u0020proxies.",
+            "url": "classes/Sloth-Compatibility-LegacyGlobalsServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Compatibility\\LegacyGlobalsServiceProvider\u003A\u003AmakeProxy\u0028\u0029",
+            "name": "makeProxy",
+            "summary": "Create\u0020a\u0020lazy\u0020deprecation\u0020proxy\u0020for\u0020\u0024GLOBALS\u0020access.",
+            "url": "classes/Sloth-Compatibility-LegacyGlobalsServiceProvider.html#method_makeProxy"
+        },                {
             "fqsen": "\\Sloth\\Configure\\Configure",
             "name": "Configure",
-            "summary": "Configure\u0020class\u0020for\u0020managing\u0020application\u0020configuration.",
+            "summary": "Configure\u0020\u2014\u0020standalone\u0020key\u002Dvalue\u0020store\u0020with\u0020dot\u002Dnotation\u0020support.",
             "url": "classes/Sloth-Configure-Configure.html"
-        },                {
-            "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aboot\u0028\u0029",
-            "name": "boot",
-            "summary": "Initialize\u0020the\u0020config\u0020container\u0020and\u0020facade.",
-            "url": "classes/Sloth-Configure-Configure.html#method_boot"
-        },                {
-            "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aread\u0028\u0029",
-            "name": "read",
-            "summary": "Read\u0020a\u0020value\u0020from\u0020the\u0020configuration.",
-            "url": "classes/Sloth-Configure-Configure.html#method_read"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020a\u0020value\u0020to\u0020the\u0020configuration.",
+            "summary": "Write\u0020one\u0020or\u0020more\u0020values\u0020to\u0020the\u0020store.",
             "url": "classes/Sloth-Configure-Configure.html#method_write"
+        },                {
+            "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aread\u0028\u0029",
+            "name": "read",
+            "summary": "Read\u0020a\u0020value\u0020from\u0020the\u0020store.",
+            "url": "classes/Sloth-Configure-Configure.html#method_read"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aconsume\u0028\u0029",
             "name": "consume",
-            "summary": "Read\u0020and\u0020delete\u0020a\u0020variable\u0020from\u0020Configure.",
+            "summary": "Read\u0020and\u0020delete\u0020a\u0020value\u0020from\u0020the\u0020store.",
             "url": "classes/Sloth-Configure-Configure.html#method_consume"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "Check\u0020if\u0020a\u0020variable\u0020is\u0020set\u0020in\u0020Configure.",
+            "summary": "Check\u0020if\u0020a\u0020key\u0020is\u0020set\u0020\u0028and\u0020not\u0020null\u0029\u0020in\u0020the\u0020store.",
             "url": "classes/Sloth-Configure-Configure.html#method_check"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
-            "summary": "Delete\u0020a\u0020variable\u0020from\u0020Configure.",
+            "summary": "Delete\u0020a\u0020key\u0020from\u0020the\u0020store.",
             "url": "classes/Sloth-Configure-Configure.html#method_delete"
+        },                {
+            "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Copy\u0020all\u0020\u0024_ENV\u0020values\u0020into\u0020Configure\u0020under\u0020the\u0020\u0027ENV.\u0027\u0020prefix.",
+            "url": "classes/Sloth-Configure-Configure.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Areset\u0028\u0029",
             "name": "reset",
-            "summary": "Reset\u0020the\u0020configuration\u0020to\u0020a\u0020fresh\u0020state.",
+            "summary": "Reset\u0020all\u0020values\u0020\u2014\u0020used\u0020in\u0020tests.",
             "url": "classes/Sloth-Configure-Configure.html#method_reset"
         },                {
             "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003Adebug\u0028\u0029",
             "name": "debug",
-            "summary": "Debug\u0020all\u0020set\u0020variables.",
+            "summary": "Dump\u0020all\u0020stored\u0020values.",
             "url": "classes/Sloth-Configure-Configure.html#method_debug"
+        },                {
+            "fqsen": "\\Sloth\\Configure\\Configure\u003A\u003A\u0024values",
+            "name": "values",
+            "summary": "All\u0020stored\u0020configuration\u0020values.",
+            "url": "classes/Sloth-Configure-Configure.html#property_values"
         },                {
             "fqsen": "\\Sloth\\Configure\\ConfigureServiceProvider",
             "name": "ConfigureServiceProvider",
@@ -358,8 +538,68 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Configure\\ConfigureServiceProvider\u003A\u003Aregister\u0028\u0029",
             "name": "register",
-            "summary": "Register\u0020the\u0020Configure\u0020service\u0020provider.",
+            "summary": "Register\u0020the\u0020Configure\u0020singleton.",
             "url": "classes/Sloth-Configure-ConfigureServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Configure\\ConfigureServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Load\u0020all\u0020project\u0020config\u0020files\u0020into\u0020the\u0020Laravel\u0020config\u0020repository.",
+            "url": "classes/Sloth-Configure-ConfigureServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context",
+            "name": "Context",
+            "summary": "Template\u0020context\u0020builder\u0020for\u0020Twig\u0020templates.",
+            "url": "classes/Sloth-Context-Context.html"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020for\u0020Context.",
+            "url": "classes/Sloth-Context-Context.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003AgetContext\u0028\u0029",
+            "name": "getContext",
+            "summary": "Get\u0020the\u0020template\u0020context\u0020for\u0020Twig.",
+            "url": "classes/Sloth-Context-Context.html#method_getContext"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003ApopulatePostContext\u0028\u0029",
+            "name": "populatePostContext",
+            "summary": "Populate\u0020post\/page\u0020context.",
+            "url": "classes/Sloth-Context-Context.html#method_populatePostContext"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003ApopulateTaxonomyContext\u0028\u0029",
+            "name": "populateTaxonomyContext",
+            "summary": "Populate\u0020taxonomy\u0020archive\u0020context.",
+            "url": "classes/Sloth-Context-Context.html#method_populateTaxonomyContext"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003ApopulateAuthorContext\u0028\u0029",
+            "name": "populateAuthorContext",
+            "summary": "Populate\u0020author\u0020archive\u0020context.",
+            "url": "classes/Sloth-Context-Context.html#method_populateAuthorContext"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003A\u0024context",
+            "name": "context",
+            "summary": "Template\u0020context.",
+            "url": "classes/Sloth-Context-Context.html#property_context"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003A\u0024currentModel",
+            "name": "currentModel",
+            "summary": "Current\u0020model\u0020instance.",
+            "url": "classes/Sloth-Context-Context.html#property_currentModel"
+        },                {
+            "fqsen": "\\Sloth\\Context\\Context\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Context-Context.html#property_app"
+        },                {
+            "fqsen": "\\Sloth\\Context\\ContextServiceProvider",
+            "name": "ContextServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020Context\u0020component.",
+            "url": "classes/Sloth-Context-ContextServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Context\\ContextServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Context\u0020singleton.",
+            "url": "classes/Sloth-Context-ContextServiceProvider.html#method_register"
         },                {
             "fqsen": "\\Sloth\\Controller\\Controller",
             "name": "Controller",
@@ -421,125 +661,350 @@ Search.appendIndex(
             "summary": "Application\u0020Container",
             "url": "classes/Sloth-Core-Application.html"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "Create\u0020and\u0020return\u0020the\u0020application\u0020instance.",
+            "url": "classes/Sloth-Core-Application.html#method_configure"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Creates\u0020a\u0020new\u0020Application\u0020instance.",
+            "summary": "Create\u0020a\u0020new\u0020Application\u0020instance.",
             "url": "classes/Sloth-Core-Application.html#method___construct"
         },                {
-            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AregisterApplication\u0028\u0029",
-            "name": "registerApplication",
-            "summary": "Registers\u0020the\u0020Application\u0020class\u0020into\u0020the\u0020container.",
-            "url": "classes/Sloth-Core-Application.html#method_registerApplication"
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020application.",
+            "url": "classes/Sloth-Core-Application.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisBooted\u0028\u0029",
+            "name": "isBooted",
+            "summary": "Check\u0020whether\u0020the\u0020application\u0020has\u0020been\u0020booted.",
+            "url": "classes/Sloth-Core-Application.html#method_isBooted"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AregisterProviders\u0028\u0029",
+            "name": "registerProviders",
+            "summary": "Register\u0020all\u0020core\u0020framework\u0020service\u0020providers.",
+            "url": "classes/Sloth-Core-Application.html#method_registerProviders"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aregister\u0028\u0029",
             "name": "register",
-            "summary": "Registers\u0020a\u0020service\u0020provider\u0020with\u0020the\u0020application.",
+            "summary": "Register\u0020a\u0020service\u0020provider\u0020with\u0020the\u0020application.",
             "url": "classes/Sloth-Core-Application.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AbootProviders\u0028\u0029",
+            "name": "bootProviders",
+            "summary": "Boot\u0020all\u0020registered\u0020providers\u0020and\u0020register\u0020their\u0020hooks\u0020and\u0020filters.",
+            "url": "classes/Sloth-Core-Application.html#method_bootProviders"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AnormalizeCallbacks\u0028\u0029",
+            "name": "normalizeCallbacks",
+            "summary": "Normalize\u0020callbacks\u0020from\u0020getHooks\/getFilters\u0020format.",
+            "url": "classes/Sloth-Core-Application.html#method_normalizeCallbacks"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetLoadedProviders\u0028\u0029",
+            "name": "getLoadedProviders",
+            "summary": "Get\u0020all\u0020loaded\u0020service\u0020providers\u0020as\u0020a\u0020Collection.",
+            "url": "classes/Sloth-Core-Application.html#method_getLoadedProviders"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AsetAliases\u0028\u0029",
+            "name": "setAliases",
+            "summary": "Create\u0020class\u0020aliases\u0020for\u0020framework\u0020facades.",
+            "url": "classes/Sloth-Core-Application.html#method_setAliases"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AregisterBasePaths\u0028\u0029",
+            "name": "registerBasePaths",
+            "summary": "Register\u0020all\u0020base\u0020paths\u0020for\u0020the\u0020application.",
+            "url": "classes/Sloth-Core-Application.html#method_registerBasePaths"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AguessBasePath\u0028\u0029",
+            "name": "guessBasePath",
+            "summary": "Guess\u0020the\u0020project\u0020root\u0020path.",
+            "url": "classes/Sloth-Core-Application.html#method_guessBasePath"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AaddPath\u0028\u0029",
             "name": "addPath",
-            "summary": "Adds\u0020a\u0020file\u0020path\u0020to\u0020the\u0020container.",
+            "summary": "Add\u0020a\u0020path\u0020to\u0020the\u0020container.",
             "url": "classes/Sloth-Core-Application.html#method_addPath"
         },                {
-            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AcallModule\u0028\u0029",
-            "name": "callModule",
-            "summary": "Calls\u0020a\u0020theme\u0020module\u0020with\u0020the\u0020given\u0020data\u0020and\u0020options.",
-            "url": "classes/Sloth-Core-Application.html#method_callModule"
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003Apath\u0028\u0029",
+            "name": "path",
+            "summary": "Get\u0020a\u0020path\u0020from\u0020the\u0020container.",
+            "url": "classes/Sloth-Core-Application.html#method_path"
         },                {
-            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AresolveFromContainer\u0028\u0029",
-            "name": "resolveFromContainer",
-            "summary": "Resolves\u0020the\u0020given\u0020type\u0020from\u0020the\u0020container\u0020with\u0020custom\u0020handling.",
-            "url": "classes/Sloth-Core-Application.html#method_resolveFromContainer"
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisLocal\u0028\u0029",
+            "name": "isLocal",
+            "summary": "Check\u0020if\u0020running\u0020in\u0020a\u0020local\/development\u0020environment.",
+            "url": "classes/Sloth-Core-Application.html#method_isLocal"
         },                {
-            "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024paths",
-            "name": "paths",
-            "summary": "Project\u0020paths\u0020mapped\u0020by\u0020key.",
-            "url": "classes/Sloth-Core-Application.html#property_paths"
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisProduction\u0028\u0029",
+            "name": "isProduction",
+            "summary": "Check\u0020if\u0020running\u0020in\u0020production.",
+            "url": "classes/Sloth-Core-Application.html#method_isProduction"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aenvironment\u0028\u0029",
+            "name": "environment",
+            "summary": "Get\u0020the\u0020current\u0020environment\u0020name.",
+            "url": "classes/Sloth-Core-Application.html#method_environment"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetContext\u0028\u0029",
+            "name": "getContext",
+            "summary": "Get\u0020the\u0020template\u0020context.",
+            "url": "classes/Sloth-Core-Application.html#method_getContext"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisDevEnv\u0028\u0029",
+            "name": "isDevEnv",
+            "summary": "Check\u0020if\u0020running\u0020in\u0020a\u0020development\u0020environment.",
+            "url": "classes/Sloth-Core-Application.html#method_isDevEnv"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aversion",
+            "name": "version",
+            "summary": "Application\u0020version.",
+            "url": "classes/Sloth-Core-Application.html#constant_version"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024booted",
+            "name": "booted",
+            "summary": "Whether\u0020the\u0020application\u0020has\u0020already\u0020been\u0020booted.",
+            "url": "classes/Sloth-Core-Application.html#property_booted"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024cachedBasePath",
+            "name": "cachedBasePath",
+            "summary": "Cached\u0020base\u0020path\u0020\u2014\u0020set\u0020once\u0020by\u0020guessBasePath\u0028\u0029.",
+            "url": "classes/Sloth-Core-Application.html#property_cachedBasePath"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024loadedProviders",
             "name": "loadedProviders",
             "summary": "Registry\u0020of\u0020loaded\u0020service\u0020providers.",
             "url": "classes/Sloth-Core-Application.html#property_loadedProviders"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024classAliases",
+            "name": "classAliases",
+            "summary": "Class\u0020aliases\u0020registered\u0020on\u0020boot.",
+            "url": "classes/Sloth-Core-Application.html#property_classAliases"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ApplicationServiceProvider",
+            "name": "ApplicationServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020Application\u002Dlevel\u0020bootstrapping.",
+            "url": "classes/Sloth-Core-ApplicationServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ApplicationServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Application\u0020service\u0020provider.",
+            "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ApplicationServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020hooks\u0020for\u0020model\u0020registration.",
+            "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder",
+            "name": "IncludesManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020includes\u0020discovery.",
+            "url": "classes/Sloth-Core-Manifest-IncludesManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder",
+            "name": "ProvidersManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020App\u0020and\u0020Theme\u0020ServiceProvider\u0020discovery.",
+            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003AextraLines\u0028\u0029",
+            "name": "extraLines",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_extraLines"
+        },                {
             "fqsen": "\\Sloth\\Core\\ServiceProvider",
             "name": "ServiceProvider",
             "summary": "Base\u0020Service\u0020Provider",
             "url": "classes/Sloth-Core-ServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Returns\u0020WordPress\u0020actions\u0020this\u0020provider\u0020wants\u0020to\u0020register.",
+            "url": "classes/Sloth-Core-ServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Returns\u0020WordPress\u0020filters\u0020this\u0020provider\u0020wants\u0020to\u0020register.",
+            "url": "classes/Sloth-Core-ServiceProvider.html#method_getFilters"
         },                {
             "fqsen": "\\Sloth\\Core\\ServiceProvider\u003A\u003A__call\u0028\u0029",
             "name": "__call",
             "summary": "Handles\u0020calls\u0020to\u0020undefined\u0020methods.",
             "url": "classes/Sloth-Core-ServiceProvider.html#method___call"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth",
-            "name": "Sloth",
-            "summary": "Sloth\u0020Framework\u0020Bootstrap",
-            "url": "classes/Sloth-Core-Sloth.html"
+            "fqsen": "\\Sloth\\Database\\DatabaseServiceProvider",
+            "name": "DatabaseServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020database\u0020connection.",
+            "url": "classes/Sloth-Database-DatabaseServiceProvider.html"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Creates\u0020a\u0020new\u0020Sloth\u0020instance.",
-            "url": "classes/Sloth-Core-Sloth.html#method___construct"
+            "fqsen": "\\Sloth\\Database\\DatabaseServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020database\u0020bindings.",
+            "url": "classes/Sloth-Database-DatabaseServiceProvider.html#method_register"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AregisterProviders\u0028\u0029",
-            "name": "registerProviders",
-            "summary": "Registers\u0020all\u0020core\u0020framework\u0020service\u0020providers.",
-            "url": "classes/Sloth-Core-Sloth.html#method_registerProviders"
+            "fqsen": "\\Sloth\\Database\\DatabaseServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Establish\u0020the\u0020Eloquent\u0020database\u0020connection.",
+            "url": "classes/Sloth-Database-DatabaseServiceProvider.html#method_boot"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AsetAliases\u0028\u0029",
-            "name": "setAliases",
-            "summary": "Creates\u0020class\u0020aliases\u0020for\u0020commonly\u0020used\u0020framework\u0020classes.",
-            "url": "classes/Sloth-Core-Sloth.html#method_setAliases"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider",
+            "name": "DebugServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020Sloth\u0020debugging\u0020and\u0020error\u0020handling.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AsetDebugging\u0028\u0029",
-            "name": "setDebugging",
-            "summary": "Configures\u0020and\u0020enables\u0020the\u0020Tracy\u0020debugger.",
-            "url": "classes/Sloth-Core-Sloth.html#method_setDebugging"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020exception\u0020handler\u0020in\u0020the\u0020container.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_register"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AregisterErrorHandlers\u0028\u0029",
-            "name": "registerErrorHandlers",
-            "summary": "Registers\u0020error\u0020handlers\u0020for\u0020uncaught\u0020exceptions\u0020and\u0020errors.",
-            "url": "classes/Sloth-Core-Sloth.html#method_registerErrorHandlers"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020Tracy\u0020and\u0020register\u0020PHP\u0020error\/exception\u0020handlers.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_boot"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AconnectCorcel\u0028\u0029",
-            "name": "connectCorcel",
-            "summary": "Establishes\u0020a\u0020database\u0020connection\u0020for\u0020Corcel.",
-            "url": "classes/Sloth-Core-Sloth.html#method_connectCorcel"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AresolveLogPath\u0028\u0029",
+            "name": "resolveLogPath",
+            "summary": "Resolve\u0020the\u0020log\u0020directory\u0020path.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_resolveLogPath"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003AloadConfigFiles\u0028\u0029",
-            "name": "loadConfigFiles",
-            "summary": "Loads\u0020configuration\u0020files\u0020from\u0020app\/config\/\u0020into\u0020the\u0020Laravel\u0020config\u0020repository.",
-            "url": "classes/Sloth-Core-Sloth.html#method_loadConfigFiles"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AconfigureTracy\u0028\u0029",
+            "name": "configureTracy",
+            "summary": "Configure\u0020Tracy\u0020Debugger\u0020for\u0020logging\u0020and\u0020the\u0020debug\u0020Bar.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_configureTracy"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003A\u0024container",
-            "name": "container",
-            "summary": "The\u0020application\u0020container\u0020instance.",
-            "url": "classes/Sloth-Core-Sloth.html#property_container"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AregisterExceptionHandler\u0028\u0029",
+            "name": "registerExceptionHandler",
+            "summary": "Register\u0020the\u0020PHP\u0020exception\u0020handler.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_registerExceptionHandler"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003A\u0024classAliases",
-            "name": "classAliases",
-            "summary": "Class\u0020aliases\u0020for\u0020convenient\u0020access\u0020to\u0020facades.",
-            "url": "classes/Sloth-Core-Sloth.html#property_classAliases"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AregisterErrorHandler\u0028\u0029",
+            "name": "registerErrorHandler",
+            "summary": "Register\u0020the\u0020PHP\u0020error\u0020handler.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_registerErrorHandler"
         },                {
-            "fqsen": "\\Sloth\\Core\\Sloth\u003A\u003A\u0024dontDebug",
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler",
+            "name": "ExceptionHandler",
+            "summary": "Sloth\u0020Exception\u0020Handler.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003Areport\u0028\u0029",
+            "name": "report",
+            "summary": "Report\u0020\u0028log\u0029\u0020an\u0020exception.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_report"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003AshouldReport\u0028\u0029",
+            "name": "shouldReport",
+            "summary": "Determine\u0020if\u0020the\u0020exception\u0020should\u0020be\u0020reported.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_shouldReport"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Render\u0020an\u0020exception\u0020as\u0020an\u0020HTTP\u0020response.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_render"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003ArenderWithWhoops\u0028\u0029",
+            "name": "renderWithWhoops",
+            "summary": "Render\u0020an\u0020exception\u0020using\u0020Whoops.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_renderWithWhoops"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003ArenderForConsole\u0028\u0029",
+            "name": "renderForConsole",
+            "summary": "Render\u0020an\u0020exception\u0020for\u0020the\u0020console.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_renderForConsole"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003ArenderErrorPage\u0028\u0029",
+            "name": "renderErrorPage",
+            "summary": "Render\u0020a\u0020Twig\u0020error\u0020page\u0020for\u0020the\u0020given\u0020exception.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_renderErrorPage"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003AgetStatusCode\u0028\u0029",
+            "name": "getStatusCode",
+            "summary": "Determine\u0020the\u0020HTTP\u0020status\u0020code\u0020for\u0020the\u0020given\u0020exception.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_getStatusCode"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003AisAjaxRequest\u0028\u0029",
+            "name": "isAjaxRequest",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020an\u0020AJAX\u0020request.",
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_isAjaxRequest"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003A\u0024dontDebug",
             "name": "dontDebug",
             "summary": "Scripts\u0020that\u0020should\u0020not\u0020trigger\u0020debug\u0020output.",
-            "url": "classes/Sloth-Core-Sloth.html#property_dontDebug"
+            "url": "classes/Sloth-Debug-ExceptionHandler.html#property_dontDebug"
         },                {
-            "fqsen": "\\Sloth\\Debugger\\SlothBarPanel",
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel",
             "name": "SlothBarPanel",
-            "summary": "Tracy\u0020Debugger\u0020bar\u0020panel\u0020for\u0020Sloth.",
-            "url": "classes/Sloth-Debugger-SlothBarPanel.html"
+            "summary": "Tracy\u0020Debugger\u0020Bar\u0020Panel\u0020for\u0020Sloth.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html"
         },                {
-            "fqsen": "\\Sloth\\Debugger\\SlothBarPanel\u003A\u003AgetPanel\u0028\u0029",
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetPanel\u0028\u0029",
             "name": "getPanel",
-            "summary": "Get\u0020the\u0020panel\u0020HTML.",
-            "url": "classes/Sloth-Debugger-SlothBarPanel.html#method_getPanel"
+            "summary": "Render\u0020the\u0020panel\u0020content\u0020shown\u0020when\u0020the\u0020tab\u0020is\u0020clicked.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel"
         },                {
-            "fqsen": "\\Sloth\\Debugger\\SlothBarPanel\u003A\u003AgetTab\u0028\u0029",
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetTab\u0028\u0029",
             "name": "getTab",
-            "summary": "Get\u0020the\u0020tab\u0020HTML.",
-            "url": "classes/Sloth-Debugger-SlothBarPanel.html#method_getTab"
+            "summary": "Render\u0020the\u0020tab\u0020label\u0020shown\u0020in\u0020the\u0020Tracy\u0020Bar.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetPerformanceData\u0028\u0029",
+            "name": "getPerformanceData",
+            "summary": "Collect\u0020performance\u0020metrics\u0020for\u0020the\u0020current\u0020request.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPerformanceData"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetContainerData\u0028\u0029",
+            "name": "getContainerData",
+            "summary": "Collect\u0020Sloth\u0020container\u0020state\u0020information.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getContainerData"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetWordPressData\u0028\u0029",
+            "name": "getWordPressData",
+            "summary": "Collect\u0020WordPress\u0020context\u0020for\u0020the\u0020current\u0020request.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getWordPressData"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetAcfData\u0028\u0029",
+            "name": "getAcfData",
+            "summary": "Collect\u0020ACF\u0020field\u0020groups\u0020active\u0020on\u0020the\u0020current\u0020page.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getAcfData"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetSlothData\u0028\u0029",
+            "name": "getSlothData",
+            "summary": "Collect\u0020Sloth\u002Dspecific\u0020debug\u0020data.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getSlothData"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetQueryData\u0028\u0029",
+            "name": "getQueryData",
+            "summary": "Collect\u0020Corcel\/Eloquent\u0020query\u0020data\u0020for\u0020this\u0020request.",
+            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getQueryData"
         },                {
             "fqsen": "\\Sloth\\Deployment\\Deployment",
             "name": "Deployment",
@@ -580,6 +1045,16 @@ Search.appendIndex(
             "name": "defer",
             "summary": "Indicates\u0020if\u0020loading\u0020of\u0020the\u0020provider\u0020is\u0020deferred.",
             "url": "classes/Sloth-Deployment-DeploymentServiceProvider.html#property_defer"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\Cache",
+            "name": "Cache",
+            "summary": "Cache\u0020Facade\u0020\u2014\u0020static\u0020access\u0020to\u0020the\u0020Cache\u0020service.",
+            "url": "classes/Sloth-Facades-Cache.html"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\Cache\u003A\u003AgetFacadeAccessor\u0028\u0029",
+            "name": "getFacadeAccessor",
+            "summary": "Return\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020the\u0020Cache\u0020service.",
+            "url": "classes/Sloth-Facades-Cache.html#method_getFacadeAccessor"
         },                {
             "fqsen": "\\Sloth\\Facades\\Configure",
             "name": "Configure",
@@ -645,6 +1120,16 @@ Search.appendIndex(
             "name": "app",
             "summary": "The\u0020Application\u0020container\u0020instance.",
             "url": "classes/Sloth-Facades-Facade.html#property_app"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\File",
+            "name": "File",
+            "summary": "File\u0020Facade\u0020\u2014\u0020static\u0020access\u0020to\u0020the\u0020Filesystem\u0020service.",
+            "url": "classes/Sloth-Facades-File.html"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\File\u003A\u003AgetFacadeAccessor\u0028\u0029",
+            "name": "getFacadeAccessor",
+            "summary": "Return\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020the\u0020Filesystem\u0020service.",
+            "url": "classes/Sloth-Facades-File.html#method_getFacadeAccessor"
         },                {
             "fqsen": "\\Sloth\\Facades\\Layotter",
             "name": "Layotter",
@@ -826,6 +1311,16 @@ Search.appendIndex(
             "summary": "Attribute\u0020translation\u0020mapping.",
             "url": "classes/Sloth-Field-Image.html#property_attributeTranslations"
         },                {
+            "fqsen": "\\Sloth\\Filesystem\\FilesystemServiceProvider",
+            "name": "FilesystemServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020Filesystem\u0020component.",
+            "url": "classes/Sloth-Filesystem-FilesystemServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Filesystem\\FilesystemServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Filesystem\u0020service\u0020in\u0020the\u0020container.",
+            "url": "classes/Sloth-Filesystem-FilesystemServiceProvider.html#method_register"
+        },                {
             "fqsen": "\\Sloth\\Finder\\Finder",
             "name": "Finder",
             "summary": "Abstract\u0020Finder\u0020class\u0020for\u0020locating\u0020files.",
@@ -931,6 +1426,16 @@ Search.appendIndex(
             "summary": "Get\u0020\/\u0020set\u0020the\u0020specified\u0020configuration\u0020value.",
             "url": "namespaces/default.html#function_config"
         },                {
+            "fqsen": "\\app\u0028\u0029",
+            "name": "app",
+            "summary": "Get\u0020the\u0020available\u0020container\u0020instance.",
+            "url": "namespaces/default.html#function_app"
+        },                {
+            "fqsen": "\\module\u0028\u0029",
+            "name": "module",
+            "summary": "Instantiate\u0020and\u0020render\u0020a\u0020theme\u0020module.",
+            "url": "namespaces/default.html#function_module"
+        },                {
             "fqsen": "\\Sloth\\Installer\\Installer",
             "name": "Installer",
             "summary": "Installer\u0020class\u0020for\u0020setting\u0020up\u0020the\u0020Sloth\u0020WordPress\u0020theme.",
@@ -938,113 +1443,158 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003Aconfig\u0028\u0029",
             "name": "config",
-            "summary": "Run\u0020the\u0020configuration\u0020process\u0020with\u0020interactive\u0020prompts.",
+            "summary": "Primary\u0020Composer\u0020script\u0020entrypoint.",
             "url": "classes/Sloth-Installer-Installer.html#method_config"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003Aconfig_quiet\u0028\u0029",
             "name": "config_quiet",
-            "summary": "Run\u0020the\u0020configuration\u0020process\u0020silently.",
+            "summary": "Silent\u0020Composer\u0020script\u0020entrypoint.",
             "url": "classes/Sloth-Installer-Installer.html#method_config_quiet"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Installer-Installer.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003Arun\u0028\u0029",
+            "name": "run",
+            "summary": "Execute\u0020the\u0020full\u0020setup\u0020sequence.",
+            "url": "classes/Sloth-Installer-Installer.html#method_run"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AgatherInfo\u0028\u0029",
+            "name": "gatherInfo",
+            "summary": "Resolve\u0020all\u0020paths\u0020and\u0020default\u0020metadata\u0020from\u0020the\u0020Composer\u0020configuration.",
+            "url": "classes/Sloth-Installer-Installer.html#method_gatherInfo"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AresolveInstallerPath\u0028\u0029",
+            "name": "resolveInstallerPath",
+            "summary": "Resolve\u0020a\u0020directory\u0020from\u0020the\u0020installer\u002Dpaths\u0020extra\u0020config\u0020by\u0020type\u0020condition.",
+            "url": "classes/Sloth-Installer-Installer.html#method_resolveInstallerPath"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003Adialog\u0028\u0029",
+            "name": "dialog",
+            "summary": "Prompt\u0020the\u0020user\u0020for\u0020theme\u0020metadata.",
+            "url": "classes/Sloth-Installer-Installer.html#method_dialog"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AmkDirs\u0028\u0029",
             "name": "mkDirs",
-            "summary": "Create\u0020required\u0020directories.",
+            "summary": "Create\u0020all\u0020required\u0020project\u0020directories.",
             "url": "classes/Sloth-Installer-Installer.html#method_mkDirs"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003ArebuildIndex\u0028\u0029",
             "name": "rebuildIndex",
-            "summary": "Rebuild\u0020the\u0020index.php\u0020file.",
+            "summary": "Write\u0020a\u0020custom\u0020index.php\u0020into\u0020the\u0020web\u0020root\u0020that\u0020points\u0020to\u0020WordPress.",
             "url": "classes/Sloth-Installer-Installer.html#method_rebuildIndex"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeSalts\u0028\u0029",
-            "name": "initializeSalts",
-            "summary": "Initialize\u0020WordPress\u0020salt\u0020keys.",
-            "url": "classes/Sloth-Installer-Installer.html#method_initializeSalts"
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AremoveLegacySalts\u0028\u0029",
+            "name": "removeLegacySalts",
+            "summary": "Remove\u0020the\u0020legacy\u0020salts.php\u0020file\u0020if\u0020it\u0020exists.",
+            "url": "classes/Sloth-Installer-Installer.html#method_removeLegacySalts"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeDotenv\u0028\u0029",
             "name": "initializeDotenv",
-            "summary": "Initialize\u0020.env\u0020file\u0020from\u0020example.",
+            "summary": "Copy\u0020.env.example\u0020to\u0020.env\u0020if\u0020no\u0020.env\u0020file\u0020exists\u0020yet.",
             "url": "classes/Sloth-Installer-Installer.html#method_initializeDotenv"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeWpconfig\u0028\u0029",
             "name": "initializeWpconfig",
-            "summary": "Initialize\u0020wp\u002Dconfig.php\u0020file.",
+            "summary": "Copy\u0020the\u0020bundled\u0020wp\u002Dconfig.php\u0020into\u0020the\u0020web\u0020root.",
             "url": "classes/Sloth-Installer-Installer.html#method_initializeWpconfig"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeHtaccess\u0028\u0029",
+            "name": "initializeHtaccess",
+            "summary": "Copy\u0020the\u0020bundled\u0020.htaccess\u0020into\u0020the\u0020web\u0020root\u0020if\u0020one\u0020does\u0020not\u0020exist\u0020yet.",
+            "url": "classes/Sloth-Installer-Installer.html#method_initializeHtaccess"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializePlugin\u0028\u0029",
             "name": "initializePlugin",
-            "summary": "Initialize\u0020the\u0020Sloth\u0020plugin.",
+            "summary": "Copy\u0020the\u0020Sloth\u0020mu\u002Dplugin\u0020into\u0020the\u0020mu\u002Dplugins\u0020directory.",
             "url": "classes/Sloth-Installer-Installer.html#method_initializePlugin"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeBootstrap\u0028\u0029",
             "name": "initializeBootstrap",
-            "summary": "Initialize\u0020the\u0020bootstrap\u0020file.",
+            "summary": "Copy\u0020the\u0020bootstrap\u0020file\u0020into\u0020the\u0020project\u0020root.",
             "url": "classes/Sloth-Installer-Installer.html#method_initializeBootstrap"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeHtaccess\u0028\u0029",
-            "name": "initializeHtaccess",
-            "summary": "Initialize\u0020the\u0020.htaccess\u0020file.",
-            "url": "classes/Sloth-Installer-Installer.html#method_initializeHtaccess"
-        },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003Adialog\u0028\u0029",
-            "name": "dialog",
-            "summary": "Run\u0020the\u0020interactive\u0020dialog.",
-            "url": "classes/Sloth-Installer-Installer.html#method_dialog"
-        },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AbuildStyleCss\u0028\u0029",
-            "name": "buildStyleCss",
-            "summary": "Build\u0020the\u0020style.css\u0020file.",
-            "url": "classes/Sloth-Installer-Installer.html#method_buildStyleCss"
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AdefaultThemeExists\u0028\u0029",
+            "name": "defaultThemeExists",
+            "summary": "Check\u0020whether\u0020the\u0020bundled\u0020default\u0020\u0022sloth\u002Dtheme\u0022\u0020directory\u0020is\u0020present.",
+            "url": "classes/Sloth-Installer-Installer.html#method_defaultThemeExists"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003ArenameTheme\u0028\u0029",
             "name": "renameTheme",
-            "summary": "Rename\u0020the\u0020default\u0020theme\u0020to\u0020the\u0020configured\u0020name.",
+            "summary": "Rename\u0020the\u0020default\u0020theme\u0020directory\u0020and\u0020write\u0020style.css.",
             "url": "classes/Sloth-Installer-Installer.html#method_renameTheme"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AmkPath\u0028\u0029",
-            "name": "mkPath",
-            "summary": "Join\u0020path\u0020parts\u0020with\u0020the\u0020directory\u0020separator.",
-            "url": "classes/Sloth-Installer-Installer.html#method_mkPath"
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AbuildStyleCss\u0028\u0029",
+            "name": "buildStyleCss",
+            "summary": "Write\u0020the\u0020WordPress\u0020theme\u0020header\u0020into\u0020style.css.",
+            "url": "classes/Sloth-Installer-Installer.html#method_buildStyleCss"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024httpDir",
-            "name": "httpDir",
-            "summary": "HTTP\u0020directory\u0020path.",
-            "url": "classes/Sloth-Installer-Installer.html#property_httpDir"
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AbuildScreenshot\u0028\u0029",
+            "name": "buildScreenshot",
+            "summary": "Generate\u0020a\u0020screenshot\u0020for\u0020the\u0020theme.",
+            "url": "classes/Sloth-Installer-Installer.html#method_buildScreenshot"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AabsPath\u0028\u0029",
+            "name": "absPath",
+            "summary": "Resolve\u0020a\u0020relative\u0020path\u0020against\u0020the\u0020project\u0020base\u0020directory.",
+            "url": "classes/Sloth-Installer-Installer.html#method_absPath"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024fs",
+            "name": "fs",
+            "summary": "Filesystem\u0020helper\u0020from\u0020symfony\/filesystem.",
+            "url": "classes/Sloth-Installer-Installer.html#property_fs"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024io",
+            "name": "io",
+            "summary": "Composer\u0020IO\u0020interface\u0020used\u0020for\u0020all\u0020terminal\u0020interaction.",
+            "url": "classes/Sloth-Installer-Installer.html#property_io"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024baseDir",
             "name": "baseDir",
-            "summary": "Base\u0020directory\u0020path.",
+            "summary": "Absolute\u0020path\u0020to\u0020the\u0020project\u0020root\u0020\u0028where\u0020composer.json\u0020lives\u0029.",
             "url": "classes/Sloth-Installer-Installer.html#property_baseDir"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024dirs",
+            "name": "dirs",
+            "summary": "Resolved\u0020directory\u0020paths\u0020derived\u0020from\u0020composer.json\u0020extra\u0020config.",
+            "url": "classes/Sloth-Installer-Installer.html#property_dirs"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024themeName",
             "name": "themeName",
-            "summary": "Theme\u0020name.",
+            "summary": "Human\u002Dreadable\u0020name\u0020of\u0020the\u0020theme\u0020to\u0020be\u0020created.",
             "url": "classes/Sloth-Installer-Installer.html#property_themeName"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024dirsRequired",
-            "name": "dirsRequired",
-            "summary": "Required\u0020directories\u0020to\u0020create.",
-            "url": "classes/Sloth-Installer-Installer.html#property_dirsRequired"
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024authorName",
+            "name": "authorName",
+            "summary": "Author\u0020name\u0020written\u0020into\u0020style.css.",
+            "url": "classes/Sloth-Installer-Installer.html#property_authorName"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024themeDescription",
+            "name": "themeDescription",
+            "summary": "One\u002Dline\u0020description\u0020written\u0020into\u0020style.css.",
+            "url": "classes/Sloth-Installer-Installer.html#property_themeDescription"
+        },                {
+            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024dirThemeDefault",
+            "name": "dirThemeDefault",
+            "summary": "Absolute\u0020path\u0020to\u0020the\u0020bundled\u0020default\u0020\u0022sloth\u002Dtheme\u0022\u0020directory.",
+            "url": "classes/Sloth-Installer-Installer.html#property_dirThemeDefault"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024dirThemeNew",
             "name": "dirThemeNew",
-            "summary": "New\u0020theme\u0020directory\u0020path.",
+            "summary": "Absolute\u0020path\u0020to\u0020the\u0020renamed\u0020theme\u0020directory.",
             "url": "classes/Sloth-Installer-Installer.html#property_dirThemeNew"
-        },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024authorname",
-            "name": "authorname",
-            "summary": "Author\u0020name.",
-            "url": "classes/Sloth-Installer-Installer.html#property_authorname"
-        },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003A\u0024themedescription",
-            "name": "themedescription",
-            "summary": "Theme\u0020description.",
-            "url": "classes/Sloth-Installer-Installer.html#property_themedescription"
         },                {
             "fqsen": "\\Sloth\\Layotter\\Layotter",
             "name": "Layotter",
             "summary": "Layotter\u0020page\u0020builder\u0020integration.",
             "url": "classes/Sloth-Layotter-Layotter.html"
+        },                {
+            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020for\u0020Layotter.",
+            "url": "classes/Sloth-Layotter-Layotter.html#method___construct"
         },                {
             "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AcustomColumnClasses\u0028\u0029",
             "name": "customColumnClasses",
@@ -1126,10 +1676,10 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020current\u0020view\u0020path\u0020for\u0020a\u0020Layotter\u0020component.",
             "url": "classes/Sloth-Layotter-Layotter.html#method_getCurrentView"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AaddFilters\u0028\u0029",
-            "name": "addFilters",
-            "summary": "Add\u0020Layotter\u0020filters.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_addFilters"
+            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003ArenderLayotterStyles\u0028\u0029",
+            "name": "renderLayotterStyles",
+            "summary": "Render\u0020Layotter\u0020admin\u0020CSS\u0020styles.",
+            "url": "classes/Sloth-Layotter-Layotter.html#method_renderLayotterStyles"
         },                {
             "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A\u0024disabledPostTypes",
             "name": "disabledPostTypes",
@@ -1155,6 +1705,86 @@ Search.appendIndex(
             "name": "register",
             "summary": "Register\u0020the\u0020Layotter\u0020service\u0020provider.",
             "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003AconfigurePostTypes\u0028\u0029",
+            "name": "configurePostTypes",
+            "summary": "Configure\u0020Layotter\u0020page\u0020builder\u0020integration\u0020for\u0020a\u0020model.",
+            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_configurePostTypes"
+        },                {
+            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Returns\u0020WordPress\u0020actions\u0020this\u0020provider\u0020wants\u0020to\u0020register.",
+            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Get\u0020the\u0020required\u0020filters\u0020for\u0020the\u0020Layotter\u0020service\u0020provider.",
+            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_getFilters"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media",
+            "name": "Media",
+            "summary": "Media\u0020handling\u0020utilities\u0020for\u0020WordPress.",
+            "url": "classes/Sloth-Media-Media.html"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor.",
+            "url": "classes/Sloth-Media-Media.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AaddSvgMime\u0028\u0029",
+            "name": "addSvgMime",
+            "summary": "Add\u0020SVG\u0020mime\u0020type.",
+            "url": "classes/Sloth-Media-Media.html#method_addSvgMime"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AregisterImageSizes\u0028\u0029",
+            "name": "registerImageSizes",
+            "summary": "Register\u0020custom\u0020image\u0020sizes\u0020from\u0020config.",
+            "url": "classes/Sloth-Media-Media.html#method_registerImageSizes"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AmakeLinksRelative\u0028\u0029",
+            "name": "makeLinksRelative",
+            "summary": "Convert\u0020all\u0020links\u0020to\u0020root\u002Drelative\u0020URLs.",
+            "url": "classes/Sloth-Media-Media.html#method_makeLinksRelative"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AmakeUploadsRelative\u0028\u0029",
+            "name": "makeUploadsRelative",
+            "summary": "Convert\u0020all\u0020upload\u0020URLs\u0020to\u0020root\u002Drelative.",
+            "url": "classes/Sloth-Media-Media.html#method_makeUploadsRelative"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AtoRelativeUrl\u0028\u0029",
+            "name": "toRelativeUrl",
+            "summary": "Convert\u0020a\u0020URL\u0020to\u0020a\u0020root\u002Drelative\u0020path.",
+            "url": "classes/Sloth-Media-Media.html#method_toRelativeUrl"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AmakeHrefsRelative\u0028\u0029",
+            "name": "makeHrefsRelative",
+            "summary": "Convert\u0020href\u0020attributes\u0020in\u0020content\u0020to\u0020relative\u0020paths.",
+            "url": "classes/Sloth-Media-Media.html#method_makeHrefsRelative"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003AmakeSrcsRelative\u0028\u0029",
+            "name": "makeSrcsRelative",
+            "summary": "Convert\u0020src\u0020attributes\u0020in\u0020content\u0020to\u0020relative\u0020paths.",
+            "url": "classes/Sloth-Media-Media.html#method_makeSrcsRelative"
+        },                {
+            "fqsen": "\\Sloth\\Media\\MediaServiceProvider",
+            "name": "MediaServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020media\u0020and\u0020URL\u0020handling.",
+            "url": "classes/Sloth-Media-MediaServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Media\\MediaServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "",
+            "url": "classes/Sloth-Media-MediaServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Media\\MediaServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020media\u0020hooks\u0020and\u0020filters.",
+            "url": "classes/Sloth-Media-MediaServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Media\\MediaServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Register\u0020media\u0020filters.",
+            "url": "classes/Sloth-Media-MediaServiceProvider.html#method_getFilters"
         },                {
             "fqsen": "\\Sloth\\Media\\Version",
             "name": "Version",
@@ -1205,6 +1835,156 @@ Search.appendIndex(
             "name": "set",
             "summary": "Set\u0020the\u0020ACF\u0020field\u0020value.",
             "url": "classes/Sloth-Model-Casts-AcfBase.html#method_set"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes",
+            "name": "PostScopes",
+            "summary": "Provides\u0020WordPress\u002Dspecific\u0020query\u0020scopes\u0020for\u0020post\u0020models.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeStatus\u0028\u0029",
+            "name": "scopeStatus",
+            "summary": "Filter\u0020by\u0020post\u0020status.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeStatus"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopePublished\u0028\u0029",
+            "name": "scopePublished",
+            "summary": "Filter\u0020to\u0020only\u0020published\u0020posts.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopePublished"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeType\u0028\u0029",
+            "name": "scopeType",
+            "summary": "Filter\u0020by\u0020post\u0020type.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeTypeIn\u0028\u0029",
+            "name": "scopeTypeIn",
+            "summary": "Filter\u0020by\u0020multiple\u0020post\u0020types.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeTypeIn"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeSlug\u0028\u0029",
+            "name": "scopeSlug",
+            "summary": "Filter\u0020by\u0020post\u0020slug\u0020\u0028post_name\u0029.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeSlug"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeParent\u0028\u0029",
+            "name": "scopeParent",
+            "summary": "Filter\u0020by\u0020parent\u0020post\u0020ID.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeParent"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeTaxonomy\u0028\u0029",
+            "name": "scopeTaxonomy",
+            "summary": "Filter\u0020posts\u0020by\u0020taxonomy\u0020terms.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeTaxonomy"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeSearch\u0028\u0029",
+            "name": "scopeSearch",
+            "summary": "Search\u0020across\u0020post\u0020title,\u0020excerpt,\u0020and\u0020content.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeSearch"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeHome\u0028\u0029",
+            "name": "scopeHome",
+            "summary": "Get\u0020the\u0020homepage\u0020post\u0020\u0028page_on_front\u0029.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeHome"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeOrderByMeta\u0028\u0029",
+            "name": "scopeOrderByMeta",
+            "summary": "Order\u0020query\u0020by\u0020a\u0020meta\u0020field.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeOrderByMeta"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Concerns\\PostScopes\u003A\u003AscopeFindBySlugOrId\u0028\u0029",
+            "name": "scopeFindBySlugOrId",
+            "summary": "Find\u0020a\u0020post\u0020by\u0020its\u0020slug\u0020or\u0020ID.",
+            "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeFindBySlugOrId"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder",
+            "name": "ModelManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020WordPress\u0020post\u0020type\u0020registration.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AextraLines\u0028\u0029",
+            "name": "extraLines",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_extraLines"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Abindings\u0028\u0029",
+            "name": "bindings",
+            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_bindings"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AbuildArgs\u0028\u0029",
+            "name": "buildArgs",
+            "summary": "",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildArgs"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AbuildNames\u0028\u0029",
+            "name": "buildNames",
+            "summary": "",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildNames"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AbuildAdminCols\u0028\u0029",
+            "name": "buildAdminCols",
+            "summary": "Translate\u0020\u0024admin_columns\u0020to\u0020extended\u002Dcpts\u0020admin_cols\u0020format.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildAdminCols"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder",
+            "name": "TaxonomyManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020WordPress\u0020taxonomy\u0020registration.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AextraLines\u0028\u0029",
+            "name": "extraLines",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_extraLines"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Abindings\u0028\u0029",
+            "name": "bindings",
+            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_bindings"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AaddMetaBoxes\u0028\u0029",
+            "name": "addMetaBoxes",
+            "summary": "Add\u0020custom\u0020radio\u0020metaboxes\u0020for\u0020unique\u0020taxonomies.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_addMetaBoxes"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AbuildArgs\u0028\u0029",
+            "name": "buildArgs",
+            "summary": "",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_buildArgs"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AbuildNames\u0028\u0029",
+            "name": "buildNames",
+            "summary": "",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_buildNames"
         },                {
             "fqsen": "\\Sloth\\Model\\Menu",
             "name": "Menu",
@@ -1331,16 +2111,6 @@ Search.appendIndex(
             "summary": "Create\u0020a\u0020model\u0020instance\u0020from\u0020a\u0020database\u0020row.",
             "url": "classes/Sloth-Model-Model.html#method_newFromBuilder"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AshouldLoadPreview\u0028\u0029",
-            "name": "shouldLoadPreview",
-            "summary": "Check\u0020if\u0020we\u0020should\u0020load\u0020the\u0020preview\u0020version\u0020of\u0020a\u0020post.",
-            "url": "classes/Sloth-Model-Model.html#method_shouldLoadPreview"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AloadPreview\u0028\u0029",
-            "name": "loadPreview",
-            "summary": "Load\u0020the\u0020preview\u0020revision\u0020for\u0020a\u0020post.",
-            "url": "classes/Sloth-Model-Model.html#method_loadPreview"
-        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewEloquentBuilder\u0028\u0029",
             "name": "newEloquentBuilder",
             "summary": "Create\u0020a\u0020new\u0020Eloquent\u0020query\u0020builder\u0020for\u0020the\u0020model.",
@@ -1348,12 +2118,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AnewQuery\u0028\u0029",
             "name": "newQuery",
-            "summary": "Get\u0020a\u0020new\u0020query\u0020builder\u0020for\u0020the\u0020model\u0027s\u0020table.",
+            "summary": "Get\u0020a\u0020new\u0020query\u0020builder\u0020filtered\u0020by\u0020this\u0020model\u0027s\u0020post\u0020type.",
             "url": "classes/Sloth-Model-Model.html#method_newQuery"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AregisterPostType\u0028\u0029",
             "name": "registerPostType",
-            "summary": "Register\u0020a\u0020post\u0020type\u0020class\u0020to\u0020be\u0020instantiated\u0020for\u0020specific\u0020post\u0020types.",
+            "summary": "Register\u0020a\u0020post\u0020type\u0020class\u0020for\u0020newFromBuilder\u0028\u0029\u0020resolution.",
             "url": "classes/Sloth-Model-Model.html#method_registerPostType"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AclearRegisteredPostTypes\u0028\u0029",
@@ -1361,9 +2131,24 @@ Search.appendIndex(
             "summary": "Clear\u0020all\u0020registered\u0020post\u0020types.",
             "url": "classes/Sloth-Model-Model.html#method_clearRegisteredPostTypes"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetPostType\u0028\u0029",
+            "name": "getPostType",
+            "summary": "Get\u0020the\u0020post\u0020type\u0020identifier\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Model.html#method_getPostType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AshouldLoadPreview\u0028\u0029",
+            "name": "shouldLoadPreview",
+            "summary": "Check\u0020if\u0020the\u0020preview\u0020version\u0020of\u0020a\u0020post\u0020should\u0020be\u0020loaded.",
+            "url": "classes/Sloth-Model-Model.html#method_shouldLoadPreview"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AloadPreview\u0028\u0029",
+            "name": "loadPreview",
+            "summary": "Load\u0020the\u0020latest\u0020preview\u0020revision\u0020for\u0020a\u0020post.",
+            "url": "classes/Sloth-Model-Model.html#method_loadPreview"
+        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003Athumbnail\u0028\u0029",
             "name": "thumbnail",
-            "summary": "Get\u0020the\u0020post\u0020thumbnail\u0020relationship.",
+            "summary": "Get\u0020the\u0020post\u0020thumbnail\u0020meta\u0020relationship.",
             "url": "classes/Sloth-Model-Model.html#method_thumbnail"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003Ataxonomies\u0028\u0029",
@@ -1383,12 +2168,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003Aparent\u0028\u0029",
             "name": "parent",
-            "summary": "Get\u0020the\u0020parent\u0020post\u0020if\u0020this\u0020is\u0020a\u0020hierarchical\u0020post\u0020type.",
+            "summary": "Get\u0020the\u0020parent\u0020post\u0020\u0028for\u0020hierarchical\u0020post\u0020types\u0029.",
             "url": "classes/Sloth-Model-Model.html#method_parent"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003Achildren\u0028\u0029",
             "name": "children",
-            "summary": "Get\u0020child\u0020posts\u0020\u0028for\u0020hierarchical\u0020post\u0020types\u0020like\u0020pages\u0029.",
+            "summary": "Get\u0020child\u0020posts\u0020\u0028for\u0020hierarchical\u0020post\u0020types\u0029.",
             "url": "classes/Sloth-Model-Model.html#method_children"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003Aattachment\u0028\u0029",
@@ -1418,7 +2203,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetPostThumbnailAttribute\u0028\u0029",
             "name": "getPostThumbnailAttribute",
-            "summary": "Get\u0020the\u0020featured\u0020image\/thumbnail\u0020for\u0020this\u0020post.",
+            "summary": "Get\u0020the\u0020featured\u0020image\u0020thumbnail\u0020relationship\u0020meta.",
             "url": "classes/Sloth-Model-Model.html#method_getPostThumbnailAttribute"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetImageAttribute\u0028\u0029",
@@ -1428,12 +2213,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetTermsAttribute\u0028\u0029",
             "name": "getTermsAttribute",
-            "summary": "Get\u0020all\u0020terms\u0020\u0028taxonomies\u0029\u0020grouped\u0020by\u0020taxonomy\u0020type.",
+            "summary": "Get\u0020all\u0020terms\u0020grouped\u0020by\u0020taxonomy\u0020type.",
             "url": "classes/Sloth-Model-Model.html#method_getTermsAttribute"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetMainCategoryAttribute\u0028\u0029",
             "name": "getMainCategoryAttribute",
-            "summary": "Get\u0020the\u0020primary\/first\u0020category\u0020for\u0020this\u0020post.",
+            "summary": "Get\u0020the\u0020primary\u0020category\u0020name\u0020for\u0020this\u0020post.",
             "url": "classes/Sloth-Model-Model.html#method_getMainCategoryAttribute"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetKeywordsAttribute\u0028\u0029",
@@ -1446,79 +2231,49 @@ Search.appendIndex(
             "summary": "Get\u0020all\u0020keywords\u0020as\u0020a\u0020comma\u002Dseparated\u0020string.",
             "url": "classes/Sloth-Model-Model.html#method_getKeywordsStrAttribute"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetPostType\u0028\u0029",
-            "name": "getPostType",
-            "summary": "Get\u0020the\u0020post\u0020type\u0020identifier.",
-            "url": "classes/Sloth-Model-Model.html#method_getPostType"
-        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AhasTerm\u0028\u0029",
             "name": "hasTerm",
-            "summary": "Check\u0020if\u0020this\u0020post\u0020has\u0020a\u0020specific\u0020term.",
+            "summary": "Check\u0020if\u0020this\u0020post\u0020has\u0020a\u0020specific\u0020taxonomy\u0020term.",
             "url": "classes/Sloth-Model-Model.html#method_hasTerm"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetFormat\u0028\u0029",
             "name": "getFormat",
-            "summary": "Get\u0020the\u0020post\u0020format\u0020\u0028e.g.,\u0020\u0027standard\u0027,\u0020\u0027aside\u0027,\u0020\u0027gallery\u0027\u0029.",
+            "summary": "Get\u0020the\u0020post\u0020format\u0020\u0028e.g.\u0020\u0027standard\u0027,\u0020\u0027aside\u0027,\u0020\u0027gallery\u0027\u0029.",
             "url": "classes/Sloth-Model-Model.html#method_getFormat"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024register",
-            "name": "register",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_register"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003Ainit\u0028\u0029",
-            "name": "init",
-            "summary": "Initialize\u0020the\u0020post\u0020type\u0020after\u0020WordPress\u0020registration.",
-            "url": "classes/Sloth-Model-Model.html#method_init"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AscopeOrderByMeta\u0028\u0029",
-            "name": "scopeOrderByMeta",
-            "summary": "Scope\u0020query\u0020to\u0020order\u0020by\u0020a\u0020meta\u0020field.",
-            "url": "classes/Sloth-Model-Model.html#method_scopeOrderByMeta"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AscopeFindBySlugOrId\u0028\u0029",
-            "name": "scopeFindBySlugOrId",
-            "summary": "Scope\u0020to\u0020find\u0020a\u0020post\u0020by\u0020slug\u0020or\u0020ID.",
-            "url": "classes/Sloth-Model-Model.html#method_scopeFindBySlugOrId"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetColumn\u0028\u0029",
             "name": "getColumn",
-            "summary": "Get\u0020a\u0020formatted\u0020column\u0020value\u0020for\u0020admin\u0020list\u0020view.",
+            "summary": "Get\u0020a\u0020formatted\u0020column\u0020value\u0020for\u0020the\u0020admin\u0020list\u0020view.",
             "url": "classes/Sloth-Model-Model.html#method_getColumn"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003AscopeHome\u0028\u0029",
-            "name": "scopeHome",
-            "summary": "Scope\u0020to\u0020get\u0020the\u0020homepage\u0020post.",
-            "url": "classes/Sloth-Model-Model.html#method_scopeHome"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetAcfKey\u0028\u0029",
             "name": "getAcfKey",
-            "summary": "Get\u0020the\u0020ACF\u0020key\u0020for\u0020this\u0020post.",
+            "summary": "Get\u0020the\u0020ACF\u0020field\u0020group\u0020key\u0020for\u0020this\u0020post.",
             "url": "classes/Sloth-Model-Model.html#method_getAcfKey"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "",
+            "summary": "Handle\u0020dynamic\u0020method\u0020calls.",
             "url": "classes/Sloth-Model-Model.html#method___call"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A__get\u0028\u0029",
             "name": "__get",
-            "summary": "",
+            "summary": "Handle\u0020dynamic\u0020property\u0020access.",
             "url": "classes/Sloth-Model-Model.html#method___get"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A__isset\u0028\u0029",
             "name": "__isset",
-            "summary": "",
+            "summary": "Handle\u0020dynamic\u0020property\u0020existence\u0020checks.",
             "url": "classes/Sloth-Model-Model.html#method___isset"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AtoArray\u0028\u0029",
             "name": "toArray",
-            "summary": "",
+            "summary": "Convert\u0020the\u0020model\u0020to\u0020an\u0020array.",
             "url": "classes/Sloth-Model-Model.html#method_toArray"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetMetaClass\u0028\u0029",
             "name": "getMetaClass",
-            "summary": "Get\u0020the\u0020meta\u0020class\u0020for\u0020this\u0020model.",
+            "summary": "Get\u0020the\u0020meta\u0020model\u0020class\u0020for\u0020this\u0020model.",
             "url": "classes/Sloth-Model-Model.html#method_getMetaClass"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003AgetMetaForeignKey\u0028\u0029",
@@ -1536,90 +2291,30 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Model-Model.html#constant_UPDATED_AT"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024postType",
-            "name": "postType",
-            "summary": "Post\u0020type\u0020identifier\u0020for\u0020this\u0020model.",
-            "url": "classes/Sloth-Model-Model.html#property_postType"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024postTypes",
-            "name": "postTypes",
-            "summary": "Post\u0020types\u0020registered\u0020with\u0020this\u0020model.",
-            "url": "classes/Sloth-Model-Model.html#property_postTypes"
-        },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024table",
             "name": "table",
-            "summary": "",
+            "summary": "The\u0020database\u0020table\u0020used\u0020by\u0020the\u0020model.",
             "url": "classes/Sloth-Model-Model.html#property_table"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024primaryKey",
             "name": "primaryKey",
-            "summary": "",
+            "summary": "The\u0020primary\u0020key\u0020for\u0020the\u0020model.",
             "url": "classes/Sloth-Model-Model.html#property_primaryKey"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024dates",
             "name": "dates",
-            "summary": "",
+            "summary": "The\u0020attributes\u0020that\u0020should\u0020be\u0020cast\u0020to\u0020dates.",
             "url": "classes/Sloth-Model-Model.html#property_dates"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024with",
             "name": "with",
-            "summary": "",
+            "summary": "Relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
             "url": "classes/Sloth-Model-Model.html#property_with"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024names",
-            "name": "names",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_names"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024options",
-            "name": "options",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_options"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024labels",
-            "name": "labels",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_labels"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024layotter",
-            "name": "layotter",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_layotter"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024post_content",
-            "name": "post_content",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_post_content"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024icon",
-            "name": "icon",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_icon"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024filtered",
-            "name": "filtered",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_filtered"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024admin_columns",
-            "name": "admin_columns",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_admin_columns"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024admin_columns_hidden",
-            "name": "admin_columns_hidden",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_admin_columns_hidden"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024globalScopesBooted",
-            "name": "globalScopesBooted",
-            "summary": "",
-            "url": "classes/Sloth-Model-Model.html#property_globalScopesBooted"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024aliases",
-            "name": "aliases",
-            "summary": "Aliases\u0020for\u0020attribute\u0020access.",
-            "url": "classes/Sloth-Model-Model.html#property_aliases"
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024filedContent",
+            "name": "filedContent",
+            "summary": "The\u0020filtered\u0020content\u0020for\u0020this\u0020post.",
+            "url": "classes/Sloth-Model-Model.html#property_filedContent"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024appends",
             "name": "appends",
@@ -1636,6 +2331,101 @@ Search.appendIndex(
             "summary": "Attributes\u0020that\u0020are\u0020mass\u0020assignable.",
             "url": "classes/Sloth-Model-Model.html#property_fillable"
         },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024postType",
+            "name": "postType",
+            "summary": "Post\u0020type\u0020identifier\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Model.html#property_postType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024postTypes",
+            "name": "postTypes",
+            "summary": "Post\u0020types\u0020registered\u0020with\u0020this\u0020model\u0020for\u0020newFromBuilder\u0028\u0029\u0020resolution.",
+            "url": "classes/Sloth-Model-Model.html#property_postTypes"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024filtered",
+            "name": "filtered",
+            "summary": "Whether\u0020the\u0020content\u0020filter\u0020has\u0020been\u0020applied\u0020for\u0020this\u0020instance.",
+            "url": "classes/Sloth-Model-Model.html#property_filtered"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024admin_columns",
+            "name": "admin_columns",
+            "summary": "",
+            "url": "classes/Sloth-Model-Model.html#property_admin_columns"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024admin_columns_hidden",
+            "name": "admin_columns_hidden",
+            "summary": "",
+            "url": "classes/Sloth-Model-Model.html#property_admin_columns_hidden"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024globalScopesBooted",
+            "name": "globalScopesBooted",
+            "summary": "Whether\u0020global\u0020scopes\u0020have\u0020been\u0020booted\u0020for\u0020this\u0020class.",
+            "url": "classes/Sloth-Model-Model.html#property_globalScopesBooted"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024aliases",
+            "name": "aliases",
+            "summary": "Aliases\u0020for\u0020attribute\u0020access.",
+            "url": "classes/Sloth-Model-Model.html#property_aliases"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024names",
+            "name": "names",
+            "summary": "Singular\u0020and\u0020plural\u0020display\u0020names\u0020for\u0020label\u0020generation.",
+            "url": "classes/Sloth-Model-Model.html#property_names"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024options",
+            "name": "options",
+            "summary": "WordPress\u0020post\u0020type\u0020registration\u0020arguments.",
+            "url": "classes/Sloth-Model-Model.html#property_options"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024labels",
+            "name": "labels",
+            "summary": "WordPress\u0020post\u0020type\u0020labels.",
+            "url": "classes/Sloth-Model-Model.html#property_labels"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024icon",
+            "name": "icon",
+            "summary": "Dashicon\u0020name\u0020for\u0020the\u0020WordPress\u0020admin\u0020menu\u0020icon.",
+            "url": "classes/Sloth-Model-Model.html#property_icon"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024register",
+            "name": "register",
+            "summary": "Whether\u0020this\u0020model\u0020should\u0020be\u0020registered\u0020as\u0020a\u0020WordPress\u0020post\u0020type.",
+            "url": "classes/Sloth-Model-Model.html#property_register"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024layotter",
+            "name": "layotter",
+            "summary": "Layotter\u0020page\u0020builder\u0020configuration\u0020for\u0020this\u0020post\u0020type.",
+            "url": "classes/Sloth-Model-Model.html#property_layotter"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider",
+            "name": "ModelServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020model\/post\u0020type\u0020registration\u0020and\u0020management.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Model\u0020service\u0020provider.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AonPostTypeRegistered\u0028\u0029",
+            "name": "onPostTypeRegistered",
+            "summary": "Hook\u0020into\u0020WordPress\u0027\u0020registered_post_type\u0020action\u0020to\u0020bind\u0020model\u0020classes.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_onPostTypeRegistered"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AhideAdminColumns\u0028\u0029",
+            "name": "hideAdminColumns",
+            "summary": "Fix\u0020for\u0020hiding\u0020columns\u0020in\u0020wp\u002Dadmin,\u0020which\u0020is\u0020not\u0020supported\u0020by\u0020johnbillion\/extended\u002Dcpts",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_hideAdminColumns"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020hooks\u0020for\u0020model\u0020registration.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Register\u0020filters\u0020for\u0020model\u0020registration.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_getFilters"
+        },                {
             "fqsen": "\\Sloth\\Model\\Post",
             "name": "Post",
             "summary": "Post\u0020Model",
@@ -1651,6 +2441,41 @@ Search.appendIndex(
             "summary": "Get\u0020post\u0020revisions.",
             "url": "classes/Sloth-Model-Post.html#method_revision"
         },                {
+            "fqsen": "\\Sloth\\Model\\Proxy\\CurrentModelProxy",
+            "name": "CurrentModelProxy",
+            "summary": "Proxy\u0020for\u0020calling\u0020model\u0020methods\u0020on\u0020the\u0020current\u0020post.",
+            "url": "classes/Sloth-Model-Proxy-CurrentModelProxy.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Proxy\\CurrentModelProxy\u003A\u003A__callStatic\u0028\u0029",
+            "name": "__callStatic",
+            "summary": "Call\u0020a\u0020model\u0020method\u0020on\u0020the\u0020current\u0020post.",
+            "url": "classes/Sloth-Model-Proxy-CurrentModelProxy.html#method___callStatic"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Proxy\\CurrentModelProxy\u003A\u003A\u0024instances",
+            "name": "instances",
+            "summary": "Cached\u0020model\u0020instances\u0020by\u0020post\u0020ID.",
+            "url": "classes/Sloth-Model-Proxy-CurrentModelProxy.html#property_instances"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrars\\MenuRegistrar",
+            "name": "MenuRegistrar",
+            "summary": "Service\u0020provider\u0020for\u0020navigation\u0020menu\u0020registration.",
+            "url": "classes/Sloth-Model-Registrars-MenuRegistrar.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrars\\MenuRegistrar\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor.",
+            "url": "classes/Sloth-Model-Registrars-MenuRegistrar.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrars\\MenuRegistrar\u003A\u003Ainit\u0028\u0029",
+            "name": "init",
+            "summary": "Register\u0020navigation\u0020menus\u0020from\u0020config.",
+            "url": "classes/Sloth-Model-Registrars-MenuRegistrar.html#method_init"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrars\\MenuRegistrar\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Model-Registrars-MenuRegistrar.html#property_app"
+        },                {
             "fqsen": "\\Sloth\\Model\\SlothMediaVersion",
             "name": "SlothMediaVersion",
             "summary": "Media\u0020Version\u0020Model",
@@ -1663,13 +2488,23 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy",
             "name": "Taxonomy",
-            "summary": "Taxonomy\u0020Model",
+            "summary": "Base\u0020Taxonomy\u0020class\u0020for\u0020WordPress\u0020custom\u0020taxonomies.",
             "url": "classes/Sloth-Model-Taxonomy.html"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Creates\u0020a\u0020new\u0020Taxonomy\u0020instance.",
+            "summary": "Create\u0020a\u0020new\u0020Taxonomy\u0020instance.",
             "url": "classes/Sloth-Model-Taxonomy.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetTaxonomy\u0028\u0029",
+            "name": "getTaxonomy",
+            "summary": "Get\u0020the\u0020WordPress\u0020taxonomy\u0020identifier.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_getTaxonomy"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetPostTypes\u0028\u0029",
+            "name": "getPostTypes",
+            "summary": "Get\u0020the\u0020post\u0020types\u0020this\u0020taxonomy\u0020is\u0020attached\u0020to.",
+            "url": "classes/Sloth-Model-Taxonomy.html#method_getPostTypes"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Aterm\u0028\u0029",
             "name": "term",
@@ -1678,7 +2513,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Aparent\u0028\u0029",
             "name": "parent",
-            "summary": "Get\u0020the\u0020parent\u0020taxonomy.",
+            "summary": "Get\u0020the\u0020parent\u0020taxonomy\u0020term.",
             "url": "classes/Sloth-Model-Taxonomy.html#method_parent"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Achildren\u0028\u0029",
@@ -1698,37 +2533,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A__get\u0028\u0029",
             "name": "__get",
-            "summary": "Magic\u0020method\u0020to\u0020return\u0020term\u0020attributes\u0020directly.",
+            "summary": "Handle\u0020dynamic\u0020property\u0020access.",
             "url": "classes/Sloth-Model-Taxonomy.html#method___get"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetLabels\u0028\u0029",
-            "name": "getLabels",
-            "summary": "Get\u0020the\u0020taxonomy\u0020labels.",
-            "url": "classes/Sloth-Model-Taxonomy.html#method_getLabels"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Aregister\u0028\u0029",
-            "name": "register",
-            "summary": "Registers\u0020the\u0020taxonomy\u0020with\u0020WordPress.",
-            "url": "classes/Sloth-Model-Taxonomy.html#method_register"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Ainit\u0028\u0029",
-            "name": "init",
-            "summary": "Initializes\u0020the\u0020taxonomy\u0020after\u0020WordPress\u0020registration.",
-            "url": "classes/Sloth-Model-Taxonomy.html#method_init"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetTaxonomy\u0028\u0029",
-            "name": "getTaxonomy",
-            "summary": "Gets\u0020the\u0020taxonomy\u0020identifier.",
-            "url": "classes/Sloth-Model-Taxonomy.html#method_getTaxonomy"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003Ametabox\u0028\u0029",
             "name": "metabox",
-            "summary": "Render\u0020the\u0020taxonomy\u0020metabox.",
+            "summary": "Render\u0020the\u0020custom\u0020metabox\u0020for\u0020unique\u0020\u0028single\u002Dvalue\u0029\u0020taxonomies.",
             "url": "classes/Sloth-Model-Taxonomy.html#method_metabox"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetMetaClass\u0028\u0029",
             "name": "getMetaClass",
-            "summary": "Get\u0020the\u0020meta\u0020class\u0020for\u0020this\u0020model.",
+            "summary": "Get\u0020the\u0020meta\u0020model\u0020class\u0020for\u0020this\u0020taxonomy.",
             "url": "classes/Sloth-Model-Taxonomy.html#method_getMetaClass"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003AgetMetaForeignKey\u0028\u0029",
@@ -1743,7 +2558,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024table",
             "name": "table",
-            "summary": "The\u0020table\u0020associated\u0020with\u0020the\u0020model.",
+            "summary": "The\u0020database\u0020table\u0020used\u0020by\u0020the\u0020model.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_table"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024primaryKey",
@@ -1753,67 +2568,72 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024with",
             "name": "with",
-            "summary": "The\u0020relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
+            "summary": "Relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_with"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024taxonomy",
+            "name": "taxonomy",
+            "summary": "The\u0020WordPress\u0020taxonomy\u0020identifier.",
+            "url": "classes/Sloth-Model-Taxonomy.html#property_taxonomy"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024names",
             "name": "names",
-            "summary": "Taxonomy\u0020names\u0020configuration\u0020for\u0020PostTypes\u0020library.",
+            "summary": "Singular\u0020and\u0020plural\u0020display\u0020names\u0020for\u0020label\u0020generation.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_names"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024options",
             "name": "options",
-            "summary": "Taxonomy\u0020options\u0020for\u0020WordPress\u0020registration.",
+            "summary": "WordPress\u0020taxonomy\u0020registration\u0020arguments.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_options"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024labels",
             "name": "labels",
-            "summary": "Taxonomy\u0020labels\u0020for\u0020WordPress\u0020admin\u0020UI.",
+            "summary": "WordPress\u0020taxonomy\u0020labels.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_labels"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024postTypes",
             "name": "postTypes",
-            "summary": "Post\u0020types\u0020that\u0020this\u0020taxonomy\u0020should\u0020be\u0020attached\u0020to.",
+            "summary": "Post\u0020types\u0020that\u0020this\u0020taxonomy\u0020is\u0020attached\u0020to.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_postTypes"
         },                {
             "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024unique",
             "name": "unique",
-            "summary": "Whether\u0020this\u0020is\u0020a\u0020unique\u0020\u0028non\u002Dhierarchical\u0029\u0020taxonomy.",
+            "summary": "Whether\u0020this\u0020is\u0020a\u0020unique\u0020\u0028single\u002Dvalue\u0029\u0020taxonomy.",
             "url": "classes/Sloth-Model-Taxonomy.html#property_unique"
         },                {
-            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024taxonomy",
-            "name": "taxonomy",
-            "summary": "The\u0020taxonomy\u0020identifier.",
-            "url": "classes/Sloth-Model-Taxonomy.html#property_taxonomy"
+            "fqsen": "\\Sloth\\Model\\Taxonomy\u003A\u003A\u0024register",
+            "name": "register",
+            "summary": "Whether\u0020this\u0020taxonomy\u0020should\u0020be\u0020registered\u0020with\u0020WordPress.",
+            "url": "classes/Sloth-Model-Taxonomy.html#property_register"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF",
             "name": "HasACF",
-            "summary": "",
+            "summary": "Provides\u0020Advanced\u0020Custom\u0020Fields\u0020\u0028ACF\u0029\u0020integration\u0020for\u0020models.",
             "url": "classes/Sloth-Model-Traits-HasACF.html"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AbootHasACF\u0028\u0029",
             "name": "bootHasACF",
-            "summary": "",
+            "summary": "Boot\u0020the\u0020HasACF\u0020trait.",
             "url": "classes/Sloth-Model-Traits-HasACF.html#method_bootHasACF"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetFields\u0028\u0029",
             "name": "getFields",
-            "summary": "",
+            "summary": "Get\u0020ACF\u0020fields\u0020for\u0020a\u0020model,\u0020with\u0020caching.",
             "url": "classes/Sloth-Model-Traits-HasACF.html#method_getFields"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetAcfKey\u0028\u0029",
             "name": "getAcfKey",
-            "summary": "",
+            "summary": "Get\u0020the\u0020ACF\u0020field\u0020group\u0020key\u0020for\u0020this\u0020model.",
             "url": "classes/Sloth-Model-Traits-HasACF.html#method_getAcfKey"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003AgetAcfAttribute\u0028\u0029",
             "name": "getAcfAttribute",
-            "summary": "",
+            "summary": "Get\u0020an\u0020ACF\u0020proxy\u0020for\u0020accessing\u0020fields.",
             "url": "classes/Sloth-Model-Traits-HasACF.html#method_getAcfAttribute"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasACF\u003A\u003A\u0024acfFieldCache",
             "name": "acfFieldCache",
-            "summary": "",
+            "summary": "Cache\u0020of\u0020ACF\u0020fields\u0020per\u0020object\u0020key.",
             "url": "classes/Sloth-Model-Traits-HasACF.html#property_acfFieldCache"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits\\HasAliases",
@@ -2021,6 +2841,26 @@ Search.appendIndex(
             "summary": "Accessors\u0020to\u0020append\u0020to\u0020array\/JSON\u0020representation.",
             "url": "classes/Sloth-Model-User.html#property_appends"
         },                {
+            "fqsen": "\\Sloth\\Module\\Factory\\ModuleFactory",
+            "name": "ModuleFactory",
+            "summary": "Factory\u0020for\u0020instantiating\u0020theme\u0020modules.",
+            "url": "classes/Sloth-Module-Factory-ModuleFactory.html"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Factory\\ModuleFactory\u003A\u003Amake\u0028\u0029",
+            "name": "make",
+            "summary": "Instantiate\u0020a\u0020module\u0020by\u0020name,\u0020set\u0020data,\u0020and\u0020return\u0020it\u0020ready\u0020to\u0020render.",
+            "url": "classes/Sloth-Module-Factory-ModuleFactory.html#method_make"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Factory\\ModuleFactory\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Instantiate,\u0020configure,\u0020and\u0020immediately\u0020render\u0020a\u0020module.",
+            "url": "classes/Sloth-Module-Factory-ModuleFactory.html#method_render"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Factory\\ModuleFactory\u003A\u003AresolveClass\u0028\u0029",
+            "name": "resolveClass",
+            "summary": "Resolve\u0020a\u0020module\u0020name\u0020to\u0020a\u0020fully\u002Dqualified\u0020class\u0020name.",
+            "url": "classes/Sloth-Module-Factory-ModuleFactory.html#method_resolveClass"
+        },                {
             "fqsen": "\\Sloth\\Module\\LayotterElement",
             "name": "LayotterElement",
             "summary": "Layotter\u0020element\u0020wrapper\u0020for\u0020modules.",
@@ -2060,6 +2900,41 @@ Search.appendIndex(
             "name": "module",
             "summary": "Module\u0020class\u0020name.",
             "url": "classes/Sloth-Module-LayotterElement.html#property_module"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder",
+            "name": "ModuleManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020module\u0020discovery\u0020and\u0020Layotter\u0020registration.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003AextraLines\u0028\u0029",
+            "name": "extraLines",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_extraLines"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Abindings\u0028\u0029",
+            "name": "bindings",
+            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_bindings"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003AregisterJsonEndpoints\u0028\u0029",
+            "name": "registerJsonEndpoints",
+            "summary": "Register\u0020JSON\/AJAX\u0020endpoints\u0020for\u0020modules\u0020that\u0020have\u0020\u0024json\u0020enabled.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_registerJsonEndpoints"
         },                {
             "fqsen": "\\Sloth\\Module\\Module",
             "name": "Module",
@@ -2213,8 +3088,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Module\\ModuleServiceProvider\u003A\u003Aregister\u0028\u0029",
             "name": "register",
-            "summary": "Register\u0020the\u0020Module\u0020service\u0020provider.",
+            "summary": "Register\u0020module\u0020services.",
             "url": "classes/Sloth-Module-ModuleServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Module\\ModuleServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020module\u0020hooks.",
+            "url": "classes/Sloth-Module-ModuleServiceProvider.html#method_getHooks"
         },                {
             "fqsen": "\\Sloth\\Pagination\\PaginationServiceProvider",
             "name": "PaginationServiceProvider",
@@ -2246,251 +3126,6 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020URL\u0020for\u0020a\u0020given\u0020page\u0020number.",
             "url": "classes/Sloth-Pagination-Paginator.html#method_url"
         },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin",
-            "name": "Plugin",
-            "summary": "Main\u0020Sloth\u0020Plugin\u0020class.",
-            "url": "classes/Sloth-Plugin-Plugin.html"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Plugin\u0020constructor.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method___construct"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AsetDefaultConfig\u0028\u0029",
-            "name": "setDefaultConfig",
-            "summary": "Set\u0020default\u0020configuration.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_setDefaultConfig"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadControllers\u0028\u0029",
-            "name": "loadControllers",
-            "summary": "Load\u0020all\u0020controllers.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadControllers"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadClassFromFile\u0028\u0029",
-            "name": "loadClassFromFile",
-            "summary": "Load\u0020a\u0020class\u0020from\u0020a\u0020file.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadClassFromFile"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadModels\u0028\u0029",
-            "name": "loadModels",
-            "summary": "Load\u0020all\u0020models.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadModels"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadTaxonomies\u0028\u0029",
-            "name": "loadTaxonomies",
-            "summary": "Load\u0020all\u0020taxonomies.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadTaxonomies"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadApiControllers\u0028\u0029",
-            "name": "loadApiControllers",
-            "summary": "Load\u0020all\u0020API\u0020controllers.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadApiControllers"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadModules\u0028\u0029",
-            "name": "loadModules",
-            "summary": "Load\u0020all\u0020modules.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadModules"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AaddFilters\u0028\u0029",
-            "name": "addFilters",
-            "summary": "Add\u0020WordPress\u0020filters\u0020and\u0020actions.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_addFilters"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AobfuscateWP\u0028\u0029",
-            "name": "obfuscateWP",
-            "summary": "Remove\u0020unnecessary\u0020WordPress\u0020references\u0020from\u0020wp_head.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_obfuscateWP"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AmakeLinksRelative\u0028\u0029",
-            "name": "makeLinksRelative",
-            "summary": "Make\u0020all\u0020links\u0020root\u002Drelative.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_makeLinksRelative"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AmakeUploadsRelative\u0028\u0029",
-            "name": "makeUploadsRelative",
-            "summary": "Make\u0020all\u0020uploads\u0020URLs\u0020root\u002Drelative.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_makeUploadsRelative"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetRelativePermalink\u0028\u0029",
-            "name": "getRelativePermalink",
-            "summary": "Get\u0020a\u0020relative\u0020permalink.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getRelativePermalink"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AreplaceHomeUrl\u0028\u0029",
-            "name": "replaceHomeUrl",
-            "summary": "Replace\u0020home\u0020URL\u0020in\u0020content.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_replaceHomeUrl"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetRelativeHrefs\u0028\u0029",
-            "name": "getRelativeHrefs",
-            "summary": "Make\u0020hrefs\u0020in\u0020content\u0020relative.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getRelativeHrefs"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetRelativeSrcs\u0028\u0029",
-            "name": "getRelativeSrcs",
-            "summary": "Make\u0020srcs\u0020in\u0020content\u0020relative.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getRelativeSrcs"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AhideUpdates\u0028\u0029",
-            "name": "hideUpdates",
-            "summary": "Hide\u0020WordPress\u0020update\u0020notifications.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_hideUpdates"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AfixNetworkAdminUrl\u0028\u0029",
-            "name": "fixNetworkAdminUrl",
-            "summary": "Fix\u0020network\u0020admin\u0020URL.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_fixNetworkAdminUrl"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AforceSsl\u0028\u0029",
-            "name": "forceSsl",
-            "summary": "Force\u0020SSL\u0020redirect.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_forceSsl"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetContext\u0028\u0029",
-            "name": "getContext",
-            "summary": "Get\u0020the\u0020template\u0020context.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getContext"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetTemplate\u0028\u0029",
-            "name": "getTemplate",
-            "summary": "Get\u0020and\u0020render\u0020the\u0020template.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getTemplate"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AregisterMenus\u0028\u0029",
-            "name": "registerMenus",
-            "summary": "Register\u0020menus.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_registerMenus"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AregisterImageSizes\u0028\u0029",
-            "name": "registerImageSizes",
-            "summary": "Register\u0020image\u0020sizes.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_registerImageSizes"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AautoloadPlugins\u0028\u0029",
-            "name": "autoloadPlugins",
-            "summary": "Autoload\u0020plugins.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_autoloadPlugins"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AfixPagination\u0028\u0029",
-            "name": "fixPagination",
-            "summary": "Fix\u0020pagination.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_fixPagination"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AinitModels\u0028\u0029",
-            "name": "initModels",
-            "summary": "Initialize\u0020models.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_initModels"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AinitTaxonomies\u0028\u0029",
-            "name": "initTaxonomies",
-            "summary": "Initialize\u0020taxonomies.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_initTaxonomies"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AloadAppIncludes\u0028\u0029",
-            "name": "loadAppIncludes",
-            "summary": "Load\u0020app\u0020includes.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_loadAppIncludes"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetModelClass\u0028\u0029",
-            "name": "getModelClass",
-            "summary": "Get\u0020model\u0020class\u0020name.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getModelClass"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetAllModels\u0028\u0029",
-            "name": "getAllModels",
-            "summary": "Get\u0020all\u0020models.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getAllModels"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetTaxonomyClass\u0028\u0029",
-            "name": "getTaxonomyClass",
-            "summary": "Get\u0020taxonomy\u0020class\u0020name.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getTaxonomyClass"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetAllTaxonomies\u0028\u0029",
-            "name": "getAllTaxonomies",
-            "summary": "Get\u0020all\u0020taxonomies.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getAllTaxonomies"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetCurrentTemplate\u0028\u0029",
-            "name": "getCurrentTemplate",
-            "summary": "Get\u0020current\u0020template.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getCurrentTemplate"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetCurrentLayout\u0028\u0029",
-            "name": "getCurrentLayout",
-            "summary": "Get\u0020current\u0020layout.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getCurrentLayout"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AtrackDataChange\u0028\u0029",
-            "name": "trackDataChange",
-            "summary": "Track\u0020data\u0020changes\u0020for\u0020development.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_trackDataChange"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AgetPostTypeClass\u0028\u0029",
-            "name": "getPostTypeClass",
-            "summary": "Get\u0020post\u0020type\u0020class.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_getPostTypeClass"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AisDevEnv\u0028\u0029",
-            "name": "isDevEnv",
-            "summary": "Check\u0020if\u0020in\u0020development\u0020environment.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_isDevEnv"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AcleanupAdminMenu\u0028\u0029",
-            "name": "cleanupAdminMenu",
-            "summary": "Clean\u0020up\u0020admin\u0020menu.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_cleanupAdminMenu"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AisRest\u0028\u0029",
-            "name": "isRest",
-            "summary": "Check\u0020if\u0020this\u0020is\u0020a\u0020REST\u0020API\u0020request.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_isRest"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003AregisterNavMenus\u0028\u0029",
-            "name": "registerNavMenus",
-            "summary": "Register\u0020navigation\u0020menus.",
-            "url": "classes/Sloth-Plugin-Plugin.html#method_registerNavMenus"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024current_theme_path",
-            "name": "current_theme_path",
-            "summary": "Current\u0020theme\u0020path.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_current_theme_path"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024container",
-            "name": "container",
-            "summary": "Application\u0020container.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_container"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024modules",
-            "name": "modules",
-            "summary": "Registered\u0020modules.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_modules"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024models",
-            "name": "models",
-            "summary": "Registered\u0020models.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_models"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024taxonomies",
-            "name": "taxonomies",
-            "summary": "Registered\u0020taxonomies.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_taxonomies"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024currentModel",
-            "name": "currentModel",
-            "summary": "Current\u0020model\u0020instance.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_currentModel"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024currentLayout",
-            "name": "currentLayout",
-            "summary": "Current\u0020layout.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_currentLayout"
-        },                {
-            "fqsen": "\\Sloth\\Plugin\\Plugin\u003A\u003A\u0024context",
-            "name": "context",
-            "summary": "Template\u0020context.",
-            "url": "classes/Sloth-Plugin-Plugin.html#property_context"
-        },                {
             "fqsen": "\\Sloth\\Request\\RequestServiceProvider",
             "name": "RequestServiceProvider",
             "summary": "Service\u0020provider\u0020for\u0020the\u0020Request\u0020component.",
@@ -2506,30 +3141,260 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020services\u0020provided\u0020by\u0020the\u0020provider.",
             "url": "classes/Sloth-Request-RequestServiceProvider.html#method_provides"
         },                {
-            "fqsen": "\\Sloth\\Singleton\\Singleton",
-            "name": "Singleton",
-            "summary": "Singleton\u0020class\u0020for\u0020ensuring\u0020only\u0020one\u0020instance\u0020exists.",
-            "url": "classes/Sloth-Singleton-Singleton.html"
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar",
+            "name": "AbstractRegistrar",
+            "summary": "Base\u0020class\u0020for\u0020manifest\u002Dbased\u0020WordPress\u0020type\u0020registration.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html"
         },                {
-            "fqsen": "\\Sloth\\Singleton\\Singleton\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Singleton\u0020constructor.",
-            "url": "classes/Sloth-Singleton-Singleton.html#method___construct"
+            "summary": "",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method___construct"
         },                {
-            "fqsen": "\\Sloth\\Singleton\\Singleton\u003A\u003AgetInstance\u0028\u0029",
-            "name": "getInstance",
-            "summary": "Get\u0020the\u0020singleton\u0020instance.",
-            "url": "classes/Sloth-Singleton-Singleton.html#method_getInstance"
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003Ainit\u0028\u0029",
+            "name": "init",
+            "summary": "Discover\u0020and\u0020register\u0020all\u0020types\u0020with\u0020WordPress.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_init"
         },                {
-            "fqsen": "\\Sloth\\Singleton\\Singleton\u003A\u003A__wakeup\u0028\u0029",
-            "name": "__wakeup",
-            "summary": "Prevent\u0020singleton\u0020instance\u0020from\u0020being\u0020unserialized.",
-            "url": "classes/Sloth-Singleton-Singleton.html#method___wakeup"
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003Arun\u0028\u0029",
+            "name": "run",
+            "summary": "Scan\u0020directories,\u0020build\u0020args,\u0020and\u0020write\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_run"
         },                {
-            "fqsen": "\\Sloth\\Singleton\\Singleton\u003A\u003A\u0024instances",
-            "name": "instances",
-            "summary": "Storage\u0020for\u0020singleton\u0020instances.",
-            "url": "classes/Sloth-Singleton-Singleton.html#property_instances"
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AgetSlug\u0028\u0029",
+            "name": "getSlug",
+            "summary": "Get\u0020the\u0020WordPress\u0020slug\u0020for\u0020an\u0020instance\u0020\u0028post\u0020type\u0020name\u0020or\u0020taxonomy\u0020name\u0029.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_getSlug"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AbuildArgs\u0028\u0029",
+            "name": "buildArgs",
+            "summary": "Build\u0020the\u0020registration\u0020args\u0020for\u0020a\u0020class.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_buildArgs"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AbuildNames\u0028\u0029",
+            "name": "buildNames",
+            "summary": "Build\u0020the\u0020names\u0020array\u0020for\u0020register_extended_\u002A\u0028\u0029.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_buildNames"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AtoManifestLine\u0028\u0029",
+            "name": "toManifestLine",
+            "summary": "Return\u0020the\u0020PHP\u0020line\u0020that\u0020registers\u0020the\u0020type\u0020with\u0020WordPress.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_toManifestLine"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AtoContainerLine\u0028\u0029",
+            "name": "toContainerLine",
+            "summary": "Return\u0020the\u0020PHP\u0020line\u0020that\u0020stores\u0020registered\u0020types\u0020in\u0020the\u0020container.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_toContainerLine"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AafterManifest\u0028\u0029",
+            "name": "afterManifest",
+            "summary": "Called\u0020on\u0020every\u0020request\u0020after\u0020the\u0020manifest\u0020is\u0020included.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_afterManifest"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003AwriteManifest\u0028\u0029",
+            "name": "writeManifest",
+            "summary": "Write\u0020the\u0020manifest\u0020to\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#method_writeManifest"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003A\u0024dir",
+            "name": "dir",
+            "summary": "Subdirectory\u0020to\u0020scan\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#property_dir"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003A\u0024subclassOf",
+            "name": "subclassOf",
+            "summary": "Only\u0020classes\u0020extending\u0020this\u0020are\u0020registered.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#property_subclassOf"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003A\u0024manifestName",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#property_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Support\\AbstractRegistrar\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Support-AbstractRegistrar.html#property_app"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder",
+            "name": "AbstractManifestBuilder",
+            "summary": "Base\u0020class\u0020for\u0020manifest\u002Dbased\u0020file\u0020loading.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Ainit\u0028\u0029",
+            "name": "init",
+            "summary": "Run\u0020discovery\u0020and\u0020load\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_init"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Abuild\u0028\u0029",
+            "name": "build",
+            "summary": "Run\u0020discovery\u0020and\u0020write\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Adirectories\u0028\u0029",
+            "name": "directories",
+            "summary": "Directories\u0020to\u0020scan\u0020\u2014\u0020always\u0020app\/\u007Bdirectory\u007D\/\u0020and\u0020theme\/\u007Bdirectory\u007D\/.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003AextraLines\u0028\u0029",
+            "name": "extraLines",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Abindings\u0028\u0029",
+            "name": "bindings",
+            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_bindings"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_app"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ClassMapFinder",
+            "name": "ClassMapFinder",
+            "summary": "Discovers\u0020PHP\u0020classes\u0020via\u0020tokenization.",
+            "url": "classes/Sloth-Support-Manifest-ClassMapFinder.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ClassMapFinder\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-ClassMapFinder.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ClassMapFinder\u003A\u003Afind\u0028\u0029",
+            "name": "find",
+            "summary": "Scan\u0020the\u0020given\u0020directories\u0020and\u0020return\u0020discovered\u0020files.",
+            "url": "classes/Sloth-Support-Manifest-ClassMapFinder.html#method_find"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ClassMapFinder\u003A\u003A\u0024subclassOf",
+            "name": "subclassOf",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-ClassMapFinder.html#property_subclassOf"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\FileFinder",
+            "name": "FileFinder",
+            "summary": "Discovers\u0020plain\u0020PHP\u0020files\u0020via\u0020filesystem\u0020scan.",
+            "url": "classes/Sloth-Support-Manifest-FileFinder.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\FileFinder\u003A\u003Afind\u0028\u0029",
+            "name": "find",
+            "summary": "Scan\u0020the\u0020given\u0020directories\u0020and\u0020return\u0020discovered\u0020files.",
+            "url": "classes/Sloth-Support-Manifest-FileFinder.html#method_find"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\FinderInterface",
+            "name": "FinderInterface",
+            "summary": "Discovers\u0020files\u0020to\u0020be\u0020included\u0020in\u0020a\u0020manifest.",
+            "url": "classes/Sloth-Support-Manifest-FinderInterface.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\FinderInterface\u003A\u003Afind\u0028\u0029",
+            "name": "find",
+            "summary": "Scan\u0020the\u0020given\u0020directories\u0020and\u0020return\u0020discovered\u0020files.",
+            "url": "classes/Sloth-Support-Manifest-FinderInterface.html#method_find"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ManifestWriter",
+            "name": "ManifestWriter",
+            "summary": "Writes\u0020a\u0020manifest\u0020PHP\u0020file\u0020from\u0020a\u0020file\u0020map.",
+            "url": "classes/Sloth-Support-Manifest-ManifestWriter.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ManifestWriter\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-ManifestWriter.html#method_write"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider",
+            "name": "TemplateServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020template\u0020rendering\u0020and\u0020context\u0020management.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Set\u0020the\u0020current\u0020theme\u0020path.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020template\u002Drelated\u0020hooks.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Register\u0020filters.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_getFilters"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AfixPagination\u0028\u0029",
+            "name": "fixPagination",
+            "summary": "Fix\u0020pagination\u0020for\u0020custom\u0020queries.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_fixPagination"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AforceSsl\u0028\u0029",
+            "name": "forceSsl",
+            "summary": "Force\u0020HTTPS\u0020redirect.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_forceSsl"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AgetTemplate\u0028\u0029",
+            "name": "getTemplate",
+            "summary": "Get\u0020and\u0020render\u0020the\u0020template.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_getTemplate"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AresolveTemplate\u0028\u0029",
+            "name": "resolveTemplate",
+            "summary": "Resolve\u0020the\u0020template\u0020using\u0020Brain\u0020Hierarchy.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_resolveTemplate"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003AgetCurrentLayout\u0028\u0029",
+            "name": "getCurrentLayout",
+            "summary": "Get\u0020the\u0020current\u0020layout\u0020name.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#method_getCurrentLayout"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003A\u0024currentThemePath",
+            "name": "currentThemePath",
+            "summary": "Current\u0020theme\u0020path.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#property_currentThemePath"
+        },                {
+            "fqsen": "\\Sloth\\Template\\TemplateServiceProvider\u003A\u003A\u0024currentLayout",
+            "name": "currentLayout",
+            "summary": "Current\u0020layout.",
+            "url": "classes/Sloth-Template-TemplateServiceProvider.html#property_currentLayout"
+        },                {
+            "fqsen": "\\Sloth\\Theme\\ThemeServiceProvider",
+            "name": "ThemeServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020theme\u0020bootstrapping.",
+            "url": "classes/Sloth-Theme-ThemeServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Theme\\ThemeServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020theme\u0020configuration.",
+            "url": "classes/Sloth-Theme-ThemeServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Theme\\ThemeServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Set\u0020up\u0020theme\u0020view\u0020paths\u0020and\u0020Twig\u0020loader.",
+            "url": "classes/Sloth-Theme-ThemeServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Theme\\ThemeServiceProvider\u003A\u003A\u0024themePath",
+            "name": "themePath",
+            "summary": "The\u0020current\u0020theme\u0020path.",
+            "url": "classes/Sloth-Theme-ThemeServiceProvider.html#property_themePath"
         },                {
             "fqsen": "\\Sloth\\Translation\\TranslationServiceProvider",
             "name": "TranslationServiceProvider",
@@ -2688,12 +3553,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003Aregister\u0028\u0029",
             "name": "register",
-            "summary": "Register\u0020the\u0020View\u0020service\u0020provider.",
+            "summary": "Register\u0020View\u0020services.",
             "url": "classes/Sloth-View-ViewServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020View\u0020services.",
+            "url": "classes/Sloth-View-ViewServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AregisterTwigLoader\u0028\u0029",
+            "name": "registerTwigLoader",
+            "summary": "Register\u0020the\u0020Twig\u0020filesystem\u0020loader.",
+            "url": "classes/Sloth-View-ViewServiceProvider.html#method_registerTwigLoader"
+        },                {
+            "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AregisterTwigEnvironment\u0028\u0029",
+            "name": "registerTwigEnvironment",
+            "summary": "Register\u0020the\u0020Twig\u0020environment.",
+            "url": "classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment"
         },                {
             "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AregisterEngineResolver\u0028\u0029",
             "name": "registerEngineResolver",
-            "summary": "Register\u0020the\u0020EngineResolver\u0020instance\u0020to\u0020the\u0020application.",
+            "summary": "Register\u0020the\u0020EngineResolver.",
             "url": "classes/Sloth-View-ViewServiceProvider.html#method_registerEngineResolver"
         },                {
             "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AcreateEngineResolver\u0028\u0029",
@@ -2701,24 +3581,14 @@ Search.appendIndex(
             "summary": "Create\u0020and\u0020configure\u0020the\u0020EngineResolver.",
             "url": "classes/Sloth-View-ViewServiceProvider.html#method_createEngineResolver"
         },                {
-            "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AregisterTwigEngine\u0028\u0029",
-            "name": "registerTwigEngine",
-            "summary": "Register\u0020the\u0020Twig\u0020engine\u0020to\u0020the\u0020EngineResolver.",
-            "url": "classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEngine"
-        },                {
-            "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AregisterTwigEnvironment\u0028\u0029",
-            "name": "registerTwigEnvironment",
-            "summary": "Register\u0020Twig\u0020environment\u0020and\u0020its\u0020loader.",
-            "url": "classes/Sloth-View-ViewServiceProvider.html#method_registerTwigEnvironment"
-        },                {
             "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AregisterViewFactory\u0028\u0029",
             "name": "registerViewFactory",
-            "summary": "Register\u0020the\u0020view\u0020factory.",
+            "summary": "Register\u0020the\u0020ViewFinder\u0020and\u0020View\u0020Factory.",
             "url": "classes/Sloth-View-ViewServiceProvider.html#method_registerViewFactory"
         },                {
             "fqsen": "\\Sloth\\View\\ViewServiceProvider\u003A\u003AcreateViewFactory\u0028\u0029",
             "name": "createViewFactory",
-            "summary": "Create\u0020and\u0020configure\u0020the\u0020view\u0020factory.",
+            "summary": "Create\u0020and\u0020configure\u0020the\u0020View\u0020Factory.",
             "url": "classes/Sloth-View-ViewServiceProvider.html#method_createViewFactory"
         },                {
             "fqsen": "\\",
@@ -2746,10 +3616,35 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-api.html"
         },                {
+            "fqsen": "\\Sloth\\Api\\Resolvers",
+            "name": "Resolvers",
+            "summary": "",
+            "url": "namespaces/sloth-api-resolvers.html"
+        },                {
+            "fqsen": "\\Sloth\\Cache",
+            "name": "Cache",
+            "summary": "",
+            "url": "namespaces/sloth-cache.html"
+        },                {
+            "fqsen": "\\Sloth\\Cache\\Store",
+            "name": "Store",
+            "summary": "",
+            "url": "namespaces/sloth-cache-store.html"
+        },                {
+            "fqsen": "\\Sloth\\Compatibility",
+            "name": "Compatibility",
+            "summary": "",
+            "url": "namespaces/sloth-compatibility.html"
+        },                {
             "fqsen": "\\Sloth\\Configure",
             "name": "Configure",
             "summary": "",
             "url": "namespaces/sloth-configure.html"
+        },                {
+            "fqsen": "\\Sloth\\Context",
+            "name": "Context",
+            "summary": "",
+            "url": "namespaces/sloth-context.html"
         },                {
             "fqsen": "\\Sloth\\Controller",
             "name": "Controller",
@@ -2761,10 +3656,25 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-core.html"
         },                {
-            "fqsen": "\\Sloth\\Debugger",
-            "name": "Debugger",
+            "fqsen": "\\Sloth\\Core\\Manifest",
+            "name": "Manifest",
             "summary": "",
-            "url": "namespaces/sloth-debugger.html"
+            "url": "namespaces/sloth-core-manifest.html"
+        },                {
+            "fqsen": "\\Sloth\\Database",
+            "name": "Database",
+            "summary": "",
+            "url": "namespaces/sloth-database.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug",
+            "name": "Debug",
+            "summary": "",
+            "url": "namespaces/sloth-debug.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Panels",
+            "name": "Panels",
+            "summary": "",
+            "url": "namespaces/sloth-debug-panels.html"
         },                {
             "fqsen": "\\Sloth\\Deployment",
             "name": "Deployment",
@@ -2780,6 +3690,11 @@ Search.appendIndex(
             "name": "Field",
             "summary": "",
             "url": "namespaces/sloth-field.html"
+        },                {
+            "fqsen": "\\Sloth\\Filesystem",
+            "name": "Filesystem",
+            "summary": "",
+            "url": "namespaces/sloth-filesystem.html"
         },                {
             "fqsen": "\\Sloth\\Finder",
             "name": "Finder",
@@ -2811,40 +3726,80 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-model-casts.html"
         },                {
+            "fqsen": "\\Sloth\\Model\\Concerns",
+            "name": "Concerns",
+            "summary": "",
+            "url": "namespaces/sloth-model-concerns.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest",
+            "name": "Manifest",
+            "summary": "",
+            "url": "namespaces/sloth-model-manifest.html"
+        },                {
             "fqsen": "\\Sloth\\Model",
             "name": "Model",
             "summary": "",
             "url": "namespaces/sloth-model.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Proxy",
+            "name": "Proxy",
+            "summary": "",
+            "url": "namespaces/sloth-model-proxy.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrars",
+            "name": "Registrars",
+            "summary": "",
+            "url": "namespaces/sloth-model-registrars.html"
         },                {
             "fqsen": "\\Sloth\\Model\\Traits",
             "name": "Traits",
             "summary": "",
             "url": "namespaces/sloth-model-traits.html"
         },                {
+            "fqsen": "\\Sloth\\Module\\Factory",
+            "name": "Factory",
+            "summary": "",
+            "url": "namespaces/sloth-module-factory.html"
+        },                {
             "fqsen": "\\Sloth\\Module",
             "name": "Module",
             "summary": "",
             "url": "namespaces/sloth-module.html"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Manifest",
+            "name": "Manifest",
+            "summary": "",
+            "url": "namespaces/sloth-module-manifest.html"
         },                {
             "fqsen": "\\Sloth\\Pagination",
             "name": "Pagination",
             "summary": "",
             "url": "namespaces/sloth-pagination.html"
         },                {
-            "fqsen": "\\Sloth\\Plugin",
-            "name": "Plugin",
-            "summary": "",
-            "url": "namespaces/sloth-plugin.html"
-        },                {
             "fqsen": "\\Sloth\\Request",
             "name": "Request",
             "summary": "",
             "url": "namespaces/sloth-request.html"
         },                {
-            "fqsen": "\\Sloth\\Singleton",
-            "name": "Singleton",
+            "fqsen": "\\Sloth\\Support",
+            "name": "Support",
             "summary": "",
-            "url": "namespaces/sloth-singleton.html"
+            "url": "namespaces/sloth-support.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest",
+            "name": "Manifest",
+            "summary": "",
+            "url": "namespaces/sloth-support-manifest.html"
+        },                {
+            "fqsen": "\\Sloth\\Template",
+            "name": "Template",
+            "summary": "",
+            "url": "namespaces/sloth-template.html"
+        },                {
+            "fqsen": "\\Sloth\\Theme",
+            "name": "Theme",
+            "summary": "",
+            "url": "namespaces/sloth-theme.html"
         },                {
             "fqsen": "\\Sloth\\Translation",
             "name": "Translation",

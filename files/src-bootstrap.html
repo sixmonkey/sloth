@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -216,20 +240,19 @@
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="namespaces/default.html#constant_WP_CONTENT_DIR">WP_CONTENT_DIR</a>
     <span>
-        &nbsp;= \DIR_WWW                            </span>
+        &nbsp;= $_webroot                            </span>
 </dt>
-<dd>Custom Media, Plugins and Theme paths</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="namespaces/default.html#constant_WP_ENV">WP_ENV</a>
+    <a class="" href="namespaces/default.html#constant_WP_CONTENT_URL">WP_CONTENT_URL</a>
     <span>
-        &nbsp;= &#039;production&#039;                            </span>
+        &nbsp;= \env(&#039;WP_CONTENT_URL&#039;, \WP_HOME)                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="namespaces/default.html#constant_WP_PLUGIN_DIR">WP_PLUGIN_DIR</a>
     <span>
-        &nbsp;= \DIR_WWW . &#039;extensions&#039; . \DS . &#039;plugins&#039;                            </span>
+        &nbsp;= $_webroot . &#039;/extensions/plugins&#039;                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
@@ -241,7 +264,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="namespaces/default.html#constant_WPMU_PLUGIN_DIR">WPMU_PLUGIN_DIR</a>
     <span>
-        &nbsp;= \DIR_WWW . &#039;extensions&#039; . \DS . &#039;components&#039;                            </span>
+        &nbsp;= $_webroot . &#039;/extensions/components&#039;                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
@@ -274,53 +297,37 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/bootstrap.php"><a href="files/src-bootstrap.html"><abbr title="src/bootstrap.php">bootstrap.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Custom Media, Plugins and Theme paths</p>
-
+    
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">WP_CONTENT_DIR</span>
-    = <span class="phpdocumentor-signature__default-value">\DIR_WWW</span>
+    = <span class="phpdocumentor-signature__default-value">$_webroot</span>
 </code>
 
 
     
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="namespaces/default.html#constant_WP_CONTENT_DIR#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="https://gist.github.com/tzkmx/4c832432bc63fd67a3a16f940a184145">https://gist.github.com/tzkmx/4c832432bc63fd67a3a16f940a184145</a></span>
-                                        
-                                             
-                                    </dd>
-                                            </dl>
 
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_WP_ENV">
-        WP_ENV
-        <a href="namespaces/default.html#constant_WP_ENV" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_WP_CONTENT_URL">
+        WP_CONTENT_URL
+        <a href="namespaces/default.html#constant_WP_CONTENT_URL" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/bootstrap.php"><a href="files/src-bootstrap.html"><abbr title="src/bootstrap.php">bootstrap.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">135</span>
 
     </aside>
 
@@ -329,8 +336,8 @@
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">WP_ENV</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;production&#039;</span>
+    <span class="phpdocumentor-signature__name">WP_CONTENT_URL</span>
+    = <span class="phpdocumentor-signature__default-value">\env(&#039;WP_CONTENT_URL&#039;, \WP_HOME)</span>
 </code>
 
 
@@ -350,7 +357,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/bootstrap.php"><a href="files/src-bootstrap.html"><abbr title="src/bootstrap.php">bootstrap.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
@@ -360,7 +367,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">WP_PLUGIN_DIR</span>
-    = <span class="phpdocumentor-signature__default-value">\DIR_WWW . &#039;extensions&#039; . \DS . &#039;plugins&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">$_webroot . &#039;/extensions/plugins&#039;</span>
 </code>
 
 
@@ -380,7 +387,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/bootstrap.php"><a href="files/src-bootstrap.html"><abbr title="src/bootstrap.php">bootstrap.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">158</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 
     </aside>
 
@@ -410,7 +417,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/bootstrap.php"><a href="files/src-bootstrap.html"><abbr title="src/bootstrap.php">bootstrap.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">159</span>
+    <span class="phpdocumentor-element-found-in__line">138</span>
 
     </aside>
 
@@ -420,7 +427,7 @@
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">WPMU_PLUGIN_DIR</span>
-    = <span class="phpdocumentor-signature__default-value">\DIR_WWW . &#039;extensions&#039; . \DS . &#039;components&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">$_webroot . &#039;/extensions/components&#039;</span>
 </code>
 
 
@@ -440,7 +447,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/bootstrap.php"><a href="files/src-bootstrap.html"><abbr title="src/bootstrap.php">bootstrap.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">160</span>
+    <span class="phpdocumentor-element-found-in__line">139</span>
 
     </aside>
 
@@ -576,7 +583,7 @@
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="namespaces/default.html#constant_WP_CONTENT_DIR">WP_CONTENT_DIR</a></li>
-                                                    <li class=""><a href="namespaces/default.html#constant_WP_ENV">WP_ENV</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_WP_CONTENT_URL">WP_CONTENT_URL</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_WP_PLUGIN_DIR">WP_PLUGIN_DIR</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_WP_PLUGIN_URL">WP_PLUGIN_URL</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_WPMU_PLUGIN_DIR">WPMU_PLUGIN_DIR</a></li>

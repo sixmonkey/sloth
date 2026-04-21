@@ -73,7 +73,19 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-cache.html" class="">Cache</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-compatibility.html" class="">Compatibility</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-configure.html" class="">Configure</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-context.html" class="">Context</a>
                 
             </li>
                     <li>
@@ -85,7 +97,11 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-debugger.html" class="">Debugger</a>
+                <a href="namespaces/sloth-database.html" class="">Database</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-debug.html" class="">Debug</a>
                 
             </li>
                     <li>
@@ -98,6 +114,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-field.html" class="">Field</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-filesystem.html" class="">Filesystem</a>
                 
             </li>
                     <li>
@@ -129,15 +149,19 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-plugin.html" class="">Plugin</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-request.html" class="">Request</a>
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-singleton.html" class="">Singleton</a>
+                <a href="namespaces/sloth-support.html" class="">Support</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-template.html" class="">Template</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-theme.html" class="">Theme</a>
                 
             </li>
                     <li>
@@ -191,9 +215,6 @@
         <h2 class="phpdocumentor-content__title">
     Configure
 
-        <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Singleton-Singleton.html"><abbr title="\Sloth\Singleton\Singleton">Singleton</abbr></a>
-    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -213,15 +234,20 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Configure class for managing application configuration.</p>
+            <p class="phpdocumentor-summary">Configure — standalone key-value store with dot-notation support.</p>
 
 
-    <section class="phpdocumentor-description"><p>This is a backwards-compatible wrapper around Laravel's illuminate/config.
-Existing themes calling Configure::read() and Configure::write() continue to work unchanged.</p>
+    <section class="phpdocumentor-description"><p>This is a backwards-compatible store for theme configuration.
+It intentionally does NOT proxy to Laravel's config() helper —
+that would create circular dependencies during boot.</p>
+<h2>Migration path</h2>
+<p>Theme code using Configure::write/read will continue to work.
+Framework internals have been migrated to config() directly.
+Use folivoro/shift to migrate theme code — see MIGRATE.md.</p>
 </section>
 
 
@@ -238,15 +264,6 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">@extends</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>Singleton</p>
-</section>
-
                                     </dd>
                                             </dl>
 
@@ -266,6 +283,20 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
 
 
 
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/Sloth-Configure-Configure.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Configure-Configure.html#property_values">$values</a>
+    <span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
+</dt>
+<dd>All stored configuration values.</dd>
+
+    </dl>
 
 <h4 id="toc-methods">
     Methods
@@ -274,81 +305,60 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a>
+    <a class="-deprecated" href="classes/Sloth-Configure-Configure.html#method_boot">boot()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Prevent singleton instance from being unserialized.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Configure-Configure.html#method_boot">boot()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Initialize the config container and facade.</dd>
+<dd>Copy all $_ENV values into Configure under the &#039;ENV.&#039; prefix.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_check">check()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Check if a variable is set in Configure.</dd>
+<dd>Check if a key is set (and not null) in the store.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_consume">consume()</a>
     <span>
-                                &nbsp;: mixed|null    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Read and delete a variable from Configure.</dd>
+<dd>Read and delete a value from the store.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_debug">debug()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Debug all set variables.</dd>
+<dd>Dump all stored values.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_delete">delete()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Delete a variable from Configure.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a>
-    <span>
-                                &nbsp;: static    </span>
-</dt>
-<dd>Get the singleton instance.</dd>
+<dd>Delete a key from the store.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_read">read()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Read a value from the configuration.</dd>
+<dd>Read a value from the store.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_reset">reset()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Reset the configuration to a fresh state.</dd>
+<dd>Reset all values — used in tests.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Configure-Configure.html#method_write">write()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Write a value to the configuration.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Singleton constructor.</dd>
+<dd>Write one or more values to the store.</dd>
 
     </dl>
 
@@ -357,6 +367,51 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
         
 
         
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Sloth-Configure-Configure.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_values">
+        $values
+        <a href="classes/Sloth-Configure-Configure.html#property_values" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">31</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">All stored configuration values.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$values</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
@@ -368,67 +423,7 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
         class="phpdocumentor-element
             -method
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___wakeup">
-        __wakeup()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">57</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Prevent singleton instance from being unserialized.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method___wakeup#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\RuntimeException">RuntimeException</abbr></span>
-                                                            
-                                                 <section class="phpdocumentor-description"><p>Always throws exception</p>
-</section>
-
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
+            -deprecated                        -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_boot">
         boot()
@@ -438,24 +433,27 @@ Existing themes calling Configure::read() and Configure::write() continue to wor
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initialize the config container and facade.</p>
+        <p class="phpdocumentor-summary">Copy all $_ENV values into Configure under the &#039;ENV.&#039; prefix.</p>
 
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
-        <section class="phpdocumentor-description"><p>This must be called early in bootstrap.php, before any config files
-that use Configure::read(). Sets up the Laravel config repository and
-facade system so config() helper works immediately.</p>
-</section>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>ENV values are now available via env() directly.</p>
 
+            </article>
+        </div>
+    
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -492,11 +490,11 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">103</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Check if a variable is set in Configure.</p>
+        <p class="phpdocumentor-summary">Check if a key is set (and not null) in the store.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -513,9 +511,7 @@ facade system so config() helper works immediately.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Variable name to check for (dot notation supported)</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -541,10 +537,6 @@ facade system so config() helper works immediately.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>True if variable is set</p>
-</section>
-
             </section>
 
 </article>
@@ -562,15 +554,15 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Read and delete a variable from Configure.</p>
+        <p class="phpdocumentor-summary">Read and delete a value from the store.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">consume</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed|null</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">consume</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -583,9 +575,7 @@ facade system so config() helper works immediately.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The key to read and remove (dot notation supported)</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -608,11 +598,7 @@ facade system so config() helper works immediately.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed|null</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -628,11 +614,11 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">158</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Debug all set variables.</p>
+        <p class="phpdocumentor-summary">Dump all stored values.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -678,11 +664,11 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">132</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Delete a variable from Configure.</p>
+        <p class="phpdocumentor-summary">Delete a key from the store.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -699,9 +685,7 @@ facade system so config() helper works immediately.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The var to be deleted (dot notation supported)</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -732,60 +716,6 @@ facade system so config() helper works immediately.</p>
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getInstance">
-        getInstance()
-        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">38</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the singleton instance.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getInstance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method_getInstance#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">static</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
     <h4 class="phpdocumentor-element__name" id="method_read">
         read()
         <a href="classes/Sloth-Configure-Configure.html#method_read" class="headerlink"><i class="fas fa-link"></i></a>
@@ -794,20 +724,22 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Read a value from the configuration.</p>
+        <p class="phpdocumentor-summary">Read a value from the store.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">read</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">read</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$default</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Returns all values when called without arguments.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -815,9 +747,14 @@ facade system so config() helper works immediately.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Variable to obtain. Use '.' to access array elements.</p>
-</section>
-
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$default</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
             </dd>
             </dl>
 
@@ -840,15 +777,7 @@ facade system so config() helper works immediately.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Value stored in configure, or null if not found.</p>
-</section>
-
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -864,11 +793,11 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">144</span>
+    <span class="phpdocumentor-element-found-in__line">148</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Reset the configuration to a fresh state.</p>
+        <p class="phpdocumentor-summary">Reset all values — used in tests.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -877,9 +806,7 @@ facade system so config() helper works immediately.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Clears all configuration values. Used primarily for testing.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -916,11 +843,11 @@ facade system so config() helper works immediately.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Configure/Configure.php"><a href="files/src-configure-configure.html"><abbr title="src/Configure/Configure.php">Configure.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Write a value to the configuration.</p>
+        <p class="phpdocumentor-summary">Write one or more values to the store.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -929,7 +856,12 @@ facade system so config() helper works immediately.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Supports dot-notation keys and array of key-value pairs:</p>
+<pre class="prettyprint"><code class="language-php">Configure::write('theme.foo', 'bar');
+Configure::write(['theme.foo' =&gt; 'bar', 'theme.baz' =&gt; 'qux']);
+</code></pre>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -937,18 +869,14 @@ facade system so config() helper works immediately.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The key to write (dot notation supported) or array of keys/values</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$value</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Value to set (ignored if $config is array)</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -974,64 +902,8 @@ facade system so config() helper works immediately.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>True if write was successful</p>
-</section>
-
             </section>
 
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___construct">
-        __construct()
-        <a href="classes/Sloth-Singleton-Singleton.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Singleton/Singleton.php"><a href="files/src-singleton-singleton.html"><abbr title="src/Singleton/Singleton.php">Singleton.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">31</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Singleton constructor.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Protected so it can't be called outside of the class.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Singleton-Singleton.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
 </article>
             </section>
 
@@ -1140,25 +1012,29 @@ facade system so config() helper works immediately.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                <li><a href="classes/Sloth-Configure-Configure.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Sloth-Configure-Configure.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Sloth-Configure-Configure.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Sloth-Configure-Configure.html#property_values">$values</a></li>
+                                            </ul>
+                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___wakeup">__wakeup()</a></li>
-                                            <li class=""><a href="classes/Sloth-Configure-Configure.html#method_boot">boot()</a></li>
+                                            <li class="-deprecated"><a href="classes/Sloth-Configure-Configure.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_check">check()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_consume">consume()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_debug">debug()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_delete">delete()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method_getInstance">getInstance()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_read">read()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_reset">reset()</a></li>
                                             <li class=""><a href="classes/Sloth-Configure-Configure.html#method_write">write()</a></li>
-                                            <li class=""><a href="classes/Sloth-Singleton-Singleton.html#method___construct">__construct()</a></li>
                                     </ul>
             </li>
                     </ul>
