@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Console\Commands;
 
-use Illuminate\Console\Command;
+use Sloth\Console\Command;
 
 /**
  * Clears all Sloth manifest files from the cache directory.
