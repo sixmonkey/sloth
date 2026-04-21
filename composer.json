@@ -13,6 +13,7 @@
     "filp/whoops": "^2.18",
     "illuminate/cache": "^12.0",
     "illuminate/config": "^12.0",
+    "illuminate/console": "^12.0",
     "illuminate/container": "^12.0",
     "illuminate/database": "^12.0",
     "illuminate/events": "^12.0",
