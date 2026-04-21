@@ -2,6 +2,7 @@
 
 namespace Sloth\Model;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Core\ServiceProvider;
 use Sloth\Model\Manifest\ModelManifestBuilder;
 use Sloth\Model\Manifest\TaxonomyManifestBuilder;
@@ -57,7 +58,15 @@ class ModelServiceProvider extends ServiceProvider
         }
     }
 
-    protected function hideAdminColumns(array $columns)
+    /**
+     * Fix for hiding columns in wp-admin, which is not supported by johnbillion/extended-cpts
+     * @see https://github.com/johnbillion/extended-cpts/
+     *
+     * @param array $columns
+     * @return array
+     * @throws BindingResolutionException
+     */
+    protected function hideAdminColumns(array $columns): array
     {
         $postType = get_current_screen()?->post_type;
         $modelClass = app('sloth.models')[$postType] ?? null;
