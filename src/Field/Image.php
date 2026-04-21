@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Field;
 
-use Sloth\Facades\Configure;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
 
@@ -157,7 +156,7 @@ class Image implements \Stringable
             $this->metaData = is_string($metadata) ? @unserialize($metadata) : null;
 
             $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
-            $path = realpath(WP_CONTENT_DIR . DS . 'uploads' . DS . ($this->post->meta->_wp_attached_file ?? ''));
+            $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
             if ($this->file !== null) {
@@ -187,7 +186,7 @@ class Image implements \Stringable
             return $this->sizes[$size];
         }
 
-        $imageSizes = Configure::read('theme.image-sizes');
+        $imageSizes = config('theme.image-sizes');
 
         if (isset($imageSizes[$size])) {
             return $this->resize($imageSizes[$size]);
@@ -411,7 +410,7 @@ class Image implements \Stringable
      */
     public function sizes(): array
     {
-        $imageSizes = Configure::read('theme.image-sizes');
+        $imageSizes = config('theme.image-sizes');
         $sizes = [];
 
         if (is_array($imageSizes)) {

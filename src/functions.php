@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Config\Repository;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\Facade;
 use Tracy\Debugger;
 
@@ -11,7 +13,6 @@ if (!function_exists('debug')) {
      * Dumps variables to Tracy bar for debugging.
      *
      * @param mixed ...$vars Variables to dump
-     *
      * @return mixed Returns the first variable unchanged
      */
     function debug(mixed ...$vars): mixed
@@ -33,6 +34,7 @@ if (!function_exists('config')) {
      * @param array|string|null $key
      * @param mixed $default
      * @return mixed
+     * @throws BindingResolutionException
      */
     function config($key = null, $default = null): mixed
     {
@@ -49,5 +51,48 @@ if (!function_exists('config')) {
             return $repository->get($key, $default);
         }
         return $default;
+    }
+}
+
+if (!function_exists('app')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param mixed $abstract
+     * @param array<string, mixed> $parameters
+     * @return mixed
+     * @throws BindingResolutionException
+     */
+    function app($abstract = null, array $parameters = []): mixed
+    {
+        if (is_null($abstract)) {
+            return Container::getInstance();
+        }
+        return Container::getInstance()->make($abstract, $parameters);
+    }
+}
+
+if (!function_exists('module')) {
+    /**
+     * Instantiate and render a theme module.
+     *
+     * Thin wrapper around app('module.factory')->render().
+     *
+     * @param string $name Module name (kebab-case or snake_case).
+     * @param array<string, mixed> $data Key-value pairs passed to the module.
+     * @param array<string, mixed> $options Constructor options for the module.
+     * @return string The rendered module HTML.
+     * @throws \InvalidArgumentException|BindingResolutionException If the module class does not exist.
+     *
+     * @example
+     * ```php
+     * // In a Twig template or PHP view:
+     * echo module('hero', ['title' => 'Hello World']);
+     * echo module('hero-section', ['posts' => $posts], ['wrapInRow' => true]);
+     * ```
+     */
+    function module(string $name, array $data = [], array $options = []): string
+    {
+        return app('module.factory')->render($name, $data, $options);
     }
 }

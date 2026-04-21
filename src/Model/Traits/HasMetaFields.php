@@ -169,8 +169,8 @@ trait HasMetaFields
         }
 
         throw new UnexpectedValueException(sprintf(
-            '%s must extend one of Corcel built-in models: Comment, Post, Term or User, ' .
-            'or a Sloth model: Sloth\Model\Model, Sloth\Model\User, Sloth\Model\Taxonomy.',
+            '%s must extend one of Corcel built-in models: Comment, Post, Term or User, '
+            . 'or a Sloth model: Sloth\Model\Model, Sloth\Model\User, Sloth\Model\Taxonomy.',
             static::class
         ));
     }
@@ -213,8 +213,8 @@ trait HasMetaFields
         }
 
         throw new UnexpectedValueException(sprintf(
-            '%s must extend one of Corcel built-in models: Comment, Post, Term or User, ' .
-            'or a Sloth model: Sloth\Model\Model, Sloth\Model\User, Sloth\Model\Taxonomy.',
+            '%s must extend one of Corcel built-in models: Comment, Post, Term or User, '
+            . 'or a Sloth model: Sloth\Model\Model, Sloth\Model\User, Sloth\Model\Taxonomy.',
             static::class
         ));
     }

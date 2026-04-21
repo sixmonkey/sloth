@@ -1,0 +1,30 @@
+.layotter-preview {
+    border-collapse: collapse;
+}
+
+.layotter-preview {
+    width: 100%;
+}
+
+.layotter-preview th, .layotter-preview td {
+    text-align: left !important;
+    vertical-align: top;
+}
+
+.layotter-preview th {
+    padding-right: 10px;
+    width: 200px;
+}
+
+.layotter-preview tr:nth-child(even), .layotter-preview tr:nth-child(even) {
+    background: #eee;
+}
+
+td.media-icon img[src$=".svg"], img[src$=".svg"].attachment-post-thumbnail {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.media-icon img[src$=".svg"] {
+    width: 60px;
+}

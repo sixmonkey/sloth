@@ -1,22 +1,109 @@
-<h1>Sloth</h1>
-<table>
-    <tr>
-        <th rowspan="{{ templates|length }}">
-            Template-Hierarchy
-        </th>
+<h1>🦥 Sloth</h1>
+<div class="tracy-inner">
+
+    {# Template Hierarchy #}
+    <h2>Template Hierarchy</h2>
+    <table>
+        <tr>
+            <th>Current Layout</th>
+            <td><strong>{{ currentTemplate }}</strong></td>
+        </tr>
         {% for template in templates %}
-        {% if not loop.first %}
-    <tr>
-        {% endif %}
-        {% if template == currentTemplate %}
-            <td><strong>{{ template }}</strong></td>
-        {% else %}
-            <td>{{ template }}</td>
-        {% endif %}
-    </tr>
-    {% endfor %}
-    <tr>
-        <th>Current Template</th>
-        <td><strong>{{ currentTemplate }}</strong></td>
-    </tr>
-</table>
+        <tr>
+            <th>{% if loop.first %}Candidates{% endif %}</th>
+            <td {% if template == currentTemplate %}style="font-weight:bold"{% endif %}>
+                {{ template }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {# Performance #}
+    <h2>Performance</h2>
+    <table>
+        <tr><th>Memory</th><td>{{ performance.memory }}</td></tr>
+        <tr><th>Peak Memory</th><td>{{ performance.peak_memory }}</td></tr>
+        <tr><th>Time</th><td>{{ performance.time }}</td></tr>
+    </table>
+
+    {# Container #}
+    <h2>Container</h2>
+    <table>
+        <tr><th>Environment</th><td>{{ container.environment }}</td></tr>
+        <tr><th>Providers</th><td>{{ container.providers }}</td></tr>
+        <tr><th>Bindings</th><td>{{ container.bindings }}</td></tr>
+    </table>
+
+    {# WordPress #}
+    <h2>WordPress</h2>
+    <table>
+        <tr><th>Post Type</th><td>{{ wordpress.post_type }}</td></tr>
+        <tr><th>Queried Object ID</th><td>{{ wordpress.queried_object_id }}</td></tr>
+        <tr><th>Template Slug</th><td>{{ wordpress.template_slug }}</td></tr>
+        <tr><th>Registered Hooks</th><td>{{ wordpress.hooks }}</td></tr>
+        <tr><th>Is Admin</th><td>{{ wordpress.is_admin }}</td></tr>
+    </table>
+
+    {# Sloth Models & Taxonomies #}
+    <h2>Sloth</h2>
+    <table>
+        <tr>
+            <th>Models</th>
+            <td>
+                {% if sloth.models is not empty %}
+                    {{ sloth.models|join(', ') }}
+                {% else %}
+                    <em>none</em>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Taxonomies</th>
+            <td>
+                {% if sloth.taxonomies is not empty %}
+                    {{ sloth.taxonomies|join(', ') }}
+                {% else %}
+                    <em>none</em>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    {# ACF #}
+    {% if acf is not empty %}
+    <h2>ACF Field Groups</h2>
+    <table>
+        {% for group in acf %}
+        <tr><td>{{ group }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {# DB Queries #}
+    <h2>
+        DB Queries
+        <span style="font-weight:normal;font-size:11px;margin-left:8px;color:{{ queries.slow > 0 ? '#ef4444' : '#888' }}">
+            {{ queries.count }} queries &mdash; {{ queries.total_time }}ms total
+            {% if queries.slow > 0 %} &mdash; {{ queries.slow }} slow{% endif %}
+        </span>
+    </h2>
+    {% if queries.queries is not empty %}
+    <table>
+        <tr>
+            <th>SQL</th>
+            <th style="text-align:right;white-space:nowrap">Time</th>
+        </tr>
+        {% for query in queries.queries %}
+        <tr style="{{ query.time > 100 ? 'background:rgba(239,68,68,0.08)' : '' }}">
+            <td style="font-family:monospace;font-size:11px;word-break:break-all">{{ query.sql }}</td>
+            <td style="text-align:right;white-space:nowrap;font-family:monospace;font-size:11px;color:{{ query.time > 100 ? '#ef4444' : (query.time > 50 ? '#f97316' : '#888') }}">
+                {{ query.time }}ms
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="color:#888;font-size:12px;padding:4px 0">No queries recorded.</p>
+    {% endif %}
+
+</div>

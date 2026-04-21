@@ -31,16 +31,16 @@ class DeploymentServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'deployment',
-            fn($container): \Sloth\Deployment\Deployment => Deployment::getInstance()
+            fn($container): \Sloth\Deployment\Deployment => new Deployment()
         );
     }
 
     /**
      * Get the services provided by the provider.
      *
+     * @return array<string>
      * @since 1.0.0
      *
-     * @return array<string>
      */
     #[\Override]
     public function provides(): array

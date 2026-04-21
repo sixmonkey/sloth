@@ -9,33 +9,45 @@ use Corcel\Model\Meta\TermMeta;
 use Corcel\Model\Term;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Sloth\Model\Traits\HasAliases;
 use Sloth\Model\Traits\HasMetaFields;
 
 /**
- * Taxonomy Model
+ * Base Taxonomy class for WordPress custom taxonomies.
  *
- * Extends Corcel\Model directly to provide WordPress custom
- * taxonomy registration and management functionality.
+ * Extends Corcel\Model directly to provide WordPress taxonomy registration
+ * and management. All necessary features are implemented directly without
+ * extending Corcel\Model\Taxonomy, ensuring full control over attribute
+ * resolution.
  *
- * ## Independence from Corcel
+ * ## Registration properties
  *
- * This model does NOT extend Corcel\Model\Taxonomy. Instead, it implements
- * all necessary features directly, ensuring full control over attribute resolution.
+ * Registration-related properties ($names, $options, $labels, $postTypes,
+ * $unique, $register) are intentionally untyped static properties.
+ * This allows theme developers to override them in child classes without
+ * PHP 8.4 typed property inheritance errors. PHPStan is satisfied via
+ * @var DocBlocks on each property.
  *
- * This model uses Sloth's own trait implementations for meta fields
- * and aliases.
+ * The TaxonomyRegistrar reads these via static access: `$taxonomyClass::$names`
+ *
+ * ## Corcel compatibility
+ *
+ * Several properties inherited from Corcel\Model cannot be typed because
+ * Corcel declares them without types. These are annotated with @var DocBlocks
+ * and a @corcel-compat note for clarity.
  *
  * @since 1.0.0
+ * @see \Sloth\Model\Registrars\TaxonomyRegistrar For taxonomy registration
  *
  * @example
  * ```php
- * class Category extends Taxonomy {
- *     protected array $names = [
- *         'singular' => 'Category',
- *         'plural' => 'Categories',
- *     ];
- *     protected array $postTypes = ['project', 'post'];
+ * class OrtTaxonomy extends Taxonomy
+ * {
+ *     protected ?string $taxonomy = 'ort';
+ *
+ *     public static $names = ['singular' => 'Ort', 'plural' => 'Orte'];
+ *     public static $postTypes = ['event'];
  * }
  * ```
  */
@@ -43,6 +55,10 @@ class Taxonomy extends CorcelModel
 {
     use HasAliases;
     use HasMetaFields;
+
+    // -------------------------------------------------------------------------
+    // Corcel-inherited properties — cannot be typed (PHP 8.4 compat)
+    // -------------------------------------------------------------------------
 
     /**
      * Indicates if the model should be timestamped.
@@ -54,8 +70,9 @@ class Taxonomy extends CorcelModel
     public $timestamps = false;
 
     /**
-     * The table associated with the model.
+     * The database table used by the model.
      *
+     * @corcel-compat Cannot be typed — Corcel declares $table without a type.
      * @var string
      */
     protected $table = 'term_taxonomy';
@@ -63,87 +80,169 @@ class Taxonomy extends CorcelModel
     /**
      * The primary key for the model.
      *
+     * @corcel-compat Cannot be typed — Corcel declares $primaryKey without a type.
      * @var string
      */
     protected $primaryKey = 'term_taxonomy_id';
 
     /**
-     * The relationships to eager-load on every query.
+     * Relationships to eager-load on every query.
      *
+     * @corcel-compat Cannot be typed — Corcel declares $with without a type.
      * @var array<string>
      */
     protected $with = ['term'];
 
+    // -------------------------------------------------------------------------
+    // Sloth-specific instance properties
+    // -------------------------------------------------------------------------
+
     /**
-     * Taxonomy names configuration for PostTypes library.
+     * The WordPress taxonomy identifier.
+     *
+     * Set automatically from the class name (lowercased) if not explicitly
+     * defined in the child class.
+     *
+     * @since 1.0.0
+     * @var string|null
+     */
+    protected ?string $taxonomy = null;
+
+    // -------------------------------------------------------------------------
+    // Registration properties
+    //
+    // Intentionally untyped static properties. Theme developers override these
+    // in child classes without type declarations to avoid PHP 8.4 typed
+    // property inheritance errors. PHPStan reads the @var DocBlocks below.
+    //
+    // The TaxonomyRegistrar reads these via static access: OrtTaxonomy::$names
+    // -------------------------------------------------------------------------
+
+    /**
+     * Singular and plural display names for label generation.
+     *
+     * Used by TaxonomyRegistrar::buildLabels() to auto-generate WordPress
+     * taxonomy labels when $labels is empty.
+     *
+     * @since 1.0.0
+     * @var array<string, string> e.g. ['singular' => 'Ort', 'plural' => 'Orte']
+     */
+    public static $names = [];
+
+    /**
+     * WordPress taxonomy registration arguments.
+     *
+     * Merged with WordPress defaults in TaxonomyRegistrar::buildRegistrationArgs().
+     * Any valid register_taxonomy() argument can be set here.
      *
      * @since 1.0.0
      * @var array<string, mixed>
      */
-    protected $names = [];
+    public static $options = [];
 
     /**
-     * Taxonomy options for WordPress registration.
+     * WordPress taxonomy labels.
      *
-     * @since 1.0.0
-     * @var array<string, mixed>
-     */
-    protected $options = [];
-
-    /**
-     * Taxonomy labels for WordPress admin UI.
+     * When set, these override the auto-generated labels from $names.
+     * Supports all WordPress taxonomy label keys.
      *
      * @since 1.0.0
      * @var array<string, string>
      */
-    protected $labels = [];
+    public static $labels = [];
 
     /**
-     * Post types that this taxonomy should be attached to.
+     * Post types that this taxonomy is attached to.
      *
      * @since 1.0.0
-     * @var array<string>
+     * @var array<string> e.g. ['event', 'news']
      */
-    protected $postTypes = [];
+    public static $postTypes = [];
 
     /**
-     * Whether this is a unique (non-hierarchical) taxonomy.
+     * Whether this is a unique (single-value) taxonomy.
+     *
+     * When true, the taxonomy behaves like a radio button instead of
+     * a checkbox — only one term can be selected per post. The default
+     * tag-style metabox is replaced with a custom radio-button metabox.
      *
      * @since 1.0.0
+     * @var bool
      */
-    protected bool $unique = false;
+    public static $unique = false;
 
     /**
-     * The taxonomy identifier.
+     * Whether this taxonomy should be registered with WordPress.
+     *
+     * Set to false to use the taxonomy for querying only.
      *
      * @since 1.0.0
+     * @var bool
      */
-    protected ?string $taxonomy = null;
+    public static $register = true;
+
+    // -------------------------------------------------------------------------
+    // Constructor
+    // -------------------------------------------------------------------------
 
     /**
-     * Creates a new Taxonomy instance.
+     * Create a new Taxonomy instance.
      *
-     * Initializes the taxonomy identifier from the class name
-     * if not explicitly set, and processes labels.
+     * Initializes the taxonomy identifier from the class name (lowercased)
+     * if not explicitly set in the child class.
      *
      * @since 1.0.0
      *
-     * @param array<string, mixed> $attributes Initial attributes
+     * @param array<string, mixed> $attributes Initial attributes.
      */
     public function __construct(array $attributes = [])
     {
         if ($this->taxonomy === null) {
-            $reflection = new \ReflectionClass($this);
+            $reflection     = new \ReflectionClass($this);
             $this->taxonomy = strtolower($reflection->getShortName());
         }
 
         parent::__construct($attributes);
     }
 
+    // -------------------------------------------------------------------------
+    // Registration helpers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Get the WordPress taxonomy identifier.
+     *
+     * @since 1.0.0
+     *
+     * @return string The taxonomy slug (e.g. 'category', 'ort').
+     */
+    public function getTaxonomy(): string
+    {
+        return $this->taxonomy ?? '';
+    }
+
+    /**
+     * Get the post types this taxonomy is attached to.
+     *
+     * @since 1.0.0
+     *
+     * @return array<string> Array of post type slugs.
+     */
+    public function getPostTypes(): array
+    {
+        return static::$postTypes;
+    }
+
+    // -------------------------------------------------------------------------
+    // Relationships
+    // -------------------------------------------------------------------------
+
     /**
      * Get the term relationship.
      *
-     * @return BelongsTo The term relationship
+     * @since 1.0.0
+     *
+     * @return BelongsTo
      */
     public function term(): BelongsTo
     {
@@ -151,9 +250,11 @@ class Taxonomy extends CorcelModel
     }
 
     /**
-     * Get the parent taxonomy.
+     * Get the parent taxonomy term.
      *
-     * @return BelongsTo The parent relationship
+     * @since 1.0.0
+     *
+     * @return BelongsTo
      */
     public function parent(): BelongsTo
     {
@@ -163,11 +264,11 @@ class Taxonomy extends CorcelModel
     /**
      * Get child taxonomy terms.
      *
-     * Returns all taxonomy terms that have this term as their parent.
+     * @since 1.0.0
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany The child terms relationship
+     * @return HasMany
      */
-    public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent', 'term_id');
     }
@@ -175,7 +276,9 @@ class Taxonomy extends CorcelModel
     /**
      * Get all posts associated with this taxonomy term.
      *
-     * @return BelongsToMany The posts relationship
+     * @since 1.0.0
+     *
+     * @return BelongsToMany
      */
     public function posts(): BelongsToMany
     {
@@ -187,180 +290,79 @@ class Taxonomy extends CorcelModel
         );
     }
 
+    // -------------------------------------------------------------------------
+    // Accessors
+    // -------------------------------------------------------------------------
+
     /**
      * Get the term link URL.
      *
-     * @return string|\WP_Error The term link URL or error
+     * @since 1.0.0
+     *
+     * @return string|\WP_Error The term link URL or a WP_Error on failure.
      */
     public function getTermLinkAttribute(): string|\WP_Error
     {
-        $t = \get_term($this->term_id, $this->taxonomy);
-        if ($t instanceof \WP_Error) {
-            return $t;
+        $term = \get_term($this->term_id, $this->taxonomy);
+
+        if ($term instanceof \WP_Error) {
+            return $term;
         }
 
-        return \get_term_link($t);
+        return \get_term_link($term);
     }
 
+    // -------------------------------------------------------------------------
+    // Magic methods
+    // -------------------------------------------------------------------------
+
     /**
-     * Magic method to return term attributes directly.
+     * Handle dynamic property access.
      *
-     * Provides access to term attributes as if they were taxonomy attributes.
+     * Falls back to term attributes (e.g. $taxonomy->name, $taxonomy->slug)
+     * when the key is not found on the taxonomy model itself.
      *
-     * @param string $key The attribute key
+     * @since 1.0.0
      *
-     * @return mixed The attribute value
+     * @param string $key The property name.
+     * @return mixed
      */
+    #[\Override]
     public function __get($key)
     {
+        $value = parent::__get($key);
+
         if (!isset($this->$key) && isset($this->term->$key)) {
             return $this->term->$key;
         }
 
-        return parent::__get($key);
+        return $value;
     }
 
+    // -------------------------------------------------------------------------
+    // Unique taxonomy metabox
+    // -------------------------------------------------------------------------
+
     /**
-     * Get the taxonomy labels.
+     * Render the custom metabox for unique (single-value) taxonomies.
+     *
+     * Displays a checklist of terms with an "add new term" input.
+     * Only used when $unique is true — the default tag metabox is replaced
+     * with this custom implementation via TaxonomyRegistrar::addMetaBoxes().
      *
      * @since 1.0.0
      *
-     * @return array<string, mixed>
+     * @param object             $post The post object.
+     * @param array<string, mixed> $box  The metabox configuration.
      */
-    public function getLabels(): array
-    {
-        if ($this->labels !== []) {
-            $labels = $this->labels;
-            if (is_array($labels) && $labels !== []) {
-                foreach ($labels as $key => $label) {
-                    if (is_string($label)) {
-                        $labels[$key] = \__($label);
-                    }
-                }
-            }
-
-            return $labels;
-        }
-
-        $singular = $this->names['singular'] ?? ucfirst((string) $this->taxonomy);
-        $plural = $this->names['plural'] ?? $singular . 's';
-
-        return [
-            'name' => __($plural),
-            'singular_name' => __($singular),
-            'search_items' => sprintf(__('Search %s'), __($plural)),
-            'popular_items' => sprintf(__('Popular %s'), __($plural)),
-            'all_items' => sprintf(__('All %s'), __($plural)),
-            'parent_item' => sprintf(__('Parent %s'), __($singular)),
-            'parent_item_colon' => sprintf(__('Parent %s:'), __($singular)),
-            'edit_item' => sprintf(__('Edit %s'), __($singular)),
-            'view_item' => sprintf(__('View %s'), __($singular)),
-            'update_item' => sprintf(__('Update %s'), __($singular)),
-            'add_new_item' => sprintf(__('Add New %s'), __($singular)),
-            'new_item_name' => sprintf(__('New %s Name'), __($singular)),
-            'not_found' => sprintf(__('No %s found'), __($plural)),
-            'no_terms' => sprintf(__('No %s'), __($plural)),
-            'filter_by_item' => sprintf(__('Filter by %s'), __($singular)),
-            'items_list_navigation' => sprintf(__('%s list navigation'), __($plural)),
-            'items_list' => sprintf(__('%s list'), __($plural)),
-            'back_to_items' => sprintf(__('&larr; Back to %s'), __($plural)),
-            'menu_name' => __($plural),
-        ];
-    }
-
-    /**
-     * Registers the taxonomy with WordPress.
-     *
-     * Uses direct WordPress registration to attach the taxonomy
-     * to the specified post types.
-     *
-     * @since 1.0.0
-     */
-    public function register(): void
-    {
-        $taxonomyName = $this->getTaxonomy();
-        if (!$taxonomyName || \taxonomy_exists($taxonomyName)) {
-            return;
-        }
-
-        $options = $this->options;
-        $options['labels'] = $this->getLabels();
-
-        if ($this->unique) {
-            $options['hierarchical'] = false;
-            $options['parent_item'] = null;
-            $options['parent_item_colon'] = null;
-        }
-
-        \register_taxonomy($taxonomyName, null, $options);
-
-        foreach ($this->postTypes as $postType) {
-            if (\post_type_exists($postType)) {
-                \register_taxonomy_for_object_type($taxonomyName, $postType);
-            }
-        }
-    }
-
-    /**
-     * Initializes the taxonomy after WordPress registration.
-     *
-     * For unique (non-hierarchical) taxonomies, this removes
-     * the default meta box and adds a custom one.
-     *
-     * @since 1.0.0
-     */
-    public function init(): void
-    {
-        if ($this->unique) {
-            $me = $this;
-
-            foreach ($this->postTypes as $post_type) {
-                \remove_meta_box('tagsdiv-' . $this->getTaxonomy(), $post_type, null);
-            }
-
-            $post_types = $this->postTypes;
-
-            add_action(
-                'add_meta_boxes',
-                static function () use ($me, $post_types): void {
-                    \add_meta_box(
-                        'sloth-taxonomy-' . $me->getTaxonomy(),
-                        $me->names['singular'],
-                        $me->metabox(...),
-                        $post_types,
-                        'side'
-                    );
-                }
-            );
-        }
-    }
-
-    /**
-     * Gets the taxonomy identifier.
-     *
-     * @since 1.0.0
-     */
-    public function getTaxonomy(): string
-    {
-        return $this->taxonomy ?? '';
-    }
-
-    /**
-     * Render the taxonomy metabox.
-     *
-     * @since 1.0.0
-     *
-     * @param object $post The post object
-     * @param array $box The metabox configuration
-     */
-    public function metabox($post, array $box): void
+    public function metabox(object $post, array $box): void
     {
         $taxonomy = $this->getTaxonomy();
 
         echo '<style>#' . $box['id'] . ' .inside { padding: 0; margin: 0; }</style>';
 
         $terms = \get_terms([
-            'taxonomy' => $taxonomy,
+            'taxonomy'   => $taxonomy,
             'hide_empty' => false,
         ]);
 
@@ -375,7 +377,7 @@ class Taxonomy extends CorcelModel
         }
 
         $post_terms = \wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
-        $walker = new \Walker_Category_Checklist();
+        $walker     = new \Walker_Category_Checklist();
 
         echo '<ul class="categorychecklist">';
         echo $walker->walk($terms, 0, ['selected' => $post_terms]);
@@ -396,14 +398,9 @@ class Taxonomy extends CorcelModel
                 var termsInput = $("#sloth-new-terms-" + taxonomy);
                 var terms = termsInput.val();
                 if (!terms) return;
-                
+
                 terms = terms.split(",").map(function(t) { return t.trim(); }).filter(Boolean);
-                var currentChecked = [];
-                
-                $("#' . $box['id'] . ' input[type=checkbox]:checked").each(function() {
-                    currentChecked.push($(this).val());
-                });
-                
+
                 $.ajax({
                     url: "' . \admin_url('admin-ajax.php') . '",
                     type: "POST",
@@ -424,10 +421,16 @@ class Taxonomy extends CorcelModel
         </script>';
     }
 
+    // -------------------------------------------------------------------------
+    // Meta helpers
+    // -------------------------------------------------------------------------
+
     /**
-     * Get the meta class for this model.
+     * Get the meta model class for this taxonomy.
      *
-     * @return string The fully qualified class name of the meta model
+     * @since 1.0.0
+     *
+     * @return string The fully qualified class name of the meta model.
      */
     protected function getMetaClass(): string
     {
@@ -437,7 +440,9 @@ class Taxonomy extends CorcelModel
     /**
      * Get the foreign key for the meta relationship.
      *
-     * @return string The foreign key name
+     * @since 1.0.0
+     *
+     * @return string The foreign key name.
      */
     protected function getMetaForeignKey(): string
     {

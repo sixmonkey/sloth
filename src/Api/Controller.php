@@ -94,7 +94,7 @@ class Controller
 
         $params = array_merge($getArray, $params);
 
-        $path = '/sloth/v1/' . Utility::viewize((new \ReflectionClass($this))->getShortName()) . '/' . $path;
+        $path = '/sloth/v1/' . Utility::viewize(new \ReflectionClass($this)->getShortName()) . '/' . $path;
         if ($params !== []) {
             $path .= '?' . http_build_query($params);
         }

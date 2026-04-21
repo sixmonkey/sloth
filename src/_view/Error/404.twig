@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Lost in the forest</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0d1117;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .forest {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 200px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .firefly {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 6px #4ade80, 0 0 12px #4ade80;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .scene {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .overlay {
+            background: rgba(13, 17, 23, 0.85);
+            border: 1px solid #1e2d1e;
+            border-radius: 16px;
+            padding: 2.5rem 3rem;
+            backdrop-filter: blur(4px);
+            width: min(500px, 90vw);
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 12px rgba(100, 200, 100, 0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50%       { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .code {
+            font-size: 96px;
+            font-weight: 500;
+            line-height: 1;
+            background: linear-gradient(135deg, #4ade80, #22c55e, #16a34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.3));
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 500;
+            color: #e0e0e0;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 360px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .breadcrumb {
+            font-family: monospace;
+            font-size: 12px;
+            color: #374151;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .breadcrumb .green  { color: #4ade80; }
+        .breadcrumb .red    { color: #ef4444; }
+
+        .badge {
+            display: inline-block;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px;
+            color: #4ade80;
+            background: #0a1f0a;
+            border: 1px solid #1a3a1a;
+            border-radius: 5px;
+            padding: 4px 10px;
+            margin-bottom: 1.75rem;
+        }
+
+        .btn {
+            font-size: 14px;
+            color: #4ade80;
+            background: transparent;
+            border: 1px solid rgba(74, 222, 128, 0.35);
+            border-radius: 8px;
+            padding: 9px 22px;
+            cursor: pointer;
+            font-family: monospace;
+            transition: all 0.15s;
+            margin: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background: #0a1f0a; border-color: #4ade80; }
+
+        .quip {
+            margin-top: 1.5rem;
+            font-size: 12px;
+            color: #374151;
+            font-style: italic;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div id="fireflies"></div>
+
+<svg class="forest" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15">
+        <polygon points="100,200 140,80 180,200"   fill="#166534"/>
+        <polygon points="130,200 175,60 220,200"   fill="#15803d"/>
+        <polygon points="280,200 320,90 360,200"   fill="#166534"/>
+        <polygon points="310,200 358,50 406,200"   fill="#15803d"/>
+        <polygon points="450,200 495,70 540,200"   fill="#166534"/>
+        <polygon points="500,200 550,40 600,200"   fill="#14532d"/>
+        <polygon points="600,200 650,75 700,200"   fill="#15803d"/>
+        <polygon points="680,200 730,55 780,200"   fill="#166534"/>
+        <polygon points="820,200 865,80 910,200"   fill="#15803d"/>
+        <polygon points="870,200 920,45 970,200"   fill="#166534"/>
+        <polygon points="1000,200 1045,70 1090,200" fill="#15803d"/>
+        <polygon points="1060,200 1110,55 1160,200" fill="#166534"/>
+    </g>
+    <rect x="0" y="180" width="1200" height="20" fill="#0d1117"/>
+</svg>
+
+<div class="scene">
+    <div class="overlay">
+        <img
+            class="logo"
+            src="https://raw.githubusercontent.com/folivoro/art/refs/heads/main/sloth-logo.svg"
+            alt="Sloth"
+        >
+        <div class="code">404</div>
+        <div class="title" id="title">Lost in the forest.</div>
+        <div class="subtitle" id="subtitle">The page you're looking for wandered off. Probably hanging upside down somewhere in the wrong tree.</div>
+
+        <div class="breadcrumb">
+            <span class="green">~/</span>
+            <span>→</span>
+            <span id="path">{{ app.request.uri ?? '???' }}</span>
+            <span>→</span>
+            <span class="red">not found</span>
+        </div>
+
+        <div class="badge" id="badge">Sloth\Exceptions\PageWanderedOffException</div>
+        <br>
+        <a href="/" class="btn">← find my way home</a>
+        <button class="btn" onclick="nextQuip()">another excuse ↺</button>
+        <div class="quip">404 pages per hour. That's how fast the sloth moves.</div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('stars');
+const ctx    = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const stars = Array(120).fill(0).map(() => ({
+    x: Math.random(),
+    y: Math.random() * 0.7,
+    r: Math.random() * 1.5 + 0.3,
+    o: Math.random() * 0.6 + 0.2,
+    s: Math.random() * 0.02 + 0.005,
+    t: Math.random() * Math.PI * 2,
+}));
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+        s.t += s.s;
+        const opacity = s.o + Math.sin(s.t) * 0.3;
+        ctx.beginPath();
+        ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(74, 222, 128, ${Math.max(0, Math.min(1, opacity))})`;
+        ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// Fireflies
+const container = document.getElementById('fireflies');
+Array(8).fill(0).forEach((_, i) => {
+    const el = document.createElement('div');
+    el.className = 'firefly';
+    let x = Math.random() * 100, y = 50 + Math.random() * 40;
+    let vx = (Math.random() - 0.5) * 0.3, vy = (Math.random() - 0.5) * 0.3;
+    el.style.cssText = `left:${x}vw;top:${y}vh;`;
+    container.appendChild(el);
+
+    setInterval(() => {
+        x += vx + (Math.random() - 0.5) * 0.2;
+        y += vy + (Math.random() - 0.5) * 0.2;
+        if (x < 0 || x > 100) vx *= -1;
+        if (y < 40 || y > 90) vy *= -1;
+        el.style.left    = x + 'vw';
+        el.style.top     = y + 'vh';
+        el.style.opacity = 0.4 + Math.random() * 0.6;
+    }, 80 + i * 20);
+});
+
+const quips = [
+    { title: "Lost in the forest.",        sub: "The page you're looking for wandered off. Probably hanging in the wrong tree.",       badge: "Sloth\\Exceptions\\PageWanderedOffException" },
+    { title: "Nothing here but trees.",    sub: "We looked everywhere. Under rocks, behind trees, in the cache. Nope.",                 badge: "Sloth\\Exceptions\\CacheAlsoEmptyException" },
+    { title: "The URL took a wrong turn.", sub: "It seemed confident. It was not. These things happen in the forest.",                  badge: "Sloth\\Exceptions\\ConfidentlyWrongException" },
+    { title: "Poof. Gone.",                sub: "Either it never existed or it moved. The sloth didn't notice either way.",             badge: "Sloth\\Exceptions\\SlothDidntNoticeException" },
+    { title: "This branch doesn't exist.", sub: "WordPress checked the index. Twice. Then took a nap without finding anything.",        badge: "Sloth\\Exceptions\\EmptyIndexException" },
+    { title: "Deep in the weeds.",         sub: "Whatever you were looking for is not here. Maybe it was never meant to be found.",     badge: "Sloth\\Exceptions\\DestinedToBeNotFoundException" },
+];
+
+let idx = 0;
+function nextQuip() {
+    idx = (idx + 1) % quips.length;
+    document.getElementById('title').textContent    = quips[idx].title;
+    document.getElementById('subtitle').textContent = quips[idx].sub;
+    document.getElementById('badge').textContent    = quips[idx].badge;
+}
+</script>
+
+</body>
+</html>

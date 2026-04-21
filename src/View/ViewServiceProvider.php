@@ -5,42 +5,110 @@ declare(strict_types=1);
 namespace Sloth\View;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\Factory;
 use Sloth\Core\ServiceProvider;
 use Sloth\View\Engines\TwigEngine;
 use Sloth\View\Extensions\SlothTwigExtension;
-use Sloth\Configure\Configure;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Service provider for the View rendering component.
  *
+ * ## Boot sequence
+ *
+ * register() only binds singletons — it does NOT resolve them.
+ * Resolving a singleton during register() can cause infinite loops
+ * if the singleton's closure calls config() or other container bindings
+ * that are still being built.
+ *
+ * Twig extensions are added in boot() — after all providers have
+ * registered their services and the container is fully built.
+ *
  * @since 1.0.0
- * @see ServiceProvider
  */
 class ViewServiceProvider extends ServiceProvider
 {
     /**
-     * Register the View service provider.
+     * Register View services.
+     *
+     * Binds singletons only — does not resolve any of them.
      *
      * @since 1.0.0
      */
     #[\Override]
     public function register(): void
     {
+        $this->registerTwigLoader();
         $this->registerTwigEnvironment();
         $this->registerEngineResolver();
         $this->registerViewFactory();
     }
 
     /**
-     * Register the EngineResolver instance to the application.
+     * Boot View services.
+     *
+     * Adds Twig extensions after all providers are registered and
+     * the container is fully built. Safe to resolve singletons here.
+     *
+     * @since 1.0.0
+     */
+    public function boot(): void
+    {
+        $twig = $this->app['twig'];
+
+        $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new SlothTwigExtension($this->app));
+
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            $twig->enableDebug();
+        }
+
+        // Theme filters and functions registered via config
+        // are picked up by SlothTwigExtension::getFilters/getFunctions()
+    }
+
+    /**
+     * Register the Twig filesystem loader.
+     *
+     * Starts with an empty paths array — ThemeServiceProvider adds
+     * theme and framework view paths after providers are registered.
+     *
+     * @since 1.0.0
+     */
+    protected function registerTwigLoader(): void
+    {
+        $this->app->singleton(
+            'twig.loader',
+            fn(): FilesystemLoader => new FilesystemLoader([])
+        );
+    }
+
+    /**
+     * Register the Twig environment.
+     *
+     * Uses $c['config']->get() instead of config() to avoid triggering
+     * the container's make() while the singleton closure is being built,
+     * which would cause an infinite loop.
+     *
+     * @since 1.0.0
+     */
+    protected function registerTwigEnvironment(): void
+    {
+        $this->app->singleton(
+            'twig',
+            fn($c): Environment => new Environment($c['twig.loader'], [
+                'auto_reload' => true,
+                'cache'       => $c['path.cache'] . '/Twig',
+                'autoescape'  => (bool) $c['config']->get('twig.autoescape', false),
+            ])
+        );
+    }
+
+    /**
+     * Register the EngineResolver.
      *
      * @since 1.0.0
      */
@@ -48,7 +116,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'view.engine.resolver',
-            fn(): \Illuminate\View\Engines\EngineResolver => $this->createEngineResolver()
+            fn(): EngineResolver => $this->createEngineResolver()
         );
     }
 
@@ -60,63 +128,18 @@ class ViewServiceProvider extends ServiceProvider
     protected function createEngineResolver(): EngineResolver
     {
         $resolver = new EngineResolver();
-        $this->registerTwigEngine('twig', $resolver);
+        $container = $this->app;
+
+        $resolver->register(
+            'twig',
+            fn(): TwigEngine => new TwigEngine($container['twig'], $container['view.finder'])
+        );
 
         return $resolver;
     }
 
     /**
-     * Register the Twig engine to the EngineResolver.
-     *
-     * @since 1.0.0
-     *
-     * @param string         $engine   The engine name
-     * @param EngineResolver $resolver The engine resolver
-     */
-    protected function registerTwigEngine(string $engine, EngineResolver $resolver): void
-    {
-        $container = $this->app;
-
-        $resolver->register(
-            $engine,
-            fn(): \Sloth\View\Engines\TwigEngine => new TwigEngine($container['twig'], $container['view.finder'])
-        );
-    }
-
-    /**
-     * Register Twig environment and its loader.
-     *
-     * @since 1.0.0
-     */
-    protected function registerTwigEnvironment(): void
-    {
-        $container = $this->app;
-
-        $container->singleton(
-            'twig.loader',
-            fn(): \Twig\Loader\FilesystemLoader => new FilesystemLoader(DIR_ROOT)
-        );
-
-        $container->singleton(
-            'twig',
-            fn($c): \Twig\Environment => new Environment($c['twig.loader'], [
-                'auto_reload' => true,
-                'cache'       => $c['path.cache'] . 'Twig',
-                'autoescape'  => (bool) Configure::read('twig.autoescape'),
-            ])
-        );
-
-        $container['twig']->addExtension(new DebugExtension());
-
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            $container['twig']->enableDebug();
-        }
-
-        $container['twig']->addExtension(new SlothTwigExtension($container));
-    }
-
-    /**
-     * Register the view factory.
+     * Register the ViewFinder and View Factory.
      *
      * @since 1.0.0
      */
@@ -124,21 +147,19 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'view.finder',
-            fn($container): \Sloth\View\ViewFinder => new ViewFinder($container['filesystem'], [], [])
+            fn($c): ViewFinder => new ViewFinder($c['files'], [], [])
         );
 
         $this->app->singleton(
             'view',
-            fn($container): \Illuminate\View\Factory => $this->createViewFactory($container)
+            fn($c): Factory => $this->createViewFactory($c)
         );
     }
 
     /**
-     * Create and configure the view factory.
+     * Create and configure the View Factory.
      *
      * @since 1.0.0
-     *
-     * @param mixed $container The container instance
      */
     protected function createViewFactory(mixed $container): Factory
     {
@@ -150,7 +171,6 @@ class ViewServiceProvider extends ServiceProvider
 
         $factory->setContainer($container);
         $factory->addExtension('twig', 'twig');
-        $factory->setContainer($container);
         $factory->share('app', $container);
 
         return $factory;
