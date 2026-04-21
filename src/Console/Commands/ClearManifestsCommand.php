@@ -51,6 +51,7 @@ class ClearManifestsCommand extends Command
 
         foreach ($this->manifests as $manifest) {
             $path = $cachePath . '/' . $manifest;
+            $this->info("Clearing {$path}");
 
             if (app('files')->exists($path)) {
                 app('files')->delete($path);
