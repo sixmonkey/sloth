@@ -98,6 +98,18 @@ class ModelServiceProvider extends ServiceProvider
                 fn() => app(TaxonomyManifestBuilder::class)->addMetaBoxes(),
             ],
             'registered_post_type' => fn(string $postType) => $this->onPostTypeRegistered($postType),
+        ];
+    }
+
+    /**
+     * Register filters for model registration.
+     *
+     * @return array<string, callable|array<callable>>
+     * @since 1.0.0
+     */
+    public function getFilters(): array
+    {
+        return [
             'manage_posts_columns' => fn(array $columns) => $this->hideAdminColumns($columns),
         ];
     }
