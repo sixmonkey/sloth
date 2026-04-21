@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Database;
 
-use Corcel\Database;
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
 use Sloth\Core\ServiceProvider;
@@ -12,14 +12,11 @@ use Sloth\Core\ServiceProvider;
 /**
  * Service provider for the database connection.
  *
- * Establishes the Corcel/Eloquent connection to the WordPress database
+ * Establishes an Eloquent/Capsule connection to the WordPress database
  * and sets up the event dispatcher for Eloquent model events.
  *
- * ## Why Corcel
- *
- * Corcel wraps WordPress's database tables in Laravel's Eloquent ORM,
- * allowing Sloth models to use familiar Eloquent patterns while reading
- * from the standard WordPress schema.
+ * Previously delegated to Corcel\Database::connect() — now owns the
+ * Capsule setup directly, removing the last non-model dependency on Corcel.
  *
  * ## Query logging
  *
@@ -47,12 +44,11 @@ class DatabaseServiceProvider extends ServiceProvider
     #[\Override]
     public function register(): void
     {
-        // Bind db prefix for use elsewhere in the framework
         $this->app->instance('db.prefix', DB_PREFIX);
     }
 
     /**
-     * Establish the Corcel database connection.
+     * Establish the Eloquent database connection.
      *
      * Connects to WordPress's database using the constants defined
      * in bootstrap.php (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, DB_PREFIX).
@@ -61,17 +57,24 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Database::connect([
-            'host' => DB_HOST,
-            'database' => DB_NAME,
-            'username' => DB_USER,
-            'password' => DB_PASSWORD,
-            'prefix' => DB_PREFIX,
+        $capsule = new Capsule();
+
+        $capsule->addConnection([
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', DB_HOST),
+            'database' => env('DB_NAME', DB_NAME),
+            'username' => env('DB_USER', DB_USER),
+            'password' => env('DB_PASSWORD', DB_PASSWORD),
+            'charset' => env('DB_CHARSET', defined('DB_CHARSET') ? DB_CHARSET : 'utf8mb4'),
+            'collation' => env('DB_COLLATION', defined('DB_COLLATION') ? DB_COLLATION : 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX', DB_PREFIX),
         ]);
+
+        $capsule->bootEloquent();
 
         Model::setEventDispatcher(new Dispatcher($this->app));
 
         // Enable query logging for SlothBarPanel
-        \Corcel\Model\Post::resolveConnection()->enableQueryLog();
+        Model::resolveConnection()->enableQueryLog();
     }
 }
