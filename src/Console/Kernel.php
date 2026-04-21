@@ -69,21 +69,26 @@ class Kernel
 
         $this->console->setName('Sloth');
         $this->console->setAutoExit(false);
+
+        // Disable Symfony Console pager — less may not be available in all environments.
+        putenv('SYMFONY_CLI_DISABLE_PAGER=1');
     }
 
     /**
      * Handle a WP-CLI invocation.
      *
-     * Rebuilds argv-style input from WP-CLI args and passes it through
-     * to the Illuminate console application.
+     * The first element of $argv is treated as the script name by Symfony Console —
+     * only the remaining elements are parsed as command + arguments.
      *
-     * @param array<int, string>    $args       Positional arguments from WP-CLI.
-     * @param array<string, mixed>  $assoc_args Associative arguments from WP-CLI.
+     * @param array<int, string>   $args       Positional arguments from WP-CLI.
+     * @param array<string, mixed> $assoc_args Named arguments from WP-CLI (--flag=value).
      * @since 1.0.0
      */
     public function handle(array $args, array $assoc_args): void
     {
-        $argv = array_merge(['wp sloth'], $args);
+        // 'sloth' is the script name (argv[0]) — Symfony Console ignores it.
+        // The actual command name starts at argv[1].
+        $argv = array_merge(['sloth'], $args);
 
         foreach ($assoc_args as $key => $value) {
             $argv[] = $value === true ? "--{$key}" : "--{$key}={$value}";
