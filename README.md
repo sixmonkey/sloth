@@ -234,17 +234,109 @@ sloth/
 | `Deployment` | Deployment helpers   |
 | `Layotter`   | Page builder         |
 
-## Artisan Commands
+## WP-CLI Commands
+
+Sloth provides Artisan-style console commands available via `wp sloth`:
 
 ```bash
-# Create a new module
-php sloth-cli.php make:module ModuleName
+# List all available commands
+wp sloth list
 
-# Install the theme
-php sloth-cli.php install
+# Display a welcome message
+wp sloth inspire
 
-# Generate documentation
-composer run docs
+# Clear all manifest files
+wp sloth manifest:clear
+```
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `wp sloth inspire` | Display a welcome message |
+| `wp sloth manifest:clear` | Clear all Sloth manifest files |
+| `wp sloth list` | List all available commands |
+
+### Creating Custom Commands
+
+Create commands in your theme's `app/Console/Commands/` directory:
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use Sloth\Console\Command;
+use function Termwind\render;
+
+class MyCommand extends Command
+{
+    protected $signature = 'my:command';
+
+    protected $description = 'My custom command';
+
+    public function handle(): int
+    {
+        // Use Termwind for beautiful output
+        render('<div class="text-green-500">Hello from my command!</div>');
+
+        // Or use standard Laravel output methods
+        $this->info('Info message');
+        $this->warn('Warning message');
+        $this->error('Error message');
+
+        return self::SUCCESS;
+    }
+}
+```
+
+Commands are auto-discovered from:
+- `src/Console/Commands/` - Framework commands
+- `app/Console/Commands/` - Theme/app commands
+- `theme/Console/Commands/` - Theme commands (legacy location)
+
+### Command Structure
+
+Extend `Sloth\Console\Command` (which extends `Illuminate\Console\Command`) to get:
+- Full Laravel Artisan command features
+- Termwind support for beautiful CLI output
+- Access to the Sloth container via `$this->app`
+
+```php
+use Sloth\Console\Command;
+
+class MyCommand extends Command
+{
+    protected $signature = 'my:command {arg?}. {--option= : An option}';
+
+    public function handle(): int
+    {
+        // Get arguments and options
+        $arg = $this->argument('arg');
+        $option = $this->option('option');
+
+        // Use Sloth services
+        $cache = app('cache');
+
+        $this->info('Done!');
+        return self::SUCCESS;
+    }
+}
+```
+
+### Termwind CLI Styling
+
+Use [Termwind](https://termwind.com) to create beautiful CLI output with Tailwind-like classes:
+
+```php
+use function Termwind\render;
+
+render(<<<'HTML'
+    <div class="mt-2">
+        <div class="text-center text-gray-500">
+            <span class="bg-green-400 text-black px-2">Success!</span>
+        </div>
+    </div>
 ```
 
 ## Development
