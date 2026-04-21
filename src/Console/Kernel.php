@@ -84,7 +84,7 @@ class Kernel
      * The first element of $argv is treated as the script name by Symfony Console —
      * only the remaining elements are parsed as command + arguments.
      *
-     * @param array<int, string>   $args       Positional arguments from WP-CLI.
+     * @param array<int, string> $args Positional arguments from WP-CLI.
      * @param array<string, mixed> $assoc_args Named arguments from WP-CLI (--flag=value).
      * @since 1.0.0
      */
