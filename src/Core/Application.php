@@ -8,6 +8,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Sloth\Console\ConsoleServiceProvider;
 use Sloth\Facades\Facade;
 
 use function Illuminate\Filesystem\join_paths;
@@ -234,6 +235,8 @@ class Application extends Container
             \Sloth\Layotter\LayotterServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
+
+            \Sloth\Console\ConsoleServiceProvider::class
         ];
 
         foreach ($providers as $provider) {
