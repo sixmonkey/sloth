@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 /**
  * Clears all Sloth manifest files from the cache directory.
  *
- * Manifests are regenerated automatically on the next request.
+ * Manifests are regenerated automatically on the next web request.
  *
  * @since 1.0.0
  */
@@ -18,7 +18,7 @@ class ClearManifestsCommand extends Command
     /**
      * @since 1.0.0
      */
-    protected $signature = 'manifest:clear {--all : Also clear the illuminate file cache}';
+    protected $signature = 'manifest:clear';
 
     /**
      * @since 1.0.0
@@ -26,7 +26,7 @@ class ClearManifestsCommand extends Command
     protected $description = 'Clear all Sloth manifest files — regenerated on next request';
 
     /**
-     * Manifest filenames managed by Sloth.
+     * All manifest filenames managed by Sloth.
      *
      * @var list<string>
      * @since 1.0.0
@@ -61,9 +61,10 @@ class ClearManifestsCommand extends Command
             }
         }
 
+        $this->newLine();
+
         if ($cleared > 0) {
-            $this->newLine();
-            $this->info("Cleared {$cleared} manifest(s). They will be regenerated on next request.");
+            $this->info("Cleared {$cleared} manifest(s). Regenerated on next request.");
         } else {
             $this->warn('No manifests found to clear.');
         }
