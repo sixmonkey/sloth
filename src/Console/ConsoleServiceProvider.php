@@ -21,6 +21,8 @@ class ConsoleServiceProvider extends ServiceProvider
     /**
      * Register the console kernel.
      *
+     * Only registers when WP-CLI is active.
+     *
      * @since 1.0.0
      */
     #[\Override]
@@ -47,13 +49,6 @@ class ConsoleServiceProvider extends ServiceProvider
             return;
         }
 
-        \WP_CLI::add_command(
-            'sloth',
-            function (array $args, array $assoc_args): void {
-                $kernel = app(Kernel::class);
-                $kernel->discoverCommands();
-                $kernel->handle($args, $assoc_args);
-            }
-        );
+        \WP_CLI::add_command('sloth', SlothCommand::class);
     }
 }
