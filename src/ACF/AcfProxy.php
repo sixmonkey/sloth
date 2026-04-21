@@ -18,20 +18,23 @@ class AcfProxy
     /**
      * Constructor for AcfProxy.
      *
-     * @param array<string, mixed> $fields The ACF fields array
+     * @param array<string, mixed> $fields The ACF fields array.
      * @since 1.0.0
      */
-    public function __construct(private $fields) {}
+    public function __construct(
+        /** @var array<string, mixed> */
+        private mixed $fields
+    ) {}
 
     /**
      * Magic method to get field values.
      *
-     * @param string $name The field name
-     * @param array<string, mixed> $arguments Method arguments (unused)
-     * @return mixed The field value or null if not found
+     * @param string $name The field name.
+     * @param array<int, mixed> $arguments Method arguments (unused).
+     * @return mixed The field value or null if not found.
      * @since 1.0.0
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         return $this->fields[$name] ?? null;
     }

@@ -37,6 +37,7 @@ class Context
     /**
      * Constructor for Context.
      *
+     * @param Application $app The application instance.
      * @since 1.0.0
      */
     public function __construct(private Application $app) {}

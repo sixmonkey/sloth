@@ -23,6 +23,7 @@ class ApiControllersResolver extends ClassResolver
      * The directory where API controller classes are located.
      *
      * @var string
+     * @since 1.0.0
      */
     protected static string $dir = 'Api';
 
@@ -30,6 +31,7 @@ class ApiControllersResolver extends ClassResolver
      * The cache key for storing resolved classes.
      *
      * @var string
+     * @since 1.0.0
      */
     protected static string $cacheKey = 'sloth.class-resolver.api-controllers';
 
@@ -37,6 +39,7 @@ class ApiControllersResolver extends ClassResolver
      * The base class that all API controller classes should extend.
      *
      * @var string
+     * @since 1.0.0
      */
     protected static string $subclassOf = Controller::class;
 }

@@ -1,10 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sloth\Core;
 
 use Sloth\Core\Manifest\IncludesManifestBuilder;
-use Sloth\Core\ServiceProvider;
+use Sloth\Core\Manifest\ProvidersManifestBuilder;
 
+/**
+ * Service provider for Application-level bootstrapping.
+ *
+ * Registers manifest builders for includes and service providers,
+ * and hooks them into WordPress's init action.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Support\Manifest\AbstractManifestBuilder
+ */
 class ApplicationServiceProvider extends ServiceProvider
 {
 
