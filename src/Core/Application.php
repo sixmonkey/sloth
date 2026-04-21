@@ -531,4 +531,9 @@ class Application extends Container
     {
         return self::version;
     }
+
+    public function runningUnitTests(): bool
+    {
+        return defined('WP_TESTS_PHASE');
+    }
 }
