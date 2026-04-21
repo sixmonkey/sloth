@@ -28,6 +28,7 @@ class ApplicationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(IncludesManifestBuilder::class, fn($app) => new IncludesManifestBuilder($app));
+        $this->app->singleton(ProvidersManifestBuilder::class, fn($app) => new ProvidersManifestBuilder($app));
     }
 
 
@@ -43,6 +44,7 @@ class ApplicationServiceProvider extends ServiceProvider
         return [
             'init' => [
                 fn() => app(IncludesManifestBuilder::class)->init(),
+                fn() => app(ProvidersManifestBuilder::class)->init(),
             ]
         ];
     }
