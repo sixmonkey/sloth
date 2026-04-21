@@ -21,8 +21,8 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  * ## Discovery order
  *
  * 1. Framework commands — src/Console/Commands/
- * 2. App commands     — app/Console/
- * 3. Theme commands   — theme/Console/
+ * 2. App commands       — app/Console/
+ * 3. Theme commands     — theme/Console/
  *
  * ## Usage
  *
@@ -116,9 +116,9 @@ class Kernel
         $finder = new ClassMapFinder(Command::class);
 
         $map = $finder->find([
-            __DIR__ . '/Commands',           // Framework commands
-            app()->path('Console'),          // App commands
-            app()->path('Console', 'theme'), // Theme commands
+            __DIR__ . '/Commands',
+            app()->path('Console'),
+            app()->path('Console', 'theme'),
         ]);
 
         collect($map)
