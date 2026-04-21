@@ -72,6 +72,9 @@ class LayotterServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @return array[]
+     */
     public function getHooks(): array
     {
         return [
