@@ -24,7 +24,7 @@ use Sloth\Model\Registrars\MenuRegistrar;
 class ModelServiceProvider extends ServiceProvider
 {
     /**
-     * Register the Module service provider.
+     * Register the Model service provider.
      *
      * @since 1.0.0
      */
