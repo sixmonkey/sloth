@@ -20,8 +20,8 @@ use Sloth\Model\Registrars\MenuRegistrar;
  *
  * @since 1.0.0
  * @see \Sloth\Model\Manifest\MenuRegistrar
- * @see \Sloth\Model\Manifest\axonomyRegistrar
- * @see \Sloth\Model\Registrars\ModelRegistrar
+ * @see \Sloth\Model\Manifest\TaxonomyManifestBuilder
+ * @see \Sloth\Model\Manifest\ModelManifestBuilder
  */
 class ModelServiceProvider extends ServiceProvider
 {
