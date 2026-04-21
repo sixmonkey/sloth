@@ -9,7 +9,8 @@ use Illuminate\Console\Command;
 use Sloth\Core\Application;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\StreamOutput;
+use function Termwind\renderUsing;
 
 /**
  * Sloth Console Kernel.
@@ -61,6 +62,9 @@ class Kernel
      */
     public function __construct(private Application $app)
     {
+        $output = new StreamOutput(fopen('php://stdout', 'w'));
+        renderUsing($output);
+
         $this->console = new ConsoleApplication(
             laravel: $app,
             events: $app->make('events'),
@@ -94,7 +98,9 @@ class Kernel
             $argv[] = $value === true ? "--{$key}" : "--{$key}={$value}";
         }
 
-        $this->console->run(new ArgvInput($argv), new ConsoleOutput());
+        $streamOutput = new StreamOutput(fopen('php://stdout', 'w'));
+        renderUsing($streamOutput);
+        $this->console->run(new ArgvInput($argv), $streamOutput);
     }
 
     /**

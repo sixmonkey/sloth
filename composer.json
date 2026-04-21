@@ -29,6 +29,7 @@
     "spatie/image": "^1.10 || ^2.0 || ^3.0",
     "symfony/filesystem": "^8.0",
     "symfony/process": "^7.4",
+    "nunomaduro/termwind": "^2.0",
     "tracy/tracy": "^2.10",
     "twig/twig": "^3.0",
     "vlucas/phpdotenv": "^2.6 || ^3.0 || ^5.0"

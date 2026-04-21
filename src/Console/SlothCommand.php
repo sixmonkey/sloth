@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Console;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-
 /**
  * WP-CLI command handler for `wp sloth`.
  *
