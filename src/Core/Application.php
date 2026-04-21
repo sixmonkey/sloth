@@ -208,6 +208,7 @@ class Application extends Container
 
             // Infrastructure
             \Sloth\Configure\ConfigureServiceProvider::class,
+            \Sloth\Event\EventServiceProvider::class,
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
