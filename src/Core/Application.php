@@ -212,6 +212,8 @@ class Application extends Container
             \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
 
+            \Sloth\Core\ApplicationServiceProvider::class,
+
             // Theme — config + view paths before other providers read them
             \Sloth\Theme\ThemeServiceProvider::class,
 
