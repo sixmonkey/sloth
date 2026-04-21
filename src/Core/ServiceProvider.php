@@ -37,6 +37,34 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 abstract class ServiceProvider extends IlluminateServiceProvider
 {
     /**
+     * Returns WordPress actions this provider wants to register.
+     * The framework calls add_action() for each entry — never call
+     * add_action() directly inside a provider.
+     *
+     * Supports three formats per hook:
+     * - Single callable:   'init' => fn() => $this->doSomething()
+     * - Array of callables: 'init' => [fn() => ..., fn() => ...]
+     * - With priority:     'init' => ['callback' => fn() => ..., 'priority' => 20]
+     *
+     * @return array<string, callable|array>
+     */
+    public function getHooks(): array
+    {
+        return [];
+    }
+
+    /**
+     * Returns WordPress filters this provider wants to register.
+     * Same format as getHooks().
+     *
+     * @return array<string, callable|array>
+     */
+    public function getFilters(): array
+    {
+        return [];
+    }
+
+    /**
      * Handles calls to undefined methods.
      *
      * This magic method catches any calls to undefined methods.

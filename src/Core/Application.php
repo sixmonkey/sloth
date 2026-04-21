@@ -5,15 +5,47 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Sloth\Facades\Facade;
+
+use function Illuminate\Filesystem\join_paths;
 
 /**
  * Application Container
  *
- * This is the main application container for the Sloth framework.
- * It extends Laravel's Container to provide dependency injection
+ * The main application container for the Sloth framework.
+ * Extends Laravel's Container to provide dependency injection
  * and service provider registration.
+ *
+ * ## Responsibilities
+ *
+ * This class is intentionally lean — it only owns:
+ * - Boot lifecycle (configure/boot/isBooted)
+ * - Container registration
+ * - Path management
+ * - Provider registration and booting
+ * - Environment helpers
+ *
+ * Everything else lives in dedicated ServiceProviders:
+ * - Database connection → CorcelServiceProvider
+ * - Config loading → ConfigServiceProvider
+ * - Theme setup → ThemeServiceProvider
+ * - Filesystem → FilesystemServiceProvider
+ * - Cache → CacheServiceProvider
+ *
+ * ## Boot lifecycle
+ *
+ * The application boots exactly once on the `after_setup_theme` hook
+ * (priority 0). Subsequent calls to `configure()->boot()` are no-ops.
+ *
+ * ```php
+ * // In sloth.php MU-plugin:
+ * add_action('after_setup_theme', function () {
+ *     Application::configure()->boot();
+ * }, 0);
+ * ```
  *
  * @since 1.0.0
  * @see \Illuminate\Container\Container
@@ -21,162 +53,478 @@ use Illuminate\Support\Str;
 class Application extends Container
 {
     /**
-     * Project paths mapped by key.
-     * These are stored in the container as 'path.{key}'.
+     * Application version.
      *
      * @since 1.0.0
-     * @var array<string, string>
      */
-    protected array $paths = [];
+    public const version = '1.0.0';
+
+    /**
+     * Whether the application has already been booted.
+     *
+     * @since 1.0.0
+     */
+    private static bool $booted = false;
+
+    /**
+     * Cached base path — set once by guessBasePath().
+     *
+     * Avoids repeated filesystem walks on multiple calls.
+     *
+     * @since 1.0.0
+     */
+    private static ?string $cachedBasePath = null;
 
     /**
      * Registry of loaded service providers.
-     * Maps provider class name to boolean (always true when loaded).
      *
      * @since 1.0.0
-     * @var array<string, bool>
+     * @var array<string, ServiceProvider>
      */
     protected array $loadedProviders = [];
 
     /**
-     * Creates a new Application instance.
+     * Class aliases registered on boot.
      *
-     * Initializes the application container and registers itself
-     * into the container so it can be accessed from anywhere.
+     * @since 1.0.0
+     * @var array<string, class-string>
+     */
+    private array $classAliases = [
+        'Cache' => \Sloth\Facades\Cache::class,
+        'File' => \Sloth\Facades\File::class,
+        'View' => \Sloth\Facades\View::class,
+        'Configure' => \Sloth\Facades\Configure::class,
+        'Validator' => \Sloth\Facades\Validation::class,
+        'Deployment' => \Sloth\Facades\Deployment::class,
+        'Customizer' => \Sloth\Facades\Customizer::class,
+    ];
+
+    // -------------------------------------------------------------------------
+    // Boot lifecycle
+    // -------------------------------------------------------------------------
+
+    /**
+     * Create and return the application instance.
+     *
+     * Returns the existing instance if already booted.
+     * This is the preferred entry point — chain with ->boot().
+     *
+     * @since 1.0.0
+     */
+    public static function configure(): static
+    {
+        if (static::$booted) {
+            return static::getInstance();
+        }
+
+        return new static();
+    }
+
+    /**
+     * Create a new Application instance.
      *
      * @since 1.0.0
      */
     public function __construct()
-    {
-        $this->registerApplication();
-    }
-
-    /**
-     * Registers the Application class into the container.
-     *
-     * This allows the application instance to be accessed from
-     * the container itself via dependency injection or the
-     * static setInstance method.
-     *
-     * @since 1.0.0
-     * @see Application::getInstance()
-     */
-    public function registerApplication(): void
     {
         static::setInstance($this);
         $this->instance('app', $this);
     }
 
     /**
-     * Registers a service provider with the application.
+     * Boot the application.
      *
-     * If the provider hasn't been loaded yet, it will be instantiated
-     * (if a string class name was provided), registered, and then booted.
+     * Idempotent — subsequent calls are no-ops.
+     *
+     * Boot order:
+     * 1. Guard — skip if already booted or WordPress not installed
+     * 2. Config repository
+     * 3. Facades
+     * 4. Base paths
+     * 5. Providers (register + boot + hooks)
+     * 6. Aliases
      *
      * @since 1.0.0
-     *
-     * @param ServiceProvider|string $provider The service provider instance or class name
-     * @param array<string, mixed> $options Optional configuration options
-     * @param bool $force Force registration even if already loaded
-     *
-     * @return ServiceProvider The registered service provider
-     *
-     * @throws \Exception If provider registration fails
      */
-    public function register($provider, array $options = [], bool $force = false): ServiceProvider
+    public function boot(): static
+    {
+        if (static::$booted || !is_blog_installed()) {
+            return $this;
+        }
+
+        // Config repository — must exist before any provider reads config
+        if (Facade::getFacadeApplication()?->bound('config')) {
+            $this->singleton('config', fn() => Facade::getFacadeApplication()->make('config'));
+        } else {
+            $this->singleton('config', fn() => new \Illuminate\Config\Repository([]));
+        }
+
+        Facade::setFacadeApplication($this);
+
+        // Paths — must exist before providers boot
+        $this->registerBasePaths();
+
+        // Providers
+        $this->registerProviders();
+        $this->bootProviders();
+
+        // Aliases — after providers so all facades are bound
+        $this->setAliases();
+
+        static::$booted = true;
+
+        return $this;
+    }
+
+    /**
+     * Check whether the application has been booted.
+     *
+     * @since 1.0.0
+     */
+    public static function isBooted(): bool
+    {
+        return static::$booted;
+    }
+
+    // -------------------------------------------------------------------------
+    // Providers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Register all core framework service providers.
+     *
+     * Order matters — providers listed first are registered first.
+     * ConfigureServiceProvider must come before any provider that
+     * calls Configure::read/write during registration.
+     *
+     * @since 1.0.0
+     */
+    protected function registerProviders(): void
+    {
+        $providers = [
+            // Compatibility — must be first so $GLOBALS proxies are available
+            \Sloth\Compatibility\LegacyGlobalsServiceProvider::class,
+
+            // Infrastructure
+            \Sloth\Configure\ConfigureServiceProvider::class,
+            \Sloth\Filesystem\FilesystemServiceProvider::class,
+            \Sloth\Cache\CacheServiceProvider::class,
+            \Sloth\Debug\DebugServiceProvider::class,
+
+            \Sloth\Core\ApplicationServiceProvider::class,
+
+            // Theme — config + view paths before other providers read them
+            \Sloth\Theme\ThemeServiceProvider::class,
+
+            // Framework
+            \Sloth\Finder\FinderServiceProvider::class,
+            \Sloth\View\ViewServiceProvider::class,
+            \Sloth\Pagination\PaginationServiceProvider::class,
+            \Sloth\Request\RequestServiceProvider::class,
+            \Sloth\Validation\ValidationServiceProvider::class,
+
+            // WordPress integration
+            \Sloth\Database\DatabaseServiceProvider::class,
+            \Sloth\Model\ModelServiceProvider::class,
+            \Sloth\Context\ContextServiceProvider::class,
+            \Sloth\Template\TemplateServiceProvider::class,
+            \Sloth\Api\ApiServiceProvider::class,
+            \Sloth\Media\MediaServiceProvider::class,
+            \Sloth\Admin\AdminServiceProvider::class,
+            \Sloth\Layotter\LayotterServiceProvider::class,
+            \Sloth\Module\ModuleServiceProvider::class,
+            \Sloth\Deployment\DeploymentServiceProvider::class,
+        ];
+
+        foreach ($providers as $provider) {
+            $this->register($provider);
+        }
+    }
+
+    /**
+     * Register a service provider with the application.
+     *
+     * @param ServiceProvider|string $provider
+     * @param bool $force Force re-registration.
+     * @return ServiceProvider
+     * @since 1.0.0
+     */
+    public function register(string|ServiceProvider $provider, bool $force = false): ServiceProvider
     {
         if (!$provider instanceof ServiceProvider) {
             $provider = new $provider($this);
         }
 
-        $providerName = $provider::class;
+        $name = $provider::class;
 
-        if (array_key_exists($providerName, $this->loadedProviders) && !$force) {
+        if (isset($this->loadedProviders[$name]) && !$force) {
             return $provider;
         }
 
-        $this->loadedProviders[$providerName] = true;
+        $this->instance($name, $provider);
         $provider->register();
-
-        if (method_exists($provider, 'boot')) {
-            $provider->boot();
-        }
+        $this->loadedProviders[$name] = $provider;
 
         return $provider;
     }
 
     /**
-     * Adds a file path to the container.
-     *
-     * Paths are stored in the container with the key prefixed by 'path.'.
-     * For example, 'cache' becomes 'path.cache'.
+     * Boot all registered providers and register their hooks and filters.
      *
      * @since 1.0.0
+     */
+    protected function bootProviders(): void
+    {
+        $providers = $this->getLoadedProviders();
+
+        $providers->each(fn(ServiceProvider $p) => $p->boot());
+
+        $providers->each(function (ServiceProvider $provider): void {
+            foreach ($provider->getHooks() as $hook => $value) {
+                foreach ($this->normalizeCallbacks($value) as $callback) {
+                    add_action($hook, $callback['fn'], $callback['priority'], PHP_INT_MAX);
+                }
+            }
+            foreach ($provider->getFilters() as $filter => $value) {
+                foreach ($this->normalizeCallbacks($value) as $callback) {
+                    add_filter($filter, $callback['fn'], $callback['priority'], PHP_INT_MAX);
+                }
+            }
+        });
+    }
+
+    /**
+     * Normalize callbacks from getHooks/getFilters format.
      *
-     * @param string $key The path identifier (e.g., 'cache', 'views')
-     * @param string $path The full filesystem path
+     * @param mixed $value
+     * @return array<int, array{fn: callable, priority: int}>
+     * @since 1.0.0
+     */
+    private function normalizeCallbacks(mixed $value): array
+    {
+        if (is_callable($value)) {
+            return [['fn' => $value, 'priority' => 10]];
+        }
+
+        if (isset($value['callback'])) {
+            return [['fn' => $value['callback'], 'priority' => $value['priority'] ?? 10]];
+        }
+
+        return array_map(function ($item) {
+            if (is_callable($item)) {
+                return ['fn' => $item, 'priority' => 10];
+            }
+            return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
+        }, $value);
+    }
+
+    /**
+     * Get all loaded service providers as a Collection.
      *
-     * @example $app->addPath('cache', '/var/www/cache');
+     * @return Collection<string, ServiceProvider>
+     * @since 1.0.0
+     */
+    public function getLoadedProviders(): Collection
+    {
+        return collect($this->loadedProviders);
+    }
+
+    // -------------------------------------------------------------------------
+    // Aliases
+    // -------------------------------------------------------------------------
+
+    /**
+     * Create class aliases for framework facades.
+     *
+     * @since 1.0.0
+     */
+    private function setAliases(): void
+    {
+        foreach ($this->classAliases as $alias => $class) {
+            if (!class_exists($alias)) {
+                class_alias($class, $alias);
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Paths
+    // -------------------------------------------------------------------------
+
+    /**
+     * Register all base paths for the application.
+     *
+     * Called after after_setup_theme — WordPress functions are available.
+     *
+     * @since 1.0.0
+     */
+    protected function registerBasePaths(): void
+    {
+        $base = $this->guessBasePath();
+
+        $this->addPath('base', $base);
+        $this->addPath('app', $base . '/app');
+        $this->addPath('vendor', $base . '/vendor');
+        $this->addPath('framework', dirname(__DIR__));
+        $this->addPath('cms', ABSPATH);
+        $this->addPath('plugins', WP_PLUGIN_DIR);
+        $this->addPath('theme', get_template_directory());
+
+        // Cache and logs live in the theme — auto-create if missing
+        foreach (['cache', 'logs'] as $key) {
+            $path = get_template_directory() . '/' . $key;
+            if (!is_dir($path)) {
+                mkdir($path, 0o755, true);
+            }
+            $this->addPath($key, $path);
+        }
+    }
+
+    /**
+     * Guess the project root path.
+     *
+     * Resolution order:
+     * 1. `SLOTH_BASE_PATH` constant — explicit override
+     * 2. Walk up from __DIR__ to find composer.json outside vendor/
+     * 3. Theme-only fallback — app/ inside get_template_directory()
+     *
+     * Result is cached statically for the duration of the request.
+     *
+     * @throws \RuntimeException
+     * @since 1.0.0
+     */
+    protected function guessBasePath(): string
+    {
+        if (static::$cachedBasePath !== null) {
+            return static::$cachedBasePath;
+        }
+
+        if (defined('SLOTH_BASE_PATH')) {
+            return static::$cachedBasePath = rtrim(SLOTH_BASE_PATH, '/');
+        }
+
+        $dir = __DIR__;
+        while ($dir !== '/') {
+            if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
+                return static::$cachedBasePath = $dir;
+            }
+            $dir = dirname($dir);
+        }
+
+        if (function_exists('get_template_directory')) {
+            $theme = get_template_directory();
+            if (is_dir($theme . '/app')) {
+                return static::$cachedBasePath = $theme;
+            }
+        }
+
+        throw new \RuntimeException(
+            'Sloth could not determine the project base path. '
+            . 'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
+        );
+    }
+
+    /**
+     * Add a path to the container.
+     *
+     * @param string $key Path identifier (e.g. 'cache', 'theme').
+     * @param string $path Full filesystem path.
+     * @since 1.0.0
      */
     public function addPath(string $key, string $path): void
     {
+        if (is_dir($path)) {
+            $path = realpath($path);
+        }
         $this->instance('path.' . $key, $path);
     }
 
     /**
-     * Calls a theme module with the given data and options.
+     * Get a path from the container.
      *
-     * Modules are stored in the Theme\Module namespace and must follow
-     * the naming convention: '{Name}Module' where {Name} is the camel-cased
-     * module name.
+     * @param string $path Optional subpath to append.
+     * @param string $prefix Path key (default: 'app').
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @since 1.0.0
+     */
+    public function path(string $path = '', string $prefix = 'app'): string
+    {
+        return join_paths($this->get('path.' . $prefix), $path);
+    }
+
+    // -------------------------------------------------------------------------
+    // Environment
+    // -------------------------------------------------------------------------
+
+    /**
+     * Check if running in a local/development environment.
      *
      * @since 1.0.0
-     *
-     * @param string $name The module name (kebab-case or snake_case)
-     * @param array<string, mixed> $data Key-value pairs to set on the module
-     * @param array<string, mixed> $options Module configuration options
-     *
-     * @return string The rendered module output
-     *
-     * @throws \Exception If the module class doesn't exist
-     *
-     * @example $app->callModule('my-module', ['title' => 'Hello'], ['theme' => 'dark']);
      */
-    public function callModule(string $name, array $data = [], array $options = []): string
+    public function isLocal(): bool
     {
-        $moduleName = 'Theme\\Module\\' . Str::camel(str_replace('-', '_', $name)) . 'Module';
-        $myModule = new $moduleName($options);
-
-        foreach ($data as $k => $v) {
-            $myModule->set($k, $v);
-        }
-
-        return $myModule->render();
+        return in_array(env('WP_ENV', 'production'), ['development', 'develop', 'dev'], true);
     }
 
     /**
-     * Resolves the given type from the container with custom handling.
+     * Check if running in production.
      *
-     * This method provides custom resolution for specific classes like the Paginator.
-     *
-     * @param class-string|object $abstract The class or interface to resolve
-     * @param array<string, mixed> $parameters Constructor parameters
-     * @param bool $raiseEvents Whether to fire resolution events
-     *
-     * @return mixed The resolved instance
-     *
-     * @throws BindingResolutionException
-     * @since 1.1.0 Renamed from resolve to avoid conflict with protected parent method
-     *
-     * @see \Illuminate\Container\Container::make()
      * @since 1.0.0
      */
-    public function resolveFromContainer($abstract, array $parameters = [], $raiseEvents = true): mixed
+    public function isProduction(): bool
     {
-        if ($abstract === \Illuminate\Pagination\LengthAwarePaginator::class) {
-            $abstract = \Sloth\Pagination\Paginator::class;
-        }
+        return env('WP_ENV', 'production') === 'production';
+    }
 
-        return $this->make($abstract, $parameters);
+    /**
+     * Get the current environment name.
+     *
+     * @since 1.0.0
+     */
+    public function environment(): string
+    {
+        return env('WP_ENV', 'production');
+    }
+
+    // -------------------------------------------------------------------------
+    // Backwards compatibility
+    // -------------------------------------------------------------------------
+
+    /**
+     * Get the template context.
+     *
+     * @return array<string, mixed>
+     * @since 1.0.0
+     * @deprecated Use app('context')->getContext() instead.
+     */
+    public function getContext(): array
+    {
+        return $this->bound('context') ? $this['context']->getContext() : [];
+    }
+
+    /**
+     * Check if running in a development environment.
+     *
+     * @deprecated Use app()->isLocal() instead.
+     * @since 1.0.0
+     */
+    public function isDevEnv(): bool
+    {
+        return $this->isLocal();
+    }
+
+    // -------------------------------------------------------------------------
+    // Misc
+    // -------------------------------------------------------------------------
+
+    /**
+     * Get the application version.
+     *
+     * @since 1.0.0
+     */
+    public function version(): string
+    {
+        return self::version;
     }
 }

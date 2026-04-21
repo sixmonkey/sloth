@@ -6,17 +6,24 @@ namespace Sloth\Layotter;
 
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
-use Sloth\Facades\Configure;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\View;
-use Sloth\Singleton\Singleton;
 use Sloth\Utility\Utility;
 
 /**
  * Layotter page builder integration.
  *
+ * This class provides integration with the Layotter page builder plugin,
+ * handling:
+ * - Post type enable/disable for page builder
+ * - Row layout configuration per post type
+ * - Custom view rendering for elements, columns, rows, and posts
+ * - Admin CSS styling for Layotter interface
+ *
  * @since 1.0.0
+ * @see https://github.com/layotter/layotter Layotter plugin
  */
-class Layotter extends Singleton
+class Layotter
 {
     /**
      * Disabled post types.
@@ -51,17 +58,24 @@ class Layotter extends Singleton
     public static array $enabledPostTypes = [];
 
     /**
-     * Get custom column classes for Layotter.
+     * Constructor for Layotter.
      *
      * @since 1.0.0
+     */
+    public function __construct() {}
+
+    /**
+     * Get custom column classes for Layotter.
      *
      * @param array<string> $defaultClasses Default column classes
      *
      * @return array<string, string>
+     * @since 1.0.0
+     *
      */
     public function customColumnClasses(array $defaultClasses): array
     {
-        $layotterCustomClasses = Configure::read('layotter_custom_classes');
+        $layotterCustomClasses = config('layotter_custom_classes');
         $columnClasses = [];
 
         for ($i = 1; $i <= 12; $i++) {
@@ -78,11 +92,11 @@ class Layotter extends Singleton
     /**
      * Get enabled post types.
      *
-     * @since 1.0.0
-     *
      * @param array<string> $postTypes The post types to filter
      *
      * @return array<string>
+     * @since 1.0.0
+     *
      */
     public static function enabledPostTypes(array $postTypes): array
     {
@@ -101,9 +115,9 @@ class Layotter extends Singleton
     /**
      * Disable Layotter for a specific post type.
      *
+     * @param string $postType The post type to disable
      * @since 1.0.0
      *
-     * @param string $postType The post type to disable
      */
     public static function disable_for_post_type(string $postType): void
     {
@@ -115,9 +129,9 @@ class Layotter extends Singleton
     /**
      * Enable Layotter for a specific post type.
      *
+     * @param string $postType The post type to enable
      * @since 1.0.0
      *
-     * @param string $postType The post type to enable
      */
     public static function enable_for_post_type(string $postType): void
     {
@@ -127,10 +141,10 @@ class Layotter extends Singleton
     /**
      * Set layouts for a specific post type.
      *
-     * @since 1.0.0
-     *
      * @param string $postType The post type
      * @param array<string> $layouts The layout names
+     * @since 1.0.0
+     *
      */
     public static function set_layouts_for_post_type(string $postType, array $layouts): void
     {
@@ -143,17 +157,18 @@ class Layotter extends Singleton
      * Returns layouts configured for the current post type, falling back
      * to theme configuration or default layouts.
      *
-     * @since 1.0.0
-     *
      * @param array<string> $rowLayouts Default row layouts
      * @return array<string>
+     * @throws BindingResolutionException
+     * @since 1.0.0
+     *
      */
     public static function allowedRowLayouts(array $rowLayouts): array
     {
         global $post;
         $postType = $post->post_type ?? 'post';
 
-        return self::$layoutsForPostType[$postType] ?? Configure::read('theme.layotter.row_layouts')
+        return self::$layoutsForPostType[$postType] ?? config('theme.layotter.row_layouts')
             ?? $rowLayouts;
     }
 
@@ -163,9 +178,10 @@ class Layotter extends Singleton
      * Returns the first layout configured for the current post type,
      * or the first theme layout, or the provided default.
      *
+     * @param string $rowLayout The default row layout
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param string $rowLayout The default row layout
      */
     public static function defaultRowLayout(string $rowLayout): string
     {
@@ -176,7 +192,7 @@ class Layotter extends Singleton
             return reset(self::$layoutsForPostType[$postType]);
         }
 
-        $themeLayouts = Configure::read('theme.layotter.row_layouts');
+        $themeLayouts = config('theme.layotter.row_layouts');
 
         if (is_array($themeLayouts)) {
             return (string) reset($themeLayouts);
@@ -188,10 +204,10 @@ class Layotter extends Singleton
     /**
      * Set layouts for a post type.
      *
+     * @param string $postType The post type slug
+     * @param array<string> $layouts The layouts to enable
      * @since 1.0.0
      *
-     * @param string          $postType The post type slug
-     * @param array<string>   $layouts  The layouts to enable
      */
     public static function setLayoutsForPostType(string $postType, array $layouts): void
     {
@@ -201,10 +217,10 @@ class Layotter extends Singleton
     /**
      * Set layouts for a template.
      *
+     * @param string $template The template slug
+     * @param array<string> $layouts The layouts to enable
      * @since 1.0.0
      *
-     * @param string          $template The template slug
-     * @param array<string>   $layouts  The layouts to enable
      */
     public static function setLayoutsForTemplate(string $template, array $layouts): void
     {
@@ -214,9 +230,9 @@ class Layotter extends Singleton
     /**
      * Disable Layotter for a post type.
      *
+     * @param string $postType The post type slug
      * @since 1.0.0
      *
-     * @param string $postType The post type slug
      */
     public static function disableForPostType(string $postType): void
     {
@@ -226,9 +242,9 @@ class Layotter extends Singleton
     /**
      * Enable Layotter for a post type.
      *
+     * @param string $postType The post type slug
      * @since 1.0.0
      *
-     * @param string $postType The post type slug
      */
     public static function enableForPostType(string $postType): void
     {
@@ -238,13 +254,13 @@ class Layotter extends Singleton
     /**
      * Render a Layotter element.
      *
-     * @since 1.0.0
-     *
-     * @param string                $elementHtml The rendered element HTML
-     * @param array<string, mixed>|null $options    Element options
+     * @param string $elementHtml The rendered element HTML
+     * @param array<string, mixed>|null $options Element options
      * @param array<string, mixed>|null $colOptions Column options
      * @param array<string, mixed>|null $rowOptions Row options
      * @param array<string, mixed>|null $postOptions Post options
+     * @since 1.0.0
+     *
      */
     public function customElementView(
         string $elementHtml,
@@ -256,10 +272,10 @@ class Layotter extends Singleton
         $view = View::make($this->getCurrentView('element'));
 
         return $view->with([
-            'content'      => $elementHtml,
-            'options'      => $options,
-            'col_options'  => $colOptions,
-            'row_options'  => $rowOptions,
+            'content' => $elementHtml,
+            'options' => $options,
+            'col_options' => $colOptions,
+            'row_options' => $rowOptions,
             'post_options' => $postOptions,
         ])->render();
     }
@@ -267,13 +283,13 @@ class Layotter extends Singleton
     /**
      * Render a Layotter column.
      *
-     * @since 1.0.0
-     *
-     * @param string                $elementsHtml The rendered elements HTML
-     * @param string                $class        Column class
-     * @param array<string, mixed>|null $options    Column options
+     * @param string $elementsHtml The rendered elements HTML
+     * @param string $class Column class
+     * @param array<string, mixed>|null $options Column options
      * @param array<string, mixed>|null $rowOptions Row options
      * @param array<string, mixed>|null $postOptions Post options
+     * @since 1.0.0
+     *
      */
     public function customColumnView(
         string $elementsHtml,
@@ -285,10 +301,10 @@ class Layotter extends Singleton
         $view = View::make($this->getCurrentView('column'));
 
         return $view->with([
-            'content'      => $elementsHtml,
-            'class'        => trim($class),
-            'options'      => $options,
-            'row_options'  => $rowOptions,
+            'content' => $elementsHtml,
+            'class' => trim($class),
+            'options' => $options,
+            'row_options' => $rowOptions,
             'post_options' => $postOptions,
         ])->render();
     }
@@ -296,11 +312,11 @@ class Layotter extends Singleton
     /**
      * Render a Layotter row.
      *
+     * @param string $colsHtml The rendered columns HTML
+     * @param array<string, mixed> $options Row options
+     * @param array<string, mixed>|null $postOptions Post options
      * @since 1.0.0
      *
-     * @param string                $colsHtml      The rendered columns HTML
-     * @param array<string, mixed> $options       Row options
-     * @param array<string, mixed>|null $postOptions Post options
      */
     public function customRowView(string $colsHtml, array $options = [], ?array $postOptions = null): string
     {
@@ -317,8 +333,8 @@ class Layotter extends Singleton
         $view = View::make($this->getCurrentView('row'));
 
         return $view->with([
-            'content'      => $colsHtml,
-            'options'      => $options,
+            'content' => $colsHtml,
+            'options' => $options,
             'post_options' => $postOptions,
         ])->render();
     }
@@ -326,10 +342,10 @@ class Layotter extends Singleton
     /**
      * Render a Layotter post.
      *
+     * @param string $rowsHtml The rendered rows HTML
+     * @param array<string, mixed> $options Post options
      * @since 1.0.0
      *
-     * @param string                $rowsHtml The rendered rows HTML
-     * @param array<string, mixed>  $options  Post options
      */
     public function customPostView(string $rowsHtml, array $options): string
     {
@@ -344,17 +360,17 @@ class Layotter extends Singleton
     /**
      * Get the current view path for a Layotter component.
      *
+     * @param string $for The component type (element, column, row, post)
      * @since 1.0.0
      *
-     * @param string $for The component type (element, column, row, post)
      */
     final protected function getCurrentView(string $for): string
     {
         $viewParts = ['Layotter', $for];
         $layoutPaths = [];
 
-        foreach ($GLOBALS['sloth']->container['view.finder']->getPaths() as $path) {
-            $layoutPaths[] = $path . DS . implode(DS, $viewParts);
+        foreach (app('view.finder')->getPaths() as $path) {
+            $layoutPaths[] = $path . '/' . implode('/', $viewParts);
         }
 
         $finder = new ByFolders($layoutPaths, 'twig');
@@ -368,24 +384,15 @@ class Layotter extends Singleton
     }
 
     /**
-     * Add Layotter filters.
+     * Render Layotter admin CSS styles.
+     *
+     * Outputs inline CSS for styling the Layotter page builder
+     * interface in the WordPress admin.
      *
      * @since 1.0.0
      */
-    final public function addFilters(): void
+    public function renderLayotterStyles(): void
     {
-        add_filter('layotter/enable_example_element', '__return_false');
-        add_filter('layotter/enable_default_css', '__return_false');
-        add_filter('layotter/enable_element_templates', '__return_true');
-        add_filter('layotter/enable_post_layouts', '__return_true');
-
-        add_filter('layotter/enabled_post_types', $this->enabledPostTypes(...));
-        add_filter('layotter/rows/allowed_layouts', $this->allowedRowLayouts(...));
-        add_filter('layotter/rows/default_layout', $this->defaultRowLayout(...));
-        add_filter('layotter/columns/classes', $this->customColumnClasses(...));
-        add_filter('layotter/view/element', $this->customElementView(...), 10, 5);
-        add_filter('layotter/view/column', $this->customColumnView(...), 10, 5);
-        add_filter('layotter/view/row', $this->customRowView(...), 10, 3);
-        add_filter('layotter/view/post', $this->customPostView(...), 10, 2);
+        echo "<style>" . app('files')->get(__DIR__ . '/' . '_assets' . '/' . 'layotter.css') . "</style>";
     }
 }

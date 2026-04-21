@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Sloth\Deployment;
 
-use Sloth\Singleton\Singleton;
-
 /**
  * Deployment class for triggering deployment webhooks.
  *
  * @since 1.0.0
  */
-class Deployment extends Singleton
+class Deployment
 {
     /**
      * WordPress hooks to trigger deployment.

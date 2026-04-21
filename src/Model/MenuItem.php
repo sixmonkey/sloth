@@ -58,12 +58,12 @@ class MenuItem extends Corcel
         parent::__construct($attributes);
 
         $this->instanceRelations = array_merge(
-            $GLOBALS['sloth::plugin']->getAllModels() ?? [],
+            app('sloth.models') ?? [],
             $this->instanceRelations
         );
 
         $this->instanceRelations = array_merge(
-            $GLOBALS['sloth::plugin']->getAllTaxonomies() ?? [],
+            app('sloth.taxonomies') ?? [],
             $this->instanceRelations
         );
     }
@@ -100,7 +100,7 @@ class MenuItem extends Corcel
         $className = $this->getClassName();
 
         if ($className) {
-            return (new $className())->newQuery()
+            return new $className()->newQuery()
                 ->find($this->meta->_menu_item_menu_item_parent);
         }
 
@@ -119,7 +119,7 @@ class MenuItem extends Corcel
         $className = $this->getClassName();
 
         if ($className) {
-            return (new $className())->newQuery()
+            return new $className()->newQuery()
                 ->find($this->meta->_menu_item_object_id);
         }
 
@@ -168,7 +168,7 @@ class MenuItem extends Corcel
     {
         $tax = $this->instance()->toArray();
 
-        return \get_term_link((int)($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '');
+        return \get_term_link((int) ($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '');
     }
 
     /**
@@ -210,7 +210,7 @@ class MenuItem extends Corcel
     {
         $tax = $this->instance()->toArray();
 
-        return (string)\get_term_field('name', (int)($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '', 'raw');
+        return (string) \get_term_field('name', (int) ($tax['term_taxonomy_id'] ?? 0), $tax['taxonomy'] ?? '', 'raw');
     }
 
     /**
@@ -238,7 +238,7 @@ class MenuItem extends Corcel
     {
         $post = $this->get_wp_post_classes();
 
-        return (bool)($post->current ?? false);
+        return (bool) ($post->current ?? false);
     }
 
     /**
@@ -250,13 +250,13 @@ class MenuItem extends Corcel
      */
     public function getCurrentItemParentAttribute(): bool
     {
-        $context = $GLOBALS['sloth::plugin']->getContext();
+        $context = app('sloth.context') ?? [];
 
         if (isset($context['post'])) {
             $instance = $this->instance();
             $id = is_object($instance) ? ($instance->ID ?? 0) : ($instance['ID'] ?? 0);
 
-            if ((int)$context['post']->parent_id === $id) {
+            if ((int) $context['post']->parent_id === $id) {
                 return true;
             }
 
@@ -267,13 +267,13 @@ class MenuItem extends Corcel
 
             $option_key = 'link_overview_' . $context['post']->postType;
             if (get_option($option_key)) {
-                return (int)get_option($option_key) === $id;
+                return (int) get_option($option_key) === $id;
             }
         }
 
         $post = $this->get_wp_post_classes();
 
-        return (bool)($post->current_item_parent ?? false);
+        return (bool) ($post->current_item_parent ?? false);
     }
 
     /**
@@ -287,7 +287,7 @@ class MenuItem extends Corcel
     {
         $post = $this->get_wp_post_classes();
 
-        return (bool)($post->current_item_ancestor ?? false);
+        return (bool) ($post->current_item_ancestor ?? false);
     }
 
     /**
@@ -331,7 +331,7 @@ class MenuItem extends Corcel
             $classes[] = 'current_item_ancestor';
         }
 
-        return trim(implode(' ', array_filter((array)$classes)));
+        return trim(implode(' ', array_filter((array) $classes)));
     }
 
     /**

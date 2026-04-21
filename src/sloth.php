@@ -1,5 +1,13 @@
 <?php
 
-use Sloth\Plugin\Plugin;
+/**
+ * Plugin Name: Sloth
+ * Description: Sloth Framework Bootstrap
+ * Version: 1.0.0
+ */
 
-$GLOBALS['sloth::plugin'] = Plugin::getInstance();
+use Sloth\Core\Application;
+
+add_action('after_setup_theme', function (): void {
+    Application::configure()->boot();
+}, 0);

@@ -1,78 +1,79 @@
 {
-    "name": "sixmonkey/sloth",
-    "description": "A WordPress theme framework built with Laravel components",
-    "license": "MIT",
-    "require": {
-        "php": ">=8.4",
-        "ext-json": "*",
-        "brain/hierarchy": "^2.0 || ^3.0",
-        "cakephp/utility": "^3.0 || ^4.0",
-        "gossi/docblock": "^1.6",
-        "illuminate/config": "^12.0",
-        "illuminate/container": "^12.0",
-        "illuminate/database": "^12.0",
-        "illuminate/events": "^12.0",
-        "illuminate/filesystem": "^12.0",
-        "illuminate/http": "^12.0",
-        "illuminate/pagination": "^12.0",
-        "illuminate/support": "^12.0",
-        "illuminate/validation": "^12.0",
-        "illuminate/view": "^12.0",
-        "jgrossi/corcel": "^9.0",
-        "jjgrainger/posttypes": "2.1",
-        "league/climate": "^3.0 || ^3.8",
-        "milo/vendor-versions": "^1.1 || ^2.0",
-        "nikic/fast-route": "^1.3",
-        "nofutur3/tracy-gitpanel": "^0.9",
-        "org_heigl/hyphenator": "^2.0 || ^2.4 || ^3.0",
-        "spatie/emoji": "^4.0",
-        "spatie/image": "^1.10 || ^2.0 || ^3.0",
-        "tracy/tracy": "^2.10",
-        "twig/twig": "^3.0",
-        "vlucas/phpdotenv": "^2.6 || ^3.0 || ^5.0"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.50",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin": "^2.0",
-        "brain/monkey": "^2.6",
-        "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^10.0",
-        "rector/rector": "^1.2"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "1.0.x-dev"
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "Sloth\\": "src/"
-        },
-        "files": [
-            "src/functions.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Sloth\\Tests\\": "tests/"
-        }
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "php-http/discovery": true,
-            "pestphp/pest-plugin": true
-        }
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
-    "scripts": {
-        "test": "pest",
-        "test:coverage": "pest --coverage --coverage-html build/coverage",
-        "analyse": "phpstan analyse",
-        "cs-fix": "php-cs-fixer fix",
-        "cs-check": "php-cs-fixer fix --dry-run --diff",
-        "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api"
+  "name": "sixmonkey/sloth",
+  "description": "A WordPress theme framework built with Laravel components",
+  "license": "MIT",
+  "suggest": {
+    "ext-imagick": "Required for generating screenshot.png during theme setup"
+  },
+  "require": {
+    "php": ">=8.4",
+    "ext-json": "*",
+    "brain/hierarchy": "^2.0 || ^3.0",
+    "composer/composer": "^2.9",
+    "filp/whoops": "^2.18",
+    "illuminate/cache": "^12.0",
+    "illuminate/config": "^12.0",
+    "illuminate/container": "^12.0",
+    "illuminate/database": "^12.0",
+    "illuminate/events": "^12.0",
+    "illuminate/filesystem": "^12.56",
+    "illuminate/http": "^12.0",
+    "illuminate/pagination": "^12.0",
+    "illuminate/support": "^12.0",
+    "illuminate/validation": "^12.0",
+    "illuminate/view": "^12.0",
+    "jgrossi/corcel": "^9.0",
+    "johnbillion/args": "^2.4",
+    "johnbillion/extended-cpts": "^5.1",
+    "spatie/image": "^1.10 || ^2.0 || ^3.0",
+    "symfony/filesystem": "^8.0",
+    "symfony/process": "^7.4",
+    "tracy/tracy": "^2.10",
+    "twig/twig": "^3.0",
+    "vlucas/phpdotenv": "^2.6 || ^3.0 || ^5.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.50",
+    "pestphp/pest": "^2.0",
+    "pestphp/pest-plugin": "^2.0",
+    "brain/monkey": "^2.6",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^10.0",
+    "rector/rector": "^1.2"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "1.0.x-dev"
     }
+  },
+  "autoload": {
+    "psr-4": {
+      "Sloth\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sloth\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "pestphp/pest-plugin": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "scripts": {
+    "test": "pest",
+    "test:coverage": "pest --coverage --coverage-html build/coverage",
+    "analyse": "phpstan analyse",
+    "cs-fix": "php-cs-fixer fix",
+    "cs-check": "php-cs-fixer fix --dry-run --diff",
+    "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple"
+  }
 }

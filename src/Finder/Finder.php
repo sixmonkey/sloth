@@ -134,7 +134,7 @@ abstract class Finder extends IlluminateFileViewFinder
         foreach ($paths as $path) {
             foreach ($this->getPossibleFiles($name) as $file) {
                 $filePath = $path . $file;
-                if (file_exists($filePath)) {
+                if (app('files')->exists($filePath)) {
                     return $filePath;
                 }
             }
@@ -155,7 +155,7 @@ abstract class Finder extends IlluminateFileViewFinder
     protected function getPossibleFiles(string $name): array
     {
         return array_map(
-            fn(string $extension): string => str_replace('.', DS, $name) . '.' . $extension,
+            fn(string $extension): string => str_replace('.', '/', $name) . '.' . $extension,
             $this->extensions
         );
     }

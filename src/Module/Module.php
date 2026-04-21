@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Sloth\Module;
 
-use Cake\Utility\Hash;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Sloth\Facades\View;
-use Sloth\Utility\Utility;
 
 /**
  * Base module class for creating modular components.
@@ -126,9 +125,9 @@ class Module
      * Override this method in subclasses to modify the JSON
      * payload before it's returned in AJAX/REST responses.
      *
+     * @param mixed $payload The payload to process (usually array or object)
      * @since 1.0.0
      *
-     * @param mixed $payload The payload to process (usually array or object)
      */
     protected function beforeGetJSON(mixed $payload) {}
 
@@ -141,9 +140,9 @@ class Module
      * 3. Converting to kebab-case
      * 4. Adding 'Module.' prefix (e.g., 'HeaderModule' -> 'Module.header')
      *
+     * @return string The template name with prefix (e.g., 'Module.hero-section')
      * @since 1.0.0
      *
-     * @return string The template name with prefix (e.g., 'Module.hero-section')
      */
     public function getTemplate(): string
     {
@@ -177,9 +176,9 @@ class Module
      * Used by the Layotter page builder to configure the element
      * for this module. Returns the static $layotter configuration.
      *
+     * @return array<string, mixed>|false The Layotter config or false if disabled
      * @since 1.0.0
      *
-     * @return array<string, mixed>|false The Layotter config or false if disabled
      */
     final public function getLayotterAttributes(): array|false
     {
@@ -197,13 +196,13 @@ class Module
     public function render(): string
     {
         if (!$this->doingAjax) {
-            $this->set($GLOBALS['sloth::plugin']->getContext(), false);
+            $this->set(app('sloth.context') ?? [], false);
         }
 
         $this->set('ajax_url', $this->getAjaxUrl());
         $this->beforeRender();
         $this->makeView();
-        $vars = array_merge($GLOBALS['sloth::plugin']->getContext(), $this->viewVars);
+        $vars = array_merge(app('sloth.context') ?? [], $this->viewVars);
         $output = $this->view->with($vars)->render();
 
         if ($this->render) {
@@ -254,7 +253,7 @@ class Module
      */
     final protected function get(string $k): mixed
     {
-        return Hash::get($this->viewVars, $k);
+        return Arr::get($this->viewVars, $k);
     }
 
     /**
@@ -267,7 +266,7 @@ class Module
      */
     final public function isSet(string $key): bool
     {
-        return Hash::get($this->viewVars, $key) !== null;
+        return Arr::get($this->viewVars, $key) !== null;
     }
 
     /**
@@ -280,7 +279,7 @@ class Module
      */
     final public function unset(string $key): void
     {
-        $this->viewVars = Hash::remove($this->viewVars, $key);
+        Arr::forget($this->viewVars, $key);
     }
 
     /**
@@ -354,7 +353,7 @@ class Module
      */
     final public function getAjaxAction(): string
     {
-        return 'module_' . Utility::underscore(class_basename($this));
+        return 'module_' . Str::snake(class_basename($this));
     }
 
     /**
@@ -368,7 +367,7 @@ class Module
     final protected function prepareValue(mixed $value): mixed
     {
         if (is_a($value, 'WP_Post')) {
-            $modelName = $GLOBALS['sloth::plugin']->getPostTypeClass($value->post_type);
+            $modelName = (app('sloth.models') ?? [])[$value->post_type] ?? \Sloth\Model\Model::class;
             $post = call_user_func([$modelName, 'find'], $value->ID);
             $value = $post;
         }
