@@ -17,29 +17,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Skip CI
-        run: echo "CI temporarily disabled"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  # jobs:
-  #   ci:
-  #     name: CI Pipeline
-  #     runs-on: ubuntu-latest
-  # 
-  #     steps:
-  #       - name: Checkout code
-  #         uses: actions/checkout@v4
-  # 
-  #       - name: Setup PHP
-  #         uses: shivammathur/setup-php@v2
-  #         with:
-  #           php-version: '8.2'
-  #           extensions: json, mbstring, xml, zip
-  # 
-  #       - name: Install Composer dependencies
-  #         run: composer install --no-progress --prefer-dist
-  # 
-  #       - name: Run Code Style Check
-  #         run: composer cs-check
-  # 
-  #       - name: Run PHPStan Static Analysis
-  #         run: vendor/bin/phpstan analyse --memory-limit=1G
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, mbstring, xml, zip, pcov
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run Tests with Coverage
+        run: ./vendor/bin/pest --coverage
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml
+          flags: unittests
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Run Code Style Check
+        run: composer cs-check
+
+      - name: Run PHPStan Static Analysis
+        run: vendor/bin/phpstan analyse --memory-limit=1G
