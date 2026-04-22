@@ -101,7 +101,7 @@ class Installer
      */
     public static function config(Event $event): void
     {
-        new self($event)->run();
+        (new self($event))->run();
     }
 
     /**
