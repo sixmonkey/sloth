@@ -21,7 +21,7 @@ use Sloth\Model\Registrars\MenuRegistrar;
  * @since 1.0.0
  * @see \Sloth\Model\Manifest\MenuRegistrar
  * @see \Sloth\Model\Manifest\TaxonomyManifestBuilder
- * @see \Sloth\Model\Manifest\ModelManifestBuilder
+ * @see \Sloth\Model\Manifest\ApiControllerManifestBuilder
  */
 class ModelServiceProvider extends ServiceProvider
 {
