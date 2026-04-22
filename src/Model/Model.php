@@ -365,7 +365,7 @@ class Model extends Eloquent
         }
 
         $this->setRawAttributes(array_merge($this->attributes, [
-            'post_type' => $this->getPostType(),
+            'post_type' => static::getPostType(),
         ]), true);
 
         parent::__construct($attributes);
