@@ -281,6 +281,11 @@ Search.appendIndex(
             "summary": "Service\u0020provider\u0020for\u0020REST\u0020API\u0020controller\u0020registration.",
             "url": "classes/Sloth-Api-ApiServiceProvider.html"
         },                {
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020API\u0020controller\u0020manifest\u0020builder.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html#method_register"
+        },                {
             "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AgetHooks\u0028\u0029",
             "name": "getHooks",
             "summary": "Register\u0020API\u0020controllers\u0020hooks.",
@@ -341,25 +346,35 @@ Search.appendIndex(
             "summary": "The\u0020response\u0020object.",
             "url": "classes/Sloth-Api-Controller.html#property_response"
         },                {
-            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver",
-            "name": "ApiControllersResolver",
-            "summary": "Resolver\u0020for\u0020discovering\u0020API\u0020controller\u0020classes.",
-            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html"
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder",
+            "name": "ApiControllerManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020WordPress\u0020api\u0020routes\u0020registration.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html"
         },                {
-            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver\u003A\u003A\u0024dir",
-            "name": "dir",
-            "summary": "The\u0020directory\u0020where\u0020API\u0020controller\u0020classes\u0020are\u0020located.",
-            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html#property_dir"
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_finder"
         },                {
-            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver\u003A\u003A\u0024cacheKey",
-            "name": "cacheKey",
-            "summary": "The\u0020cache\u0020key\u0020for\u0020storing\u0020resolved\u0020classes.",
-            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html#property_cacheKey"
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Api\\Resolvers\\ApiControllersResolver\u003A\u003A\u0024subclassOf",
-            "name": "subclassOf",
-            "summary": "The\u0020base\u0020class\u0020that\u0020all\u0020API\u0020controller\u0020classes\u0020should\u0020extend.",
-            "url": "classes/Sloth-Api-Resolvers-ApiControllersResolver.html#property_subclassOf"
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
+            "name": "manifestName",
+            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_manifestName"
+        },                {
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003AextraLines\u0028\u0029",
+            "name": "extraLines",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_extraLines"
+        },                {
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Abindings\u0028\u0029",
+            "name": "bindings",
+            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_bindings"
         },                {
             "fqsen": "\\WP_CONTENT_DIR",
             "name": "WP_CONTENT_DIR",
@@ -2881,6 +2896,51 @@ Search.appendIndex(
             "summary": "Order\u0020results\u0020by\u0020creation\u0020date,\u0020oldest\u0020first.",
             "url": "classes/Sloth-Model-Traits-HasOrderScopes.html#method_scopeOldest"
         },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships",
+            "name": "HasRelationships",
+            "summary": "",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AhasMany\u0028\u0029",
+            "name": "hasMany",
+            "summary": "Replace\u0020the\u0020original\u0020hasMany\u0020function\u0020to\u0020forward\u0020the\u0020connection\u0020name.",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_hasMany"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AhasOne\u0028\u0029",
+            "name": "hasOne",
+            "summary": "Replace\u0020the\u0020original\u0020hasOne\u0020function\u0020to\u0020forward\u0020the\u0020connection\u0020name.",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_hasOne"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AbelongsTo\u0028\u0029",
+            "name": "belongsTo",
+            "summary": "Replace\u0020the\u0020original\u0020belongsTo\u0020function\u0020to\u0020forward\u0020the\u0020connection\u0020name.",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_belongsTo"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AbelongsToMany\u0028\u0029",
+            "name": "belongsToMany",
+            "summary": "Replace\u0020the\u0020original\u0020belongsToMany\u0020function\u0020to\u0020forward\u0020the\u0020connection\u0020name.",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_belongsToMany"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AgetRelationValue\u0028\u0029",
+            "name": "getRelationValue",
+            "summary": "Get\u0020the\u0020relation\u0020value\u0020setting\u0020the\u0020connection\u0020name.",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_getRelationValue"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AsetRelationConnection\u0028\u0029",
+            "name": "setRelationConnection",
+            "summary": "Set\u0020the\u0020connection\u0020name\u0020to\u0020model.",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_setRelationConnection"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AgetConnectionName\u0028\u0029",
+            "name": "getConnectionName",
+            "summary": "",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_getConnectionName"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Traits\\HasRelationships\u003A\u003AsetInstanceConnection\u0028\u0029",
+            "name": "setInstanceConnection",
+            "summary": "",
+            "url": "classes/Sloth-Model-Traits-HasRelationships.html#method_setInstanceConnection"
+        },                {
             "fqsen": "\\Sloth\\Model\\User",
             "name": "User",
             "summary": "WordPress\u0020user\u0020model.",
@@ -3741,10 +3801,10 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-api.html"
         },                {
-            "fqsen": "\\Sloth\\Api\\Resolvers",
-            "name": "Resolvers",
+            "fqsen": "\\Sloth\\Api\\Manifest",
+            "name": "Manifest",
             "summary": "",
-            "url": "namespaces/sloth-api-resolvers.html"
+            "url": "namespaces/sloth-api-manifest.html"
         },                {
             "fqsen": "\\Sloth\\Cache",
             "name": "Cache",
