@@ -153,7 +153,6 @@ class Installer
         $this->initializeDotenv();
         $this->initializeWpconfig();
         $this->initializeHtaccess();
-        $this->initializePlugin();
         $this->initializeBootstrap();
     }
 
@@ -366,22 +365,6 @@ class Installer
                 $htaccess
             );
         }
-    }
-
-    /**
-     * Copy the Sloth mu-plugin into the mu-plugins directory.
-     *
-     * Always overwrites to ensure themes get the latest bootstrap version.
-     *
-     * @since 1.0.0
-     */
-    private function initializePlugin(): void
-    {
-        $this->fs->copy(
-            Path::join(dirname(__DIR__), 'sloth.php'),
-            Path::join($this->dirs['mu'], 'sloth.php'),
-            true
-        );
     }
 
     /**
