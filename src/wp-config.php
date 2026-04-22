@@ -1,13 +1,9 @@
 <?php
 
 /*----------------------------------------------------*/
-// Directory separator
-/*----------------------------------------------------*/
-defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
-/*----------------------------------------------------*/
 // Bootstrap Sloth and WordPress
 /*----------------------------------------------------*/
-require_once dirname(__DIR__) . DS . 'bootstrap.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 /*----------------------------------------------------*/
 // Sets up WordPress vars and included files
 /*----------------------------------------------------*/
