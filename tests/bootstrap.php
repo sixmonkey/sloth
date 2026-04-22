@@ -8,6 +8,26 @@
  * @since 1.1.0
  */
 
+// IMPORTANT: Must be defined BEFORE any classes load
+// This stubs Corcel's isLaravel() check
+use Illuminate\Container\Container;
+
+if (!function_exists('app')) {
+    function app() {
+        static $stub = null;
+        if ($stub === null) {
+            $stub = new class extends Container {
+                public function version(): string
+                {
+                    return 'Laravel 11.0';
+                }
+            };
+            Container::setInstance($stub);
+        }
+        return Container::getInstance();
+    }
+}
+
 use Brain\Monkey;
 
 // Define constants required for testing
