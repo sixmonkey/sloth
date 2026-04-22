@@ -1646,11 +1646,6 @@ Search.appendIndex(
             "summary": "Copy\u0020the\u0020bundled\u0020.htaccess\u0020into\u0020the\u0020web\u0020root\u0020if\u0020one\u0020does\u0020not\u0020exist\u0020yet.",
             "url": "classes/Sloth-Installer-Installer.html#method_initializeHtaccess"
         },                {
-            "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializePlugin\u0028\u0029",
-            "name": "initializePlugin",
-            "summary": "Copy\u0020the\u0020Sloth\u0020mu\u002Dplugin\u0020into\u0020the\u0020mu\u002Dplugins\u0020directory.",
-            "url": "classes/Sloth-Installer-Installer.html#method_initializePlugin"
-        },                {
             "fqsen": "\\Sloth\\Installer\\Installer\u003A\u003AinitializeBootstrap\u0028\u0029",
             "name": "initializeBootstrap",
             "summary": "Copy\u0020the\u0020bootstrap\u0020file\u0020into\u0020the\u0020project\u0020root.",
