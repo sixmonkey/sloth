@@ -78,15 +78,9 @@ class Model extends Eloquent
     use HasOrderScopes;
     use HasRelationships;
 
-    // -------------------------------------------------------------------------
-    // Corcel-inherited properties — cannot be typed (PHP 8.4 compat)
-    // @corcel-compat: Corcel\Model declares these without types.
-    // -------------------------------------------------------------------------
-
     /**
      * The database table used by the model.
      *
-     * @corcel-compat Cannot be typed — Corcel declares $table without a type.
      * @var string
      */
     protected $table = 'posts';
@@ -94,7 +88,6 @@ class Model extends Eloquent
     /**
      * The primary key for the model.
      *
-     * @corcel-compat Cannot be typed — Corcel declares $primaryKey without a type.
      * @var string
      */
     protected $primaryKey = 'ID';
@@ -102,7 +95,6 @@ class Model extends Eloquent
     /**
      * The attributes that should be cast to dates.
      *
-     * @corcel-compat Cannot be typed — Corcel declares $dates without a type.
      * @var array<string>
      */
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
@@ -110,7 +102,6 @@ class Model extends Eloquent
     /**
      * Relationships to eager-load on every query.
      *
-     * @corcel-compat Cannot be typed — Corcel declares $with without a type.
      * @var array<string>
      */
     protected $with = [];
