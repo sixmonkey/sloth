@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Model;
 
-use Corcel\Model as CorcelModel;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Corcel\Model\Comment;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Meta\ThumbnailMeta;
@@ -67,7 +67,7 @@ use Sloth\Model\Traits\HasOrderScopes;
  * @property string $post_name    The post slug
  * @property string $post_excerpt The post excerpt
  */
-class Model extends CorcelModel
+class Model extends Eloquent
 {
     use PostScopes;
     use HasACF;
@@ -111,7 +111,7 @@ class Model extends CorcelModel
      * @corcel-compat Cannot be typed — Corcel declares $with without a type.
      * @var array<string>
      */
-    protected $with = ['meta'];
+    protected $with = [];
 
     /**
      * The filtered content for this post.
@@ -194,7 +194,7 @@ class Model extends CorcelModel
      * @since 1.0.0
      * @var string|false
      */
-    protected $postType = false;
+    public static $postType = false;
 
     /**
      * Post types registered with this model for newFromBuilder() resolution.
@@ -505,7 +505,7 @@ class Model extends CorcelModel
      */
     public function getPostType(): string
     {
-        return $this->postType ?: Str::lower((new \ReflectionClass($this))->getShortName());
+        return static::$postType ?: Str::lower((new \ReflectionClass($this))->getShortName());
     }
 
     // -------------------------------------------------------------------------
