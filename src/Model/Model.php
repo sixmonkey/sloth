@@ -27,13 +27,13 @@ use Sloth\Model\Traits\HasRelationships;
 /**
  * Base Model class for WordPress post types.
  *
- * Extends Corcel\Model directly to provide a foundation for all custom
+ * Extends Eloquent directly to provide a foundation for all custom
  * post types in the Sloth framework. Includes ACF integration, taxonomy
  * relationships, and WordPress-specific query scopes.
  *
  * ## Independence from Corcel
  *
- * This model does NOT extend Corcel\Model\Post or any other Corcel model.
+ * This model does NOT extend Eloquent\Post or any other Corcel model.
  * All necessary features are implemented directly or via Sloth's own traits.
  * This ensures full control over attribute resolution and prevents issues
  * like infinite recursion in alias handling.
@@ -50,13 +50,13 @@ use Sloth\Model\Traits\HasRelationships;
  *
  * ## Corcel compatibility
  *
- * Several properties inherited from Corcel\Model cannot be typed because
+ * Several properties inherited from Eloquent cannot be typed because
  * Corcel declares them without types. Typing them in this class would
  * cause PHP 8.4 "must not be defined" errors. These are annotated with
  * `@var` DocBlocks and a `@corcel-compat` note for clarity.
  *
  * @since 1.0.0
- * @see \Corcel\Model For the base Corcel implementation
+ * @see \Eloquent For the base Corcel implementation
  * @see \Sloth\Model\Post For the default post model
  * @see \Sloth\Model\Registrars\ModelRegistrar For post type registration
  *
