@@ -357,11 +357,11 @@ class Model extends Eloquent
         $reflection = new \ReflectionClass($this);
 
         if ($reflection->getName() === self::class) {
-            $this->postType = false;
+            static::$postType = false;
         }
 
-        if ($this->postType === null) {
-            $this->postType = strtolower($reflection->getShortName());
+        if (static::$postType === null) {
+            static::$postType = strtolower($reflection->getShortName());
         }
 
         $this->setRawAttributes(array_merge($this->attributes, [
@@ -462,8 +462,8 @@ class Model extends Eloquent
     #[\Override]
     public function newQuery()
     {
-        return $this->postType
-            ? parent::newQuery()->type($this->postType)
+        return static::$postType
+            ? parent::newQuery()->type(static::$postType)
             : parent::newQuery();
     }
 
