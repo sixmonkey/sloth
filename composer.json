@@ -32,7 +32,8 @@
     "symfony/process": "^7.4",
     "tracy/tracy": "^2.10",
     "twig/twig": "^3.0",
-    "vlucas/phpdotenv": "^2.6 || ^3.0 || ^5.0"
+    "vlucas/phpdotenv": "^2.6 || ^3.0 || ^5.0",
+    "wp-cli/wp-cli": "^2.12"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.50",
