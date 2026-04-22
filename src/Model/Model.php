@@ -22,6 +22,7 @@ use Sloth\Model\Traits\HasAliases;
 use Sloth\Model\Traits\HasCustomTimestamps;
 use Sloth\Model\Traits\HasMetaFields;
 use Sloth\Model\Traits\HasOrderScopes;
+use Sloth\Model\Traits\HasRelationships;
 
 /**
  * Base Model class for WordPress post types.
@@ -75,6 +76,7 @@ class Model extends Eloquent
     use HasCustomTimestamps;
     use HasMetaFields;
     use HasOrderScopes;
+    use HasRelationships;
 
     // -------------------------------------------------------------------------
     // Corcel-inherited properties — cannot be typed (PHP 8.4 compat)
