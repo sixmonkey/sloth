@@ -408,11 +408,11 @@ class Model extends Eloquent
      *
      * @param object|array<string, mixed> $attributes The database row attributes.
      * @param null $connection The connection name.
-     * @return Model|CorcelModel The model instance.
+     * @return Model The model instance.
      * @since 1.0.0
      */
     #[\Override]
-    public function newFromBuilder($attributes = [], $connection = null): Model|CorcelModel
+    public function newFromBuilder($attributes = [], $connection = null): Model
     {
         $attributes = (array)$attributes;
         $class = static::class;
