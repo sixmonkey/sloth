@@ -49,7 +49,7 @@ class ModelManifestBuilder extends AbstractManifestBuilder
             return [];
         }
 
-        $postType = (new $modelClass())->getPostType();
+        $postType = $modelClass::getPostType();
 
         return [
             '\register_extended_post_type(' . var_export($postType, true) . ', ' . var_export($this->buildArgs($modelClass), true) . ', ' . var_export($this->buildNames($modelClass, $postType), true) . ');',
@@ -62,7 +62,7 @@ class ModelManifestBuilder extends AbstractManifestBuilder
             'sloth.models' => collect($map)
                 ->mapWithKeys(function ($file, $modelClass) {
                     /** @var class-string<Model> $modelClass */
-                    return [(new $modelClass())->getPostType() => $modelClass];
+                    return [$modelClass::getPostType() => $modelClass];
                 })
                 ->all(),
         ];
