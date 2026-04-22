@@ -180,3 +180,74 @@ if (!function_exists('get_post_type_object')) {
         return null;
     }
 }
+
+if (!function_exists('is_user_logged_in')) {
+    function is_user_logged_in(): bool
+    {
+        return false;
+    }
+}
+
+if (!function_exists('strip_shortcodes')) {
+    function strip_shortcodes(string $content): string
+    {
+        return $content;
+    }
+}
+
+if (!function_exists('apply_filters')) {
+    function apply_filters(string $tag, mixed $value, mixed ...$args): mixed
+    {
+        return $value;
+    }
+}
+
+if (!function_exists('wp_specialchars_decode')) {
+    function wp_specialchars_decode(string $string, int $quote_style = ENT_QUOTES): string
+    {
+        return html_entity_decode($string, $quote_style, 'UTF-8');
+    }
+}
+
+if (!function_exists('wp_list_pluck')) {
+    function wp_list_pluck(array $list, string $field, $index_key = null): array
+    {
+        return array_column($list, $field, $index_key ?? null);
+    }
+}
+
+if (!function_exists('wp_get_array')) {
+    function wp_get_array($data, ...$args): array
+    {
+        return (array) $data;
+    }
+}
+
+if (!function_exists('wp_parse_str')) {
+    function wp_parse_str(string $string, array &$result): bool
+    {
+        parse_str($string, $result);
+        return !empty($result);
+    }
+}
+
+if (!function_exists('current_time')) {
+    function current_time(string $type, bool $gmt = false): mixed
+    {
+        return $gmt ? gmdate('Y-m-d H:i:s') : date('Y-m-d H:i:s');
+    }
+}
+
+if (!function_exists('wp_cache_get')) {
+    function wp_cache_get(mixed $key, string $group = '', bool $force = false, bool &$found = null): mixed
+    {
+        return false;
+    }
+}
+
+if (!function_exists('wp_cache_set')) {
+    function wp_cache_set(mixed $key, mixed $data, string $group = '', int $expire = 0): bool
+    {
+        return true;
+    }
+}
