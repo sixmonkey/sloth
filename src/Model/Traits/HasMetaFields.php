@@ -7,7 +7,6 @@ namespace Sloth\Model\Traits;
 use Corcel\Model\Meta\CommentMeta;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Meta\TermMeta;
-use Corcel\Model\Meta\ThumbnailMeta;
 use Corcel\Model\Meta\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Api;
 
-use Sloth\Api\Resolvers\ApiControllersResolver;
+use Sloth\Api\Manifest\ApiControllerManifestBuilder;
 use Sloth\Core\ServiceProvider;
 use Sloth\Utility\Utility;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +21,19 @@ use WP_REST_Response;
  *
  * @since 1.0.0
  * @see \Sloth\Api\Controller
- * @see \Sloth\Plugin\Plugin
  */
 class ApiServiceProvider extends ServiceProvider
 {
+    /**
+     * Register the API controller manifest builder.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(ApiControllerManifestBuilder::class, fn($app) => new ApiControllerManifestBuilder($app));
+    }
+
     /**
      * Register API controllers hooks.
      *
@@ -33,6 +42,7 @@ class ApiServiceProvider extends ServiceProvider
     public function getHooks(): array
     {
         return [
+            'init' => fn() => app(ApiControllerManifestBuilder::class)->init(),
             'rest_api_init' => fn() => $this->registerControllers(),
         ];
     }
@@ -59,36 +69,36 @@ class ApiServiceProvider extends ServiceProvider
      */
     public function registerControllers(): void
     {
-        ApiControllersResolver::resolve()->each(function (string $class) {
-            $controller = new $class();
-            $this->registerControllerRoutes($controller);
-        });
+        collect(app('sloth.api-controllers'))
+            ->each(fn($controller) => $this->registerControllerRoutes($controller));
     }
 
     /**
      * Register REST routes for a controller.
      *
-     * @param object $controller The controller instance
+     * @param object $controllerClass The controller instance
      * @since 1.0.0
      *
      */
-    protected function registerControllerRoutes(object $controller): void
+    protected function registerControllerRoutes($controllerClass): void
     {
-        $methods = get_class_methods($controller);
-        $routePrefix = Utility::viewize(new \ReflectionClass($controller)->getShortName());
+        $reflection = new \ReflectionClass($controllerClass);
+        $methods = $reflection->getMethods();
+        $routePrefix = Utility::viewize($reflection->getShortName());
         $routes = [];
-
         foreach ($methods as $method) {
-            if (str_starts_with($method, '_')) {
+            $name = $method->name;
+
+            if (str_starts_with($name, '_')) {
                 continue;
             }
-            if ($method === 'single') {
+            if ($name === 'single') {
                 continue;
             }
-            $routes[$routePrefix . '/' . Utility::viewize($method) . '(?:/(?P<id>\w+))?'] = $method;
+            $routes[$routePrefix . '/' . Utility::viewize($name) . '(?:/(?P<id>\w+))?'] = $name;
         }
 
-        if (method_exists($controller, 'single')) {
+        if (method_exists($controllerClass, 'single')) {
             $routes[$routePrefix] = 'index';
             $routes[$routePrefix . '(?:/(?P<id>[a-z0-9._-]+))?'] = 'single';
         } else {
@@ -101,7 +111,8 @@ class ApiServiceProvider extends ServiceProvider
                 '/' . $route,
                 [
                     'methods' => ['GET', 'POST', 'DELETE', 'PUT'],
-                    'callback' => function (WP_REST_Request $request) use ($controller, $action) {
+                    'callback' => function (WP_REST_Request $request) use ($controllerClass, $action) {
+                        $controller = new $controllerClass();
                         $controller->setRequest($request);
                         $param = $request->get_url_params('id');
                         $data = call_user_func_array([$controller, $action], [reset($param)]);
