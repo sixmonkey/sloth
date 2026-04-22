@@ -505,9 +505,9 @@ class Model extends Eloquent
      * @since 1.0.0
      *
      */
-    public function getPostType(): string
+    public static function getPostType(): string
     {
-        return static::$postType ?: Str::lower((new \ReflectionClass($this))->getShortName());
+        return static::$postType ?: Str::lower((new \ReflectionClass(static::class))->getShortName());
     }
 
     // -------------------------------------------------------------------------
