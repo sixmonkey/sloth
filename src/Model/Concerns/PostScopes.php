@@ -262,8 +262,17 @@ trait PostScopes
      */
     public function scopeOrderByMeta(PostBuilder $query, string $meta, string $direction = 'asc'): void
     {
-        $metaRows = PostMeta::where('meta_key', $meta)->orderBy('meta_value', $direction)->get();
-        $postIds = $metaRows->pluck('post_id')->toArray();
+        $postIds = PostMeta::where('meta_key', $meta)
+            ->orderBy('meta_value', $direction)
+            ->pluck('post_id')
+            ->unique()
+            ->take(1000)
+            ->toArray();
+
+        if (empty($postIds)) {
+            return;
+        }
+
         $query->orderByRaw('FIELD(ID, ' . implode(',', $postIds) . ')');
     }
 
