@@ -250,7 +250,7 @@ class MenuItem extends Corcel
      */
     public function getCurrentItemParentAttribute(): bool
     {
-        $context = app('sloth.context') ?? [];
+        $context = app('context')->getContext() ?? [];
 
         if (isset($context['post'])) {
             $instance = $this->instance();
