@@ -591,6 +591,26 @@ Search.appendIndex(
             "summary": "All\u0020manifest\u0020filenames\u0020managed\u0020by\u0020Sloth.",
             "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests"
         },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ConfigCommand",
+            "name": "ConfigCommand",
+            "summary": "Read\u0020configuration\u0020values.",
+            "url": "classes/Sloth-Console-Commands-ConfigCommand.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ConfigCommand\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "Execute\u0020the\u0020command.",
+            "url": "classes/Sloth-Console-Commands-ConfigCommand.html#method_handle"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ConfigCommand\u003A\u003A\u0024signature",
+            "name": "signature",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-ConfigCommand.html#property_signature"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\ConfigCommand\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-ConfigCommand.html#property_description"
+        },                {
             "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand",
             "name": "InspireCommand",
             "summary": "Display\u0020a\u0020welcome\u0020message.",
@@ -610,6 +630,41 @@ Search.appendIndex(
             "name": "description",
             "summary": "",
             "url": "classes/Sloth-Console-Commands-InspireCommand.html#property_description"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel",
+            "name": "ConsoleKernel",
+            "summary": "Sloth\u0020Console\u0020Kernel.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020ConsoleKernel\u0020instance.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "Handle\u0020a\u0020WP\u002DCLI\u0020invocation\u0020using\u0020StringInput.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#method_handle"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003AhandleArgv\u0028\u0029",
+            "name": "handleArgv",
+            "summary": "Handle\u0020a\u0020CLI\u0020invocation\u0020using\u0020ArgvInput.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#method_handleArgv"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003AdiscoverCommands\u0028\u0029",
+            "name": "discoverCommands",
+            "summary": "Discover\u0020and\u0020register\u0020all\u0020commands.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#method_discoverCommands"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003A\u0024console",
+            "name": "console",
+            "summary": "The\u0020underlying\u0020Illuminate\u0020console\u0020application.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#property_console"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#property_app"
         },                {
             "fqsen": "\\Sloth\\Console\\ConsoleServiceProvider",
             "name": "ConsoleServiceProvider",
@@ -670,6 +725,16 @@ Search.appendIndex(
             "name": "__invoke",
             "summary": "Handle\u0020a\u0020\u0060wp\u0020sloth\u0020\u003Ccommand\u003E\u0060\u0020invocation.",
             "url": "classes/Sloth-Console-SlothCommand.html#method___invoke"
+        },                {
+            "fqsen": "\\Sloth\\Console\\SlothWpCliCommand",
+            "name": "SlothWpCliCommand",
+            "summary": "WP\u002DCLI\u0020command\u0020handler\u0020for\u0020\u0060wp\u0020sloth\u0060.",
+            "url": "classes/Sloth-Console-SlothWpCliCommand.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\SlothWpCliCommand\u003A\u003A__invoke\u0028\u0029",
+            "name": "__invoke",
+            "summary": "Handle\u0020the\u0020WP\u002DCLI\u0020invocation.",
+            "url": "classes/Sloth-Console-SlothWpCliCommand.html#method___invoke"
         },                {
             "fqsen": "\\Sloth\\Context\\Context",
             "name": "Context",
@@ -866,6 +931,11 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020running\u0020in\u0020production.",
             "url": "classes/Sloth-Core-Application.html#method_isProduction"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003ArunningUnitTests\u0028\u0029",
+            "name": "runningUnitTests",
+            "summary": "Check\u0020if\u0020running\u0020unit\u0020tests.",
+            "url": "classes/Sloth-Core-Application.html#method_runningUnitTests"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aenvironment\u0028\u0029",
             "name": "environment",
             "summary": "Get\u0020the\u0020current\u0020environment\u0020name.",
@@ -885,11 +955,6 @@ Search.appendIndex(
             "name": "version",
             "summary": "Application\u0020version.",
             "url": "classes/Sloth-Core-Application.html#constant_version"
-        },                {
-            "fqsen": "\\Sloth\\Core\\Application\u003A\u003ArunningUnitTests\u0028\u0029",
-            "name": "runningUnitTests",
-            "summary": "",
-            "url": "classes/Sloth-Core-Application.html#method_runningUnitTests"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024booted",
             "name": "booted",

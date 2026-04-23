@@ -85,7 +85,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-console.html" class="-active">Console</a>
+                <a href="namespaces/sloth-console.html" class="">Console</a>
                 
             </li>
                     <li>
@@ -216,52 +216,348 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-console.html">Console</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-console-commands.html">Commands</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -namespace">
-        <h2 class="phpdocumentor-content__title">Console</h2>
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    ConfigCommand
 
-        
+        <span class="phpdocumentor-element__extends">
+        extends <a href="classes/Sloth-Console-Command.html"><abbr title="\Sloth\Console\Command">Command</abbr></a>
+    </span>
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+<div class="phpdocumentor-label-line">
+
+
+</div>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ConfigCommand.php"><a href="files/src-console-commands-configcommand.html"><abbr title="src/Console/Commands/ConfigCommand.php">ConfigCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">39</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Read configuration values.</p>
+
+
+    <section class="phpdocumentor-description"><p>This command reads configuration values from either:</p>
+<ol>
+<li>Laravel's config repository (via config())</li>
+<li>Sloth's Configure store (via Configure::read())</li>
+</ol>
+<h2>Usage</h2>
+<pre class="prettyprint"><code class="language-bash">bin/sloth config:get app.name
+bin/sloth config:get theme.colors.primary
+</code></pre>
+<h2>Arguments</h2>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key</td>
+<td>The config key to read (dot notation supported)</td>
+</tr>
+</tbody>
+</table>
+<h2>Exit Codes</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Config key found</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Config key not found</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Configure-Configure.html"><abbr title="\Sloth\Configure\Configure">Configure</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+    
 <h3 id="toc">
     Table of Contents
-    <a href="namespaces/sloth-console.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Console-Commands-ConfigCommand.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
-<h4 id="namespaces">
-    Namespaces
-    <a href="namespaces/sloth-console.html#namespaces" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+
+
+
+
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/Sloth-Console-Commands-ConfigCommand.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/sloth-console-commands.html"><abbr title="\Sloth\Console\Commands">Commands</abbr></a></dt>
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Console-Commands-ConfigCommand.html#property_description">$description</a>
+    <span>
+                        &nbsp;: mixed            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Console-Commands-ConfigCommand.html#property_signature">$signature</a>
+    <span>
+                        &nbsp;: mixed            </span>
+</dt>
+
+    </dl>
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/Sloth-Console-Commands-ConfigCommand.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Console-Commands-ConfigCommand.html#method_handle">handle()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Execute the command.</dd>
+
     </dl>
 
 
-    <h4 id="toc-classes">
-        Classes
-        <a href="namespaces/sloth-console.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+        
+
+        
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Sloth-Console-Commands-ConfigCommand.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_description">
+        $description
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#property_description" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ConfigCommand.php"><a href="files/src-console-commands-configcommand.html"><abbr title="src/Console/Commands/ConfigCommand.php">ConfigCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">45</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$description</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;Get a configuration value&#039;</span></code>
+
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#property_description#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_signature">
+        $signature
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#property_signature" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ConfigCommand.php"><a href="files/src-console-commands-configcommand.html"><abbr title="src/Console/Commands/ConfigCommand.php">ConfigCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">42</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$signature</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;config:get {key}&#039;</span></code>
+
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#property_signature#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+            </section>
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Sloth-Console-Commands-ConfigCommand.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_handle">
+        handle()
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#method_handle" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
-    <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-Command.html"><abbr title="\Sloth\Console\Command">Command</abbr></a></dt><dd>Base class for all Sloth console commands.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-ConsoleKernel.html"><abbr title="\Sloth\Console\ConsoleKernel">ConsoleKernel</abbr></a></dt><dd>Sloth Console Kernel.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-ConsoleServiceProvider.html"><abbr title="\Sloth\Console\ConsoleServiceProvider">ConsoleServiceProvider</abbr></a></dt><dd>Service provider for WP-CLI integration.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-Kernel.html"><abbr title="\Sloth\Console\Kernel">Kernel</abbr></a></dt><dd>Sloth Console Kernel.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-SlothCommand.html"><abbr title="\Sloth\Console\SlothCommand">SlothCommand</abbr></a></dt><dd>WP-CLI command handler for `wp sloth`.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-SlothWpCliCommand.html"><abbr title="\Sloth\Console\SlothWpCliCommand">SlothWpCliCommand</abbr></a></dt><dd>WP-CLI command handler for `wp sloth`.</dd>    </dl>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ConfigCommand.php"><a href="files/src-console-commands-configcommand.html"><abbr title="src/Console/Commands/ConfigCommand.php">ConfigCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
+    </aside>
 
+        <p class="phpdocumentor-summary">Execute the command.</p>
 
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">handle</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#method_handle#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-
-
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
 
-        
+</article>
+            </section>
+
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Console/Commands/ConfigCommand.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -354,7 +650,7 @@
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                            
+                                
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -362,11 +658,25 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                    <li><a href="namespaces/sloth-console.html#toc-classes">Classes</a></li>
-                                                                                                                    </ul>
+                                                            <li><a href="classes/Sloth-Console-Commands-ConfigCommand.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Sloth-Console-Commands-ConfigCommand.html#toc-methods">Methods</a></li>
+                                    </ul>
             </li>
-
             
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Sloth-Console-Commands-ConfigCommand.html#property_description">$description</a></li>
+                                                    <li class=""><a href="classes/Sloth-Console-Commands-ConfigCommand.html#property_signature">$signature</a></li>
+                                            </ul>
+                </li>
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Sloth-Console-Commands-ConfigCommand.html#method_handle">handle()</a></li>
+                                    </ul>
+            </li>
                     </ul>
     </section>
 
@@ -384,7 +694,7 @@
     </section>
 </section>
         </div>
-        <a href="namespaces/sloth-console.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Console-Commands-ConfigCommand.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

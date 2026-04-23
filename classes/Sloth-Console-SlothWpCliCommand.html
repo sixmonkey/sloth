@@ -85,7 +85,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-console.html" class="-active">Console</a>
+                <a href="namespaces/sloth-console.html" class="">Console</a>
                 
             </li>
                     <li>
@@ -216,52 +216,224 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-console.html">Console</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -namespace">
-        <h2 class="phpdocumentor-content__title">Console</h2>
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    SlothWpCliCommand
 
-        
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+<div class="phpdocumentor-label-line">
+
+
+</div>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/SlothWpCliCommand.php"><a href="files/src-console-slothwpclicommand.html"><abbr title="src/Console/SlothWpCliCommand.php">SlothWpCliCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">47</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">WP-CLI command handler for `wp sloth`.</p>
+
+
+    <section class="phpdocumentor-description"><p>This class bridges WP-CLI to the Sloth ConsoleKernel, allowing
+commands to be executed via <code class="prettyprint">wp sloth &lt;command&gt;</code>.</p>
+<h2>Usage</h2>
+<pre class="prettyprint"><code class="language-bash">wp sloth list
+wp sloth inspire
+wp sloth manifest:clear
+wp sloth config:get theme.option
+</code></pre>
+<h2>How It Works</h2>
+<ol>
+<li>WP-CLI calls this command when <code class="prettyprint">wp sloth</code> is invoked</li>
+<li>Arguments are converted to a command string (e.g., &quot;inspire&quot;)</li>
+<li>Sloth\Console\ConsoleKernel handles the command</li>
+<li>Exit status is passed back to WP_CLI via WP_CLI::halt()</li>
+</ol>
+<h2>Arguments</h2>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-SlothWpCliCommand.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Console-ConsoleKernel.html"><abbr title="\Sloth\Console\ConsoleKernel">ConsoleKernel</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+    
 <h3 id="toc">
     Table of Contents
-    <a href="namespaces/sloth-console.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Console-SlothWpCliCommand.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
-<h4 id="namespaces">
-    Namespaces
-    <a href="namespaces/sloth-console.html#namespaces" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+
+
+
+
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/Sloth-Console-SlothWpCliCommand.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/sloth-console-commands.html"><abbr title="\Sloth\Console\Commands">Commands</abbr></a></dt>
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Console-SlothWpCliCommand.html#method___invoke">__invoke()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Handle the WP-CLI invocation.</dd>
+
     </dl>
 
 
-    <h4 id="toc-classes">
-        Classes
-        <a href="namespaces/sloth-console.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+        
+
+        
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Sloth-Console-SlothWpCliCommand.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___invoke">
+        __invoke()
+        <a href="classes/Sloth-Console-SlothWpCliCommand.html#method___invoke" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
-    <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-Command.html"><abbr title="\Sloth\Console\Command">Command</abbr></a></dt><dd>Base class for all Sloth console commands.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-ConsoleKernel.html"><abbr title="\Sloth\Console\ConsoleKernel">ConsoleKernel</abbr></a></dt><dd>Sloth Console Kernel.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-ConsoleServiceProvider.html"><abbr title="\Sloth\Console\ConsoleServiceProvider">ConsoleServiceProvider</abbr></a></dt><dd>Service provider for WP-CLI integration.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-Kernel.html"><abbr title="\Sloth\Console\Kernel">Kernel</abbr></a></dt><dd>Sloth Console Kernel.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-SlothCommand.html"><abbr title="\Sloth\Console\SlothCommand">SlothCommand</abbr></a></dt><dd>WP-CLI command handler for `wp sloth`.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Console-SlothWpCliCommand.html"><abbr title="\Sloth\Console\SlothWpCliCommand">SlothWpCliCommand</abbr></a></dt><dd>WP-CLI command handler for `wp sloth`.</dd>    </dl>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/SlothWpCliCommand.php"><a href="files/src-console-slothwpclicommand.html"><abbr title="src/Console/SlothWpCliCommand.php">SlothWpCliCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
+    </aside>
 
+        <p class="phpdocumentor-summary">Handle the WP-CLI invocation.</p>
 
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">__invoke</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assoc_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>This method is called by WP-CLI when the <code class="prettyprint">wp sloth</code> command is executed.
+It converts the arguments to a command string and passes it to
+the ConsoleKernel for execution.</p>
+</section>
 
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$args</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Positional arguments (e.g., ['inspire', '--verbose']).</p>
+</section>
 
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$assoc_args</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Named arguments like ['verbose' =&gt; true].</p>
+</section>
 
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-SlothWpCliCommand.html#method___invoke#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Console-ConsoleKernel.html#method_handle"><abbr title="\Sloth\Console\ConsoleKernel::handle()">ConsoleKernel::handle()</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">void</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>This method exits via WP_CLI::halt().</p>
+</section>
 
-        
+            </section>
+
+</article>
+            </section>
+
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Console/SlothWpCliCommand.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -354,7 +526,7 @@
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                            
+                                
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -362,11 +534,17 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                    <li><a href="namespaces/sloth-console.html#toc-classes">Classes</a></li>
-                                                                                                                    </ul>
+                                                                                <li><a href="classes/Sloth-Console-SlothWpCliCommand.html#toc-methods">Methods</a></li>
+                                    </ul>
             </li>
-
             
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Sloth-Console-SlothWpCliCommand.html#method___invoke">__invoke()</a></li>
+                                    </ul>
+            </li>
                     </ul>
     </section>
 
@@ -384,7 +562,7 @@
     </section>
 </section>
         </div>
-        <a href="namespaces/sloth-console.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Console-SlothWpCliCommand.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
