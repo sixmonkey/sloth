@@ -196,13 +196,13 @@ class Module
     public function render(): string
     {
         if (!$this->doingAjax) {
-            $this->set(app('sloth.context') ?? [], false);
+            $this->set(app('context')->getContext() ?? [], false);
         }
 
         $this->set('ajax_url', $this->getAjaxUrl());
         $this->beforeRender();
         $this->makeView();
-        $vars = array_merge(app('sloth.context') ?? [], $this->viewVars);
+        $vars = array_merge(app('context')->getContext() ?? [], $this->viewVars);
         $output = $this->view->with($vars)->render();
 
         if ($this->render) {
