@@ -482,6 +482,16 @@ class Application extends Container
     }
 
     /**
+     * Check if running unit tests.
+     *
+     * @since 1.0.0
+     */
+    public function runningUnitTests(): bool
+    {
+        return defined('WP_TESTS_PHASE');
+    }
+
+    /**
      * Get the current environment name.
      *
      * @since 1.0.0
@@ -532,8 +542,4 @@ class Application extends Container
         return self::version;
     }
 
-    public function runningUnitTests(): bool
-    {
-        return defined('WP_TESTS_PHASE');
-    }
 }
