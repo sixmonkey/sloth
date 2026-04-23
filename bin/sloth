@@ -1,0 +1,118 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Sloth CLI bootstrap.
+ *
+ * This is the standalone entry point for running Sloth console commands
+ * without WordPress. It bootstraps a minimal Sloth container and executes
+ * commands via the ConsoleKernel.
+ *
+ * ## Usage
+ *
+ * ```bash
+ * bin/sloth list
+ * bin/sloth inspire
+ * bin/sloth manifest:clear
+ * bin/sloth config:get theme.option
+ * ```
+ *
+ * ## How It Works
+ *
+ * 1. Loads the Composer autoloader
+ * 2. Creates a minimal Sloth Application container
+ * 3. Registers essential services (config, files, paths)
+ * 4. Loads configuration from app/config/
+ * 5. Discovers and registers commands
+ * 6. Executes the requested command
+ *
+ * ## Environment Variables
+ *
+ * | Variable           | Description                          |
+ * |------------------|-------------------------------------|
+ * | APPLICATION_PATH  | Custom path to application root   |
+ *
+ * ## Exit Codes
+ *
+ * | Code | Description                      |
+ * |------|--------------------------------|
+ * | 0   | Success                       |
+ * | 1   | Error / command not found      |
+ *
+ * @since 1.0.0
+ * @see \Sloth\Console\ConsoleKernel
+ * @see \Sloth\Console\SlothWpCliCommand
+ */
+
+define('USING_SLOTH_CLI', true);
+
+(static function () {
+    // -------------------------------------------------------------------------
+    // Autoloader
+    // -------------------------------------------------------------------------
+
+    if (!is_file($autoloadPath = dirname(__DIR__, 4) . '/vendor/autoload.php')) {
+        $autoloadPath = dirname(__DIR__) . '/vendor/autoload.php';
+    }
+
+    if (filter_input(INPUT_ENV, 'APPLICATION_PATH')) {
+        $autoloadPath = filter_input(INPUT_ENV, 'APPLICATION_PATH') . '/vendor/autoload.php';
+    }
+
+    require_once $autoloadPath;
+
+    // -------------------------------------------------------------------------
+    // Paths
+    // -------------------------------------------------------------------------
+
+    $autoloadDir = dirname($autoloadPath);
+    $rootPath = dirname($autoloadDir);
+
+    define('SLOTH_BASE_PATH', $rootPath);
+
+    // -------------------------------------------------------------------------
+    // Container
+    // -------------------------------------------------------------------------
+
+    // Create minimal container without WordPress
+    $app = new Sloth\Core\Application();
+    
+    // Core services
+    $app->singleton('config', fn() => new Illuminate\Config\Repository([]));
+    $app->instance('files', new Illuminate\Filesystem\Filesystem());
+
+    // Paths
+    $app->instance('path.base', $rootPath);
+    $app->instance('path.app', $rootPath . '/app');
+    $app->instance('path.vendor', $rootPath . '/vendor');
+    $app->instance('path.framework', dirname(__DIR__));
+    $app->instance('path.cache', $rootPath . '/cache');
+    $app->instance('path.logs', $rootPath . '/logs');
+    $app->instance('path.config', $rootPath . '/app/config');
+
+    // Ensure directories exist
+    @mkdir($rootPath . '/cache', 0755, true);
+    @mkdir($rootPath . '/logs', 0755, true);
+
+    // Set as singleton for facades
+    Sloth\Core\Application::setInstance($app);
+    Illuminate\Support\Facades\Facade::setFacadeApplication($app);
+
+    // -------------------------------------------------------------------------
+    // Configuration
+    // -------------------------------------------------------------------------
+
+    // Register ConfigureServiceProvider to load config files
+    $app->register(new Sloth\Configure\ConfigureServiceProvider($app));
+
+    // -------------------------------------------------------------------------
+    // Command Execution
+    // -------------------------------------------------------------------------
+
+    $kernel = new Sloth\Console\ConsoleKernel($app);
+    $kernel->discoverCommands();
+
+    $exitCode = $kernel->handleArgv($_SERVER['argv'] ?? ['sloth']);
+
+    exit($exitCode);
+})();
