@@ -951,6 +951,26 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020running\u0020in\u0020a\u0020development\u0020environment.",
             "url": "classes/Sloth-Core-Application.html#method_isDevEnv"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetModelClass\u0028\u0029",
+            "name": "getModelClass",
+            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020model\u0020by\u0020its\u0020post_type",
+            "url": "classes/Sloth-Core-Application.html#method_getModelClass"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetAllModels\u0028\u0029",
+            "name": "getAllModels",
+            "summary": "Get\u0020all\u0020registered\u0020models",
+            "url": "classes/Sloth-Core-Application.html#method_getAllModels"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetTaxonomyClass\u0028\u0029",
+            "name": "getTaxonomyClass",
+            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020taxonomy\u0020by\u0020its\u0020taxonomy\u0020type",
+            "url": "classes/Sloth-Core-Application.html#method_getTaxonomyClass"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetAllTaxonomies\u0028\u0029",
+            "name": "getAllTaxonomies",
+            "summary": "Get\u0020all\u0020registered\u0020taxonomies",
+            "url": "classes/Sloth-Core-Application.html#method_getAllTaxonomies"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aversion",
             "name": "version",
             "summary": "Application\u0020version.",
