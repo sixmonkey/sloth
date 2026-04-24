@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Model\Manifest;
 
+use Illuminate\Support\Str;
 use Sloth\Model\Model;
 use Sloth\Model\Proxy\CurrentModelProxy;
 use Sloth\Support\Manifest\AbstractManifestBuilder;
@@ -52,7 +53,9 @@ class ModelManifestBuilder extends AbstractManifestBuilder
         $postType = $modelClass::getPostType();
 
         return [
-            '\register_extended_post_type(' . var_export($postType, true) . ', ' . var_export($this->buildArgs($modelClass), true) . ', ' . var_export($this->buildNames($modelClass, $postType), true) . ');',
+            '\register_extended_post_type(' . var_export($postType,
+                true) . ', ' . var_export($this->buildArgs($modelClass),
+                true) . ', ' . var_export($this->buildNames($modelClass, $postType), true) . ');',
         ];
     }
 
@@ -92,8 +95,9 @@ class ModelManifestBuilder extends AbstractManifestBuilder
     private function buildNames(string $modelClass, string $postType): array
     {
         return [
-            'singular' => $modelClass::$names['singular'] ?? ucfirst($postType),
-            'plural'   => $modelClass::$names['plural']   ?? ucfirst($postType) . 's',
+            'singular' => $modelClass::$names['singular'] ?? Str::ucfirst($postType),
+            'plural' => $modelClass::$names['plural'] ?? Str::ucfirst($postType) . 's',
+            'slug' => $modelClass::$names['slug'] ?? Str::lower($postType),
         ];
     }
 
@@ -117,9 +121,10 @@ class ModelManifestBuilder extends AbstractManifestBuilder
 
                 $method = 'get' . ucfirst($key) . 'Column';
 
-                return [$key => method_exists($modelClass, $method)
-                    ? ['title' => $label, 'function' => [CurrentModelProxy::class, $method . 'Echo']]
-                    : ['title' => $label, 'meta_key' => $key],
+                return [
+                    $key => method_exists($modelClass, $method)
+                        ? ['title' => $label, 'function' => [CurrentModelProxy::class, $method . 'Echo']]
+                        : ['title' => $label, 'meta_key' => $key],
                 ];
             })
             ->all();
