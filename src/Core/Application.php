@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sloth\Console\ConsoleServiceProvider;
 use Sloth\Facades\Facade;
+
+use Sloth\Model\Model;
+
+use Sloth\Model\Taxonomy;
 
 use function Illuminate\Filesystem\join_paths;
 
@@ -528,6 +533,55 @@ class Application extends Container
         return $this->isLocal();
     }
 
+    /**
+     * Get a class for a model by its post_type
+     *
+     * @param string $key
+     * @return string
+     * @throws BindingResolutionException
+     * @todo deprecate in future versions
+     */
+    public function getModelClass(string $key = ''): string
+    {
+        return app('sloth.models')[$key] ?? Model::class;
+    }
+
+    /**
+     * Get all registered models
+     *
+     * @return mixed
+     * @throws BindingResolutionException
+     * @todo deprecate in future versions
+     */
+    public function getAllModels(): array
+    {
+        return app('sloth.models');
+    }
+
+    /**
+     * Get a class for a taxonomy by its taxonomy type
+     *
+     * @param string $key
+     * @return string
+     * @throws BindingResolutionException
+     * @todo deprecate in future versions
+     */
+    public function getTaxonomyClass(string $key = ''): string
+    {
+        return app('sloth.taxonomies')[$key] ?? Taxonomy::class;
+    }
+
+    /**
+     * Get all registered taxonomies
+     *
+     * @return array
+     * @throws BindingResolutionException
+     * @todo deprecate in future versions
+     */
+    public function getAllTaxonomies(): array
+    {
+        return app('sloth.taxonomies');
+    }
     // -------------------------------------------------------------------------
     // Misc
     // -------------------------------------------------------------------------
