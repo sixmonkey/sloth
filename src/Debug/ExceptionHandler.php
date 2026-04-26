@@ -7,15 +7,13 @@ namespace Sloth\Debug;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Sloth\Facades\View;
-use Tracy\Debugger;
-use Tracy\ILogger;
 use Throwable;
 
 /**
  * Sloth Exception Handler.
  *
  * Handles all uncaught exceptions and PHP errors.
- * In development: renders Tracy BlueScreen.
+ * In development: renders Whoops error page.
  * In production: logs the exception and renders a Twig error page if available.
  *
  * Theme developers can override this by registering their own handler
@@ -35,7 +33,7 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Scripts that should not trigger debug output.
      *
      * These endpoints return structured data (JSON, XML) — rendering
-     * a BlueScreen or HTML error page would corrupt the response.
+     * an HTML error page would corrupt the response.
      *
      * @since 1.0.0
      * @var array<string>
@@ -48,17 +46,22 @@ class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Report (log) an exception.
      *
-     * In development: Tracy logs to the log directory.
-     * In production: Tracy logs silently without displaying anything.
+     * Logs via Illuminate LogManager to the configured log channel.
      *
      * @param Throwable $e The exception to report.
      * @since 1.0.0
-     *
      */
     public function report(Throwable $e): void
     {
-        if (Debugger::$logDirectory !== null) {
-            Debugger::log($e, ILogger::EXCEPTION);
+        try {
+            $log = app('log');
+            $log->error($e->getMessage(), [
+                'exception' => $e,
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+        } catch (\Throwable) {
+            // Logging failed - ignore
         }
     }
 
@@ -68,7 +71,6 @@ class ExceptionHandler implements ExceptionHandlerContract
      * @param Throwable $e The exception to check.
      * @return bool True if the exception should be reported.
      * @since 1.0.0
-     *
      */
     public function shouldReport(Throwable $e): bool
     {
@@ -86,13 +88,10 @@ class ExceptionHandler implements ExceptionHandlerContract
      * - Renders a Twig error template (Error/500.twig, Error/404.twig)
      * - Falls back to a plain error message if no template found
      *
-     * Tracy is used only for logging — never for rendering in this handler.
-     *
      * @param mixed $request The current HTTP request (unused — WP handles routing).
      * @param Throwable $e The exception to render.
      * @throws BindingResolutionException
      * @since 1.0.0
-     *
      */
     public function render($request, Throwable $e): void
     {
@@ -113,12 +112,8 @@ class ExceptionHandler implements ExceptionHandlerContract
      * - AJAX → JsonResponseHandler (errors visible in browser DevTools)
      * - Browser → PrettyPageHandler (full interactive error page)
      *
-     * Requires filp/whoops — installed automatically with illuminate/foundation,
-     * or via: composer require filp/whoops
-     *
      * @param Throwable $e The exception to render.
      * @since 1.0.0
-     *
      */
     protected function renderWithWhoops(Throwable $e): void
     {
@@ -164,7 +159,6 @@ class ExceptionHandler implements ExceptionHandlerContract
      * @param mixed $output Console output (unused).
      * @param Throwable $e The exception to render.
      * @since 1.0.0
-     *
      */
     public function renderForConsole($output, Throwable $e): void
     {
@@ -180,7 +174,6 @@ class ExceptionHandler implements ExceptionHandlerContract
      *
      * @param Throwable $e The exception to render.
      * @since 1.0.0
-     *
      */
     protected function renderErrorPage(Throwable $e): void
     {
@@ -220,7 +213,6 @@ class ExceptionHandler implements ExceptionHandlerContract
      * @param Throwable $e The exception.
      * @return int HTTP status code.
      * @since 1.0.0
-     *
      */
     protected function getStatusCode(Throwable $e): int
     {
@@ -234,12 +226,11 @@ class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Check if the current request is an AJAX request.
      *
-     * Tracy BlueScreen should not be rendered for AJAX responses
+     * Whoops should not be rendered for AJAX responses
      * as it would corrupt the JSON/XML response.
      *
      * @return bool True if this is an AJAX or background request.
      * @since 1.0.0
-     *
      */
     protected function isAjaxRequest(): bool
     {
