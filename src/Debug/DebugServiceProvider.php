@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Sloth\Debug;
 
+use DebugBar\DebugBar;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Illuminate\Log\LogManager;
 use Sloth\Core\ServiceProvider;
-use Sloth\Debug\Panels\SlothBarPanel;
-use Tracy\Debugger;
-use Tracy\ILogger;
+use Sloth\Debug\Collectors\SlothCollector;
+use Sloth\Debug\Collectors\WordPressCollector;
+use Sloth\Debug\Collectors\TemplateCollector;
+use Sloth\Debug\Collectors\AcfCollector;
+use Sloth\Debug\Collectors\QueryCollector;
 
 /**
  * Service provider for Sloth debugging and error handling.
  *
  * Responsibilities:
+ * - Boots Illuminate LogManager for logging
  * - Registers the ExceptionHandler in the container (overridable by themes)
- * - Configures Tracy Debugger for logging and the debug Bar only
+ * - Configures php-debugbar for the debug Bar only
  * - Whoops handles error rendering in development (HTML + JSON/AJAX)
  * - Registers set_exception_handler() and set_error_handler()
  * - Suppresses WordPress and plugin deprecated notices
@@ -23,14 +28,14 @@ use Tracy\ILogger;
  * ## Error rendering strategy
  *
  * Development:
- * - Tracy Bar is visible with SlothBarPanel
+ * - php-debugbar with SlothCollectors
  * - Whoops PrettyPageHandler renders browser errors
  * - Whoops JsonResponseHandler renders AJAX errors (visible in DevTools)
- * - Tracy logs everything to the log directory
+ * - LogManager logs everything to the log directory
  *
  * Production:
- * - No Tracy Bar, no Whoops
- * - Tracy logs silently
+ * - No debug bar, no Whoops
+ * - LogManager logs silently
  * - ExceptionHandler renders Twig error templates (Error/500.twig etc.)
  *
  * ## Overriding the Exception Handler
@@ -49,7 +54,7 @@ use Tracy\ILogger;
  *
  * @since 1.0.0
  * @see \Sloth\Debug\ExceptionHandler
- * @see \Sloth\Debug\SlothBarPanel
+ * @see \Sloth\Debug\Collectors
  */
 class DebugServiceProvider extends ServiceProvider
 {
@@ -67,16 +72,20 @@ class DebugServiceProvider extends ServiceProvider
             ExceptionHandlerContract::class,
             ExceptionHandler::class
         );
+
+        $this->app->singleton(DebugBar::class, function () {
+            return new DebugBar();
+        });
     }
 
     /**
-     * Boot Tracy and register PHP error/exception handlers.
+     * Boot php-debugbar and register PHP error/exception handlers.
      *
-     * Tracy is configured based on the current environment:
-     * - Development (app()->isLocal()): BlueScreen + Bar enabled
-     * - Production: silent logging only, Bar disabled
+     * php-debugbar is configured based on the current environment:
+     * - Development (app()->isLocal()): collectors enabled
+     * - Production: debug bar disabled
      *
-     * The Tracy Bar with the SlothBarPanel is always added in development,
+     * The debug bar with SlothCollectors is always added in development,
      * giving developers visibility into the current template and environment.
      *
      * PHP's set_exception_handler() and set_error_handler() delegate
@@ -87,70 +96,37 @@ class DebugServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $logPath = $this->resolveLogPath();
-
-        $this->configureTracy($logPath);
+        $this->configureDebugBar();
         $this->registerExceptionHandler();
         $this->registerErrorHandler();
     }
 
     /**
-     * Resolve the log directory path.
+     * Configure php-debugbar with Sloth collectors.
      *
-     * Uses app()->path('logs') if available, otherwise falls back
-     * to a logs/ directory next to the project root.
-     *
-     * @return string Absolute path to the log directory.
-     * @since 1.0.0
-     *
-     */
-    private function resolveLogPath(): string
-    {
-        $path = app('path.logs')
-            ?? env('LOG_DIR')
-            ?? sys_get_temp_dir() . '/sloth-logs';
-
-        if (!app('files')->isDirectory($path)) {
-            app('files')->ensureDirectoryExists($path, 0o755);
-        }
-
-        return $path;
-    }
-
-    /**
-     * Configure Tracy Debugger for logging and the debug Bar.
-     *
-     * Tracy is used only for:
-     * - Logging exceptions and errors to the log directory
-     * - Rendering the debug Bar with SlothBarPanel in development
+     * php-debugbar is used only for:
+     * - Rendering the debug bar with SlothCollectors in development
      *
      * Error page rendering is handled by Whoops (development) and
-     * the Twig ExceptionHandler (production). Tracy's BlueScreen is
-     * intentionally not used — Whoops provides a better experience.
+     * the Twig ExceptionHandler (production). Debug bar is
+     * intentionally not used for error display.
      *
-     * The SLOTH_DEBUGGER_EDITOR environment variable configures the
-     * editor link format shown in Whoops and Tracy, e.g.:
-     *   SLOTH_DEBUGGER_EDITOR=phpstorm://open?file=%file&line=%line
-     *
-     * @param string $logPath Absolute path to the log directory.
      * @since 1.0.0
      *
      */
-    private function configureTracy(string $logPath): void
+    private function configureDebugBar(): void
     {
-        Debugger::$showLocation = true;
-        Debugger::$logDirectory = $logPath;
-
-        if ($editor = env('SLOTH_DEBUGGER_EDITOR')) {
-            Debugger::$editor = $editor;
+        if (!$this->app->isLocal()) {
+            return;
         }
 
-        if ($this->app->isLocal()) {
-            Debugger::enable(Debugger::Development, $logPath);
-            Debugger::getBar()->addPanel(new SlothBarPanel());
-        } else {
-            Debugger::enable(Debugger::Production, $logPath);
-        }
+        $debugbar = $this->app->make(DebugBar::class);
+
+        $debugbar->addCollector(new SlothCollector($this->app));
+        $debugbar->addCollector(new WordPressCollector());
+        $debugbar->addCollector(new TemplateCollector());
+        $debugbar->addCollector(new AcfCollector());
+        $debugbar->addCollector(new QueryCollector());
     }
 
     /**
@@ -173,7 +149,7 @@ class DebugServiceProvider extends ServiceProvider
      *
      * Suppresses deprecated notices originating from WordPress core
      * and installed plugins to keep the debug output clean.
-     * All other errors are logged via Tracy.
+     * All other errors are logged via LogManager.
      *
      * Suppression can be configured via:
      *   config('errors.suppress_wp_deprecated', true)
@@ -189,9 +165,11 @@ class DebugServiceProvider extends ServiceProvider
             string $errfile,
             int $errline
         ): bool {
-            // Log everything via Tracy
-            if (Debugger::$logDirectory !== null) {
-                Debugger::log($errstr, ILogger::WARNING);
+            try {
+                $log = $this->app->make('log');
+                $log->warning($errstr);
+            } catch (\Throwable) {
+                // Ignore logging errors
             }
 
             // Suppress WP core deprecated notices
