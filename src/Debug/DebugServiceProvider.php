@@ -74,7 +74,7 @@ class DebugServiceProvider extends ServiceProvider
         $renderer = $debugbar->getJavascriptRenderer();
 
         $renderer->addInlineAssets(
-            app('files')->get(__DIR__ . '/../../storage/assets/css/debugbar.css'),
+            app('files')->get(__DIR__ . '/../../resources/sloth-debugbar.css'),
             '',
             ''
         );
