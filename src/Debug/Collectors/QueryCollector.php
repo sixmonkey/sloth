@@ -46,15 +46,17 @@ class QueryCollector extends DataCollector implements Renderable
         ];
     }
 
+    /**
+     * Get all queries merged and sorted by execution time.
+     *
+     * Merges Eloquent and WordPress database queries,
+     * then sorts by execution time descending.
+     *
+     * @since 1.0.0
+     * @return array<int, array<string, mixed>> The merged and sorted queries.
+     */
     private function getAllQueries(): array
     {
-        /**
-         * Merge Eloquent and WordPress database queries,
-         * then sort by execution time descending.
-         *
-         * @since 1.0.0
-         * @return array<int, array<string, mixed>> The merged and sorted queries.
-         */
         $queries = array_merge(
             $this->getEloquentQueries(),
             $this->getWpdbQueries()
@@ -95,16 +97,16 @@ class QueryCollector extends DataCollector implements Renderable
         }
     }
 
+    /**
+     * Get all WordPress database queries from $wpdb.
+     *
+     * Requires the SAVEQUERIES constant to be enabled.
+     *
+     * @since 1.0.0
+     * @return array<int, array<string, mixed>> The WordPress queries.
+     */
     private function getWpdbQueries(): array
     {
-        /**
-         * Get all WordPress database queries from $wpdb.
-         *
-         * Requires the SAVEQUERIES constant to be enabled.
-         *
-         * @since 1.0.0
-         * @return array<int, array<string, mixed>> The WordPress queries.
-         */
         $queries = [];
 
         try {
@@ -190,7 +192,16 @@ class QueryCollector extends DataCollector implements Renderable
      * @since 1.0.0
      * @return array<string, mixed> The widget configuration.
      */
-public function getWidgets(): array
+/**
+     * Get the widgets for this collector.
+     *
+     * Returns the debug bar widget configuration for
+     * displaying database queries.
+     *
+     * @since 1.0.0
+     * @return array<string, mixed> The widget configuration.
+     */
+    public function getWidgets(): array
     {
         return [
             'queries' => [
