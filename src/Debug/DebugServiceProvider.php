@@ -6,6 +6,8 @@ namespace Sloth\Debug;
 
 use DebugBar\DebugBar;
 use DebugBar\DataCollector\MessagesCollector;
+use DebugBar\DebugBarException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Illuminate\Support\Str;
 use Sloth\Core\ServiceProvider;
@@ -31,6 +33,10 @@ class DebugServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * @throws DebugBarException
+     * @throws BindingResolutionException
+     */
     private function configureDebugBar(): void
     {
         $debugbar = $this->app->make(DebugBar::class);
@@ -47,6 +53,10 @@ class DebugServiceProvider extends ServiceProvider
         $this->app->instance('debugbar', $debugbar);
     }
 
+    /**
+     * @throws DebugBarException
+     * @throws BindingResolutionException
+     */
     private function renderBar(): string
     {
         $this->configureDebugBar();
@@ -58,7 +68,7 @@ class DebugServiceProvider extends ServiceProvider
         }
     }
 
-    private function appendBar($output)
+    private function appendBar($output): string
     {
         if (Str::contains($output, '</head>')) {
             return Str::replace('</head>', $this->renderBar() . '</head>', $output);
