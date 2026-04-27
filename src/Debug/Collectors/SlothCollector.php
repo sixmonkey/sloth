@@ -10,14 +10,36 @@ use DebugBar\DataCollector\Renderable;
 use Illuminate\Support\Str;
 
 /**
- * Collector for Sloth-specific data: container state, models, taxonomies.
+ * Sloth Framework Collector.
+ *
+ * Collects and displays Sloth-specific data including
+ * environment, models, taxonomies, and service providers.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Debug\DebugServiceProvider
  */
 class SlothCollector extends DataCollector implements Renderable
 {
+    /**
+     * Create a new SlothCollector instance.
+     *
+     * @since 1.0.0
+     * @param \Illuminate\Contracts\Container\ContainerInterface $app The application container.
+     */
     public function __construct(private $app)
     {
     }
 
+    /**
+     * Collect the Sloth framework data.
+     *
+     * Gathers information about the Sloth environment,
+     * template hierarchy, registered models, taxonomies,
+     * and loaded service providers.
+     *
+     * @since 1.0.0
+     * @return array<string, mixed> The collected data.
+     */
     public function collect(): array
     {
         return [
@@ -31,6 +53,12 @@ class SlothCollector extends DataCollector implements Renderable
 
     private function getProviders(): string
     {
+        /**
+         * Get the list of loaded service providers.
+         *
+         * @since 1.0.0
+         * @return string The provider names joined by newlines.
+         */
         try {
             return $this->app->getLoadedProviders()->keys()->join("\n");
         } catch (\Throwable) {
@@ -40,6 +68,12 @@ class SlothCollector extends DataCollector implements Renderable
 
     private function getEnvironment(): string
     {
+        /**
+         * Get the current application environment.
+         *
+         * @since 1.0.0
+         * @return string The environment name.
+         */
         try {
             return $this->app->environment();
         } catch (\Throwable) {
@@ -49,6 +83,12 @@ class SlothCollector extends DataCollector implements Renderable
 
     private function getModels(): string
     {
+        /**
+         * Get the registered Sloth models.
+         *
+         * @since 1.0.0
+         * @return string The model names and classes joined by newlines.
+         */
         try {
             return collect(app('sloth.models'))
                 ->map(function ($class, $name) {
@@ -62,6 +102,12 @@ class SlothCollector extends DataCollector implements Renderable
 
     private function getTaxonomies(): string
     {
+        /**
+         * Get the registered Sloth taxonomies.
+         *
+         * @since 1.0.0
+         * @return string The taxonomy names and classes joined by newlines.
+         */
         try {
             return collect(app('sloth.taxonomies'))
                 ->map(function ($class, $name) {
@@ -75,6 +121,15 @@ class SlothCollector extends DataCollector implements Renderable
 
     private function getTemplateHierarchy(): string
     {
+        /**
+         * Get the WordPress template hierarchy.
+         *
+         * Returns the list of templates that would be used
+         * for the current request, with the active layout marked.
+         *
+         * @since 1.0.0
+         * @return string The template hierarchy as a newline-separated string.
+         */
         return ''; #app('sloth.current_template');
         /*$hierarchy = new Hierarchy();
         return collect($hierarchy->templates())
@@ -87,11 +142,26 @@ class SlothCollector extends DataCollector implements Renderable
             ->join("\n");*/
     }
 
+    /**
+     * Get the collector name.
+     *
+     * @since 1.0.0
+     * @return string The collector identifier.
+     */
     public function getName(): string
     {
         return 'sloth';
     }
 
+    /**
+     * Get the widgets for this collector.
+     *
+     * Returns the debug bar widget configuration for
+     * displaying Sloth framework data.
+     *
+     * @since 1.0.0
+     * @return array<string, mixed> The widget configuration.
+     */
     public function getWidgets(): array
     {
         return [

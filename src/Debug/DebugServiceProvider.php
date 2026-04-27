@@ -16,8 +16,25 @@ use Sloth\Debug\Collectors\MyDataCollector;
 use Sloth\Debug\Collectors\QueryCollector;
 use Sloth\Debug\Collectors\SlothCollector;
 
+/**
+ * Sloth Debug Service Provider.
+ *
+ * Registers PHP DebugBar for development environments and custom
+ * exception handling for the Sloth WordPress theme.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Debug\ExceptionHandler
+ */
 class DebugServiceProvider extends ServiceProvider
 {
+    /**
+     * Register the service provider.
+     *
+     * Registers custom exception handling and initializes PHP DebugBar
+     * when available.
+     *
+     * @since 1.0.0
+     */
     public function register(): void
     {
         $this->app->singleton(
@@ -34,8 +51,15 @@ class DebugServiceProvider extends ServiceProvider
     }
 
     /**
-     * @throws DebugBarException
+     * Configure the PHP DebugBar.
+     *
+     * Sets up the debug bar with custom collectors for Sloth,
+     * WordPress, ACF, and database queries.
+     *
+     * @return void
+     *  @throws DebugBarException
      * @throws BindingResolutionException
+     * @since 1.0.0
      */
     private function configureDebugBar(): void
     {
@@ -54,8 +78,15 @@ class DebugServiceProvider extends ServiceProvider
     }
 
     /**
-     * @throws DebugBarException
+     * Render the PHP DebugBar HTML.
+     *
+     * Renders the debug bar JavaScript and CSS for injection
+     * into the page HTML.
+     *
+     * @return string The rendered debug bar HTML.
+     *  @throws DebugBarException
      * @throws BindingResolutionException
+     * @since 1.0.0
      */
     private function renderBar(): string
     {
@@ -68,6 +99,18 @@ class DebugServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Append the debug bar to page output.
+     *
+     * Injects the debug bar HTML into the page by replacing
+     * the closing </head> tag or appending to the body.
+     *
+     * @param string $output The page HTML output.
+     * @return string The output with debug bar injected.
+     * @throws BindingResolutionException
+     * @throws DebugBarException
+     * @since 1.0.0
+     */
     private function appendBar($output): string
     {
         if (Str::contains($output, '</head>')) {

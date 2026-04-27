@@ -9,12 +9,34 @@ use DebugBar\DataCollector\Renderable;
 use DebugBar\DataCollector\VariableProvider;
 
 /**
- * Collector for database queries: Eloquent + $wpdb.
+ * Database Query Collector.
+ *
+ * Collects and displays database queries executed during
+ * the current request, including both Eloquent and
+ * WordPress ($wpdb) queries.
+ *
+ * @since 1.0.0
+ * @see \Sloth\Debug\DebugServiceProvider
  */
 class QueryCollector extends DataCollector implements Renderable
 {
+    /**
+     * Threshold in milliseconds for marking queries as slow.
+     *
+     * @since 1.0.0
+     * @var int
+     */
     private const SLOW_THRESHOLD_MS = 100;
 
+    /**
+     * Collect the query statistics.
+     *
+     * Aggregates all database queries from Eloquent and $wpdb,
+     * sorted by execution time.
+     *
+     * @since 1.0.0
+     * @return array<string, mixed> The collected data.
+     */
     public function collect(): array
     {
         return [
@@ -27,6 +49,13 @@ class QueryCollector extends DataCollector implements Renderable
 
     private function getAllQueries(): array
     {
+        /**
+         * Merge Eloquent and WordPress database queries,
+         * then sort by execution time descending.
+         *
+         * @since 1.0.0
+         * @return array<int, array<string, mixed>> The merged and sorted queries.
+         */
         $queries = array_merge(
             $this->getEloquentQueries(),
             $this->getWpdbQueries()
@@ -37,6 +66,12 @@ class QueryCollector extends DataCollector implements Renderable
         return $queries;
     }
 
+    /**
+     * Get all Eloquent queries from the current connection.
+     *
+     * @since 1.0.0
+     * @return array<int, array<string, mixed>> The Eloquent queries.
+     */
     private function getEloquentQueries(): array
     {
         try {
@@ -63,6 +98,14 @@ class QueryCollector extends DataCollector implements Renderable
 
     private function getWpdbQueries(): array
     {
+        /**
+         * Get all WordPress database queries from $wpdb.
+         *
+         * Requires the SAVEQUERIES constant to be enabled.
+         *
+         * @since 1.0.0
+         * @return array<int, array<string, mixed>> The WordPress queries.
+         */
         $queries = [];
 
         try {
@@ -89,17 +132,37 @@ class QueryCollector extends DataCollector implements Renderable
         return $queries;
     }
 
+    /**
+     * Get the total number of queries executed.
+     *
+     * @since 1.0.0
+     * @return int The query count.
+     */
     private function getQueryCount(): int
     {
         return count($this->getAllQueries());
     }
 
+    /**
+     * Get the total execution time of all queries.
+     *
+     * @since 1.0.0
+     * @return float The total time in milliseconds.
+     */
     private function getTotalTime(): float
     {
         $queries = $this->getAllQueries();
         return round(array_sum(array_column($queries, 'time')), 2);
     }
 
+    /**
+     * Get the count of slow queries.
+     *
+     * Counts queries that exceed the slow query threshold.
+     *
+     * @since 1.0.0
+     * @return int The number of slow queries.
+     */
     private function getSlowCount(): int
     {
         return count(array_filter(
@@ -108,12 +171,27 @@ class QueryCollector extends DataCollector implements Renderable
         ));
     }
 
+    /**
+     * Get the collector name.
+     *
+     * @since 1.0.0
+     * @return string The collector identifier.
+     */
     public function getName(): string
     {
         return 'queries';
     }
 
-    public function getWidgets(): array
+    /**
+     * Get the widgets for this collector.
+     *
+     * Returns the debug bar widget configuration for
+     * displaying database queries.
+     *
+     * @since 1.0.0
+     * @return array<string, mixed> The widget configuration.
+     */
+public function getWidgets(): array
     {
         return [
             'queries' => [
@@ -123,6 +201,12 @@ class QueryCollector extends DataCollector implements Renderable
         ];
     }
 
+    /**
+     * Setup VarDumper for this collector.
+     *
+     * @since 1.0.0
+     * @return void
+     */
     public function getVarDumperSetup(): void
     {
     }
