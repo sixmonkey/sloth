@@ -56,7 +56,7 @@ class DebugServiceProvider extends ServiceProvider
      * WordPress, ACF, and database queries.
      *
      * @return void
-     *  @throws DebugBarException
+     * @throws DebugBarException
      * @throws BindingResolutionException
      * @since 1.0.0
      */
@@ -83,7 +83,7 @@ class DebugServiceProvider extends ServiceProvider
      * into the page HTML.
      *
      * @return string The rendered debug bar HTML.
-     *  @throws DebugBarException
+     * @throws DebugBarException
      * @throws BindingResolutionException
      * @since 1.0.0
      */
