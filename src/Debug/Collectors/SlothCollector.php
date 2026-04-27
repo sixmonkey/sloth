@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Sloth\Debug\Collectors;
 
+use Brain\Hierarchy\Hierarchy;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
+use Illuminate\Support\Str;
 
 /**
  * Collector for Sloth-specific data: container state, models, taxonomies.
@@ -19,29 +21,20 @@ class SlothCollector extends DataCollector implements Renderable
     public function collect(): array
     {
         return [
-            'providers' => $this->getProviders(),
-            'bindings' => $this->getBindings(),
-            'environment' => $this->getEnvironment(),
-            'models' => $this->getModels(),
-            'taxonomies' => $this->getTaxonomies(),
+            'Environment' => $this->getEnvironment(),
+            'Template-Hierarchy' => $this->getTemplateHierarchy(),
+            'Models' => $this->getModels(),
+            'Taxonomies' => $this->getTaxonomies(),
+            'Loaded providers' => $this->getProviders(),
         ];
     }
 
-    private function getProviders(): int
+    private function getProviders(): string
     {
         try {
-            return count($this->app->getLoadedProviders());
+            return $this->app->getLoadedProviders()->keys()->join("\n");
         } catch (\Throwable) {
-            return 0;
-        }
-    }
-
-    private function getBindings(): int
-    {
-        try {
-            return count($this->app->getBindings());
-        } catch (\Throwable) {
-            return 0;
+            return 'None';
         }
     }
 
@@ -54,22 +47,44 @@ class SlothCollector extends DataCollector implements Renderable
         }
     }
 
-    private function getModels(): array
+    private function getModels(): string
     {
         try {
-            return array_keys($this->app['sloth.models'] ?? []);
+            return collect(app('sloth.models'))
+                ->map(function ($class, $name) {
+                    return Str::ucfirst($name) . " => " . $class;
+                })
+                ->join("\n");
         } catch (\Throwable) {
-            return [];
+            return 'None';
         }
     }
 
-    private function getTaxonomies(): array
+    private function getTaxonomies(): string
     {
         try {
-            return array_keys($this->app['sloth.taxonomies'] ?? []);
+            return collect(app('sloth.taxonomies'))
+                ->map(function ($class, $name) {
+                    return Str::ucfirst($name) . " => " . $class;
+                })
+                ->join("\n");
         } catch (\Throwable) {
-            return [];
+            return 'None';
         }
+    }
+
+    private function getTemplateHierarchy(): string
+    {
+        return ''; #app('sloth.current_template');
+        /*$hierarchy = new Hierarchy();
+        return collect($hierarchy->templates())
+            ->map(function ($template) {
+                if (app('sloth.current_layout') == $template) {
+                    $template .= ' <-';
+                }
+                return $template;
+            })
+            ->join("\n");*/
     }
 
     public function getName(): string
@@ -81,17 +96,10 @@ class SlothCollector extends DataCollector implements Renderable
     {
         return [
             'sloth' => [
-                'icon' => '🦥',
-                'widget' => 'PhpDebugBar.Widget',
                 'map' => 'sloth',
-                'attrs' => [
-                    'title' => 'Sloth',
-                ],
+                'widget' => 'PhpDebugBar.Widgets.KVListWidget',
+                'default' => '{}',
             ],
         ];
-    }
-
-    public function getVarDumperSetup(): void
-    {
     }
 }

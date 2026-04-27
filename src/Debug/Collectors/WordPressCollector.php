@@ -16,9 +16,9 @@ class WordPressCollector extends DataCollector implements Renderable
     {
         return [
             'post_type' => $this->getPostType(),
-            'queried_object_id' => $this->getQueriedObjectId(),
-            'template_slug' => $this->getTemplateSlug(),
-            'hooks' => $this->getHooksCount(),
+            'object_id' => $this->getQueriedObjectId(),
+            'template' => $this->getTemplateSlug(),
+            'hooks_count' => $this->getHooksCount(),
             'is_admin' => $this->isAdmin(),
         ];
     }

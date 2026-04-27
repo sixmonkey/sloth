@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Debug\Collectors;
 
+use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 
@@ -16,25 +17,29 @@ class AcfCollector extends DataCollector implements Renderable
     {
         try {
             if (!function_exists('acf_get_field_groups')) {
-                return ['field_groups' => []];
+                return ['groups' => []];
             }
 
             $postId = get_the_ID();
             if (!$postId) {
-                return ['field_groups' => []];
+                return ['groups' => []];
             }
 
             $fieldGroups = collect(acf_get_field_groups(['post_id' => $postId]))
-                ->pluck('title')
+                ->mapWithKeys(function ($group) {
+                    return [$group['title'] => $group['key']];
+                })
                 ->toArray();
         } catch (\Throwable) {
             $fieldGroups = [];
         }
 
         return [
-            'field_groups' => $fieldGroups,
+            'groups' => $fieldGroups,
+            'count' => count($fieldGroups)
         ];
     }
+
 
     public function getName(): string
     {
@@ -44,13 +49,14 @@ class AcfCollector extends DataCollector implements Renderable
     public function getWidgets(): array
     {
         return [
-            'acf' => [
-                'icon' => '📦',
-                'widget' => 'PhpDebugBar.Widget',
-                'map' => 'acf',
-                'attrs' => [
-                    'title' => 'ACF',
-                ],
+            'acf' => array(
+                'map' => 'acf.groups',
+                'widget' => 'PhpDebugBar.Widgets.KVListWidget',
+                'default' => '{}',
+            ),
+            'acf:badge' => [
+                'map' => 'acf.count',
+                'default' => 'null',
             ],
         ];
     }

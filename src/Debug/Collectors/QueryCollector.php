@@ -117,12 +117,8 @@ class QueryCollector extends DataCollector implements Renderable
     {
         return [
             'queries' => [
-                'icon' => '🗄️',
-                'widget' => 'PhpDebugBar.Widgets\SqlQueriesWidget',
+                'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
                 'map' => 'queries',
-                'attrs' => [
-                    'title' => 'Queries',
-                ],
             ],
         ];
     }
