@@ -95,6 +95,7 @@ class DebugServiceProvider extends ServiceProvider
             $renderer = $debugbar->getJavascriptRenderer();
             return $renderer->renderHead() . "\n" . $renderer->render();
         } catch (\Throwable) {
+            return '';
         }
     }
 
