@@ -554,7 +554,7 @@ class Application extends Container
      */
     public function getAllModels(): array
     {
-        return app('sloth.models');
+        return collect(app('sloth.models'));
     }
 
     /**
