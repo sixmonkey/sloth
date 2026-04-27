@@ -6,7 +6,6 @@ namespace Sloth\Debug\Collectors;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
-use DebugBar\DataCollector\VariableProvider;
 
 /**
  * Database Query Collector.

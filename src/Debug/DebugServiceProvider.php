@@ -12,7 +12,6 @@ use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Illuminate\Support\Str;
 use Sloth\Core\ServiceProvider;
 use Sloth\Debug\Collectors\AcfCollector;
-use Sloth\Debug\Collectors\MyDataCollector;
 use Sloth\Debug\Collectors\QueryCollector;
 use Sloth\Debug\Collectors\SlothCollector;
 

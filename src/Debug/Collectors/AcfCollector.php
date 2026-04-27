@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Debug\Collectors;
 
-use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 
