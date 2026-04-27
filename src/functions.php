@@ -10,13 +10,14 @@ use Tracy\Debugger;
 
 if (!function_exists('debug')) {
     /**
-     * Dumps variables to Tracy bar for debugging.
+     * Dumps variables to PHP Debug-Bar bar for debugging.
      *
      * @param mixed ...$vars Variables to dump
      * @return mixed Returns the first variable unchanged
      */
     function debug(mixed ...$vars): mixed
     {
+        var_dump(app()->has('debugbar'));
         if (class_exists(Debugger::class)) {
             foreach ($vars as $var) {
                 Debugger::barDump($var);
