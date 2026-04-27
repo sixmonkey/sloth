@@ -9,7 +9,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Sloth\Console\ConsoleServiceProvider;
 use Sloth\Facades\Facade;
 
 use Sloth\Model\Model;
