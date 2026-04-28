@@ -131,7 +131,6 @@ class TemplateServiceProvider extends ServiceProvider
      */
     public function getTemplate(): void
     {
-        debug(1233);
         $this->fixPagination();
 
         if (!app('files')->isDirectory($this->currentThemePath . '/' . 'View' . '/' . 'Layout')) {

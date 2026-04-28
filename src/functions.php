@@ -17,12 +17,11 @@ if (!function_exists('debug')) {
      */
     function debug(mixed ...$vars): mixed
     {
-        var_dump(app()->has('debugbar'));
-        if (class_exists(Debugger::class)) {
-            foreach ($vars as $var) {
-                Debugger::barDump($var);
-            }
+        if (function_exists('dump')) {
+            return dump(...$vars);
         }
+
+        var_dump(...$vars);
 
         return $vars[0] ?? null;
     }
