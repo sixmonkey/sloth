@@ -15,6 +15,7 @@ use Sloth\Core\ServiceProvider;
 use Sloth\Debug\Collectors\AcfCollector;
 use Sloth\Debug\Collectors\QueryCollector;
 use Sloth\Debug\Collectors\SlothCollector;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Sloth Debug Service Provider.
@@ -66,7 +67,17 @@ class DebugServiceProvider extends ServiceProvider
         $debugbar = $this->app->make(DebugBar::class);
         $debugbar->getJavascriptRenderer()->setBaseUrl('https://php-debugbar.com/assets/');
 
-        $debugbar->addCollector(new MessagesCollector());
+        $messageCollector = new MessagesCollector();
+
+        $messageCollector->collectFileTrace(true);
+        $originalHandler = VarDumper::setHandler(function ($var) use (&$originalHandler, $messageCollector): void {
+            if ($originalHandler) {
+                $originalHandler($var);
+            }
+
+            $messageCollector->addMessage($var);
+        });
+        $debugbar->addCollector($messageCollector);
         $debugbar->addCollector(new SlothCollector($this->app));
         $debugbar->addCollector(new QueryCollector());
         $debugbar->addCollector(new AcfCollector());
