@@ -15,7 +15,6 @@ use Sloth\Core\ServiceProvider;
 use Sloth\Debug\Collectors\AcfCollector;
 use Sloth\Debug\Collectors\QueryCollector;
 use Sloth\Debug\Collectors\SlothCollector;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Sloth Debug Service Provider.
@@ -38,6 +37,10 @@ class DebugServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->publishes([
+            __DIR__ . '/../../config/debugger.php' => $this->app->configPath('debugger.php'),
+        ], 'config');
+
         $this->app->singleton(
             ExceptionHandlerContract::class,
             ExceptionHandler::class
@@ -60,6 +63,10 @@ class DebugServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/debugger.php',
+            'debugger'
+        );
         $this->configureDebugBar();
     }
 
@@ -76,25 +83,19 @@ class DebugServiceProvider extends ServiceProvider
      */
     private function configureDebugBar(): void
     {
-        $debugbar = $this->app->make(DebugBar::class);
-        $debugbar->getJavascriptRenderer()->setBaseUrl('https://php-debugbar.com/assets/');
+        $debugBar = $this->app->make(DebugBar::class);
+        $debugBar->getJavascriptRenderer()->setBaseUrl('https://php-debugbar.com/assets/');
 
-        $messageCollector = new MessagesCollector();
+        collect(config('debugger.bar.collector_providers', []))
+            ->each(function ($provider) use (&$debugBar) {
+                (new $provider($debugBar))->boot();
+            });
 
-        $messageCollector->collectFileTrace(true);
-        $originalHandler = VarDumper::setHandler(function ($var) use (&$originalHandler, $messageCollector): void {
-            if ($originalHandler) {
-                $originalHandler($var);
-            }
+        $debugBar->addCollector(new SlothCollector());
+        $debugBar->addCollector(new QueryCollector());
+        $debugBar->addCollector(new AcfCollector());
 
-            $messageCollector->addMessage($var);
-        });
-        $debugbar->addCollector($messageCollector);
-        $debugbar->addCollector(new SlothCollector($this->app));
-        $debugbar->addCollector(new QueryCollector());
-        $debugbar->addCollector(new AcfCollector());
-
-        $renderer = $debugbar->getJavascriptRenderer();
+        $renderer = $debugBar->getJavascriptRenderer();
 
         $renderer->addInlineAssets(
             app('files')->get(__DIR__ . '/../../resources/sloth-debugbar.css'),
@@ -102,7 +103,7 @@ class DebugServiceProvider extends ServiceProvider
             ''
         );
 
-        $this->app->instance('debugbar', $debugbar);
+        $this->app->instance('debugbar', $debugBar);
     }
 
     /**
@@ -112,16 +113,13 @@ class DebugServiceProvider extends ServiceProvider
      * into the page HTML.
      *
      * @return string The rendered debug bar HTML.
-     * @throws DebugBarException
-     * @throws BindingResolutionException
-     * @throws FileNotFoundException
      * @since 1.0.0
      */
     private function renderBar(): string
     {
         try {
-            $debugbar = $this->app->make('debugbar');
-            $renderer = $debugbar->getJavascriptRenderer();
+            $debugBar = $this->app->make('debugbar');
+            $renderer = $debugBar->getJavascriptRenderer();
             return $renderer->renderHead() . "\n" . $renderer->render();
         } catch (\Throwable) {
             return '';
@@ -136,8 +134,6 @@ class DebugServiceProvider extends ServiceProvider
      *
      * @param string $output The page HTML output.
      * @return string The output with debug bar injected.
-     * @throws BindingResolutionException
-     * @throws DebugBarException|FileNotFoundException
      * @since 1.0.0
      */
     private function appendBar($output): string
