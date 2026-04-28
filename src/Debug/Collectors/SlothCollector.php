@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Debug\Collectors;
 
-use Brain\Hierarchy\Hierarchy;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 use Illuminate\Support\Str;
@@ -20,16 +19,6 @@ use Illuminate\Support\Str;
  */
 class SlothCollector extends DataCollector implements Renderable
 {
-    /**
-     * Create a new SlothCollector instance.
-     *
-     * @since 1.0.0
-     * @param \Illuminate\Contracts\Container\ContainerInterface $app The application container.
-     */
-    public function __construct(private $app)
-    {
-    }
-
     /**
      * Collect the Sloth framework data.
      *
@@ -51,44 +40,44 @@ class SlothCollector extends DataCollector implements Renderable
         ];
     }
 
+    /**
+     * Get the list of loaded service providers.
+     *
+     * @since 1.0.0
+     * @return string The provider names joined by newlines.
+     */
     private function getProviders(): string
     {
-        /**
-         * Get the list of loaded service providers.
-         *
-         * @since 1.0.0
-         * @return string The provider names joined by newlines.
-         */
         try {
-            return $this->app->getLoadedProviders()->keys()->join("\n");
+            return app()->getLoadedProviders()->keys()->join("\n");
         } catch (\Throwable) {
             return 'None';
         }
     }
 
+    /**
+     * Get the current application environment.
+     *
+     * @since 1.0.0
+     * @return string The environment name.
+     */
     private function getEnvironment(): string
     {
-        /**
-         * Get the current application environment.
-         *
-         * @since 1.0.0
-         * @return string The environment name.
-         */
         try {
-            return $this->app->environment();
+            return app()->environment();
         } catch (\Throwable) {
             return 'unknown';
         }
     }
 
+    /**
+     * Get the registered Sloth models.
+     *
+     * @since 1.0.0
+     * @return string The model names and classes joined by newlines.
+     */
     private function getModels(): string
     {
-        /**
-         * Get the registered Sloth models.
-         *
-         * @since 1.0.0
-         * @return string The model names and classes joined by newlines.
-         */
         try {
             return collect(app('sloth.models'))
                 ->map(function ($class, $name) {
@@ -100,14 +89,14 @@ class SlothCollector extends DataCollector implements Renderable
         }
     }
 
+    /**
+     * Get the registered Sloth taxonomies.
+     *
+     * @since 1.0.0
+     * @return string The taxonomy names and classes joined by newlines.
+     */
     private function getTaxonomies(): string
     {
-        /**
-         * Get the registered Sloth taxonomies.
-         *
-         * @since 1.0.0
-         * @return string The taxonomy names and classes joined by newlines.
-         */
         try {
             return collect(app('sloth.taxonomies'))
                 ->map(function ($class, $name) {
@@ -119,27 +108,27 @@ class SlothCollector extends DataCollector implements Renderable
         }
     }
 
+    /**
+     * Get the WordPress template hierarchy.
+     *
+     * Returns the list of templates that would be used
+     * for the current request, with the active layout marked.
+     *
+     * @since 1.0.0
+     * @return string The template hierarchy as a newline-separated string.
+     */
     private function getTemplateHierarchy(): string
     {
-        /**
-         * Get the WordPress template hierarchy.
-         *
-         * Returns the list of templates that would be used
-         * for the current request, with the active layout marked.
-         *
-         * @since 1.0.0
-         * @return string The template hierarchy as a newline-separated string.
-         */
-        return ''; #app('sloth.current_template');
-        /*$hierarchy = new Hierarchy();
-        return collect($hierarchy->templates())
-            ->map(function ($template) {
-                if (app('sloth.current_layout') == $template) {
-                    $template .= ' <-';
-                }
-                return $template;
-            })
-            ->join("\n");*/
+        return ''; // TODO: Re-enable when Hierarchy package is available.
+        // $hierarchy = new Hierarchy();
+        // return collect($hierarchy->templates())
+        //     ->map(function ($template) {
+        //         if (app('sloth.current_layout') == $template) {
+        //             $template .= ' <-';
+        //         }
+        //         return $template;
+        //     })
+        //     ->join("\n");
     }
 
     /**
