@@ -52,11 +52,13 @@ class DebugServiceProvider extends ServiceProvider
     }
 
     /**
+     * Boots the DebugServiceProvider
+     *
      * @throws DebugBarException
      * @throws FileNotFoundException
      * @throws BindingResolutionException
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureDebugBar();
     }
