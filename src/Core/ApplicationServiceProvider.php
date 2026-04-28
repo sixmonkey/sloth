@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Core;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Core\Manifest\IncludesManifestBuilder;
 use Sloth\Core\Manifest\ProvidersManifestBuilder;
 
