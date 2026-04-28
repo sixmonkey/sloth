@@ -26,6 +26,7 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             $messageCollector->collectFileTrace(true);
             $messageCollector->addMessage($var);
         });
+
         $this->addCollector($messageCollector);
     }
 }
