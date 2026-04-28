@@ -245,7 +245,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
@@ -312,6 +312,13 @@ and hooks them into WordPress's init action.</p>
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-ApplicationServiceProvider.html#method_boot">boot()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Boot the ApplicationServiceProvider and include relevant manifests</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
     <span>
                                 &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
@@ -319,11 +326,11 @@ and hooks them into WordPress's init action.</p>
 <dd>Returns WordPress filters this provider wants to register.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Core-ApplicationServiceProvider.html#method_getHooks">getHooks()</a>
+    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
 </dt>
-<dd>Register hooks for model registration.</dd>
+<dd>Returns WordPress actions this provider wants to register.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ApplicationServiceProvider.html#method_register">register()</a>
@@ -459,6 +466,64 @@ $provider-&gt;undefinedMethod();
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_boot">
+        boot()
+        <a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">43</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Boot the ApplicationServiceProvider and include relevant manifests</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getFilters">
         getFilters()
         <a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
@@ -502,49 +567,43 @@ $provider-&gt;undefinedMethod();
 >
     <h4 class="phpdocumentor-element__name" id="method_getHooks">
         getHooks()
-        <a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_getHooks" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register hooks for model registration.</p>
+        <p class="phpdocumentor-summary">Returns WordPress actions this provider wants to register.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_getHooks#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <section class="phpdocumentor-description"><p>The framework calls add_action() for each entry — never call
+add_action() directly inside a provider.</p>
+<p>Supports three formats per hook:</p>
+<ul>
+<li>Single callable:   'init' =&gt; fn() =&gt; $this-&gt;doSomething()</li>
+<li>Array of callables: 'init' =&gt; [fn() =&gt; ..., fn() =&gt; ...]</li>
+<li>With priority:     'init' =&gt; ['callback' =&gt; fn() =&gt; ..., 'priority' =&gt; 20]</li>
+</ul>
+</section>
 
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
+    
+    
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
             </section>
 
 </article>
@@ -562,7 +621,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
@@ -725,8 +784,9 @@ $provider-&gt;undefinedMethod();
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
-                                            <li class=""><a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_getHooks">getHooks()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ApplicationServiceProvider.html#method_register">register()</a></li>
                                     </ul>
             </li>

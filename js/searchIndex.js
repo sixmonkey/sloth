@@ -1006,10 +1006,10 @@ Search.appendIndex(
             "summary": "Register\u0020the\u0020Application\u0020service\u0020provider.",
             "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_register"
         },                {
-            "fqsen": "\\Sloth\\Core\\ApplicationServiceProvider\u003A\u003AgetHooks\u0028\u0029",
-            "name": "getHooks",
-            "summary": "Register\u0020hooks\u0020for\u0020model\u0020registration.",
-            "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_getHooks"
+            "fqsen": "\\Sloth\\Core\\ApplicationServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020ApplicationServiceProvider\u0020and\u0020include\u0020relevant\u0020manifests",
+            "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder",
             "name": "IncludesManifestBuilder",
