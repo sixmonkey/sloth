@@ -97,12 +97,12 @@ class ApiServiceProvider extends ServiceProvider
             }
             $routes[$routePrefix . '/' . Utility::viewize($name) . '(?:/(?P<id>\w+))?'] = $name;
         }
-
+# @TODO maybe check, if a controller action accepts any params and suppress nested route registration?
         if (method_exists($controllerClass, 'single')) {
             $routes[$routePrefix] = 'index';
-            $routes[$routePrefix . '(?:/(?P<id>[a-z0-9._-]+))?'] = 'single';
+            $routes[$routePrefix . '(?:/(?P<id>.+))?'] = 'single';
         } else {
-            $routes[$routePrefix . '(?:/(?P<id>[a-z0-9._-]+))?'] = 'index';
+            $routes[$routePrefix . '(?:/(?P<id>.+))?'] = 'index';
         }
 
         foreach ($routes as $route => $action) {
