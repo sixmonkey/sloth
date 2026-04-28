@@ -52,6 +52,16 @@ class DebugServiceProvider extends ServiceProvider
     }
 
     /**
+     * @throws DebugBarException
+     * @throws FileNotFoundException
+     * @throws BindingResolutionException
+     */
+    public function boot()
+    {
+        $this->configureDebugBar();
+    }
+
+    /**
      * Configure the PHP DebugBar.
      *
      * Sets up the debug bar with custom collectors for Sloth,
@@ -90,10 +100,6 @@ class DebugServiceProvider extends ServiceProvider
             ''
         );
 
-
-        $messages = $debugbar['messages'];
-        $messages->addMessage("hello world!");
-
         $this->app->instance('debugbar', $debugbar);
     }
 
@@ -111,8 +117,6 @@ class DebugServiceProvider extends ServiceProvider
      */
     private function renderBar(): string
     {
-        $this->configureDebugBar();
-
         try {
             $debugbar = $this->app->make('debugbar');
             $renderer = $debugbar->getJavascriptRenderer();
@@ -131,7 +135,7 @@ class DebugServiceProvider extends ServiceProvider
      * @param string $output The page HTML output.
      * @return string The output with debug bar injected.
      * @throws BindingResolutionException
-     * @throws DebugBarException
+     * @throws DebugBarException|FileNotFoundException
      * @since 1.0.0
      */
     private function appendBar($output): string
