@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Sloth\Debug;
 
-use DebugBar\DebugBar;
+use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MessagesCollector;
+use DebugBar\DataCollector\TimeDataCollector;
+use DebugBar\DebugBar;
 use DebugBar\DebugBarException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
@@ -27,6 +29,19 @@ use Sloth\Debug\Collectors\SlothCollector;
  */
 class DebugServiceProvider extends ServiceProvider
 {
+    protected $timeCollector;
+    protected $messagesCollector;
+    protected $exceptionsCollector;
+    public function __construct($app)
+    {
+        $startTime = defined('SLOTH_START') ? (float) SLOTH_START : microtime(true);
+
+        $this->app = $app;
+        $this->timeCollector = new TimeDataCollector($startTime);
+        $this->messagesCollector = new MessagesCollector();
+        $this->exceptionsCollector = new ExceptionsCollector();
+    }
+
     /**
      * Register the service provider.
      *
