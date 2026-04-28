@@ -158,4 +158,9 @@ class DebugServiceProvider extends ServiceProvider
         }
         return $output . $this->renderBar();
     }
+
+    public function __destruct()
+    {
+        // TODO: Implement __destruct() method.
+    }
 }
