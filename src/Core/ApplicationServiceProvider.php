@@ -32,21 +32,17 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->singleton(ProvidersManifestBuilder::class, fn($app) => new ProvidersManifestBuilder($app));
     }
 
-
     /**
-     * Register hooks for model registration.
+     * Boot the ApplicationServiceProvider and include relevant manifests
      *
-     * @return array<string, callable|array<callable>>
+     * @throws BindingResolutionException
+     * @return void
      * @since 1.0.0
      *
      */
-    public function getHooks(): array
+    public function boot(): void
     {
-        return [
-            'init' => [
-                fn() => app(IncludesManifestBuilder::class)->init(),
-                fn() => app(ProvidersManifestBuilder::class)->init(),
-            ]
-        ];
+        app(IncludesManifestBuilder::class)->init();
+        app(ProvidersManifestBuilder::class)->init();
     }
 }
