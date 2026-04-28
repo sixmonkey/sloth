@@ -371,6 +371,7 @@ class Application extends Container
         $base = $this->guessBasePath();
 
         $this->addPath('base', $base);
+        $this->addPath('config', $base . '/app/config');
         $this->addPath('app', $base . '/app');
         $this->addPath('vendor', $base . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
@@ -459,6 +460,18 @@ class Application extends Container
     public function path(string $path = '', string $prefix = 'app'): string
     {
         return join_paths($this->get('path.' . $prefix), $path);
+    }
+
+    /**
+     * Get the config path
+     *
+     * @return string
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function configPath(): string
+    {
+        return $this->path('config');
     }
 
     // -------------------------------------------------------------------------
