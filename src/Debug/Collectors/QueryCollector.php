@@ -192,15 +192,6 @@ class QueryCollector extends DataCollector implements Renderable
      * @since 1.0.0
      * @return array<string, mixed> The widget configuration.
      */
-/**
-     * Get the widgets for this collector.
-     *
-     * Returns the debug bar widget configuration for
-     * displaying database queries.
-     *
-     * @since 1.0.0
-     * @return array<string, mixed> The widget configuration.
-     */
     public function getWidgets(): array
     {
         return [
