@@ -17,7 +17,7 @@ use Sloth\Support\Manifest\FinderInterface;
  * request — with zero discovery overhead after the first run.
  *
  * Unique (single-value) taxonomies get a custom radio metabox — this is
- * handled in ModelServiceProvider since add_meta_box() must run on the
+ * handled by TaxonomyMetaBoxRegistrar since add_meta_box() must run on the
  * 'add_meta_boxes' hook, not on 'init'.
  *
  * @since 1.0.0
@@ -77,32 +77,6 @@ class TaxonomyManifestBuilder extends AbstractManifestBuilder
                 })
                 ->all(),
         ];
-    }
-
-    /**
-     * Add custom radio metaboxes for unique taxonomies.
-     *
-     * Called on the 'add_meta_boxes' hook via ModelServiceProvider.
-     *
-     * @since 1.0.0
-     */
-    public function addMetaBoxes(): void
-    {
-        collect(app()->bound('sloth.taxonomies') ? app('sloth.taxonomies') : [])
-            ->filter(fn($taxonomyClass) => $taxonomyClass::$unique)
-            ->each(function ($taxonomyClass) {
-                /** @var class-string<Taxonomy> $taxonomyClass */
-                $taxonomy = new $taxonomyClass();
-                $singular = $taxonomyClass::$names['singular'] ?? ucfirst($taxonomy->getTaxonomy());
-
-                \add_meta_box(
-                    'sloth-taxonomy-' . $taxonomy->getTaxonomy(),
-                    $singular,
-                    $taxonomy->metabox(...),
-                    $taxonomyClass::$postTypes,
-                    'side'
-                );
-            });
     }
 
     /**

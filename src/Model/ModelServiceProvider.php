@@ -7,6 +7,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Core\ServiceProvider;
 use Sloth\Model\Manifest\ModelManifestBuilder;
 use Sloth\Model\Manifest\TaxonomyManifestBuilder;
+use Sloth\Model\Manifest\TaxonomyMetaBoxRegistrar;
 use Sloth\Model\Registrars\MenuRegistrar;
 
 /**
@@ -35,6 +36,7 @@ class ModelServiceProvider extends ServiceProvider
     {
         $this->app->singleton(MenuRegistrar::class, fn($app) => new MenuRegistrar($app));
         $this->app->singleton(TaxonomyManifestBuilder::class, fn($app) => new TaxonomyManifestBuilder($app));
+        $this->app->singleton(TaxonomyMetaBoxRegistrar::class, fn($app) => new TaxonomyMetaBoxRegistrar());
         $this->app->singleton(ModelManifestBuilder::class, fn($app) => new ModelManifestBuilder($app));
     }
 
@@ -95,7 +97,7 @@ class ModelServiceProvider extends ServiceProvider
                 fn() => app(ModelManifestBuilder::class)->init(),
             ],
             'add_meta_boxes' => [
-                fn() => app(TaxonomyManifestBuilder::class)->addMetaBoxes(),
+                fn() => app(TaxonomyMetaBoxRegistrar::class)->addMetaBoxes(),
             ],
             'registered_post_type' => fn(string $postType) => $this->onPostTypeRegistered($postType),
         ];
