@@ -30,9 +30,9 @@ class AcfBase implements CastsAttributes
         $acfKey = $model->getAcfKey();
 
         // Check the cache first
-        #if (property_exists($model, 'acfFieldCache') && isset($model::$acfFieldCache[$acfKey][$key])) {
-        #    return $model::$acfFieldCache[$acfKey][$key];
-        #}
+        if (property_exists($model, 'acfFieldCache') && isset($model::$acfFieldCache[$acfKey][$key])) {
+            return $model::$acfFieldCache[$acfKey][$key];
+        }
 
         // Fallback to get_field() if the field doesn't exist in the cache
         return get_field($key, $model->getAcfKey());
