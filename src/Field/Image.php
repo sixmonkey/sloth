@@ -155,16 +155,16 @@ class Image implements \Stringable
         }
 
         if (is_object($this->post)) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt ?? null;
-            $this->caption = $this->post->post_excerpt ?? null;
-            $this->description = $this->post->post_content ?? null;
+            $this->alt = $this->post->meta->_wp_attachment_image_alt ?? '';
+            $this->caption = $this->post->post_excerpt ?? '';
+            $this->description = $this->post->post_content ?? '';
 
             $this->postID = (int)$this->post->ID;
             $metadata = $this->post->_wp_attachment_metadata ?? null;
             $this->metaData = is_string($metadata) ? (object)@unserialize($metadata) : null;
 
-            $this->width = $this->metaData->width;
-            $this->height = $this->metaData->height;
+            $this->width = (int)$this->metaData->width;
+            $this->height = (int)$this->metaData->height;
 
             $this->url = (string)apply_filters('sloth_get_attachment_link', (string)($url ?? ''));
             $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
