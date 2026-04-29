@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Field;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
 
@@ -123,9 +124,10 @@ class Image implements \Stringable
     /**
      * Image constructor.
      *
+     * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
      */
     public function __construct(int|array|false|string|null $url = null)
     {
@@ -155,6 +157,8 @@ class Image implements \Stringable
             $metadata = $this->post->meta->_wp_attachment_metadata ?? null;
             $this->metaData = is_string($metadata) ? @unserialize($metadata) : null;
 
+            $this->width = $this->metaData->width;
+
             $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
             $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
@@ -172,9 +176,10 @@ class Image implements \Stringable
     /**
      * Get a theme-sized image.
      *
+     * @param string|array<string> $size Size name or array of dimensions
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param string|array<string> $size Size name or array of dimensions
      */
     public function getThemeSized(string|array $size): string
     {
@@ -358,9 +363,10 @@ class Image implements \Stringable
     /**
      * Get a dynamic property.
      *
+     * @param string $what Property name
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param string $what Property name
      */
     public function __get(string $what): mixed
     {
@@ -404,9 +410,10 @@ class Image implements \Stringable
     /**
      * Get all available sizes.
      *
+     * @return array<string, string>
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @return array<string, string>
      */
     public function sizes(): array
     {
