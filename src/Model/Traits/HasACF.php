@@ -44,7 +44,6 @@ trait HasACF
     public static function bootHasACF(): void
     {
         static::retrieved(function (self $model) {
-            $key = $model->getAcfKey();
             $fields = $model->getFields($model);
             $acf_fields = $fields->keys();
             $native_fields = collect($model->getAttributes())->keys();
@@ -64,7 +63,7 @@ trait HasACF
      * @return Collection<string, mixed> Collection of ACF fields
      * @since 1.0.0
      */
-    private function getFields($model): Collection
+    private function getFields(mixed $model): Collection
     {
         $key = $model->getAcfKey();
         if (!isset(static::$acfFieldCache[$key])) {

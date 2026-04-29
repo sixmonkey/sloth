@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sloth\ACF;
 
+use Sloth\Core\ServiceProvider;
+
 /**
  * Service provider for Advanced Custom Fields integration.
  *
@@ -14,23 +16,31 @@ namespace Sloth\ACF;
  * @since 1.0.0
  * @see \Sloth\ACF\ACFHelper
  */
-class AcfServiceProvider
+class AcfServiceProvider extends ServiceProvider
 {
     /**
      * Register the ACF service provider.
      *
      * @since 1.0.0
      */
-    public function register(): void {}
+    public function register(): void
+    {
+        $this->app->singleton('acf.helper', fn(): ACFHelper => new ACFHelper());
+    }
 
     /**
-     * Boot the ACF service provider.
+     * Get the filters for ACF
      *
-     * @since 1.0.0
+     * @return array[]
      */
-    public function boot(): void
+    public function getFilters(): array
     {
-        $acfHelper = new ACFHelper();
-        $acfHelper->addFilters();
+        return [
+            'admin_init' => fn() => app('acf.helper')->autoSyncAcfFields(),
+            'acf/format_value/type=image' => [
+                'callback' => fn(...$args) => app('acf.helper')->loadImage(...$args),
+                'priority' => PHP_INT_MAX
+            ],
+        ];
     }
 }
