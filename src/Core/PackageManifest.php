@@ -15,6 +15,7 @@ class PackageManifest
         public string $basePath,
         ?string $manifestPath = null
     ) {
+        return;
         $this->vendorPath = Env::get('COMPOSER_VENDOR_DIR') ?: $basePath . '/vendor';
         $packages = [];
 

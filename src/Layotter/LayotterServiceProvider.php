@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Sloth\Layotter;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sloth\Core\ServiceProvider;
 use Sloth\Model\Model;
 
@@ -41,10 +43,9 @@ class LayotterServiceProvider extends ServiceProvider
      *
      * Skips silently if Layotter is not bound in the container.
      *
-     * @param class-string<Model> $modelClass The model class name.
-     * @param string $postType The post type slug.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @since 1.0.0
-     *
      */
     protected function configurePostTypes(): void
     {
@@ -86,7 +87,6 @@ class LayotterServiceProvider extends ServiceProvider
      * Get the required filters for the Layotter service provider.
      *
      * @return array|array[]|callable[]
-     * @throws BindingResolutionException
      */
     public function getFilters(): array
     {
