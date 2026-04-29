@@ -213,6 +213,10 @@ class Application extends Container
      * ConfigureServiceProvider must come before any provider that
      * calls Configure::read/write during registration.
      *
+     * After all hardcoded providers are registered, the method discovers
+     * additional providers via ProvidersManifestBuilder (scans app/Providers/
+     * and theme/Providers/ for classes extending Sloth\Core\ServiceProvider).
+     *
      * @since 1.0.0
      */
     protected function registerProviders(): void
@@ -258,7 +262,16 @@ class Application extends Container
 
         ];
 
+        // Register framework providers first (including FilesystemServiceProvider)
         foreach ($providers as $provider) {
+            $this->register($provider);
+        }
+
+        // Autodiscover app/Providers/ and theme/Providers/
+        // (app('files') is now available since FilesystemServiceProvider is registered)
+        $builder = new \Sloth\Core\Manifest\ProvidersManifestBuilder($this);
+        $builder->init();
+        foreach ($builder->getEntries() as $provider) {
             $this->register($provider);
         }
     }
@@ -299,7 +312,9 @@ class Application extends Container
     {
         $providers = $this->getLoadedProviders();
 
-        $providers->each(fn(ServiceProvider $p) => $p->boot());
+        $providers->each(function (ServiceProvider $provider) {
+            $provider->boot();
+        });
 
         $providers->each(function (ServiceProvider $provider): void {
             foreach ($provider->getHooks() as $hook => $value) {

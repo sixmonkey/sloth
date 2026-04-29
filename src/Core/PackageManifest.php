@@ -24,7 +24,7 @@ class PackageManifest
 
             $packages = $installed['packages'] ?? $installed;
         }
-        $foo = (new Collection($packages))
+        return (new Collection($packages))
             ->filter(function ($package) {
                 return ($package['extra'] && $package['extra']['laravel']);
             })

@@ -34,13 +34,13 @@ use Sloth\Support\Manifest\FinderInterface;
  *
  * ## Registration order
  *
- * Providers are registered after all framework providers since this
- * builder runs on the 'init' hook. Framework providers run during
- * Application::boot() which fires on 'after_setup_theme'.
+ * Providers are registered during Application::registerProviders() which runs
+ * on 'after_setup_theme'. Framework providers are registered first, followed
+ * by discovered app/theme providers.
  *
  * @since 1.0.0
  * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
- * @see \Sloth\Core\ApplicationServiceProvider          For provider registration
+ * @see \Sloth\Core\Application::registerProviders()    For provider registration
  */
 class ProvidersManifestBuilder extends AbstractManifestBuilder
 {
@@ -89,8 +89,8 @@ class ProvidersManifestBuilder extends AbstractManifestBuilder
      * Return a flat array of discovered provider class names.
      *
      * The manifest returns `['\\App\\Providers\\MyProvider', ...]` — a simple
-     * list of class names. ApplicationServiceProvider iterates over this array
-     * and calls `app()->register()` for each one.
+     * list of class names. Application::registerProviders() iterates over this
+     * array and calls `$this->register()` for each one.
      *
      * @param array<string, string> $map Provider class name => absolute file path.
      * @return list<class-string<ServiceProvider>> Flat array of class names.
