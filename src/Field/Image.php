@@ -13,6 +13,7 @@ use Sloth\Model\SlothMediaVersion;
  *
  * @since 1.0.0
  */
+#[\AllowDynamicProperties]
 class Image implements \Stringable
 {
     /**
@@ -91,9 +92,9 @@ class Image implements \Stringable
      * Image metadata.
      *
      * @since 1.0.0
-     * @var array<string, mixed>|null
+     * @var object<string, mixed>|null
      */
-    protected ?array $metaData = null;
+    protected ?object $metaData = null;
 
     /**
      * Default options for image manipulation.
@@ -126,6 +127,7 @@ class Image implements \Stringable
      *
      * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
      * @throws BindingResolutionException
+     * @throws ExtensionNotSupportedException
      * @since 1.0.0
      *
      */
@@ -153,13 +155,14 @@ class Image implements \Stringable
             $this->caption = $this->post->post_excerpt ?? null;
             $this->description = $this->post->post_content ?? null;
 
-            $this->postID = (int) $this->post->ID;
-            $metadata = $this->post->meta->_wp_attachment_metadata ?? null;
-            $this->metaData = is_string($metadata) ? @unserialize($metadata) : null;
+            $this->postID = (int)$this->post->ID;
+            $metadata = $this->post->_wp_attachment_metadata ?? null;
+            $this->metaData = is_string($metadata) ? (object)@unserialize($metadata) : null;
 
             $this->width = $this->metaData->width;
+            $this->height = $this->metaData->height;
 
-            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
+            $this->url = (string)apply_filters('sloth_get_attachment_link', (string)($url ?? ''));
             $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
