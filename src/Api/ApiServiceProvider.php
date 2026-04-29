@@ -6,28 +6,71 @@ namespace Sloth\Api;
 
 use Sloth\Api\Manifest\ApiControllerManifestBuilder;
 use Sloth\Core\ServiceProvider;
-use Sloth\Utility\Utility;
-use Symfony\Component\HttpFoundation\Response;
 use WP_REST_Request;
 use WP_REST_Response;
 
 /**
  * Service provider for REST API controller registration.
  *
- * Handles:
- * - Discovery of API controller classes from DIR_APP/Api/
- * - Auto-mapping of public methods to REST routes under /sloth/v1/
- * - Error handling with warnings surfacing in dev environments
+ * Handles the full lifecycle of Sloth API controllers: discovery, manifest
+ * generation, and automatic route registration under the `sloth/v1/` namespace.
+ *
+ * ## Discovery
+ *
+ * ApiControllerManifestBuilder scans app/Api/ and theme/Api/ for classes
+ * extending Sloth\Api\Controller. Each controller's public methods are
+ * analyzed at build time to determine available routes.
+ *
+ * ## Route mapping
+ *
+ * Controller methods are automatically mapped to REST routes:
+ * - **Public methods** (not starting with `_`, not `single`) become route
+ *   actions: `/sloth/v1/{controller}/{method}[/{id}]`
+ * - **single() method**: If present, triggers special routing:
+ *   - `/{controller}` → `index()`
+ *   - `/{controller}[/{id}]` → `single()`
+ * - **No single()**: `/{controller}[/{id}]` → `index()`
+ *
+ * Route names are derived from class/method names via Utility::viewize()
+ * (e.g. `NewsController::getFeatured()` → `news/get-featured`).
+ *
+ * ## Request handling
+ *
+ * Each route callback:
+ * 1. Instantiates the controller and sets the WP_REST_Request.
+ * 2. Extracts the `id` URL parameter and passes it to the action method.
+ * 3. Returns a WP_REST_Response with the controller's response status
+ *    and headers. Error responses include HTTP status text.
+ *
+ * ## Supported HTTP methods
+ *
+ * All routes accept GET, POST, DELETE, and PUT. The controller's action
+ * method receives the full request object and can inspect the method.
+ *
+ * ## Hook execution order
+ *
+ * 1. `init` → ApiControllerManifestBuilder::init() (discovery + manifest)
+ * 2. `rest_api_init` → registerControllers() (route registration)
+ * 3. `rest_post_dispatch` → passthrough filter (reserved for response manipulation)
+ *
+ * ## Container bindings
+ *
+ * No explicit container bindings are created. The manifest entry data is
+ * accessed directly from ApiControllerManifestBuilder::getEntries().
  *
  * @since 1.0.0
- * @see \Sloth\Api\Controller
+ * @see \Sloth\Api\Controller                          For the controller base class
+ * @see \Sloth\Api\Manifest\ApiControllerManifestBuilder For controller discovery
  */
 class ApiServiceProvider extends ServiceProvider
 {
     /**
      * Register the API controller manifest builder.
      *
-     * @return void
+     * Binds ApiControllerManifestBuilder as a singleton so the entry data
+     * computed during init() is available to registerControllers().
+     *
+     * @since 1.0.0
      */
     public function register(): void
     {
@@ -35,41 +78,31 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register API controllers hooks.
+     * Register WordPress action hooks for API controller management.
      *
+     * Returns an array of hook => callback mappings:
+     * - **init**: Runs ApiControllerManifestBuilder::init() for discovery.
+     * - **rest_api_init**: Calls registerControllers() to register REST routes.
+     *
+     * @return array<string, callable|array<callable>> Hook mappings.
      * @since 1.0.0
      */
     public function getHooks(): array
     {
         return [
-            'init' => [
-                fn() => $this->initControllers(),
-            ],
+            'init' => fn() => $this->initControllers(),
             'rest_api_init' => fn() => $this->registerControllers(),
         ];
     }
 
-    protected function initControllers(): void
-    {
-        $builder = app(ApiControllerManifestBuilder::class);
-        $builder->init();
-
-        $map = $builder->getDiscovered();
-
-        if (empty($map)) {
-            return;
-        }
-
-        $this->app->instance('sloth.api-controllers', collect($map)
-            ->mapWithKeys(function ($file, $controllerClass) {
-                return [Utility::viewize((new \ReflectionClass($controllerClass))->getShortName()) => $controllerClass];
-            })
-            ->all());
-    }
-
     /**
-     * Register API controllers filters.
+     * Register WordPress filter hooks for API response handling.
      *
+     * Returns an array of filter => callback mappings:
+     * - **rest_post_dispatch**: Passthrough filter, reserved for future
+     *   response manipulation (e.g. adding custom headers).
+     *
+     * @return array<string, callable|array<callable>> Filter mappings.
      * @since 1.0.0
      */
     public function getFilters(): array
@@ -80,45 +113,61 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register API controllers from DIR_APP/Api/.
+     * Initialize API controllers: run discovery and load the manifest.
      *
-     * @throws \Exception If a controller doesn't extend \Sloth\Api\Controller
+     * Calls ApiControllerManifestBuilder::init() which discovers Controller
+     * subclasses, computes route information, and writes/loads the manifest.
+     *
      * @since 1.0.0
+     */
+    protected function initControllers(): void
+    {
+        app(ApiControllerManifestBuilder::class)->init();
+    }
+
+    /**
+     * Register all discovered API controllers as REST routes.
      *
+     * Iterates over the manifest entries and calls registerControllerRoutes()
+     * for each controller. Routes are registered under the `sloth/v1/`
+     * namespace.
+     *
+     * @since 1.0.0
      * @see \Sloth\Api\Controller For controller base class requirements
      */
     public function registerControllers(): void
     {
-        collect(app('sloth.api-controllers'))
-            ->each(fn($controller) => $this->registerControllerRoutes($controller));
+        foreach (app(ApiControllerManifestBuilder::class)->getEntries() as $controllerClass => $entry) {
+            $this->registerControllerRoutes($controllerClass, $entry);
+        }
     }
 
     /**
-     * Register REST routes for a controller.
+     * Register REST routes for a single controller.
      *
-     * @param object $controllerClass The controller instance
+     * Builds the route map based on the controller's pre-computed entry data:
+     * - Standard methods: `{routePrefix}/{method}[/{id}]`
+     * - With single(): `{routePrefix}` → index, `{routePrefix}[/{id}]` → single
+     * - Without single(): `{routePrefix}[/{id}]` → index
+     *
+     * Each route callback instantiates the controller, sets the request,
+     * extracts the `id` parameter, and delegates to the action method.
+     *
+     * @param class-string<Controller> $controllerClass The controller class to register.
+     * @param array{routePrefix: string, methods: list<string>, hasSingle: bool} $entry
+     *                                                  Pre-computed route data.
      * @since 1.0.0
-     *
      */
-    protected function registerControllerRoutes($controllerClass): void
+    protected function registerControllerRoutes(string $controllerClass, array $entry): void
     {
-        $reflection = new \ReflectionClass($controllerClass);
-        $methods = $reflection->getMethods();
-        $routePrefix = Utility::viewize($reflection->getShortName());
+        $routePrefix = $entry['routePrefix'];
         $routes = [];
-        foreach ($methods as $method) {
-            $name = $method->name;
 
-            if (str_starts_with($name, '_')) {
-                continue;
-            }
-            if ($name === 'single') {
-                continue;
-            }
-            $routes[$routePrefix . '/' . Utility::viewize($name) . '(?:/(?P<id>\w+))?'] = $name;
+        foreach ($entry['methods'] as $method) {
+            $routes[$routePrefix . '/' . \Sloth\Utility\Utility::viewize($method) . '(?:/(?P<id>\w+))?'] = $method;
         }
-# @TODO maybe check, if a controller action accepts any params and suppress nested route registration?
-        if (method_exists($controllerClass, 'single')) {
+
+        if ($entry['hasSingle']) {
             $routes[$routePrefix] = 'index';
             $routes[$routePrefix . '(?:/(?P<id>.+))?'] = 'single';
         } else {
@@ -140,7 +189,7 @@ class ApiServiceProvider extends ServiceProvider
                         if (empty($data) && $controller->response->status >= 400) {
                             $data = [
                                 'code' => $controller->response->status,
-                                'message' => Response::$statusTexts[$controller->response->status] ?? 'Unknown Error',
+                                'message' => \Symfony\Component\HttpFoundation\Response::$statusTexts[$controller->response->status] ?? 'Unknown Error',
                             ];
                         }
 
