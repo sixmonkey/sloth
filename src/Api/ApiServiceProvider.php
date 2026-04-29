@@ -42,9 +42,29 @@ class ApiServiceProvider extends ServiceProvider
     public function getHooks(): array
     {
         return [
-            'init' => fn() => app(ApiControllerManifestBuilder::class)->init(),
+            'init' => [
+                fn() => $this->initControllers(),
+            ],
             'rest_api_init' => fn() => $this->registerControllers(),
         ];
+    }
+
+    protected function initControllers(): void
+    {
+        $builder = app(ApiControllerManifestBuilder::class);
+        $builder->init();
+
+        $map = $builder->getDiscovered();
+
+        if (empty($map)) {
+            return;
+        }
+
+        $this->app->instance('sloth.api-controllers', collect($map)
+            ->mapWithKeys(function ($file, $controllerClass) {
+                return [Utility::viewize((new \ReflectionClass($controllerClass))->getShortName()) => $controllerClass];
+            })
+            ->all());
     }
 
     /**
