@@ -35,6 +35,7 @@ class ClearManifestsCommand extends Command
         'models.manifest.php',
         'taxonomies.manifest.php',
         'modules.manifest.php',
+        'api-controller.manifest.php',
         'includes.manifest.php',
         'providers.manifest.php',
     ];
