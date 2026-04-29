@@ -241,8 +241,11 @@ class Application extends Container
             \Sloth\Layotter\LayotterServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
+            \Sloth\ACF\AcfServiceProvider::class,
 
-            \Sloth\Console\ConsoleServiceProvider::class
+            // Console
+            \Sloth\Console\ConsoleServiceProvider::class,
+
         ];
 
         foreach ($providers as $provider) {
