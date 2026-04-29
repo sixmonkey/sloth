@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Sloth\Support\Manifest;
 
-
-
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -14,7 +12,6 @@ use Illuminate\Filesystem\Filesystem;
  * The manifest contains:
  * 1. require_once for every discovered file
  * 2. Any extra lines provided by the caller (registration calls, class definitions, etc.)
- * 3. app()->instance() calls for container bindings
  *
  * The manifest is a plain PHP file — Opcache will cache it after the first include.
  * Delete the file to force regeneration on the next request.
@@ -28,16 +25,14 @@ class ManifestWriter
     ) {}
 
     /**
-     * @param string                      $path              Absolute path to write the manifest to.
-     * @param array<string, string>       $map               Identifier => file path map from a Finder.
-     * @param array<string, list<string>> $extraLines        Extra PHP lines per identifier.
-     * @param array<string, mixed>        $containerBindings Key => value pairs for app()->instance().
+     * @param string                      $path       Absolute path to write the manifest to.
+     * @param array<string, string>       $map        Identifier => file path map from a Finder.
+     * @param array<string, list<string>> $extraLines Extra PHP lines per identifier.
      */
     public function write(
         string $path,
         array $map,
         array $extraLines = [],
-        array $containerBindings = [],
     ): void {
         $lines = collect([
             '<?php',
@@ -51,10 +46,6 @@ class ManifestWriter
             collect($extraLines[$identifier] ?? [])->each(fn($line) => $lines->push($line));
 
             $lines->push('');
-        });
-
-        collect($containerBindings)->each(function ($value, $key) use ($lines) {
-            $lines->push('app()->instance(' . var_export($key, true) . ', ' . var_export($value, true) . ');');
         });
 
         try {
