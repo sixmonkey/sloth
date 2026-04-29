@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Support\Manifest;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Core\Application;
 
 /**
@@ -64,7 +65,7 @@ abstract class AbstractManifestBuilder
             ->filter(fn($lines) => !empty($lines))
             ->all();
 
-        (new ManifestWriter())->write(
+        (new ManifestWriter(app('files')))->write(
             path: $manifest,
             map: $map,
             extraLines: $extraLines,
@@ -78,6 +79,7 @@ abstract class AbstractManifestBuilder
      * Override if you need non-standard paths.
      *
      * @return list<string> Absolute paths.
+     * @throws BindingResolutionException
      * @since 1.0.0
      */
     protected function directories(): array

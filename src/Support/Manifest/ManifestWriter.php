@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sloth\Support\Manifest;
 
+
+
+use Illuminate\Filesystem\Filesystem;
+
 /**
  * Writes a manifest PHP file from a file map.
  *
@@ -19,6 +23,10 @@ namespace Sloth\Support\Manifest;
  */
 class ManifestWriter
 {
+    public function __construct(
+        private readonly Filesystem $files,
+    ) {}
+
     /**
      * @param string                      $path              Absolute path to write the manifest to.
      * @param array<string, string>       $map               Identifier => file path map from a Finder.
@@ -50,8 +58,8 @@ class ManifestWriter
         });
 
         try {
-            app('files')->ensureDirectoryExists(dirname($path));
-            app('files')->put($path, $lines->implode("\n"));
+            $this->files->ensureDirectoryExists(dirname($path));
+            $this->files->put($path, $lines->implode("\n"));
         } catch (\Throwable) {
             // Non-fatal — manifest is an optimisation, not a requirement
         }
