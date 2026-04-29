@@ -6,6 +6,7 @@ namespace Sloth\Core;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -105,6 +106,8 @@ class Application extends Container
         'Customizer' => \Sloth\Facades\Customizer::class,
     ];
 
+    public ?string $basePath;
+
     // -------------------------------------------------------------------------
     // Boot lifecycle
     // -------------------------------------------------------------------------
@@ -169,6 +172,13 @@ class Application extends Container
 
         // Paths — must exist before providers boot
         $this->registerBasePaths();
+        new PackageManifest(
+            new Filesystem, $this->basePath(), null
+        );
+        // PackageManifest
+        $this->singleton(PackageManifest::class, fn() => new PackageManifest(
+            new Filesystem, $this->basePath(), null
+        ));
 
         // Providers
         $this->registerProviders();
@@ -372,11 +382,11 @@ class Application extends Container
      */
     protected function registerBasePaths(): void
     {
-        $base = $this->guessBasePath();
+        $this->basePath = $this->guessBasePath();
 
-        $this->addPath('base', $base);
-        $this->addPath('app', $base . '/app');
-        $this->addPath('vendor', $base . '/vendor');
+        $this->addPath('base', $this->basePath);
+        $this->addPath('app', $this->basePath . '/app');
+        $this->addPath('vendor', $this->basePath . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
         $this->addPath('plugins', WP_PLUGIN_DIR);
@@ -449,6 +459,18 @@ class Application extends Container
             $path = realpath($path);
         }
         $this->instance('path.' . $key, $path);
+    }
+
+
+    /**
+     * Get the base path of the Laravel installation.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function basePath($path = '')
+    {
+        return $this->joinPaths($this->basePath, $path);
     }
 
     /**
@@ -597,6 +619,18 @@ class Application extends Container
     public function version(): string
     {
         return self::version;
+    }
+
+    /**
+     * Join the given paths together.
+     *
+     * @param string $basePath
+     * @param string $path
+     * @return string
+     */
+    public function joinPaths(string $basePath, string $path = ''): string
+    {
+        return join_paths($basePath, $path);
     }
 
 }
