@@ -37,7 +37,7 @@ class ACFHelper
         $autosyncAcf = config('autosync_acf');
         if (
             !function_exists('acf_get_field_groups')
-            || ! app()->isLocal()
+            || !app()->isLocal()
             || $autosyncAcf === false
         ) {
             return;
@@ -62,13 +62,13 @@ class ACFHelper
             }
 
             if (
-                ! $group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
+                !$group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
             ) {
                 acf_disable_filters();
                 acf_enable_filter('local');
                 acf_update_setting('json', false);
                 $group['fields'] = acf_get_fields($group);
-                $group = acf_import_field_group($group);
+                acf_import_field_group($group);
             }
         }
     }
