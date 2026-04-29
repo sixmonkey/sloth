@@ -25,12 +25,24 @@ use Sloth\Core\Application;
  * - directory()     — subdirectory name, scanned in both app/ and theme/
  * - manifestName()  — filename for the manifest in cache/
  * - extraLines()    — optional extra PHP lines per discovered identifier
- * - bindings()      — what to store in the container at the end of the manifest
+ *
+ * ## Container bindings
+ *
+ * After calling init(), use getDiscovered() to access the file map and
+ * register container bindings in the service provider. Do not override
+ * anything in the builder for this purpose.
  *
  * @since 1.0.0
  */
 abstract class AbstractManifestBuilder
 {
+    /**
+     * The discovered identifier from the last build.
+     *
+     * @var array<string, string>
+     */
+    protected array $discovered = [];
+
     public function __construct(protected Application $app) {}
 
     /**
@@ -58,6 +70,8 @@ abstract class AbstractManifestBuilder
     {
         $map = $this->finder()->find($this->directories());
 
+        $this->discovered = $map;
+
         $extraLines = collect($map)
             ->mapWithKeys(fn($file, $identifier) => [
                 $identifier => $this->extraLines($identifier, $file),
@@ -69,7 +83,6 @@ abstract class AbstractManifestBuilder
             path: $manifest,
             map: $map,
             extraLines: $extraLines,
-            containerBindings: $this->bindings($map),
         );
     }
 
@@ -88,6 +101,17 @@ abstract class AbstractManifestBuilder
             app()->path($this->directory()),
             app()->path($this->directory(), 'theme'),
         ];
+    }
+
+    /**
+     * Get the discovered file map from the last build.
+     *
+     * @return array<string, string>
+     * @since 1.0.0
+     */
+    public function getDiscovered(): array
+    {
+        return $this->discovered;
     }
 
     /**
@@ -121,18 +145,6 @@ abstract class AbstractManifestBuilder
      * @since 1.0.0
      */
     protected function extraLines(string $identifier, string $file): array
-    {
-        return [];
-    }
-
-    /**
-     * Container bindings to write at the end of the manifest.
-     *
-     * @param array<string, string> $map Identifier => file map from the finder.
-     * @return array<string, mixed>
-     * @since 1.0.0
-     */
-    protected function bindings(array $map): array
     {
         return [];
     }
