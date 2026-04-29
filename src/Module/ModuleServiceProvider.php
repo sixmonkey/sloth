@@ -7,6 +7,7 @@ namespace Sloth\Module;
 use Sloth\Core\ServiceProvider;
 use Sloth\Module\Factory\ModuleFactory;
 use Sloth\Module\Manifest\ModuleManifestBuilder;
+use Sloth\Module\Manifest\ModuleJsonEndpointRegistrar;
 
 /**
  * Service provider for the Module component.
@@ -35,6 +36,11 @@ class ModuleServiceProvider extends ServiceProvider
             ModuleManifestBuilder::class,
             fn($app) => new ModuleManifestBuilder($app)
         );
+
+        $this->app->singleton(
+            ModuleJsonEndpointRegistrar::class,
+            fn($app) => new ModuleJsonEndpointRegistrar()
+        );
     }
 
     /**
@@ -46,8 +52,22 @@ class ModuleServiceProvider extends ServiceProvider
     public function getHooks(): array
     {
         return [
-            'init' => fn() => app(ModuleManifestBuilder::class)->init(),
-            'rest_api_init' => fn() => app(ModuleManifestBuilder::class)->registerJsonEndpoints(),
+            'init' => fn() => $this->initModules(),
+            'rest_api_init' => fn() => app(ModuleJsonEndpointRegistrar::class)->registerJsonEndpoints(),
         ];
+    }
+
+    protected function initModules(): void
+    {
+        $builder = app(ModuleManifestBuilder::class);
+        $builder->init();
+
+        $map = $builder->getDiscovered();
+
+        if (empty($map)) {
+            return;
+        }
+
+        $this->app->instance('sloth.modules', array_keys($map));
     }
 }
