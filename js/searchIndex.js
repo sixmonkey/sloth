@@ -6,15 +6,10 @@ Search.appendIndex(
             "summary": "Helper\u0020class\u0020for\u0020Advanced\u0020Custom\u0020Fields\u0020integration.",
             "url": "classes/Sloth-ACF-ACFHelper.html"
         },                {
-            "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003AaddFilters\u0028\u0029",
-            "name": "addFilters",
-            "summary": "Add\u0020ACF\u0020filters.",
-            "url": "classes/Sloth-ACF-ACFHelper.html#method_addFilters"
-        },                {
-            "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003Aload_image\u0028\u0029",
-            "name": "load_image",
+            "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003AloadImage\u0028\u0029",
+            "name": "loadImage",
             "summary": "Load\u0020an\u0020image\u0020from\u0020ACF\u0020field\u0020value.",
-            "url": "classes/Sloth-ACF-ACFHelper.html#method_load_image"
+            "url": "classes/Sloth-ACF-ACFHelper.html#method_loadImage"
         },                {
             "fqsen": "\\Sloth\\ACF\\ACFHelper\u003A\u003AautoSyncAcfFields\u0028\u0029",
             "name": "autoSyncAcfFields",
@@ -51,10 +46,10 @@ Search.appendIndex(
             "summary": "Register\u0020the\u0020ACF\u0020service\u0020provider.",
             "url": "classes/Sloth-ACF-AcfServiceProvider.html#method_register"
         },                {
-            "fqsen": "\\Sloth\\ACF\\AcfServiceProvider\u003A\u003Aboot\u0028\u0029",
-            "name": "boot",
-            "summary": "Boot\u0020the\u0020ACF\u0020service\u0020provider.",
-            "url": "classes/Sloth-ACF-AcfServiceProvider.html#method_boot"
+            "fqsen": "\\Sloth\\ACF\\AcfServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "Get\u0020the\u0020filters\u0020for\u0020ACF",
+            "url": "classes/Sloth-ACF-AcfServiceProvider.html#method_getFilters"
         },                {
             "fqsen": "\\Sloth\\Admin\\AdminServiceProvider",
             "name": "AdminServiceProvider",
