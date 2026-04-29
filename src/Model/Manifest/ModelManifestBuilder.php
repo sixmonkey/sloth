@@ -59,18 +59,6 @@ class ModelManifestBuilder extends AbstractManifestBuilder
         ];
     }
 
-    protected function bindings(array $map): array
-    {
-        return [
-            'sloth.models' => collect($map)
-                ->mapWithKeys(function ($file, $modelClass) {
-                    /** @var class-string<Model> $modelClass */
-                    return [$modelClass::getPostType() => $modelClass];
-                })
-                ->all(),
-        ];
-    }
-
     /**
      * @param class-string<Model> $modelClass
      * @return array<string, mixed>

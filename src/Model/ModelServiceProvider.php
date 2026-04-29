@@ -93,14 +93,50 @@ class ModelServiceProvider extends ServiceProvider
         return [
             'init' => [
                 fn() => app(MenuRegistrar::class)->init(),
-                fn() => app(TaxonomyManifestBuilder::class)->init(),
-                fn() => app(ModelManifestBuilder::class)->init(),
+                fn() => $this->initTaxonomies(),
+                fn() => $this->initModels(),
             ],
             'add_meta_boxes' => [
                 fn() => app(TaxonomyMetaBoxRegistrar::class)->addMetaBoxes(),
             ],
             'registered_post_type' => fn(string $postType) => $this->onPostTypeRegistered($postType),
         ];
+    }
+
+    protected function initTaxonomies(): void
+    {
+        $builder = app(TaxonomyManifestBuilder::class);
+        $builder->init();
+
+        $map = $builder->getDiscovered();
+
+        if (empty($map)) {
+            return;
+        }
+
+        $this->app->instance('sloth.taxonomies', collect($map)
+            ->mapWithKeys(function ($file, $taxonomyClass) {
+                return [(new $taxonomyClass())->getTaxonomy() => $taxonomyClass];
+            })
+            ->all());
+    }
+
+    protected function initModels(): void
+    {
+        $builder = app(ModelManifestBuilder::class);
+        $builder->init();
+
+        $map = $builder->getDiscovered();
+
+        if (empty($map)) {
+            return;
+        }
+
+        $this->app->instance('sloth.models', collect($map)
+            ->mapWithKeys(function ($file, $modelClass) {
+                return [$modelClass::getPostType() => $modelClass];
+            })
+            ->all());
     }
 
     /**

@@ -67,18 +67,6 @@ class TaxonomyManifestBuilder extends AbstractManifestBuilder
         return $lines;
     }
 
-    protected function bindings(array $map): array
-    {
-        return [
-            'sloth.taxonomies' => collect($map)
-                ->mapWithKeys(function ($file, $taxonomyClass) {
-                    /** @var class-string<Taxonomy> $taxonomyClass */
-                    return [(new $taxonomyClass())->getTaxonomy() => $taxonomyClass];
-                })
-                ->all(),
-        ];
-    }
-
     /**
      * @param class-string<Taxonomy> $taxonomyClass
      * @return array<string, mixed>
