@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Sloth\Field;
 
+use BitAndBlack\ImageInformation\Exception\ExtensionNotSupportedException;
+use BitAndBlack\ImageInformation\Source\File;
+use BitAndBlack\ImageInformation\Image as ImageInformation;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Sloth\Facades\Cache;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
 
@@ -170,6 +174,16 @@ class Image implements \Stringable
                 $this->isResizable = @is_array(getimagesize($this->file));
             }
 
+            if ($this->file) {
+                $file = $this->file;
+                $size = Cache::rememberForever('sloth.media.size' . md5($this->file), function () use ($file) {
+                    $image = new ImageInformation(new File($file));
+                    return $image->getSize();
+                });
+                $this->width = $size['width'];
+                $this->height = $size['height'];
+            }
+
             $this->sizes = $this->sizes();
         } else {
             $this->isResizable = false;
@@ -226,9 +240,9 @@ class Image implements \Stringable
             );
         }
 
-        if (!isset($options['height']) && isset($this->metaData['width'], $this->metaData['height'])) {
-            $ratio = $this->metaData['width'] / $options['width'];
-            $options['height'] = (int) round($this->metaData['height'] / $ratio);
+        if (!isset($options['height']) && isset($this->metaData->width, $this->metaData->height)) {
+            $ratio = $this->metaData->width / $options['width'];
+            $options['height'] = (int)round($this->metaData->height / $ratio);
         }
 
         $options = $this->processOptions($options);
