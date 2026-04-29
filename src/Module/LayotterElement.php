@@ -97,7 +97,8 @@ class LayotterElement extends \Layotter_Element
                 } elseif ($field['type'] === 'file') {
                     $v = $fields[$field['name']] ? $fields[$field['name']]['filename'] : '';
                 } elseif ($field['type'] === 'repeater') {
-                    $v = count($fields[$field['name']]) . ' ' . __('Elemente', 'sloth');
+                    $amount = is_countable($fields[$field['name']]) ? count($fields[$field['name']]) : 0;
+                    $v = $amount. ' ' . __('Elemente', 'sloth');
                 } elseif (is_object($fields[$field['name']]) || $field['type'] === 'true_false' || $field['type'] === 'taxonomy') {
                     continue;
                 } elseif ($field['type'] === 'image' && $fields[$field['name']] && $fields[$field['name']]['url'] !== null) {
