@@ -37,10 +37,10 @@ class AcfServiceProvider extends ServiceProvider
     {
         return [
             'admin_init' => fn() => app('acf.helper')->autoSyncAcfFields(),
-            /*'acf/format_value/type=image' => [
+            'acf/format_value/type=image' => [
                 'callback' => fn(...$args) => app('acf.helper')->loadImage(...$args),
                 'priority' => PHP_INT_MAX
-            ],*/
+            ],
         ];
     }
 }
