@@ -114,8 +114,8 @@ class ModuleManifestBuilder extends PathBasedManifestBuilder
         $elementSlug    = strtolower($className);
 
         return [
-            'class ' . $className . ' extends \\Sloth\\Module\\LayotterElement { static $module = ' . var_export($moduleClass, true) . '; }',
-            '\\Layotter::register_element(' . var_export($elementSlug, true) . ', ' . var_export($className, true) . ');',
+            #'class ' . $className . ' extends \\Sloth\\LayotterBridge\\LayotterElement { static $module = ' . var_export($moduleClass, true) . '; }',
+            #'\\Layotter::register_element(' . var_export($elementSlug, true) . ', ' . var_export($className, true) . ');',
         ];
     }
 
