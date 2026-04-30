@@ -69,6 +69,8 @@ class ManifestWriter
      * @param array<string, mixed>        $entries    Structured data returned by the manifest. Consumed by
      *                                                Registrars to perform WordPress registrations without
      *                                                recomputing arguments at runtime.
+     * @param bool                        $require    Whether to emit require_once statements. Set to false
+     *                                                when Composer already autoloads the discovered files.
      *
      * @since 1.0.0
      */
@@ -77,6 +79,7 @@ class ManifestWriter
         array $map,
         array $extraLines = [],
         array $entries = [],
+        bool $require = true,
     ): void {
         $lines = collect([
             '<?php',
@@ -84,13 +87,17 @@ class ManifestWriter
             '',
         ]);
 
-        collect($map)->each(function ($file, $identifier) use ($lines, $extraLines) {
-            $lines->push('require_once ' . var_export($file, true) . ';');
+        if ($require) {
+            collect($map)->each(function ($file, $identifier) use ($lines, $extraLines) {
+                $lines->push('require_once ' . var_export($file, true) . ';');
 
-            collect($extraLines[$identifier] ?? [])->each(fn($line) => $lines->push($line));
+                collect($extraLines[$identifier] ?? [])->each(fn($line) => $lines->push($line));
 
-            $lines->push('');
-        });
+                $lines->push('');
+            });
+        } else {
+            collect($extraLines)->flatten()->each(fn($line) => $lines->push($line));
+        }
 
         $lines->push('return ' . var_export($entries, true) . ';');
 
