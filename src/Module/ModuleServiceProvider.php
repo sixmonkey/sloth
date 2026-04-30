@@ -7,7 +7,7 @@ namespace Sloth\Module;
 use Sloth\Core\ServiceProvider;
 use Sloth\Module\Factory\ModuleFactory;
 use Sloth\Module\Manifest\ModuleManifestBuilder;
-use Sloth\Module\Manifest\ModuleRegistrar;
+use Sloth\Module\Registrar\ModuleRegistrar;
 
 /**
  * Service provider for the Module component.
@@ -43,7 +43,7 @@ use Sloth\Module\Manifest\ModuleRegistrar;
  * @see \Sloth\Module\Module                           For the module base class
  * @see \Sloth\Module\Factory\ModuleFactory            For module resolution
  * @see \Sloth\Module\Manifest\ModuleManifestBuilder   For module discovery
- * @see \Sloth\Module\Manifest\ModuleRegistrar         For JSON endpoint registration
+ * @see \Sloth\Module\Registrar\ModuleRegistrar         For JSON endpoint registration
  */
 class ModuleServiceProvider extends ServiceProvider
 {

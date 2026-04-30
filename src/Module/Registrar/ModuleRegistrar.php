@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Module\Manifest;
+namespace Sloth\Module\Registrar;
 
+use Sloth\Module\Manifest\ModuleManifestBuilder;
 use Sloth\Utility\Utility;
 
 /**
