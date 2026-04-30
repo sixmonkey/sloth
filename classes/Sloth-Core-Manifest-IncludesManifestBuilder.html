@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -225,7 +225,7 @@
     IncludesManifestBuilder
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\AbstractManifestBuilder">AbstractManifestBuilder</abbr></a>
+        extends <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\PathBasedManifestBuilder">PathBasedManifestBuilder</abbr></a>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -276,7 +276,7 @@ a manifest that requires them on every request.</p>
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\AbstractManifestBuilder">AbstractManifestBuilder</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\PathBasedManifestBuilder">PathBasedManifestBuilder</abbr></a></span>
                                         
                                              
                                     </dd>
@@ -310,6 +310,13 @@ a manifest that requires them on every request.</p>
                         &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>            </span>
 </dt>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries">$entries</a>
+    <span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
+</dt>
+<dd>Entry data from the last init() or build() call.</dd>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -323,34 +330,35 @@ a manifest that requires them on every request.</p>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Creates a new manifest builder instance.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries">getEntries()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Get the entry data from the last init() call.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_init">init()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run discovery and load the manifest.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_bindings">bindings()</a>
-    <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
-</dt>
-<dd>Container bindings to write at the end of the manifest.</dd>
+<dd>Run discovery, build the manifest if needed, and load it.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build">build()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run discovery and write the manifest.</dd>
+<dd>Run discovery, compute entries, and write the manifest file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories">directories()</a>
+    <a class="" href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories">directories()</a>
     <span>
                                 &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
-<dd>Directories to scan — always app/{directory}/ and theme/{directory}/.</dd>
+<dd>Directories to scan — app/{directory}/ and theme/{directory}/.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_directory">directory()</a>
@@ -360,11 +368,18 @@ a manifest that requires them on every request.</p>
 <dd>Subdirectory name to scan, relative to app/ and theme/.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_entries">entries()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Entry data to return from the manifest, consumed by Registrars.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines">extraLines()</a>
     <span>
                                 &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
-<dd>Extra PHP lines to write into the manifest after require_once for this identifier.</dd>
+<dd>Extra PHP lines to embed into the manifest after each file&#039;s require_once.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_finder">finder()</a>
@@ -374,11 +389,18 @@ a manifest that requires them on every request.</p>
 <dd>The finder to use for discovery.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_manifestName">manifestName()</a>
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName">manifestName()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Filename for the generated manifest in the cache directory.</dd>
+<dd>Return the filename for the cached manifest file.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles">requireFiles()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Whether to emit require_once statements in the manifest.</dd>
 
     </dl>
 
@@ -410,7 +432,7 @@ a manifest that requires them on every request.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
@@ -425,6 +447,62 @@ a manifest that requires them on every request.</p>
     
     
     
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_entries">
+        $entries
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">85</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Entry data from the last init() or build() call.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$entries</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>Populated either by reading the cached manifest file (init) or by
+computing fresh data (build). Consumed by Registrars via getEntries().</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
         
@@ -452,11 +530,12 @@ a manifest that requires them on every request.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Creates a new manifest builder instance.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -472,15 +551,94 @@ a manifest that requires them on every request.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The application container, used for path resolution
+and filesystem access.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
     
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getEntries">
+        getEntries()
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">196</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the entry data from the last init() call.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getEntries</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Registrars call this method to access the pre-computed registration
+arguments without triggering discovery or recomputation.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Entry data keyed by class identifier.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -496,11 +654,11 @@ a manifest that requires them on every request.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">109</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run discovery and load the manifest.</p>
+        <p class="phpdocumentor-summary">Run discovery, build the manifest if needed, and load it.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -509,7 +667,15 @@ a manifest that requires them on every request.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>This is the primary entry point, called from service providers on the
+WordPress <code class="prettyprint">init</code> hook. The manifest is rebuilt when:</p>
+<ul>
+<li>The application is in local environment (force regeneration).</li>
+<li>The manifest file does not exist (first run or cleared).</li>
+</ul>
+<p>After loading, entry data is available via getEntries() for Registrars.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -538,72 +704,6 @@ a manifest that requires them on every request.</p>
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_bindings">
-        bindings()
-        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_bindings" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">133</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Container bindings to write at the end of the manifest.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">bindings</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$map</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$map</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, string&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifier =&gt; file map from the finder.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_bindings#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_build">
         build()
         <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build" class="headerlink"><i class="fas fa-link"></i></a>
@@ -612,11 +712,11 @@ a manifest that requires them on every request.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">129</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run discovery and write the manifest.</p>
+        <p class="phpdocumentor-summary">Run discovery, compute entries, and write the manifest file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -625,7 +725,10 @@ a manifest that requires them on every request.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Called internally by init() when the manifest needs to be rebuilt.
+Subclasses should not call this directly — use init() instead.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -633,7 +736,9 @@ a manifest that requires them on every request.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Absolute path where the manifest file will be written.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -666,17 +771,17 @@ a manifest that requires them on every request.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_directories">
         directories()
-        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/PathBasedManifestBuilder.php"><a href="files/src-support-manifest-pathbasedmanifestbuilder.html"><abbr title="src/Support/Manifest/PathBasedManifestBuilder.php">PathBasedManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Directories to scan — always app/{directory}/ and theme/{directory}/.</p>
+        <p class="phpdocumentor-summary">Directories to scan — app/{directory}/ and theme/{directory}/.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -685,18 +790,24 @@ a manifest that requires them on every request.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Override if you need non-standard paths.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -707,12 +818,23 @@ a manifest that requires them on every request.</p>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Absolute paths.</p>
+                <section class="phpdocumentor-description"><p>Absolute directory paths to scan.</p>
 </section>
 
             </section>
@@ -769,6 +891,97 @@ a manifest that requires them on every request.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The subdirectory name.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_entries">
+        entries()
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_entries" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">291</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Entry data to return from the manifest, consumed by Registrars.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">entries</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$map</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Compute registration arguments here. This method runs once at build time
+and the result is cached in the manifest file via <code class="prettyprint">var_export()</code>.
+Registrars read this data at runtime without recomputation.</p>
+<p>The returned array is keyed by identifier (class name). Each value
+should contain all the information a Registrar needs to perform its
+WordPress registrations.</p>
+<p>Example:</p>
+<pre class="prettyprint"><code class="language-php">return [
+    '\\App\\Model\\NewsModel' =&gt; [
+        'postType' =&gt; 'news',
+        'args'     =&gt; ['public' =&gt; true, ...],
+        'names'    =&gt; ['singular' =&gt; 'News', 'plural' =&gt; 'News'],
+    ],
+];
+</code></pre>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$map</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Identifier =&gt; absolute file path map
+from the finder.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_entries#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Entry data keyed by identifier.</p>
+</section>
+
             </section>
 
 </article>
@@ -786,11 +999,11 @@ a manifest that requires them on every request.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">259</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Extra PHP lines to write into the manifest after require_once for this identifier.</p>
+        <p class="phpdocumentor-summary">Extra PHP lines to embed into the manifest after each file&#039;s require_once.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -799,7 +1012,18 @@ a manifest that requires them on every request.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Used primarily for Layotter element class definitions which must exist
+as named PHP classes at runtime. Most builders return an empty array.</p>
+<p>The returned lines are inserted directly into the generated manifest
+file — they must be valid, complete PHP statements.</p>
+<p>Example:</p>
+<pre class="prettyprint"><code class="language-php">return [
+    'class TeaserModule extends \Sloth\Module\LayotterElement { ... }',
+    '\Layotter::register_element(&quot;teaser-module&quot;, &quot;TeaserModule&quot;);',
+];
+</code></pre>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -807,7 +1031,8 @@ a manifest that requires them on every request.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Class name or file path, depending on the finder.</p>
+                    <section class="phpdocumentor-description"><p>Fully qualified class name or file path,
+depending on the finder implementation.</p>
 </section>
 
             </dd>
@@ -816,7 +1041,7 @@ a manifest that requires them on every request.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Absolute path to the file.</p>
+                    <section class="phpdocumentor-description"><p>Absolute path to the discovered file.</p>
 </section>
 
             </dd>
@@ -844,6 +1069,10 @@ a manifest that requires them on every request.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>PHP code lines to embed. Empty array for none.</p>
+</section>
+
             </section>
 
 </article>
@@ -898,6 +1127,10 @@ a manifest that requires them on every request.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Support-Manifest-FinderInterface.html"><abbr title="\Sloth\Support\Manifest\FinderInterface">FinderInterface</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The configured finder instance.</p>
+</section>
+
             </section>
 
 </article>
@@ -909,17 +1142,17 @@ a manifest that requires them on every request.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_manifestName">
         manifestName()
-        <a href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_manifestName" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Manifest/IncludesManifestBuilder.php"><a href="files/src-core-manifest-includesmanifestbuilder.html"><abbr title="src/Core/Manifest/IncludesManifestBuilder.php">IncludesManifestBuilder.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">228</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Filename for the generated manifest in the cache directory.</p>
+        <p class="phpdocumentor-summary">Return the filename for the cached manifest file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -928,12 +1161,19 @@ a manifest that requires them on every request.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Derived from the builder's fully qualified class name with a short hash
+suffix to prevent collisions between builders with the same class name
+but different namespaces.</p>
+<p>Example: <code class="prettyprint">ModelManifestBuilder</code> in <code class="prettyprint">Sloth\Model\Manifest</code> →
+<code class="prettyprint">Model-a1b2c3.php</code>.</p>
+<p>Override if you need a non-standard name.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_manifestName#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -952,6 +1192,71 @@ a manifest that requires them on every request.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The manifest filename.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_requireFiles">
+        requireFiles()
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">182</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Whether to emit require_once statements in the manifest.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">requireFiles</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Defaults to true. Override and return false when Composer handles
+autoloading (e.g. vendor package discovery).</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True to emit require_once statements, false to skip them.</p>
+</section>
+
             </section>
 
 </article>
@@ -1071,6 +1376,7 @@ a manifest that requires them on every request.</p>
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_app">$app</a></li>
+                                                    <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries">$entries</a></li>
                                             </ul>
                 </li>
             
@@ -1078,14 +1384,16 @@ a manifest that requires them on every request.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries">getEntries()</a></li>
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_init">init()</a></li>
-                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_bindings">bindings()</a></li>
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build">build()</a></li>
-                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories">directories()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories">directories()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_directory">directory()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_entries">entries()</a></li>
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines">extraLines()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_finder">finder()</a></li>
-                                            <li class=""><a href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_manifestName">manifestName()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName">manifestName()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles">requireFiles()</a></li>
                                     </ul>
             </li>
                     </ul>

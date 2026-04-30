@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -343,6 +343,12 @@ add_action('after_setup_theme', function () {
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/Sloth-Core-Application.html#property_basePath">$basePath</a>
+    <span>
+                        &nbsp;: string|null            </span>
+</dt>
+
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Core-Application.html#property_loadedProviders">$loadedProviders</a>
     <span>
@@ -392,6 +398,13 @@ add_action('after_setup_theme', function () {
                                 &nbsp;: void    </span>
 </dt>
 <dd>Add a path to the container.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-Application.html#method_basePath">basePath()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the base path of the Laravel installation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-Application.html#method_boot">boot()</a>
@@ -483,6 +496,13 @@ add_action('after_setup_theme', function () {
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Check if running in production.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Core-Application.html#method_joinPaths">joinPaths()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Join the given paths together.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-Application.html#method_path">path()</a>
@@ -620,6 +640,43 @@ add_action('after_setup_theme', function () {
             <a href="classes/Sloth-Core-Application.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_basePath">
+        $basePath
+        <a href="classes/Sloth-Core-Application.html#property_basePath" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">108</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">string|null</span>
+    <span class="phpdocumentor-signature__name">$basePath</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
                     <article
         class="
             phpdocumentor-element
@@ -856,7 +913,7 @@ add_action('after_setup_theme', function () {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
@@ -906,7 +963,7 @@ add_action('after_setup_theme', function () {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">446</span>
+    <span class="phpdocumentor-element-found-in__line">476</span>
 
     </aside>
 
@@ -969,6 +1026,55 @@ add_action('after_setup_theme', function () {
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_basePath">
+        basePath()
+        <a href="classes/Sloth-Core-Application.html#method_basePath" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">491</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the base path of the Laravel installation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">basePath</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_boot">
         boot()
         <a href="classes/Sloth-Core-Application.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
@@ -977,7 +1083,7 @@ add_action('after_setup_theme', function () {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -1042,7 +1148,7 @@ add_action('after_setup_theme', function () {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">120</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
@@ -1099,7 +1205,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">507</span>
+    <span class="phpdocumentor-element-found-in__line">549</span>
 
     </aside>
 
@@ -1153,7 +1259,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">559</span>
+    <span class="phpdocumentor-element-found-in__line">601</span>
 
     </aside>
 
@@ -1212,7 +1318,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">584</span>
+    <span class="phpdocumentor-element-found-in__line">626</span>
 
     </aside>
 
@@ -1275,7 +1381,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">523</span>
+    <span class="phpdocumentor-element-found-in__line">565</span>
 
     </aside>
 
@@ -1336,7 +1442,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">339</span>
+    <span class="phpdocumentor-element-found-in__line">364</span>
 
     </aside>
 
@@ -1390,7 +1496,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">547</span>
+    <span class="phpdocumentor-element-found-in__line">589</span>
 
     </aside>
 
@@ -1463,7 +1569,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">572</span>
+    <span class="phpdocumentor-element-found-in__line">614</span>
 
     </aside>
 
@@ -1536,7 +1642,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">190</span>
+    <span class="phpdocumentor-element-found-in__line">192</span>
 
     </aside>
 
@@ -1590,7 +1696,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">534</span>
+    <span class="phpdocumentor-element-found-in__line">576</span>
 
     </aside>
 
@@ -1651,7 +1757,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">477</span>
+    <span class="phpdocumentor-element-found-in__line">519</span>
 
     </aside>
 
@@ -1705,7 +1811,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">487</span>
+    <span class="phpdocumentor-element-found-in__line">529</span>
 
     </aside>
 
@@ -1751,6 +1857,62 @@ This is the preferred entry point — chain with -&gt;boot().</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_joinPaths">
+        joinPaths()
+        <a href="classes/Sloth-Core-Application.html#method_joinPaths" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">651</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Join the given paths together.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">joinPaths</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$basePath</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$basePath</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_path">
         path()
         <a href="classes/Sloth-Core-Application.html#method_path" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1759,7 +1921,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">463</span>
+    <span class="phpdocumentor-element-found-in__line">505</span>
 
     </aside>
 
@@ -1850,7 +2012,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">264</span>
+    <span class="phpdocumentor-element-found-in__line">287</span>
 
     </aside>
 
@@ -1923,7 +2085,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">497</span>
+    <span class="phpdocumentor-element-found-in__line">539</span>
 
     </aside>
 
@@ -1977,7 +2139,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">597</span>
+    <span class="phpdocumentor-element-found-in__line">639</span>
 
     </aside>
 
@@ -2031,7 +2193,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">288</span>
+    <span class="phpdocumentor-element-found-in__line">311</span>
 
     </aside>
 
@@ -2081,7 +2243,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">408</span>
+    <span class="phpdocumentor-element-found-in__line">433</span>
 
     </aside>
 
@@ -2151,7 +2313,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">373</span>
+    <span class="phpdocumentor-element-found-in__line">398</span>
 
     </aside>
 
@@ -2203,7 +2365,7 @@ This is the preferred entry point — chain with -&gt;boot().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">208</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 
     </aside>
 
@@ -2219,6 +2381,9 @@ This is the preferred entry point — chain with -&gt;boot().</p>
         <section class="phpdocumentor-description"><p>Order matters — providers listed first are registered first.
 ConfigureServiceProvider must come before any provider that
 calls Configure::read/write during registration.</p>
+<p>After all hardcoded providers are registered, the method discovers
+additional providers via ProvidersManifestBuilder (scans app/Providers/
+and theme/Providers/ for classes extending Sloth\Core\ServiceProvider).</p>
 </section>
 
     
@@ -2257,7 +2422,7 @@ calls Configure::read/write during registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">315</span>
+    <span class="phpdocumentor-element-found-in__line">340</span>
 
     </aside>
 
@@ -2321,7 +2486,7 @@ calls Configure::read/write during registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Application.php"><a href="files/src-core-application.html"><abbr title="src/Core/Application.php">Application.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">353</span>
+    <span class="phpdocumentor-element-found-in__line">378</span>
 
     </aside>
 
@@ -2479,6 +2644,7 @@ calls Configure::read/write during registration.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Sloth-Core-Application.html#property_basePath">$basePath</a></li>
                                                     <li class=""><a href="classes/Sloth-Core-Application.html#property_loadedProviders">$loadedProviders</a></li>
                                                     <li class=""><a href="classes/Sloth-Core-Application.html#property_booted">$booted</a></li>
                                                     <li class=""><a href="classes/Sloth-Core-Application.html#property_cachedBasePath">$cachedBasePath</a></li>
@@ -2491,6 +2657,7 @@ calls Configure::read/write during registration.</p>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_addPath">addPath()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-Application.html#method_basePath">basePath()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_configure">configure()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_environment">environment()</a></li>
@@ -2504,6 +2671,7 @@ calls Configure::read/write during registration.</p>
                                             <li class="-deprecated"><a href="classes/Sloth-Core-Application.html#method_isDevEnv">isDevEnv()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_isLocal">isLocal()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_isProduction">isProduction()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-Application.html#method_joinPaths">joinPaths()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_path">path()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_register">register()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-Application.html#method_runningUnitTests">runningUnitTests()</a></li>

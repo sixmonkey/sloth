@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -245,15 +245,18 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for Application-level bootstrapping.</p>
 
 
-    <section class="phpdocumentor-description"><p>Registers manifest builders for includes and service providers,
-and hooks them into WordPress's init action.</p>
+    <section class="phpdocumentor-description"><p>Registers the includes manifest builder and loads includes on init.</p>
+<p>Note: Provider auto-discovery is no longer handled here. The Application
+itself discovers providers via ProvidersManifestBuilder during
+Application::registerProviders(). This ensures framework providers register
+first, followed by discovered app/theme providers.</p>
 </section>
 
 
@@ -277,7 +280,29 @@ and hooks them into WordPress's init action.</p>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\AbstractManifestBuilder">AbstractManifestBuilder</abbr></a></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For the manifest lifecycle</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Core-Manifest-IncludesManifestBuilder.html"><abbr title="\Sloth\Core\Manifest\IncludesManifestBuilder">IncludesManifestBuilder</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For include file discovery</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Core-Application.html#method_registerProviders"><abbr title="\Sloth\Core\Application::registerProviders()">Application::registerProviders()</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For provider auto-discovery</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -316,7 +341,7 @@ and hooks them into WordPress's init action.</p>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Boot the ApplicationServiceProvider and include relevant manifests</dd>
+<dd>Boot the ApplicationServiceProvider and load the includes manifest.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
@@ -474,11 +499,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Boot the ApplicationServiceProvider and include relevant manifests</p>
+        <p class="phpdocumentor-summary">Boot the ApplicationServiceProvider and load the includes manifest.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -487,7 +512,11 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Loads the includes manifest for automatic file inclusion. Provider
+discovery is handled by Application::registerProviders() before
+this provider even boots.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -497,14 +526,6 @@ $provider-&gt;undefinedMethod();
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
-                                                            
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -621,7 +642,7 @@ add_action() directly inside a provider.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ApplicationServiceProvider.php"><a href="files/src-core-applicationserviceprovider.html"><abbr title="src/Core/ApplicationServiceProvider.php">ApplicationServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -634,7 +655,10 @@ add_action() directly inside a provider.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Binds IncludesManifestBuilder as a singleton so its entry data
+is available during boot.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">

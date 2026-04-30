@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -245,19 +245,46 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for model/post type registration and management.</p>
 
 
-    <section class="phpdocumentor-description"><p>Handles:</p>
+    <section class="phpdocumentor-description"><p>Coordinates the full lifecycle of WordPress custom post types and taxonomies
+in the Sloth framework. This includes discovery, registration, container
+bindings, and admin UI integration.</p>
+<h2>Responsibilities</h2>
 <ul>
-<li>Navigation menu registration via MenuRegistrar</li>
-<li>Taxonomy registration via TaxonomyRegistrar</li>
-<li>Custom post type registration via ModelRegistrar</li>
-<li>Metabox registration for unique taxonomies</li>
+<li><strong>Discovery</strong>: Delegates to ModelManifestBuilder and TaxonomyManifestBuilder
+for scanning app/Model/, theme/Model/, app/Taxonomy/, and theme/Taxonomy/.</li>
+<li><strong>Registration</strong>: Delegates to ModelRegistrar and TaxonomyRegistrar for
+calling WordPress registration functions with pre-computed args.</li>
+<li><strong>Container bindings</strong>: Populates <code class="prettyprint">sloth.models</code> and <code class="prettyprint">sloth.taxonomies</code>
+so other services (e.g. LayotterServiceProvider, onPostTypeRegistered)
+can access the discovered classes.</li>
+<li><strong>Metaboxes</strong>: Registers custom radio metaboxes for unique taxonomies
+via TaxonomyRegistrar::addMetaBoxes() on the <code class="prettyprint">add_meta_boxes</code> hook.</li>
+<li><strong>Post type resolution</strong>: Listens to <code class="prettyprint">registered_post_type</code> to wire up
+Model::registerPostType() for newFromBuilder() class resolution.</li>
+<li><strong>Admin columns</strong>: Filters manage_posts_columns to hide columns defined
+in $admin_columns_hidden.</li>
+</ul>
+<h2>Hook execution order</h2>
+<ol>
+<li><code class="prettyprint">init</code> → MenuRegistrar, TaxonomyRegistrar (register + bindings),
+ModelRegistrar (register + bindings)</li>
+<li><code class="prettyprint">add_meta_boxes</code> → TaxonomyRegistrar::addMetaBoxes()</li>
+<li><code class="prettyprint">registered_post_type</code> → Model::registerPostType()</li>
+<li><code class="prettyprint">manage_posts_columns</code> → hideAdminColumns()</li>
+</ol>
+<h2>Container bindings</h2>
+<ul>
+<li><strong>sloth.models</strong>: Maps post type slugs to fully qualified Model class names.
+Read by LayotterServiceProvider and onPostTypeRegistered.</li>
+<li><strong>sloth.taxonomies</strong>: Maps taxonomy slugs to fully qualified Taxonomy class
+names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
 </ul>
 </section>
 
@@ -280,9 +307,21 @@
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\Manifest\MenuRegistrar">MenuRegistrar</abbr></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html"><abbr title="\Sloth\Model\Manifest\ModelManifestBuilder">ModelManifestBuilder</abbr></a></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For Model discovery</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Model-Registrar-ModelRegistrar.html"><abbr title="\Sloth\Model\Registrar\ModelRegistrar">ModelRegistrar</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For post type registration</p>
+</section>
+
                                     </dd>
                             <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">see</span>
@@ -290,15 +329,29 @@
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html"><abbr title="\Sloth\Model\Manifest\TaxonomyManifestBuilder">TaxonomyManifestBuilder</abbr></a></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For Taxonomy discovery</p>
+</section>
+
                                     </dd>
                             <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\Manifest\ApiControllerManifestBuilder">ApiControllerManifestBuilder</abbr></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Model-Registrar-TaxonomyRegistrar.html"><abbr title="\Sloth\Model\Registrar\TaxonomyRegistrar">TaxonomyRegistrar</abbr></a></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For taxonomy registration</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Model-Registrars-MenuRegistrar.html"><abbr title="\Sloth\Model\Registrars\MenuRegistrar">MenuRegistrar</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For menu registration</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -337,14 +390,14 @@
     <span>
                                 &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
 </dt>
-<dd>Register filters for model registration.</dd>
+<dd>Register WordPress filter hooks for model management.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
                                 &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
 </dt>
-<dd>Register hooks for model registration.</dd>
+<dd>Register WordPress action hooks for model and taxonomy management.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_register">register()</a>
@@ -358,7 +411,21 @@
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
-<dd>Fix for hiding columns in wp-admin, which is not supported by johnbillion/extended-cpts</dd>
+<dd>Filter admin post list columns to hide configured columns.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_initModels">initModels()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Initialize models: discover, register, and bind to container.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_initTaxonomies">initTaxonomies()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Initialize taxonomies: discover, register, and bind to container.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_onPostTypeRegistered">onPostTypeRegistered()</a>
@@ -502,11 +569,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register filters for model registration.</p>
+        <p class="phpdocumentor-summary">Register WordPress filter hooks for model management.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -515,7 +582,12 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Returns an array of filter =&gt; callback mappings:</p>
+<ul>
+<li><strong>manage_posts_columns</strong>: Hides admin list table columns.</li>
+</ul>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -539,6 +611,10 @@ $provider-&gt;undefinedMethod();
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Filter mappings.</p>
+</section>
+
             </section>
 
 </article>
@@ -556,11 +632,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">89</span>
+    <span class="phpdocumentor-element-found-in__line">138</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register hooks for model registration.</p>
+        <p class="phpdocumentor-summary">Register WordPress action hooks for model and taxonomy management.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -569,7 +645,14 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Returns an array of hook =&gt; callback mappings:</p>
+<ul>
+<li><strong>init</strong>: Menu registration, taxonomy + model discovery and registration.</li>
+<li><strong>add_meta_boxes</strong>: Custom radio metaboxes for unique taxonomies.</li>
+<li><strong>registered_post_type</strong>: Post type to model class resolution.</li>
+</ul>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -593,6 +676,10 @@ $provider-&gt;undefinedMethod();
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Hook mappings.</p>
+</section>
+
             </section>
 
 </article>
@@ -610,7 +697,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 
     </aside>
 
@@ -623,7 +710,11 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Binds manifest builders and registrars as singletons. The registrars
+receive their builder instance via constructor injection, ensuring
+they share the same entry data.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -671,11 +762,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">115</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Fix for hiding columns in wp-admin, which is not supported by johnbillion/extended-cpts</p>
+        <p class="phpdocumentor-summary">Filter admin post list columns to hide configured columns.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -684,7 +775,11 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Workaround for johnbillion/extended-cpts which doesn't support the
+$admin_columns_hidden property on models. Reads the property from
+the model class and removes matching columns from the list table.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -692,7 +787,9 @@ $provider-&gt;undefinedMethod();
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The current list table columns.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -704,19 +801,27 @@ $provider-&gt;undefinedMethod();
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="https://github.com/johnbillion/extended-cpts/">https://github.com/johnbillion/extended-cpts/</a></span>
-                                        
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">throws</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
                                                             
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="https://github.com/johnbillion/extended-cpts/">https://github.com/johnbillion/extended-cpts/</a></span>
+                                        
                                              
                                     </dd>
                                             </dl>
@@ -726,8 +831,126 @@ $provider-&gt;undefinedMethod();
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Filtered columns with hidden ones removed.</p>
+</section>
+
             </section>
 
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_initModels">
+        initModels()
+        <a href="classes/Sloth-Model-ModelServiceProvider.html#method_initModels" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">189</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Initialize models: discover, register, and bind to container.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">initModels</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Orchestrates the model lifecycle:</p>
+<ol>
+<li>Runs ModelManifestBuilder::init() (discovery + manifest loading).</li>
+<li>Binds sloth.models to the container (postType =&gt; class map).</li>
+<li>Calls ModelRegistrar::register() to register with WordPress.</li>
+</ol>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-ModelServiceProvider.html#method_initModels#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_initTaxonomies">
+        initTaxonomies()
+        <a href="classes/Sloth-Model-ModelServiceProvider.html#method_initTaxonomies" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">163</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Initialize taxonomies: discover, register, and bind to container.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">initTaxonomies</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Orchestrates the taxonomy lifecycle:</p>
+<ol>
+<li>Runs TaxonomyManifestBuilder::init() (discovery + manifest loading).</li>
+<li>Binds sloth.taxonomies to the container (slug =&gt; class map).</li>
+<li>Calls TaxonomyRegistrar::register() to register with WordPress.</li>
+</ol>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-ModelServiceProvider.html#method_initTaxonomies#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -743,7 +966,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">93</span>
 
     </aside>
 
@@ -770,7 +993,9 @@ making it work for both the manifest fast path and the normal discovery path.</p
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The WordPress post type slug that was registered.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -915,6 +1140,8 @@ making it work for both the manifest fast path and the normal discovery path.</p
                                             <li class=""><a href="classes/Sloth-Model-ModelServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-ModelServiceProvider.html#method_register">register()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-ModelServiceProvider.html#method_hideAdminColumns">hideAdminColumns()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-ModelServiceProvider.html#method_initModels">initModels()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-ModelServiceProvider.html#method_initTaxonomies">initTaxonomies()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-ModelServiceProvider.html#method_onPostTypeRegistered">onPostTypeRegistered()</a></li>
                                     </ul>
             </li>

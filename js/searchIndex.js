@@ -283,22 +283,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AgetHooks\u0028\u0029",
             "name": "getHooks",
-            "summary": "Register\u0020API\u0020controllers\u0020hooks.",
+            "summary": "Register\u0020WordPress\u0020action\u0020hooks\u0020for\u0020API\u0020controller\u0020management.",
             "url": "classes/Sloth-Api-ApiServiceProvider.html#method_getHooks"
         },                {
             "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
-            "summary": "Register\u0020API\u0020controllers\u0020filters.",
+            "summary": "Register\u0020WordPress\u0020filter\u0020hooks\u0020for\u0020API\u0020response\u0020handling.",
             "url": "classes/Sloth-Api-ApiServiceProvider.html#method_getFilters"
+        },                {
+            "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AinitControllers\u0028\u0029",
+            "name": "initControllers",
+            "summary": "Initialize\u0020API\u0020controllers\u003A\u0020run\u0020discovery\u0020and\u0020load\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Api-ApiServiceProvider.html#method_initControllers"
         },                {
             "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AregisterControllers\u0028\u0029",
             "name": "registerControllers",
-            "summary": "Register\u0020API\u0020controllers\u0020from\u0020DIR_APP\/Api\/.",
+            "summary": "Register\u0020all\u0020discovered\u0020API\u0020controllers\u0020as\u0020REST\u0020routes.",
             "url": "classes/Sloth-Api-ApiServiceProvider.html#method_registerControllers"
         },                {
             "fqsen": "\\Sloth\\Api\\ApiServiceProvider\u003A\u003AregisterControllerRoutes\u0028\u0029",
             "name": "registerControllerRoutes",
-            "summary": "Register\u0020REST\u0020routes\u0020for\u0020a\u0020controller.",
+            "summary": "Register\u0020REST\u0020routes\u0020for\u0020a\u0020single\u0020controller.",
             "url": "classes/Sloth-Api-ApiServiceProvider.html#method_registerControllerRoutes"
         },                {
             "fqsen": "\\Sloth\\Api\\Controller",
@@ -343,33 +348,23 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder",
             "name": "ApiControllerManifestBuilder",
-            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020WordPress\u0020api\u0020routes\u0020registration.",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020API\u0020controller\u0020discovery.",
             "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html"
         },                {
             "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Afinder\u0028\u0029",
             "name": "finder",
-            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "summary": "Return\u0020the\u0020finder\u0020for\u0020Controller\u0020subclass\u0020discovery.",
             "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_finder"
         },                {
             "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Adirectory\u0028\u0029",
             "name": "directory",
-            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "summary": "Return\u0020the\u0020subdirectory\u0020name\u0020for\u0020API\u0020controller\u0020files.",
             "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
-            "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
-            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_manifestName"
-        },                {
-            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003AextraLines\u0028\u0029",
-            "name": "extraLines",
-            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
-            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_extraLines"
-        },                {
-            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Abindings\u0028\u0029",
-            "name": "bindings",
-            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
-            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_bindings"
+            "fqsen": "\\Sloth\\Api\\Manifest\\ApiControllerManifestBuilder\u003A\u003Aentries\u0028\u0029",
+            "name": "entries",
+            "summary": "Compute\u0020route\u0020information\u0020for\u0020all\u0020discovered\u0020controllers.",
+            "url": "classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html#method_entries"
         },                {
             "fqsen": "\\WP_CONTENT_DIR",
             "name": "WP_CONTENT_DIR",
@@ -580,11 +575,6 @@ Search.appendIndex(
             "name": "description",
             "summary": "",
             "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_description"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Commands\\ClearManifestsCommand\u003A\u003A\u0024manifests",
-            "name": "manifests",
-            "summary": "All\u0020manifest\u0020filenames\u0020managed\u0020by\u0020Sloth.",
-            "url": "classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests"
         },                {
             "fqsen": "\\Sloth\\Console\\Commands\\ConfigCommand",
             "name": "ConfigCommand",
@@ -911,6 +901,11 @@ Search.appendIndex(
             "summary": "Add\u0020a\u0020path\u0020to\u0020the\u0020container.",
             "url": "classes/Sloth-Core-Application.html#method_addPath"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024basePath",
+            "name": "basePath",
+            "summary": "",
+            "url": "classes/Sloth-Core-Application.html#property_basePath"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Apath\u0028\u0029",
             "name": "path",
             "summary": "Get\u0020a\u0020path\u0020from\u0020the\u0020container.",
@@ -971,6 +966,11 @@ Search.appendIndex(
             "summary": "Application\u0020version.",
             "url": "classes/Sloth-Core-Application.html#constant_version"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AjoinPaths\u0028\u0029",
+            "name": "joinPaths",
+            "summary": "Join\u0020the\u0020given\u0020paths\u0020together.",
+            "url": "classes/Sloth-Core-Application.html#method_joinPaths"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024booted",
             "name": "booted",
             "summary": "Whether\u0020the\u0020application\u0020has\u0020already\u0020been\u0020booted.",
@@ -1003,7 +1003,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\ApplicationServiceProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Boot\u0020the\u0020ApplicationServiceProvider\u0020and\u0020include\u0020relevant\u0020manifests",
+            "summary": "Boot\u0020the\u0020ApplicationServiceProvider\u0020and\u0020load\u0020the\u0020includes\u0020manifest.",
             "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder",
@@ -1021,11 +1021,6 @@ Search.appendIndex(
             "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
             "url": "classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
-            "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
-            "url": "classes/Sloth-Core-Manifest-IncludesManifestBuilder.html#method_manifestName"
-        },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder",
             "name": "ProvidersManifestBuilder",
             "summary": "Builds\u0020a\u0020manifest\u0020for\u0020App\u0020and\u0020Theme\u0020ServiceProvider\u0020discovery.",
@@ -1033,23 +1028,38 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003Afinder\u0028\u0029",
             "name": "finder",
-            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "summary": "Return\u0020the\u0020finder\u0020for\u0020ServiceProvider\u0020subclass\u0020discovery.",
             "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_finder"
         },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003Adirectory\u0028\u0029",
             "name": "directory",
-            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "summary": "Return\u0020the\u0020subdirectory\u0020name\u0020for\u0020Provider\u0020files.",
             "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
-            "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
-            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_manifestName"
+            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003Aentries\u0028\u0029",
+            "name": "entries",
+            "summary": "Return\u0020a\u0020flat\u0020array\u0020of\u0020discovered\u0020provider\u0020class\u0020names.",
+            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_entries"
         },                {
-            "fqsen": "\\Sloth\\Core\\Manifest\\ProvidersManifestBuilder\u003A\u003AextraLines\u0028\u0029",
-            "name": "extraLines",
-            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
-            "url": "classes/Sloth-Core-Manifest-ProvidersManifestBuilder.html#method_extraLines"
+            "fqsen": "\\Sloth\\Core\\Manifest\\VendorProviderManifestBuilder",
+            "name": "VendorProviderManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020vendor\u0020Composer\u0020package\u0020ServiceProvider\u0020discovery.",
+            "url": "classes/Sloth-Core-Manifest-VendorProviderManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\VendorProviderManifestBuilder\u003A\u003ArequireFiles\u0028\u0029",
+            "name": "requireFiles",
+            "summary": "Disable\u0020require_once\u0020in\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Core-Manifest-VendorProviderManifestBuilder.html#method_requireFiles"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\VendorProviderManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "Return\u0020the\u0020finder\u0020for\u0020Composer\u0020package\u0020discovery.",
+            "url": "classes/Sloth-Core-Manifest-VendorProviderManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Manifest\\VendorProviderManifestBuilder\u003A\u003Aentries\u0028\u0029",
+            "name": "entries",
+            "summary": "Return\u0020a\u0020flat\u0020array\u0020of\u0020discovered\u0020provider\u0020class\u0020names.",
+            "url": "classes/Sloth-Core-Manifest-VendorProviderManifestBuilder.html#method_entries"
         },                {
             "fqsen": "\\Sloth\\Core\\ServiceProvider",
             "name": "ServiceProvider",
@@ -1801,140 +1811,215 @@ Search.appendIndex(
             "summary": "Absolute\u0020path\u0020to\u0020the\u0020renamed\u0020theme\u0020directory.",
             "url": "classes/Sloth-Installer-Installer.html#property_dirThemeNew"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter",
             "name": "Layotter",
             "summary": "Layotter\u0020page\u0020builder\u0020integration.",
-            "url": "classes/Sloth-Layotter-Layotter.html"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Constructor\u0020for\u0020Layotter.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method___construct"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method___construct"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AcustomColumnClasses\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AcustomColumnClasses\u0028\u0029",
             "name": "customColumnClasses",
             "summary": "Get\u0020custom\u0020column\u0020classes\u0020for\u0020Layotter.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_customColumnClasses"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_customColumnClasses"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A\u0024enabledPostTypes",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003A\u0024enabledPostTypes",
             "name": "enabledPostTypes",
             "summary": "Enabled\u0020post\u0020types.",
-            "url": "classes/Sloth-Layotter-Layotter.html#property_enabledPostTypes"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#property_enabledPostTypes"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003Adisable_for_post_type\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003Adisable_for_post_type\u0028\u0029",
             "name": "disable_for_post_type",
             "summary": "Disable\u0020Layotter\u0020for\u0020a\u0020specific\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_disable_for_post_type"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_disable_for_post_type"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003Aenable_for_post_type\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003Aenable_for_post_type\u0028\u0029",
             "name": "enable_for_post_type",
             "summary": "Enable\u0020Layotter\u0020for\u0020a\u0020specific\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_enable_for_post_type"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_enable_for_post_type"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003Aset_layouts_for_post_type\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003Aset_layouts_for_post_type\u0028\u0029",
             "name": "set_layouts_for_post_type",
             "summary": "Set\u0020layouts\u0020for\u0020a\u0020specific\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_set_layouts_for_post_type"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_set_layouts_for_post_type"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AallowedRowLayouts\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AallowedRowLayouts\u0028\u0029",
             "name": "allowedRowLayouts",
             "summary": "Get\u0020allowed\u0020row\u0020layouts.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_allowedRowLayouts"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_allowedRowLayouts"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AdefaultRowLayout\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AdefaultRowLayout\u0028\u0029",
             "name": "defaultRowLayout",
             "summary": "Get\u0020the\u0020default\u0020row\u0020layout.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_defaultRowLayout"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_defaultRowLayout"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AsetLayoutsForPostType\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AsetLayoutsForPostType\u0028\u0029",
             "name": "setLayoutsForPostType",
             "summary": "Set\u0020layouts\u0020for\u0020a\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_setLayoutsForPostType"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_setLayoutsForPostType"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AsetLayoutsForTemplate\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AsetLayoutsForTemplate\u0028\u0029",
             "name": "setLayoutsForTemplate",
             "summary": "Set\u0020layouts\u0020for\u0020a\u0020template.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_setLayoutsForTemplate"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_setLayoutsForTemplate"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AdisableForPostType\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AdisableForPostType\u0028\u0029",
             "name": "disableForPostType",
             "summary": "Disable\u0020Layotter\u0020for\u0020a\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_disableForPostType"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_disableForPostType"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AenableForPostType\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AenableForPostType\u0028\u0029",
             "name": "enableForPostType",
             "summary": "Enable\u0020Layotter\u0020for\u0020a\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_enableForPostType"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_enableForPostType"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AcustomElementView\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AcustomElementView\u0028\u0029",
             "name": "customElementView",
             "summary": "Render\u0020a\u0020Layotter\u0020element.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_customElementView"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_customElementView"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AcustomColumnView\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AcustomColumnView\u0028\u0029",
             "name": "customColumnView",
             "summary": "Render\u0020a\u0020Layotter\u0020column.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_customColumnView"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_customColumnView"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AcustomRowView\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AcustomRowView\u0028\u0029",
             "name": "customRowView",
             "summary": "Render\u0020a\u0020Layotter\u0020row.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_customRowView"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_customRowView"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AcustomPostView\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AcustomPostView\u0028\u0029",
             "name": "customPostView",
             "summary": "Render\u0020a\u0020Layotter\u0020post.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_customPostView"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_customPostView"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003AgetCurrentView\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AgetCurrentView\u0028\u0029",
             "name": "getCurrentView",
             "summary": "Get\u0020the\u0020current\u0020view\u0020path\u0020for\u0020a\u0020Layotter\u0020component.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_getCurrentView"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_getCurrentView"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003ArenderLayotterStyles\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003ArenderLayotterStyles\u0028\u0029",
             "name": "renderLayotterStyles",
             "summary": "Render\u0020Layotter\u0020admin\u0020CSS\u0020styles.",
-            "url": "classes/Sloth-Layotter-Layotter.html#method_renderLayotterStyles"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#method_renderLayotterStyles"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A\u0024disabledPostTypes",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003A\u0024disabledPostTypes",
             "name": "disabledPostTypes",
             "summary": "Disabled\u0020post\u0020types.",
-            "url": "classes/Sloth-Layotter-Layotter.html#property_disabledPostTypes"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#property_disabledPostTypes"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A\u0024layoutsForPostType",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003A\u0024layoutsForPostType",
             "name": "layoutsForPostType",
             "summary": "Layouts\u0020configured\u0020per\u0020post\u0020type.",
-            "url": "classes/Sloth-Layotter-Layotter.html#property_layoutsForPostType"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#property_layoutsForPostType"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\Layotter\u003A\u003A\u0024layoutsForTemplate",
+            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003A\u0024layoutsForTemplate",
             "name": "layoutsForTemplate",
             "summary": "Layouts\u0020configured\u0020per\u0020template.",
-            "url": "classes/Sloth-Layotter-Layotter.html#property_layoutsForTemplate"
+            "url": "classes/Sloth-LayotterBridge-Layotter.html#property_layoutsForTemplate"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider",
-            "name": "LayotterServiceProvider",
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider",
+            "name": "LayotterBridgeServiceProvider",
             "summary": "Service\u0020provider\u0020for\u0020the\u0020Layotter\u0020component.",
-            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html"
+            "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider\u003A\u003Aregister\u0028\u0029",
             "name": "register",
             "summary": "Register\u0020the\u0020Layotter\u0020service\u0020provider.",
-            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_register"
+            "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003AconfigurePostTypes\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider\u003A\u003AconfigurePostTypes\u0028\u0029",
             "name": "configurePostTypes",
             "summary": "Configure\u0020Layotter\u0020page\u0020builder\u0020integration\u0020for\u0020a\u0020model.",
-            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_configurePostTypes"
+            "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_configurePostTypes"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider\u003A\u003AgetHooks\u0028\u0029",
             "name": "getHooks",
             "summary": "Returns\u0020WordPress\u0020actions\u0020this\u0020provider\u0020wants\u0020to\u0020register.",
-            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_getHooks"
+            "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getHooks"
         },                {
-            "fqsen": "\\Sloth\\Layotter\\LayotterServiceProvider\u003A\u003AgetFilters\u0028\u0029",
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
             "summary": "Get\u0020the\u0020required\u0020filters\u0020for\u0020the\u0020Layotter\u0020service\u0020provider.",
-            "url": "classes/Sloth-Layotter-LayotterServiceProvider.html#method_getFilters"
+            "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getFilters"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement",
+            "name": "LayotterElement",
+            "summary": "Layotter\u0020element\u0020wrapper\u0020for\u0020modules.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003Aattributes\u0028\u0029",
+            "name": "attributes",
+            "summary": "Set\u0020element\u0020attributes\u0020from\u0020module\u0020configuration.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_attributes"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003Afrontend_view\u0028\u0029",
+            "name": "frontend_view",
+            "summary": "Render\u0020the\u0020frontend\u0020view.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_frontend_view"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003Abackend_view\u0028\u0029",
+            "name": "backend_view",
+            "summary": "Render\u0020the\u0020backend\u0020preview.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_backend_view"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003AgetFields\u0028\u0029",
+            "name": "getFields",
+            "summary": "Get\u0020the\u0020fields\u0020for\u0020this\u0020element.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_getFields"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003AprepareFields\u0028\u0029",
+            "name": "prepareFields",
+            "summary": "Prepare\u0020fields\u0020for\u0020output.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_prepareFields"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003AgetValues\u0028\u0029",
+            "name": "getValues",
+            "summary": "Get\u0020the\u0020prepared\u0020values.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_getValues"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003AgetModuleInstance\u0028\u0029",
+            "name": "getModuleInstance",
+            "summary": "",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_getModuleInstance"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003A\u0024module",
+            "name": "module",
+            "summary": "Module\u0020class\u0020name.",
+            "url": "classes/Sloth-LayotterBridge-LayotterElement.html#property_module"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar\\LayotterElementRegistrar",
+            "name": "LayotterElementRegistrar",
+            "summary": "Registers\u0020Layotter\u0020elements\u0020discovered\u0020by\u0020ModuleManifestBuilder.",
+            "url": "classes/Sloth-LayotterBridge-Registrar-LayotterElementRegistrar.html"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar\\LayotterElementRegistrar\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020LayotterElementRegistrar\u0020instance.",
+            "url": "classes/Sloth-LayotterBridge-Registrar-LayotterElementRegistrar.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar\\LayotterElementRegistrar\u003A\u003AregisterElements\u0028\u0029",
+            "name": "registerElements",
+            "summary": "Register\u0020all\u0020discovered\u0020modules\u0020that\u0020have\u0020Layotter\u0020integration.",
+            "url": "classes/Sloth-LayotterBridge-Registrar-LayotterElementRegistrar.html#method_registerElements"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar\\LayotterElementRegistrar\u003A\u003AresolveModuleClass\u0028\u0029",
+            "name": "resolveModuleClass",
+            "summary": "Resolve\u0020a\u0020module\u0020class\u0020name\u0020from\u0020a\u0020Layotter\u0020element\u0020slug.",
+            "url": "classes/Sloth-LayotterBridge-Registrar-LayotterElementRegistrar.html#method_resolveModuleClass"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar\\LayotterElementRegistrar\u003A\u003A\u0024elmentModuleMapping",
+            "name": "elmentModuleMapping",
+            "summary": "Mapping\u0020of\u0020element\u0020slugs\u0020to\u0020their\u0020module\u0020class\u0020names.",
+            "url": "classes/Sloth-LayotterBridge-Registrar-LayotterElementRegistrar.html#property_elmentModuleMapping"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar\\LayotterElementRegistrar\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Sloth-LayotterBridge-Registrar-LayotterElementRegistrar.html#property_builder"
         },                {
             "fqsen": "\\Sloth\\Media\\Media",
             "name": "Media",
@@ -2118,37 +2203,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Afinder\u0028\u0029",
             "name": "finder",
-            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "summary": "Return\u0020the\u0020finder\u0020for\u0020Model\u0020subclass\u0020discovery.",
             "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_finder"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Adirectory\u0028\u0029",
             "name": "directory",
-            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "summary": "Return\u0020the\u0020subdirectory\u0020name\u0020for\u0020Model\u0020files.",
             "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
-            "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
-            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_manifestName"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AextraLines\u0028\u0029",
-            "name": "extraLines",
-            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
-            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_extraLines"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Abindings\u0028\u0029",
-            "name": "bindings",
-            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
-            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_bindings"
+            "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003Aentries\u0028\u0029",
+            "name": "entries",
+            "summary": "Compute\u0020registration\u0020entry\u0020data\u0020for\u0020all\u0020discovered\u0020models.",
+            "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_entries"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AbuildArgs\u0028\u0029",
             "name": "buildArgs",
-            "summary": "",
+            "summary": "Build\u0020the\u0020extended\u002Dcpts\u0020registration\u0020args\u0020for\u0020a\u0020model.",
             "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildArgs"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AbuildNames\u0028\u0029",
             "name": "buildNames",
-            "summary": "",
+            "summary": "Build\u0020the\u0020display\u0020names\u0020array\u0020for\u0020a\u0020model.",
             "url": "classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildNames"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder\u003A\u003AbuildAdminCols\u0028\u0029",
@@ -2163,42 +2238,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Afinder\u0028\u0029",
             "name": "finder",
-            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "summary": "Return\u0020the\u0020finder\u0020for\u0020Taxonomy\u0020subclass\u0020discovery.",
             "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_finder"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Adirectory\u0028\u0029",
             "name": "directory",
-            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "summary": "Return\u0020the\u0020subdirectory\u0020name\u0020for\u0020Taxonomy\u0020files.",
             "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
-            "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
-            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_manifestName"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AextraLines\u0028\u0029",
-            "name": "extraLines",
-            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
-            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_extraLines"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Abindings\u0028\u0029",
-            "name": "bindings",
-            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
-            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_bindings"
-        },                {
-            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AaddMetaBoxes\u0028\u0029",
-            "name": "addMetaBoxes",
-            "summary": "Add\u0020custom\u0020radio\u0020metaboxes\u0020for\u0020unique\u0020taxonomies.",
-            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_addMetaBoxes"
+            "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003Aentries\u0028\u0029",
+            "name": "entries",
+            "summary": "Compute\u0020registration\u0020entry\u0020data\u0020for\u0020all\u0020discovered\u0020taxonomies.",
+            "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_entries"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AbuildArgs\u0028\u0029",
             "name": "buildArgs",
-            "summary": "",
+            "summary": "Build\u0020the\u0020extended\u002Dcpts\u0020registration\u0020args\u0020for\u0020a\u0020taxonomy.",
             "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_buildArgs"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\TaxonomyManifestBuilder\u003A\u003AbuildNames\u0028\u0029",
             "name": "buildNames",
-            "summary": "",
+            "summary": "Build\u0020the\u0020display\u0020names\u0020array\u0020for\u0020a\u0020taxonomy.",
             "url": "classes/Sloth-Model-Manifest-TaxonomyManifestBuilder.html#method_buildNames"
         },                {
             "fqsen": "\\Sloth\\Model\\Menu",
@@ -2628,17 +2688,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AhideAdminColumns\u0028\u0029",
             "name": "hideAdminColumns",
-            "summary": "Fix\u0020for\u0020hiding\u0020columns\u0020in\u0020wp\u002Dadmin,\u0020which\u0020is\u0020not\u0020supported\u0020by\u0020johnbillion\/extended\u002Dcpts",
+            "summary": "Filter\u0020admin\u0020post\u0020list\u0020columns\u0020to\u0020hide\u0020configured\u0020columns.",
             "url": "classes/Sloth-Model-ModelServiceProvider.html#method_hideAdminColumns"
         },                {
             "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AgetHooks\u0028\u0029",
             "name": "getHooks",
-            "summary": "Register\u0020hooks\u0020for\u0020model\u0020registration.",
+            "summary": "Register\u0020WordPress\u0020action\u0020hooks\u0020for\u0020model\u0020and\u0020taxonomy\u0020management.",
             "url": "classes/Sloth-Model-ModelServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AinitTaxonomies\u0028\u0029",
+            "name": "initTaxonomies",
+            "summary": "Initialize\u0020taxonomies\u003A\u0020discover,\u0020register,\u0020and\u0020bind\u0020to\u0020container.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_initTaxonomies"
+        },                {
+            "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AinitModels\u0028\u0029",
+            "name": "initModels",
+            "summary": "Initialize\u0020models\u003A\u0020discover,\u0020register,\u0020and\u0020bind\u0020to\u0020container.",
+            "url": "classes/Sloth-Model-ModelServiceProvider.html#method_initModels"
         },                {
             "fqsen": "\\Sloth\\Model\\ModelServiceProvider\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
-            "summary": "Register\u0020filters\u0020for\u0020model\u0020registration.",
+            "summary": "Register\u0020WordPress\u0020filter\u0020hooks\u0020for\u0020model\u0020management.",
             "url": "classes/Sloth-Model-ModelServiceProvider.html#method_getFilters"
         },                {
             "fqsen": "\\Sloth\\Model\\Post",
@@ -2670,6 +2740,51 @@ Search.appendIndex(
             "name": "instances",
             "summary": "Cached\u0020model\u0020instances\u0020by\u0020post\u0020ID.",
             "url": "classes/Sloth-Model-Proxy-CurrentModelProxy.html#property_instances"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\ModelRegistrar",
+            "name": "ModelRegistrar",
+            "summary": "Registers\u0020WordPress\u0020post\u0020types\u0020from\u0020manifest\u0020entries.",
+            "url": "classes/Sloth-Model-Registrar-ModelRegistrar.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\ModelRegistrar\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020ModelRegistrar\u0020instance.",
+            "url": "classes/Sloth-Model-Registrar-ModelRegistrar.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\ModelRegistrar\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020all\u0020discovered\u0020post\u0020types\u0020with\u0020WordPress.",
+            "url": "classes/Sloth-Model-Registrar-ModelRegistrar.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\ModelRegistrar\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Sloth-Model-Registrar-ModelRegistrar.html#property_builder"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\TaxonomyRegistrar",
+            "name": "TaxonomyRegistrar",
+            "summary": "Registers\u0020WordPress\u0020taxonomies\u0020and\u0020metaboxes\u0020from\u0020manifest\u0020entries.",
+            "url": "classes/Sloth-Model-Registrar-TaxonomyRegistrar.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\TaxonomyRegistrar\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020TaxonomyRegistrar\u0020instance.",
+            "url": "classes/Sloth-Model-Registrar-TaxonomyRegistrar.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\TaxonomyRegistrar\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020all\u0020discovered\u0020taxonomies\u0020with\u0020WordPress.",
+            "url": "classes/Sloth-Model-Registrar-TaxonomyRegistrar.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\TaxonomyRegistrar\u003A\u003AaddMetaBoxes\u0028\u0029",
+            "name": "addMetaBoxes",
+            "summary": "Add\u0020custom\u0020radio\u0020metaboxes\u0020for\u0020unique\u0020taxonomies.",
+            "url": "classes/Sloth-Model-Registrar-TaxonomyRegistrar.html#method_addMetaBoxes"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Registrar\\TaxonomyRegistrar\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Sloth-Model-Registrar-TaxonomyRegistrar.html#property_builder"
         },                {
             "fqsen": "\\Sloth\\Model\\Registrars\\MenuRegistrar",
             "name": "MenuRegistrar",
@@ -3121,80 +3236,25 @@ Search.appendIndex(
             "summary": "Resolve\u0020a\u0020module\u0020name\u0020to\u0020a\u0020fully\u002Dqualified\u0020class\u0020name.",
             "url": "classes/Sloth-Module-Factory-ModuleFactory.html#method_resolveClass"
         },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement",
-            "name": "LayotterElement",
-            "summary": "Layotter\u0020element\u0020wrapper\u0020for\u0020modules.",
-            "url": "classes/Sloth-Module-LayotterElement.html"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003Aattributes\u0028\u0029",
-            "name": "attributes",
-            "summary": "Set\u0020element\u0020attributes\u0020from\u0020module\u0020configuration.",
-            "url": "classes/Sloth-Module-LayotterElement.html#method_attributes"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003Afrontend_view\u0028\u0029",
-            "name": "frontend_view",
-            "summary": "Render\u0020the\u0020frontend\u0020view.",
-            "url": "classes/Sloth-Module-LayotterElement.html#method_frontend_view"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003Abackend_view\u0028\u0029",
-            "name": "backend_view",
-            "summary": "Render\u0020the\u0020backend\u0020preview.",
-            "url": "classes/Sloth-Module-LayotterElement.html#method_backend_view"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003AgetFields\u0028\u0029",
-            "name": "getFields",
-            "summary": "Get\u0020the\u0020fields\u0020for\u0020this\u0020element.",
-            "url": "classes/Sloth-Module-LayotterElement.html#method_getFields"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003AprepareFields\u0028\u0029",
-            "name": "prepareFields",
-            "summary": "Prepare\u0020fields\u0020for\u0020output.",
-            "url": "classes/Sloth-Module-LayotterElement.html#method_prepareFields"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003AgetValues\u0028\u0029",
-            "name": "getValues",
-            "summary": "Get\u0020the\u0020prepared\u0020values.",
-            "url": "classes/Sloth-Module-LayotterElement.html#method_getValues"
-        },                {
-            "fqsen": "\\Sloth\\Module\\LayotterElement\u003A\u003A\u0024module",
-            "name": "module",
-            "summary": "Module\u0020class\u0020name.",
-            "url": "classes/Sloth-Module-LayotterElement.html#property_module"
-        },                {
             "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder",
             "name": "ModuleManifestBuilder",
-            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020module\u0020discovery\u0020and\u0020Layotter\u0020registration.",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020module\u0020discovery.",
             "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html"
         },                {
             "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Afinder\u0028\u0029",
             "name": "finder",
-            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "summary": "Return\u0020the\u0020finder\u0020for\u0020Module\u0020subclass\u0020discovery.",
             "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_finder"
         },                {
             "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Adirectory\u0028\u0029",
             "name": "directory",
-            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "summary": "Return\u0020the\u0020subdirectory\u0020name\u0020for\u0020Module\u0020files.",
             "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_directory"
         },                {
-            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
-            "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
-            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_manifestName"
-        },                {
-            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003AextraLines\u0028\u0029",
-            "name": "extraLines",
-            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
-            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_extraLines"
-        },                {
-            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Abindings\u0028\u0029",
-            "name": "bindings",
-            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
-            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_bindings"
-        },                {
-            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003AregisterJsonEndpoints\u0028\u0029",
-            "name": "registerJsonEndpoints",
-            "summary": "Register\u0020JSON\/AJAX\u0020endpoints\u0020for\u0020modules\u0020that\u0020have\u0020\u0024json\u0020enabled.",
-            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_registerJsonEndpoints"
+            "fqsen": "\\Sloth\\Module\\Manifest\\ModuleManifestBuilder\u003A\u003Aentries\u0028\u0029",
+            "name": "entries",
+            "summary": "Compute\u0020entry\u0020data\u0020for\u0020all\u0020discovered\u0020modules.",
+            "url": "classes/Sloth-Module-Manifest-ModuleManifestBuilder.html#method_entries"
         },                {
             "fqsen": "\\Sloth\\Module\\Module",
             "name": "Module",
@@ -3353,8 +3413,33 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Module\\ModuleServiceProvider\u003A\u003AgetHooks\u0028\u0029",
             "name": "getHooks",
-            "summary": "Register\u0020module\u0020hooks.",
+            "summary": "Register\u0020WordPress\u0020action\u0020hooks\u0020for\u0020module\u0020management.",
             "url": "classes/Sloth-Module-ModuleServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Module\\ModuleServiceProvider\u003A\u003AinitModules\u0028\u0029",
+            "name": "initModules",
+            "summary": "Initialize\u0020modules\u003A\u0020discover,\u0020load\u0020manifest,\u0020and\u0020bind\u0020to\u0020container.",
+            "url": "classes/Sloth-Module-ModuleServiceProvider.html#method_initModules"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Registrar\\ModuleRegistrar",
+            "name": "ModuleRegistrar",
+            "summary": "Registers\u0020JSON\/AJAX\u0020endpoints\u0020for\u0020modules\u0020from\u0020manifest\u0020entries.",
+            "url": "classes/Sloth-Module-Registrar-ModuleRegistrar.html"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Registrar\\ModuleRegistrar\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020ModuleRegistrar\u0020instance.",
+            "url": "classes/Sloth-Module-Registrar-ModuleRegistrar.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Registrar\\ModuleRegistrar\u003A\u003AregisterJsonEndpoints\u0028\u0029",
+            "name": "registerJsonEndpoints",
+            "summary": "Register\u0020JSON\/AJAX\u0020endpoints\u0020for\u0020modules\u0020that\u0020have\u0020\u0024json\u0020enabled.",
+            "url": "classes/Sloth-Module-Registrar-ModuleRegistrar.html#method_registerJsonEndpoints"
+        },                {
+            "fqsen": "\\Sloth\\Module\\Registrar\\ModuleRegistrar\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Sloth-Module-Registrar-ModuleRegistrar.html#property_builder"
         },                {
             "fqsen": "\\Sloth\\Pagination\\PaginationServiceProvider",
             "name": "PaginationServiceProvider",
@@ -3483,48 +3568,53 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Creates\u0020a\u0020new\u0020manifest\u0020builder\u0020instance.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method___construct"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Run\u0020discovery\u0020and\u0020load\u0020the\u0020manifest.",
+            "summary": "Run\u0020discovery,\u0020build\u0020the\u0020manifest\u0020if\u0020needed,\u0020and\u0020load\u0020it.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_init"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Abuild\u0028\u0029",
             "name": "build",
-            "summary": "Run\u0020discovery\u0020and\u0020write\u0020the\u0020manifest.",
+            "summary": "Run\u0020discovery,\u0020compute\u0020entries,\u0020and\u0020write\u0020the\u0020manifest\u0020file.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Adirectories\u0028\u0029",
             "name": "directories",
-            "summary": "Directories\u0020to\u0020scan\u0020\u2014\u0020always\u0020app\/\u007Bdirectory\u007D\/\u0020and\u0020theme\/\u007Bdirectory\u007D\/.",
+            "summary": "Directories\u0020to\u0020scan\u0020for\u0020discovery.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003ArequireFiles\u0028\u0029",
+            "name": "requireFiles",
+            "summary": "Whether\u0020to\u0020emit\u0020require_once\u0020statements\u0020in\u0020the\u0020manifest.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003AgetEntries\u0028\u0029",
+            "name": "getEntries",
+            "summary": "Get\u0020the\u0020entry\u0020data\u0020from\u0020the\u0020last\u0020init\u0028\u0029\u0020call.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Afinder\u0028\u0029",
             "name": "finder",
-            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "summary": "Return\u0020the\u0020finder\u0020implementation\u0020for\u0020this\u0020builder.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_finder"
-        },                {
-            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Adirectory\u0028\u0029",
-            "name": "directory",
-            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
-            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directory"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003AmanifestName\u0028\u0029",
             "name": "manifestName",
-            "summary": "Filename\u0020for\u0020the\u0020generated\u0020manifest\u0020in\u0020the\u0020cache\u0020directory.",
+            "summary": "Return\u0020the\u0020filename\u0020for\u0020the\u0020cached\u0020manifest\u0020file.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003AextraLines\u0028\u0029",
             "name": "extraLines",
-            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020write\u0020into\u0020the\u0020manifest\u0020after\u0020require_once\u0020for\u0020this\u0020identifier.",
+            "summary": "Extra\u0020PHP\u0020lines\u0020to\u0020embed\u0020into\u0020the\u0020manifest\u0020after\u0020each\u0020file\u0027s\u0020require_once.",
             "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines"
         },                {
-            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003Abindings\u0028\u0029",
-            "name": "bindings",
-            "summary": "Container\u0020bindings\u0020to\u0020write\u0020at\u0020the\u0020end\u0020of\u0020the\u0020manifest.",
-            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_bindings"
+            "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003A\u0024entries",
+            "name": "entries",
+            "summary": "Entry\u0020data\u0020from\u0020the\u0020last\u0020init\u0028\u0029\u0020or\u0020build\u0028\u0029\u0020call.",
+            "url": "classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries"
         },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\AbstractManifestBuilder\u003A\u003A\u0024app",
             "name": "app",
@@ -3551,6 +3641,36 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Support-Manifest-ClassMapFinder.html#property_subclassOf"
         },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ComposerFinder",
+            "name": "ComposerFinder",
+            "summary": "Discovers\u0020service\u0020providers\u0020from\u0020installed\u0020Composer\u0020packages.",
+            "url": "classes/Sloth-Support-Manifest-ComposerFinder.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ComposerFinder\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020ComposerFinder\u0020instance.",
+            "url": "classes/Sloth-Support-Manifest-ComposerFinder.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ComposerFinder\u003A\u003Afind\u0028\u0029",
+            "name": "find",
+            "summary": "Scan\u0020installed\u0020Composer\u0020packages\u0020and\u0020return\u0020discovered\u0020providers.",
+            "url": "classes/Sloth-Support-Manifest-ComposerFinder.html#method_find"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ComposerFinder\u003A\u003AgetInstalledPackages\u0028\u0029",
+            "name": "getInstalledPackages",
+            "summary": "Get\u0020all\u0020installed\u0020packages\u0020from\u0020composer\/installed.json.",
+            "url": "classes/Sloth-Support-Manifest-ComposerFinder.html#method_getInstalledPackages"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ComposerFinder\u003A\u003AgetIgnoredPackages\u0028\u0029",
+            "name": "getIgnoredPackages",
+            "summary": "Get\u0020packages\u0020that\u0020should\u0020be\u0020ignored\u0020from\u0020the\u0020app\u0027s\u0020composer.json.",
+            "url": "classes/Sloth-Support-Manifest-ComposerFinder.html#method_getIgnoredPackages"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ComposerFinder\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-ComposerFinder.html#property_app"
+        },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\FileFinder",
             "name": "FileFinder",
             "summary": "Discovers\u0020plain\u0020PHP\u0020files\u0020via\u0020filesystem\u0020scan.",
@@ -3576,10 +3696,35 @@ Search.appendIndex(
             "summary": "Writes\u0020a\u0020manifest\u0020PHP\u0020file\u0020from\u0020a\u0020file\u0020map.",
             "url": "classes/Sloth-Support-Manifest-ManifestWriter.html"
         },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ManifestWriter\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Creates\u0020a\u0020new\u0020ManifestWriter\u0020instance.",
+            "url": "classes/Sloth-Support-Manifest-ManifestWriter.html#method___construct"
+        },                {
             "fqsen": "\\Sloth\\Support\\Manifest\\ManifestWriter\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "",
+            "summary": "Write\u0020the\u0020manifest\u0020file\u0020to\u0020the\u0020given\u0020path.",
             "url": "classes/Sloth-Support-Manifest-ManifestWriter.html#method_write"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\ManifestWriter\u003A\u003A\u0024files",
+            "name": "files",
+            "summary": "",
+            "url": "classes/Sloth-Support-Manifest-ManifestWriter.html#property_files"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\PathBasedManifestBuilder",
+            "name": "PathBasedManifestBuilder",
+            "summary": "Base\u0020class\u0020for\u0020manifest\u0020builders\u0020that\u0020discover\u0020files\u0020from\u0020app\/\u0020and\u0020theme\/\u0020directories.",
+            "url": "classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\PathBasedManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Return\u0020the\u0020subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Support\\Manifest\\PathBasedManifestBuilder\u003A\u003Adirectories\u0028\u0029",
+            "name": "directories",
+            "summary": "Directories\u0020to\u0020scan\u0020\u2014\u0020app\/\u007Bdirectory\u007D\/\u0020and\u0020theme\/\u007Bdirectory\u007D\/.",
+            "url": "classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories"
         },                {
             "fqsen": "\\Sloth\\Template\\TemplateServiceProvider",
             "name": "TemplateServiceProvider",
@@ -3981,10 +4126,15 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-installer.html"
         },                {
-            "fqsen": "\\Sloth\\Layotter",
-            "name": "Layotter",
+            "fqsen": "\\Sloth\\LayotterBridge",
+            "name": "LayotterBridge",
             "summary": "",
-            "url": "namespaces/sloth-layotter.html"
+            "url": "namespaces/sloth-layotterbridge.html"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\Registrar",
+            "name": "Registrar",
+            "summary": "",
+            "url": "namespaces/sloth-layotterbridge-registrar.html"
         },                {
             "fqsen": "\\Sloth\\Media",
             "name": "Media",
@@ -4021,6 +4171,11 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-model-proxy.html"
         },                {
+            "fqsen": "\\Sloth\\Model\\Registrar",
+            "name": "Registrar",
+            "summary": "",
+            "url": "namespaces/sloth-model-registrar.html"
+        },                {
             "fqsen": "\\Sloth\\Model\\Registrars",
             "name": "Registrars",
             "summary": "",
@@ -4036,15 +4191,20 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-module-factory.html"
         },                {
+            "fqsen": "\\Sloth\\Module\\Manifest",
+            "name": "Manifest",
+            "summary": "",
+            "url": "namespaces/sloth-module-manifest.html"
+        },                {
             "fqsen": "\\Sloth\\Module",
             "name": "Module",
             "summary": "",
             "url": "namespaces/sloth-module.html"
         },                {
-            "fqsen": "\\Sloth\\Module\\Manifest",
-            "name": "Manifest",
+            "fqsen": "\\Sloth\\Module\\Registrar",
+            "name": "Registrar",
             "summary": "",
-            "url": "namespaces/sloth-module-manifest.html"
+            "url": "namespaces/sloth-module-registrar.html"
         },                {
             "fqsen": "\\Sloth\\Pagination",
             "name": "Pagination",

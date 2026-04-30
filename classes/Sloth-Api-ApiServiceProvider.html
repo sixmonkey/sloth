@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -245,19 +245,54 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for REST API controller registration.</p>
 
 
-    <section class="phpdocumentor-description"><p>Handles:</p>
+    <section class="phpdocumentor-description"><p>Handles the full lifecycle of Sloth API controllers: discovery, manifest
+generation, and automatic route registration under the <code class="prettyprint">sloth/v1/</code> namespace.</p>
+<h2>Discovery</h2>
+<p>ApiControllerManifestBuilder scans app/Api/ and theme/Api/ for classes
+extending Sloth\Api\Controller. Each controller's public methods are
+analyzed at build time to determine available routes.</p>
+<h2>Route mapping</h2>
+<p>Controller methods are automatically mapped to REST routes:</p>
 <ul>
-<li>Discovery of API controller classes from DIR_APP/Api/</li>
-<li>Auto-mapping of public methods to REST routes under /sloth/v1/</li>
-<li>Error handling with warnings surfacing in dev environments</li>
+<li><strong>Public methods</strong> (not starting with <code class="prettyprint">_</code>, not <code class="prettyprint">single</code>) become route
+actions: <code class="prettyprint">/sloth/v1/{controller}/{method}[/{id}]</code></li>
+<li><strong>single() method</strong>: If present, triggers special routing:
+<ul>
+<li><code class="prettyprint">/{controller}</code> → <code class="prettyprint">index()</code></li>
+<li><code class="prettyprint">/{controller}[/{id}]</code> → <code class="prettyprint">single()</code></li>
 </ul>
+</li>
+<li><strong>No single()</strong>: <code class="prettyprint">/{controller}[/{id}]</code> → <code class="prettyprint">index()</code></li>
+</ul>
+<p>Route names are derived from class/method names via Utility::viewize()
+(e.g. <code class="prettyprint">NewsController::getFeatured()</code> → <code class="prettyprint">news/get-featured</code>).</p>
+<h2>Request handling</h2>
+<p>Each route callback:</p>
+<ol>
+<li>Instantiates the controller and sets the WP_REST_Request.</li>
+<li>Extracts the <code class="prettyprint">id</code> URL parameter and passes it to the action method.</li>
+<li>Returns a WP_REST_Response with the controller's response status
+and headers. Error responses include HTTP status text.</li>
+</ol>
+<h2>Supported HTTP methods</h2>
+<p>All routes accept GET, POST, DELETE, and PUT. The controller's action
+method receives the full request object and can inspect the method.</p>
+<h2>Hook execution order</h2>
+<ol>
+<li><code class="prettyprint">init</code> → ApiControllerManifestBuilder::init() (discovery + manifest)</li>
+<li><code class="prettyprint">rest_api_init</code> → registerControllers() (route registration)</li>
+<li><code class="prettyprint">rest_post_dispatch</code> → passthrough filter (reserved for response manipulation)</li>
+</ol>
+<h2>Container bindings</h2>
+<p>No explicit container bindings are created. The manifest entry data is
+accessed directly from ApiControllerManifestBuilder::getEntries().</p>
 </section>
 
 
@@ -281,7 +316,19 @@
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Api-Controller.html"><abbr title="\Sloth\Api\Controller">Controller</abbr></a></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For the controller base class</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Api-Manifest-ApiControllerManifestBuilder.html"><abbr title="\Sloth\Api\Manifest\ApiControllerManifestBuilder">ApiControllerManifestBuilder</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For controller discovery</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -318,16 +365,16 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Api-ApiServiceProvider.html#method_getFilters">getFilters()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
 </dt>
-<dd>Register API controllers filters.</dd>
+<dd>Register WordPress filter hooks for API response handling.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Api-ApiServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
 </dt>
-<dd>Register API controllers hooks.</dd>
+<dd>Register WordPress action hooks for API controller management.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Api-ApiServiceProvider.html#method_register">register()</a>
@@ -341,14 +388,21 @@
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register API controllers from DIR_APP/Api/.</dd>
+<dd>Register all discovered API controllers as REST routes.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Api-ApiServiceProvider.html#method_initControllers">initControllers()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Initialize API controllers: run discovery and load the manifest.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Api-ApiServiceProvider.html#method_registerControllerRoutes">registerControllerRoutes()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register REST routes for a controller.</dd>
+<dd>Register REST routes for a single controller.</dd>
 
     </dl>
 
@@ -485,20 +539,26 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register API controllers filters.</p>
+        <p class="phpdocumentor-summary">Register WordPress filter hooks for API response handling.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Returns an array of filter =&gt; callback mappings:</p>
+<ul>
+<li><strong>rest_post_dispatch</strong>: Passthrough filter, reserved for future
+response manipulation (e.g. adding custom headers).</li>
+</ul>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -521,7 +581,11 @@ $provider-&gt;undefinedMethod();
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Filter mappings.</p>
+</section>
+
             </section>
 
 </article>
@@ -539,20 +603,26 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register API controllers hooks.</p>
+        <p class="phpdocumentor-summary">Register WordPress action hooks for API controller management.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Returns an array of hook =&gt; callback mappings:</p>
+<ul>
+<li><strong>init</strong>: Runs ApiControllerManifestBuilder::init() for discovery.</li>
+<li><strong>rest_api_init</strong>: Calls registerControllers() to register REST routes.</li>
+</ul>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -575,7 +645,11 @@ $provider-&gt;undefinedMethod();
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Hook mappings.</p>
+</section>
+
             </section>
 
 </article>
@@ -593,7 +667,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
@@ -606,9 +680,27 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Binds ApiControllerManifestBuilder as a singleton so the entry data
+computed during init() is available to registerControllers().</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Api-ApiServiceProvider.html#method_register#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -628,11 +720,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">138</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register API controllers from DIR_APP/Api/.</p>
+        <p class="phpdocumentor-summary">Register all discovered API controllers as REST routes.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -641,7 +733,11 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Iterates over the manifest entries and calls registerControllerRoutes()
+for each controller. Routes are registered under the <code class="prettyprint">sloth/v1/</code>
+namespace.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -651,16 +747,6 @@ $provider-&gt;undefinedMethod();
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
-                                                            
-                                                 <section class="phpdocumentor-description"><p>If a controller doesn't extend \Sloth\Api\Controller</p>
-</section>
-
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -690,6 +776,59 @@ $provider-&gt;undefinedMethod();
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_initControllers">
+        initControllers()
+        <a href="classes/Sloth-Api-ApiServiceProvider.html#method_initControllers" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">123</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Initialize API controllers: run discovery and load the manifest.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">initControllers</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Calls ApiControllerManifestBuilder::init() which discovers Controller
+subclasses, computes route information, and writes/loads the manifest.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Api-ApiServiceProvider.html#method_initControllers#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_registerControllerRoutes">
         registerControllerRoutes()
         <a href="classes/Sloth-Api-ApiServiceProvider.html#method_registerControllerRoutes" class="headerlink"><i class="fas fa-link"></i></a>
@@ -698,28 +837,46 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Api/ApiServiceProvider.php"><a href="files/src-api-apiserviceprovider.html"><abbr title="src/Api/ApiServiceProvider.php">ApiServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">161</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register REST routes for a controller.</p>
+        <p class="phpdocumentor-summary">Register REST routes for a single controller.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">registerControllerRoutes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$controllerClass</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">registerControllerRoutes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="class-string<\Sloth\Api\Controller>">Controller></abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$controllerClass</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array{routePrefix: string, methods: list<string>, hasSingle: bool}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entry</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Builds the route map based on the controller's pre-computed entry data:</p>
+<ul>
+<li>Standard methods: <code class="prettyprint">{routePrefix}/{method}[/{id}]</code></li>
+<li>With single(): <code class="prettyprint">{routePrefix}</code> → index, <code class="prettyprint">{routePrefix}[/{id}]</code> → single</li>
+<li>Without single(): <code class="prettyprint">{routePrefix}[/{id}]</code> → index</li>
+</ul>
+<p>Each route callback instantiates the controller, sets the request,
+extracts the <code class="prettyprint">id</code> parameter, and delegates to the action method.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$controllerClass</span>
-                : <span class="phpdocumentor-argument-list__argument__type">object</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="class-string<\Sloth\Api\Controller>">Controller></abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The controller instance</p>
+                    <section class="phpdocumentor-description"><p>The controller class to register.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$entry</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{routePrefix: string, methods: list<string>, hasSingle: bool}</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Pre-computed route data.</p>
 </section>
 
             </dd>
@@ -866,6 +1023,7 @@ $provider-&gt;undefinedMethod();
                                             <li class=""><a href="classes/Sloth-Api-ApiServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Api-ApiServiceProvider.html#method_register">register()</a></li>
                                             <li class=""><a href="classes/Sloth-Api-ApiServiceProvider.html#method_registerControllers">registerControllers()</a></li>
+                                            <li class=""><a href="classes/Sloth-Api-ApiServiceProvider.html#method_initControllers">initControllers()</a></li>
                                             <li class=""><a href="classes/Sloth-Api-ApiServiceProvider.html#method_registerControllerRoutes">registerControllerRoutes()</a></li>
                                     </ul>
             </li>

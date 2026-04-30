@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -216,15 +216,15 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-module.html">Module</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-layotterbridge.html">LayotterBridge</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    LayotterElement
+    LayotterBridgeServiceProvider
 
         <span class="phpdocumentor-element__extends">
-        extends <abbr title="\Layotter_Element">Layotter_Element</abbr>
+        extends <a href="classes/Sloth-Core-ServiceProvider.html"><abbr title="\Sloth\Core\ServiceProvider">ServiceProvider</abbr></a>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -243,20 +243,20 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/LayotterBridge/LayotterBridgeServiceProvider.php"><a href="files/src-layotterbridge-layotterbridgeserviceprovider.html"><abbr title="src/LayotterBridge/LayotterBridgeServiceProvider.php">LayotterBridgeServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Layotter element wrapper for modules.</p>
+            <p class="phpdocumentor-summary">Service provider for the Layotter component.</p>
 
 
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -268,13 +268,21 @@
                                                                                 
                                              
                                     </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Core-ServiceProvider.html"><abbr title="\Sloth\Core\ServiceProvider">ServiceProvider</abbr></a></span>
+                                        
+                                             
+                                    </dd>
                                             </dl>
 
     
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Module-LayotterElement.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -286,68 +294,47 @@
 
 
 
-<h4 id="toc-properties">
-    Properties
-    <a href="classes/Sloth-Module-LayotterElement.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#property_module">$module</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-<dd>Module class name.</dd>
-
-    </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Module-LayotterElement.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#method_attributes">attributes()</a>
+    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a>
+    <span>
+                                &nbsp;: mixed|null    </span>
+</dt>
+<dd>Handles calls to undefined methods.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getFilters">getFilters()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;|array&lt;string|int, array&lt;string|int, mixed&gt;&gt;|array&lt;string|int, callable&gt;    </span>
+</dt>
+<dd>Get the required filters for the Layotter service provider.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getHooks">getHooks()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, array&lt;string|int, mixed&gt;&gt;    </span>
+</dt>
+<dd>Returns WordPress actions this provider wants to register.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register">register()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Set element attributes from module configuration.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#method_backend_view">backend_view()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Render the backend preview.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#method_frontend_view">frontend_view()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Render the frontend view.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#method_getValues">getValues()</a>
-    <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
-</dt>
-<dd>Get the prepared values.</dd>
+<dd>Register the Layotter service provider.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#method_getFields">getFields()</a>
+    <a class="" href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_configurePostTypes">configurePostTypes()</a>
     <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Get the fields for this element.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Module-LayotterElement.html#method_prepareFields">prepareFields()</a>
-    <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
-</dt>
-<dd>Prepare fields for output.</dd>
+<dd>Configure Layotter page builder integration for a model.</dd>
 
     </dl>
 
@@ -356,71 +343,11 @@
         
 
         
-    <section class="phpdocumentor-properties">
-        <h3 class="phpdocumentor-elements__header" id="properties">
-            Properties
-            <a href="classes/Sloth-Module-LayotterElement.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-        </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_module">
-        $module
-        <a href="classes/Sloth-Module-LayotterElement.html#property_module" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">23</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Module class name.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$module</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#property_module#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Module-LayotterElement.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -429,86 +356,49 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_attributes">
-        attributes()
-        <a href="classes/Sloth-Module-LayotterElement.html#method_attributes" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___call">
+        __call()
+        <a href="classes/Sloth-Core-ServiceProvider.html#method___call" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Set element attributes from module configuration.</p>
+        <p class="phpdocumentor-summary">Handles calls to undefined methods.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">attributes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#method_attributes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <section class="phpdocumentor-description"><p>This magic method catches any calls to undefined methods.
+The 'boot' method is silently ignored to allow for lazy booting.
+All other undefined method calls throw an exception.</p>
+</section>
 
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_backend_view">
-        backend_view()
-        <a href="classes/Sloth-Module-LayotterElement.html#method_backend_view" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">72</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Render the backend preview.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">backend_view</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fields</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$fields</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                <span class="phpdocumentor-argument-list__argument__name">$method</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The field values</p>
+                    <section class="phpdocumentor-description"><p>The method name that was called</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$parameters</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The parameters passed to the method</p>
 </section>
 
             </dd>
@@ -517,7 +407,7 @@
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#method_backend_view#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Core-ServiceProvider.html#method___call#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -529,117 +419,29 @@
                                                                                 
                                              
                                     </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_frontend_view">
-        frontend_view()
-        <a href="classes/Sloth-Module-LayotterElement.html#method_frontend_view" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">52</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Render the frontend view.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">frontend_view</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fields</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$fields</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The field values</p>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the method is not 'boot' and is not defined</p>
 </section>
 
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#method_frontend_view#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
                                     </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                -final        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getValues">
-        getValues()
-        <a href="classes/Sloth-Module-LayotterElement.html#method_getValues" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">188</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get the prepared values.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__final">final</span>            <span class="phpdocumentor-signature__name">getValues</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#method_getValues#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">example</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
-                                             
+                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Silently ignored (boot is optional)
+$provider-&gt;optionalBoot();
+
+// Throws exception
+$provider-&gt;undefinedMethod();
+</code></pre>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -647,9 +449,152 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">mixed|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns null for boot(), or throws exception</p>
+</section>
+
             </section>
 
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFilters">
+        getFilters()
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/LayotterBridge/LayotterBridgeServiceProvider.php"><a href="files/src-layotterbridge-layotterbridgeserviceprovider.html"><abbr title="src/LayotterBridge/LayotterBridgeServiceProvider.php">LayotterBridgeServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">100</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the required filters for the Layotter service provider.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, array&lt;string|int, mixed&gt;&gt;|array&lt;string|int, callable&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, array&lt;string|int, mixed&gt;&gt;|array&lt;string|int, callable&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getHooks">
+        getHooks()
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getHooks" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/LayotterBridge/LayotterBridgeServiceProvider.php"><a href="files/src-layotterbridge-layotterbridgeserviceprovider.html"><abbr title="src/LayotterBridge/LayotterBridgeServiceProvider.php">LayotterBridgeServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">85</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns WordPress actions this provider wants to register.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string|int, mixed&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string|int, mixed&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_register">
+        register()
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/LayotterBridge/LayotterBridgeServiceProvider.php"><a href="files/src-layotterbridge-layotterbridgeserviceprovider.html"><abbr title="src/LayotterBridge/LayotterBridgeServiceProvider.php">LayotterBridgeServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">28</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register the Layotter service provider.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">register</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
+    
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -657,110 +602,61 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getFields">
-        getFields()
-        <a href="classes/Sloth-Module-LayotterElement.html#method_getFields" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_configurePostTypes">
+        configurePostTypes()
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_configurePostTypes" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/LayotterBridge/LayotterBridgeServiceProvider.php"><a href="files/src-layotterbridge-layotterbridgeserviceprovider.html"><abbr title="src/LayotterBridge/LayotterBridgeServiceProvider.php">LayotterBridgeServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the fields for this element.</p>
+        <p class="phpdocumentor-summary">Configure Layotter page builder integration for a model.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getFields</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">configurePostTypes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#method_getFields#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                -final        "
->
-    <h4 class="phpdocumentor-element__name" id="method_prepareFields">
-        prepareFields()
-        <a href="classes/Sloth-Module-LayotterElement.html#method_prepareFields" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/LayotterElement.php"><a href="files/src-module-layotterelement.html"><abbr title="src/Module/LayotterElement.php">LayotterElement.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">151</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Prepare fields for output.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__final">final</span>            <span class="phpdocumentor-signature__name">prepareFields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$values</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The field values</p>
+        <section class="phpdocumentor-description"><p>Reads $modelClass::$layotter — falls back to false if not declared.</p>
+<ul>
+<li>false → Layotter disabled for this post type</li>
+<li>true  → Layotter enabled with default settings</li>
+<li>array → Layotter enabled with custom settings (e.g. allowed_row_layouts)</li>
+</ul>
+<p>Skips silently if Layotter is not bound in the container.</p>
 </section>
 
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$options</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
+    
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Module-LayotterElement.html#method_prepareFields#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_configurePostTypes#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Psr\Container\ContainerExceptionInterface">ContainerExceptionInterface</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Psr\Container\NotFoundExceptionInterface">NotFoundExceptionInterface</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -772,11 +668,7 @@
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
-            </section>
-
+    
 </article>
             </section>
 
@@ -784,7 +676,7 @@
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Module/LayotterElement.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/LayotterBridge/LayotterBridgeServiceProvider.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -885,27 +777,19 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Sloth-Module-LayotterElement.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Sloth-Module-LayotterElement.html#toc-methods">Methods</a></li>
+                                                                                <li><a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
-                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
-                <li>
-                    <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Module-LayotterElement.html#property_module">$module</a></li>
-                                            </ul>
-                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Module-LayotterElement.html#method_attributes">attributes()</a></li>
-                                            <li class=""><a href="classes/Sloth-Module-LayotterElement.html#method_backend_view">backend_view()</a></li>
-                                            <li class=""><a href="classes/Sloth-Module-LayotterElement.html#method_frontend_view">frontend_view()</a></li>
-                                            <li class=""><a href="classes/Sloth-Module-LayotterElement.html#method_getValues">getValues()</a></li>
-                                            <li class=""><a href="classes/Sloth-Module-LayotterElement.html#method_getFields">getFields()</a></li>
-                                            <li class=""><a href="classes/Sloth-Module-LayotterElement.html#method_prepareFields">prepareFields()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getFilters">getFilters()</a></li>
+                                            <li class=""><a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_getHooks">getHooks()</a></li>
+                                            <li class=""><a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_configurePostTypes">configurePostTypes()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -925,7 +809,7 @@
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Module-LayotterElement.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

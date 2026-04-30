@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -225,7 +225,7 @@
     ModelManifestBuilder
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\AbstractManifestBuilder">AbstractManifestBuilder</abbr></a>
+        extends <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\PathBasedManifestBuilder">PathBasedManifestBuilder</abbr></a>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -246,7 +246,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -254,10 +254,27 @@
 
 
     <section class="phpdocumentor-description"><p>Scans app/Model/ and theme/Model/ for Model subclasses and writes a manifest
-that registers them via register_extended_post_type() on every request —
-with zero discovery overhead after the first run.</p>
-<p>Layotter configuration is handled by LayotterServiceProvider which reads
-sloth.models directly.</p>
+that includes all discovered files and provides pre-computed registration
+arguments via its return value.</p>
+<h2>Discovery</h2>
+<p>Uses ClassMapFinder to locate all non-abstract classes extending
+Sloth\Model\Model. Each discovered class is inspected for its static
+properties ($register, $options, $names, $icon, $admin_columns).</p>
+<h2>Build-time computation</h2>
+<p>The expensive work — building registration args, label arrays, admin column
+definitions — happens once at build time and is cached in the manifest file.
+At runtime, ModelRegistrar reads this data and calls
+register_extended_post_type() directly.</p>
+<h2>Entry data structure</h2>
+<pre class="prettyprint"><code class="language-php">[
+    '\\App\\Model\\NewsModel' =&gt; [
+        'postType' =&gt; 'news',
+        'args'     =&gt; ['public' =&gt; true, 'show_in_rest' =&gt; true, ...],
+        'names'    =&gt; ['singular' =&gt; 'News', 'plural' =&gt; 'News', 'slug' =&gt; 'news'],
+    ],
+]
+</code></pre>
+<p>Models with <code class="prettyprint">$register = false</code> are excluded from the entry data.</p>
 </section>
 
 
@@ -279,9 +296,21 @@ sloth.models directly.</p>
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\AbstractManifestBuilder">AbstractManifestBuilder</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html"><abbr title="\Sloth\Support\Manifest\PathBasedManifestBuilder">PathBasedManifestBuilder</abbr></a></span>
                                         
-                                             
+                                                 <section class="phpdocumentor-description"><p>For the base class lifecycle</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Model\Manifest\ModelRegistrar">ModelRegistrar</abbr></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For runtime registration</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -313,6 +342,13 @@ sloth.models directly.</p>
                         &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>            </span>
 </dt>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries">$entries</a>
+    <span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
+</dt>
+<dd>Entry data from the last init() or build() call.</dd>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -326,62 +362,77 @@ sloth.models directly.</p>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Creates a new manifest builder instance.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries">getEntries()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Get the entry data from the last init() call.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_init">init()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run discovery and load the manifest.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_bindings">bindings()</a>
-    <span>
-                                &nbsp;: array&lt;string, mixed&gt;    </span>
-</dt>
-<dd>Container bindings to write at the end of the manifest.</dd>
+<dd>Run discovery, build the manifest if needed, and load it.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build">build()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Run discovery and write the manifest.</dd>
+<dd>Run discovery, compute entries, and write the manifest file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories">directories()</a>
+    <a class="" href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories">directories()</a>
     <span>
                                 &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
-<dd>Directories to scan — always app/{directory}/ and theme/{directory}/.</dd>
+<dd>Directories to scan — app/{directory}/ and theme/{directory}/.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_directory">directory()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Subdirectory name to scan, relative to app/ and theme/.</dd>
+<dd>Return the subdirectory name for Model files.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_extraLines">extraLines()</a>
+    <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_entries">entries()</a>
+    <span>
+                                &nbsp;: array&lt;string, array{postType: string, args: array<string,mixed>, names: array<string,string>}&gt;    </span>
+</dt>
+<dd>Compute registration entry data for all discovered models.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines">extraLines()</a>
     <span>
                                 &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
-<dd>Extra PHP lines to write into the manifest after require_once for this identifier.</dd>
+<dd>Extra PHP lines to embed into the manifest after each file&#039;s require_once.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_finder">finder()</a>
     <span>
                                 &nbsp;: <a href="classes/Sloth-Support-Manifest-FinderInterface.html"><abbr title="\Sloth\Support\Manifest\FinderInterface">FinderInterface</abbr></a>    </span>
 </dt>
-<dd>The finder to use for discovery.</dd>
+<dd>Return the finder for Model subclass discovery.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_manifestName">manifestName()</a>
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName">manifestName()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Filename for the generated manifest in the cache directory.</dd>
+<dd>Return the filename for the cached manifest file.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles">requireFiles()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Whether to emit require_once statements in the manifest.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildAdminCols">buildAdminCols()</a>
@@ -395,12 +446,14 @@ sloth.models directly.</p>
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
+<dd>Build the extended-cpts registration args for a model.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildNames">buildNames()</a>
     <span>
-                                &nbsp;: array{singular: string, plural: string}    </span>
+                                &nbsp;: array{singular: string, plural: string, slug: string}    </span>
 </dt>
+<dd>Build the display names array for a model.</dd>
 
     </dl>
 
@@ -432,7 +485,7 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
@@ -447,6 +500,62 @@ sloth.models directly.</p>
     
     
     
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_entries">
+        $entries
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">85</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Entry data from the last init() or build() call.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$entries</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>Populated either by reading the cached manifest file (init) or by
+computing fresh data (build). Consumed by Registrars via getEntries().</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
         
@@ -474,11 +583,12 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Creates a new manifest builder instance.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -494,15 +604,94 @@ sloth.models directly.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The application container, used for path resolution
+and filesystem access.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
     
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getEntries">
+        getEntries()
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">196</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the entry data from the last init() call.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getEntries</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Registrars call this method to access the pre-computed registration
+arguments without triggering discovery or recomputation.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Entry data keyed by class identifier.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -518,11 +707,11 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">109</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run discovery and load the manifest.</p>
+        <p class="phpdocumentor-summary">Run discovery, build the manifest if needed, and load it.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -531,7 +720,15 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>This is the primary entry point, called from service providers on the
+WordPress <code class="prettyprint">init</code> hook. The manifest is rebuilt when:</p>
+<ul>
+<li>The application is in local environment (force regeneration).</li>
+<li>The manifest file does not exist (first run or cleared).</li>
+</ul>
+<p>After loading, entry data is available via getEntries() for Registrars.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -560,57 +757,6 @@ sloth.models directly.</p>
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_bindings">
-        bindings()
-        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_bindings" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">62</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Container bindings to write at the end of the manifest.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">bindings</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$map</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$map</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifier =&gt; file map from the finder.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_build">
         build()
         <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build" class="headerlink"><i class="fas fa-link"></i></a>
@@ -619,11 +765,11 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">129</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Run discovery and write the manifest.</p>
+        <p class="phpdocumentor-summary">Run discovery, compute entries, and write the manifest file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -632,7 +778,10 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Called internally by init() when the manifest needs to be rebuilt.
+Subclasses should not call this directly — use init() instead.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -640,7 +789,9 @@ sloth.models directly.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Absolute path where the manifest file will be written.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -673,17 +824,17 @@ sloth.models directly.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_directories">
         directories()
-        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/PathBasedManifestBuilder.php"><a href="files/src-support-manifest-pathbasedmanifestbuilder.html"><abbr title="src/Support/Manifest/PathBasedManifestBuilder.php">PathBasedManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Directories to scan — always app/{directory}/ and theme/{directory}/.</p>
+        <p class="phpdocumentor-summary">Directories to scan — app/{directory}/ and theme/{directory}/.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -692,18 +843,24 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Override if you need non-standard paths.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -714,12 +871,23 @@ sloth.models directly.</p>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Absolute paths.</p>
+                <section class="phpdocumentor-description"><p>Absolute directory paths to scan.</p>
 </section>
 
             </section>
@@ -739,11 +907,11 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Subdirectory name to scan, relative to app/ and theme/.</p>
+        <p class="phpdocumentor-summary">Return the subdirectory name for Model files.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -752,17 +920,134 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>e.g. 'Model', 'Taxonomy', 'includes'</p>
+        <section class="phpdocumentor-description"><p>Scans <code class="prettyprint">app/Model/</code> and <code class="prettyprint">theme/Model/</code>.</p>
 </section>
 
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_directory#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_directory#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Always 'Model'.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_entries">
+        entries()
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_entries" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">99</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Compute registration entry data for all discovered models.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">entries</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$map</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array{postType: string, args: array<string,mixed>, names: array<string,string>}&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Iterates over each discovered Model class and builds the full set of
+arguments needed by register_extended_post_type(). Models with
+<code class="prettyprint">$register = false</code> are skipped.</p>
+<p>The computed data includes:</p>
+<ul>
+<li>postType: the WordPress post type slug</li>
+<li>args: merged registration args with admin_cols</li>
+<li>names: singular, plural, and slug labels</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$map</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Model class name =&gt; absolute file path.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_entries#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_entries#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array{postType: string, args: array<string,mixed>, names: array<string,string>}&gt;</span>
             </section>
 
 </article>
@@ -774,17 +1059,17 @@ sloth.models directly.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_extraLines">
         extraLines()
-        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_extraLines" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">259</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Extra PHP lines to write into the manifest after require_once for this identifier.</p>
+        <p class="phpdocumentor-summary">Extra PHP lines to embed into the manifest after each file&#039;s require_once.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -793,7 +1078,18 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Used primarily for Layotter element class definitions which must exist
+as named PHP classes at runtime. Most builders return an empty array.</p>
+<p>The returned lines are inserted directly into the generated manifest
+file — they must be valid, complete PHP statements.</p>
+<p>Example:</p>
+<pre class="prettyprint"><code class="language-php">return [
+    'class TeaserModule extends \Sloth\Module\LayotterElement { ... }',
+    '\Layotter::register_element(&quot;teaser-module&quot;, &quot;TeaserModule&quot;);',
+];
+</code></pre>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -801,7 +1097,8 @@ sloth.models directly.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Class name or file path, depending on the finder.</p>
+                    <section class="phpdocumentor-description"><p>Fully qualified class name or file path,
+depending on the finder implementation.</p>
 </section>
 
             </dd>
@@ -810,19 +1107,38 @@ sloth.models directly.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Absolute path to the file.</p>
+                    <section class="phpdocumentor-description"><p>Absolute path to the discovered file.</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>PHP code lines to embed. Empty array for none.</p>
+</section>
+
             </section>
 
 </article>
@@ -840,11 +1156,11 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">The finder to use for discovery.</p>
+        <p class="phpdocumentor-summary">Return the finder for Model subclass discovery.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -853,15 +1169,48 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Uses ClassMapFinder filtered to classes extending Sloth\Model\Model.
+Non-abstract subclasses are included; abstract base classes are excluded.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_finder#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_finder#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Support-Manifest-FinderInterface.html"><abbr title="\Sloth\Support\Manifest\FinderInterface">FinderInterface</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The configured ClassMapFinder.</p>
+</section>
+
             </section>
 
 </article>
@@ -873,17 +1222,17 @@ sloth.models directly.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_manifestName">
         manifestName()
-        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_manifestName" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">228</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Filename for the generated manifest in the cache directory.</p>
+        <p class="phpdocumentor-summary">Return the filename for the cached manifest file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -892,15 +1241,102 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Derived from the builder's fully qualified class name with a short hash
+suffix to prevent collisions between builders with the same class name
+but different namespaces.</p>
+<p>Example: <code class="prettyprint">ModelManifestBuilder</code> in <code class="prettyprint">Sloth\Model\Manifest</code> →
+<code class="prettyprint">Model-a1b2c3.php</code>.</p>
+<p>Override if you need a non-standard name.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The manifest filename.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_requireFiles">
+        requireFiles()
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Support/Manifest/AbstractManifestBuilder.php"><a href="files/src-support-manifest-abstractmanifestbuilder.html"><abbr title="src/Support/Manifest/AbstractManifestBuilder.php">AbstractManifestBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">182</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Whether to emit require_once statements in the manifest.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">requireFiles</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Defaults to true. Override and return false when Composer handles
+autoloading (e.g. vendor package discovery).</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True to emit require_once statements, false to skip them.</p>
+</section>
+
             </section>
 
 </article>
@@ -918,7 +1354,7 @@ sloth.models directly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">114</span>
+    <span class="phpdocumentor-element-found-in__line">184</span>
 
     </aside>
 
@@ -931,9 +1367,17 @@ sloth.models directly.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Uses CurrentModelProxy so callables are [Class, 'method'] arrays — var_export safe.
-Theme developers keep $admin_columns and get{Column}Column() unchanged.
-If $label is already an array it is passed through as-is (raw extended-cpts syntax).</p>
+        <section class="phpdocumentor-description"><p>Theme developers define $admin_columns as simple key =&gt; label arrays
+and optionally implement get{Column}Column() methods for custom output.
+This method converts that convention into the format expected by
+johnbillion/extended-cpts.</p>
+<p>Three column types are supported:</p>
+<ol>
+<li><strong>Raw array</strong> — passed through as-is (full extended-cpts syntax).</li>
+<li><strong>String label with method</strong> — uses CurrentModelProxy to call the
+theme's get{Column}Column() method.</li>
+<li><strong>String label without method</strong> — treated as a post meta key.</li>
+</ol>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -943,17 +1387,38 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="class-string<\Sloth\Model\Model>">Model></abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The model class.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildAdminCols#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string, mixed&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The admin_cols array.</p>
+</section>
+
             </section>
 
 </article>
@@ -971,11 +1436,12 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">133</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Build the extended-cpts registration args for a model.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
                     <span class="phpdocumentor-signature__name">buildArgs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="class-string<\Sloth\Model\Model>">Model></abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$modelClass</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
@@ -983,7 +1449,13 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Merges the model's static $options with computed values:</p>
+<ul>
+<li>menu_icon: normalizes the $icon property to dashicons-* format</li>
+<li>admin_cols: translates $admin_columns to extended-cpts format</li>
+</ul>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -991,17 +1463,38 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="class-string<\Sloth\Model\Model>">Model></abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The model class to build args for.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildArgs#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The complete args array.</p>
+</section>
+
             </section>
 
 </article>
@@ -1019,19 +1512,23 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Manifest/ModelManifestBuilder.php"><a href="files/src-model-manifest-modelmanifestbuilder.html"><abbr title="src/Model/Manifest/ModelManifestBuilder.php">ModelManifestBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">95</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Build the display names array for a model.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">buildNames</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="class-string<\Sloth\Model\Model>">Model></abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$modelClass</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$postType</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{singular: string, plural: string}</span></code>
+                    <span class="phpdocumentor-signature__name">buildNames</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="class-string<\Sloth\Model\Model>">Model></abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$modelClass</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$postType</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{singular: string, plural: string, slug: string}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Falls back to auto-generated names from the post type slug when
+$names is not defined on the model class.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1039,24 +1536,43 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="class-string<\Sloth\Model\Model>">Model></abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The model class.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$postType</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The post type slug.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildNames#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{singular: string, plural: string}</span>
+        <span class="phpdocumentor-signature__response_type">array{singular: string, plural: string, slug: string}</span>
             </section>
 
 </article>
@@ -1176,6 +1692,7 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_app">$app</a></li>
+                                                    <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#property_entries">$entries</a></li>
                                             </ul>
                 </li>
             
@@ -1183,14 +1700,16 @@ If $label is already an array it is passed through as-is (raw extended-cpts synt
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_getEntries">getEntries()</a></li>
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_init">init()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_bindings">bindings()</a></li>
                                             <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_build">build()</a></li>
-                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_directories">directories()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-PathBasedManifestBuilder.html#method_directories">directories()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_directory">directory()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_extraLines">extraLines()</a></li>
+                                            <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_entries">entries()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_extraLines">extraLines()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_finder">finder()</a></li>
-                                            <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_manifestName">manifestName()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_manifestName">manifestName()</a></li>
+                                            <li class=""><a href="classes/Sloth-Support-Manifest-AbstractManifestBuilder.html#method_requireFiles">requireFiles()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildAdminCols">buildAdminCols()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildArgs">buildArgs()</a></li>
                                             <li class=""><a href="classes/Sloth-Model-Manifest-ModelManifestBuilder.html#method_buildNames">buildNames()</a></li>

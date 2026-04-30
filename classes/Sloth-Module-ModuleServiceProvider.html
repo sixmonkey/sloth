@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -245,13 +245,35 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Module/ModuleServiceProvider.php"><a href="files/src-module-moduleserviceprovider.html"><abbr title="src/Module/ModuleServiceProvider.php">ModuleServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for the Module component.</p>
 
 
+    <section class="phpdocumentor-description"><p>Coordinates the lifecycle of Sloth modules: discovery, JSON/AJAX endpoint
+registration, and module resolution via ModuleFactory.</p>
+<h2>Discovery</h2>
+<p>ModuleManifestBuilder scans app/Module/ and theme/Module/ for classes
+extending Sloth\Module\Module. Modules with <code class="prettyprint">$json</code> get AJAX and REST
+route registration via ModuleRegistrar.</p>
+<p>Layotter integration is handled separately by LayotterBridgeServiceProvider
+via LayotterElementRegistrar.</p>
+<h2>Hook execution order</h2>
+<ol>
+<li><code class="prettyprint">init</code> → ModuleManifestBuilder::init() (discovery + manifest loading)</li>
+<li><code class="prettyprint">rest_api_init</code> → ModuleRegistrar::registerJsonEndpoints()</li>
+</ol>
+<h2>Container bindings</h2>
+<ul>
+<li><strong>module.factory</strong>: ModuleFactory singleton for resolving and
+instantiating theme modules by name.</li>
+<li><strong>module</strong>: Legacy binding for direct Module instantiation. Use
+app('module.factory')-&gt;make() or the module() helper instead.</li>
+<li><strong>sloth.modules</strong>: List of discovered module class names (FQCNs).</li>
+</ul>
+</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -267,6 +289,46 @@
                                             <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                 
                                              
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Module-Module.html"><abbr title="\Sloth\Module\Module">Module</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For the module base class</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Module-Factory-ModuleFactory.html"><abbr title="\Sloth\Module\Factory\ModuleFactory">ModuleFactory</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For module resolution</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Module-Manifest-ModuleManifestBuilder.html"><abbr title="\Sloth\Module\Manifest\ModuleManifestBuilder">ModuleManifestBuilder</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For module discovery</p>
+</section>
+
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Module-Registrar-ModuleRegistrar.html"><abbr title="\Sloth\Module\Registrar\ModuleRegistrar">ModuleRegistrar</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>For JSON endpoint registration</p>
+</section>
+
                                     </dd>
                                             </dl>
 
@@ -312,7 +374,7 @@
     <span>
                                 &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
 </dt>
-<dd>Register module hooks.</dd>
+<dd>Register WordPress action hooks for module management.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Module-ModuleServiceProvider.html#method_register">register()</a>
@@ -320,6 +382,13 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Register module services.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Module-ModuleServiceProvider.html#method_initModules">initModules()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Initialize modules: discover, load manifest, and bind to container.</dd>
 
     </dl>
 
@@ -497,11 +566,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Module/ModuleServiceProvider.php"><a href="files/src-module-moduleserviceprovider.html"><abbr title="src/Module/ModuleServiceProvider.php">ModuleServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register module hooks.</p>
+        <p class="phpdocumentor-summary">Register WordPress action hooks for module management.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -510,7 +579,15 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Returns an array of hook =&gt; callback mappings:</p>
+<ul>
+<li><strong>init</strong>: Runs ModuleManifestBuilder::init() for discovery and
+binds sloth.modules to the container.</li>
+<li><strong>rest_api_init</strong>: Calls ModuleRegistrar::registerJsonEndpoints()
+for modules with $json enabled.</li>
+</ul>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -534,6 +611,10 @@ $provider-&gt;undefinedMethod();
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Hook mappings.</p>
+</section>
+
             </section>
 
 </article>
@@ -551,7 +632,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Module/ModuleServiceProvider.php"><a href="files/src-module-moduleserviceprovider.html"><abbr title="src/Module/ModuleServiceProvider.php">ModuleServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 
     </aside>
 
@@ -564,7 +645,15 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Binds the following singletons:</p>
+<ul>
+<li><strong>module.factory</strong>: ModuleFactory for module resolution.</li>
+<li><strong>ModuleManifestBuilder</strong>: Discovers modules and generates the manifest.</li>
+<li><strong>ModuleRegistrar</strong>: Registers JSON/AJAX endpoints for eligible modules.</li>
+</ul>
+<p>Also registers the legacy <code class="prettyprint">module</code> binding for direct instantiation.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -595,6 +684,62 @@ $provider-&gt;undefinedMethod();
     </dt>
     </dl>
                     </section>
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_initModules">
+        initModules()
+        <a href="classes/Sloth-Module-ModuleServiceProvider.html#method_initModules" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Module/ModuleServiceProvider.php"><a href="files/src-module-moduleserviceprovider.html"><abbr title="src/Module/ModuleServiceProvider.php">ModuleServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">110</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Initialize modules: discover, load manifest, and bind to container.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">initModules</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Calls ModuleManifestBuilder::init() which discovers Module subclasses,
+generates Layotter class definitions in the manifest, computes entry
+data, and writes/loads the manifest.</p>
+<p>The discovered module class names are bound to the container as
+<code class="prettyprint">sloth.modules</code> (array of FQCNs) for use by other services.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Module-ModuleServiceProvider.html#method_initModules#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
     
     
 </article>
@@ -717,6 +862,7 @@ $provider-&gt;undefinedMethod();
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
                                             <li class=""><a href="classes/Sloth-Module-ModuleServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Module-ModuleServiceProvider.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-Module-ModuleServiceProvider.html#method_initModules">initModules()</a></li>
                                     </ul>
             </li>
                     </ul>

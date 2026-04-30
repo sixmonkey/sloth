@@ -137,7 +137,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-layotter.html" class="">Layotter</a>
+                <a href="namespaces/sloth-layotterbridge.html" class="">LayotterBridge</a>
                 
             </li>
                     <li>
@@ -246,14 +246,17 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ClearManifestsCommand.php"><a href="files/src-console-commands-clearmanifestscommand.html"><abbr title="src/Console/Commands/ClearManifestsCommand.php">ClearManifestsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Clears all Sloth manifest files from the cache directory.</p>
 
 
-    <section class="phpdocumentor-description"><p>Manifests are regenerated automatically on the next web request.</p>
+    <section class="phpdocumentor-description"><p>Manifests are discovered via convention — any <code class="prettyprint">.php</code> file in the
+<code class="prettyprint">cache/Manifest/</code> directory is treated as a Sloth manifest and
+deleted. This means new builders are picked up automatically
+without updating this command.</p>
 </section>
 
 
@@ -300,13 +303,6 @@
     <span>
                         &nbsp;: mixed            </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests">$manifests</a>
-    <span>
-                        &nbsp;: array&lt;int, string&gt;            </span>
-</dt>
-<dd>All manifest filenames managed by Sloth.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_signature">$signature</a>
@@ -359,7 +355,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ClearManifestsCommand.php"><a href="files/src-console-commands-clearmanifestscommand.html"><abbr title="src/Console/Commands/ClearManifestsCommand.php">ClearManifestsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
@@ -401,59 +397,6 @@
             -protected
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_manifests">
-        $manifests
-        <a href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ClearManifestsCommand.php"><a href="files/src-console-commands-clearmanifestscommand.html"><abbr title="src/Console/Commands/ClearManifestsCommand.php">ClearManifestsCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">34</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">All manifest filenames managed by Sloth.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;int, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$manifests</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;models.manifest.php&#039;, &#039;taxonomies.manifest.php&#039;, &#039;modules.manifest.php&#039;, &#039;includes.manifest.php&#039;, &#039;providers.manifest.php&#039;]</span></code>
-
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
     <h4 class="phpdocumentor-element__name" id="property_signature">
         $signature
         <a href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_signature" class="headerlink"><i class="fas fa-link"></i></a>
@@ -464,7 +407,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ClearManifestsCommand.php"><a href="files/src-console-commands-clearmanifestscommand.html"><abbr title="src/Console/Commands/ClearManifestsCommand.php">ClearManifestsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -521,7 +464,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/Commands/ClearManifestsCommand.php"><a href="files/src-console-commands-clearmanifestscommand.html"><abbr title="src/Console/Commands/ClearManifestsCommand.php">ClearManifestsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -677,7 +620,6 @@
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_description">$description</a></li>
-                                                    <li class=""><a href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_manifests">$manifests</a></li>
                                                     <li class=""><a href="classes/Sloth-Console-Commands-ClearManifestsCommand.html#property_signature">$signature</a></li>
                                             </ul>
                 </li>
