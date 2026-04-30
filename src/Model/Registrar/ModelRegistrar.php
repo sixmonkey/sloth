@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Model\Manifest;
+namespace Sloth\Model\Registrar;
+
+use Sloth\Model\Manifest\ModelManifestBuilder;
 
 /**
  * Registers WordPress post types from manifest entries.

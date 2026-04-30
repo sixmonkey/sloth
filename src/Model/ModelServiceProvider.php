@@ -6,9 +6,9 @@ namespace Sloth\Model;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Core\ServiceProvider;
 use Sloth\Model\Manifest\ModelManifestBuilder;
-use Sloth\Model\Manifest\ModelRegistrar;
 use Sloth\Model\Manifest\TaxonomyManifestBuilder;
-use Sloth\Model\Manifest\TaxonomyRegistrar;
+use Sloth\Model\Registrar\ModelRegistrar;
+use Sloth\Model\Registrar\TaxonomyRegistrar;
 use Sloth\Model\Registrars\MenuRegistrar;
 
 /**
@@ -51,9 +51,9 @@ use Sloth\Model\Registrars\MenuRegistrar;
  *
  * @since 1.0.0
  * @see \Sloth\Model\Manifest\ModelManifestBuilder    For Model discovery
- * @see \Sloth\Model\Manifest\ModelRegistrar          For post type registration
+ * @see \Sloth\Model\Registrar\ModelRegistrar          For post type registration
  * @see \Sloth\Model\Manifest\TaxonomyManifestBuilder For Taxonomy discovery
- * @see \Sloth\Model\Manifest\TaxonomyRegistrar       For taxonomy registration
+ * @see \Sloth\Model\Registrar\TaxonomyRegistrar       For taxonomy registration
  * @see \Sloth\Model\Registrars\MenuRegistrar         For menu registration
  */
 class ModelServiceProvider extends ServiceProvider

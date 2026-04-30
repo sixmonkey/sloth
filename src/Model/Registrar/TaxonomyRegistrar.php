@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Model\Manifest;
+namespace Sloth\Model\Registrar;
+
+use Sloth\Model\Manifest\TaxonomyManifestBuilder;
 
 /**
  * Registers WordPress taxonomies and metaboxes from manifest entries.
