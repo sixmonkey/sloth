@@ -8,6 +8,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\View;
 use Sloth\Field\Image;
 use Sloth\LayotterBridge\Registrar\LayotterElementRegistrar;
+use Sloth\Module\Module;
 
 /**
  * Layotter element wrapper for modules.
@@ -180,7 +181,13 @@ class LayotterElement extends \Layotter_Element
         return $this->prepareFields($this->formatted_values);
     }
 
-    final protected function getModuleInstance()
+    /**
+     * Get the instance of a related module
+     *
+     * @return mixed
+     * @throws BindingResolutionException
+     */
+    final public function getModuleInstance(): Module
     {
         $className = app(LayotterElementRegistrar::class)->resolveModuleClass($this->type);
         return new $className();
