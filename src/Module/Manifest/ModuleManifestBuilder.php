@@ -84,42 +84,6 @@ class ModuleManifestBuilder extends PathBasedManifestBuilder
     }
 
     /**
-     * Generate Layotter element class definitions for compatible modules.
-     *
-     * For modules that have `$layotter` defined as an array and where the
-     * Layotter library is available, this method generates two PHP lines:
-     * 1. A class definition extending Sloth\Module\LayotterElement
-     * 2. A \Layotter::register_element() call
-     *
-     * The generated classes are embedded directly in the manifest file,
-     * so Opcache caches them like any other class definition. No eval()
-     * is needed at runtime.
-     *
-     * @param string $identifier Fully qualified module class name.
-     * @param string $file       Absolute path to the module file.
-     * @return list<string>      PHP code lines for Layotter integration.
-     * @since 1.0.0
-     */
-    #[\Override]
-    protected function extraLines(string $identifier, string $file): array
-    {
-        /** @var class-string<Module> $moduleClass */
-        $moduleClass = $identifier;
-
-        if (!is_array($moduleClass::$layotter) || !class_exists('\\Layotter')) {
-            return [];
-        }
-
-        $className      = substr(strrchr($moduleClass, '\\'), 1);
-        $elementSlug    = strtolower($className);
-
-        return [
-            #'class ' . $className . ' extends \\Sloth\\LayotterBridge\\LayotterElement { static $module = ' . var_export($moduleClass, true) . '; }',
-            #'\\Layotter::register_element(' . var_export($elementSlug, true) . ', ' . var_export($className, true) . ');',
-        ];
-    }
-
-    /**
      * Compute entry data for all discovered modules.
      *
      * Iterates over each discovered Module class and extracts the information
