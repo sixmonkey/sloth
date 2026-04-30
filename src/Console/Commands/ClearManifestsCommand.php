@@ -9,10 +9,10 @@ use Sloth\Console\Command;
 /**
  * Clears all Sloth manifest files from the cache directory.
  *
- * Manifests are discovered via convention — any file matching
- * `*.manifest.php` in the cache directory is treated as a Sloth
- * manifest and deleted. This means new builders are picked up
- * automatically without updating this command.
+ * Manifests are discovered via convention — any `.php` file in the
+ * `cache/Manifest/` directory is treated as a Sloth manifest and
+ * deleted. This means new builders are picked up automatically
+ * without updating this command.
  *
  * @since 1.0.0
  */

@@ -31,8 +31,6 @@ use Sloth\Core\Application;
  * - **finder()** — return the appropriate FinderInterface implementation
  *   (ClassMapFinder for classes, FileFinder for loose files, ComposerFinder
  *   for vendor packages).
- * - **manifestName()** — the filename for the cached manifest (e.g.
- *   `'models.manifest.php'`).
  *
  * Optional overrides:
  *
@@ -224,7 +222,7 @@ abstract class AbstractManifestBuilder
      * but different namespaces.
      *
      * Example: `ModelManifestBuilder` in `Sloth\Model\Manifest` →
-     * `model-a1b2c3.manifest.php`.
+     * `Model-a1b2c3.php`.
      *
      * Override if you need a non-standard name.
      *
@@ -236,7 +234,7 @@ abstract class AbstractManifestBuilder
         $name = class_basename(static::class);
         $name = str_replace('ManifestBuilder', '', $name);
         $hash = substr(md5(static::class), 0, 6);
-        return Str::kebab($name) . '-' . $hash . '.manifest.php';
+        return ucfirst(Str::kebab($name)) . '-' . $hash . '.php';
     }
 
     /**
