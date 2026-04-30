@@ -9,7 +9,10 @@ use Sloth\Console\Command;
 /**
  * Clears all Sloth manifest files from the cache directory.
  *
- * Manifests are regenerated automatically on the next web request.
+ * Manifests are discovered via convention — any file matching
+ * `*.manifest.php` in the cache directory is treated as a Sloth
+ * manifest and deleted. This means new builders are picked up
+ * automatically without updating this command.
  *
  * @since 1.0.0
  */
@@ -26,21 +29,6 @@ class ClearManifestsCommand extends Command
     protected $description = 'Clear all Sloth manifest files — regenerated on next request';
 
     /**
-     * All manifest filenames managed by Sloth.
-     *
-     * @var list<string>
-     * @since 1.0.0
-     */
-    protected array $manifests = [
-        'models.manifest.php',
-        'taxonomies.manifest.php',
-        'modules.manifest.php',
-        'api-controller.manifest.php',
-        'includes.manifest.php',
-        'providers.manifest.php',
-    ];
-
-    /**
      * Execute the command.
      *
      * @since 1.0.0
@@ -50,17 +38,14 @@ class ClearManifestsCommand extends Command
         $cachePath = app()->path('cache');
         $cleared   = 0;
 
-        foreach ($this->manifests as $manifest) {
-            $path = $cachePath . '/' . $manifest;
+        $manifests = app('files')->glob($cachePath . '/Manifest/*.php') ?: [];
+
+        foreach ($manifests as $path) {
             $this->info("Clearing {$path}");
 
-            if (app('files')->exists($path)) {
-                app('files')->delete($path);
-                $this->line("  <fg=green>✓</> Deleted {$manifest}");
-                $cleared++;
-            } else {
-                $this->line("  <fg=gray>–</> {$manifest} not found");
-            }
+            app('files')->delete($path);
+            $this->line("  <fg=green>✓</> Deleted " . basename($path));
+            $cleared++;
         }
 
         $this->newLine();
