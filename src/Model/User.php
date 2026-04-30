@@ -72,7 +72,7 @@ class User extends CorcelModel
      *
      * @var array<string>
      */
-    protected $with = ['meta'];
+    protected $with = [];
 
     /**
      * Aliases for attribute access.

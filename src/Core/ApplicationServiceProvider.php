@@ -5,22 +5,29 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use Sloth\Core\Manifest\IncludesManifestBuilder;
-use Sloth\Core\Manifest\ProvidersManifestBuilder;
 
 /**
  * Service provider for Application-level bootstrapping.
  *
- * Registers manifest builders for includes and service providers,
- * and hooks them into WordPress's init action.
+ * Registers the includes manifest builder and loads includes on init.
+ *
+ * Note: Provider auto-discovery is no longer handled here. The Application
+ * itself discovers providers via ProvidersManifestBuilder during
+ * Application::registerProviders(). This ensures framework providers register
+ * first, followed by discovered app/theme providers.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder
+ * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the manifest lifecycle
+ * @see \Sloth\Core\Manifest\IncludesManifestBuilder   For include file discovery
+ * @see \Sloth\Core\Application::registerProviders()    For provider auto-discovery
  */
 class ApplicationServiceProvider extends ServiceProvider
 {
-
     /**
      * Register the Application service provider.
+     *
+     * Binds IncludesManifestBuilder as a singleton so its entry data
+     * is available during boot.
      *
      * @since 1.0.0
      */
@@ -28,24 +35,20 @@ class ApplicationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(IncludesManifestBuilder::class, fn($app) => new IncludesManifestBuilder($app));
-        $this->app->singleton(ProvidersManifestBuilder::class, fn($app) => new ProvidersManifestBuilder($app));
     }
 
-
     /**
-     * Register hooks for model registration.
+     * Boot the ApplicationServiceProvider and load the includes manifest.
      *
-     * @return array<string, callable|array<callable>>
+     * Loads the includes manifest for automatic file inclusion. Provider
+     * discovery is handled by Application::registerProviders() before
+     * this provider even boots.
+     *
+     * @return void
      * @since 1.0.0
-     *
      */
-    public function getHooks(): array
+    public function boot(): void
     {
-        return [
-            'init' => [
-                fn() => app(IncludesManifestBuilder::class)->init(),
-                fn() => app(ProvidersManifestBuilder::class)->init(),
-            ]
-        ];
+        app(IncludesManifestBuilder::class)->init();
     }
 }

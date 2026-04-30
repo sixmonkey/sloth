@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\ACF;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Field\Image;
 
 /**
@@ -14,36 +15,16 @@ use Sloth\Field\Image;
 class ACFHelper
 {
     /**
-     * Add ACF filters.
-     *
-     * @since 1.0.0
-     */
-    public function addFilters(): void
-    {
-        if (config('layotter_prepare_fields') == 2) {
-            add_filter('acf/format_value/type=image', [$this, 'load_image'], 10, 3);
-        }
-        add_action('admin_init', $this->autoSyncAcfFields(...));
-    }
-
-    /**
      * Load an image from ACF field value.
      *
      * @param mixed $value The ACF field value
-     * @param mixed $post_id The post ID
-     * @param mixed $field The field configuration
      * @return Image|null The Image object or null
+     * @throws BindingResolutionException
      * @since 1.0.0
      */
-    public function load_image(mixed $value, mixed $post_id, mixed $field): ?Image
+    public function loadImage($value, $post_id, $field)
     {
-        if (str_starts_with($field['_name'], '_qundg')) {
-            return $value;
-        }
-
-        $id = is_array($value) ? (int) $value['ID'] : $value;
-
-        return $id ? new Image($id) : null;
+        return new Image($value);
     }
 
     /**
@@ -56,7 +37,7 @@ class ACFHelper
         $autosyncAcf = config('autosync_acf');
         if (
             !function_exists('acf_get_field_groups')
-            || ! app()->isLocal()
+            || !app()->isLocal()
             || $autosyncAcf === false
         ) {
             return;
@@ -81,13 +62,13 @@ class ACFHelper
             }
 
             if (
-                ! $group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
+                !$group['ID'] || $modified > get_post_modified_time('U', true, $group['ID'], true)
             ) {
                 acf_disable_filters();
                 acf_enable_filter('local');
                 acf_update_setting('json', false);
                 $group['fields'] = acf_get_fields($group);
-                $group = acf_import_field_group($group);
+                acf_import_field_group($group);
             }
         }
     }

@@ -7,7 +7,7 @@ namespace Sloth\Model\Manifest;
 use Illuminate\Support\Str;
 use Sloth\Model\Model;
 use Sloth\Model\Proxy\CurrentModelProxy;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
 
@@ -15,65 +15,120 @@ use Sloth\Support\Manifest\FinderInterface;
  * Builds a manifest for WordPress post type registration.
  *
  * Scans app/Model/ and theme/Model/ for Model subclasses and writes a manifest
- * that registers them via register_extended_post_type() on every request —
- * with zero discovery overhead after the first run.
+ * that includes all discovered files and provides pre-computed registration
+ * arguments via its return value.
  *
- * Layotter configuration is handled by LayotterServiceProvider which reads
- * sloth.models directly.
+ * ## Discovery
+ *
+ * Uses ClassMapFinder to locate all non-abstract classes extending
+ * Sloth\Model\Model. Each discovered class is inspected for its static
+ * properties ($register, $options, $names, $icon, $admin_columns).
+ *
+ * ## Build-time computation
+ *
+ * The expensive work — building registration args, label arrays, admin column
+ * definitions — happens once at build time and is cached in the manifest file.
+ * At runtime, ModelRegistrar reads this data and calls
+ * register_extended_post_type() directly.
+ *
+ * ## Entry data structure
+ *
+ * ```php
+ * [
+ *     '\\App\\Model\\NewsModel' => [
+ *         'postType' => 'news',
+ *         'args'     => ['public' => true, 'show_in_rest' => true, ...],
+ *         'names'    => ['singular' => 'News', 'plural' => 'News', 'slug' => 'news'],
+ *     ],
+ * ]
+ * ```
+ *
+ * Models with `$register = false` are excluded from the entry data.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder   For the base class lifecycle
+ * @see \Sloth\Model\Manifest\ModelRegistrar            For runtime registration
  */
-class ModelManifestBuilder extends AbstractManifestBuilder
+class ModelManifestBuilder extends PathBasedManifestBuilder
 {
+    /**
+     * Return the finder for Model subclass discovery.
+     *
+     * Uses ClassMapFinder filtered to classes extending Sloth\Model\Model.
+     * Non-abstract subclasses are included; abstract base classes are excluded.
+     *
+     * @return FinderInterface The configured ClassMapFinder.
+     * @since 1.0.0
+     */
+    #[\Override]
     protected function finder(): FinderInterface
     {
         return new ClassMapFinder(Model::class);
     }
 
+    /**
+     * Return the subdirectory name for Model files.
+     *
+     * Scans `app/Model/` and `theme/Model/`.
+     *
+     * @return string Always 'Model'.
+     * @since 1.0.0
+     */
+    #[\Override]
     protected function directory(): string
     {
         return 'Model';
     }
 
-    protected function manifestName(): string
+    /**
+     * Compute registration entry data for all discovered models.
+     *
+     * Iterates over each discovered Model class and builds the full set of
+     * arguments needed by register_extended_post_type(). Models with
+     * `$register = false` are skipped.
+     *
+     * The computed data includes:
+     * - postType: the WordPress post type slug
+     * - args: merged registration args with admin_cols
+     * - names: singular, plural, and slug labels
+     *
+     * @param array<string, string> $map Model class name => absolute file path.
+     * @return array<string, array{postType: string, args: array<string, mixed>, names: array<string, string>}>
+     * @since 1.0.0
+     */
+    #[\Override]
+    protected function entries(array $map): array
     {
-        return 'models.manifest.php';
-    }
+        $entries = [];
 
-    protected function extraLines(string $identifier, string $file): array
-    {
         /** @var class-string<Model> $modelClass */
-        $modelClass = $identifier;
+        foreach ($map as $modelClass => $file) {
+            if (!$modelClass::$register) {
+                continue;
+            }
 
-        if (!$modelClass::$register) {
-            return [];
+            $postType = $modelClass::getPostType();
+
+            $entries[$modelClass] = [
+                'postType' => $postType,
+                'args' => $this->buildArgs($modelClass),
+                'names' => $this->buildNames($modelClass, $postType),
+            ];
         }
 
-        $postType = $modelClass::getPostType();
-
-        return [
-            '\register_extended_post_type(' . var_export($postType,
-                true) . ', ' . var_export($this->buildArgs($modelClass),
-                true) . ', ' . var_export($this->buildNames($modelClass, $postType), true) . ');',
-        ];
-    }
-
-    protected function bindings(array $map): array
-    {
-        return [
-            'sloth.models' => collect($map)
-                ->mapWithKeys(function ($file, $modelClass) {
-                    /** @var class-string<Model> $modelClass */
-                    return [$modelClass::getPostType() => $modelClass];
-                })
-                ->all(),
-        ];
+        return $entries;
     }
 
     /**
-     * @param class-string<Model> $modelClass
-     * @return array<string, mixed>
+     * Build the extended-cpts registration args for a model.
+     *
+     * Merges the model's static $options with computed values:
+     * - menu_icon: normalizes the $icon property to dashicons-* format
+     * - admin_cols: translates $admin_columns to extended-cpts format
+     *
+     * @param class-string<Model> $modelClass The model class to build args for.
+     * @return array<string, mixed>            The complete args array.
+     * @since 1.0.0
      */
     private function buildArgs(string $modelClass): array
     {
@@ -89,8 +144,15 @@ class ModelManifestBuilder extends AbstractManifestBuilder
     }
 
     /**
-     * @param class-string<Model> $modelClass
-     * @return array{singular: string, plural: string}
+     * Build the display names array for a model.
+     *
+     * Falls back to auto-generated names from the post type slug when
+     * $names is not defined on the model class.
+     *
+     * @param class-string<Model> $modelClass The model class.
+     * @param string              $postType   The post type slug.
+     * @return array{singular: string, plural: string, slug: string}
+     * @since 1.0.0
      */
     private function buildNames(string $modelClass, string $postType): array
     {
@@ -104,12 +166,20 @@ class ModelManifestBuilder extends AbstractManifestBuilder
     /**
      * Translate $admin_columns to extended-cpts admin_cols format.
      *
-     * Uses CurrentModelProxy so callables are [Class, 'method'] arrays — var_export safe.
-     * Theme developers keep $admin_columns and get{Column}Column() unchanged.
-     * If $label is already an array it is passed through as-is (raw extended-cpts syntax).
+     * Theme developers define $admin_columns as simple key => label arrays
+     * and optionally implement get{Column}Column() methods for custom output.
+     * This method converts that convention into the format expected by
+     * johnbillion/extended-cpts.
      *
-     * @param class-string<Model> $modelClass
-     * @return array<string, array<string, mixed>>
+     * Three column types are supported:
+     * 1. **Raw array** — passed through as-is (full extended-cpts syntax).
+     * 2. **String label with method** — uses CurrentModelProxy to call the
+     *    theme's get{Column}Column() method.
+     * 3. **String label without method** — treated as a post meta key.
+     *
+     * @param class-string<Model> $modelClass The model class.
+     * @return array<string, array<string, mixed>> The admin_cols array.
+     * @since 1.0.0
      */
     private function buildAdminCols(string $modelClass): array
     {
@@ -123,7 +193,7 @@ class ModelManifestBuilder extends AbstractManifestBuilder
 
                 return [
                     $key => method_exists($modelClass, $method)
-                        ? ['title' => $label, 'function' => [CurrentModelProxy::class, $method . 'Echo']]
+                        ? ['title' => $label, 'callable' => [$modelClass, $method]]
                         : ['title' => $label, 'meta_key' => $key],
                 ];
             })

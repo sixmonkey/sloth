@@ -8,6 +8,7 @@
   "require": {
     "php": ">=8.4",
     "ext-json": "*",
+    "bitandblack/image-information": "^3.2",
     "brain/hierarchy": "^2.0 || ^3.0",
     "composer/composer": "^2.9",
     "filp/whoops": "^2.18",

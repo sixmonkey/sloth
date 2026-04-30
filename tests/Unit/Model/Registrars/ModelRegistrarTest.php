@@ -2,25 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Tests\Unit\Model;
+namespace Sloth\Tests\Unit\Model\Registrar;
 
-use Sloth\Model\Registrars\ModelRegistrar;
+use PHPUnit\Framework\TestCase;
+use Sloth\Model\Manifest\ModelManifestBuilder;
+use Sloth\Model\Registrar\ModelRegistrar;
 
 /**
  * Unit tests for the ModelRegistrar class.
  */
 describe('ModelRegistrar', function (): void {
     describe('Construction', function (): void {
-        it('can be instantiated', function (): void {
-            $registrar = new ModelRegistrar();
+        it('can be instantiated with a builder', function (): void {
+            $builder = $this->createMock(ModelManifestBuilder::class);
+            $registrar = new ModelRegistrar($builder);
             expect($registrar)->toBeInstanceOf(ModelRegistrar::class);
         });
     });
 
-    describe('init()', function (): void {
+    describe('register()', function (): void {
         it('method exists', function (): void {
-            $registrar = new ModelRegistrar();
-            expect(method_exists($registrar, 'init'))->toBeTrue();
+            $builder = $this->createMock(ModelManifestBuilder::class);
+            $registrar = new ModelRegistrar($builder);
+            expect(method_exists($registrar, 'register'))->toBeTrue();
         });
     });
 });

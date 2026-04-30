@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Sloth\Field;
 
+use BitAndBlack\ImageInformation\Exception\ExtensionNotSupportedException;
+use BitAndBlack\ImageInformation\Source\File;
+use BitAndBlack\ImageInformation\Image as ImageInformation;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Sloth\Facades\Cache;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
 
@@ -12,6 +17,7 @@ use Sloth\Model\SlothMediaVersion;
  *
  * @since 1.0.0
  */
+#[\AllowDynamicProperties]
 class Image implements \Stringable
 {
     /**
@@ -90,9 +96,9 @@ class Image implements \Stringable
      * Image metadata.
      *
      * @since 1.0.0
-     * @var array<string, mixed>|null
+     * @var object<string, mixed>|null
      */
-    protected ?array $metaData = null;
+    protected ?object $metaData = null;
 
     /**
      * Default options for image manipulation.
@@ -101,8 +107,8 @@ class Image implements \Stringable
      * @var array<string, mixed>
      */
     protected array $defaults = [
-        'width'   => null,
-        'height'  => null,
+        'width' => null,
+        'height' => null,
         'upscale' => true,
     ];
 
@@ -113,19 +119,21 @@ class Image implements \Stringable
      * @var array<string, string>
      */
     protected array $attributeTranslations = [
-        'caption'     => 'post_excerpt',
+        'caption' => 'post_excerpt',
         'description' => 'post_content',
-        'title'       => 'post_title',
-        'alt'         => '_wp_attachment_image_alt',
-        'metadata'    => '_wp_attachment_metadata',
+        'title' => 'post_title',
+        'alt' => '_wp_attachment_image_alt',
+        'metadata' => '_wp_attachment_metadata',
     ];
 
     /**
      * Image constructor.
      *
+     * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
+     * @throws BindingResolutionException
+     * @throws ExtensionNotSupportedException
      * @since 1.0.0
      *
-     * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
      */
     public function __construct(int|array|false|string|null $url = null)
     {
@@ -139,28 +147,41 @@ class Image implements \Stringable
             $url = $url['url'];
         }
 
-        if ((int) $url !== 0) {
+        if ((int)$url !== 0) {
             $this->post = Post::find($url);
             $url = is_object($this->post) ? $this->post->url : ($this->post['url'] ?? null);
         } else {
-            $this->post = Post::where('guid', 'like', str_replace(WP_CONTENT_URL, '%', (string) $url))->first();
+            $this->post = Post::where('guid', 'like', str_replace(WP_CONTENT_URL, '%', (string)$url))->first();
         }
 
         if (is_object($this->post)) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt ?? null;
-            $this->caption = $this->post->post_excerpt ?? null;
-            $this->description = $this->post->post_content ?? null;
+            $this->alt = $this->post->meta->_wp_attachment_image_alt ?? '';
+            $this->caption = $this->post->post_excerpt ?? '';
+            $this->description = $this->post->post_content ?? '';
 
-            $this->postID = (int) $this->post->ID;
-            $metadata = $this->post->meta->_wp_attachment_metadata ?? null;
-            $this->metaData = is_string($metadata) ? @unserialize($metadata) : null;
+            $this->postID = (int)$this->post->ID;
+            $metadata = $this->post->_wp_attachment_metadata ?? null;
+            $this->metaData = is_string($metadata) ? (object)@unserialize($metadata) : null;
 
-            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
+            $this->width = (int)$this->metaData->width;
+            $this->height = (int)$this->metaData->height;
+
+            $this->url = (string)apply_filters('sloth_get_attachment_link', (string)($url ?? ''));
             $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
             if ($this->file !== null) {
                 $this->isResizable = @is_array(getimagesize($this->file));
+            }
+
+            if ($this->file) {
+                $file = $this->file;
+                $size = Cache::rememberForever('sloth.media.size' . md5($this->file), function () use ($file) {
+                    $image = new ImageInformation(new File($file));
+                    return $image->getSize();
+                });
+                $this->width = $size['width'];
+                $this->height = $size['height'];
             }
 
             $this->sizes = $this->sizes();
@@ -172,14 +193,15 @@ class Image implements \Stringable
     /**
      * Get a theme-sized image.
      *
+     * @param string|array<string> $size Size name or array of dimensions
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param string|array<string> $size Size name or array of dimensions
      */
     public function getThemeSized(string|array $size): string
     {
         if (is_array($size)) {
-            $size = (string) reset($size);
+            $size = (string)reset($size);
         }
 
         if (isset($this->sizes[$size])) {
@@ -198,14 +220,14 @@ class Image implements \Stringable
     /**
      * Resize the image with options.
      *
+     * @param array<string, mixed> ...$options Resize options or width
      * @since 1.0.0
      *
-     * @param array<string, mixed> ...$options Resize options or width
      */
     public function resize(...$options): string
     {
         if (!$this->isResizable || $this->url === null || $this->file === null) {
-            return (string) $this->url;
+            return (string)$this->url;
         }
 
         $args = func_get_args();
@@ -218,9 +240,9 @@ class Image implements \Stringable
             );
         }
 
-        if (!isset($options['height']) && isset($this->metaData['width'], $this->metaData['height'])) {
-            $ratio = $this->metaData['width'] / $options['width'];
-            $options['height'] = (int) round($this->metaData['height'] / $ratio);
+        if (!isset($options['height']) && isset($this->metaData->width, $this->metaData->height)) {
+            $ratio = $this->metaData->width / $options['width'];
+            $options['height'] = (int)round($this->metaData->height / $ratio);
         }
 
         $options = $this->processOptions($options);
@@ -228,7 +250,7 @@ class Image implements \Stringable
         $sheerFileName = $this->getFilename($options);
 
         SlothMediaVersion::updateOrCreate([
-            'guid'        => $this->getUrl($sheerFileName, false),
+            'guid' => $this->getUrl($sheerFileName, false),
             'post_parent' => $this->post->ID,
         ], [
             'post_excerpt' => json_encode($options),
@@ -240,9 +262,9 @@ class Image implements \Stringable
     /**
      * Get the filename for a manipulated image.
      *
+     * @param array<string, mixed> $options Manipulation options
      * @since 1.0.0
      *
-     * @param array<string, mixed> $options Manipulation options
      */
     protected function getFilename(array $options = []): string
     {
@@ -279,7 +301,7 @@ class Image implements \Stringable
         $ext = $info['extension'] ?? '';
 
         $dstRelPath = str_replace('.' . $ext, '', $this->file);
-        $dstRelPath = str_replace((string) $uploadDir, '', $dstRelPath);
+        $dstRelPath = str_replace((string)$uploadDir, '', $dstRelPath);
 
         return sprintf('%s-%s.%s', $dstRelPath, $suffix, $ext);
     }
@@ -287,9 +309,9 @@ class Image implements \Stringable
     /**
      * Get the absolute file path.
      *
+     * @param string $filename Relative filename
      * @since 1.0.0
      *
-     * @param string $filename Relative filename
      */
     protected function getAbsoluteFilename(string $filename): string
     {
@@ -302,16 +324,16 @@ class Image implements \Stringable
     /**
      * Get the URL for a file.
      *
+     * @param string $filename Relative filename
+     * @param bool|null $full Whether to include full URL (default: true)
      * @since 1.0.0
      *
-     * @param string      $filename Relative filename
-     * @param bool|null $full     Whether to include full URL (default: true)
      */
     protected function getUrl(string $filename, ?bool $full = true): string
     {
         $uploadInfo = wp_upload_dir();
 
-        $baseUrl = rtrim((string) apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
+        $baseUrl = rtrim((string)apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
 
         return $baseUrl . '/' . ltrim($filename, '/');
     }
@@ -319,11 +341,11 @@ class Image implements \Stringable
     /**
      * Process manipulation options.
      *
-     * @since 1.0.0
-     *
      * @param array<string, mixed> $options Manipulation options
      *
      * @return array<string, mixed>
+     * @since 1.0.0
+     *
      */
     protected function processOptions(array $options): array
     {
@@ -352,15 +374,16 @@ class Image implements \Stringable
     #[\Override]
     public function __toString(): string
     {
-        return (string) $this->url;
+        return (string)$this->url;
     }
 
     /**
      * Get a dynamic property.
      *
+     * @param string $what Property name
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @param string $what Property name
      */
     public function __get(string $what): mixed
     {
@@ -382,9 +405,9 @@ class Image implements \Stringable
     /**
      * Check if a property is set.
      *
+     * @param string $what Property name
      * @since 1.0.0
      *
-     * @param string $what Property name
      */
     public function __isset(string $what): bool
     {
@@ -404,9 +427,10 @@ class Image implements \Stringable
     /**
      * Get all available sizes.
      *
+     * @return array<string, string>
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
-     * @return array<string, string>
      */
     public function sizes(): array
     {
