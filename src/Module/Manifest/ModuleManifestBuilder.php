@@ -10,25 +10,11 @@ use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
 
 /**
- * Builds a manifest for module discovery and Layotter registration.
+ * Builds a manifest for module discovery.
  *
  * Scans app/Module/ and theme/Module/ for Module subclasses and writes a
- * manifest that includes all discovered files on every request.
- *
- * ## Layotter integration
- *
- * For modules with `$layotter` defined as an array, the builder generates
- * Layotter element class definitions directly in the manifest. This avoids
- * eval() at runtime — Opcache handles these classes like any other PHP
- * class definition.
- *
- * Example generated code:
- * ```php
- * class TeaserModule extends \Sloth\Module\LayotterElement {
- *     static $module = '\\App\\Module\\TeaserModule';
- * }
- * \Layotter::register_element('teaser-module', 'TeaserModule');
- * ```
+ * manifest that provides pre-computed entry data for JSON/AJAX endpoint
+ * registration.
  *
  * ## JSON/AJAX endpoints
  *
@@ -50,7 +36,7 @@ use Sloth\Support\Manifest\FinderInterface;
  *
  * @since 1.0.0
  * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
- * @see \Sloth\Module\Manifest\ModuleRegistrar            For JSON endpoint registration
+ * @see \Sloth\Module\Registrar\ModuleRegistrar           For JSON endpoint registration
  */
 class ModuleManifestBuilder extends PathBasedManifestBuilder
 {

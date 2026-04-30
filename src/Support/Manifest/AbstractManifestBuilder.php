@@ -48,8 +48,6 @@ use Sloth\Core\Application;
  * ```php
  * <?php
  * require_once '/abs/path/NewsModel.php';
- * class TeaserModule extends \Sloth\Module\LayotterElement { ... }
- * \Layotter::register_element('teaser-module', 'TeaserModule');
  *
  * return [
  *     '\\App\\Model\\NewsModel' => [
@@ -65,8 +63,6 @@ use Sloth\Core\Application;
  * - The `entries()` hook separates discovery/build from registration. The
  *   expensive work (reflection, argument computation) happens once at build
  *   time. Registrars read the pre-computed data at runtime.
- * - `extraLines()` exists for cases where PHP class definitions must be
- *   generated (Layotter). Most builders don't need this.
  * - Write failures are silently swallowed — manifests are an optimisation.
  *
  * @since 1.0.0

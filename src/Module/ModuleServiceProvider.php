@@ -12,18 +12,17 @@ use Sloth\Module\Registrar\ModuleRegistrar;
 /**
  * Service provider for the Module component.
  *
- * Coordinates the lifecycle of Sloth modules: discovery, Layotter integration,
- * JSON/AJAX endpoint registration, and module resolution via ModuleFactory.
+ * Coordinates the lifecycle of Sloth modules: discovery, JSON/AJAX endpoint
+ * registration, and module resolution via ModuleFactory.
  *
  * ## Discovery
  *
  * ModuleManifestBuilder scans app/Module/ and theme/Module/ for classes
- * extending Sloth\Module\Module. Two features are handled:
+ * extending Sloth\Module\Module. Modules with `$json` get AJAX and REST
+ * route registration via ModuleRegistrar.
  *
- * 1. **Layotter elements**: Modules with `$layotter` get class definitions
- *    generated directly in the manifest (see ModuleManifestBuilder::extraLines()).
- * 2. **JSON endpoints**: Modules with `$json` get AJAX and REST route
- *    registration via ModuleRegistrar.
+ * Layotter integration is handled separately by LayotterBridgeServiceProvider
+ * via LayotterElementRegistrar.
  *
  * ## Hook execution order
  *
@@ -37,7 +36,6 @@ use Sloth\Module\Registrar\ModuleRegistrar;
  * - **module**: Legacy binding for direct Module instantiation. Use
  *   app('module.factory')->make() or the module() helper instead.
  * - **sloth.modules**: List of discovered module class names (FQCNs).
- *   Read by LayotterServiceProvider and ModuleRegistrar.
  *
  * @since 1.0.0
  * @see \Sloth\Module\Module                           For the module base class
