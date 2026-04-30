@@ -5,101 +5,102 @@ declare(strict_types=1);
 namespace Sloth\Module\Manifest;
 
 use Sloth\Module\Module;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
-use Sloth\Utility\Utility;
 
 /**
- * Builds a manifest for module discovery and Layotter registration.
+ * Builds a manifest for module discovery.
  *
  * Scans app/Module/ and theme/Module/ for Module subclasses and writes a
- * manifest that includes all module files on every request.
+ * manifest that provides pre-computed entry data for JSON/AJAX endpoint
+ * registration.
  *
- * Layotter element classes are generated directly in the manifest — no
- * eval() at runtime. JSON/AJAX endpoints are registered via ModelServiceProvider
- * on the 'rest_api_init' hook.
+ * ## JSON/AJAX endpoints
+ *
+ * Modules with `$json` enabled get AJAX handlers and REST routes registered
+ * by ModuleRegistrar on the `rest_api_init` hook. The entry data computed
+ * here provides the information needed (class name, json config, params).
+ *
+ * ## Entry data structure
+ *
+ * ```php
+ * [
+ *     '\\App\\Module\\TeaserModule' => [
+ *         'className'  => 'TeaserModule',
+ *         'json'       => ['params' => ['id']],
+ *         'jsonParams' => ['id'],
+ *     ],
+ * ]
+ * ```
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
+ * @see \Sloth\Module\Registrar\ModuleRegistrar           For JSON endpoint registration
  */
-class ModuleManifestBuilder extends AbstractManifestBuilder
+class ModuleManifestBuilder extends PathBasedManifestBuilder
 {
+    /**
+     * Return the finder for Module subclass discovery.
+     *
+     * Uses ClassMapFinder filtered to classes extending Sloth\Module\Module.
+     * Non-abstract subclasses are included; abstract base classes are excluded.
+     *
+     * @return FinderInterface The configured ClassMapFinder.
+     * @since 1.0.0
+     */
+    #[\Override]
     protected function finder(): FinderInterface
     {
         return new ClassMapFinder(Module::class);
     }
 
+    /**
+     * Return the subdirectory name for Module files.
+     *
+     * Scans `app/Module/` and `theme/Module/`.
+     *
+     * @return string Always 'Module'.
+     * @since 1.0.0
+     */
+    #[\Override]
     protected function directory(): string
     {
         return 'Module';
     }
 
-    protected function manifestName(): string
-    {
-        return 'modules.manifest.php';
-    }
-
-    protected function extraLines(string $identifier, string $file): array
-    {
-        /** @var class-string<Module> $moduleClass */
-        $moduleClass = $identifier;
-
-        if (!is_array($moduleClass::$layotter) || !class_exists('\\Layotter')) {
-            return [];
-        }
-
-        // Generate Layotter element class definition directly in the manifest —
-        // no eval() at runtime, Opcache handles this like any other class definition.
-        $className      = substr(strrchr($moduleClass, '\\'), 1);
-        $elementSlug    = strtolower($className);
-
-        return [
-            'class ' . $className . ' extends \\Sloth\\Module\\LayotterElement { static $module = ' . var_export($moduleClass, true) . '; }',
-            '\\Layotter::register_element(' . var_export($elementSlug, true) . ', ' . var_export($className, true) . ');',
-        ];
-    }
-
-    protected function bindings(array $map): array
-    {
-        return [
-            'sloth.modules' => array_keys($map),
-        ];
-    }
-
     /**
-     * Register JSON/AJAX endpoints for modules that have $json enabled.
+     * Compute entry data for all discovered modules.
      *
-     * Called on the 'rest_api_init' hook via ModuleServiceProvider.
+     * Iterates over each discovered Module class and extracts the information
+     * needed by ModuleRegistrar for JSON/AJAX endpoint registration:
+     * - className: the short class name (used for Layotter and route naming)
+     * - json: whether the module has JSON endpoints enabled
+     * - jsonParams: optional URL parameters for the REST route
      *
+     * @param array<string, string> $map Module class name => absolute file path.
+     * @return array<string, array{className: string, json: bool|array, jsonParams?: list<string>}>
      * @since 1.0.0
      */
-    public function registerJsonEndpoints(): void
+    #[\Override]
+    protected function entries(array $map): array
     {
-        collect(app()->bound('sloth.modules') ? app('sloth.modules') : [])
-            ->filter(fn($moduleClass) => (bool) $moduleClass::$json)
-            ->each(function ($moduleClass) {
-                /** @var class-string<Module> $moduleClass */
-                $m = new $moduleClass();
+        $entries = [];
 
-                \add_action('wp_ajax_nopriv_' . $m->getAjaxAction(), [new $moduleClass(), 'getJSON']);
-                \add_action('wp_ajax_' . $m->getAjaxAction(), [new $moduleClass(), 'getJSON']);
+        /** @var class-string<Module> $moduleClass */
+        foreach ($map as $moduleClass => $file) {
+            $className = substr(strrchr($moduleClass, '\\'), 1);
 
-                $route = [Utility::viewize(Utility::normalize(class_basename($m)))];
+            $entries[$moduleClass] = [
+                'className' => $className,
+                'json' => $moduleClass::$json ?? false,
+            ];
 
-                if (is_array($moduleClass::$json) && isset($moduleClass::$json['params'])) {
-                    collect($moduleClass::$json['params'])
-                        ->each(fn($param) => $route[] = '(?P<' . $param . '>[a-z0-9._-]+)');
-                }
+            if (is_array($moduleClass::$json) && isset($moduleClass::$json['params'])) {
+                $entries[$moduleClass]['jsonParams'] = $moduleClass::$json['params'];
+            }
+        }
 
-                \register_rest_route(
-                    'sloth/v1/module',
-                    '/' . implode('/', $route),
-                    [
-                        'methods'  => ['GET', 'POST'],
-                        'callback' => fn(\WP_REST_Request $request) => $m->getJSON($request->get_params()),
-                    ]
-                );
-            });
+        return $entries;
     }
 }

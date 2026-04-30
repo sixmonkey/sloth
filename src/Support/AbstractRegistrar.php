@@ -53,7 +53,7 @@ abstract class AbstractRegistrar
      */
     public function init(): void
     {
-        $manifest = app()->path('cache') . '/' . static::$manifestName;
+        $manifest = app()->path('cache') . '/Manifest/' . static::$manifestName;
         app()->instance('sloth.models', []);
         app()->instance('sloth.taxonomies', []);
         if (app()->isLocal() || !app('files')->exists($manifest)) {

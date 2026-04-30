@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Layotter;
+namespace Sloth\LayotterBridge;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sloth\Core\ServiceProvider;
+use Sloth\LayotterBridge\Registrar\LayotterElementRegistrar;
 use Sloth\Model\Model;
+use Sloth\Module\Manifest\ModuleManifestBuilder;
 
 /**
  * Service provider for the Layotter component.
@@ -14,7 +18,7 @@ use Sloth\Model\Model;
  * @since 1.0.0
  * @see ServiceProvider
  */
-class LayotterServiceProvider extends ServiceProvider
+class LayotterBridgeServiceProvider extends ServiceProvider
 {
     /**
      * Register the Layotter service provider.
@@ -27,6 +31,10 @@ class LayotterServiceProvider extends ServiceProvider
         $this->app->singleton(
             'layotter',
             Layotter::class
+        );
+        $this->app->singleton(
+            LayotterElementRegistrar::class,
+            fn() => new LayotterElementRegistrar(app(ModuleManifestBuilder::class))
         );
     }
 
@@ -41,10 +49,9 @@ class LayotterServiceProvider extends ServiceProvider
      *
      * Skips silently if Layotter is not bound in the container.
      *
-     * @param class-string<Model> $modelClass The model class name.
-     * @param string $postType The post type slug.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @since 1.0.0
-     *
      */
     protected function configurePostTypes(): void
     {
@@ -78,7 +85,10 @@ class LayotterServiceProvider extends ServiceProvider
     public function getHooks(): array
     {
         return [
-            'init' => ['callback' => fn() => $this->configurePostTypes(), 'priority' => 20],
+            'init' => [
+                ['callback' => fn() => $this->configurePostTypes(), 'priority' => 20],
+                ['callback' => fn() => app(LayotterElementRegistrar::class)->registerElements(), 'priority' => 20],
+            ]
         ];
     }
 
@@ -86,7 +96,6 @@ class LayotterServiceProvider extends ServiceProvider
      * Get the required filters for the Layotter service provider.
      *
      * @return array|array[]|callable[]
-     * @throws BindingResolutionException
      */
     public function getFilters(): array
     {
