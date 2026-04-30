@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Module;
+namespace Sloth\LayotterBridge;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\View;
 use Sloth\Field\Image;
+use Sloth\LayotterBridge\Registrar\LayotterElementRegistrar;
 
 /**
  * Layotter element wrapper for modules.
@@ -25,14 +27,13 @@ class LayotterElement extends \Layotter_Element
     /**
      * Set element attributes from module configuration.
      *
+     * @throws BindingResolutionException
      * @since 1.0.0
      *
      */
     public function attributes(): void
     {
-        $className = static::class;
-        $moduleName = $className::$module;
-        $module = new $moduleName();
+        $module = $this->getModuleInstance();
 
         $layotterData = $module->getLayotterAttributes();
         $this->field_group = $layotterData['field_group'];
@@ -53,9 +54,8 @@ class LayotterElement extends \Layotter_Element
     {
         $fields = $this->prepareFields($fields, func_get_args());
 
-        $className = static::class;
-        $moduleName = $className::$module;
-        $module = new $moduleName();
+        $module = $this->getModuleInstance();
+
         $module->set($fields);
 
         $module->render();
@@ -71,9 +71,7 @@ class LayotterElement extends \Layotter_Element
      */
     public function backend_view($fields): void
     {
-        $className = static::class;
-        $moduleName = $className::$module;
-        $module = new $moduleName();
+        $module = $this->getModuleInstance();
 
         $template = $module->getTemplate();
         $backend_template = $template . '_layotter';
@@ -98,7 +96,7 @@ class LayotterElement extends \Layotter_Element
                     $v = $fields[$field['name']] ? $fields[$field['name']]['filename'] : '';
                 } elseif ($field['type'] === 'repeater') {
                     $amount = is_countable($fields[$field['name']]) ? count($fields[$field['name']]) : 0;
-                    $v = $amount. ' ' . __('Elemente', 'sloth');
+                    $v = $amount . ' ' . __('Elemente', 'sloth');
                 } elseif (is_object($fields[$field['name']]) || $field['type'] === 'true_false' || $field['type'] === 'taxonomy') {
                     continue;
                 } elseif ($field['type'] === 'image' && $fields[$field['name']] && $fields[$field['name']]['url'] !== null) {
@@ -151,14 +149,6 @@ class LayotterElement extends \Layotter_Element
     final protected function prepareFields(array $values, $options = []): array
     {
         $fields = $this->getFields();
-        if (config('layotter_prepare_fields', 2) === 2 && $fields) {
-            foreach ($fields as $field) {
-                if ($field['type'] === 'image') {
-                    $v = new Image($values[$field['name']]);
-                    $values[$field['name']] = $v;
-                }
-            }
-        }
 
         array_shift($options);
 
@@ -188,5 +178,11 @@ class LayotterElement extends \Layotter_Element
     final public function getValues(): array
     {
         return $this->prepareFields($this->formatted_values);
+    }
+
+    final protected function getModuleInstance()
+    {
+        $className = app(LayotterElementRegistrar::class)->resolveModuleClass($this->type);
+        return new $className();
     }
 }
