@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Sloth\Core\Manifest;
 
 use Sloth\Core\ServiceProvider;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 
 /**
  * Builds a manifest for App and Theme ServiceProvider discovery.
@@ -39,10 +39,10 @@ use Sloth\Support\Manifest\FinderInterface;
  * by discovered app/theme providers.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder   For the base class lifecycle
  * @see \Sloth\Core\Application::registerProviders()    For provider registration
  */
-class ProvidersManifestBuilder extends AbstractManifestBuilder
+class ProvidersManifestBuilder extends PathBasedManifestBuilder
 {
     /**
      * Return the finder for ServiceProvider subclass discovery.
@@ -71,18 +71,6 @@ class ProvidersManifestBuilder extends AbstractManifestBuilder
     protected function directory(): string
     {
         return 'Providers';
-    }
-
-    /**
-     * Return the manifest filename.
-     *
-     * @return string Always 'providers.manifest.php'.
-     * @since 1.0.0
-     */
-    #[\Override]
-    protected function manifestName(): string
-    {
-        return 'providers.manifest.php';
     }
 
     /**

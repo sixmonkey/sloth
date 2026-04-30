@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sloth\Api\Manifest;
 
 use Sloth\Api\Controller;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
 
@@ -43,10 +43,10 @@ use Sloth\Support\Manifest\FinderInterface;
  * ```
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
  * @see \Sloth\Api\ApiServiceProvider                   For route registration
  */
-class ApiControllerManifestBuilder extends AbstractManifestBuilder
+class ApiControllerManifestBuilder extends PathBasedManifestBuilder
 {
     /**
      * Return the finder for Controller subclass discovery.
@@ -75,18 +75,6 @@ class ApiControllerManifestBuilder extends AbstractManifestBuilder
     protected function directory(): string
     {
         return 'Api';
-    }
-
-    /**
-     * Return the manifest filename.
-     *
-     * @return string Always 'api-controller.manifest.php'.
-     * @since 1.0.0
-     */
-    #[\Override]
-    protected function manifestName(): string
-    {
-        return 'api-controller.manifest.php';
     }
 
     /**

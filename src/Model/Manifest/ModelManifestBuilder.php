@@ -7,7 +7,7 @@ namespace Sloth\Model\Manifest;
 use Illuminate\Support\Str;
 use Sloth\Model\Model;
 use Sloth\Model\Proxy\CurrentModelProxy;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
 
@@ -46,10 +46,10 @@ use Sloth\Support\Manifest\FinderInterface;
  * Models with `$register = false` are excluded from the entry data.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder   For the base class lifecycle
  * @see \Sloth\Model\Manifest\ModelRegistrar            For runtime registration
  */
-class ModelManifestBuilder extends AbstractManifestBuilder
+class ModelManifestBuilder extends PathBasedManifestBuilder
 {
     /**
      * Return the finder for Model subclass discovery.
@@ -78,18 +78,6 @@ class ModelManifestBuilder extends AbstractManifestBuilder
     protected function directory(): string
     {
         return 'Model';
-    }
-
-    /**
-     * Return the manifest filename.
-     *
-     * @return string Always 'models.manifest.php'.
-     * @since 1.0.0
-     */
-    #[\Override]
-    protected function manifestName(): string
-    {
-        return 'models.manifest.php';
     }
 
     /**

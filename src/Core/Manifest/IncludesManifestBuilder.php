@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sloth\Core\Manifest;
 
-use Sloth\Support\Manifest\AbstractManifestBuilder;
 use Sloth\Support\Manifest\FileFinder;
 use Sloth\Support\Manifest\FinderInterface;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 
 /**
  * Builds a manifest for includes discovery.
@@ -15,9 +15,9 @@ use Sloth\Support\Manifest\FinderInterface;
  * a manifest that requires them on every request.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder
  */
-class IncludesManifestBuilder extends AbstractManifestBuilder
+class IncludesManifestBuilder extends PathBasedManifestBuilder
 {
     /**
      * The finder to use for discovery.
@@ -37,15 +37,5 @@ class IncludesManifestBuilder extends AbstractManifestBuilder
     protected function directory(): string
     {
         return 'Includes';
-    }
-
-    /**
-     * Filename for the generated manifest in the cache directory.
-     *
-     * @since 1.0.0
-     */
-    protected function manifestName(): string
-    {
-        return 'includes.manifest.php';
     }
 }

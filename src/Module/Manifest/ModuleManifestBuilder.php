@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sloth\Module\Manifest;
 
 use Sloth\Module\Module;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
 
@@ -49,10 +49,10 @@ use Sloth\Support\Manifest\FinderInterface;
  * ```
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
  * @see \Sloth\Module\Manifest\ModuleRegistrar            For JSON endpoint registration
  */
-class ModuleManifestBuilder extends AbstractManifestBuilder
+class ModuleManifestBuilder extends PathBasedManifestBuilder
 {
     /**
      * Return the finder for Module subclass discovery.
@@ -81,18 +81,6 @@ class ModuleManifestBuilder extends AbstractManifestBuilder
     protected function directory(): string
     {
         return 'Module';
-    }
-
-    /**
-     * Return the manifest filename.
-     *
-     * @return string Always 'modules.manifest.php'.
-     * @since 1.0.0
-     */
-    #[\Override]
-    protected function manifestName(): string
-    {
-        return 'modules.manifest.php';
     }
 
     /**

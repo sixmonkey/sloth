@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sloth\Model\Manifest;
 
 use Sloth\Model\Taxonomy;
-use Sloth\Support\Manifest\AbstractManifestBuilder;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
 
@@ -46,10 +46,10 @@ use Sloth\Support\Manifest\FinderInterface;
  * Taxonomies with `$register = false` are excluded from the entry data.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
+ * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
  * @see \Sloth\Model\Manifest\TaxonomyRegistrar         For runtime registration
  */
-class TaxonomyManifestBuilder extends AbstractManifestBuilder
+class TaxonomyManifestBuilder extends PathBasedManifestBuilder
 {
     /**
      * Return the finder for Taxonomy subclass discovery.
@@ -78,18 +78,6 @@ class TaxonomyManifestBuilder extends AbstractManifestBuilder
     protected function directory(): string
     {
         return 'Taxonomy';
-    }
-
-    /**
-     * Return the manifest filename.
-     *
-     * @return string Always 'taxonomies.manifest.php'.
-     * @since 1.0.0
-     */
-    #[\Override]
-    protected function manifestName(): string
-    {
-        return 'taxonomies.manifest.php';
     }
 
     /**
