@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Layotter;
+namespace Sloth\LayotterBridge;
 
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;

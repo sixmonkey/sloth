@@ -244,7 +244,7 @@ class Application extends Container
             \Sloth\Api\ApiServiceProvider::class,
             \Sloth\Media\MediaServiceProvider::class,
             \Sloth\Admin\AdminServiceProvider::class,
-            \Sloth\Layotter\LayotterServiceProvider::class,
+            \Sloth\LayotterBridge\LayotterBridgeServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
             \Sloth\ACF\AcfServiceProvider::class,

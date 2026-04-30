@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Tests\Unit\Layotter;
 
-use Sloth\Layotter\Layotter;
+use Sloth\LayotterBridge\Layotter;
 
 /**
  * Unit tests for the Layotter class.
