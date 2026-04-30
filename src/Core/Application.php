@@ -6,7 +6,6 @@ namespace Sloth\Core;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -172,13 +171,6 @@ class Application extends Container
 
         // Paths — must exist before providers boot
         $this->registerBasePaths();
-        new PackageManifest(
-            new Filesystem, $this->basePath(), null
-        );
-        // PackageManifest
-        $this->singleton(PackageManifest::class, fn() => new PackageManifest(
-            new Filesystem, $this->basePath(), null
-        ));
 
         // Providers
         $this->registerProviders();
@@ -272,6 +264,14 @@ class Application extends Container
         $builder = new \Sloth\Core\Manifest\ProvidersManifestBuilder($this);
         $builder->init();
         foreach ($builder->getEntries() as $provider) {
+            $this->register($provider);
+        }
+
+        // Autodiscover vendor package providers from installed.json
+        // (uses extra.laravel.providers — Laravel-compatible format)
+        $vendorBuilder = new \Sloth\Core\Manifest\VendorProviderManifestBuilder($this);
+        $vendorBuilder->init();
+        foreach ($vendorBuilder->getEntries() as $provider) {
             $this->register($provider);
         }
     }
@@ -440,9 +440,14 @@ class Application extends Container
             return static::$cachedBasePath = rtrim(SLOTH_BASE_PATH, '/');
         }
 
-        $dir = __DIR__;
+
+        $dir = dirname(match (defined('ABSPATH')) {
+            true => ABSPATH,
+            default => __DIR__
+        });
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
+
                 return static::$cachedBasePath = $dir;
             }
             $dir = dirname($dir);
