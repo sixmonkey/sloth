@@ -121,6 +121,88 @@ describe('DebugServiceProvider', function (): void {
         });
     });
 
+    describe('isJsonResponse()', function (): void {
+
+        it('detects JSON object response', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('isJsonResponse');
+            $method->setAccessible(true);
+
+            expect($method->invoke($provider, '{"status":"ok"}'))->toBeTrue();
+        });
+
+        it('detects JSON array response', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('isJsonResponse');
+            $method->setAccessible(true);
+
+            expect($method->invoke($provider, '[1, 2, 3]'))->toBeTrue();
+        });
+
+        it('detects JSON with leading whitespace', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('isJsonResponse');
+            $method->setAccessible(true);
+
+            expect($method->invoke($provider, '  {"key":"value"}'))->toBeTrue();
+        });
+
+        it('rejects HTML response', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('isJsonResponse');
+            $method->setAccessible(true);
+
+            expect($method->invoke($provider, '<html><head></head></html>'))->toBeFalse();
+        });
+
+        it('rejects empty output', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('isJsonResponse');
+            $method->setAccessible(true);
+
+            expect($method->invoke($provider, ''))->toBeFalse();
+            expect($method->invoke($provider, '   '))->toBeFalse();
+        });
+
+        it('rejects plain text response', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('isJsonResponse');
+            $method->setAccessible(true);
+
+            expect($method->invoke($provider, 'Hello World'))->toBeFalse();
+        });
+    });
+
     describe('handleBootError()', function (): void {
 
         it('logs error to application log', function (): void {
