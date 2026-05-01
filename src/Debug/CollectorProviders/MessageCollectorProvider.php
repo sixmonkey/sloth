@@ -2,7 +2,6 @@
 
 namespace Sloth\Debug\CollectorProviders;
 
-use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBarException;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -16,14 +15,14 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      */
     public function boot(): void
     {
-        $messageCollector = new MessagesCollector();
+        $messageCollector = $this->debugBar->getMessagesCollector();
+        $messageCollector->collectFileTrace(true);
 
         $originalHandler = VarDumper::setHandler(function ($var) use (&$originalHandler, $messageCollector): void {
             if ($originalHandler) {
                 $originalHandler($var);
             }
 
-            $messageCollector->collectFileTrace(true);
             $messageCollector->addMessage($var);
         });
 
