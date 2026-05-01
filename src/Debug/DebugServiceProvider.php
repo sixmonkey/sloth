@@ -37,9 +37,29 @@ class DebugServiceProvider extends ServiceProvider
 
     public function renderBar($output): string
     {
+        $debugBar = $this->app->make(SlothDebugBar::class);
+
+        $messages = collect($debugBar->getMessagesCollector()->getMessages())
+            ->map(function ($message) {
+                return [
+                    $message['xdebug_link']['filename'] . ':' . $message['xdebug_link']['line'] => $message['message'],
+                ];
+            });
+
+        if (!headers_sent()) {
+            header('X-SLOTH_DEBUG: ' . json_encode($messages));
+        }
+
+        if (($json = json_decode($output, true)) && config('debugger.json.prepend', false)) {
+            $output = json_encode([
+                config('debugger.json.key', '__SLOTH_DEBUG') => $messages->toArray(),
+                ...$json
+            ]);
+        }
+
         return Str::replace(
             '</head>',
-            $this->app->make(SlothDebugBar::class)->render() . '</head>',
+            $debugBar->render() . '</head>',
             $output
         );
     }
