@@ -19,7 +19,7 @@ use Sloth\Core\ServiceProvider;
  * package is absent), this provider does nothing.
  *
  * @since 1.0.0
- * @see \Sloth\Debug\ExceptionHandler
+ * @see \Sloth\Exceptions\ExceptionHandler
  */
 class DebugServiceProvider extends ServiceProvider
 {

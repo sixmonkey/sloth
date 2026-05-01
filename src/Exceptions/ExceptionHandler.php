@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Debug;
+namespace Sloth\Exceptions;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
@@ -25,7 +25,7 @@ use Throwable;
  *     );
  *
  * @since 1.0.0
- * @see \Sloth\Debug\DebugServiceProvider
+ * @see \Sloth\Core\ExceptionServiceProvider
  */
 class ExceptionHandler implements ExceptionHandlerContract
 {

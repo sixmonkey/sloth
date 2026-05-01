@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sloth\Tests\Unit\Debug;
+namespace Sloth\Tests\Unit\Exceptions;
 
-use Sloth\Debug\ExceptionHandler;
+use Sloth\Exceptions\ExceptionHandler;
 use ReflectionClass;
 
 /**
