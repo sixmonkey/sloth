@@ -28,6 +28,7 @@
     "johnbillion/args": "^2.4",
     "johnbillion/extended-cpts": "^5.1",
     "nunomaduro/termwind": "^2.4",
+    "php-debugbar/php-debugbar": "^3.7",
     "spatie/image": "^1.10 || ^2.0 || ^3.0",
     "symfony/filesystem": "^8.0",
     "symfony/process": "^7.4",
@@ -40,7 +41,6 @@
     "friendsofphp/php-cs-fixer": "^3.50",
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin": "^2.0",
-    "php-debugbar/php-debugbar": "^3",
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^10.0",
     "rector/rector": "^1.2"
