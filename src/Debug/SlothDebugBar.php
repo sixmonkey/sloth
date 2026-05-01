@@ -84,6 +84,11 @@ class SlothDebugBar extends DebugBar
         $renderer = $this->getJavascriptRenderer();
         $renderer->setBaseUrl('https://php-debugbar.com/assets/');
         $renderer->addInlineAssets(
+            app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css'),
+            '',
+            ''
+        );
+        $renderer->addInlineAssets(
             app('files')->get(__DIR__ . '/resources/sloth-debugbar.css'),
             '',
             ''
