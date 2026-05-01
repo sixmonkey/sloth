@@ -136,6 +136,8 @@ class Application extends Container
     {
         static::setInstance($this);
         $this->instance('app', $this);
+        $this->instance(Application::class, $this);
+        $this->instance(Container::class, $this);
     }
 
     /**
@@ -222,8 +224,8 @@ class Application extends Container
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
-
             \Sloth\Core\ApplicationServiceProvider::class,
+
 
             // Theme — config + view paths before other providers read them
             \Sloth\Theme\ThemeServiceProvider::class,
