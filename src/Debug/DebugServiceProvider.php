@@ -154,7 +154,7 @@ class DebugServiceProvider extends ServiceProvider
             header('X-SLOTH_DEBUG: ' . json_encode($messages));
         }
 
-        if (($json = json_decode($output, true)) && config('debugger.json.prepend', false)) {
+        if (($json = json_decode($output, true)) && config('debugger.json.prepend', true)) {
             $output = json_encode([
                 config('debugger.json.key', '__SLOTH_DEBUG') => $messages->toArray(),
                 ...$json
