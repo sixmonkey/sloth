@@ -20,7 +20,9 @@ class SlothDebugBar extends DebugBar
 
     public function __construct(protected Application $app)
     {
-        $this->timeCollector = new TimeDataCollector();
+        $start = defined('SLOTH_START') ? SLOTH_START : microtime(true);
+
+        $this->timeCollector = new TimeDataCollector($start);
         $this->messagesCollector = new MessagesCollector();
         $this->exceptionsCollector = new ExceptionsCollector();
     }
