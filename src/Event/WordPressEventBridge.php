@@ -123,12 +123,15 @@ class WordPressEventBridge extends ServiceProvider
         $callback = $this->makeBridgeCallback($hook, $type);
 
         // Register with WordPress
+        // Priority: PHP_INT_MAX — run AFTER all other hooks so that the
+        // WordPress state is fully settled when the Laravel event fires.
+        // This ensures listeners see the final state, not an intermediate one.
         if ($type === 'filter') {
             // Filters need to accept at least 1 arg (the value being filtered)
             // We use 99 as accepted_args to handle filters with many arguments
-            \add_filter($hook, $callback, 10, 99);
+            \add_filter($hook, $callback, PHP_INT_MAX, 99);
         } else {
-            \add_action($hook, $callback, 10, 99);
+            \add_action($hook, $callback, PHP_INT_MAX, 99);
         }
 
         // Track registration
