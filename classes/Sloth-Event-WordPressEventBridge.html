@@ -216,12 +216,12 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-cache.html">Cache</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-event.html">Event</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    CacheServiceProvider
+    WordPressEventBridge
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Sloth-Core-ServiceProvider.html"><abbr title="\Sloth\Core\ServiceProvider">ServiceProvider</abbr></a>
@@ -243,49 +243,44 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/CacheServiceProvider.php"><a href="files/src-cache-cacheserviceprovider.html"><abbr title="src/Cache/CacheServiceProvider.php">CacheServiceProvider.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Service provider for the Cache component.</p>
+            <p class="phpdocumentor-summary">WordPress Event Bridge Service Provider.</p>
 
 
-    <section class="phpdocumentor-description"><p>Registers <code class="prettyprint">Illuminate\Cache\CacheManager</code> in the container under the
-<code class="prettyprint">'cache'</code> key, and adds a <code class="prettyprint">'wp-transients'</code> driver backed by
-WordPress transients.</p>
-<h2>Default driver: file</h2>
-<p>Cache files are stored in <code class="prettyprint">theme/cache/Cache/</code> — the same directory
-that is auto-created by <code class="prettyprint">Application::registerBasePaths()</code>.</p>
-<h2>Available drivers</h2>
-<ul>
-<li><code class="prettyprint">file</code> (default) — stores cache in theme/cache/</li>
-<li><code class="prettyprint">array</code> — in-memory only, not persisted between requests</li>
-<li><code class="prettyprint">wp-transients</code> — uses WordPress transients API (stored in DB)</li>
-</ul>
-<h2>Switching to WP Transients</h2>
-<p>Override the default driver in a ServiceProvider:</p>
-<pre class="prettyprint"><code class="language-php">app('cache')-&gt;setDefaultDriver('wp-transients');
-</code></pre>
-<p>Or use a specific driver per call:</p>
-<pre class="prettyprint"><code class="language-php">Cache::driver('wp-transients')-&gt;rememberForever('key', fn() =&gt; expensive());
-</code></pre>
-<h2>Usage in ClassResolver</h2>
-<pre class="prettyprint"><code class="language-php">public static function resolve(): Collection
-{
-    if (app()-&gt;isLocal()) {
-        return static::collectClasses();
-    }
-    return Cache::rememberForever(static::$cacheKey, fn() =&gt; static::collectClasses());
-}
-</code></pre>
+    <section class="phpdocumentor-description"><p>Bridges WordPress hooks (actions and filters) to the Laravel event system.</p>
+<p>Each WordPress hook registered in the config is wrapped with add_action()
+or add_filter() to dispatch a Laravel event with the name 'wp:{hook}'.
+Listeners receive a WpHookFired instance containing the hook name,
+arguments, type, and (for filters) the modifiable result.</p>
+<p>Performance: The bridge only dispatches hooks that have active Laravel
+listeners. If no listener is registered for 'wp:some_hook', the WordPress
+callback returns immediately without creating event objects or invoking
+the dispatcher. This makes it safe to register many hooks in the config
+without performance penalty.</p>
+<p>Usage:</p>
+<p>// Listen to a WordPress action
+Event::listen('wp:wp_loaded', function (WpHookFired $event) {
+dump('WordPress is fully loaded');
+});</p>
+<p>// Modify a WordPress filter result
+Event::listen('wp:the_content', function (WpHookFired $event) {
+$event-&gt;result = strtoupper($event-&gt;result);
+});</p>
+<p>// Dynamically register an additional hook
+$bridge = app(WordPressEventBridge::class);
+$bridge-&gt;addHook('my_custom_hook', 'action');
+Event::listen('wp:my_custom_hook', fn(WpHookFired $e) =&gt; dump($e-&gt;args));</p>
 </section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Cache-CacheServiceProvider.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -297,33 +292,13 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
                                                                                 
                                              
                                     </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Facades-Cache.html"><abbr title="\Sloth\Facades\Cache">Cache</abbr></a></span>
-                                        
-                                                 <section class="phpdocumentor-description"><p>For the static Facade interface</p>
-</section>
-
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Cache\WordPressTransientsStore">WordPressTransientsStore</abbr></span>
-                                        
-                                                 <section class="phpdocumentor-description"><p>For the WP Transients driver</p>
-</section>
-
-                                    </dd>
                                             </dl>
 
     
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Cache-CacheServiceProvider.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Event-WordPressEventBridge.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -335,10 +310,24 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
 
 
 
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/Sloth-Event-WordPressEventBridge.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#property_registeredHooks">$registeredHooks</a>
+    <span>
+                        &nbsp;: array&lt;string, array{type: string, callback: callable}&gt;            </span>
+</dt>
+<dd>WordPress hooks that have been registered by this bridge.</dd>
+
+    </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Cache-CacheServiceProvider.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Event-WordPressEventBridge.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -350,11 +339,18 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Cache-CacheServiceProvider.html#method_boot">boot()</a>
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_addHook">addHook()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Boot the Cache service.</dd>
+<dd>Dynamically register an additional WordPress hook.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_boot">boot()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Bootstrap the WordPress event bridge.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
@@ -371,11 +367,39 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
 <dd>Returns WordPress actions this provider wants to register.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Cache-CacheServiceProvider.html#method_register">register()</a>
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_getRegisteredHooks">getRegisteredHooks()</a>
+    <span>
+                                &nbsp;: array&lt;string, array{type: string, callback: callable}&gt;    </span>
+</dt>
+<dd>Get the list of registered WordPress hooks.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_hasHook">hasHook()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Check if a specific WordPress hook is registered by this bridge.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_register">register()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register the Cache service in the container.</dd>
+<dd>Register the bridge services.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_registerHook">registerHook()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Register a single WordPress hook as a Laravel event dispatcher.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Event-WordPressEventBridge.html#method_makeBridgeCallback">makeBridgeCallback()</a>
+    <span>
+                                &nbsp;: callable    </span>
+</dt>
+<dd>Create the bridge callback for a WordPress hook.</dd>
 
     </dl>
 
@@ -384,11 +408,58 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
         
 
         
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Sloth-Event-WordPressEventBridge.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_registeredHooks">
+        $registeredHooks
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#property_registeredHooks" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">54</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">WordPress hooks that have been registered by this bridge.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, array{type: string, callback: callable}&gt;</span>
+    <span class="phpdocumentor-signature__name">$registeredHooks</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>Prevents duplicate registration of the same hook.</p>
+</section>
+
+    
+    
+
+        
+        
+
+</article>
+            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Cache-CacheServiceProvider.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Event-WordPressEventBridge.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -504,19 +575,97 @@ $provider-&gt;undefinedMethod();
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_boot">
-        boot()
-        <a href="classes/Sloth-Cache-CacheServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_addHook">
+        addHook()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_addHook" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/CacheServiceProvider.php"><a href="files/src-cache-cacheserviceprovider.html"><abbr title="src/Cache/CacheServiceProvider.php">CacheServiceProvider.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">95</span>
+    <span class="phpdocumentor-element-found-in__line">159</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Boot the Cache service.</p>
+        <p class="phpdocumentor-summary">Dynamically register an additional WordPress hook.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">addHook</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hook</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'action'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>This method allows other providers (e.g., CollectorProviders) to
+request additional hooks at runtime. The hook will be registered
+immediately if it hasn't been registered yet.</p>
+<p>Note: If the WordPress hook has already fired, registering it
+here will have no effect. Use did_action() to check if a hook
+has already fired before adding it.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$hook</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The WordPress hook name.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$type</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'action'</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The hook type: 'action' (default) or 'filter'.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_addHook#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_boot">
+        boot()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">77</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Bootstrap the WordPress event bridge.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -525,15 +674,15 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Configures the file cache driver with the theme cache path,
-and registers the WordPress transients driver.</p>
+        <section class="phpdocumentor-description"><p>Merges the events configuration and registers all configured
+WordPress hooks as Laravel event dispatchers.</p>
 </section>
 
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Cache-CacheServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -730,39 +879,33 @@ consider using the EventBridge in boot():</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_register">
-        register()
-        <a href="classes/Sloth-Cache-CacheServiceProvider.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getRegisteredHooks">
+        getRegisteredHooks()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_getRegisteredHooks" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/CacheServiceProvider.php"><a href="files/src-cache-cacheserviceprovider.html"><abbr title="src/Cache/CacheServiceProvider.php">CacheServiceProvider.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">223</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the Cache service in the container.</p>
+        <p class="phpdocumentor-summary">Get the list of registered WordPress hooks.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">register</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">getRegisteredHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array{type: string, callback: callable}&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Binds <code class="prettyprint">Illuminate\Cache\CacheManager</code> as a singleton under the
-<code class="prettyprint">'cache'</code> key — the same key used by Laravel itself, ensuring
-compatibility with any illuminate/* package that resolves <code class="prettyprint">'cache'</code>.</p>
-<p>Also registers <code class="prettyprint">'cache.store'</code> as the default driver instance,
-and extends the manager with the <code class="prettyprint">'wp-transients'</code> driver.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Cache-CacheServiceProvider.html#method_register#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_getRegisteredHooks#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -777,19 +920,298 @@ and extends the manager with the <code class="prettyprint">'wp-transients'</code
                                             </dl>
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="attributes">
-                Attributes <a href="classes/Sloth-Cache-CacheServiceProvider.html#method_register#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array{type: string, callback: callable}&gt;</span>
+            </section>
 
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\Override">Override</abbr>]
-    </dt>
-    </dl>
-                    </section>
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_hasHook">
+        hasHook()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_hasHook" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">235</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Check if a specific WordPress hook is registered by this bridge.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">hasHook</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hook</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
     
     
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$hook</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The WordPress hook name.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_hasHook#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the hook is registered.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_register">
+        register()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">64</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register the bridge services.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">register</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Makes the bridge instance accessible via the container so that
+other providers can dynamically add hooks at runtime.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_register#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_registerHook">
+        registerHook()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_registerHook" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">115</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register a single WordPress hook as a Laravel event dispatcher.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">registerHook</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hook</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>For actions: dispatches the event but ignores the return value.
+For filters: dispatches the event and returns $event-&gt;result,
+allowing listeners to modify the filtered value.</p>
+<p>If the event dispatcher is not yet bound or no listeners are
+registered for the hook, the callback returns immediately
+to avoid unnecessary overhead.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$hook</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The WordPress hook name (e.g., 'wp_loaded').</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$type</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The hook type: 'action' or 'filter'.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_registerHook#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_makeBridgeCallback">
+        makeBridgeCallback()
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_makeBridgeCallback" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/WordPressEventBridge.php"><a href="files/src-event-wordpresseventbridge.html"><abbr title="src/Event/WordPressEventBridge.php">WordPressEventBridge.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">179</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Create the bridge callback for a WordPress hook.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">makeBridgeCallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hook</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The returned closure checks if the event dispatcher is available
+and if any Laravel listeners are registered for the 'wp:{hook}'
+event. If so, it creates a WpHookFired instance and dispatches it.</p>
+<p>For filter hooks, the closure returns $event-&gt;result to allow
+listeners to modify the filtered value.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$hook</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The WordPress hook name.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$type</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The hook type: 'action' or 'filter'.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#method_makeBridgeCallback#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">callable</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The WordPress hook callback.</p>
+</section>
+
+            </section>
+
 </article>
             </section>
 
@@ -797,7 +1219,7 @@ and extends the manager with the <code class="prettyprint">'wp-transients'</code
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Cache/CacheServiceProvider.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Event/WordPressEventBridge.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -898,19 +1320,31 @@ and extends the manager with the <code class="prettyprint">'wp-transients'</code
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                <li><a href="classes/Sloth-Cache-CacheServiceProvider.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Sloth-Event-WordPressEventBridge.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Sloth-Event-WordPressEventBridge.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#property_registeredHooks">$registeredHooks</a></li>
+                                            </ul>
+                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
-                                            <li class=""><a href="classes/Sloth-Cache-CacheServiceProvider.html#method_boot">boot()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_addHook">addHook()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
-                                            <li class=""><a href="classes/Sloth-Cache-CacheServiceProvider.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_getRegisteredHooks">getRegisteredHooks()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_hasHook">hasHook()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_registerHook">registerHook()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-WordPressEventBridge.html#method_makeBridgeCallback">makeBridgeCallback()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -930,7 +1364,7 @@ and extends the manager with the <code class="prettyprint">'wp-transients'</code
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Cache-CacheServiceProvider.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Event-WordPressEventBridge.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

@@ -349,14 +349,14 @@ view.finder and twig.loader in the container.</p>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;    </span>
 </dt>
 <dd>Returns WordPress filters this provider wants to register.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;    </span>
 </dt>
 <dd>Returns WordPress actions this provider wants to register.</dd>
 
@@ -455,7 +455,7 @@ view.finder and twig.loader in the container.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
@@ -615,7 +615,7 @@ and twig.loader to be bound in the container.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">62</span>
+    <span class="phpdocumentor-element-found-in__line">213</span>
 
     </aside>
 
@@ -623,22 +623,71 @@ and twig.loader to be bound in the container.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Same format as getHooks().</p>
+        <section class="phpdocumentor-description"><p>The framework automatically calls add_filter() for each entry during
+the boot phase. Providers should NEVER call add_filter() directly —
+always use this method to ensure consistent registration.</p>
+<h2>Supported Formats</h2>
+<pre class="prettyprint"><code class="language-php">// Single callable (default priority: 10)
+'the_content' =&gt; fn(string $content) =&gt; strtoupper($content),
+
+// Multiple callbacks for the same filter
+'the_content' =&gt; [
+    fn(string $content) =&gt; $this-&gt;stepOne($content),
+    fn(string $content) =&gt; $this-&gt;stepTwo($content),
+],
+
+// With explicit priority
+'the_content' =&gt; ['callback' =&gt; fn(string $c) =&gt; $this-&gt;transform($c), 'priority' =&gt; 20],
+
+// Multiple callbacks with different priorities
+'the_content' =&gt; [
+    ['callback' =&gt; fn(string $c) =&gt; $this-&gt;early($c), 'priority' =&gt; 5],
+    ['callback' =&gt; fn(string $c) =&gt; $this-&gt;late($c), 'priority' =&gt; 20],
+],
+</code></pre>
+<h2>Filter Callback Signature</h2>
+<p>Filter callbacks should accept the filtered value as the first argument
+and return the modified value:</p>
+<pre class="prettyprint"><code class="language-php">'the_title' =&gt; fn(string $title) =&gt; 'Prefixed: ' . $title,
+</code></pre>
+<h2>When to use EventBridge instead</h2>
+<p>Use getFilters() for provider-local filters. For widely-used WordPress
+filters that multiple components might modify (e.g., the_content, body_class),
+consider using the EventBridge in boot() for bidirectional filter support:</p>
+<pre class="prettyprint"><code class="language-php">Event::listen('wp:the_content', function (WpHookFired $event) {
+    $event-&gt;result = transform($event-&gt;result);
+});
+</code></pre>
 </section>
 
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span>
             </section>
 
 </article>
@@ -656,7 +705,7 @@ and twig.loader to be bound in the container.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">155</span>
 
     </aside>
 
@@ -664,29 +713,64 @@ and twig.loader to be bound in the container.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>The framework calls add_action() for each entry — never call
-add_action() directly inside a provider.</p>
-<p>Supports three formats per hook:</p>
-<ul>
-<li>Single callable:   'init' =&gt; fn() =&gt; $this-&gt;doSomething()</li>
-<li>Array of callables: 'init' =&gt; [fn() =&gt; ..., fn() =&gt; ...]</li>
-<li>With priority:     'init' =&gt; ['callback' =&gt; fn() =&gt; ..., 'priority' =&gt; 20]</li>
-</ul>
+        <section class="phpdocumentor-description"><p>The framework automatically calls add_action() for each entry during
+the boot phase. Providers should NEVER call add_action() directly —
+always use this method to ensure consistent registration.</p>
+<h2>Supported Formats</h2>
+<pre class="prettyprint"><code class="language-php">// Single callable (default priority: 10)
+'init' =&gt; fn() =&gt; $this-&gt;doSomething(),
+
+// Multiple callbacks for the same hook
+'init' =&gt; [
+    fn() =&gt; $this-&gt;stepOne(),
+    fn() =&gt; $this-&gt;stepTwo(),
+],
+
+// With explicit priority
+'init' =&gt; ['callback' =&gt; fn() =&gt; $this-&gt;doSomething(), 'priority' =&gt; 20],
+
+// Multiple callbacks with different priorities
+'init' =&gt; [
+    ['callback' =&gt; fn() =&gt; $this-&gt;early(), 'priority' =&gt; 5],
+    ['callback' =&gt; fn() =&gt; $this-&gt;late(), 'priority' =&gt; 20],
+],
+</code></pre>
+<h2>When to use EventBridge instead</h2>
+<p>Use getHooks() for provider-local actions. For shared lifecycle hooks
+that multiple components might need (e.g., wp_loaded, template_redirect),
+consider using the EventBridge in boot():</p>
+<pre class="prettyprint"><code class="language-php">Event::listen('wp:wp_loaded', fn() =&gt; $this-&gt;doSomething());
+</code></pre>
 </section>
 
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span>
             </section>
 
 </article>

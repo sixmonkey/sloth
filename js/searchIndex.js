@@ -1063,7 +1063,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\ServiceProvider",
             "name": "ServiceProvider",
-            "summary": "Base\u0020Service\u0020Provider",
+            "summary": "Base\u0020Service\u0020Provider\u0020for\u0020Sloth\u0020framework.",
             "url": "classes/Sloth-Core-ServiceProvider.html"
         },                {
             "fqsen": "\\Sloth\\Core\\ServiceProvider\u003A\u003AgetHooks\u0028\u0029",
@@ -1275,6 +1275,96 @@ Search.appendIndex(
             "name": "register",
             "summary": "Register\u0020the\u0020events\u0020service.",
             "url": "classes/Sloth-Event-EventServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge",
+            "name": "WordPressEventBridge",
+            "summary": "WordPress\u0020Event\u0020Bridge\u0020Service\u0020Provider.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020bridge\u0020services.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Bootstrap\u0020the\u0020WordPress\u0020event\u0020bridge.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003AregisterHook\u0028\u0029",
+            "name": "registerHook",
+            "summary": "Register\u0020a\u0020single\u0020WordPress\u0020hook\u0020as\u0020a\u0020Laravel\u0020event\u0020dispatcher.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_registerHook"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003AaddHook\u0028\u0029",
+            "name": "addHook",
+            "summary": "Dynamically\u0020register\u0020an\u0020additional\u0020WordPress\u0020hook.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_addHook"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003AmakeBridgeCallback\u0028\u0029",
+            "name": "makeBridgeCallback",
+            "summary": "Create\u0020the\u0020bridge\u0020callback\u0020for\u0020a\u0020WordPress\u0020hook.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_makeBridgeCallback"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003AgetRegisteredHooks\u0028\u0029",
+            "name": "getRegisteredHooks",
+            "summary": "Get\u0020the\u0020list\u0020of\u0020registered\u0020WordPress\u0020hooks.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_getRegisteredHooks"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003AhasHook\u0028\u0029",
+            "name": "hasHook",
+            "summary": "Check\u0020if\u0020a\u0020specific\u0020WordPress\u0020hook\u0020is\u0020registered\u0020by\u0020this\u0020bridge.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#method_hasHook"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WordPressEventBridge\u003A\u003A\u0024registeredHooks",
+            "name": "registeredHooks",
+            "summary": "WordPress\u0020hooks\u0020that\u0020have\u0020been\u0020registered\u0020by\u0020this\u0020bridge.",
+            "url": "classes/Sloth-Event-WordPressEventBridge.html#property_registeredHooks"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired",
+            "name": "WpHookFired",
+            "summary": "Event\u0020object\u0020representing\u0020a\u0020WordPress\u0020hook\u0020\u0028action\u0020or\u0020filter\u0029\u0020that\u0020was\u0020fired.",
+            "url": "classes/Sloth-Event-WpHookFired.html"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020WordPress\u0020hook\u0020fired\u0020event.",
+            "url": "classes/Sloth-Event-WpHookFired.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003AisAction\u0028\u0029",
+            "name": "isAction",
+            "summary": "Determine\u0020whether\u0020this\u0020event\u0020represents\u0020a\u0020WordPress\u0020action.",
+            "url": "classes/Sloth-Event-WpHookFired.html#method_isAction"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003AisFilter\u0028\u0029",
+            "name": "isFilter",
+            "summary": "Determine\u0020whether\u0020this\u0020event\u0020represents\u0020a\u0020WordPress\u0020filter.",
+            "url": "classes/Sloth-Event-WpHookFired.html#method_isFilter"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003AfirstArg\u0028\u0029",
+            "name": "firstArg",
+            "summary": "Get\u0020the\u0020first\u0020argument\u0020passed\u0020to\u0020the\u0020hook.",
+            "url": "classes/Sloth-Event-WpHookFired.html#method_firstArg"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003A\u0024hook",
+            "name": "hook",
+            "summary": "",
+            "url": "classes/Sloth-Event-WpHookFired.html#property_hook"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003A\u0024args",
+            "name": "args",
+            "summary": "",
+            "url": "classes/Sloth-Event-WpHookFired.html#property_args"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003A\u0024type",
+            "name": "type",
+            "summary": "",
+            "url": "classes/Sloth-Event-WpHookFired.html#property_type"
+        },                {
+            "fqsen": "\\Sloth\\Event\\WpHookFired\u003A\u003A\u0024result",
+            "name": "result",
+            "summary": "",
+            "url": "classes/Sloth-Event-WpHookFired.html#property_result"
         },                {
             "fqsen": "\\Sloth\\Facades\\Cache",
             "name": "Cache",
@@ -2075,6 +2165,11 @@ Search.appendIndex(
             "name": "register",
             "summary": "",
             "url": "classes/Sloth-Media-MediaServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Media\\MediaServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020media\u0020service\u0020provider.",
+            "url": "classes/Sloth-Media-MediaServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Media\\MediaServiceProvider\u003A\u003AgetHooks\u0028\u0029",
             "name": "getHooks",
@@ -3803,7 +3898,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Translation\\TranslationServiceProvider",
             "name": "TranslationServiceProvider",
-            "summary": "Base\u0020Service\u0020Provider",
+            "summary": "Base\u0020Service\u0020Provider\u0020for\u0020Sloth\u0020framework.",
             "url": "classes/Sloth-Translation-TranslationServiceProvider.html"
         },                {
             "fqsen": "\\Sloth\\Translation\\TranslationServiceProvider\u003A\u003Aregister\u0028\u0029",

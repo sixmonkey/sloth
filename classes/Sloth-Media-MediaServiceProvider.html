@@ -245,7 +245,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/MediaServiceProvider.php"><a href="files/src-media-mediaserviceprovider.html"><abbr title="src/Media/MediaServiceProvider.php">MediaServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -316,16 +316,23 @@
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Media-MediaServiceProvider.html#method_boot">boot()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Boot the media service provider.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Media-MediaServiceProvider.html#method_getFilters">getFilters()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;    </span>
 </dt>
 <dd>Register media filters.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Media-MediaServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;    </span>
 </dt>
 <dd>Register media hooks and filters.</dd>
 
@@ -363,7 +370,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
@@ -462,6 +469,60 @@ $provider-&gt;undefinedMethod();
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_boot">
+        boot()
+        <a href="classes/Sloth-Media-MediaServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/MediaServiceProvider.php"><a href="files/src-media-mediaserviceprovider.html"><abbr title="src/Media/MediaServiceProvider.php">MediaServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">37</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Boot the media service provider.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">boot</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Registers the content filter for relative URL conversion
+via the WordPress Event Bridge, so that other listeners
+can also manipulate the_content in a decoupled manner.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Media-MediaServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getFilters">
         getFilters()
         <a href="classes/Sloth-Media-MediaServiceProvider.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
@@ -470,7 +531,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/MediaServiceProvider.php"><a href="files/src-media-mediaserviceprovider.html"><abbr title="src/Media/MediaServiceProvider.php">MediaServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -478,7 +539,7 @@ $provider-&gt;undefinedMethod();
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -506,7 +567,7 @@ $provider-&gt;undefinedMethod();
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span>
             </section>
 
 </article>
@@ -524,7 +585,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/MediaServiceProvider.php"><a href="files/src-media-mediaserviceprovider.html"><abbr title="src/Media/MediaServiceProvider.php">MediaServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -532,7 +593,7 @@ $provider-&gt;undefinedMethod();
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -560,7 +621,7 @@ $provider-&gt;undefinedMethod();
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span>
             </section>
 
 </article>
@@ -578,7 +639,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Media/MediaServiceProvider.php"><a href="files/src-media-mediaserviceprovider.html"><abbr title="src/Media/MediaServiceProvider.php">MediaServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
@@ -714,6 +775,7 @@ $provider-&gt;undefinedMethod();
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/Sloth-Media-MediaServiceProvider.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Media-MediaServiceProvider.html#method_getFilters">getFilters()</a></li>
                                             <li class=""><a href="classes/Sloth-Media-MediaServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Media-MediaServiceProvider.html#method_register">register()</a></li>

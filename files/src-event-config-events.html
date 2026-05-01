@@ -173,7 +173,7 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-translation.html" class="-active">Translation</a>
+                <a href="namespaces/sloth-translation.html" class="">Translation</a>
                 
             </li>
                     <li>
@@ -215,29 +215,59 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -namespace">
-        <h2 class="phpdocumentor-content__title">Translation</h2>
+    <article class="phpdocumentor-element -file">
+        <h2 class="phpdocumentor-content__title">events.php</h2>
+
+            <p class="phpdocumentor-summary">WordPress Event Bridge Configuration</p>
+
+        
+            <section class="phpdocumentor-description"><p>This file defines which WordPress hooks are bridged to Laravel events.
+Each entry maps a WordPress hook name to its type ('action' or 'filter').</p>
+<p>When a bridged hook fires, it dispatches a Laravel event with the name
+'wp:{hook}'. Listeners receive a WpHookFired instance containing the
+hook name, arguments, type, and (for filters) the modifiable result.</p>
+<p>Usage in a service provider or listener:</p>
+<p>// Listen to a WordPress action
+Event::listen('wp:wp_loaded', function (WpHookFired $event) {
+// WordPress is fully loaded
+});</p>
+<p>// Modify a WordPress filter result
+Event::listen('wp:the_content', function (WpHookFired $event) {
+$event-&gt;result = apply_custom_transformation($event-&gt;result);
+});</p>
+</section>
+
+        
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="files/src-event-config-events.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                        </dl>
+
 
         
 <h3 id="toc">
     Table of Contents
-    <a href="namespaces/sloth-translation.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="files/src-event-config-events.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
 
-    <h4 id="toc-classes">
-        Classes
-        <a href="namespaces/sloth-translation.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
 
-    </h4>
-    <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Sloth-Translation-TranslationServiceProvider.html"><abbr title="\Sloth\Translation\TranslationServiceProvider">TranslationServiceProvider</abbr></a></dt><dd>Base Service Provider for Sloth framework.</dd>    </dl>
 
 
 
@@ -253,7 +283,7 @@
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Event/config/events.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -354,8 +384,7 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                    <li><a href="namespaces/sloth-translation.html#toc-classes">Classes</a></li>
-                                                                                                                    </ul>
+                                                                                                                                                                                </ul>
             </li>
 
             
@@ -376,7 +405,7 @@
     </section>
 </section>
         </div>
-        <a href="namespaces/sloth-translation.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="files/src-event-config-events.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
