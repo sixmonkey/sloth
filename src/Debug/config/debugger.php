@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'editor' => 'vscode',
     'bar' => [
         'display' => app()->isLocal(),
         'collector_providers' => [
