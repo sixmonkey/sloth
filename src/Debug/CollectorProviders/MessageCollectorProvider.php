@@ -26,7 +26,7 @@ class MessageCollectorProvider extends AbstractCollectorProvider
         $messageCollector->setEditorLinkTemplate(config('debugger.editor', 'phpstorm'));
 
         $originalHandler = VarDumper::setHandler(function ($var) use (&$originalHandler, $messageCollector): void {
-            if ($originalHandler) {
+            if ($originalHandler && !config('debugger.bar.dump_all', false)) {
                 $originalHandler($var);
             }
             $messageCollector->addMessage($var);

@@ -26,8 +26,8 @@ class SlothCollector extends DataCollector implements Renderable
      * template hierarchy, registered models, taxonomies,
      * and loaded service providers.
      *
-     * @since 1.0.0
      * @return array<string, mixed> The collected data.
+     * @since 1.0.0
      */
     public function collect(): array
     {
@@ -43,8 +43,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the list of loaded service providers.
      *
-     * @since 1.0.0
      * @return string The provider names joined by newlines.
+     * @since 1.0.0
      */
     private function getProviders(): string
     {
@@ -58,8 +58,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the current application environment.
      *
-     * @since 1.0.0
      * @return string The environment name.
+     * @since 1.0.0
      */
     private function getEnvironment(): string
     {
@@ -73,8 +73,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the registered Sloth models.
      *
-     * @since 1.0.0
      * @return string The model names and classes joined by newlines.
+     * @since 1.0.0
      */
     private function getModels(): string
     {
@@ -92,8 +92,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the registered Sloth taxonomies.
      *
-     * @since 1.0.0
      * @return string The taxonomy names and classes joined by newlines.
+     * @since 1.0.0
      */
     private function getTaxonomies(): string
     {
@@ -114,8 +114,8 @@ class SlothCollector extends DataCollector implements Renderable
      * Returns the list of templates that would be used
      * for the current request, with the active layout marked.
      *
-     * @since 1.0.0
      * @return string The template hierarchy as a newline-separated string.
+     * @since 1.0.0
      */
     private function getTemplateHierarchy(): string
     {
@@ -134,8 +134,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the collector name.
      *
-     * @since 1.0.0
      * @return string The collector identifier.
+     * @since 1.0.0
      */
     public function getName(): string
     {
@@ -148,13 +148,14 @@ class SlothCollector extends DataCollector implements Renderable
      * Returns the debug bar widget configuration for
      * displaying Sloth framework data.
      *
-     * @since 1.0.0
      * @return array<string, mixed> The widget configuration.
+     * @since 1.0.0
      */
     public function getWidgets(): array
     {
         return [
             'sloth' => [
+                'icon' => 'brand-folivoro',
                 'map' => 'sloth',
                 'widget' => 'PhpDebugBar.Widgets.KVListWidget',
                 'default' => '{}',

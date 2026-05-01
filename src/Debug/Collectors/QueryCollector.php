@@ -196,19 +196,10 @@ class QueryCollector extends DataCollector implements Renderable
     {
         return [
             'queries' => [
+                'icon' => 'database',
                 'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
                 'map' => 'queries',
             ],
         ];
-    }
-
-    /**
-     * Setup VarDumper for this collector.
-     *
-     * @since 1.0.0
-     * @return void
-     */
-    public function getVarDumperSetup(): void
-    {
     }
 }

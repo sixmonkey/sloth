@@ -24,8 +24,8 @@ class AcfCollector extends DataCollector implements Renderable
      * Retrieves all ACF field groups attached to the current
      * post and returns them as key-value pairs.
      *
-     * @since 1.0.0
      * @return array<string, mixed> The collected data.
+     * @since 1.0.0
      */
     public function collect(): array
     {
@@ -58,8 +58,8 @@ class AcfCollector extends DataCollector implements Renderable
     /**
      * Get the collector name.
      *
-     * @since 1.0.0
      * @return string The collector identifier.
+     * @since 1.0.0
      */
     public function getName(): string
     {
@@ -72,13 +72,14 @@ class AcfCollector extends DataCollector implements Renderable
      * Returns the debug bar widget configuration for
      * displaying ACF field groups.
      *
-     * @since 1.0.0
      * @return array<string, mixed> The widget configuration.
+     * @since 1.0.0
      */
     public function getWidgets(): array
     {
         return [
             'acf' => array(
+                'icon' => 'category',
                 'map' => 'acf.groups',
                 'widget' => 'PhpDebugBar.Widgets.KVListWidget',
                 'default' => '{}',
