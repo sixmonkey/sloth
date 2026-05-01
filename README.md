@@ -205,6 +205,102 @@ use Sloth\Facades\Configure;
 $value = Configure::get('config_file.setting_name');
 ```
 
+## Service Provider Hooks
+
+Sloth provides a declarative hook registration system for WordPress actions and filters. Instead of calling `add_action()` and `add_filter()` directly, service providers return their hooks from `getHooks()` and `getFilters()`.
+
+### Why Use This System?
+
+| | `getHooks()`/`getFilters()` | `add_action()` directly |
+|---|---|---|
+| **Readability** | Hooks are centralized and declarative | Scattered throughout boot() code |
+| **Testability** | Hooks can be inspected without executing | Must execute to verify |
+| **Framework control** | Sloth manages registration order | Manual priority management |
+| **Consistency** | Same pattern across all providers | Varies by implementation |
+
+### Registering Actions
+
+Override `getHooks()` in your service provider to register WordPress actions:
+
+```php
+<?php
+
+namespace Theme\Providers;
+
+use Sloth\Core\ServiceProvider;
+
+class MyServiceProvider extends ServiceProvider
+{
+    public function getHooks(): array
+    {
+        return [
+            // Single callback (default priority: 10)
+            'init' => fn() => $this->registerPostTypes(),
+
+            // Multiple callbacks for the same hook
+            'wp_loaded' => [
+                fn() => $this->setupA(),
+                fn() => $this->setupB(),
+            ],
+
+            // With explicit priority
+            'admin_menu' => ['callback' => fn() => $this->addMenu(), 'priority' => 20],
+
+            // Multiple callbacks with different priorities
+            'init' => [
+                ['callback' => fn() => $this->early(), 'priority' => 5],
+                ['callback' => fn() => $this->late(), 'priority' => 20],
+            ],
+        ];
+    }
+}
+```
+
+### Registering Filters
+
+Override `getFilters()` to register WordPress filters. Filter callbacks receive the value as their first argument and must return the modified value:
+
+```php
+public function getFilters(): array
+{
+    return [
+        // Simple filter
+        'the_title' => fn(string $title) => '★ ' . $title,
+
+        // With priority
+        'the_content' => [
+            'callback' => fn(string $content) => $this->transform($content),
+            'priority' => 20,
+        ],
+
+        // Multiple filters on the same hook
+        'body_class' => [
+            ['callback' => fn(array $classes) => [...$classes, 'custom-a'], 'priority' => 10],
+            ['callback' => fn(array $classes) => [...$classes, 'custom-b'], 'priority' => 20],
+        ],
+    ];
+}
+```
+
+### When to Use EventBridge Instead
+
+For provider-local hooks (only your provider cares), use `getHooks()`/`getFilters()`. For shared WordPress hooks that multiple components might listen to (e.g., `the_content`, `wp_loaded`), use the EventBridge in `boot()`:
+
+```php
+use Sloth\Event\WpHookFired;
+use Illuminate\Support\Facades\Event;
+
+public function boot(): void
+{
+    // Bidirectional filter — other listeners can also modify the_content
+    Event::listen('wp:the_content', function (WpHookFired $event) {
+        $event->result = transform($event->result);
+    });
+}
+```
+
+See the [WordPress Event Bridge](#wordpress-event-bridge) section for more details.
+
 ## Directory Structure
 
 ```
