@@ -146,8 +146,8 @@ class DebugServiceProvider extends ServiceProvider
         /**
          * Dispatch based on response type.
          *
-         * - JSON responses receive debug data via HTTP headers (sendDataInHeaders).
-         *   The client-side AjaxHandler parses and attaches the dataset automatically.
+         * - JSON responses receive slim debug messages via X-SLOTH_DEBUG header.
+         *   Only messages are sent (not the full dataset) to avoid FastCGI header limits.
          * - HTML responses have the DebugBar toolbar injected before </head>.
          */
         if ($this->isJsonResponse($output)) {
@@ -197,11 +197,10 @@ class DebugServiceProvider extends ServiceProvider
     }
 
     /**
-     * Handle a JSON response by sending debug data via HTTP headers.
+     * Handle a JSON response by sending debug messages via a slim HTTP header.
      *
-     * Uses php-debugbar's native sendDataInHeaders() method, which
-     * chunks the data to avoid exceeding the max header length.
-     * The client-side AjaxHandler parses these headers automatically.
+     * Sends only the collected messages (not the full dataset) in a compact
+     * X-SLOTH_DEBUG header to avoid exceeding FastCGI header size limits.
      *
      * @param SlothDebugBar $debugBar The DebugBar instance.
      * @param string $output The original JSON output (returned unchanged).
@@ -210,8 +209,36 @@ class DebugServiceProvider extends ServiceProvider
      */
     protected function handleJsonResponse(SlothDebugBar $debugBar, string $output): string
     {
-        if (! headers_sent()) {
-            $debugBar->sendDataInHeaders();
+        if (headers_sent()) {
+            return $output;
+        }
+
+        /**
+         * Build a slim message map from the MessagesCollector.
+         *
+         * Uses xdebug_link when available (IDE integration), falls back
+         * to file:line from the message trace, or 'unknown' if neither
+         * is present.
+         */
+        $messages = collect($debugBar->getMessagesCollector()->getMessages())
+            ->map(function ($message) {
+                $link = $message['xdebug_link'] ?? null;
+                if ($link) {
+                    $source = $link['filename'] . ':' . $link['line'];
+                } elseif (isset($message['trace']) && is_array($message['trace']) && count($message['trace']) > 0) {
+                    $frame = $message['trace'][0];
+                    $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
+                } else {
+                    $source = 'unknown';
+                }
+
+                return [
+                    $source => $message['message'] ?? '',
+                ];
+            });
+
+        if ($messages->isNotEmpty()) {
+            header('X-SLOTH_DEBUG: ' . json_encode($messages->toArray()));
         }
 
         return $output;

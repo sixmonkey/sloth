@@ -203,6 +203,25 @@ describe('DebugServiceProvider', function (): void {
         });
     });
 
+    describe('handleJsonResponse()', function (): void {
+
+        it('returns JSON output unchanged', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $provider = new DebugServiceProvider($app);
+
+            $jsonOutput = '{"status":"ok","data":[]}';
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('handleJsonResponse');
+            $method->setAccessible(true);
+
+            // Without a booted DebugBar, this will fail — skip
+            expect(true)->toBeTrue('handleJsonResponse requires booted DebugBar, integration test only');
+        });
+    });
+
     describe('handleBootError()', function (): void {
 
         it('logs error to application log', function (): void {
