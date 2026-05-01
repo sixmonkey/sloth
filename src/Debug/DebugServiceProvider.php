@@ -119,8 +119,8 @@ class DebugServiceProvider extends ServiceProvider
     /**
      * Render the DebugBar or pass through the original output.
      *
-     * Acts as the output buffer callback. Decides whether to inject
-     * the DebugBar based on the display configuration and response type.
+     * Acts as the output buffer callback. Dispatches to the appropriate
+     * handler based on the response type (JSON vs HTML).
      *
      * @param string $output The buffered page output.
      * @return string The modified or unmodified output.
@@ -143,24 +143,93 @@ class DebugServiceProvider extends ServiceProvider
 
         $debugBar = $this->app->make(SlothDebugBar::class);
 
-        $messages = collect($debugBar->getMessagesCollector()->getMessages())
-            ->map(function ($message) {
-                return [
-                    $message['xdebug_link']['filename'] . ':' . $message['xdebug_link']['line'] => $message['message'],
-                ];
-            });
-
-        if (!headers_sent()) {
-            header('X-SLOTH_DEBUG: ' . json_encode($messages));
+        /**
+         * Dispatch based on response type.
+         *
+         * - JSON responses receive debug data via HTTP headers (sendDataInHeaders).
+         *   The client-side AjaxHandler parses and attaches the dataset automatically.
+         * - HTML responses have the DebugBar toolbar injected before </head>.
+         */
+        if ($this->isJsonResponse($output)) {
+            return $this->handleJsonResponse($debugBar, $output);
         }
 
-        if (($json = json_decode($output, true)) && config('debugger.json.prepend', true)) {
-            $output = json_encode([
-                config('debugger.json.key', '__SLOTH_DEBUG') => $messages->toArray(),
-                ...$json
-            ]);
+        return $this->handleHtmlResponse($debugBar, $output);
+    }
+
+    /**
+     * Determine if the output is a JSON response.
+     *
+     * Checks WordPress context indicators first (O(1)), then falls back
+     * to inspecting the first non-whitespace character of the output.
+     *
+     * @param string $output The buffered page output.
+     * @return bool True if the output appears to be JSON.
+     * @since 1.0.0
+     */
+    protected function isJsonResponse(string $output): bool
+    {
+        /**
+         * WordPress-native AJAX and REST context checks.
+         *
+         * These are cheap and reliable within the WordPress request lifecycle.
+         */
+        if (function_exists('wp_doing_ajax') && wp_doing_ajax()) {
+            return true;
         }
 
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            return true;
+        }
+
+        /**
+         * Fallback: inspect the first non-whitespace character.
+         *
+         * Valid JSON must start with '{' (object) or '[' (array).
+         * This is O(1) compared to json_decode() which parses the entire string.
+         */
+        $trimmed = ltrim($output);
+        if ($trimmed === '') {
+            return false;
+        }
+
+        return in_array($trimmed[0], ['{', '['], true);
+    }
+
+    /**
+     * Handle a JSON response by sending debug data via HTTP headers.
+     *
+     * Uses php-debugbar's native sendDataInHeaders() method, which
+     * chunks the data to avoid exceeding the max header length.
+     * The client-side AjaxHandler parses these headers automatically.
+     *
+     * @param SlothDebugBar $debugBar The DebugBar instance.
+     * @param string $output The original JSON output (returned unchanged).
+     * @return string The unmodified JSON output.
+     * @since 1.0.0
+     */
+    protected function handleJsonResponse(SlothDebugBar $debugBar, string $output): string
+    {
+        if (! headers_sent()) {
+            $debugBar->sendDataInHeaders();
+        }
+
+        return $output;
+    }
+
+    /**
+     * Handle an HTML response by injecting the DebugBar toolbar.
+     *
+     * Renders the DebugBar JavaScript and CSS, then injects it
+     * before the closing </head> tag.
+     *
+     * @param SlothDebugBar $debugBar The DebugBar instance.
+     * @param string $output The buffered HTML output.
+     * @return string The HTML output with DebugBar injected.
+     * @since 1.0.0
+     */
+    protected function handleHtmlResponse(SlothDebugBar $debugBar, string $output): string
+    {
         return Str::replace(
             '</head>',
             $debugBar->render() . '</head>',
