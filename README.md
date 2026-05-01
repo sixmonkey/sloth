@@ -346,6 +346,88 @@ render(<<<'HTML'
     </div>
 ```
 
+## WordPress Event Bridge
+
+Sloth bridges WordPress hooks to the Laravel event system, allowing you to listen to WordPress lifecycle events using Laravel's familiar event syntax.
+
+### How It Works
+
+The `WordPressEventBridge` registers a curated set of WordPress hooks as Laravel events. Each bridged hook fires with the naming convention `wp:{hook_name}`. Listeners receive a `WpHookFired` event object containing the hook name, arguments, type, and (for filters) a modifiable result.
+
+### Listening to WordPress Actions
+
+```php
+use Sloth\Event\WpHookFired;
+use Illuminate\Support\Facades\Event;
+
+// WordPress is fully loaded
+Event::listen('wp:wp_loaded', function (WpHookFired $event) {
+    dump('WordPress booted at ' . $event->hook);
+});
+
+// After theme setup
+Event::listen('wp:after_setup_theme', function (WpHookFired $event) {
+    // Register post types, taxonomies, etc.
+});
+```
+
+### Modifying WordPress Filters
+
+Filter hooks are bidirectional — listeners can mutate `$event->result` to change the value returned by `apply_filters()`:
+
+```php
+// Modify post content
+Event::listen('wp:the_content', function (WpHookFired $event) {
+    $event->result = str_replace('old', 'new', $event->result);
+});
+
+// Add body classes
+Event::listen('wp:body_class', function (WpHookFired $event) {
+    $classes = (array) $event->result;
+    $classes[] = 'my-custom-class';
+    $event->result = $classes;
+});
+```
+
+### Available Hooks
+
+| Hook | Type | Phase |
+|------|------|-------|
+| `muplugins_loaded` | action | MU-plugins loaded (earliest) |
+| `plugins_loaded` | action | All plugins loaded |
+| `after_setup_theme` | action | Theme functions.php loaded |
+| `init` | action | WordPress fully initialized |
+| `wp_loaded` | action | All WordPress setup complete |
+| `template_redirect` | action | Before template is loaded |
+| `wp_head` | action | Inside `<head>` tag |
+| `wp_footer` | action | Before `</body>` tag |
+| `the_content` | filter | Post content before display |
+| `the_title` | filter | Post title before display |
+| `the_excerpt` | filter | Post excerpt before display |
+| `body_class` | filter | HTML body classes |
+| `shutdown` | action | PHP shutdown (last chance) |
+
+### Dynamically Registering Additional Hooks
+
+If you need to listen to a hook that isn't in the default list, you can register it at runtime:
+
+```php
+use Sloth\Event\WordPressEventBridge;
+use Illuminate\Support\Facades\Event;
+
+$bridge = app(WordPressEventBridge::class);
+$bridge->addHook('save_post', 'action');
+
+Event::listen('wp:save_post', function (WpHookFired $event) {
+    $postId = $event->firstArg();
+    // Do something when a post is saved
+});
+```
+
+### Performance
+
+The bridge uses a `hasListeners()` check before dispatching. If no Laravel listener is registered for a bridged hook, the callback returns immediately without creating event objects. This means you can safely bridge many hooks without performance penalty — only hooks with active listeners incur any overhead.
+
 ## Development
 
 ### Running Tests
