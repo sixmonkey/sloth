@@ -205,6 +205,238 @@ use Sloth\Facades\Configure;
 $value = Configure::get('config_file.setting_name');
 ```
 
+## Auto-Discovery: Convention over Configuration
+
+Sloth automatically discovers and registers classes placed in convention-based directories. Drop a file in the right place and Sloth handles the rest — no manual registration required.
+
+### `app/` vs `theme/`
+
+Sloth scans **both** `app/` and `theme/` directories. The key difference is **scope**:
+
+| Path | Scope | When to use |
+|------|-------|-------------|
+| `app/` | **Framework-wide** — always loaded, regardless of theme | Shared functionality, data structures, reusable components |
+| `theme/` | **Theme-specific** — only loaded for the active theme (`wp-content/themes/{YOUR_THEME}/`) | Theme-specific UI, presentation logic, theme-only hooks |
+
+If you switch themes, everything in `app/` stays active. Everything in `theme/` disappears with the theme.
+
+### Recommended Structure
+
+| Component | Recommended Location | Why |
+|-----------|---------------------|-----|
+| **Models** | `app/Model/` | Define data structure (post types). Should persist across theme changes. |
+| **Taxonomies** | `app/Taxonomy/` | Data structure — belongs with post types, theme-independent. |
+| **Modules** | `theme/Module/` | UI components with Twig templates — always theme-specific. |
+| **API Controllers** | Both | General APIs in `app/`, theme-specific endpoints in `theme/`. |
+| **Providers** | Both | Framework services in `app/`, theme hooks in `theme/`. |
+| **Includes** | Both | Shared helpers in `app/`, theme functions in `theme/`. |
+
+### Models (Custom Post Types)
+
+Place model classes in `app/Model/` (recommended) or `theme/Model/`. Each class extending `Sloth\Model\Model` is automatically registered as a WordPress post type.
+
+```php
+<?php
+// app/Model/NewsModel.php
+
+namespace App\Model;
+
+use Sloth\Model\Model;
+
+class NewsModel extends Model
+{
+    protected $postType = 'news';
+
+    protected $options = [
+        'public'       => true,
+        'show_in_rest' => true,
+        'menu_icon'    => 'dashicons-admin-post',
+    ];
+
+    protected $names = [
+        'singular' => 'News',
+        'plural'   => 'News',
+        'slug'     => 'news',
+    ];
+
+    protected $admin_columns = [
+        'cb'       => true,
+        'title'    => true,
+        'date'     => true,
+        'author'   => true,
+        'category' => true,
+    ];
+}
+```
+
+**What happens automatically:**
+- Post type `news` is registered via `register_extended_post_type()`
+- Admin columns are configured
+- Model is bound to the container for Eloquent queries (`NewsModel::all()`)
+
+**To disable registration** (e.g. for a base class):
+```php
+protected $register = false;
+```
+
+### Taxonomies
+
+Place taxonomy classes in `app/Taxonomy/` or `theme/Taxonomy/`.
+
+```php
+<?php
+// app/Taxonomy/OrtTaxonomy.php
+
+namespace App\Taxonomy;
+
+use Sloth\Model\Taxonomy;
+
+class OrtTaxonomy extends Taxonomy
+{
+    protected $slug = 'ort';
+
+    protected $postTypes = ['news', 'event'];
+
+    protected $unique = false;
+
+    protected $names = [
+        'singular' => 'Location',
+        'plural'   => 'Locations',
+    ];
+}
+```
+
+**What happens automatically:**
+- Taxonomy is registered via `register_extended_taxonomy()`
+- Metaboxes are added to the specified post types
+- For `$unique = true`: radio-button metabox instead of checkboxes
+
+### Modules
+
+Place module classes in `theme/Module/` (recommended) or `app/Module/`.
+
+```php
+<?php
+// theme/Module/TeaserModule.php
+
+namespace Theme\Module;
+
+use Sloth\Module\Module;
+
+class TeaserModule extends Module
+{
+    /**
+     * Enable JSON endpoint for this module.
+     *
+     * @var array|false
+     */
+    public $json = ['params' => ['id']];
+}
+```
+
+**What happens automatically:**
+- Module is available in Twig: `{% include 'module/teaser' %}`
+- AJAX handler registered: `wp_ajax_nopriv_getJSON` / `wp_ajax_getJSON`
+- REST endpoint registered: `GET /sloth/v1/module/teaser[/{id}]`
+
+**To disable JSON endpoint:** set `public $json = false;`
+
+### Service Providers
+
+Place provider classes in `app/Providers/` or `theme/Providers/`.
+
+```php
+<?php
+// theme/Providers/ThemeProvider.php
+
+namespace Theme\Providers;
+
+use Sloth\Core\ServiceProvider;
+
+class ThemeProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        // Bind services
+        $this->app->singleton('my-service', fn() => new MyService());
+    }
+
+    public function getHooks(): array
+    {
+        return [
+            'init' => fn() => $this->doSomething(),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            'the_content' => fn(string $c) => $this->transform($c),
+        ];
+    }
+}
+```
+
+**What happens automatically:**
+- Provider is instantiated and its `register()` method is called
+- Hooks from `getHooks()` are registered via `add_action()`
+- Filters from `getFilters()` are registered via `add_filter()`
+- `boot()` is called after all providers are registered
+
+### API Controllers
+
+Place controller classes in `app/Api/` (general APIs) or `theme/Api/` (theme-specific).
+
+```php
+<?php
+// app/Api/NewsController.php
+
+namespace App\Api;
+
+use Sloth\Api\Controller;
+
+class NewsController extends Controller
+{
+    public function index()
+    {
+        return \Sloth\Model\Post::type('news')
+            ->status('publish')
+            ->get();
+    }
+
+    public function single($id)
+    {
+        return \Sloth\Model\Post::find($id);
+    }
+}
+```
+
+**What happens automatically:**
+- Route prefix is derived from class name: `NewsController` → `news`
+- `index()` → REST route: `GET /wp-json/sloth/v1/news`
+- `single()` → REST route: `GET /wp-json/sloth/v1/news/{id}`
+- All public methods (except those starting with `_`) become endpoints
+
+### Includes
+
+Place any PHP files in `app/Includes/` or `theme/Includes/`. All files are automatically required.
+
+```php
+<?php
+// app/Includes/helpers.php
+
+if (!function_exists('my_custom_helper')) {
+    function my_custom_helper(string $value): string
+    {
+        return strtoupper($value);
+    }
+}
+```
+
+**What happens automatically:**
+- Every `.php` file is `require_once`'d during boot
+- No class discovery needed — works for functions, constants, anything
+
 ## Service Provider Hooks
 
 Sloth provides a declarative hook registration system for WordPress actions and filters. Instead of calling `add_action()` and `add_filter()` directly, service providers return their hooks from `getHooks()` and `getFilters()`.
