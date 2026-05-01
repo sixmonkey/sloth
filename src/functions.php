@@ -6,7 +6,6 @@ use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\Facade;
-use Tracy\Debugger;
 
 if (!function_exists('debug')) {
     /**
