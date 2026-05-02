@@ -224,6 +224,7 @@ class Application extends Container
             \Sloth\Event\WordPressEventBridge::class,
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
+            \Sloth\Http\RequestContextServiceProvider::class,
             \Sloth\Core\ExceptionServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
             \Sloth\Core\ApplicationServiceProvider::class,
