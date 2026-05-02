@@ -160,8 +160,8 @@ class DebugServiceProvider extends ServiceProvider
     /**
      * Determine if the output is a JSON response.
      *
-     * Checks WordPress context indicators first (O(1)), then falls back
-     * to inspecting the first non-whitespace character of the output.
+     * Delegates to RequestContext for reliable WordPress-aware
+     * detection that works early in the lifecycle.
      *
      * @param string $output The buffered page output.
      * @return bool True if the output appears to be JSON.
@@ -169,31 +169,9 @@ class DebugServiceProvider extends ServiceProvider
      */
     protected function isJsonResponse(string $output): bool
     {
-        /**
-         * WordPress-native AJAX and REST context checks.
-         *
-         * These are cheap and reliable within the WordPress request lifecycle.
-         */
-        if (function_exists('wp_doing_ajax') && wp_doing_ajax()) {
-            return true;
-        }
+        $context = $this->app->make(\Sloth\Http\RequestContext::class);
 
-        if (defined('REST_REQUEST') && REST_REQUEST) {
-            return true;
-        }
-
-        /**
-         * Fallback: inspect the first non-whitespace character.
-         *
-         * Valid JSON must start with '{' (object) or '[' (array).
-         * This is O(1) compared to json_decode() which parses the entire string.
-         */
-        $trimmed = ltrim($output);
-        if ($trimmed === '') {
-            return false;
-        }
-
-        return in_array($trimmed[0], ['{', '['], true);
+        return $context->isJsonResponse($output);
     }
 
     /**
@@ -214,31 +192,45 @@ class DebugServiceProvider extends ServiceProvider
         }
 
         /**
-         * Build a slim message map from the MessagesCollector.
+         * Build a slim debug message map from the MessagesCollector.
          *
-         * Uses xdebug_link when available (IDE integration), falls back
-         * to file:line from the message trace, or 'unknown' if neither
-         * is present.
+         * Merges all messages into a single flat object keyed by source
+         * (file:line). Handles dumps (non-string messages) by using
+         * their HTML or JSON representation as the value.
          */
-        $messages = collect($debugBar->getMessagesCollector()->getMessages())
-            ->map(function ($message) {
-                $link = $message['xdebug_link'] ?? null;
-                if ($link) {
-                    $source = $link['filename'] . ':' . $link['line'];
-                } elseif (isset($message['trace']) && is_array($message['trace']) && count($message['trace']) > 0) {
-                    $frame = $message['trace'][0];
-                    $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
-                } else {
-                    $source = 'unknown';
-                }
+        $messages = [];
+        foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
 
-                return [
-                    $source => $message['message'] ?? '',
-                ];
-            });
+            // Determine source (file:line)
+            $link = $entry['xdebug_link'] ?? null;
+            if ($link) {
+                $source = $link['filename'] . ':' . $link['line'];
+            } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
+                $frame = $entry['trace'][0];
+                $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
+            } else {
+                $source = 'unknown';
+            }
 
-        if ($messages->isNotEmpty()) {
-            header('X-SLOTH_DEBUG: ' . json_encode($messages->toArray()));
+            // Determine message value
+            // For string messages: use the text directly
+            // For dumps (non-string): use HTML or JSON representation
+            if (!empty($entry['is_string'])) {
+                $value = $entry['message'] ?? '';
+            } elseif (!empty($entry['message_html'])) {
+                // Strip HTML tags for compact JSON output
+                $value = strip_tags($entry['message_html']);
+            } elseif (!empty($entry['message_json'])) {
+                $value = $entry['message_json'];
+            } else {
+                $value = '[dump]';
+            }
+
+            $messages[$source] = $value;
+        }
+
+        if ($messages) {
+            header('X-SLOTH_DEBUG: ' . json_encode($messages));
         }
 
         /**
@@ -251,7 +243,7 @@ class DebugServiceProvider extends ServiceProvider
             $key = config('debugger.json.key', '__debug');
 
             return json_encode([
-                $key => $messages->toArray(),
+                $key => $messages,
                 ...$json,
             ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }

@@ -30,20 +30,6 @@ use Throwable;
 class ExceptionHandler implements ExceptionHandlerContract
 {
     /**
-     * Scripts that should not trigger debug output.
-     *
-     * These endpoints return structured data (JSON, XML) — rendering
-     * an HTML error page would corrupt the response.
-     *
-     * @since 1.0.0
-     * @var array<string>
-     */
-    protected array $dontDebug = [
-        'admin-ajax.php',
-        'async-upload.php',
-    ];
-
-    /**
      * Report (log) an exception.
      *
      * Logs via Illuminate LogManager to the configured log channel.
@@ -123,7 +109,9 @@ class ExceptionHandler implements ExceptionHandlerContract
     {
         $whoops = new \Whoops\Run();
 
-        if ($this->isAjaxRequest()) {
+        $context = app(\Sloth\Http\RequestContext::class);
+
+        if ($context->isAjax() || $context->isXmlRpc() || $context->isRest()) {
             $handler = new \Whoops\Handler\JsonResponseHandler();
             $handler->setJsonApi(true);
             $handler->addTraceToOutput(true);
@@ -246,87 +234,89 @@ class ExceptionHandler implements ExceptionHandlerContract
      */
     protected function injectDebugBarData(\Whoops\Handler\PrettyPageHandler $handler): void
     {
-        try {
-            if (!class_exists(\DebugBar\DebugBar::class)) {
-                return;
-            }
+        // Debug: trace what's happening
+        $debugInfo = [
+            'debugbar_class_exists' => class_exists(\DebugBar\DebugBar::class),
+            'bound' => app()->bound('debugbar'),
+        ];
 
-            if (!app()->bound('debugbar')) {
-                return;
-            }
-
-            $debugBar = app('debugbar');
-
-            if (!($debugBar instanceof \Sloth\Debug\SlothDebugBar)) {
-                return;
-            }
-
-            // Messages are always available (created in constructor)
-            $messages = $debugBar->getMessagesCollector()->collect();
-            $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
-            if ($messageCount > 0) {
-                $handler->addDataTable(
-                    'Messages (' . $messageCount . ')',
-                    array_reduce($messages['messages'] ?? [], function ($carry, $msg) {
-                        $key = $msg['label'] ?? 'info';
-                        $value = $msg['message'] ?? '';
-                        $carry[$key . ' — ' . $value] = '';
-                        return $carry;
-                    }, [])
-                );
-            }
-
-            // Custom collectors are only available after boot()
-            if (!$debugBar->isBooted()) {
-                return;
-            }
-
-            if ($debugBar->hasCollector('queries')) {
-                $queries = $debugBar->getCollector('queries')->collect();
-                $handler->addDataTable(
-                    'Database Queries (' . $queries['count'] . ' total)',
-                    [
-                        'Count' => $queries['count'],
-                        'Total Time' => round($queries['total_time'], 2) . ' ms',
-                        'Slow Queries' => $queries['slow'],
-                    ]
-                );
-            }
-
-            if ($debugBar->hasCollector('sloth')) {
-                $sloth = $debugBar->getCollector('sloth')->collect();
-                $handler->addDataTable('Sloth Framework', $sloth);
-            }
-
-            if ($debugBar->hasCollector('acf')) {
-                $acf = $debugBar->getCollector('acf')->collect();
-                $handler->addDataTable('ACF Field Groups', $acf);
-            }
-
-            if ($debugBar->hasCollector('wordpress')) {
-                $wp = $debugBar->getCollector('wordpress')->collect();
-                $handler->addDataTable('WordPress', $wp);
-            }
-        } catch (\Throwable) {
-            // DebugBar not fully available — skip gracefully
+        if (!class_exists(\DebugBar\DebugBar::class)) {
+            return;
         }
-    }
 
-    /**
-     * Check if the current request is an AJAX request.
-     *
-     * Whoops should not be rendered for AJAX responses
-     * as it would corrupt the JSON/XML response.
-     *
-     * @return bool True if this is an AJAX or background request.
-     * @since 1.0.0
-     */
-    protected function isAjaxRequest(): bool
-    {
-        $script = basename($_SERVER['PHP_SELF'] ?? '');
+        $debugInfo['bound'] = app()->bound('debugbar');
 
-        return in_array($script, $this->dontDebug, true)
-            || (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-                && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+        if (!app()->bound('debugbar')) {
+            return;
+        }
+
+        $debugBar = app('debugbar');
+
+        $debugInfo['instance'] = get_class($debugBar);
+        $debugInfo['is_booted'] = $debugBar->isBooted();
+        $debugInfo['has_messages'] = method_exists($debugBar, 'getMessagesCollector');
+
+        if (!($debugBar instanceof \Sloth\Debug\SlothDebugBar)) {
+            return;
+        }
+
+        // Messages are always available (created in constructor)
+        $messages = $debugBar->getMessagesCollector()->collect();
+        $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
+
+        $debugInfo['message_count'] = $messageCount;
+
+        if ($messageCount > 0) {
+            $handler->addDataTable(
+                'Messages (' . $messageCount . ')',
+                array_reduce($messages['messages'] ?? [], function ($carry, $msg) {
+                    $key = $msg['label'] ?? 'info';
+                    $value = $msg['message'] ?? '';
+                    $carry[$key . ' — ' . $value] = '';
+                    return $carry;
+                }, [])
+            );
+        }
+
+        // Custom collectors are only available after boot()
+        if (!$debugBar->isBooted()) {
+            $debugInfo['early_return'] = 'not booted';
+            $handler->addDataTable('DebugBar Debug', $debugInfo);
+            return;
+        }
+
+        $debugInfo['has_collector_queries'] = $debugBar->hasCollector('queries');
+        $debugInfo['has_collector_sloth'] = $debugBar->hasCollector('sloth');
+        $debugInfo['has_collector_acf'] = $debugBar->hasCollector('acf');
+        $debugInfo['has_collector_wordpress'] = $debugBar->hasCollector('wordpress');
+
+        $handler->addDataTable('DebugBar Debug', $debugInfo);
+
+        if ($debugBar->hasCollector('queries')) {
+            $queries = $debugBar->getCollector('queries')->collect();
+            $handler->addDataTable(
+                'Database Queries (' . $queries['count'] . ' total)',
+                [
+                    'Count' => $queries['count'],
+                    'Total Time' => round($queries['total_time'], 2) . ' ms',
+                    'Slow Queries' => $queries['slow'],
+                ]
+            );
+        }
+
+        if ($debugBar->hasCollector('sloth')) {
+            $sloth = $debugBar->getCollector('sloth')->collect();
+            $handler->addDataTable('Sloth Framework', $sloth);
+        }
+
+        if ($debugBar->hasCollector('acf')) {
+            $acf = $debugBar->getCollector('acf')->collect();
+            $handler->addDataTable('ACF Field Groups', $acf);
+        }
+
+        if ($debugBar->hasCollector('wordpress')) {
+            $wp = $debugBar->getCollector('wordpress')->collect();
+            $handler->addDataTable('WordPress', $wp);
+        }
     }
 }
