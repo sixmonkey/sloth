@@ -149,4 +149,44 @@ class CollectorProvidersTest extends TestCase
 
         $this->assertTrue($provider->hasCollector('pdo'));
     }
+
+    public function test_message_collector_provider_has_critical_errors_constant(): void
+    {
+        $reflection = new \ReflectionClass(MessageCollectorProvider::class);
+        $constant = $reflection->getConstant('CRITICAL_ERRORS');
+
+        $this->assertIsInt($constant);
+        $this->assertTrue((bool)($constant & E_ERROR));
+        $this->assertTrue((bool)($constant & E_PARSE));
+        $this->assertTrue((bool)($constant & E_CORE_ERROR));
+        $this->assertTrue((bool)($constant & E_COMPILE_ERROR));
+        $this->assertTrue((bool)($constant & E_USER_ERROR));
+        $this->assertTrue((bool)($constant & E_RECOVERABLE_ERROR));
+    }
+
+    public function test_message_collector_provider_severity_labels(): void
+    {
+        $provider = new MessageCollectorProvider($this->debugBar);
+        $reflection = new \ReflectionClass($provider);
+        $method = $reflection->getMethod('severityLabel');
+        $method->setAccessible(true);
+
+        $this->assertEquals('warning', $method->invoke($provider, E_WARNING));
+        $this->assertEquals('notice', $method->invoke($provider, E_NOTICE));
+        $this->assertEquals('warning', $method->invoke($provider, E_USER_WARNING));
+        $this->assertEquals('notice', $method->invoke($provider, E_USER_NOTICE));
+        $this->assertEquals('info', $method->invoke($provider, E_DEPRECATED));
+        $this->assertEquals('info', $method->invoke($provider, E_USER_DEPRECATED));
+        $this->assertEquals('warning', $method->invoke($provider, 0));
+    }
+
+    public function test_message_collector_provider_registerErrorHandler_method_exists(): void
+    {
+        $provider = new MessageCollectorProvider($this->debugBar);
+        $reflection = new \ReflectionClass($provider);
+
+        $this->assertTrue($reflection->hasMethod('registerErrorHandler'));
+        $method = $reflection->getMethod('registerErrorHandler');
+        $this->assertTrue($method->isProtected());
+    }
 }

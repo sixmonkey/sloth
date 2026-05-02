@@ -95,4 +95,42 @@ class ExceptionServiceProviderTest extends TestCase
 
         $this->assertInstanceOf(ExceptionServiceProvider::class, $provider);
     }
+
+    /**
+     * Test that native exception handler is NOT registered during tests.
+     *
+     * WP_TESTS_PHASE constant is defined in the test bootstrap, so
+     * set_exception_handler() should not be called.
+     */
+    public function test_native_handler_is_skipped_in_tests(): void
+    {
+        $this->assertTrue(defined('WP_TESTS_PHASE'), 'WP_TESTS_PHASE should be defined');
+        $this->assertTrue(WP_TESTS_PHASE === true, 'WP_TESTS_PHASE should be true');
+
+        // If native handlers were registered, the global exception handler would
+        // be our closure. Since we're in tests, it should NOT have been changed.
+        $currentHandler = set_exception_handler(fn () => null);
+        restore_exception_handler();
+
+        // The current handler should be null or PHP's default, not our Sloth handler
+        // (If it were our handler, it would be a Closure from registerExceptionHandler)
+        $this->assertNotInstanceOf(
+            \Closure::class,
+            $currentHandler,
+            'Native exception handler should not be registered during tests'
+        );
+    }
+
+    /**
+     * Test that registerExceptionHandler() method exists and is protected.
+     */
+    public function test_registerExceptionHandler_method_exists(): void
+    {
+        $provider = new ExceptionServiceProvider($this->app);
+        $reflection = new \ReflectionClass($provider);
+
+        $this->assertTrue($reflection->hasMethod('registerExceptionHandler'));
+        $method = $reflection->getMethod('registerExceptionHandler');
+        $this->assertTrue($method->isProtected());
+    }
 }

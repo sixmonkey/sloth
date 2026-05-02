@@ -34,10 +34,14 @@ use Sloth\Exceptions\ExceptionHandler;
 class ExceptionServiceProvider extends ServiceProvider
 {
     /**
-     * Register the exception handler.
+     * Register the exception handler and PHP native handlers.
      *
      * Binds the ExceptionHandlerContract to the Sloth ExceptionHandler
-     * implementation as a singleton.
+     * implementation as a singleton, and registers set_exception_handler()
+     * so that uncaught exceptions are routed through our handler.
+     *
+     * Native handler registration is skipped during unit tests to avoid
+     * polluting the global error/exception state between tests.
      *
      * @since 1.0.0
      */
@@ -47,5 +51,27 @@ class ExceptionServiceProvider extends ServiceProvider
             ExceptionHandlerContract::class,
             ExceptionHandler::class
         );
+
+        if (! defined('WP_TESTS_PHASE')) {
+            $this->registerExceptionHandler();
+        }
+    }
+
+    /**
+     * Register PHP's native exception handler.
+     *
+     * Routes all uncaught exceptions through the registered
+     * ExceptionHandlerContract implementation.
+     *
+     * @since 1.0.0
+     */
+    protected function registerExceptionHandler(): void
+    {
+        $app = $this->app;
+
+        set_exception_handler(function (\Throwable $e) use ($app) {
+            $handler = $app->make(ExceptionHandlerContract::class);
+            $handler->render(null, $e);
+        });
     }
 }
