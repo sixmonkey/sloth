@@ -241,6 +241,21 @@ class DebugServiceProvider extends ServiceProvider
             header('X-SLOTH_DEBUG: ' . json_encode($messages->toArray()));
         }
 
+        /**
+         * Optionally prepend debug data into the JSON body.
+         *
+         * Uses the configured key (default: '__debug') and merges
+         * the slim messages as the first property.
+         */
+        if (config('debugger.json.prepend', true) && ($json = json_decode($output, true))) {
+            $key = config('debugger.json.key', '__debug');
+
+            return json_encode([
+                $key => $messages->toArray(),
+                ...$json,
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
         return $output;
     }
 
