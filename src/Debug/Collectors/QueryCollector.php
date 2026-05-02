@@ -28,6 +28,13 @@ class QueryCollector extends DataCollector implements Renderable
     private const SLOW_THRESHOLD_MS = 100;
 
     /**
+     * Cached query results.
+     *
+     * @var array<int, array<string, mixed>>|null
+     */
+    private ?array $cachedQueries = null;
+
+    /**
      * Collect the query statistics.
      *
      * Aggregates all database queries from Eloquent and $wpdb,
@@ -49,14 +56,18 @@ class QueryCollector extends DataCollector implements Renderable
     /**
      * Get all queries merged and sorted by execution time.
      *
-     * Merges Eloquent and WordPress database queries,
-     * then sorts by execution time descending.
+     * Cached on first call to avoid repeated DB fetches
+     * and sorting.
      *
      * @since 1.0.0
      * @return array<int, array<string, mixed>> The merged and sorted queries.
      */
     private function getAllQueries(): array
     {
+        if ($this->cachedQueries !== null) {
+            return $this->cachedQueries;
+        }
+
         $queries = array_merge(
             $this->getEloquentQueries(),
             $this->getWpdbQueries()
@@ -64,7 +75,7 @@ class QueryCollector extends DataCollector implements Renderable
 
         usort($queries, fn($a, $b) => $b['time'] <=> $a['time']);
 
-        return $queries;
+        return $this->cachedQueries = $queries;
     }
 
     /**

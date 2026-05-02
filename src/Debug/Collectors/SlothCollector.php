@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Debug\Collectors;
 
+use Brain\Hierarchy\Hierarchy;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 use Illuminate\Support\Str;
@@ -119,16 +120,27 @@ class SlothCollector extends DataCollector implements Renderable
      */
     private function getTemplateHierarchy(): string
     {
-        return ''; // TODO: Re-enable when Hierarchy package is available.
-        // $hierarchy = new Hierarchy();
-        // return collect($hierarchy->templates())
-        //     ->map(function ($template) {
-        //         if (app('sloth.current_layout') == $template) {
-        //             $template .= ' <-';
-        //         }
-        //         return $template;
-        //     })
-        //     ->join("\n");
+        try {
+            $hierarchy = new Hierarchy();
+            $templates = $hierarchy->templates();
+
+            if (empty($templates)) {
+                return 'None';
+            }
+
+            $current = app('sloth.current_layout') ?? '';
+
+            return collect($templates)
+                ->map(function ($template) use ($current) {
+                    if ($template === $current) {
+                        return $template . ' (active)';
+                    }
+                    return $template;
+                })
+                ->join("\n");
+        } catch (\Throwable) {
+            return 'None';
+        }
     }
 
     /**
