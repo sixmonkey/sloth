@@ -56,6 +56,11 @@ class SlothDebugBar extends DebugBar
         return $this->exceptionsCollector;
     }
 
+    public function isBooted(): bool
+    {
+        return $this->booted;
+    }
+
     /**
      * Magic calls for adding messages
      */

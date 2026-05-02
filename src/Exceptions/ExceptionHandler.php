@@ -232,8 +232,9 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Whoops error screen so developers can see queries, messages,
      * and framework info without the DebugBar toolbar.
      *
-     * This method is safe to call even if the DebugBar is not available
-     * or not yet booted — it will silently skip.
+     * Core collectors (messages, time) are always available on SlothDebugBar.
+     * Custom collectors (queries, sloth, acf, wordpress) are only present
+     * after the DebugBar has been booted.
      *
      * @param \Whoops\Handler\PrettyPageHandler $handler The Whoops handler.
      * @since 1.0.0
@@ -241,18 +242,24 @@ class ExceptionHandler implements ExceptionHandlerContract
     protected function injectDebugBarData(\Whoops\Handler\PrettyPageHandler $handler): void
     {
         try {
-            if (!class_exists(\DebugBar\DebugBar::class) || !app()->bound('debugbar')) {
+            if (!class_exists(\DebugBar\DebugBar::class)) {
+                return;
+            }
+
+            if (!app()->bound('debugbar')) {
                 return;
             }
 
             $debugBar = app('debugbar');
 
-            // Only proceed if the DebugBar has been booted
-            if (!method_exists($debugBar, 'booted') || !$debugBar->booted) {
+            if (!($debugBar instanceof \Sloth\Debug\SlothDebugBar)) {
                 return;
             }
 
-            // Queries
+            if (!$debugBar->isBooted()) {
+                return;
+            }
+
             if ($debugBar->hasCollector('queries')) {
                 $queries = $debugBar->getCollector('queries')->collect();
                 $handler->addDataTable(
@@ -265,7 +272,6 @@ class ExceptionHandler implements ExceptionHandlerContract
                 );
             }
 
-            // Messages
             if ($debugBar->hasCollector('messages')) {
                 $messages = $debugBar->getCollector('messages')->collect();
                 $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
@@ -282,19 +288,16 @@ class ExceptionHandler implements ExceptionHandlerContract
                 }
             }
 
-            // Sloth framework data
             if ($debugBar->hasCollector('sloth')) {
                 $sloth = $debugBar->getCollector('sloth')->collect();
                 $handler->addDataTable('Sloth Framework', $sloth);
             }
 
-            // ACF
             if ($debugBar->hasCollector('acf')) {
                 $acf = $debugBar->getCollector('acf')->collect();
                 $handler->addDataTable('ACF Field Groups', $acf);
             }
 
-            // WordPress
             if ($debugBar->hasCollector('wordpress')) {
                 $wp = $debugBar->getCollector('wordpress')->collect();
                 $handler->addDataTable('WordPress', $wp);
