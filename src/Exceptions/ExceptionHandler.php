@@ -127,6 +127,8 @@ class ExceptionHandler implements ExceptionHandlerContract
             $handler = new \Whoops\Handler\PrettyPageHandler();
             $handler->setPageTitle('Sloth — Whoops!');
 
+            $this->injectDebugBarData($handler);
+
             if ($editor = env('SLOTH_DEBUGGER_EDITOR')) {
                 $localPath = env('SLOTH_DEBUGGER_LOCAL_PATH');
                 $remotePath = env('SLOTH_DEBUGGER_REMOTE_PATH');
@@ -221,6 +223,85 @@ class ExceptionHandler implements ExceptionHandlerContract
         }
 
         return 500;
+    }
+
+    /**
+     * Inject DebugBar collector data into the Whoops PrettyPageHandler.
+     *
+     * Adds DebugBar collector data as additional data tables in the
+     * Whoops error screen so developers can see queries, messages,
+     * and framework info without the DebugBar toolbar.
+     *
+     * This method is safe to call even if the DebugBar is not available
+     * or not yet booted — it will silently skip.
+     *
+     * @param \Whoops\Handler\PrettyPageHandler $handler The Whoops handler.
+     * @since 1.0.0
+     */
+    protected function injectDebugBarData(\Whoops\Handler\PrettyPageHandler $handler): void
+    {
+        try {
+            if (!class_exists(\DebugBar\DebugBar::class) || !app()->bound('debugbar')) {
+                return;
+            }
+
+            $debugBar = app('debugbar');
+
+            // Only proceed if the DebugBar has been booted
+            if (!method_exists($debugBar, 'booted') || !$debugBar->booted) {
+                return;
+            }
+
+            // Queries
+            if ($debugBar->hasCollector('queries')) {
+                $queries = $debugBar->getCollector('queries')->collect();
+                $handler->addDataTable(
+                    'Database Queries (' . $queries['count'] . ' total)',
+                    [
+                        'Count' => $queries['count'],
+                        'Total Time' => round($queries['total_time'], 2) . ' ms',
+                        'Slow Queries' => $queries['slow'],
+                    ]
+                );
+            }
+
+            // Messages
+            if ($debugBar->hasCollector('messages')) {
+                $messages = $debugBar->getCollector('messages')->collect();
+                $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
+                if ($messageCount > 0) {
+                    $handler->addDataTable(
+                        'Messages (' . $messageCount . ')',
+                        array_reduce($messages['messages'] ?? [], function ($carry, $msg) {
+                            $key = $msg['label'] ?? 'info';
+                            $value = $msg['message'] ?? '';
+                            $carry[$key . ' — ' . $value] = '';
+                            return $carry;
+                        }, [])
+                    );
+                }
+            }
+
+            // Sloth framework data
+            if ($debugBar->hasCollector('sloth')) {
+                $sloth = $debugBar->getCollector('sloth')->collect();
+                $handler->addDataTable('Sloth Framework', $sloth);
+            }
+
+            // ACF
+            if ($debugBar->hasCollector('acf')) {
+                $acf = $debugBar->getCollector('acf')->collect();
+                $handler->addDataTable('ACF Field Groups', $acf);
+            }
+
+            // WordPress
+            if ($debugBar->hasCollector('wordpress')) {
+                $wp = $debugBar->getCollector('wordpress')->collect();
+                $handler->addDataTable('WordPress', $wp);
+            }
+        } catch (\Throwable) {
+            // DebugBar not fully available — skip gracefully
+        }
     }
 
     /**
