@@ -112,6 +112,10 @@ class ExceptionHandler implements ExceptionHandlerContract
      * - AJAX → JsonResponseHandler (errors visible in browser DevTools)
      * - Browser → PrettyPageHandler (full interactive error page)
      *
+     * For browser requests, also injects DebugBar collector data
+     * (queries, messages, sloth info) as additional tables in the
+     * Whoops error screen.
+     *
      * @param Throwable $e The exception to render.
      * @since 1.0.0
      */
@@ -232,9 +236,9 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Whoops error screen so developers can see queries, messages,
      * and framework info without the DebugBar toolbar.
      *
-     * Core collectors (messages, time) are always available on SlothDebugBar.
-     * Custom collectors (queries, sloth, acf, wordpress) are only present
-     * after the DebugBar has been booted.
+     * Only runs when the DebugBar is fully booted (all CollectorProviders
+     * have been loaded). Bail-outs are silent so that exception rendering
+     * never fails due to missing debug data.
      *
      * @param \Whoops\Handler\PrettyPageHandler $handler The Whoops handler.
      * @since 1.0.0
