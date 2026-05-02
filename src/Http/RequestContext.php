@@ -208,6 +208,54 @@ class RequestContext
         return $this->wpContext;
     }
 
+    /**
+     * Check if the current response is JSON.
+     *
+     * @param string|null $output Optional output to inspect.
+     * @return bool True if this is a JSON response.
+     * @since 1.0.0
+     */
+    public function isJsonResponse(?string $output = null): bool
+    {
+        if ($this->isRest() || $this->isAjax()) {
+            return true;
+        }
+
+        if ($output !== null) {
+            $trimmed = ltrim($output);
+
+            if ($trimmed !== '' && in_array($trimmed[0], ['{', '['], true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the current response is XML.
+     *
+     * @param string|null $output Optional output to inspect.
+     * @return bool True if this is an XML response.
+     * @since 1.0.0
+     */
+    public function isXmlResponse(?string $output = null): bool
+    {
+        if ($this->isXmlRpc()) {
+            return true;
+        }
+
+        if ($output !== null) {
+            $trimmed = ltrim($output);
+
+            if (str_starts_with(strtolower($trimmed), '<?xml')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // -------------------------------------------------------------------------
     // Early Detection (before WordPress sets constants)
     // -------------------------------------------------------------------------
