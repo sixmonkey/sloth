@@ -236,9 +236,10 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Whoops error screen so developers can see queries, messages,
      * and framework info without the DebugBar toolbar.
      *
-     * Only runs when the DebugBar is fully booted (all CollectorProviders
-     * have been loaded). Bail-outs are silent so that exception rendering
-     * never fails due to missing debug data.
+     * Core collectors (messages) are always available. Custom collectors
+     * (queries, sloth, acf, wordpress) are only present after boot().
+     * Bail-outs are silent so that exception rendering never fails
+     * due to missing debug data.
      *
      * @param \Whoops\Handler\PrettyPageHandler $handler The Whoops handler.
      * @since 1.0.0
@@ -260,6 +261,22 @@ class ExceptionHandler implements ExceptionHandlerContract
                 return;
             }
 
+            // Messages are always available (created in constructor)
+            $messages = $debugBar->getMessagesCollector()->collect();
+            $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
+            if ($messageCount > 0) {
+                $handler->addDataTable(
+                    'Messages (' . $messageCount . ')',
+                    array_reduce($messages['messages'] ?? [], function ($carry, $msg) {
+                        $key = $msg['label'] ?? 'info';
+                        $value = $msg['message'] ?? '';
+                        $carry[$key . ' — ' . $value] = '';
+                        return $carry;
+                    }, [])
+                );
+            }
+
+            // Custom collectors are only available after boot()
             if (!$debugBar->isBooted()) {
                 return;
             }
@@ -274,22 +291,6 @@ class ExceptionHandler implements ExceptionHandlerContract
                         'Slow Queries' => $queries['slow'],
                     ]
                 );
-            }
-
-            if ($debugBar->hasCollector('messages')) {
-                $messages = $debugBar->getCollector('messages')->collect();
-                $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
-                if ($messageCount > 0) {
-                    $handler->addDataTable(
-                        'Messages (' . $messageCount . ')',
-                        array_reduce($messages['messages'] ?? [], function ($carry, $msg) {
-                            $key = $msg['label'] ?? 'info';
-                            $value = $msg['message'] ?? '';
-                            $carry[$key . ' — ' . $value] = '';
-                            return $carry;
-                        }, [])
-                    );
-                }
             }
 
             if ($debugBar->hasCollector('sloth')) {
