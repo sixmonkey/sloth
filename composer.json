@@ -23,6 +23,7 @@
     "illuminate/support": "^12.0",
     "illuminate/validation": "^12.0",
     "illuminate/view": "^12.0",
+    "inpsyde/wp-context": "^1.5",
     "jgrossi/corcel": "^9.0",
     "johnbillion/args": "^2.4",
     "johnbillion/extended-cpts": "^5.1",

@@ -161,6 +161,9 @@ class Application extends Container
             return $this;
         }
 
+        // TEMP: Test WpContext
+        dd((new \Inpsyde\WpContext())->determine()->jsonSerialize());
+
         // Config repository — must exist before any provider reads config
         if (Facade::getFacadeApplication()?->bound('config')) {
             $this->singleton('config', fn() => Facade::getFacadeApplication()->make('config'));
