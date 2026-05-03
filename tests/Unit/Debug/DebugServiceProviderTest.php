@@ -27,7 +27,7 @@ describe('DebugServiceProvider', function (): void {
 
             $app = new Application();
 
-            $provider = new class($app) extends DebugServiceProvider {
+            $provider = new class ($app) extends DebugServiceProvider {
                 public function isEnabled(): bool
                 {
                     return $this->enabled;
@@ -43,7 +43,7 @@ describe('DebugServiceProvider', function (): void {
             $app = new Application();
             Container::setInstance($app);
 
-            $provider = new class($app) extends DebugServiceProvider {
+            $provider = new class ($app) extends DebugServiceProvider {
                 /**
                  * Override register to avoid actually starting ob_start in tests.
                  */
@@ -73,7 +73,7 @@ describe('DebugServiceProvider', function (): void {
             $app = new Application();
             Container::setInstance($app);
 
-            $provider = new class($app) extends DebugServiceProvider {
+            $provider = new class ($app) extends DebugServiceProvider {
                 public function setEnabled(bool $value): void
                 {
                     $this->enabled = $value;
@@ -104,7 +104,7 @@ describe('DebugServiceProvider', function (): void {
                 ]);
             });
 
-            $provider = new class($app) extends DebugServiceProvider {
+            $provider = new class ($app) extends DebugServiceProvider {
                 public function setEnabled(bool $value): void
                 {
                     $this->enabled = $value;

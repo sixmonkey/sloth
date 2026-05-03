@@ -183,9 +183,9 @@ trait HasRelationships
     protected function setInstanceConnection($instance)
     {
         return $instance->setConnection(
-            $instance instanceof self ?
-                $this->getConnection()->getName() :
-                $instance->getConnection()->getName()
+            $instance instanceof self
+                ? $this->getConnection()->getName()
+                : $instance->getConnection()->getName()
         );
     }
 }

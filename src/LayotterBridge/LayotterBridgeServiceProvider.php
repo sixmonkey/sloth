@@ -88,7 +88,7 @@ class LayotterBridgeServiceProvider extends ServiceProvider
             'init' => [
                 ['callback' => fn() => $this->configurePostTypes(), 'priority' => 20],
                 ['callback' => fn() => app(LayotterElementRegistrar::class)->registerElements(), 'priority' => 20],
-            ]
+            ],
         ];
     }
 
