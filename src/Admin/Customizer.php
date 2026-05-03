@@ -165,9 +165,7 @@ class Customizer
      *
      * @param Application $app Application instance
      */
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     /**
      * Boot the customizer hooks.

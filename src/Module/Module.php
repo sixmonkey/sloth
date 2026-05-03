@@ -117,9 +117,7 @@ class Module
      *
      * @since 1.0.0
      */
-    protected function beforeRender()
-    {
-    }
+    protected function beforeRender() {}
 
     /**
      * Called before getting JSON output.
@@ -131,9 +129,7 @@ class Module
      * @since 1.0.0
      *
      */
-    protected function beforeGetJSON(mixed $payload)
-    {
-    }
+    protected function beforeGetJSON(mixed $payload) {}
 
     /**
      * Get the template name.
