@@ -70,5 +70,11 @@ class DatabaseServiceProvider extends ServiceProvider
 
         // Enable Eloquent query logging for QueryCollector
         Model::resolveConnection()->enableQueryLog();
+
+        // Enable WordPress $wpdb query logging
+        global $wpdb;
+        if (isset($wpdb)) {
+            $wpdb->save_queries = true;
+        }
     }
 }

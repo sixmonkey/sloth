@@ -39,7 +39,10 @@
             }
             const code = document.createElement('code');
             code.classList.add(csscls('sql'));
-            code.innerHTML = PhpDebugBar.Widgets.highlight(stmt.sql, 'sql');
+            const formatted = typeof phpdebugbar_sqlformatter !== 'undefined'
+                ? phpdebugbar_sqlformatter.format(stmt.sql)
+                : stmt.sql;
+            code.innerHTML = PhpDebugBar.Widgets.highlight(formatted, 'sql');
             li.append(code);
 
             if (typeof stmt.is_success !== 'undefined' && !stmt.is_success) {
