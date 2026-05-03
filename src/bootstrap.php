@@ -93,16 +93,24 @@ $table_prefix = DB_PREFIX;
 $_salt_secret = env('APP_SECRET', 'changeme-' . gethostname());
 
 defined('AUTH_KEY') || define('AUTH_KEY', env('AUTH_KEY', hash('sha256', $_salt_secret . 'AUTH_KEY')));
-defined('SECURE_AUTH_KEY') || define('SECURE_AUTH_KEY',
-    env('SECURE_AUTH_KEY', hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY')));
-defined('LOGGED_IN_KEY') || define('LOGGED_IN_KEY',
-    env('LOGGED_IN_KEY', hash('sha256', $_salt_secret . 'LOGGED_IN_KEY')));
+defined('SECURE_AUTH_KEY') || define(
+    'SECURE_AUTH_KEY',
+    env('SECURE_AUTH_KEY', hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY'))
+);
+defined('LOGGED_IN_KEY') || define(
+    'LOGGED_IN_KEY',
+    env('LOGGED_IN_KEY', hash('sha256', $_salt_secret . 'LOGGED_IN_KEY'))
+);
 defined('NONCE_KEY') || define('NONCE_KEY', env('NONCE_KEY', hash('sha256', $_salt_secret . 'NONCE_KEY')));
 defined('AUTH_SALT') || define('AUTH_SALT', env('AUTH_SALT', hash('sha256', $_salt_secret . 'AUTH_SALT')));
-defined('SECURE_AUTH_SALT') || define('SECURE_AUTH_SALT',
-    env('SECURE_AUTH_SALT', hash('sha256', $_salt_secret . 'SECURE_AUTH_SALT')));
-defined('LOGGED_IN_SALT') || define('LOGGED_IN_SALT',
-    env('LOGGED_IN_SALT', hash('sha256', $_salt_secret . 'LOGGED_IN_SALT')));
+defined('SECURE_AUTH_SALT') || define(
+    'SECURE_AUTH_SALT',
+    env('SECURE_AUTH_SALT', hash('sha256', $_salt_secret . 'SECURE_AUTH_SALT'))
+);
+defined('LOGGED_IN_SALT') || define(
+    'LOGGED_IN_SALT',
+    env('LOGGED_IN_SALT', hash('sha256', $_salt_secret . 'LOGGED_IN_SALT'))
+);
 defined('NONCE_SALT') || define('NONCE_SALT', env('NONCE_SALT', hash('sha256', $_salt_secret . 'NONCE_SALT')));
 
 unset($_salt_secret);
@@ -112,18 +120,19 @@ unset($_salt_secret);
 // -------------------------------------------------------------------------
 
 defined('WP_ENV') || define('WP_ENV', env('WP_ENV', 'production'));
-defined('WP_DEBUG') || define('WP_DEBUG', (bool)env('WP_DEBUG', false));
-defined('WP_DEBUG_LOG') || define('WP_DEBUG_LOG', (bool)env('WP_DEBUG_LOG', false));
-defined('WP_DEBUG_DISPLAY') || define('WP_DEBUG_DISPLAY', (bool)env('WP_DEBUG_DISPLAY', false));
-defined('SCRIPT_DEBUG') || define('SCRIPT_DEBUG', (bool)env('SCRIPT_DEBUG', false));
+defined('WP_DEBUG') || define('WP_DEBUG', (bool) env('WP_DEBUG', false));
+defined('WP_DEBUG_LOG') || define('WP_DEBUG_LOG', (bool) env('WP_DEBUG_LOG', false));
+defined('WP_DEBUG_DISPLAY') || define('WP_DEBUG_DISPLAY', (bool) env('WP_DEBUG_DISPLAY', false));
+defined('SCRIPT_DEBUG') || define('SCRIPT_DEBUG', (bool) env('SCRIPT_DEBUG', false));
+defined('SAVEQUERIES') || define('SAVEQUERIES', in_array(env('WP_ENV', 'production'), ['development', 'develop', 'dev'], true));
 
 // -------------------------------------------------------------------------
 // WordPress settings
 // -------------------------------------------------------------------------
 
-defined('WP_POST_REVISIONS') || define('WP_POST_REVISIONS', (int)env('WP_POST_REVISIONS', 5));
+defined('WP_POST_REVISIONS') || define('WP_POST_REVISIONS', (int) env('WP_POST_REVISIONS', 5));
 defined('AUTOMATIC_UPDATER_DISABLED') || define('AUTOMATIC_UPDATER_DISABLED', true);
-defined('DISABLE_WP_CRON') || define('DISABLE_WP_CRON', (bool)env('DISABLE_WP_CRON', false));
+defined('DISABLE_WP_CRON') || define('DISABLE_WP_CRON', (bool) env('DISABLE_WP_CRON', false));
 defined('DISALLOW_FILE_EDIT') || define('DISALLOW_FILE_EDIT', true);
 
 // -------------------------------------------------------------------------

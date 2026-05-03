@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Debug\Collectors;
 
+use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 
@@ -17,7 +18,7 @@ use DebugBar\DataCollector\Renderable;
  * @since 1.0.0
  * @see \Sloth\Debug\DebugServiceProvider
  */
-class QueryCollector extends DataCollector implements Renderable
+class QueryCollector extends DataCollector implements Renderable, AssetProvider
 {
     /**
      * Threshold in milliseconds for marking queries as slow.
@@ -45,11 +46,27 @@ class QueryCollector extends DataCollector implements Renderable
      */
     public function collect(): array
     {
+        $queries = $this->getAllQueries();
+        $count = count($queries);
+        $totalTime = $count > 0 ? round(array_sum(array_column($queries, 'time')), 2) : 0;
+
+        $statements = [];
+        foreach ($queries as $q) {
+            $statements[] = [
+                'sql' => $q['sql'],
+                'time' => $q['time'],
+                'params' => $q['params'] ?? [],
+                'source' => $q['source'] ?? '',
+                'is_success' => $q['is_success'] ?? true,
+                'error_message' => $q['error_message'] ?? null,
+            ];
+        }
+
         return [
-            'queries' => $this->getAllQueries(),
-            'count' => $this->getQueryCount(),
-            'total_time' => $this->getTotalTime(),
-            'slow' => $this->getSlowCount(),
+            'nb_statements' => $count,
+            'accumulated_duration' => $totalTime,
+            'accumulated_duration_str' => round($totalTime, 2) . 'ms',
+            'statements' => $statements,
         ];
     }
 
@@ -92,17 +109,24 @@ class QueryCollector extends DataCollector implements Renderable
             }
 
             $connection = \Illuminate\Database\Eloquent\Model::resolveConnection();
-            if (!$connection) {
+
+            if (!$connection || !$connection->logging()) {
                 return [];
             }
 
-            return collect($connection->getQueryLog())
-                ->map(fn($q) => [
+            $queries = [];
+            foreach ($connection->getQueryLog() as $q) {
+                $queries[] = [
                     'sql' => $q['query'],
                     'time' => round($q['time'], 2),
+                    'params' => $q['bindings'] ?? [],
                     'source' => 'Eloquent',
-                ])
-                ->toArray();
+                    'is_success' => true,
+                    'error_message' => null,
+                ];
+            }
+
+            return $queries;
         } catch (\Throwable) {
             return [];
         }
@@ -131,56 +155,38 @@ class QueryCollector extends DataCollector implements Renderable
             }
 
             foreach ($wpdb->queries as $q) {
+                $caller = isset($q[2]) ? (string) $q[2] : '';
+                $source = $caller ? 'WPDB — ' . $this->formatWpdbCaller($caller) : 'WPDB';
                 $queries[] = [
                     'sql' => $q[0],
                     'time' => round($q[1] * 1000, 2),
-                    'source' => 'WPDB',
+                    'params' => [],
+                    'source' => $source,
+                    'is_success' => true,
+                    'error_message' => null,
                 ];
             }
         } catch (\Throwable) {
-            // $wpdb not available
         }
 
         return $queries;
     }
 
     /**
-     * Get the total number of queries executed.
+     * Format a WPDB caller string into a readable file:line reference.
      *
-     * @since 1.0.0
-     * @return int The query count.
+     * @param string $caller The raw caller string from $wpdb->queries.
+     * @return string Formatted caller reference.
      */
-    private function getQueryCount(): int
+    private function formatWpdbCaller(string $caller): string
     {
-        return count($this->getAllQueries());
-    }
+        $caller = str_replace('\\', '/', $caller);
 
-    /**
-     * Get the total execution time of all queries.
-     *
-     * @since 1.0.0
-     * @return float The total time in milliseconds.
-     */
-    private function getTotalTime(): float
-    {
-        $queries = $this->getAllQueries();
-        return round(array_sum(array_column($queries, 'time')), 2);
-    }
+        if (preg_match('#([A-Za-z0-9._-]+\.php):(\d+)#', $caller, $m)) {
+            return $m[1] . ':' . $m[2];
+        }
 
-    /**
-     * Get the count of slow queries.
-     *
-     * Counts queries that exceed the slow query threshold.
-     *
-     * @since 1.0.0
-     * @return int The number of slow queries.
-     */
-    private function getSlowCount(): int
-    {
-        return count(array_filter(
-            $this->getAllQueries(),
-            fn($q) => $q['time'] > self::SLOW_THRESHOLD_MS
-        ));
+        return trim($caller);
     }
 
     /**
@@ -208,8 +214,31 @@ class QueryCollector extends DataCollector implements Renderable
         return [
             'queries' => [
                 'icon' => 'database',
-                'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
+                'tooltip' => 'Database Queries',
+                'widget' => 'PhpDebugBar.Widgets.SlothQueriesWidget',
                 'map' => 'queries',
+                'default' => '{}',
+            ],
+            'queries:badge' => [
+                'map' => 'queries.nb_statements',
+                'default' => '0',
+            ],
+        ];
+    }
+
+    /**
+     * Register custom JS widget that adds a Source column.
+     *
+     * @return array<string, mixed>
+     */
+    public function getAssets(): array
+    {
+        return [
+            'css' => [
+                __DIR__ . '/../resources/sloth-queries-widget.css',
+            ],
+            'inline_js' => [
+                file_get_contents(__DIR__ . '/../resources/sloth-queries-widget.js'),
             ],
         ];
     }
