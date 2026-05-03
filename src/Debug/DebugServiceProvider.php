@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace Sloth\Debug;
 
 use DebugBar\DebugBar;
-use Illuminate\Support\Str;
 use Sloth\Core\ServiceProvider;
 
 /**
  * Sloth Debug Service Provider.
  *
- * Registers PHP DebugBar for development environments and custom
- * exception handling for the Sloth WordPress theme.
+ * Registers PHP DebugBar for development environments.
  *
  * The DebugBar is only registered when the `php-debugbar/php-debugbar`
  * package is installed as a dev-dependency. In production (where the
  * package is absent), this provider does nothing.
+ *
+ * Uses a hybrid approach:
+ * - `ob_start()` callback for JSON responses (injects `__debug` key into body)
+ * - `register_shutdown_function()` for HTML responses (appends DebugBar after `die()`)
  *
  * @since 1.0.0
  * @see \Sloth\Exceptions\ExceptionHandler
@@ -40,14 +42,6 @@ class DebugServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        /**
-         * Early bail-out: The DebugBar package must be installed.
-         *
-         * In production environments where `php-debugbar/php-debugbar`
-         * is not required, this provider will silently do nothing.
-         *
-         * @see https://getcomposer.org/doc/04-schema.md#require-dev
-         */
         if (! class_exists(DebugBar::class)) {
             return;
         }
@@ -56,15 +50,99 @@ class DebugServiceProvider extends ServiceProvider
         $this->app->alias(SlothDebugBar::class, 'debugbar');
         $this->app->alias(SlothDebugBar::class, DebugBar::class);
 
-        /**
-         * Hook into output buffering to inject the DebugBar.
-         *
-         * The actual rendering decision (display flag, response type)
-         * is handled inside renderBar().
-         */
-        ob_start([$this, 'renderBar']);
-
         $this->enabled = true;
+
+        /**
+         * Output buffer callback for JSON responses.
+         *
+         * Injects `__debug` key into JSON body when debugger.json.prepend
+         * is enabled. For HTML responses, passes buffer through unchanged
+         * — the shutdown function appends the DebugBar toolbar.
+         */
+        ob_start(function ($output) {
+            if (! $this->enabled) {
+                return $output;
+            }
+
+            if (! config('debugger.json.prepend', true)) {
+                return $output;
+            }
+
+            try {
+                $context = $this->app->make(\Sloth\Http\RequestContext::class);
+
+                if (! $context->isJsonResponse($output)) {
+                    return $output;
+                }
+
+                $debugBar = $this->app->make(SlothDebugBar::class);
+                $messages = [];
+
+                foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
+                    $link = $entry['xdebug_link'] ?? null;
+                    if ($link) {
+                        $source = $link['filename'] . ':' . $link['line'];
+                    } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
+                        $frame = $entry['trace'][0];
+                        $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
+                    } else {
+                        $source = 'unknown';
+                    }
+
+                    if (!empty($entry['is_string'])) {
+                        $value = $entry['message'] ?? '';
+                    } elseif (!empty($entry['message_html'])) {
+                        $value = strip_tags($entry['message_html']);
+                    } elseif (!empty($entry['message_json'])) {
+                        $value = $entry['message_json'];
+                    } else {
+                        $value = '[dump]';
+                    }
+
+                    $messages[$source] = $value;
+                }
+
+                if ($messages && ($json = json_decode($output, true))) {
+                    $key = config('debugger.json.key', '__debug');
+
+                    return json_encode([
+                        $key => $messages,
+                        ...$json,
+                    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+            } catch (\Throwable) {
+                // DebugBar not available — pass through unchanged
+            }
+
+            return $output;
+        });
+
+        /**
+         * Register shutdown function to inject DebugBar toolbar for HTML responses.
+         *
+         * Works correctly with `die()` calls in templates (e.g. TemplateServiceProvider)
+         * because it runs after all output is flushed and can safely echo content.
+         */
+        register_shutdown_function(function () {
+            if (! $this->enabled) {
+                return;
+            }
+
+            if (! config('debugger.bar.display', true)) {
+                return;
+            }
+
+            try {
+                $debugBar = $this->app->make(SlothDebugBar::class);
+                $context = $this->app->make(\Sloth\Http\RequestContext::class);
+
+                if (! $context->isJsonResponse() && ! $context->isXmlResponse()) {
+                    echo $debugBar->render();
+                }
+            } catch (\Throwable) {
+                // DebugBar not available — skip silently
+            }
+        });
     }
 
     /**
@@ -114,160 +192,5 @@ class DebugServiceProvider extends ServiceProvider
         } catch (\Throwable) {
             // Logging failed — nothing more we can do
         }
-    }
-
-    /**
-     * Render the DebugBar or pass through the original output.
-     *
-     * Acts as the output buffer callback. Dispatches to the appropriate
-     * handler based on the response type (JSON vs HTML).
-     *
-     * @param string $output The buffered page output.
-     * @return string The modified or unmodified output.
-     * @since 1.0.0
-     */
-    public function renderBar($output): string
-    {
-        if (! $this->enabled) {
-            return $output;
-        }
-
-        /**
-         * Respect the display configuration flag.
-         *
-         * By default, the DebugBar is only displayed in local environments.
-         */
-        if (! config('debugger.bar.display', true)) {
-            return $output;
-        }
-
-        $debugBar = $this->app->make(SlothDebugBar::class);
-
-        /**
-         * Dispatch based on response type.
-         *
-         * - JSON responses receive slim debug messages via X-SLOTH_DEBUG header.
-         *   Only messages are sent (not the full dataset) to avoid FastCGI header limits.
-         * - HTML responses have the DebugBar toolbar injected before </head>.
-         */
-        if ($this->isJsonResponse($output)) {
-            return $this->handleJsonResponse($debugBar, $output);
-        }
-
-        return $this->handleHtmlResponse($debugBar, $output);
-    }
-
-    /**
-     * Determine if the output is a JSON response.
-     *
-     * Delegates to RequestContext for reliable WordPress-aware
-     * detection that works early in the lifecycle.
-     *
-     * @param string $output The buffered page output.
-     * @return bool True if the output appears to be JSON.
-     * @since 1.0.0
-     */
-    protected function isJsonResponse(string $output): bool
-    {
-        $context = $this->app->make(\Sloth\Http\RequestContext::class);
-
-        return $context->isJsonResponse($output);
-    }
-
-    /**
-     * Handle a JSON response by sending debug messages via a slim HTTP header.
-     *
-     * Sends only the collected messages (not the full dataset) in a compact
-     * X-SLOTH_DEBUG header to avoid exceeding FastCGI header size limits.
-     *
-     * @param SlothDebugBar $debugBar The DebugBar instance.
-     * @param string $output The original JSON output (returned unchanged).
-     * @return string The unmodified JSON output.
-     * @since 1.0.0
-     */
-    protected function handleJsonResponse(SlothDebugBar $debugBar, string $output): string
-    {
-        if (headers_sent()) {
-            return $output;
-        }
-
-        /**
-         * Build a slim debug message map from the MessagesCollector.
-         *
-         * Merges all messages into a single flat object keyed by source
-         * (file:line). Handles dumps (non-string messages) by using
-         * their HTML or JSON representation as the value.
-         */
-        $messages = [];
-        foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
-
-            // Determine source (file:line)
-            $link = $entry['xdebug_link'] ?? null;
-            if ($link) {
-                $source = $link['filename'] . ':' . $link['line'];
-            } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
-                $frame = $entry['trace'][0];
-                $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
-            } else {
-                $source = 'unknown';
-            }
-
-            // Determine message value
-            // For string messages: use the text directly
-            // For dumps (non-string): use HTML or JSON representation
-            if (!empty($entry['is_string'])) {
-                $value = $entry['message'] ?? '';
-            } elseif (!empty($entry['message_html'])) {
-                // Strip HTML tags for compact JSON output
-                $value = strip_tags($entry['message_html']);
-            } elseif (!empty($entry['message_json'])) {
-                $value = $entry['message_json'];
-            } else {
-                $value = '[dump]';
-            }
-
-            $messages[$source] = $value;
-        }
-
-        if ($messages) {
-            header('X-SLOTH_DEBUG: ' . json_encode($messages));
-        }
-
-        /**
-         * Optionally prepend debug data into the JSON body.
-         *
-         * Uses the configured key (default: '__debug') and merges
-         * the slim messages as the first property.
-         */
-        if (config('debugger.json.prepend', true) && ($json = json_decode($output, true))) {
-            $key = config('debugger.json.key', '__debug');
-
-            return json_encode([
-                $key => $messages,
-                ...$json,
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        }
-
-        return $output;
-    }
-
-    /**
-     * Handle an HTML response by injecting the DebugBar toolbar.
-     *
-     * Renders the DebugBar JavaScript and CSS, then injects it
-     * before the closing </head> tag.
-     *
-     * @param SlothDebugBar $debugBar The DebugBar instance.
-     * @param string $output The buffered HTML output.
-     * @return string The HTML output with DebugBar injected.
-     * @since 1.0.0
-     */
-    protected function handleHtmlResponse(SlothDebugBar $debugBar, string $output): string
-    {
-        return Str::replace(
-            '</head>',
-            $debugBar->render() . '</head>',
-            $output
-        );
     }
 }
