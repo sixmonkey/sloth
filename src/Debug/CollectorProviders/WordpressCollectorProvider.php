@@ -7,7 +7,6 @@ use Sloth\Debug\Collectors\WordpressCollector;
 
 class WordpressCollectorProvider extends AbstractCollectorProvider
 {
-
     /**
      * @inheritDoc
      * @throws DebugBarException

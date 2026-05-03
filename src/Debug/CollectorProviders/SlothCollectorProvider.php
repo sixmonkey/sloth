@@ -7,7 +7,6 @@ use Sloth\Debug\Collectors\SlothCollector;
 
 class SlothCollectorProvider extends AbstractCollectorProvider
 {
-
     /**
      * @inheritDoc
      * @throws DebugBarException

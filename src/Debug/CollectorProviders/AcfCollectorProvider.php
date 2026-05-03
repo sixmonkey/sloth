@@ -7,7 +7,6 @@ use Sloth\Debug\Collectors\AcfCollector;
 
 class AcfCollectorProvider extends AbstractCollectorProvider
 {
-
     /**
      * @inheritDoc
      */

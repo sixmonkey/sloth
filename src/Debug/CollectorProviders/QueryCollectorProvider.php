@@ -8,7 +8,6 @@ use Sloth\Debug\Collectors\WordpressCollector;
 
 class QueryCollectorProvider extends AbstractCollectorProvider
 {
-
     /**
      * @inheritDoc
      * @throws DebugBarException

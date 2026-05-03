@@ -16,9 +16,7 @@ abstract class AbstractCollectorProvider
      * @param DebugBar $debugBar
      * @see https://php-debugbar.com/collectors/base/
      */
-    public function __construct(protected DebugBar $debugBar)
-    {
-    }
+    public function __construct(protected DebugBar $debugBar) {}
 
     /**
      * Adds a collector to the debug bar

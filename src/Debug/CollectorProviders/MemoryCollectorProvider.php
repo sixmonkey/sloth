@@ -7,7 +7,6 @@ use DebugBar\DebugBarException;
 
 class MemoryCollectorProvider extends AbstractCollectorProvider
 {
-
     /**
      * @inheritDoc
      * @throws DebugBarException

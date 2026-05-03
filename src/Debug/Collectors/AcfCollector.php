@@ -50,7 +50,7 @@ class AcfCollector extends DataCollector implements Renderable
 
         return [
             'groups' => $fieldGroups,
-            'count' => count($fieldGroups)
+            'count' => count($fieldGroups),
         ];
     }
 
@@ -78,12 +78,12 @@ class AcfCollector extends DataCollector implements Renderable
     public function getWidgets(): array
     {
         return [
-            'acf' => array(
+            'acf' => [
                 'icon' => 'category',
                 'map' => 'acf.groups',
                 'widget' => 'PhpDebugBar.Widgets.KVListWidget',
                 'default' => '{}',
-            ),
+            ],
             'acf:badge' => [
                 'map' => 'acf.count',
                 'default' => 'null',

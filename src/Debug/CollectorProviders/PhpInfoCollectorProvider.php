@@ -8,7 +8,6 @@ use DebugBar\DebugBarException;
 
 class PhpInfoCollectorProvider extends AbstractCollectorProvider
 {
-
     /**
      * @inheritDoc
      * @throws DebugBarException

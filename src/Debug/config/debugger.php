@@ -13,10 +13,10 @@ return [
             \Sloth\Debug\CollectorProviders\PhpInfoCollectorProvider::class,
             \Sloth\Debug\CollectorProviders\MemoryCollectorProvider::class,
         ],
-        'dump_all' => true
+        'dump_all' => true,
     ],
     'json' => [
         'prepend' => true,
-        'key' => '__debug'
-    ]
+        'key' => '__debug',
+    ],
 ];
