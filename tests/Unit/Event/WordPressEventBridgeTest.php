@@ -41,7 +41,7 @@ class WordPressEventBridgeTest extends TestCase
         $this->app = new Container();
 
         // Create and bind the event dispatcher
-        $this->app->singleton('events', fn () => new Dispatcher($this->app));
+        $this->app->singleton('events', fn() => new Dispatcher($this->app));
         $this->app->alias('events', Dispatcher::class);
 
         // Create the bridge

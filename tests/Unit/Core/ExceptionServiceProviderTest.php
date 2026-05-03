@@ -77,7 +77,7 @@ class ExceptionServiceProviderTest extends TestCase
      */
     public function test_register_does_not_interfere_with_other_bindings(): void
     {
-        $this->app->singleton('test-service', fn () => new \stdClass());
+        $this->app->singleton('test-service', fn() => new \stdClass());
 
         $provider = new ExceptionServiceProvider($this->app);
         $provider->register();
@@ -109,7 +109,7 @@ class ExceptionServiceProviderTest extends TestCase
 
         // If native handlers were registered, the global exception handler would
         // be our closure. Since we're in tests, it should NOT have been changed.
-        $currentHandler = set_exception_handler(fn () => null);
+        $currentHandler = set_exception_handler(fn() => null);
         restore_exception_handler();
 
         // The current handler should be null or PHP's default, not our Sloth handler
