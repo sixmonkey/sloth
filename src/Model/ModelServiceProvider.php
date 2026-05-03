@@ -170,7 +170,7 @@ class ModelServiceProvider extends ServiceProvider
 
         $this->app->instance('sloth.taxonomies', collect($entries)
             ->mapWithKeys(function ($entry, $taxonomyClass) {
-                return [(new $taxonomyClass())->getTaxonomy() => $taxonomyClass];
+                return [new $taxonomyClass()->getTaxonomy() => $taxonomyClass];
             })
             ->all());
 

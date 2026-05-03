@@ -78,7 +78,7 @@ class ComposerFinder implements FinderInterface
         $packages = $this->getInstalledPackages();
         $ignored = $this->getIgnoredPackages();
 
-        return (new Collection($packages))
+        return new Collection($packages)
             ->mapWithKeys(function ($package) {
                 $providers = $package['extra']['folivoro']['providers'] ?? [];
                 return [$package['name'] => $providers];
