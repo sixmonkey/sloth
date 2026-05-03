@@ -10,9 +10,7 @@ use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sloth\Facades\Facade;
-
 use Sloth\Model\Model;
-
 use Sloth\Model\Taxonomy;
 
 use function Illuminate\Filesystem\join_paths;

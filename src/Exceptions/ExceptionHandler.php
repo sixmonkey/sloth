@@ -234,27 +234,15 @@ class ExceptionHandler implements ExceptionHandlerContract
      */
     protected function injectDebugBarData(\Whoops\Handler\PrettyPageHandler $handler): void
     {
-        // Debug: trace what's happening
-        $debugInfo = [
-            'debugbar_class_exists' => class_exists(\DebugBar\DebugBar::class),
-            'bound' => app()->bound('debugbar'),
-        ];
-
         if (!class_exists(\DebugBar\DebugBar::class)) {
             return;
         }
-
-        $debugInfo['bound'] = app()->bound('debugbar');
 
         if (!app()->bound('debugbar')) {
             return;
         }
 
         $debugBar = app('debugbar');
-
-        $debugInfo['instance'] = get_class($debugBar);
-        $debugInfo['is_booted'] = $debugBar->isBooted();
-        $debugInfo['has_messages'] = method_exists($debugBar, 'getMessagesCollector');
 
         if (!($debugBar instanceof \Sloth\Debug\SlothDebugBar)) {
             return;
@@ -263,8 +251,6 @@ class ExceptionHandler implements ExceptionHandlerContract
         // Messages are always available (created in constructor)
         $messages = $debugBar->getMessagesCollector()->collect();
         $messageCount = isset($messages['messages']) ? count($messages['messages']) : 0;
-
-        $debugInfo['message_count'] = $messageCount;
 
         if ($messageCount > 0) {
             $handler->addDataTable(
@@ -280,17 +266,8 @@ class ExceptionHandler implements ExceptionHandlerContract
 
         // Custom collectors are only available after boot()
         if (!$debugBar->isBooted()) {
-            $debugInfo['early_return'] = 'not booted';
-            $handler->addDataTable('DebugBar Debug', $debugInfo);
             return;
         }
-
-        $debugInfo['has_collector_queries'] = $debugBar->hasCollector('queries');
-        $debugInfo['has_collector_sloth'] = $debugBar->hasCollector('sloth');
-        $debugInfo['has_collector_acf'] = $debugBar->hasCollector('acf');
-        $debugInfo['has_collector_wordpress'] = $debugBar->hasCollector('wordpress');
-
-        $handler->addDataTable('DebugBar Debug', $debugInfo);
 
         if ($debugBar->hasCollector('queries')) {
             $queries = $debugBar->getCollector('queries')->collect();

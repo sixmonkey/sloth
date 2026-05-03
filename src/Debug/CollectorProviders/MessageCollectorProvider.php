@@ -86,12 +86,12 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      */
     protected function registerErrorHandler($messageCollector): void
     {
-        $previousHandler = set_error_handler(function (
+        set_error_handler(function (
             int $severity,
             string $message,
             string $file = '',
             int $line = 0
-        ) use ($messageCollector, &$previousHandler): bool {
+        ) use ($messageCollector): bool {
             // Critical errors → throw as exception → Whoops handles it
             if ($severity & self::CRITICAL_ERRORS) {
                 throw new \ErrorException($message, 0, $severity, $file, $line);
@@ -113,11 +113,6 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             // Return false to also trigger PHP's internal handler
             return false;
         });
-
-        // Store previous handler as fallback
-        if ($previousHandler !== null) {
-            $previousHandler = $previousHandler;
-        }
     }
 
     /**
