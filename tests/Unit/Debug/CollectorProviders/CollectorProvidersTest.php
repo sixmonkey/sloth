@@ -156,12 +156,12 @@ class CollectorProvidersTest extends TestCase
         $constant = $reflection->getConstant('CRITICAL_ERRORS');
 
         $this->assertIsInt($constant);
-        $this->assertTrue((bool)($constant & E_ERROR));
-        $this->assertTrue((bool)($constant & E_PARSE));
-        $this->assertTrue((bool)($constant & E_CORE_ERROR));
-        $this->assertTrue((bool)($constant & E_COMPILE_ERROR));
-        $this->assertTrue((bool)($constant & E_USER_ERROR));
-        $this->assertTrue((bool)($constant & E_RECOVERABLE_ERROR));
+        $this->assertTrue((bool) ($constant & E_ERROR));
+        $this->assertTrue((bool) ($constant & E_PARSE));
+        $this->assertTrue((bool) ($constant & E_CORE_ERROR));
+        $this->assertTrue((bool) ($constant & E_COMPILE_ERROR));
+        $this->assertTrue((bool) ($constant & E_USER_ERROR));
+        $this->assertTrue((bool) ($constant & E_RECOVERABLE_ERROR));
     }
 
     public function test_message_collector_provider_severity_labels(): void

@@ -833,7 +833,7 @@ class Customizer
         global $menu;
         $used = [];
         foreach ($menu as $offset => $menuItem) {
-            $pi = pathinfo((string)$menuItem[2], PATHINFO_EXTENSION);
+            $pi = pathinfo((string) $menuItem[2], PATHINFO_EXTENSION);
             if (!preg_match('/^php/', $pi)) {
                 continue;
             }
