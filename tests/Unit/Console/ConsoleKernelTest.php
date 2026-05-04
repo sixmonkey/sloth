@@ -26,13 +26,13 @@ describe('ConsoleKernel', function (): void {
         $container->instance('config', new Repository([]));
         $container->instance('files', new \Illuminate\Filesystem\Filesystem());
         $container->instance('events', new Dispatcher($container));
-        
+
         $container->instance('path.base', '/tmp');
         $container->instance('path.app', '/tmp/app');
         $container->instance('path.cache', '/tmp/cache');
-        
+
         $kernel = new ConsoleKernel($container);
-        
+
         expect($kernel)->toBeInstanceOf(ConsoleKernel::class);
     });
 
@@ -42,7 +42,7 @@ describe('ConsoleKernel', function (): void {
             {
                 return '1.0.0';
             }
-            
+
             public function path(string $path = '', string $prefix = 'app'): string
             {
                 $base = $this->make('path.' . $prefix);
@@ -53,14 +53,14 @@ describe('ConsoleKernel', function (): void {
         $container->instance('config', new Repository([]));
         $container->instance('files', new \Illuminate\Filesystem\Filesystem());
         $container->instance('events', new Dispatcher($container));
-        
+
         $container->instance('path.base', '/tmp');
         $container->instance('path.app', '/tmp/app');
         $container->instance('path.cache', '/tmp/cache');
-        
+
         $kernel = new ConsoleKernel($container);
         $kernel->discoverCommands();
-        
+
         expect(true)->toBeTrue();
     });
 
@@ -70,13 +70,13 @@ describe('ConsoleKernel', function (): void {
             {
                 return '1.0.0';
             }
-            
+
             public function path(string $path = '', string $prefix = 'app'): string
             {
                 $base = $this->make('path.' . $prefix);
                 return $path ? \Illuminate\Filesystem\join_paths($base, $path) : $base;
             }
-            
+
             public function runningUnitTests(): bool
             {
                 return false;
@@ -86,15 +86,15 @@ describe('ConsoleKernel', function (): void {
         $container->instance('config', new Repository([]));
         $container->instance('files', new \Illuminate\Filesystem\Filesystem());
         $container->instance('events', new Dispatcher($container));
-        
+
         $container->instance('path.base', '/tmp');
         $container->instance('path.app', '/tmp/app');
         $container->instance('path.cache', '/tmp/cache');
-        
+
         $kernel = new ConsoleKernel($container);
         $kernel->discoverCommands();
         $status = $kernel->handleArgv(['sloth', 'inspire']);
-        
+
         expect($status)->toBe(0);
     });
 
@@ -104,7 +104,7 @@ describe('ConsoleKernel', function (): void {
             {
                 return '1.0.0';
             }
-            
+
             public function path(string $path = '', string $prefix = 'app'): string
             {
                 $base = $this->make('path.' . $prefix);
@@ -115,14 +115,14 @@ describe('ConsoleKernel', function (): void {
         $container->instance('config', new Repository([]));
         $container->instance('files', new \Illuminate\Filesystem\Filesystem());
         $container->instance('events', new Dispatcher($container));
-        
+
         $container->instance('path.base', '/tmp');
         $container->instance('path.app', '/tmp/app');
         $container->instance('path.cache', '/tmp/cache');
-        
+
         $kernel = new ConsoleKernel($container);
         $status = $kernel->handleArgv(['sloth', 'list']);
-        
+
         expect($status)->toBe(0);
     });
 });

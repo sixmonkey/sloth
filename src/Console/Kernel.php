@@ -10,6 +10,7 @@ use Sloth\Core\Application;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\StreamOutput;
+
 use function Termwind\renderUsing;
 
 /**

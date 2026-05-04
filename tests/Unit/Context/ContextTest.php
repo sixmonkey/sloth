@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sloth\Tests\Unit\Context;
 
+use PHPUnit\Framework\TestCase;
 use Sloth\Context\Context;
 
 /**
@@ -11,15 +12,17 @@ use Sloth\Context\Context;
  */
 describe('Context', function (): void {
     describe('Construction', function (): void {
-        it('can be instantiated', function (): void {
-            $context = new Context();
+        it('can be instantiated with an app', function (): void {
+            $app = $this->createMock(\Sloth\Core\Application::class);
+            $context = new Context($app);
             expect($context)->toBeInstanceOf(Context::class);
         });
     });
 
     describe('getContext()', function (): void {
-        it('method exists and returns array', function (): void {
-            $context = new Context();
+        it('method exists', function (): void {
+            $app = $this->createMock(\Sloth\Core\Application::class);
+            $context = new Context($app);
             expect(method_exists($context, 'getContext'))->toBeTrue();
         });
     });

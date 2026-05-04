@@ -39,9 +39,7 @@ abstract class AbstractRegistrar
     /** Filename for the generated manifest in the cache directory. */
     protected static string $manifestName;
 
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     /**
      * Discover and register all types with WordPress.
@@ -53,7 +51,7 @@ abstract class AbstractRegistrar
      */
     public function init(): void
     {
-        $manifest = app()->path('cache') . '/' . static::$manifestName;
+        $manifest = app()->path('cache') . '/Manifest/' . static::$manifestName;
         app()->instance('sloth.models', []);
         app()->instance('sloth.taxonomies', []);
         if (app()->isLocal() || !app('files')->exists($manifest)) {
@@ -176,9 +174,7 @@ abstract class AbstractRegistrar
      *
      * @since 1.0.0
      */
-    protected function afterManifest(): void
-    {
-    }
+    protected function afterManifest(): void {}
 
     /**
      * Write the manifest to the cache directory.

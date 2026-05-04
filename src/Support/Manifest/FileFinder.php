@@ -26,7 +26,7 @@ class FileFinder implements FinderInterface
             return [];
         }
 
-        return collect((new Finder())->in($existingPaths)->files()->name('*.php'))
+        return collect(new Finder()->in($existingPaths)->files()->name('*.php'))
             ->mapWithKeys(fn($file) => [
                 $file->getRealPath() => $file->getRealPath(),
             ])

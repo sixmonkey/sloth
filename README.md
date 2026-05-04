@@ -205,6 +205,334 @@ use Sloth\Facades\Configure;
 $value = Configure::get('config_file.setting_name');
 ```
 
+## Auto-Discovery: Convention over Configuration
+
+Sloth automatically discovers and registers classes placed in convention-based directories. Drop a file in the right place and Sloth handles the rest — no manual registration required.
+
+### `app/` vs `theme/`
+
+Sloth scans **both** `app/` and `theme/` directories. The key difference is **scope**:
+
+| Path | Scope | When to use |
+|------|-------|-------------|
+| `app/` | **Framework-wide** — always loaded, regardless of theme | Shared functionality, data structures, reusable components |
+| `theme/` | **Theme-specific** — only loaded for the active theme (`wp-content/themes/{YOUR_THEME}/`) | Theme-specific UI, presentation logic, theme-only hooks |
+
+If you switch themes, everything in `app/` stays active. Everything in `theme/` disappears with the theme.
+
+### Recommended Structure
+
+| Component | Recommended Location | Why |
+|-----------|---------------------|-----|
+| **Models** | `app/Model/` | Define data structure (post types). Should persist across theme changes. |
+| **Taxonomies** | `app/Taxonomy/` | Data structure — belongs with post types, theme-independent. |
+| **Modules** | `theme/Module/` | UI components with Twig templates — always theme-specific. |
+| **API Controllers** | Both | General APIs in `app/`, theme-specific endpoints in `theme/`. |
+| **Providers** | Both | Framework services in `app/`, theme hooks in `theme/`. |
+| **Includes** | Both | Shared helpers in `app/`, theme functions in `theme/`. |
+
+### Models (Custom Post Types)
+
+Place model classes in `app/Model/` (recommended) or `theme/Model/`. Each class extending `Sloth\Model\Model` is automatically registered as a WordPress post type.
+
+```php
+<?php
+// app/Model/NewsModel.php
+
+namespace App\Model;
+
+use Sloth\Model\Model;
+
+class NewsModel extends Model
+{
+    protected $postType = 'news';
+
+    protected $options = [
+        'public'       => true,
+        'show_in_rest' => true,
+        'menu_icon'    => 'dashicons-admin-post',
+    ];
+
+    protected $names = [
+        'singular' => 'News',
+        'plural'   => 'News',
+        'slug'     => 'news',
+    ];
+
+    protected $admin_columns = [
+        'cb'       => true,
+        'title'    => true,
+        'date'     => true,
+        'author'   => true,
+        'category' => true,
+    ];
+}
+```
+
+**What happens automatically:**
+- Post type `news` is registered via `register_extended_post_type()`
+- Admin columns are configured
+- Model is bound to the container for Eloquent queries (`NewsModel::all()`)
+
+**To disable registration** (e.g. for a base class):
+```php
+protected $register = false;
+```
+
+### Taxonomies
+
+Place taxonomy classes in `app/Taxonomy/` or `theme/Taxonomy/`.
+
+```php
+<?php
+// app/Taxonomy/OrtTaxonomy.php
+
+namespace App\Taxonomy;
+
+use Sloth\Model\Taxonomy;
+
+class OrtTaxonomy extends Taxonomy
+{
+    protected $slug = 'ort';
+
+    protected $postTypes = ['news', 'event'];
+
+    protected $unique = false;
+
+    protected $names = [
+        'singular' => 'Location',
+        'plural'   => 'Locations',
+    ];
+}
+```
+
+**What happens automatically:**
+- Taxonomy is registered via `register_extended_taxonomy()`
+- Metaboxes are added to the specified post types
+- For `$unique = true`: radio-button metabox instead of checkboxes
+
+### Modules
+
+Place module classes in `theme/Module/` (recommended) or `app/Module/`.
+
+```php
+<?php
+// theme/Module/TeaserModule.php
+
+namespace Theme\Module;
+
+use Sloth\Module\Module;
+
+class TeaserModule extends Module
+{
+    /**
+     * Enable JSON endpoint for this module.
+     *
+     * @var array|false
+     */
+    public $json = ['params' => ['id']];
+}
+```
+
+**What happens automatically:**
+- Module is available in Twig: `{% include 'module/teaser' %}`
+- AJAX handler registered: `wp_ajax_nopriv_getJSON` / `wp_ajax_getJSON`
+- REST endpoint registered: `GET /sloth/v1/module/teaser[/{id}]`
+
+**To disable JSON endpoint:** set `public $json = false;`
+
+### Service Providers
+
+Place provider classes in `app/Providers/` or `theme/Providers/`.
+
+```php
+<?php
+// theme/Providers/ThemeProvider.php
+
+namespace Theme\Providers;
+
+use Sloth\Core\ServiceProvider;
+
+class ThemeProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        // Bind services
+        $this->app->singleton('my-service', fn() => new MyService());
+    }
+
+    public function getHooks(): array
+    {
+        return [
+            'init' => fn() => $this->doSomething(),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            'the_content' => fn(string $c) => $this->transform($c),
+        ];
+    }
+}
+```
+
+**What happens automatically:**
+- Provider is instantiated and its `register()` method is called
+- Hooks from `getHooks()` are registered via `add_action()`
+- Filters from `getFilters()` are registered via `add_filter()`
+- `boot()` is called after all providers are registered
+
+### API Controllers
+
+Place controller classes in `app/Api/` (general APIs) or `theme/Api/` (theme-specific).
+
+```php
+<?php
+// app/Api/NewsController.php
+
+namespace App\Api;
+
+use Sloth\Api\Controller;
+
+class NewsController extends Controller
+{
+    public function index()
+    {
+        return \Sloth\Model\Post::type('news')
+            ->status('publish')
+            ->get();
+    }
+
+    public function single($id)
+    {
+        return \Sloth\Model\Post::find($id);
+    }
+}
+```
+
+**What happens automatically:**
+- Route prefix is derived from class name: `NewsController` → `news`
+- `index()` → REST route: `GET /wp-json/sloth/v1/news`
+- `single()` → REST route: `GET /wp-json/sloth/v1/news/{id}`
+- All public methods (except those starting with `_`) become endpoints
+
+### Includes
+
+Place any PHP files in `app/Includes/` or `theme/Includes/`. All files are automatically required.
+
+```php
+<?php
+// app/Includes/helpers.php
+
+if (!function_exists('my_custom_helper')) {
+    function my_custom_helper(string $value): string
+    {
+        return strtoupper($value);
+    }
+}
+```
+
+**What happens automatically:**
+- Every `.php` file is `require_once`'d during boot
+- No class discovery needed — works for functions, constants, anything
+
+## Service Provider Hooks
+
+Sloth provides a declarative hook registration system for WordPress actions and filters. Instead of calling `add_action()` and `add_filter()` directly, service providers return their hooks from `getHooks()` and `getFilters()`.
+
+### Why Use This System?
+
+| | `getHooks()`/`getFilters()` | `add_action()` directly |
+|---|---|---|
+| **Readability** | Hooks are centralized and declarative | Scattered throughout boot() code |
+| **Testability** | Hooks can be inspected without executing | Must execute to verify |
+| **Framework control** | Sloth manages registration order | Manual priority management |
+| **Consistency** | Same pattern across all providers | Varies by implementation |
+
+### Registering Actions
+
+Override `getHooks()` in your service provider to register WordPress actions:
+
+```php
+<?php
+
+namespace Theme\Providers;
+
+use Sloth\Core\ServiceProvider;
+
+class MyServiceProvider extends ServiceProvider
+{
+    public function getHooks(): array
+    {
+        return [
+            // Single callback (default priority: 10)
+            'init' => fn() => $this->registerPostTypes(),
+
+            // Multiple callbacks for the same hook
+            'wp_loaded' => [
+                fn() => $this->setupA(),
+                fn() => $this->setupB(),
+            ],
+
+            // With explicit priority
+            'admin_menu' => ['callback' => fn() => $this->addMenu(), 'priority' => 20],
+
+            // Multiple callbacks with different priorities
+            'init' => [
+                ['callback' => fn() => $this->early(), 'priority' => 5],
+                ['callback' => fn() => $this->late(), 'priority' => 20],
+            ],
+        ];
+    }
+}
+```
+
+### Registering Filters
+
+Override `getFilters()` to register WordPress filters. Filter callbacks receive the value as their first argument and must return the modified value:
+
+```php
+public function getFilters(): array
+{
+    return [
+        // Simple filter
+        'the_title' => fn(string $title) => '★ ' . $title,
+
+        // With priority
+        'the_content' => [
+            'callback' => fn(string $content) => $this->transform($content),
+            'priority' => 20,
+        ],
+
+        // Multiple filters on the same hook
+        'body_class' => [
+            ['callback' => fn(array $classes) => [...$classes, 'custom-a'], 'priority' => 10],
+            ['callback' => fn(array $classes) => [...$classes, 'custom-b'], 'priority' => 20],
+        ],
+    ];
+}
+```
+
+### When to Use EventBridge Instead
+
+For provider-local hooks (only your provider cares), use `getHooks()`/`getFilters()`. For shared WordPress hooks that multiple components might listen to (e.g., `the_content`, `wp_loaded`), use the EventBridge in `boot()`:
+
+```php
+use Sloth\Event\WpHookFired;
+use Illuminate\Support\Facades\Event;
+
+public function boot(): void
+{
+    // Bidirectional filter — other listeners can also modify the_content
+    Event::listen('wp:the_content', function (WpHookFired $event) {
+        $event->result = transform($event->result);
+    });
+}
+```
+
+See the [WordPress Event Bridge](#wordpress-event-bridge) section for more details.
+
 ## Directory Structure
 
 ```
@@ -345,6 +673,88 @@ render(<<<'HTML'
         </div>
     </div>
 ```
+
+## WordPress Event Bridge
+
+Sloth bridges WordPress hooks to the Laravel event system, allowing you to listen to WordPress lifecycle events using Laravel's familiar event syntax.
+
+### How It Works
+
+The `WordPressEventBridge` registers a curated set of WordPress hooks as Laravel events. Each bridged hook fires with the naming convention `wp:{hook_name}`. Listeners receive a `WpHookFired` event object containing the hook name, arguments, type, and (for filters) a modifiable result.
+
+### Listening to WordPress Actions
+
+```php
+use Sloth\Event\WpHookFired;
+use Illuminate\Support\Facades\Event;
+
+// WordPress is fully loaded
+Event::listen('wp:wp_loaded', function (WpHookFired $event) {
+    dump('WordPress booted at ' . $event->hook);
+});
+
+// After theme setup
+Event::listen('wp:after_setup_theme', function (WpHookFired $event) {
+    // Register post types, taxonomies, etc.
+});
+```
+
+### Modifying WordPress Filters
+
+Filter hooks are bidirectional — listeners can mutate `$event->result` to change the value returned by `apply_filters()`:
+
+```php
+// Modify post content
+Event::listen('wp:the_content', function (WpHookFired $event) {
+    $event->result = str_replace('old', 'new', $event->result);
+});
+
+// Add body classes
+Event::listen('wp:body_class', function (WpHookFired $event) {
+    $classes = (array) $event->result;
+    $classes[] = 'my-custom-class';
+    $event->result = $classes;
+});
+```
+
+### Available Hooks
+
+| Hook | Type | Phase |
+|------|------|-------|
+| `muplugins_loaded` | action | MU-plugins loaded (earliest) |
+| `plugins_loaded` | action | All plugins loaded |
+| `after_setup_theme` | action | Theme functions.php loaded |
+| `init` | action | WordPress fully initialized |
+| `wp_loaded` | action | All WordPress setup complete |
+| `template_redirect` | action | Before template is loaded |
+| `wp_head` | action | Inside `<head>` tag |
+| `wp_footer` | action | Before `</body>` tag |
+| `the_content` | filter | Post content before display |
+| `the_title` | filter | Post title before display |
+| `the_excerpt` | filter | Post excerpt before display |
+| `body_class` | filter | HTML body classes |
+| `shutdown` | action | PHP shutdown (last chance) |
+
+### Dynamically Registering Additional Hooks
+
+If you need to listen to a hook that isn't in the default list, you can register it at runtime:
+
+```php
+use Sloth\Event\WordPressEventBridge;
+use Illuminate\Support\Facades\Event;
+
+$bridge = app(WordPressEventBridge::class);
+$bridge->addHook('save_post', 'action');
+
+Event::listen('wp:save_post', function (WpHookFired $event) {
+    $postId = $event->firstArg();
+    // Do something when a post is saved
+});
+```
+
+### Performance
+
+The bridge uses a `hasListeners()` check before dispatching. If no Laravel listener is registered for a bridged hook, the callback returns immediately without creating event objects. This means you can safely bridge many hooks without performance penalty — only hooks with active listeners incur any overhead.
 
 ## Development
 

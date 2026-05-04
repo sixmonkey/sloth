@@ -15,6 +15,4 @@ use Illuminate\Console\Command as BaseCommand;
  *
  * @since 1.0.0
  */
-abstract class Command extends BaseCommand
-{
-}
+abstract class Command extends BaseCommand {}

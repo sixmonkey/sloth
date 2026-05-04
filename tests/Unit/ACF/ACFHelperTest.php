@@ -17,17 +17,10 @@ describe('ACFHelper', function (): void {
         });
     });
 
-    describe('addFilters()', function (): void {
+    describe('loadImage()', function (): void {
         it('method exists', function (): void {
             $helper = new ACFHelper();
-            expect(method_exists($helper, 'addFilters'))->toBeTrue();
-        });
-    });
-
-    describe('load_image()', function (): void {
-        it('method exists', function (): void {
-            $helper = new ACFHelper();
-            expect(method_exists($helper, 'load_image'))->toBeTrue();
+            expect(method_exists($helper, 'loadImage'))->toBeTrue();
         });
     });
 

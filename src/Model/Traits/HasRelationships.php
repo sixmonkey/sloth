@@ -51,7 +51,7 @@ trait HasRelationships
 
         $localKey = $localKey ?: $this->getKeyName();
 
-        return new HasOne($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
+        return new HasOne($instance->newQuery(), $this, $instance->getTable() . '.' . $foreignKey, $localKey);
     }
 
     /**
@@ -66,12 +66,12 @@ trait HasRelationships
     public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
     {
         if (is_null($relation)) {
-            list(, $caller) = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+            [, $caller] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
             $relation = $caller['function'];
         }
 
         if (is_null($foreignKey)) {
-            $foreignKey = Str::snake($relation).'_id';
+            $foreignKey = Str::snake($relation) . '_id';
         }
 
         $instance = $this->setInstanceConnection(
@@ -183,9 +183,9 @@ trait HasRelationships
     protected function setInstanceConnection($instance)
     {
         return $instance->setConnection(
-            $instance instanceof self ?
-                $this->getConnection()->getName() :
-                $instance->getConnection()->getName()
+            $instance instanceof self
+                ? $this->getConnection()->getName()
+                : $instance->getConnection()->getName()
         );
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sloth\Media;
 
 use Sloth\Core\ServiceProvider;
+use Sloth\Event\WpHookFired;
 
 /**
  * Service provider for media and URL handling.
@@ -22,6 +23,24 @@ class MediaServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('media', fn() => new Media());
+    }
+
+    /**
+     * Boot the media service provider.
+     *
+     * Registers the content filter for relative URL conversion
+     * via the WordPress Event Bridge, so that other listeners
+     * can also manipulate the_content in a decoupled manner.
+     *
+     * @since 1.0.0
+     */
+    public function boot(): void
+    {
+        if (config('urls.relative')) {
+            $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event) {
+                $event->result = app('media')->makeHrefsRelative($event->result);
+            });
+        }
     }
 
     /**
@@ -43,14 +62,8 @@ class MediaServiceProvider extends ServiceProvider
      */
     public function getFilters(): array
     {
-        $filters = [
+        return [
             'upload_mimes' => fn(array $mimes) => app('media')->addSvgMime($mimes),
         ];
-
-        if (config('urls.relative')) {
-            $filters['the_content'] = fn(string $c) => app('media')->makeHrefsRelative($c);
-        }
-
-        return $filters;
     }
 }

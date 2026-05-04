@@ -1,0 +1,16 @@
+{
+  "name": "sixmonkey-sloth",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:icons": "node build/build-icons.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Ben Kremer <ben@folivoro.com>",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "@tabler/icons": "^3.41.1"
+  }
+}

@@ -19,14 +19,15 @@ class InspireCommand extends Command
 
     public function handle(): int
     {
-        \Termwind\render(<<<'HTML'
-            <div class="py-1 ml-2">
-                <div class="px-1 bg-red-300 text-black">🦥  Sloth</div>
-                <em class="ml-1">
-                  May the sloth be with you.
-                </em>
-            </div>
-        HTML
+        \Termwind\render(
+            <<<'HTML'
+                    <div class="py-1 ml-2">
+                        <div class="px-1 bg-red-300 text-black">🦥  Sloth</div>
+                        <em class="ml-1">
+                          May the sloth be with you.
+                        </em>
+                    </div>
+                HTML
         );
 
         return self::SUCCESS;

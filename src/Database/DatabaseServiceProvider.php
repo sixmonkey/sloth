@@ -15,24 +15,18 @@ use Sloth\Core\ServiceProvider;
  * Establishes an Eloquent/Capsule connection to the WordPress database
  * and sets up the event dispatcher for Eloquent model events.
  *
- * Previously delegated to Corcel\Database::connect() — now owns the
- * Capsule setup directly, removing the last non-model dependency on Corcel.
- *
  * ## Query logging
  *
- * Query logging is enabled unconditionally so that SlothBarPanel can
- * display executed queries in the Tracy debug bar during development.
- * In production Tracy is silent, so the query log overhead is minimal.
+ * Query logging is enabled unconditionally so that QueryCollector can
+ * display executed queries in the php-debugbar during development.
+ * In production the query collector is disabled.
  *
- * ## Migration path
- *
- * Long-term goal (Step 8): remove Corcel entirely and query WordPress
- * tables directly via Eloquent without the Corcel compatibility layer.
- * See REFACTOR.md Step 8 for details.
+ * Also activates WordPress SAVEQUERIES constant to track $wpdb queries
+ * separately from Eloquent queries.
  *
  * @since 1.0.0
  * @see \Sloth\Model\Model
- * @see \Sloth\Debug\Panels\SlothBarPanel
+ * @see \Sloth\Debug\Collectors\QueryCollector
  */
 class DatabaseServiceProvider extends ServiceProvider
 {
@@ -74,7 +68,13 @@ class DatabaseServiceProvider extends ServiceProvider
 
         Model::setEventDispatcher(new Dispatcher($this->app));
 
-        // Enable query logging for SlothBarPanel
+        // Enable Eloquent query logging for QueryCollector
         Model::resolveConnection()->enableQueryLog();
+
+        // Enable WordPress $wpdb query logging
+        global $wpdb;
+        if (isset($wpdb)) {
+            $wpdb->save_queries = true;
+        }
     }
 }

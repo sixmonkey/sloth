@@ -201,11 +201,13 @@ class Module
 
         $this->set('ajax_url', $this->getAjaxUrl());
         $this->beforeRender();
-        $this->makeView();
-        $vars = array_merge(app('context')->getContext() ?? [], $this->viewVars);
-        $output = $this->view->with($vars)->render();
+
+        $output = '';
 
         if ($this->render) {
+            $this->makeView();
+            $vars = array_merge(app('context')->getContext() ?? [], $this->viewVars);
+            $output = $this->view->with($vars)->render();
             if ($this->wrapInRow) {
                 $output = View::make('Layotter.row')->with([
                     'content' => $output,

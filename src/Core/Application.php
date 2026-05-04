@@ -9,11 +9,8 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Sloth\Console\ConsoleServiceProvider;
 use Sloth\Facades\Facade;
-
 use Sloth\Model\Model;
-
 use Sloth\Model\Taxonomy;
 
 use function Illuminate\Filesystem\join_paths;
@@ -105,6 +102,8 @@ class Application extends Container
         'Customizer' => \Sloth\Facades\Customizer::class,
     ];
 
+    public ?string $basePath;
+
     // -------------------------------------------------------------------------
     // Boot lifecycle
     // -------------------------------------------------------------------------
@@ -135,6 +134,8 @@ class Application extends Container
     {
         static::setInstance($this);
         $this->instance('app', $this);
+        $this->instance(Application::class, $this);
+        $this->instance(Container::class, $this);
     }
 
     /**
@@ -203,6 +204,10 @@ class Application extends Container
      * ConfigureServiceProvider must come before any provider that
      * calls Configure::read/write during registration.
      *
+     * After all hardcoded providers are registered, the method discovers
+     * additional providers via ProvidersManifestBuilder (scans app/Providers/
+     * and theme/Providers/ for classes extending Sloth\Core\ServiceProvider).
+     *
      * @since 1.0.0
      */
     protected function registerProviders(): void
@@ -214,11 +219,14 @@ class Application extends Container
             // Infrastructure
             \Sloth\Configure\ConfigureServiceProvider::class,
             \Sloth\Event\EventServiceProvider::class,
+            \Sloth\Event\WordPressEventBridge::class,
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
+            \Sloth\Http\RequestContextServiceProvider::class,
+            \Sloth\Core\ExceptionServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
-
             \Sloth\Core\ApplicationServiceProvider::class,
+
 
             // Theme — config + view paths before other providers read them
             \Sloth\Theme\ThemeServiceProvider::class,
@@ -238,7 +246,7 @@ class Application extends Container
             \Sloth\Api\ApiServiceProvider::class,
             \Sloth\Media\MediaServiceProvider::class,
             \Sloth\Admin\AdminServiceProvider::class,
-            \Sloth\Layotter\LayotterServiceProvider::class,
+            \Sloth\LayotterBridge\LayotterBridgeServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
             \Sloth\ACF\AcfServiceProvider::class,
@@ -248,7 +256,24 @@ class Application extends Container
 
         ];
 
+        // Register framework providers first (including FilesystemServiceProvider)
         foreach ($providers as $provider) {
+            $this->register($provider);
+        }
+
+        // Autodiscover app/Providers/ and theme/Providers/
+        // (app('files') is now available since FilesystemServiceProvider is registered)
+        $builder = new \Sloth\Core\Manifest\ProvidersManifestBuilder($this);
+        $builder->init();
+        foreach ($builder->getEntries() as $provider) {
+            $this->register($provider);
+        }
+
+        // Autodiscover vendor package providers from installed.json
+        // (uses extra.laravel.providers — Laravel-compatible format)
+        $vendorBuilder = new \Sloth\Core\Manifest\VendorProviderManifestBuilder($this);
+        $vendorBuilder->init();
+        foreach ($vendorBuilder->getEntries() as $provider) {
             $this->register($provider);
         }
     }
@@ -289,7 +314,9 @@ class Application extends Container
     {
         $providers = $this->getLoadedProviders();
 
-        $providers->each(fn(ServiceProvider $p) => $p->boot());
+        $providers->each(function (ServiceProvider $provider) {
+            $provider->boot();
+        });
 
         $providers->each(function (ServiceProvider $provider): void {
             foreach ($provider->getHooks() as $hook => $value) {
@@ -372,11 +399,11 @@ class Application extends Container
      */
     protected function registerBasePaths(): void
     {
-        $base = $this->guessBasePath();
+        $this->basePath = $this->guessBasePath();
 
-        $this->addPath('base', $base);
-        $this->addPath('app', $base . '/app');
-        $this->addPath('vendor', $base . '/vendor');
+        $this->addPath('base', $this->basePath);
+        $this->addPath('app', $this->basePath . '/app');
+        $this->addPath('vendor', $this->basePath . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
         $this->addPath('plugins', WP_PLUGIN_DIR);
@@ -415,9 +442,14 @@ class Application extends Container
             return static::$cachedBasePath = rtrim(SLOTH_BASE_PATH, '/');
         }
 
-        $dir = __DIR__;
+
+        $dir = dirname(match (defined('ABSPATH')) {
+            true => ABSPATH,
+            default => __DIR__
+        });
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
+
                 return static::$cachedBasePath = $dir;
             }
             $dir = dirname($dir);
@@ -451,6 +483,18 @@ class Application extends Container
         $this->instance('path.' . $key, $path);
     }
 
+
+    /**
+     * Get the base path of the Laravel installation.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function basePath($path = '')
+    {
+        return $this->joinPaths($this->basePath, $path);
+    }
+
     /**
      * Get a path from the container.
      *
@@ -463,6 +507,18 @@ class Application extends Container
     public function path(string $path = '', string $prefix = 'app'): string
     {
         return join_paths($this->get('path.' . $prefix), $path);
+    }
+
+    /**
+     * Get the config path
+     *
+     * @return string
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function configPath(): string
+    {
+        return $this->path('config');
     }
 
     // -------------------------------------------------------------------------
@@ -558,7 +614,7 @@ class Application extends Container
      */
     public function getAllModels(): array
     {
-        return app('sloth.models');
+        return collect(app('sloth.models'));
     }
 
     /**
@@ -597,6 +653,18 @@ class Application extends Container
     public function version(): string
     {
         return self::version;
+    }
+
+    /**
+     * Join the given paths together.
+     *
+     * @param string $basePath
+     * @param string $path
+     * @return string
+     */
+    public function joinPaths(string $basePath, string $path = ''): string
+    {
+        return join_paths($basePath, $path);
     }
 
 }

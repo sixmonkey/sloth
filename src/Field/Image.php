@@ -147,11 +147,11 @@ class Image implements \Stringable
             $url = $url['url'];
         }
 
-        if ((int)$url !== 0) {
+        if ((int) $url !== 0) {
             $this->post = Post::find($url);
             $url = is_object($this->post) ? $this->post->url : ($this->post['url'] ?? null);
         } else {
-            $this->post = Post::where('guid', 'like', str_replace(WP_CONTENT_URL, '%', (string)$url))->first();
+            $this->post = Post::where('guid', 'like', str_replace(WP_CONTENT_URL, '%', (string) $url))->first();
         }
 
         if (is_object($this->post)) {
@@ -159,14 +159,14 @@ class Image implements \Stringable
             $this->caption = $this->post->post_excerpt ?? '';
             $this->description = $this->post->post_content ?? '';
 
-            $this->postID = (int)$this->post->ID;
+            $this->postID = (int) $this->post->ID;
             $metadata = $this->post->_wp_attachment_metadata ?? null;
-            $this->metaData = is_string($metadata) ? (object)@unserialize($metadata) : null;
+            $this->metaData = is_string($metadata) ? (object) @unserialize($metadata) : null;
 
-            $this->width = (int)$this->metaData->width;
-            $this->height = (int)$this->metaData->height;
+            $this->width = (int) $this->metaData->width;
+            $this->height = (int) $this->metaData->height;
 
-            $this->url = (string)apply_filters('sloth_get_attachment_link', (string)($url ?? ''));
+            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
             $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
@@ -201,7 +201,7 @@ class Image implements \Stringable
     public function getThemeSized(string|array $size): string
     {
         if (is_array($size)) {
-            $size = (string)reset($size);
+            $size = (string) reset($size);
         }
 
         if (isset($this->sizes[$size])) {
@@ -227,7 +227,7 @@ class Image implements \Stringable
     public function resize(...$options): string
     {
         if (!$this->isResizable || $this->url === null || $this->file === null) {
-            return (string)$this->url;
+            return (string) $this->url;
         }
 
         $args = func_get_args();
@@ -242,7 +242,7 @@ class Image implements \Stringable
 
         if (!isset($options['height']) && isset($this->metaData->width, $this->metaData->height)) {
             $ratio = $this->metaData->width / $options['width'];
-            $options['height'] = (int)round($this->metaData->height / $ratio);
+            $options['height'] = (int) round($this->metaData->height / $ratio);
         }
 
         $options = $this->processOptions($options);
@@ -301,7 +301,7 @@ class Image implements \Stringable
         $ext = $info['extension'] ?? '';
 
         $dstRelPath = str_replace('.' . $ext, '', $this->file);
-        $dstRelPath = str_replace((string)$uploadDir, '', $dstRelPath);
+        $dstRelPath = str_replace((string) $uploadDir, '', $dstRelPath);
 
         return sprintf('%s-%s.%s', $dstRelPath, $suffix, $ext);
     }
@@ -333,7 +333,7 @@ class Image implements \Stringable
     {
         $uploadInfo = wp_upload_dir();
 
-        $baseUrl = rtrim((string)apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
+        $baseUrl = rtrim((string) apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
 
         return $baseUrl . '/' . ltrim($filename, '/');
     }
@@ -374,7 +374,7 @@ class Image implements \Stringable
     #[\Override]
     public function __toString(): string
     {
-        return (string)$this->url;
+        return (string) $this->url;
     }
 
     /**

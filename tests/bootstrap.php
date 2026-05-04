@@ -47,6 +47,10 @@ if (!defined('WP_ENV')) {
     define('WP_ENV', 'development');
 }
 
+if (!defined('WP_TESTS_PHASE')) {
+    define('WP_TESTS_PHASE', true);
+}
+
 // Create cache directory for tests
 $cacheDir = __DIR__ . '/cache';
 if (!is_dir($cacheDir)) {
