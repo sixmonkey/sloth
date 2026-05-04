@@ -117,6 +117,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-exceptions.html" class="">Exceptions</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-facades.html" class="">Facades</a>
                 
             </li>
@@ -130,6 +134,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-finder.html" class="">Finder</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-http.html" class="">Http</a>
                 
             </li>
                     <li>
@@ -245,7 +253,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Database/DatabaseServiceProvider.php"><a href="files/src-database-databaseserviceprovider.html"><abbr title="src/Database/DatabaseServiceProvider.php">DatabaseServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -254,16 +262,12 @@
 
     <section class="phpdocumentor-description"><p>Establishes an Eloquent/Capsule connection to the WordPress database
 and sets up the event dispatcher for Eloquent model events.</p>
-<p>Previously delegated to Corcel\Database::connect() — now owns the
-Capsule setup directly, removing the last non-model dependency on Corcel.</p>
 <h2>Query logging</h2>
-<p>Query logging is enabled unconditionally so that SlothBarPanel can
-display executed queries in the Tracy debug bar during development.
-In production Tracy is silent, so the query log overhead is minimal.</p>
-<h2>Migration path</h2>
-<p>Long-term goal (Step 8): remove Corcel entirely and query WordPress
-tables directly via Eloquent without the Corcel compatibility layer.
-See REFACTOR.md Step 8 for details.</p>
+<p>Query logging is enabled unconditionally so that QueryCollector can
+display executed queries in the php-debugbar during development.
+In production the query collector is disabled.</p>
+<p>Also activates WordPress SAVEQUERIES constant to track $wpdb queries
+separately from Eloquent queries.</p>
 </section>
 
 
@@ -293,7 +297,7 @@ See REFACTOR.md Step 8 for details.</p>
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html"><abbr title="\Sloth\Debug\Panels\SlothBarPanel">SlothBarPanel</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Debug-Collectors-QueryCollector.html"><abbr title="\Sloth\Debug\Collectors\QueryCollector">QueryCollector</abbr></a></span>
                                         
                                              
                                     </dd>
@@ -492,7 +496,7 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Database/DatabaseServiceProvider.php"><a href="files/src-database-databaseserviceprovider.html"><abbr title="src/Database/DatabaseServiceProvider.php">DatabaseServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -718,7 +722,7 @@ consider using the EventBridge in boot():</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Database/DatabaseServiceProvider.php"><a href="files/src-database-databaseserviceprovider.html"><abbr title="src/Database/DatabaseServiceProvider.php">DatabaseServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 

@@ -117,6 +117,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-exceptions.html" class="">Exceptions</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-facades.html" class="">Facades</a>
                 
             </li>
@@ -130,6 +134,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-finder.html" class="">Finder</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-http.html" class="">Http</a>
                 
             </li>
                     <li>
@@ -245,46 +253,22 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Service provider for Sloth debugging and error handling.</p>
+            <p class="phpdocumentor-summary">Sloth Debug Service Provider.</p>
 
 
-    <section class="phpdocumentor-description"><p>Responsibilities:</p>
+    <section class="phpdocumentor-description"><p>Registers PHP DebugBar for development environments.</p>
+<p>The DebugBar is only registered when the <code class="prettyprint">php-debugbar/php-debugbar</code>
+package is installed as a dev-dependency. In production (where the
+package is absent), this provider does nothing.</p>
+<p>Uses a hybrid approach:</p>
 <ul>
-<li>Registers the ExceptionHandler in the container (overridable by themes)</li>
-<li>Configures Tracy Debugger for logging and the debug Bar only</li>
-<li>Whoops handles error rendering in development (HTML + JSON/AJAX)</li>
-<li>Registers set_exception_handler() and set_error_handler()</li>
-<li>Suppresses WordPress and plugin deprecated notices</li>
+<li><code class="prettyprint">ob_start()</code> callback for JSON responses (injects <code class="prettyprint">__debug</code> key into body)</li>
+<li><code class="prettyprint">register_shutdown_function()</code> for HTML responses (appends DebugBar after <code class="prettyprint">die()</code>)</li>
 </ul>
-<h2>Error rendering strategy</h2>
-<p>Development:</p>
-<ul>
-<li>Tracy Bar is visible with SlothBarPanel</li>
-<li>Whoops PrettyPageHandler renders browser errors</li>
-<li>Whoops JsonResponseHandler renders AJAX errors (visible in DevTools)</li>
-<li>Tracy logs everything to the log directory</li>
-</ul>
-<p>Production:</p>
-<ul>
-<li>No Tracy Bar, no Whoops</li>
-<li>Tracy logs silently</li>
-<li>ExceptionHandler renders Twig error templates (Error/500.twig etc.)</li>
-</ul>
-<h2>Overriding the Exception Handler</h2>
-<p>Theme developers can replace the default handler by registering
-their own in a ServiceProvider that runs after this one:</p>
-<pre class="prettyprint"><code class="prettyprint">$this-&gt;app-&gt;singleton(
-    \Illuminate\Contracts\Debug\ExceptionHandler::class,
-    \Theme\Exceptions\Handler::class
-);
-</code></pre>
-<p>Since theme providers are registered after framework providers,
-the container's last-binding-wins behaviour ensures the theme
-handler takes precedence automatically.</p>
 </section>
 
 
@@ -306,15 +290,7 @@ handler takes precedence automatically.</p>
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Debug-ExceptionHandler.html"><abbr title="\Sloth\Debug\ExceptionHandler">ExceptionHandler</abbr></a></span>
-                                        
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Debug\SlothBarPanel">SlothBarPanel</abbr></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Exceptions-ExceptionHandler.html"><abbr title="\Sloth\Exceptions\ExceptionHandler">ExceptionHandler</abbr></a></span>
                                         
                                              
                                     </dd>
@@ -336,6 +312,20 @@ handler takes precedence automatically.</p>
 
 
 
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/Sloth-Debug-DebugServiceProvider.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Sloth-Debug-DebugServiceProvider.html#property_enabled">$enabled</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+<dd>Whether the DebugBar has been successfully registered.</dd>
+
+    </dl>
 
 <h4 id="toc-methods">
     Methods
@@ -355,7 +345,7 @@ handler takes precedence automatically.</p>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Boot Tracy and register PHP error/exception handlers.</dd>
+<dd>Boot the DebugBar collectors.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
@@ -376,35 +366,14 @@ handler takes precedence automatically.</p>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Register the exception handler in the container.</dd>
+<dd>Register the service provider.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-DebugServiceProvider.html#method_configureTracy">configureTracy()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Debug-DebugServiceProvider.html#method_handleBootError">handleBootError()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Configure Tracy Debugger for logging and the debug Bar.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerErrorHandler">registerErrorHandler()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Register the PHP error handler.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerExceptionHandler">registerExceptionHandler()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Register the PHP exception handler.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-DebugServiceProvider.html#method_resolveLogPath">resolveLogPath()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Resolve the log directory path.</dd>
+<dd>Handle a boot error for the DebugBar.</dd>
 
     </dl>
 
@@ -413,6 +382,66 @@ handler takes precedence automatically.</p>
         
 
         
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Sloth-Debug-DebugServiceProvider.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_enabled">
+        $enabled
+        <a href="classes/Sloth-Debug-DebugServiceProvider.html#property_enabled" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">33</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Whether the DebugBar has been successfully registered.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$enabled</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
+
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Debug-DebugServiceProvider.html#property_enabled#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+        
+
+</article>
+            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
@@ -541,11 +570,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">88</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Boot Tracy and register PHP error/exception handlers.</p>
+        <p class="phpdocumentor-summary">Boot the DebugBar collectors.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -554,16 +583,8 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Tracy is configured based on the current environment:</p>
-<ul>
-<li>Development (app()-&gt;isLocal()): BlueScreen + Bar enabled</li>
-<li>Production: silent logging only, Bar disabled</li>
-</ul>
-<p>The Tracy Bar with the SlothBarPanel is always added in development,
-giving developers visibility into the current template and environment.</p>
-<p>PHP's set_exception_handler() and set_error_handler() delegate
-to the container-bound ExceptionHandlerContract so that theme
-overrides are respected automatically.</p>
+        <section class="phpdocumentor-description"><p>Resolves the SlothDebugBar instance during boot to ensure it
+is loaded inside the Octane sandbox.</p>
 </section>
 
     
@@ -775,11 +796,11 @@ consider using the EventBridge in boot():</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the exception handler in the container.</p>
+        <p class="phpdocumentor-summary">Register the service provider.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -788,8 +809,8 @@ consider using the EventBridge in boot():</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Binds ExceptionHandlerContract to the default Sloth handler.
-Theme developers can override this binding in their own provider.</p>
+        <section class="phpdocumentor-description"><p>Bail-out early if the DebugBar class is not available
+(e.g. production where the dev-dependency is not installed).</p>
 </section>
 
     
@@ -817,86 +838,12 @@ Theme developers can override this binding in their own provider.</p>
                     <article
         class="phpdocumentor-element
             -method
-            -private
+            -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_configureTracy">
-        configureTracy()
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_configureTracy" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">139</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Configure Tracy Debugger for logging and the debug Bar.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">configureTracy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Tracy is used only for:</p>
-<ul>
-<li>Logging exceptions and errors to the log directory</li>
-<li>Rendering the debug Bar with SlothBarPanel in development</li>
-</ul>
-<p>Error page rendering is handled by Whoops (development) and
-the Twig ExceptionHandler (production). Tracy's BlueScreen is
-intentionally not used — Whoops provides a better experience.</p>
-<p>The SLOTH_DEBUGGER_EDITOR environment variable configures the
-editor link format shown in Whoops and Tracy, e.g.:
-SLOTH_DEBUGGER_EDITOR=phpstorm://open?file=%file&amp;line=%line</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$logPath</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Absolute path to the log directory.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_configureTracy#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_registerErrorHandler">
-        registerErrorHandler()
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerErrorHandler" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_handleBootError">
+        handleBootError()
+        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_handleBootError" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
@@ -906,28 +853,36 @@ SLOTH_DEBUGGER_EDITOR=phpstorm://open?file=%file&amp;line=%line</p>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register the PHP error handler.</p>
+        <p class="phpdocumentor-summary">Handle a boot error for the DebugBar.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">registerErrorHandler</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">handleBootError</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Throwable">Throwable</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$e</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Suppresses deprecated notices originating from WordPress core
-and installed plugins to keep the debug output clean.
-All other errors are logged via Tracy.</p>
-<p>Suppression can be configured via:
-config('errors.suppress_wp_deprecated', true)
-config('errors.suppress_plugin_deprecated', true)</p>
+        <section class="phpdocumentor-description"><p>Logs the error to the application log instead of silently
+ignoring it, so that developers are aware of the failure.</p>
 </section>
 
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$e</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Throwable">Throwable</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The exception that occurred during boot.</p>
+</section>
+
+            </dd>
+            </dl>
+
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerErrorHandler#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_handleBootError#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -944,120 +899,6 @@ config('errors.suppress_plugin_deprecated', true)</p>
         
     
     
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_registerExceptionHandler">
-        registerExceptionHandler()
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerExceptionHandler" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">164</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Register the PHP exception handler.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">registerExceptionHandler</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Delegates to the container-bound ExceptionHandlerContract
-so that theme overrides are respected.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerExceptionHandler#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_resolveLogPath">
-        resolveLogPath()
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_resolveLogPath" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/DebugServiceProvider.php"><a href="files/src-debug-debugserviceprovider.html"><abbr title="src/Debug/DebugServiceProvider.php">DebugServiceProvider.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">107</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Resolve the log directory path.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">resolveLogPath</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Uses app()-&gt;path('logs') if available, otherwise falls back
-to a logs/ directory next to the project root.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-DebugServiceProvider.html#method_resolveLogPath#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Absolute path to the log directory.</p>
-</section>
-
-            </section>
-
 </article>
             </section>
 
@@ -1166,10 +1007,17 @@ to a logs/ directory next to the project root.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                <li><a href="classes/Sloth-Debug-DebugServiceProvider.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Sloth-Debug-DebugServiceProvider.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Sloth-Debug-DebugServiceProvider.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#property_enabled">$enabled</a></li>
+                                            </ul>
+                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
@@ -1179,10 +1027,7 @@ to a logs/ directory next to the project root.</p>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#method_register">register()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#method_configureTracy">configureTracy()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerErrorHandler">registerErrorHandler()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#method_registerExceptionHandler">registerExceptionHandler()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#method_resolveLogPath">resolveLogPath()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-DebugServiceProvider.html#method_handleBootError">handleBootError()</a></li>
                                     </ul>
             </li>
                     </ul>

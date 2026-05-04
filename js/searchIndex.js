@@ -911,6 +911,11 @@ Search.appendIndex(
             "summary": "Get\u0020a\u0020path\u0020from\u0020the\u0020container.",
             "url": "classes/Sloth-Core-Application.html#method_path"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AconfigPath\u0028\u0029",
+            "name": "configPath",
+            "summary": "Get\u0020the\u0020config\u0020path",
+            "url": "classes/Sloth-Core-Application.html#method_configPath"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisLocal\u0028\u0029",
             "name": "isLocal",
             "summary": "Check\u0020if\u0020running\u0020in\u0020a\u0020local\/development\u0020environment.",
@@ -1006,6 +1011,21 @@ Search.appendIndex(
             "summary": "Boot\u0020the\u0020ApplicationServiceProvider\u0020and\u0020load\u0020the\u0020includes\u0020manifest.",
             "url": "classes/Sloth-Core-ApplicationServiceProvider.html#method_boot"
         },                {
+            "fqsen": "\\Sloth\\Core\\ExceptionServiceProvider",
+            "name": "ExceptionServiceProvider",
+            "summary": "Exception\u0020Handler\u0020Service\u0020Provider.",
+            "url": "classes/Sloth-Core-ExceptionServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ExceptionServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020exception\u0020handler\u0020and\u0020PHP\u0020native\u0020handlers.",
+            "url": "classes/Sloth-Core-ExceptionServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ExceptionServiceProvider\u003A\u003AregisterExceptionHandler\u0028\u0029",
+            "name": "registerExceptionHandler",
+            "summary": "Register\u0020PHP\u0027s\u0020native\u0020exception\u0020handler.",
+            "url": "classes/Sloth-Core-ExceptionServiceProvider.html#method_registerExceptionHandler"
+        },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder",
             "name": "IncludesManifestBuilder",
             "summary": "Builds\u0020a\u0020manifest\u0020for\u0020includes\u0020discovery.",
@@ -1096,135 +1116,405 @@ Search.appendIndex(
             "summary": "Establish\u0020the\u0020Eloquent\u0020database\u0020connection.",
             "url": "classes/Sloth-Database-DatabaseServiceProvider.html#method_boot"
         },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider",
+            "name": "AbstractCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020for\u0020a\u0020CollectorProvider",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003AaddCollector\u0028\u0029",
+            "name": "addCollector",
+            "summary": "Adds\u0020a\u0020collector\u0020to\u0020the\u0020debug\u0020bar",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_addCollector"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003AhasCollector\u0028\u0029",
+            "name": "hasCollector",
+            "summary": "Check\u0020if\u0020a\u0020collector\u0020exists\u0020already\u0020in\u0020the\u0020bar",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_hasCollector"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003AgetCollector\u0028\u0029",
+            "name": "getCollector",
+            "summary": "Getter\u0020for\u0020a\u0020certain\u0020collector",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_getCollector"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003A\u0024debugBar",
+            "name": "debugBar",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#property_debugBar"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AcfCollectorProvider",
+            "name": "AcfCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-AcfCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AcfCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-AcfCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MemoryCollectorProvider",
+            "name": "MemoryCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-MemoryCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MemoryCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-MemoryCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MessageCollectorProvider",
+            "name": "MessageCollectorProvider",
+            "summary": "Message\u0020Collector\u0020Provider.",
+            "url": "classes/Sloth-Debug-CollectorProviders-MessageCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MessageCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Register\u0020and\u0020configure\u0020the\u0020MessagesCollector\u0020for\u0020debug\u0020bar\u0020in\u0020sloth.",
+            "url": "classes/Sloth-Debug-CollectorProviders-MessageCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MessageCollectorProvider\u003A\u003AregisterErrorHandler\u0028\u0029",
+            "name": "registerErrorHandler",
+            "summary": "Register\u0020a\u0020PHP\u0020error\u0020handler\u0020that\u0020separates\u0020critical\u0020errors\u0020from\nnotices\/warnings.",
+            "url": "classes/Sloth-Debug-CollectorProviders-MessageCollectorProvider.html#method_registerErrorHandler"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MessageCollectorProvider\u003A\u003AseverityLabel\u0028\u0029",
+            "name": "severityLabel",
+            "summary": "Convert\u0020a\u0020PHP\u0020error\u0020severity\u0020constant\u0020to\u0020a\u0020human\u002Dreadable\u0020label.",
+            "url": "classes/Sloth-Debug-CollectorProviders-MessageCollectorProvider.html#method_severityLabel"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MessageCollectorProvider\u003A\u003ACRITICAL_ERRORS",
+            "name": "CRITICAL_ERRORS",
+            "summary": "Bitmask\u0020of\u0020critical\u0020error\u0020levels\u0020that\u0020should\u0020be\u0020converted\nto\u0020exceptions\u0020and\u0020handled\u0020by\u0020the\u0020ExceptionHandler\u0020\u0028Whoops\u0029.",
+            "url": "classes/Sloth-Debug-CollectorProviders-MessageCollectorProvider.html#constant_CRITICAL_ERRORS"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\PhpInfoCollectorProvider",
+            "name": "PhpInfoCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-PhpInfoCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\PhpInfoCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-PhpInfoCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\QueryCollectorProvider",
+            "name": "QueryCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-QueryCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\QueryCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-QueryCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\SlothCollectorProvider",
+            "name": "SlothCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-SlothCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\SlothCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-SlothCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\WordpressCollectorProvider",
+            "name": "WordpressCollectorProvider",
+            "summary": "",
+            "url": "classes/Sloth-Debug-CollectorProviders-WordpressCollectorProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders\\WordpressCollectorProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "url": "classes/Sloth-Debug-CollectorProviders-WordpressCollectorProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\AcfCollector",
+            "name": "AcfCollector",
+            "summary": "ACF\u0020Field\u0020Groups\u0020Collector.",
+            "url": "classes/Sloth-Debug-Collectors-AcfCollector.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\AcfCollector\u003A\u003Acollect\u0028\u0029",
+            "name": "collect",
+            "summary": "Collect\u0020the\u0020ACF\u0020field\u0020groups\u0020data.",
+            "url": "classes/Sloth-Debug-Collectors-AcfCollector.html#method_collect"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\AcfCollector\u003A\u003AgetName\u0028\u0029",
+            "name": "getName",
+            "summary": "Get\u0020the\u0020collector\u0020name.",
+            "url": "classes/Sloth-Debug-Collectors-AcfCollector.html#method_getName"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\AcfCollector\u003A\u003AgetWidgets\u0028\u0029",
+            "name": "getWidgets",
+            "summary": "Get\u0020the\u0020widgets\u0020for\u0020this\u0020collector.",
+            "url": "classes/Sloth-Debug-Collectors-AcfCollector.html#method_getWidgets"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector",
+            "name": "QueryCollector",
+            "summary": "Database\u0020Query\u0020Collector.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003Acollect\u0028\u0029",
+            "name": "collect",
+            "summary": "Collect\u0020the\u0020query\u0020statistics.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_collect"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AgetAllQueries\u0028\u0029",
+            "name": "getAllQueries",
+            "summary": "Get\u0020all\u0020queries\u0020merged\u0020and\u0020sorted\u0020by\u0020execution\u0020time.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getAllQueries"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AgetEloquentQueries\u0028\u0029",
+            "name": "getEloquentQueries",
+            "summary": "Get\u0020all\u0020Eloquent\u0020queries\u0020from\u0020the\u0020current\u0020connection.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getEloquentQueries"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AgetWpdbQueries\u0028\u0029",
+            "name": "getWpdbQueries",
+            "summary": "Get\u0020all\u0020WordPress\u0020database\u0020queries\u0020from\u0020\u0024wpdb.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getWpdbQueries"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AformatWpdbCaller\u0028\u0029",
+            "name": "formatWpdbCaller",
+            "summary": "Format\u0020a\u0020WPDB\u0020caller\u0020string\u0020into\u0020a\u0020readable\u0020file\u003Aline\u0020reference.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_formatWpdbCaller"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AgetName\u0028\u0029",
+            "name": "getName",
+            "summary": "Get\u0020the\u0020collector\u0020name.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getName"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AgetWidgets\u0028\u0029",
+            "name": "getWidgets",
+            "summary": "Get\u0020the\u0020widgets\u0020for\u0020this\u0020collector.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getWidgets"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003AgetAssets\u0028\u0029",
+            "name": "getAssets",
+            "summary": "Register\u0020custom\u0020JS\u0020widget\u0020that\u0020adds\u0020a\u0020Source\u0020column.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getAssets"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003ASLOW_THRESHOLD_MS",
+            "name": "SLOW_THRESHOLD_MS",
+            "summary": "Threshold\u0020in\u0020milliseconds\u0020for\u0020marking\u0020queries\u0020as\u0020slow.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#constant_SLOW_THRESHOLD_MS"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003A\u0024cachedQueries",
+            "name": "cachedQueries",
+            "summary": "Cached\u0020query\u0020results.",
+            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#property_cachedQueries"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector",
+            "name": "SlothCollector",
+            "summary": "Sloth\u0020Framework\u0020Collector.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003Acollect\u0028\u0029",
+            "name": "collect",
+            "summary": "Collect\u0020the\u0020Sloth\u0020framework\u0020data.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_collect"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetProviders\u0028\u0029",
+            "name": "getProviders",
+            "summary": "Get\u0020the\u0020list\u0020of\u0020loaded\u0020service\u0020providers.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getProviders"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetEnvironment\u0028\u0029",
+            "name": "getEnvironment",
+            "summary": "Get\u0020the\u0020current\u0020application\u0020environment.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getEnvironment"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetModels\u0028\u0029",
+            "name": "getModels",
+            "summary": "Get\u0020the\u0020registered\u0020Sloth\u0020models.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getModels"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetTaxonomies\u0028\u0029",
+            "name": "getTaxonomies",
+            "summary": "Get\u0020the\u0020registered\u0020Sloth\u0020taxonomies.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getTaxonomies"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetTemplateHierarchy\u0028\u0029",
+            "name": "getTemplateHierarchy",
+            "summary": "Get\u0020the\u0020WordPress\u0020template\u0020hierarchy.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getTemplateHierarchy"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetName\u0028\u0029",
+            "name": "getName",
+            "summary": "Get\u0020the\u0020collector\u0020name.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getName"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\SlothCollector\u003A\u003AgetWidgets\u0028\u0029",
+            "name": "getWidgets",
+            "summary": "Get\u0020the\u0020widgets\u0020for\u0020this\u0020collector.",
+            "url": "classes/Sloth-Debug-Collectors-SlothCollector.html#method_getWidgets"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector",
+            "name": "WordpressCollector",
+            "summary": "WordPress\u0020Collector.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003Acollect\u0028\u0029",
+            "name": "collect",
+            "summary": "Collect\u0020the\u0020WordPress\u0020data.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_collect"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetVersion\u0028\u0029",
+            "name": "getVersion",
+            "summary": "Get\u0020the\u0020WordPress\u0020version\u0020string.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getVersion"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetTheme\u0028\u0029",
+            "name": "getTheme",
+            "summary": "Get\u0020the\u0020active\u0020theme\u0020name\u0020and\u0020version.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getTheme"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetPlugins\u0028\u0029",
+            "name": "getPlugins",
+            "summary": "Get\u0020the\u0020list\u0020of\u0020active\u0020plugins\u0020with\u0020versions.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getPlugins"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetCurrentPost\u0028\u0029",
+            "name": "getCurrentPost",
+            "summary": "Get\u0020the\u0020current\u0020post\u0020information.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentPost"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetCurrentUser\u0028\u0029",
+            "name": "getCurrentUser",
+            "summary": "Get\u0020the\u0020current\u0020user\u0020information.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentUser"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetConditionals\u0028\u0029",
+            "name": "getConditionals",
+            "summary": "Get\u0020the\u0020values\u0020of\u0020common\u0020WordPress\u0020conditional\u0020tags.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getConditionals"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetWpConstants\u0028\u0029",
+            "name": "getWpConstants",
+            "summary": "Get\u0020the\u0020values\u0020of\u0020relevant\u0020WordPress\u0020debug\u0020constants.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWpConstants"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetMatchedQuery\u0028\u0029",
+            "name": "getMatchedQuery",
+            "summary": "Get\u0020the\u0020matched\u0020WP\u002DQuery\u0020variables\u0020for\u0020the\u0020current\u0020request.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getMatchedQuery"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetName\u0028\u0029",
+            "name": "getName",
+            "summary": "Get\u0020the\u0020collector\u0020name.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getName"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors\\WordpressCollector\u003A\u003AgetWidgets\u0028\u0029",
+            "name": "getWidgets",
+            "summary": "Get\u0020the\u0020widgets\u0020for\u0020this\u0020collector.",
+            "url": "classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWidgets"
+        },                {
             "fqsen": "\\Sloth\\Debug\\DebugServiceProvider",
             "name": "DebugServiceProvider",
-            "summary": "Service\u0020provider\u0020for\u0020Sloth\u0020debugging\u0020and\u0020error\u0020handling.",
+            "summary": "Sloth\u0020Debug\u0020Service\u0020Provider.",
             "url": "classes/Sloth-Debug-DebugServiceProvider.html"
         },                {
             "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003Aregister\u0028\u0029",
             "name": "register",
-            "summary": "Register\u0020the\u0020exception\u0020handler\u0020in\u0020the\u0020container.",
+            "summary": "Register\u0020the\u0020service\u0020provider.",
             "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_register"
         },                {
             "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Boot\u0020Tracy\u0020and\u0020register\u0020PHP\u0020error\/exception\u0020handlers.",
+            "summary": "Boot\u0020the\u0020DebugBar\u0020collectors.",
             "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_boot"
         },                {
-            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AresolveLogPath\u0028\u0029",
-            "name": "resolveLogPath",
-            "summary": "Resolve\u0020the\u0020log\u0020directory\u0020path.",
-            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_resolveLogPath"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AhandleBootError\u0028\u0029",
+            "name": "handleBootError",
+            "summary": "Handle\u0020a\u0020boot\u0020error\u0020for\u0020the\u0020DebugBar.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_handleBootError"
         },                {
-            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AconfigureTracy\u0028\u0029",
-            "name": "configureTracy",
-            "summary": "Configure\u0020Tracy\u0020Debugger\u0020for\u0020logging\u0020and\u0020the\u0020debug\u0020Bar.",
-            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_configureTracy"
+            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003A\u0024enabled",
+            "name": "enabled",
+            "summary": "Whether\u0020the\u0020DebugBar\u0020has\u0020been\u0020successfully\u0020registered.",
+            "url": "classes/Sloth-Debug-DebugServiceProvider.html#property_enabled"
         },                {
-            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AregisterExceptionHandler\u0028\u0029",
-            "name": "registerExceptionHandler",
-            "summary": "Register\u0020the\u0020PHP\u0020exception\u0020handler.",
-            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_registerExceptionHandler"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar",
+            "name": "SlothDebugBar",
+            "summary": "Extended\u0020PHP\u0020DebugBar\u0020for\u0020the\u0020Sloth\u0020framework.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html"
         },                {
-            "fqsen": "\\Sloth\\Debug\\DebugServiceProvider\u003A\u003AregisterErrorHandler\u0028\u0029",
-            "name": "registerErrorHandler",
-            "summary": "Register\u0020the\u0020PHP\u0020error\u0020handler.",
-            "url": "classes/Sloth-Debug-DebugServiceProvider.html#method_registerErrorHandler"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020SlothDebugBar\u0020instance.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method___construct"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler",
-            "name": "ExceptionHandler",
-            "summary": "Sloth\u0020Exception\u0020Handler.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020DebugBar\u0020by\u0020loading\u0020all\u0020registered\u0020collector\u0020providers.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_boot"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003Areport\u0028\u0029",
-            "name": "report",
-            "summary": "Report\u0020\u0028log\u0029\u0020an\u0020exception.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_report"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003AgetTimeCollector\u0028\u0029",
+            "name": "getTimeCollector",
+            "summary": "Get\u0020the\u0020time\u0020data\u0020collector.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_getTimeCollector"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003AshouldReport\u0028\u0029",
-            "name": "shouldReport",
-            "summary": "Determine\u0020if\u0020the\u0020exception\u0020should\u0020be\u0020reported.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_shouldReport"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003AgetMessagesCollector\u0028\u0029",
+            "name": "getMessagesCollector",
+            "summary": "Get\u0020the\u0020messages\u0020data\u0020collector.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_getMessagesCollector"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003Arender\u0028\u0029",
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003AgetExceptionsCollector\u0028\u0029",
+            "name": "getExceptionsCollector",
+            "summary": "Get\u0020the\u0020exceptions\u0020data\u0020collector.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_getExceptionsCollector"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003AisBooted\u0028\u0029",
+            "name": "isBooted",
+            "summary": "Check\u0020whether\u0020the\u0020DebugBar\u0020has\u0020been\u0020fully\u0020booted.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_isBooted"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A__call\u0028\u0029",
+            "name": "__call",
+            "summary": "Magic\u0020calls\u0020for\u0020adding\u0020messages\u0020to\u0020the\u0020MessagesCollector.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method___call"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003AaddMessage\u0028\u0029",
+            "name": "addMessage",
+            "summary": "Add\u0020a\u0020message\u0020to\u0020the\u0020MessagesCollector.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_addMessage"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003Arender\u0028\u0029",
             "name": "render",
-            "summary": "Render\u0020an\u0020exception\u0020as\u0020an\u0020HTTP\u0020response.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_render"
+            "summary": "Render\u0020the\u0020DebugBar\u0020toolbar\u0020HTML\u0020for\u0020injection\u0020into\u0020the\u0020page.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#method_render"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003ArenderWithWhoops\u0028\u0029",
-            "name": "renderWithWhoops",
-            "summary": "Render\u0020an\u0020exception\u0020using\u0020Whoops.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_renderWithWhoops"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024timeCollector",
+            "name": "timeCollector",
+            "summary": "Time\u0020data\u0020collector\u0020for\u0020measuring\u0020request\u0020duration.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#property_timeCollector"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003ArenderForConsole\u0028\u0029",
-            "name": "renderForConsole",
-            "summary": "Render\u0020an\u0020exception\u0020for\u0020the\u0020console.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_renderForConsole"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024messagesCollector",
+            "name": "messagesCollector",
+            "summary": "Messages\u0020data\u0020collector\u0020for\u0020log\u0020messages\u0020and\u0020dump\u0020output.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#property_messagesCollector"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003ArenderErrorPage\u0028\u0029",
-            "name": "renderErrorPage",
-            "summary": "Render\u0020a\u0020Twig\u0020error\u0020page\u0020for\u0020the\u0020given\u0020exception.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_renderErrorPage"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024exceptionsCollector",
+            "name": "exceptionsCollector",
+            "summary": "Exceptions\u0020data\u0020collector\u0020for\u0020capturing\u0020thrown\u0020exceptions.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#property_exceptionsCollector"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003AgetStatusCode\u0028\u0029",
-            "name": "getStatusCode",
-            "summary": "Determine\u0020the\u0020HTTP\u0020status\u0020code\u0020for\u0020the\u0020given\u0020exception.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_getStatusCode"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024booted",
+            "name": "booted",
+            "summary": "Whether\u0020the\u0020DebugBar\u0020has\u0020been\u0020fully\u0020booted.",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#property_booted"
         },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003AisAjaxRequest\u0028\u0029",
-            "name": "isAjaxRequest",
-            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020an\u0020AJAX\u0020request.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#method_isAjaxRequest"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\ExceptionHandler\u003A\u003A\u0024dontDebug",
-            "name": "dontDebug",
-            "summary": "Scripts\u0020that\u0020should\u0020not\u0020trigger\u0020debug\u0020output.",
-            "url": "classes/Sloth-Debug-ExceptionHandler.html#property_dontDebug"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel",
-            "name": "SlothBarPanel",
-            "summary": "Tracy\u0020Debugger\u0020Bar\u0020Panel\u0020for\u0020Sloth.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetPanel\u0028\u0029",
-            "name": "getPanel",
-            "summary": "Render\u0020the\u0020panel\u0020content\u0020shown\u0020when\u0020the\u0020tab\u0020is\u0020clicked.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetTab\u0028\u0029",
-            "name": "getTab",
-            "summary": "Render\u0020the\u0020tab\u0020label\u0020shown\u0020in\u0020the\u0020Tracy\u0020Bar.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetPerformanceData\u0028\u0029",
-            "name": "getPerformanceData",
-            "summary": "Collect\u0020performance\u0020metrics\u0020for\u0020the\u0020current\u0020request.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPerformanceData"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetContainerData\u0028\u0029",
-            "name": "getContainerData",
-            "summary": "Collect\u0020Sloth\u0020container\u0020state\u0020information.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getContainerData"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetWordPressData\u0028\u0029",
-            "name": "getWordPressData",
-            "summary": "Collect\u0020WordPress\u0020context\u0020for\u0020the\u0020current\u0020request.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getWordPressData"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetAcfData\u0028\u0029",
-            "name": "getAcfData",
-            "summary": "Collect\u0020ACF\u0020field\u0020groups\u0020active\u0020on\u0020the\u0020current\u0020page.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getAcfData"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetSlothData\u0028\u0029",
-            "name": "getSlothData",
-            "summary": "Collect\u0020Sloth\u002Dspecific\u0020debug\u0020data.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getSlothData"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels\\SlothBarPanel\u003A\u003AgetQueryData\u0028\u0029",
-            "name": "getQueryData",
-            "summary": "Collect\u0020Corcel\/Eloquent\u0020query\u0020data\u0020for\u0020this\u0020request.",
-            "url": "classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getQueryData"
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#property_app"
         },                {
             "fqsen": "\\Sloth\\Deployment\\Deployment",
             "name": "Deployment",
@@ -1365,6 +1655,51 @@ Search.appendIndex(
             "name": "result",
             "summary": "",
             "url": "classes/Sloth-Event-WpHookFired.html#property_result"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler",
+            "name": "ExceptionHandler",
+            "summary": "Sloth\u0020Exception\u0020Handler.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003Areport\u0028\u0029",
+            "name": "report",
+            "summary": "Report\u0020\u0028log\u0029\u0020an\u0020exception.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_report"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003AshouldReport\u0028\u0029",
+            "name": "shouldReport",
+            "summary": "Determine\u0020if\u0020the\u0020exception\u0020should\u0020be\u0020reported.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_shouldReport"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Render\u0020an\u0020exception\u0020as\u0020an\u0020HTTP\u0020response.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_render"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003ArenderWithWhoops\u0028\u0029",
+            "name": "renderWithWhoops",
+            "summary": "Render\u0020an\u0020exception\u0020using\u0020Whoops.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_renderWithWhoops"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003ArenderForConsole\u0028\u0029",
+            "name": "renderForConsole",
+            "summary": "Render\u0020an\u0020exception\u0020for\u0020the\u0020console.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_renderForConsole"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003ArenderErrorPage\u0028\u0029",
+            "name": "renderErrorPage",
+            "summary": "Render\u0020a\u0020Twig\u0020error\u0020page\u0020for\u0020the\u0020given\u0020exception.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_renderErrorPage"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003AgetStatusCode\u0028\u0029",
+            "name": "getStatusCode",
+            "summary": "Determine\u0020the\u0020HTTP\u0020status\u0020code\u0020for\u0020the\u0020given\u0020exception.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_getStatusCode"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions\\ExceptionHandler\u003A\u003AinjectDebugBarData\u0028\u0029",
+            "name": "injectDebugBarData",
+            "summary": "Inject\u0020DebugBar\u0020collector\u0020data\u0020into\u0020the\u0020Whoops\u0020PrettyPageHandler.",
+            "url": "classes/Sloth-Exceptions-ExceptionHandler.html#method_injectDebugBarData"
         },                {
             "fqsen": "\\Sloth\\Facades\\Cache",
             "name": "Cache",
@@ -1738,7 +2073,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\debug\u0028\u0029",
             "name": "debug",
-            "summary": "Dumps\u0020variables\u0020to\u0020Tracy\u0020bar\u0020for\u0020debugging.",
+            "summary": "Dumps\u0020variables\u0020to\u0020PHP\u0020Debug\u002DBar\u0020bar\u0020for\u0020debugging.",
             "url": "namespaces/default.html#function_debug"
         },                {
             "fqsen": "\\config\u0028\u0029",
@@ -1755,6 +2090,106 @@ Search.appendIndex(
             "name": "module",
             "summary": "Instantiate\u0020and\u0020render\u0020a\u0020theme\u0020module.",
             "url": "namespaces/default.html#function_module"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext",
+            "name": "RequestContext",
+            "summary": "Request\u0020Context.",
+            "url": "classes/Sloth-Http-RequestContext.html"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020RequestContext\u0020instance.",
+            "url": "classes/Sloth-Http-RequestContext.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisRest\u0028\u0029",
+            "name": "isRest",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020REST\u0020API\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isRest"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisAjax\u0028\u0029",
+            "name": "isAjax",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020an\u0020AJAX\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isAjax"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisBackoffice\u0028\u0029",
+            "name": "isBackoffice",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020WordPress\u0020admin\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isBackoffice"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisFrontoffice\u0028\u0029",
+            "name": "isFrontoffice",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020frontend\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isFrontoffice"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisCron\u0028\u0029",
+            "name": "isCron",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020cron\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isCron"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisCli\u0028\u0029",
+            "name": "isCli",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020WP\u002DCLI\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isCli"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisXmlRpc\u0028\u0029",
+            "name": "isXmlRpc",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020an\u0020XML\u002DRPC\u0020request.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isXmlRpc"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisInstalling\u0028\u0029",
+            "name": "isInstalling",
+            "summary": "Check\u0020if\u0020WordPress\u0020is\u0020currently\u0020installing.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isInstalling"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisLogin\u0028\u0029",
+            "name": "isLogin",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020login\u0020page.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isLogin"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003A\u0024wpContext",
+            "name": "wpContext",
+            "summary": "The\u0020underlying\u0020WordPress\u0020context\u0020instance.",
+            "url": "classes/Sloth-Http-RequestContext.html#property_wpContext"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisJsonResponse\u0028\u0029",
+            "name": "isJsonResponse",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020response\u0020is\u0020JSON.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isJsonResponse"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisXmlResponse\u0028\u0029",
+            "name": "isXmlResponse",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020response\u0020is\u0020XML.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isXmlResponse"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisRestFromUri\u0028\u0029",
+            "name": "isRestFromUri",
+            "summary": "Detect\u0020REST\u0020requests\u0020early\u0020via\u0020URI\u0020prefix.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isRestFromUri"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisEarlyAjaxRequest\u0028\u0029",
+            "name": "isEarlyAjaxRequest",
+            "summary": "Detect\u0020AJAX\u0020requests\u0020early\u0020via\u0020script\u0020name.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isEarlyAjaxRequest"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AgetRestPrefix\u0028\u0029",
+            "name": "getRestPrefix",
+            "summary": "Get\u0020the\u0020REST\u0020API\u0020prefix.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_getRestPrefix"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003A\u0024restPrefix",
+            "name": "restPrefix",
+            "summary": "REST\u0020API\u0020prefix\u0020for\u0020early\u0020detection.",
+            "url": "classes/Sloth-Http-RequestContext.html#property_restPrefix"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContextServiceProvider",
+            "name": "RequestContextServiceProvider",
+            "summary": "Registers\u0020the\u0020RequestContext\u0020singleton\u0020in\u0020the\u0020container.",
+            "url": "classes/Sloth-Http-RequestContextServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Http\\RequestContextServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020RequestContext\u0020singleton.",
+            "url": "classes/Sloth-Http-RequestContextServiceProvider.html#method_register"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer",
             "name": "Installer",
@@ -2073,7 +2508,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003AgetModuleInstance\u0028\u0029",
             "name": "getModuleInstance",
-            "summary": "",
+            "summary": "Get\u0020the\u0020instance\u0020of\u0020a\u0020related\u0020module",
             "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_getModuleInstance"
         },                {
             "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003A\u0024module",
@@ -4176,15 +4611,20 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-database.html"
         },                {
+            "fqsen": "\\Sloth\\Debug\\CollectorProviders",
+            "name": "CollectorProviders",
+            "summary": "",
+            "url": "namespaces/sloth-debug-collectorproviders.html"
+        },                {
+            "fqsen": "\\Sloth\\Debug\\Collectors",
+            "name": "Collectors",
+            "summary": "",
+            "url": "namespaces/sloth-debug-collectors.html"
+        },                {
             "fqsen": "\\Sloth\\Debug",
             "name": "Debug",
             "summary": "",
             "url": "namespaces/sloth-debug.html"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Panels",
-            "name": "Panels",
-            "summary": "",
-            "url": "namespaces/sloth-debug-panels.html"
         },                {
             "fqsen": "\\Sloth\\Deployment",
             "name": "Deployment",
@@ -4195,6 +4635,11 @@ Search.appendIndex(
             "name": "Event",
             "summary": "",
             "url": "namespaces/sloth-event.html"
+        },                {
+            "fqsen": "\\Sloth\\Exceptions",
+            "name": "Exceptions",
+            "summary": "",
+            "url": "namespaces/sloth-exceptions.html"
         },                {
             "fqsen": "\\Sloth\\Facades",
             "name": "Facades",
@@ -4215,6 +4660,11 @@ Search.appendIndex(
             "name": "Finder",
             "summary": "",
             "url": "namespaces/sloth-finder.html"
+        },                {
+            "fqsen": "\\Sloth\\Http",
+            "name": "Http",
+            "summary": "",
+            "url": "namespaces/sloth-http.html"
         },                {
             "fqsen": "\\Sloth\\Installer",
             "name": "Installer",

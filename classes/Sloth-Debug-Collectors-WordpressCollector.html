@@ -117,6 +117,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-exceptions.html" class="">Exceptions</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-facades.html" class="">Facades</a>
                 
             </li>
@@ -130,6 +134,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-finder.html" class="">Finder</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-http.html" class="">Http</a>
                 
             </li>
                     <li>
@@ -217,13 +225,16 @@
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-debug.html">Debug</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-debug-panels.html">Panels</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-debug-collectors.html">Collectors</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    SlothBarPanel
+    WordpressCollector
 
+        <span class="phpdocumentor-element__extends">
+        extends <abbr title="\DebugBar\DataCollector\DataCollector">DataCollector</abbr>
+    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -234,7 +245,7 @@
     
             <span class="phpdocumentor-element__implements">
             implements
-                            <abbr title="\Tracy\IBarPanel">IBarPanel</abbr>                    </span>
+                            <abbr title="\DebugBar\DataCollector\Renderable">Renderable</abbr>                    </span>
     
     </h2>
 
@@ -244,41 +255,24 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Tracy Debugger Bar Panel for Sloth.</p>
+            <p class="phpdocumentor-summary">WordPress Collector.</p>
 
 
-    <section class="phpdocumentor-description"><p>Displays comprehensive debug information in the Tracy Bar:</p>
-<ul>
-<li>Template hierarchy and current layout (Brain\Hierarchy)</li>
-<li>Performance metrics (memory, time)</li>
-<li>Container state (loaded providers, bindings)</li>
-<li>WordPress context (post type, queried object, hooks)</li>
-<li>ACF field groups active on the current page</li>
-<li>Registered Sloth models and taxonomies</li>
-<li>Corcel/Eloquent database queries via enableQueryLog()</li>
-</ul>
-<h2>Query tracking</h2>
-<p>Corcel does not fire Illuminate QueryExecuted events reliably outside
-Laravel, and Connection::listen() does not work in this context.
-Instead, we use Connection::enableQueryLog() after Database::connect()
-and read the log when the panel renders.</p>
-<p>In Core\Sloth::connectCorcel():</p>
-<pre class="prettyprint"><code class="prettyprint">if ($this-&gt;container-&gt;isLocal()) {
-    \Corcel\Model\Post::resolveConnection()-&gt;enableQueryLog();
-}
-</code></pre>
+    <section class="phpdocumentor-description"><p>Collects and displays WordPress-specific data including
+version, active theme, plugins, current post, user,
+conditional tags, constants, and matched query.</p>
 </section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -291,13 +285,12 @@ and read the log when the panel renders.</p>
                                              
                                     </dd>
                                                 <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">@implements</span>
+                    <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>IBarPanel</p>
-</section>
-
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Debug-DebugServiceProvider.html"><abbr title="\Sloth\Debug\DebugServiceProvider">DebugServiceProvider</abbr></a></span>
+                                        
+                                             
                                     </dd>
                                             </dl>
 
@@ -305,7 +298,7 @@ and read the log when the panel renders.</p>
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -313,11 +306,11 @@ and read the log when the panel renders.</p>
 
     <h4 id="toc-interfaces">
         Interfaces
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\Tracy\IBarPanel">IBarPanel</abbr></dt>    </dl>
+                    <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\DebugBar\DataCollector\Renderable">Renderable</abbr></dt>    </dl>
 
 
 
@@ -327,65 +320,86 @@ and read the log when the panel renders.</p>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel">getPanel()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_collect">collect()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
-<dd>Render the panel content shown when the tab is clicked.</dd>
+<dd>Collect the WordPress data.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab">getTab()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getName">getName()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Render the tab label shown in the Tracy Bar.</dd>
+<dd>Get the collector name.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWidgets">getWidgets()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Get the widgets for this collector.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getAcfData">getAcfData()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getConditionals">getConditionals()</a>
     <span>
-                                &nbsp;: array&lt;string|int, string&gt;    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Collect ACF field groups active on the current page.</dd>
+<dd>Get the values of common WordPress conditional tags.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getContainerData">getContainerData()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentPost">getCurrentPost()</a>
     <span>
-                                &nbsp;: array{providers: int, bindings: int, environment: string}    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Collect Sloth container state information.</dd>
+<dd>Get the current post information.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPerformanceData">getPerformanceData()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentUser">getCurrentUser()</a>
     <span>
-                                &nbsp;: array{memory: string, peak_memory: string, time: string}    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Collect performance metrics for the current request.</dd>
+<dd>Get the current user information.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getQueryData">getQueryData()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getMatchedQuery">getMatchedQuery()</a>
     <span>
-                                &nbsp;: array{queries: array, count: int, total_time: float, slow: int}    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Collect Corcel/Eloquent query data for this request.</dd>
+<dd>Get the matched WP-Query variables for the current request.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getSlothData">getSlothData()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getPlugins">getPlugins()</a>
     <span>
-                                &nbsp;: array{models: string[], taxonomies: string[]}    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Collect Sloth-specific debug data.</dd>
+<dd>Get the list of active plugins with versions.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getWordPressData">getWordPressData()</a>
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getTheme">getTheme()</a>
     <span>
-                                &nbsp;: array{post_type: string, queried_object_id: int, template_slug: string, hooks: int, is_admin: string}    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Collect WordPress context for the current request.</dd>
+<dd>Get the active theme name and version.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getVersion">getVersion()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the WordPress version string.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWpConstants">getWpConstants()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the values of relevant WordPress debug constants.</dd>
 
     </dl>
 
@@ -398,7 +412,7 @@ and read the log when the panel renders.</p>
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -407,36 +421,36 @@ and read the log when the panel renders.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getPanel">
-        getPanel()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_collect">
+        collect()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_collect" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Render the panel content shown when the tab is clicked.</p>
+        <p class="phpdocumentor-summary">Collect the WordPress data.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getPanel</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">collect</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>All data collection is wrapped in try/catch so that a failure
-in one section never breaks the entire panel or the page.</p>
+        <section class="phpdocumentor-description"><p>Gathers information about the WordPress installation,
+current request state, and environment.</p>
 </section>
 
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_collect#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -451,23 +465,12 @@ in one section never breaks the entire panel or the page.</p>
                                             </dl>
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="attributes">
-                Attributes <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel#attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\Override">Override</abbr>]
-    </dt>
-    </dl>
-                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>HTML for the panel content.</p>
+                <section class="phpdocumentor-description"><p>The collected data.</p>
 </section>
 
             </section>
@@ -479,36 +482,33 @@ in one section never breaks the entire panel or the page.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getTab">
-        getTab()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getName">
+        getName()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getName" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">246</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Render the tab label shown in the Tracy Bar.</p>
+        <p class="phpdocumentor-summary">Get the collector name.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getTab</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getName</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Shows a query count badge to help spot N+1 problems at a glance:
-green ≤10, orange ≤20, red &gt;20.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getName#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -523,23 +523,73 @@ green ≤10, orange ≤20, red &gt;20.</p>
                                             </dl>
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="attributes">
-                Attributes <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab#attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\Override">Override</abbr>]
-    </dt>
-    </dl>
-                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>HTML for the tab.</p>
+                <section class="phpdocumentor-description"><p>The collector identifier.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getWidgets">
+        getWidgets()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWidgets" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">260</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the widgets for this collector.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getWidgets</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Returns the debug bar widget configuration for
+displaying WordPress data.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWidgets#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The widget configuration.</p>
 </section>
 
             </section>
@@ -551,23 +601,23 @@ green ≤10, orange ≤20, red &gt;20.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getAcfData">
-        getAcfData()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getAcfData" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getConditionals">
+        getConditionals()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getConditionals" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">150</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Collect ACF field groups active on the current page.</p>
+        <p class="phpdocumentor-summary">Get the values of common WordPress conditional tags.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getAcfData</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getConditionals</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -575,193 +625,16 @@ green ≤10, orange ≤20, red &gt;20.</p>
     
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getAcfData#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getContainerData">
-        getContainerData()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getContainerData" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">120</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Collect Sloth container state information.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getContainerData</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{providers: int, bindings: int, environment: string}</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getContainerData#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{providers: int, bindings: int, environment: string}</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getPerformanceData">
-        getPerformanceData()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPerformanceData" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">105</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Collect performance metrics for the current request.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getPerformanceData</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{memory: string, peak_memory: string, time: string}</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPerformanceData#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{memory: string, peak_memory: string, time: string}</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getQueryData">
-        getQueryData()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getQueryData" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">211</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Collect Corcel/Eloquent query data for this request.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getQueryData</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{queries: array, count: int, total_time: float, slow: int}</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Reads from the Connection query log which must have been enabled
-via Connection::enableQueryLog() after Database::connect().
-Slow queries (&gt;100ms) are flagged for easy identification.</p>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Newline-separated conditional tag values.</p>
 </section>
 
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getQueryData#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{queries: array, count: int, total_time: float, slow: int}</span>
             </section>
 
 </article>
@@ -771,23 +644,23 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getSlothData">
-        getSlothData()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getSlothData" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getCurrentPost">
+        getCurrentPost()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentPost" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">189</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Collect Sloth-specific debug data.</p>
+        <p class="phpdocumentor-summary">Get the current post information.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getSlothData</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{models: string[], taxonomies: string[]}</span></code>
+                    <span class="phpdocumentor-signature__name">getCurrentPost</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -795,27 +668,16 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
     
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getSlothData#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{models: string[], taxonomies: string[]}</span>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Post ID, title, and type.</p>
+</section>
+
             </section>
 
 </article>
@@ -825,23 +687,23 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getWordPressData">
-        getWordPressData()
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getWordPressData" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getCurrentUser">
+        getCurrentUser()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentUser" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Panels/SlothBarPanel.php"><a href="files/src-debug-panels-slothbarpanel.html"><abbr title="src/Debug/Panels/SlothBarPanel.php">SlothBarPanel.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">139</span>
+    <span class="phpdocumentor-element-found-in__line">131</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Collect WordPress context for the current request.</p>
+        <p class="phpdocumentor-summary">Get the current user information.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getWordPressData</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{post_type: string, queried_object_id: int, template_slug: string, hooks: int, is_admin: string}</span></code>
+                    <span class="phpdocumentor-signature__name">getCurrentUser</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -849,27 +711,231 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
     
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getWordPressData#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{post_type: string, queried_object_id: int, template_slug: string, hooks: int, is_admin: string}</span>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Username and role(s).</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getMatchedQuery">
+        getMatchedQuery()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getMatchedQuery" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">222</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the matched WP-Query variables for the current request.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getMatchedQuery</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Newline-separated query variables.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getPlugins">
+        getPlugins()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getPlugins" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">80</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the list of active plugins with versions.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getPlugins</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Newline-separated plugin list.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getTheme">
+        getTheme()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getTheme" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">64</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the active theme name and version.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getTheme</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Theme name and version.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getVersion">
+        getVersion()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getVersion" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the WordPress version string.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getVersion</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The WP version.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getWpConstants">
+        getWpConstants()
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWpConstants" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/Collectors/WordpressCollector.php"><a href="files/src-debug-collectors-wordpresscollector.html"><abbr title="src/Debug/Collectors/WordpressCollector.php">WordpressCollector.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">188</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the values of relevant WordPress debug constants.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getWpConstants</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Newline-separated constant values.</p>
+</section>
+
             </section>
 
 </article>
@@ -879,7 +945,7 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Debug/Panels/SlothBarPanel.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Debug/Collectors/WordpressCollector.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -980,7 +1046,7 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                <li><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#toc-methods">Methods</a></li>
+                                                                                <li><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
@@ -988,14 +1054,17 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPanel">getPanel()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getTab">getTab()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getAcfData">getAcfData()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getContainerData">getContainerData()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getPerformanceData">getPerformanceData()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getQueryData">getQueryData()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getSlothData">getSlothData()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#method_getWordPressData">getWordPressData()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_collect">collect()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getName">getName()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWidgets">getWidgets()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getConditionals">getConditionals()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentPost">getCurrentPost()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getCurrentUser">getCurrentUser()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getMatchedQuery">getMatchedQuery()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getPlugins">getPlugins()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getTheme">getTheme()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getVersion">getVersion()</a></li>
+                                            <li class=""><a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#method_getWpConstants">getWpConstants()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1015,7 +1084,7 @@ Slow queries (&gt;100ms) are flagged for easy identification.</p>
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Debug-Panels-SlothBarPanel.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Debug-Collectors-WordpressCollector.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

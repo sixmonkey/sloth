@@ -117,6 +117,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/sloth-exceptions.html" class="">Exceptions</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/sloth-facades.html" class="">Facades</a>
                 
             </li>
@@ -130,6 +134,10 @@
             </li>
                     <li>
                 <a href="namespaces/sloth-finder.html" class="">Finder</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/sloth-http.html" class="">Http</a>
                 
             </li>
                     <li>
@@ -216,7 +224,7 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-debug.html">Debug</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-exceptions.html">Exceptions</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
@@ -243,9 +251,9 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
@@ -253,7 +261,7 @@
 
 
     <section class="phpdocumentor-description"><p>Handles all uncaught exceptions and PHP errors.
-In development: renders Tracy BlueScreen.
+In development: renders Whoops error page.
 In production: logs the exception and renders a Twig error page if available.</p>
 <p>Theme developers can override this by registering their own handler
 in a ServiceProvider:</p>
@@ -267,7 +275,7 @@ in a ServiceProvider:</p>
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -283,7 +291,7 @@ in a ServiceProvider:</p>
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Debug-DebugServiceProvider.html"><abbr title="\Sloth\Debug\DebugServiceProvider">DebugServiceProvider</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Core-ExceptionServiceProvider.html"><abbr title="\Sloth\Core\ExceptionServiceProvider">ExceptionServiceProvider</abbr></a></span>
                                         
                                              
                                     </dd>
@@ -293,7 +301,7 @@ in a ServiceProvider:</p>
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Debug-ExceptionHandler.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Exceptions-ExceptionHandler.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -301,7 +309,7 @@ in a ServiceProvider:</p>
 
     <h4 id="toc-interfaces">
         Interfaces
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <dl class="phpdocumentor-table-of-contents">
@@ -312,78 +320,64 @@ in a ServiceProvider:</p>
 
 
 
-<h4 id="toc-properties">
-    Properties
-    <a href="classes/Sloth-Debug-ExceptionHandler.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#property_dontDebug">$dontDebug</a>
-    <span>
-                        &nbsp;: array&lt;string|int, string&gt;            </span>
-</dt>
-<dd>Scripts that should not trigger debug output.</dd>
-
-    </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Debug-ExceptionHandler.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Exceptions-ExceptionHandler.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_render">render()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_render">render()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Render an exception as an HTTP response.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_renderForConsole">renderForConsole()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderForConsole">renderForConsole()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Render an exception for the console.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_report">report()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_report">report()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Report (log) an exception.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_shouldReport">shouldReport()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_shouldReport">shouldReport()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Determine if the exception should be reported.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_getStatusCode">getStatusCode()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_getStatusCode">getStatusCode()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
 <dd>Determine the HTTP status code for the given exception.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_isAjaxRequest">isAjaxRequest()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_injectDebugBarData">injectDebugBarData()</a>
     <span>
-                                &nbsp;: bool    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Check if the current request is an AJAX request.</dd>
+<dd>Inject DebugBar collector data into the Whoops PrettyPageHandler.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_renderErrorPage">renderErrorPage()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderErrorPage">renderErrorPage()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Render a Twig error page for the given exception.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Sloth-Debug-ExceptionHandler.html#method_renderWithWhoops">renderWithWhoops()</a>
+    <a class="" href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderWithWhoops">renderWithWhoops()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -396,74 +390,11 @@ in a ServiceProvider:</p>
         
 
         
-    <section class="phpdocumentor-properties">
-        <h3 class="phpdocumentor-elements__header" id="properties">
-            Properties
-            <a href="classes/Sloth-Debug-ExceptionHandler.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
-
-        </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_dontDebug">
-        $dontDebug
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#property_dontDebug" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">43</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Scripts that should not trigger debug output.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
-    <span class="phpdocumentor-signature__name">$dontDebug</span>
-     = <span class="phpdocumentor-signature__default-value">[&#039;admin-ajax.php&#039;, &#039;async-upload.php&#039;]</span></code>
-
-        <section class="phpdocumentor-description"><p>These endpoints return structured data (JSON, XML) — rendering
-a BlueScreen or HTML error page would corrupt the response.</p>
-</section>
-
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#property_dontDebug#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
-        
-        
-
-</article>
-            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Debug-ExceptionHandler.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Exceptions-ExceptionHandler.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -474,13 +405,13 @@ a BlueScreen or HTML error page would corrupt the response.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_render">
         render()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_render" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_render" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
@@ -503,7 +434,6 @@ a BlueScreen or HTML error page would corrupt the response.</p>
 <li>Renders a Twig error template (Error/500.twig, Error/404.twig)</li>
 <li>Falls back to a plain error message if no template found</li>
 </ul>
-<p>Tracy is used only for logging — never for rendering in this handler.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -531,7 +461,7 @@ a BlueScreen or HTML error page would corrupt the response.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_render#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_render#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -565,13 +495,13 @@ a BlueScreen or HTML error page would corrupt the response.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_renderForConsole">
         renderForConsole()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderForConsole" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderForConsole" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">169</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -612,7 +542,7 @@ a BlueScreen or HTML error page would corrupt the response.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderForConsole#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderForConsole#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -638,13 +568,13 @@ a BlueScreen or HTML error page would corrupt the response.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_report">
         report()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_report" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_report" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -657,8 +587,7 @@ a BlueScreen or HTML error page would corrupt the response.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>In development: Tracy logs to the log directory.
-In production: Tracy logs silently without displaying anything.</p>
+        <section class="phpdocumentor-description"><p>Logs via Illuminate LogManager to the configured log channel.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -677,7 +606,7 @@ In production: Tracy logs silently without displaying anything.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_report#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_report#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -703,13 +632,13 @@ In production: Tracy logs silently without displaying anything.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_shouldReport">
         shouldReport()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_shouldReport" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_shouldReport" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -739,7 +668,7 @@ In production: Tracy logs silently without displaying anything.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_shouldReport#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_shouldReport#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -773,13 +702,13 @@ In production: Tracy logs silently without displaying anything.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_getStatusCode">
         getStatusCode()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_getStatusCode" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_getStatusCode" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">225</span>
+    <span class="phpdocumentor-element-found-in__line">211</span>
 
     </aside>
 
@@ -809,7 +738,7 @@ In production: Tracy logs silently without displaying anything.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_getStatusCode#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_getStatusCode#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -841,36 +770,53 @@ In production: Tracy logs silently without displaying anything.</p>
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_isAjaxRequest">
-        isAjaxRequest()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_isAjaxRequest" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_injectDebugBarData">
+        injectDebugBarData()
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_injectDebugBarData" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">244</span>
+    <span class="phpdocumentor-element-found-in__line">235</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Check if the current request is an AJAX request.</p>
+        <p class="phpdocumentor-summary">Inject DebugBar collector data into the Whoops PrettyPageHandler.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">isAjaxRequest</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">injectDebugBarData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Whoops\Handler\PrettyPageHandler">PrettyPageHandler</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$handler</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Tracy BlueScreen should not be rendered for AJAX responses
-as it would corrupt the JSON/XML response.</p>
+        <section class="phpdocumentor-description"><p>Adds DebugBar collector data as additional data tables in the
+Whoops error screen so developers can see queries, messages,
+and framework info without the DebugBar toolbar.</p>
+<p>Core collectors (messages) are always available. Custom collectors
+(queries, sloth, acf, wordpress) are only present after boot().
+Bail-outs are silent so that exception rendering never fails
+due to missing debug data.</p>
 </section>
 
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$handler</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Whoops\Handler\PrettyPageHandler">PrettyPageHandler</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The Whoops handler.</p>
+</section>
+
+            </dd>
+            </dl>
+
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_isAjaxRequest#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_injectDebugBarData#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -886,15 +832,7 @@ as it would corrupt the JSON/XML response.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>True if this is an AJAX or background request.</p>
-</section>
-
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -904,13 +842,13 @@ as it would corrupt the JSON/XML response.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_renderErrorPage">
         renderErrorPage()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderErrorPage" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderErrorPage" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">185</span>
+    <span class="phpdocumentor-element-found-in__line">172</span>
 
     </aside>
 
@@ -943,7 +881,7 @@ falling back to View/Error/500.twig, then to a plain message.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderErrorPage#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderErrorPage#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -969,13 +907,13 @@ falling back to View/Error/500.twig, then to a plain message.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_renderWithWhoops">
         renderWithWhoops()
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderWithWhoops" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderWithWhoops" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/ExceptionHandler.php"><a href="files/src-debug-exceptionhandler.html"><abbr title="src/Debug/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Exceptions/ExceptionHandler.php"><a href="files/src-exceptions-exceptionhandler.html"><abbr title="src/Exceptions/ExceptionHandler.php">ExceptionHandler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 
     </aside>
 
@@ -993,8 +931,9 @@ falling back to View/Error/500.twig, then to a plain message.</p>
 <li>AJAX → JsonResponseHandler (errors visible in browser DevTools)</li>
 <li>Browser → PrettyPageHandler (full interactive error page)</li>
 </ul>
-<p>Requires filp/whoops — installed automatically with illuminate/foundation,
-or via: composer require filp/whoops</p>
+<p>For browser requests, also injects DebugBar collector data
+(queries, messages, sloth info) as additional tables in the
+Whoops error screen.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1013,7 +952,7 @@ or via: composer require filp/whoops</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderWithWhoops#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderWithWhoops#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -1037,7 +976,7 @@ or via: composer require filp/whoops</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Debug/ExceptionHandler.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Exceptions/ExceptionHandler.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -1138,29 +1077,22 @@ or via: composer require filp/whoops</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Sloth-Debug-ExceptionHandler.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Sloth-Debug-ExceptionHandler.html#toc-methods">Methods</a></li>
+                                                                                <li><a href="classes/Sloth-Exceptions-ExceptionHandler.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
-                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
-                <li>
-                    <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#property_dontDebug">$dontDebug</a></li>
-                                            </ul>
-                </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_render">render()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderForConsole">renderForConsole()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_report">report()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_shouldReport">shouldReport()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_getStatusCode">getStatusCode()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_isAjaxRequest">isAjaxRequest()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderErrorPage">renderErrorPage()</a></li>
-                                            <li class=""><a href="classes/Sloth-Debug-ExceptionHandler.html#method_renderWithWhoops">renderWithWhoops()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_render">render()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderForConsole">renderForConsole()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_report">report()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_shouldReport">shouldReport()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_getStatusCode">getStatusCode()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_injectDebugBarData">injectDebugBarData()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderErrorPage">renderErrorPage()</a></li>
+                                            <li class=""><a href="classes/Sloth-Exceptions-ExceptionHandler.html#method_renderWithWhoops">renderWithWhoops()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1180,7 +1112,7 @@ or via: composer require filp/whoops</p>
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Debug-ExceptionHandler.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Exceptions-ExceptionHandler.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
