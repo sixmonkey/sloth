@@ -42,7 +42,7 @@ class DebugServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (! class_exists(DebugBar::class)) {
+        if (!class_exists(DebugBar::class)) {
             return;
         }
 
@@ -60,18 +60,18 @@ class DebugServiceProvider extends ServiceProvider
          * — the shutdown function appends the DebugBar toolbar.
          */
         ob_start(function ($output) {
-            if (! $this->enabled) {
+            if (!$this->enabled) {
                 return $output;
             }
 
-            if (! config('debugger.json.prepend', true)) {
+            if (!config('debugger.json.prepend', true)) {
                 return $output;
             }
 
             try {
                 $context = $this->app->make(\Sloth\Http\RequestContext::class);
 
-                if (! $context->isJsonResponse($output)) {
+                if (!$context->isJsonResponse($output)) {
                     return $output;
                 }
 
@@ -124,11 +124,11 @@ class DebugServiceProvider extends ServiceProvider
          * because it runs after all output is flushed and can safely echo content.
          */
         register_shutdown_function(function () {
-            if (! $this->enabled) {
+            if (!$this->enabled) {
                 return;
             }
 
-            if (! config('debugger.bar.display', true)) {
+            if (!config('debugger.bar.display', true)) {
                 return;
             }
 
@@ -155,7 +155,7 @@ class DebugServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (! $this->enabled) {
+        if (!$this->enabled) {
             return;
         }
 
