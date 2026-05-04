@@ -182,7 +182,9 @@ class LayotterElement extends \Layotter_Element
     }
 
     /**
-     * @return Module
+     * Get the instance of a related module
+     *
+     * @return mixed
      * @throws BindingResolutionException
      */
     final public function getModuleInstance(): Module

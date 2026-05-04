@@ -9,11 +9,8 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Sloth\Console\ConsoleServiceProvider;
 use Sloth\Facades\Facade;
-
 use Sloth\Model\Model;
-
 use Sloth\Model\Taxonomy;
 
 use function Illuminate\Filesystem\join_paths;
@@ -137,6 +134,8 @@ class Application extends Container
     {
         static::setInstance($this);
         $this->instance('app', $this);
+        $this->instance(Application::class, $this);
+        $this->instance(Container::class, $this);
     }
 
     /**
@@ -223,9 +222,11 @@ class Application extends Container
             \Sloth\Event\WordPressEventBridge::class,
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
+            \Sloth\Http\RequestContextServiceProvider::class,
+            \Sloth\Core\ExceptionServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
-
             \Sloth\Core\ApplicationServiceProvider::class,
+
 
             // Theme — config + view paths before other providers read them
             \Sloth\Theme\ThemeServiceProvider::class,
@@ -508,6 +509,18 @@ class Application extends Container
         return join_paths($this->get('path.' . $prefix), $path);
     }
 
+    /**
+     * Get the config path
+     *
+     * @return string
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function configPath(): string
+    {
+        return $this->path('config');
+    }
+
     // -------------------------------------------------------------------------
     // Environment
     // -------------------------------------------------------------------------
@@ -601,7 +614,7 @@ class Application extends Container
      */
     public function getAllModels(): array
     {
-        return app('sloth.models');
+        return collect(app('sloth.models'));
     }
 
     /**

@@ -4,220 +4,193 @@ declare(strict_types=1);
 
 namespace Sloth\Debug;
 
-use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use DebugBar\DebugBar;
 use Sloth\Core\ServiceProvider;
-use Sloth\Debug\Panels\SlothBarPanel;
-use Tracy\Debugger;
-use Tracy\ILogger;
 
 /**
- * Service provider for Sloth debugging and error handling.
+ * Sloth Debug Service Provider.
  *
- * Responsibilities:
- * - Registers the ExceptionHandler in the container (overridable by themes)
- * - Configures Tracy Debugger for logging and the debug Bar only
- * - Whoops handles error rendering in development (HTML + JSON/AJAX)
- * - Registers set_exception_handler() and set_error_handler()
- * - Suppresses WordPress and plugin deprecated notices
+ * Registers PHP DebugBar for development environments.
  *
- * ## Error rendering strategy
+ * The DebugBar is only registered when the `php-debugbar/php-debugbar`
+ * package is installed as a dev-dependency. In production (where the
+ * package is absent), this provider does nothing.
  *
- * Development:
- * - Tracy Bar is visible with SlothBarPanel
- * - Whoops PrettyPageHandler renders browser errors
- * - Whoops JsonResponseHandler renders AJAX errors (visible in DevTools)
- * - Tracy logs everything to the log directory
- *
- * Production:
- * - No Tracy Bar, no Whoops
- * - Tracy logs silently
- * - ExceptionHandler renders Twig error templates (Error/500.twig etc.)
- *
- * ## Overriding the Exception Handler
- *
- * Theme developers can replace the default handler by registering
- * their own in a ServiceProvider that runs after this one:
- *
- *     $this->app->singleton(
- *         \Illuminate\Contracts\Debug\ExceptionHandler::class,
- *         \Theme\Exceptions\Handler::class
- *     );
- *
- * Since theme providers are registered after framework providers,
- * the container's last-binding-wins behaviour ensures the theme
- * handler takes precedence automatically.
+ * Uses a hybrid approach:
+ * - `ob_start()` callback for JSON responses (injects `__debug` key into body)
+ * - `register_shutdown_function()` for HTML responses (appends DebugBar after `die()`)
  *
  * @since 1.0.0
- * @see \Sloth\Debug\ExceptionHandler
- * @see \Sloth\Debug\SlothBarPanel
+ * @see \Sloth\Exceptions\ExceptionHandler
  */
 class DebugServiceProvider extends ServiceProvider
 {
     /**
-     * Register the exception handler in the container.
+     * Whether the DebugBar has been successfully registered.
      *
-     * Binds ExceptionHandlerContract to the default Sloth handler.
-     * Theme developers can override this binding in their own provider.
+     * @since 1.0.0
+     */
+    protected bool $enabled = false;
+
+    /**
+     * Register the service provider.
+     *
+     * Bail-out early if the DebugBar class is not available
+     * (e.g. production where the dev-dependency is not installed).
      *
      * @since 1.0.0
      */
     public function register(): void
     {
-        $this->app->singleton(
-            ExceptionHandlerContract::class,
-            ExceptionHandler::class
-        );
+        if (! class_exists(DebugBar::class)) {
+            return;
+        }
+
+        $this->app->singleton(SlothDebugBar::class);
+        $this->app->alias(SlothDebugBar::class, 'debugbar');
+        $this->app->alias(SlothDebugBar::class, DebugBar::class);
+
+        $this->enabled = true;
+
+        /**
+         * Output buffer callback for JSON responses.
+         *
+         * Injects `__debug` key into JSON body when debugger.json.prepend
+         * is enabled. For HTML responses, passes buffer through unchanged
+         * — the shutdown function appends the DebugBar toolbar.
+         */
+        ob_start(function ($output) {
+            if (! $this->enabled) {
+                return $output;
+            }
+
+            if (! config('debugger.json.prepend', true)) {
+                return $output;
+            }
+
+            try {
+                $context = $this->app->make(\Sloth\Http\RequestContext::class);
+
+                if (! $context->isJsonResponse($output)) {
+                    return $output;
+                }
+
+                $debugBar = $this->app->make(SlothDebugBar::class);
+                $messages = [];
+
+                foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
+                    $link = $entry['xdebug_link'] ?? null;
+                    if ($link) {
+                        $source = $link['filename'] . ':' . $link['line'];
+                    } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
+                        $frame = $entry['trace'][0];
+                        $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
+                    } else {
+                        $source = 'unknown';
+                    }
+
+                    if (!empty($entry['is_string'])) {
+                        $value = $entry['message'] ?? '';
+                    } elseif (!empty($entry['message_html'])) {
+                        $value = strip_tags($entry['message_html']);
+                    } elseif (!empty($entry['message_json'])) {
+                        $value = $entry['message_json'];
+                    } else {
+                        $value = '[dump]';
+                    }
+
+                    $messages[$source] = $value;
+                }
+
+                if ($messages && ($json = json_decode($output, true))) {
+                    $key = config('debugger.json.key', '__debug');
+
+                    return json_encode([
+                        $key => $messages,
+                        ...$json,
+                    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+            } catch (\Throwable) {
+                // DebugBar not available — pass through unchanged
+            }
+
+            return $output;
+        });
+
+        /**
+         * Register shutdown function to inject DebugBar toolbar for HTML responses.
+         *
+         * Works correctly with `die()` calls in templates (e.g. TemplateServiceProvider)
+         * because it runs after all output is flushed and can safely echo content.
+         */
+        register_shutdown_function(function () {
+            if (! $this->enabled) {
+                return;
+            }
+
+            if (! config('debugger.bar.display', true)) {
+                return;
+            }
+
+            try {
+                $debugBar = $this->app->make(SlothDebugBar::class);
+                $context = $this->app->make(\Sloth\Http\RequestContext::class);
+
+                if (! $context->isJsonResponse() && ! $context->isXmlResponse()) {
+                    echo $debugBar->render();
+                }
+            } catch (\Throwable) {
+                // DebugBar not available — skip silently
+            }
+        });
     }
 
     /**
-     * Boot Tracy and register PHP error/exception handlers.
+     * Boot the DebugBar collectors.
      *
-     * Tracy is configured based on the current environment:
-     * - Development (app()->isLocal()): BlueScreen + Bar enabled
-     * - Production: silent logging only, Bar disabled
-     *
-     * The Tracy Bar with the SlothBarPanel is always added in development,
-     * giving developers visibility into the current template and environment.
-     *
-     * PHP's set_exception_handler() and set_error_handler() delegate
-     * to the container-bound ExceptionHandlerContract so that theme
-     * overrides are respected automatically.
+     * Resolves the SlothDebugBar instance during boot to ensure it
+     * is loaded inside the Octane sandbox.
      *
      * @since 1.0.0
      */
     public function boot(): void
     {
-        $logPath = $this->resolveLogPath();
-
-        $this->configureTracy($logPath);
-        $this->registerExceptionHandler();
-        $this->registerErrorHandler();
-    }
-
-    /**
-     * Resolve the log directory path.
-     *
-     * Uses app()->path('logs') if available, otherwise falls back
-     * to a logs/ directory next to the project root.
-     *
-     * @return string Absolute path to the log directory.
-     * @since 1.0.0
-     *
-     */
-    private function resolveLogPath(): string
-    {
-        $path = app('path.logs')
-            ?? env('LOG_DIR')
-            ?? sys_get_temp_dir() . '/sloth-logs';
-
-        if (!app('files')->isDirectory($path)) {
-            app('files')->ensureDirectoryExists($path, 0o755);
+        if (! $this->enabled) {
+            return;
         }
 
-        return $path;
-    }
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/debugger.php',
+            'debugger'
+        );
 
-    /**
-     * Configure Tracy Debugger for logging and the debug Bar.
-     *
-     * Tracy is used only for:
-     * - Logging exceptions and errors to the log directory
-     * - Rendering the debug Bar with SlothBarPanel in development
-     *
-     * Error page rendering is handled by Whoops (development) and
-     * the Twig ExceptionHandler (production). Tracy's BlueScreen is
-     * intentionally not used — Whoops provides a better experience.
-     *
-     * The SLOTH_DEBUGGER_EDITOR environment variable configures the
-     * editor link format shown in Whoops and Tracy, e.g.:
-     *   SLOTH_DEBUGGER_EDITOR=phpstorm://open?file=%file&line=%line
-     *
-     * @param string $logPath Absolute path to the log directory.
-     * @since 1.0.0
-     *
-     */
-    private function configureTracy(string $logPath): void
-    {
-        Debugger::$showLocation = true;
-        Debugger::$logDirectory = $logPath;
-
-        if ($editor = env('SLOTH_DEBUGGER_EDITOR')) {
-            Debugger::$editor = $editor;
-        }
-
-        if ($this->app->isLocal()) {
-            Debugger::enable(Debugger::Development, $logPath);
-            Debugger::getBar()->addPanel(new SlothBarPanel());
-        } else {
-            Debugger::enable(Debugger::Production, $logPath);
+        try {
+            $debugBar = $this->app->make(SlothDebugBar::class);
+            $debugBar->boot();
+        } catch (\Throwable $e) {
+            $this->handleBootError($e);
         }
     }
 
     /**
-     * Register the PHP exception handler.
+     * Handle a boot error for the DebugBar.
      *
-     * Delegates to the container-bound ExceptionHandlerContract
-     * so that theme overrides are respected.
+     * Logs the error to the application log instead of silently
+     * ignoring it, so that developers are aware of the failure.
      *
+     * @param \Throwable $e The exception that occurred during boot.
      * @since 1.0.0
      */
-    private function registerExceptionHandler(): void
+    protected function handleBootError(\Throwable $e): void
     {
-        set_exception_handler(function (\Throwable $e): void {
-            $this->app->make(ExceptionHandlerContract::class)->render(null, $e);
-        });
-    }
-
-    /**
-     * Register the PHP error handler.
-     *
-     * Suppresses deprecated notices originating from WordPress core
-     * and installed plugins to keep the debug output clean.
-     * All other errors are logged via Tracy.
-     *
-     * Suppression can be configured via:
-     *   config('errors.suppress_wp_deprecated', true)
-     *   config('errors.suppress_plugin_deprecated', true)
-     *
-     * @since 1.0.0
-     */
-    private function registerErrorHandler(): void
-    {
-        set_error_handler(function (
-            int $errno,
-            string $errstr,
-            string $errfile,
-            int $errline
-        ): bool {
-            // Log everything via Tracy
-            if (Debugger::$logDirectory !== null) {
-                Debugger::log($errstr, ILogger::WARNING);
-            }
-
-            // Suppress WP core deprecated notices
-            if (
-                config('errors.suppress_wp_deprecated', true)
-                && defined('ABSPATH')
-                && str_contains($errfile, ABSPATH)
-            ) {
-                return true;
-            }
-
-            // Suppress plugin deprecated notices
-            if (
-                config('errors.suppress_plugin_deprecated', true)
-                && defined('WP_PLUGIN_DIR')
-                && str_contains($errfile, WP_PLUGIN_DIR)
-            ) {
-                return true;
-            }
-
-            // Suppress errors during REST requests
-            if (function_exists('wp_is_serving_rest_request') && \wp_is_serving_rest_request()) {
-                return true;
-            }
-
-            return false;
-        });
+        try {
+            app('log')->error('Sloth DebugBar boot failed', [
+                'exception' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+        } catch (\Throwable) {
+            // Logging failed — nothing more we can do
+        }
     }
 }

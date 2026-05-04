@@ -52,20 +52,20 @@ class ConfigCommand extends Command
     public function handle(): int
     {
         $key = $this->argument('key');
-        
+
         // Try Laravel config first
         $value = config($key);
-        
+
         // Fall back to Configure
         if ($value === null) {
             $value = \Sloth\Configure\Configure::read($key);
         }
-        
+
         if ($value !== null) {
             $this->line($this->laravel->make('files')->jsonify($value));
             return self::SUCCESS;
         }
-        
+
         $this->warn("Config key '{$key}' not found.");
         return self::FAILURE;
     }

@@ -106,7 +106,7 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
                 continue;
             }
 
-            $slug = (new $taxonomyClass())->getTaxonomy();
+            $slug = new $taxonomyClass()->getTaxonomy();
 
             $entries[$taxonomyClass] = [
                 'slug' => $slug,

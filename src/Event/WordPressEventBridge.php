@@ -63,7 +63,7 @@ class WordPressEventBridge extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(WordPressEventBridge::class, fn ($app) => $this);
+        $this->app->singleton(WordPressEventBridge::class, fn($app) => $this);
     }
 
     /**

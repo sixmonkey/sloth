@@ -60,9 +60,7 @@ class ComposerFinder implements FinderInterface
      * @param Application $app The application container, used for path resolution.
      * @since 1.0.0
      */
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     /**
      * Scan installed Composer packages and return discovered providers.
@@ -80,7 +78,7 @@ class ComposerFinder implements FinderInterface
         $packages = $this->getInstalledPackages();
         $ignored = $this->getIgnoredPackages();
 
-        return (new Collection($packages))
+        return new Collection($packages)
             ->mapWithKeys(function ($package) {
                 $providers = $package['extra']['folivoro']['providers'] ?? [];
                 return [$package['name'] => $providers];

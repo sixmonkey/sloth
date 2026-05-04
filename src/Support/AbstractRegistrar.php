@@ -39,9 +39,7 @@ abstract class AbstractRegistrar
     /** Filename for the generated manifest in the cache directory. */
     protected static string $manifestName;
 
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     /**
      * Discover and register all types with WordPress.
@@ -176,9 +174,7 @@ abstract class AbstractRegistrar
      *
      * @since 1.0.0
      */
-    protected function afterManifest(): void
-    {
-    }
+    protected function afterManifest(): void {}
 
     /**
      * Write the manifest to the cache directory.

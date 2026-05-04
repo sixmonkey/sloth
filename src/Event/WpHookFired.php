@@ -51,8 +51,7 @@ class WpHookFired
         public readonly array $args,
         public readonly string $type,
         public mixed $result = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Determine whether this event represents a WordPress action.

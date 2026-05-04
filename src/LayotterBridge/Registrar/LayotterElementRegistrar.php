@@ -39,8 +39,7 @@ class LayotterElementRegistrar
      */
     public function __construct(
         private readonly ModuleManifestBuilder $builder,
-    ) {
-    }
+    ) {}
 
     /**
      * Register all discovered modules that have Layotter integration.

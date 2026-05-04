@@ -414,7 +414,7 @@ class Model extends Eloquent
     #[\Override]
     public function newFromBuilder($attributes = [], $connection = null): Model|CorcelModel
     {
-        $attributes = (array)$attributes;
+        $attributes = (array) $attributes;
         $class = static::class;
 
         if (isset($attributes['post_type'], static::$postTypes[$attributes['post_type']])) {
@@ -507,7 +507,7 @@ class Model extends Eloquent
      */
     public static function getPostType(): string
     {
-        return static::$postType ?: Str::lower((new \ReflectionClass(static::class))->getShortName());
+        return static::$postType ?: Str::lower(new \ReflectionClass(static::class)->getShortName());
     }
 
     // -------------------------------------------------------------------------
@@ -720,7 +720,7 @@ class Model extends Eloquent
      */
     public function getPostThumbnailAttribute(): Image
     {
-        return new Image((int)$this->meta->_thumbnail_id);
+        return new Image((int) $this->meta->_thumbnail_id);
     }
 
     /**
@@ -800,7 +800,7 @@ class Model extends Eloquent
      */
     public function getKeywordsStrAttribute(): string
     {
-        return implode(',', (array)$this->keywords);
+        return implode(',', (array) $this->keywords);
     }
 
     // -------------------------------------------------------------------------
@@ -870,7 +870,7 @@ class Model extends Eloquent
      */
     public function getAcfKey(): ?string
     {
-        return (string)$this->getAttribute('ID');
+        return (string) $this->getAttribute('ID');
     }
 
     // -------------------------------------------------------------------------

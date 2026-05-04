@@ -6,22 +6,21 @@ use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\Facade;
-use Tracy\Debugger;
 
 if (!function_exists('debug')) {
     /**
-     * Dumps variables to Tracy bar for debugging.
+     * Dumps variables to PHP Debug-Bar bar for debugging.
      *
      * @param mixed ...$vars Variables to dump
      * @return mixed Returns the first variable unchanged
      */
     function debug(mixed ...$vars): mixed
     {
-        if (class_exists(Debugger::class)) {
-            foreach ($vars as $var) {
-                Debugger::barDump($var);
-            }
+        if (function_exists('dump')) {
+            return dump(...$vars);
         }
+
+        var_dump(...$vars);
 
         return $vars[0] ?? null;
     }
