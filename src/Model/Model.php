@@ -679,7 +679,7 @@ class Model extends Eloquent
     {
         if (static::$filteredContent === null) {
             $post_content = $this->getAttribute('post_content');
-            static::$filteredContent= !is_null($post_content)
+            static::$filteredContent = !is_null($post_content)
                 ? \apply_filters('the_content', $post_content)
                 : '';
         }

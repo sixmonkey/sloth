@@ -137,9 +137,9 @@ class DebugServiceProvider extends ServiceProvider
                 $context = $this->app->make(\Sloth\Http\RequestContext::class);
 
                 if (
-                    !$context->isJsonResponse() &&
-                    !$context->isXmlResponse() &&
-                    !$context->isCli()
+                    !$context->isJsonResponse()
+                    && !$context->isXmlResponse()
+                    && !$context->isCli()
                 ) {
                     echo $debugBar->render();
                 }
