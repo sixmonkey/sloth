@@ -64,7 +64,7 @@ class DebugServiceProvider extends ServiceProvider
                 return $output;
             }
 
-            if (! config('debugger.json.prepend', true)) {
+            if (! config('debugger.json.prepend', true) && !app()->isLocal()) {
                 return $output;
             }
 
