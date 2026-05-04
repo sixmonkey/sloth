@@ -8,6 +8,8 @@ use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\TimeDataCollector;
 use DebugBar\DebugBar;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Sloth\Core\Application;
 
 /**
@@ -90,7 +92,7 @@ class SlothDebugBar extends DebugBar
 
         collect(config('debugger.bar.collector_providers', []))
             ->each(function ($collectorProvider) {
-                new $collectorProvider($this)->boot();
+                (new $collectorProvider($this))->boot();
             });
 
         $this->booted = true;
@@ -189,12 +191,19 @@ class SlothDebugBar extends DebugBar
      * base URL and injects custom Sloth CSS for icons and styling.
      *
      * @return string The DebugBar HTML (head + toolbar scripts).
+     * @throws BindingResolutionException
+     * @throws FileNotFoundException
      * @since 1.0.0
      */
     public function render(): string
     {
         $renderer = $this->getJavascriptRenderer();
-        $renderer->setBaseUrl('https://php-debugbar.com/assets/');
+
+        $renderer->addInlineAssets(
+            $renderer->dumpCssAssets(),
+            $renderer->dumpJsAssets(),
+            $renderer->dumpHeadAssets()
+        );
         $renderer->addInlineAssets(
             app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css'),
             '',
