@@ -109,10 +109,9 @@ define('USING_SLOTH_CLI', true);
     // Command Execution
     // -------------------------------------------------------------------------
 
-    $kernel = new Sloth\Console\ConsoleKernel($app);
-    $kernel->discoverCommands();
-
-    $exitCode = $kernel->handleArgv($_SERVER['argv'] ?? ['sloth']);
+    $exitCode = (new Sloth\Console\ConsoleKernel($app))
+        ->discoverCommands()
+        ->handleArgv($_SERVER['argv'] ?? ['sloth']);
 
     exit($exitCode);
 })();
