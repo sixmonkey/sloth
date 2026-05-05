@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Console;
 
-use Illuminate\Container\Container;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Config\Repository;
 use Sloth\Console\ConsoleKernel;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Tests for Sloth\Console\ConsoleKernel.
@@ -15,114 +13,156 @@ use Sloth\Console\ConsoleKernel;
  * @since 1.0.0
  */
 describe('ConsoleKernel', function (): void {
-    it('creates a console application', function (): void {
-        $container = new class extends Container {
-            public function version(): string
-            {
-                return '1.0.0';
-            }
-        };
-        $container->instance('app', $container);
-        $container->instance('config', new Repository([]));
-        $container->instance('files', new \Illuminate\Filesystem\Filesystem());
-        $container->instance('events', new Dispatcher($container));
+    describe('construction', function (): void {
+        it('can be instantiated with an Application', function (): void {
+            $app = makeTestApp();
 
-        $container->instance('path.base', '/tmp');
-        $container->instance('path.app', '/tmp/app');
-        $container->instance('path.cache', '/tmp/cache');
+            $kernel = new ConsoleKernel($app);
 
-        $kernel = new ConsoleKernel($container);
+            expect($kernel)->toBeInstanceOf(ConsoleKernel::class);
+        });
 
-        expect($kernel)->toBeInstanceOf(ConsoleKernel::class);
+        it('returns an instance of ConsoleKernel', function (): void {
+            $app = makeTestApp();
+
+            $kernel = new ConsoleKernel($app);
+
+            expect($kernel)->toBeInstanceOf(ConsoleKernel::class);
+        });
+
+        it('registers a VarDumper CliDumper handler on construction', function (): void {
+            $app = makeTestApp();
+
+            $kernel = new ConsoleKernel($app);
+
+            // VarDumper::setHandler(null) returns the previously registered handler
+            $handler = VarDumper::setHandler(null);
+            expect($handler)->toBeCallable();
+
+            // Restore a default handler so subsequent tests work
+            VarDumper::setHandler($handler);
+        });
     });
 
-    it('discovers framework commands without error', function (): void {
-        $container = new class extends Container {
-            public function version(): string
-            {
-                return '1.0.0';
-            }
+    describe('discoverCommands()', function (): void {
+        it('returns static for fluent chaining', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
 
-            public function path(string $path = '', string $prefix = 'app'): string
-            {
-                $base = $this->make('path.' . $prefix);
-                return $path ? \Illuminate\Filesystem\join_paths($base, $path) : $base;
-            }
-        };
-        $container->instance('app', $container);
-        $container->instance('config', new Repository([]));
-        $container->instance('files', new \Illuminate\Filesystem\Filesystem());
-        $container->instance('events', new Dispatcher($container));
+            $result = $kernel->discoverCommands();
 
-        $container->instance('path.base', '/tmp');
-        $container->instance('path.app', '/tmp/app');
-        $container->instance('path.cache', '/tmp/cache');
+            expect($result)->toBe($kernel);
+        });
 
-        $kernel = new ConsoleKernel($container);
-        $kernel->discoverCommands();
+        it('discovers framework commands without throwing', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
 
-        expect(true)->toBeTrue();
+            expect(fn() => $kernel->discoverCommands())->not()->toThrow(\Throwable::class);
+        });
+
+        it('does not throw when app/Console/ does not exist', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
+
+            // sys_get_temp_dir() has no Console subdirectory
+            expect(fn() => $kernel->discoverCommands())->not()->toThrow(\Throwable::class);
+        });
     });
 
-    it('returns success for inspire command', function (): void {
-        $container = new class extends Container {
-            public function version(): string
-            {
-                return '1.0.0';
+    describe('handle()', function (): void {
+        it('returns 0 for the list command', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
+
+            ob_start();
+            $status = $kernel->discoverCommands()->handle(['list'], []);
+            ob_end_clean();
+
+            expect($status)->toBe(0);
+        });
+
+        it('returns non-zero for an unknown command', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
+
+            try {
+                $status = $kernel->discoverCommands()->handle(['this-command-does-not-exist'], []);
+            } catch (\Symfony\Component\Console\Exception\CommandNotFoundException) {
+                $status = 1;
             }
 
-            public function path(string $path = '', string $prefix = 'app'): string
-            {
-                $base = $this->make('path.' . $prefix);
-                return $path ? \Illuminate\Filesystem\join_paths($base, $path) : $base;
-            }
+            expect($status)->not()->toBe(0);
+        });
 
-            public function runningUnitTests(): bool
-            {
-                return false;
-            }
-        };
-        $container->instance('app', $container);
-        $container->instance('config', new Repository([]));
-        $container->instance('files', new \Illuminate\Filesystem\Filesystem());
-        $container->instance('events', new Dispatcher($container));
+        it('passes assocArgs as flags', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
 
-        $container->instance('path.base', '/tmp');
-        $container->instance('path.app', '/tmp/app');
-        $container->instance('path.cache', '/tmp/cache');
+            ob_start();
+            $status = $kernel->discoverCommands()->handle(['list'], ['help' => true]);
+            ob_end_clean();
 
-        $kernel = new ConsoleKernel($container);
-        $kernel->discoverCommands();
-        $status = $kernel->handleArgv(['sloth', 'inspire']);
-
-        expect($status)->toBe(0);
+            expect($status)->toBe(0);
+        });
     });
 
-    it('returns success for list command', function (): void {
-        $container = new class extends Container {
-            public function version(): string
-            {
-                return '1.0.0';
+    describe('handleArgv()', function (): void {
+        it('returns 0 for the inspire command', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
+
+            ob_start();
+            $status = $kernel->discoverCommands()->handleArgv(['sloth', 'inspire']);
+            ob_end_clean();
+
+            expect($status)->toBe(0);
+        });
+
+        it('returns 0 for the list command', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
+
+            ob_start();
+            $status = $kernel->discoverCommands()->handleArgv(['sloth', 'list']);
+            ob_end_clean();
+
+            expect($status)->toBe(0);
+        });
+
+        it('returns non-zero for an unknown command', function (): void {
+            $app = makeTestApp();
+            $kernel = new ConsoleKernel($app);
+
+            try {
+                $status = $kernel->discoverCommands()->handleArgv(['sloth', 'this-command-does-not-exist']);
+            } catch (\Symfony\Component\Console\Exception\CommandNotFoundException) {
+                $status = 1;
             }
 
-            public function path(string $path = '', string $prefix = 'app'): string
-            {
-                $base = $this->make('path.' . $prefix);
-                return $path ? \Illuminate\Filesystem\join_paths($base, $path) : $base;
-            }
-        };
-        $container->instance('app', $container);
-        $container->instance('config', new Repository([]));
-        $container->instance('files', new \Illuminate\Filesystem\Filesystem());
-        $container->instance('events', new Dispatcher($container));
+            expect($status)->not()->toBe(0);
+        });
+    });
 
-        $container->instance('path.base', '/tmp');
-        $container->instance('path.app', '/tmp/app');
-        $container->instance('path.cache', '/tmp/cache');
+    describe('chaining', function (): void {
+        it('supports discoverCommands()->handle() as a fluent chain returning an integer', function (): void {
+            $app = makeTestApp();
 
-        $kernel = new ConsoleKernel($container);
-        $status = $kernel->handleArgv(['sloth', 'list']);
+            ob_start();
+            $result = (new ConsoleKernel($app))->discoverCommands()->handle(['list'], []);
+            ob_end_clean();
 
-        expect($status)->toBe(0);
+            expect($result)->toBeInt();
+        });
+
+        it('supports discoverCommands()->handleArgv() as a fluent chain returning an integer', function (): void {
+            $app = makeTestApp();
+
+            ob_start();
+            $result = (new ConsoleKernel($app))->discoverCommands()->handleArgv(['sloth', 'list']);
+            ob_end_clean();
+
+            expect($result)->toBeInt();
+        });
     });
 });
