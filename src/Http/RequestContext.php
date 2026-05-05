@@ -198,6 +198,17 @@ class RequestContext
     }
 
     /**
+     * Check if a user is currently logged in.
+     *
+     * @return bool True if a user is logged in.
+     * @since 1.0.0
+     */
+    public function isLoggedin(): bool
+    {
+        return function_exists('is_user_logged_in') && is_user_logged_in();
+    }
+
+    /**
      * Get the underlying WpContext instance.
      *
      * @return WpContext The WpContext instance.

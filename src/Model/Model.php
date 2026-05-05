@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Sloth\Field\Image;
+use Sloth\Http\RequestContext;
 use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Concerns\PostScopes;
 use Sloth\Model\Traits\HasACF;
@@ -120,7 +121,7 @@ class Model extends Eloquent
      *
      * @var string|null
      */
-    protected static ?string $filedContent = null;
+    protected static ?string $filteredContent = null;
 
     // -------------------------------------------------------------------------
     // Eloquent-inherited properties — cannot be typed (PHP 8.4 compat)
@@ -389,8 +390,11 @@ class Model extends Eloquent
 
         static::$globalScopesBooted = true;
 
+
+
         static::addGlobalScope('published_for_guests', function (Builder $builder): void {
-            if (!is_user_logged_in()) {
+            $context = app()->make(RequestContext::class);
+            if (!$context->isLoggedin() && $context->isFrontoffice()) {
                 $builder->where('post_status', 'publish');
             }
         });
@@ -507,7 +511,7 @@ class Model extends Eloquent
      */
     public static function getPostType(): string
     {
-        return static::$postType ?: Str::lower(new \ReflectionClass(static::class)->getShortName());
+        return static::$postType ?: Str::lower((new \ReflectionClass(static::class))->getShortName());
     }
 
     // -------------------------------------------------------------------------
@@ -677,14 +681,14 @@ class Model extends Eloquent
      */
     public function getContentAttribute(): string
     {
-        if ($this->filteredContent === null) {
+        if (static::$filteredContent === null) {
             $post_content = $this->getAttribute('post_content');
-            $this->filteredContent = !is_null($post_content)
+            static::$filteredContent = !is_null($post_content)
                 ? \apply_filters('the_content', $post_content)
                 : '';
         }
 
-        return $this->filteredContent;
+        return static::$filteredContent;
     }
 
     /**

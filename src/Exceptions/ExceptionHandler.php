@@ -271,12 +271,14 @@ class ExceptionHandler implements ExceptionHandlerContract
 
         if ($debugBar->hasCollector('queries')) {
             $queries = $debugBar->getCollector('queries')->collect();
+            $count = $queries['count'] ?? 0;
+            $totalTime = $queries['total_time'] ?? 0;
             $handler->addDataTable(
-                'Database Queries (' . $queries['count'] . ' total)',
+                'Database Queries (' . $count . ' total)',
                 [
-                    'Count' => $queries['count'],
-                    'Total Time' => round($queries['total_time'], 2) . ' ms',
-                    'Slow Queries' => $queries['slow'],
+                    'Count' => $count,
+                    'Total Time' => round($totalTime, 2) . ' ms',
+                    'Slow Queries' => $queries['slow'] ?? 0,
                 ]
             );
         }
