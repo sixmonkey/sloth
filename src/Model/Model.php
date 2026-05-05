@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Sloth\Field\Image;
+use Sloth\Http\RequestContext;
 use Sloth\Model\Builder\PostBuilder;
 use Sloth\Model\Concerns\PostScopes;
 use Sloth\Model\Traits\HasACF;
@@ -389,8 +390,11 @@ class Model extends Eloquent
 
         static::$globalScopesBooted = true;
 
+
+
         static::addGlobalScope('published_for_guests', function (Builder $builder): void {
-            if (!is_user_logged_in()) {
+            $context = app()->make(RequestContext::class);
+            if (!$context->isLoggedin() && $context->isFrontoffice()) {
                 $builder->where('post_status', 'publish');
             }
         });
