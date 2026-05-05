@@ -156,7 +156,7 @@ class SlothDebugBar extends DebugBar
      *     $debugBar->info('Processing request');
      *
      * @param string $method The PSR-3 log level.
-     * @param array  $args   Messages to add.
+     * @param array $args Messages to add.
      * @since 1.0.0
      */
     public function __call(string $method, array $args): void
@@ -174,9 +174,9 @@ class SlothDebugBar extends DebugBar
      *
      * A message can be anything from a scalar value to a complex object.
      *
-     * @param mixed  $message The message content.
-     * @param string $label   The message label/level (default: 'info').
-     * @param array  $context Optional context data.
+     * @param mixed $message The message content.
+     * @param string $label The message label/level (default: 'info').
+     * @param array $context Optional context data.
      * @since 1.0.0
      */
     public function addMessage(mixed $message, string $label = 'info', array $context = []): void
