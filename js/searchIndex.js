@@ -2146,6 +2146,11 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020the\u0020current\u0020request\u0020is\u0020a\u0020login\u0020page.",
             "url": "classes/Sloth-Http-RequestContext.html#method_isLogin"
         },                {
+            "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003AisLoggedin\u0028\u0029",
+            "name": "isLoggedin",
+            "summary": "Check\u0020if\u0020a\u0020user\u0020is\u0020currently\u0020logged\u0020in.",
+            "url": "classes/Sloth-Http-RequestContext.html#method_isLoggedin"
+        },                {
             "fqsen": "\\Sloth\\Http\\RequestContext\u003A\u003A\u0024wpContext",
             "name": "wpContext",
             "summary": "The\u0020underlying\u0020WordPress\u0020context\u0020instance.",
@@ -3116,10 +3121,10 @@ Search.appendIndex(
             "summary": "Relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
             "url": "classes/Sloth-Model-Model.html#property_with"
         },                {
-            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024filedContent",
-            "name": "filedContent",
+            "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024filteredContent",
+            "name": "filteredContent",
             "summary": "The\u0020filtered\u0020content\u0020for\u0020this\u0020post.",
-            "url": "classes/Sloth-Model-Model.html#property_filedContent"
+            "url": "classes/Sloth-Model-Model.html#property_filteredContent"
         },                {
             "fqsen": "\\Sloth\\Model\\Model\u003A\u003A\u0024appends",
             "name": "appends",
