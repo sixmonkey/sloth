@@ -6,26 +6,29 @@ namespace Sloth\Console;
 
 use Illuminate\Console\Application as ConsoleApplication;
 use Illuminate\Console\Command;
-use Illuminate\Container\Container;
-use Illuminate\Events\Dispatcher;
+use Sloth\Core\Application;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
+
+use function Termwind\renderUsing;
 
 /**
  * Sloth Console Kernel.
  *
- * This class bridges WP-CLI with Laravel's Illuminate\Console\Application,
- * enabling framework, theme and app developers to write Artisan-style
+ * Bridges WP-CLI with Laravel's Illuminate\Console\Application,
+ * allowing framework, theme and app developers to write Artisan-style
  * commands available via `wp sloth`.
  *
- * ## Supported Invocation Methods
+ * ## Entry Points
  *
- * | Method       | Input Type   | Usage                      |
- * |-------------|------------|----------------------------|
- * | handle()    | StringInput| `wp sloth inspire`          |
- * | handleArgv()| ArgvInput | `bin/sloth inspire`        |
+ * | Method            | Context           | Usage                      |
+ * |-------------------|-------------------|----------------------------|
+ * | handle()          | WP-CLI            | `wp sloth inspire`          |
+ * | handleArgv()      | Standalone CLI    | `bin/sloth inspire`        |
  *
  * ## Command Discovery
  *
@@ -33,8 +36,6 @@ use Symfony\Component\Console\Output\StreamOutput;
  * 1. Framework: `src/Console/Commands/`
  * 2. App: `app/Console/`
  * 3. Theme: `theme/Console/` (if using a separate theme location)
- *
- * Each command must extend `Illuminate\Console\Command` or `Sloth\Console\Command`.
  *
  * ## Example Command
  *
@@ -58,18 +59,17 @@ use Symfony\Component\Console\Output\StreamOutput;
  * ```php
  * // In WP-CLI context (wp sloth *)
  * $kernel = app(ConsoleKernel::class);
- * $kernel->discoverCommands();
- * $kernel->handle(new StringInput('inspire'));
+ * $status = $kernel->discoverCommands()->handle(['inspire'], []);
  *
  * // In standalone context (bin/sloth *)
  * $kernel = new ConsoleKernel($app);
- * $kernel->discoverCommands();
- * $kernel->handleArgv(['sloth', 'inspire']);
+ * $status = $kernel->discoverCommands()->handleArgv(['sloth', 'inspire']);
  * ```
  *
  * @since 1.0.0
  * @see \Sloth\Console\Command
- * @see \Sloth\Console\SlothWpCliCommand
+ * @see \Sloth\Console\SlothCommand
+ * @see \Sloth\Console\ConsoleServiceProvider
  */
 class ConsoleKernel
 {
@@ -83,15 +83,14 @@ class ConsoleKernel
     /**
      * Create a new ConsoleKernel instance.
      *
-     * @param Container $app The Sloth application container.
+     * @param Application $app The Sloth application container.
      * @since 1.0.0
      */
-    public function __construct(
-        private Container $app,
-    ) {
+    public function __construct(private Application $app)
+    {
         $this->console = new ConsoleApplication(
             laravel: $app,
-            events: $app->make(Dispatcher::class),
+            events: $app->make('events'),
             version: $app->version(),
         );
 
@@ -136,27 +135,14 @@ class ConsoleKernel
      * This method is used by the standalone bin/sloth entry point.
      * It receives the raw argv array from the command line.
      *
-     * ## Arguments
-     *
-     * @param array $argv The command line arguments (e.g., ['sloth', 'inspire']).
+     * @param array<int, string> $argv The command line arguments (e.g., ['sloth', 'inspire']).
      * @return int The exit status code (0 for success, non-zero for failure).
-     *
-     * ## Example
-     *
-     * ```php
-     * $kernel = new ConsoleKernel($app);
-     * $status = $kernel->handleArgv(['sloth', 'inspire']);
-     * ```
-     *
      * @since 1.0.0
      * @see bin/sloth
      */
     public function handleArgv(array $argv): int
     {
-        $streamOutput = new StreamOutput(fopen('php://stdout', 'w'));
-        \Termwind\renderUsing($streamOutput);
-
-        return $this->console->run(new ArgvInput($argv), $streamOutput);
+        return $this->run($argv);
     }
 
     /**
@@ -171,28 +157,24 @@ class ConsoleKernel
      * 2. App: `app/Console/`
      * 3. Theme: `theme/Console/` (if configured)
      *
-     * ## Example
+     * Missing directories are silently skipped.
      *
-     * ```php
-     * $kernel = new ConsoleKernel($app);
-     * $kernel->discoverCommands();
-     * ```
-     *
+     * @return static The kernel instance for fluent chaining.
      * @since 1.0.0
      * @see \Sloth\Console\Command
      */
-    public function discoverCommands(): void
+    public function discoverCommands(): static
     {
         $finder = new ClassMapFinder(Command::class);
 
         $paths = array_filter([
             __DIR__ . '/Commands',
             $this->app->path('Console'),
-        ]);
+        ], 'is_dir');
 
         try {
             $themePath = $this->app->path('Console', 'theme');
-            if ($themePath) {
+            if ($themePath && is_dir($themePath)) {
                 $paths[] = $themePath;
             }
         } catch (\Throwable) {
@@ -204,5 +186,25 @@ class ConsoleKernel
         collect($map)
             ->keys()
             ->each(fn($commandClass) => $this->console->add(new $commandClass()));
+
+        return $this;
+    }
+
+    /**
+     * Run the console application with the given argv array.
+     *
+     * Centralizes StreamOutput creation and Termwind renderUsing call
+     * for both handle() and handleArgv().
+     *
+     * @param array<int, string> $argv The command line arguments.
+     * @return int The exit status code (0 for success, non-zero for failure).
+     * @since 1.0.0
+     */
+    private function run(array $argv): int
+    {
+        $streamOutput = new StreamOutput(fopen('php://stdout', 'w'));
+        renderUsing($streamOutput);
+
+        return $this->console->run(new ArgvInput($argv), $streamOutput);
     }
 }
