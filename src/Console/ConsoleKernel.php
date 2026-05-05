@@ -98,35 +98,41 @@ class ConsoleKernel
         $this->console->setAutoExit(false);
 
         putenv('SYMFONY_CLI_DISABLE_PAGER=1');
+
+        // Register CLI-appropriate VarDumper handler for terminal output.
+        // ConsoleKernel is only instantiated in CLI contexts, so this
+        // handler never interferes with the web DebugBar handler.
+        VarDumper::setHandler(static function (mixed $var): void {
+            $cloner = new VarCloner();
+            $dumper = new CliDumper();
+            $dumper->dump($cloner->cloneVar($var));
+        });
     }
 
     /**
-     * Handle a WP-CLI invocation using StringInput.
+     * Handle a WP-CLI invocation.
      *
-     * This method is used by the WP-CLI integration (SlothWpCliCommand).
-     * It receives a command string like "inspire" or "list" and executes it.
+     * Receives positional and named arguments from WP-CLI and executes
+     * the corresponding console command.
      *
-     * ## Arguments
-     *
-     * @param StringInput $input A Symfony StringInput instance containing the command.
+     * @param array<int, string> $args Positional arguments from WP-CLI.
+     * @param array<string, mixed> $assocArgs Named arguments from WP-CLI (--flag=value).
      * @return int The exit status code (0 for success, non-zero for failure).
-     *
-     * ## Example
-     *
-     * ```php
-     * $kernel = app(ConsoleKernel::class);
-     * $status = $kernel->handle(new StringInput('inspire'));
-     * ```
-     *
      * @since 1.0.0
-     * @see \Sloth\Console\SlothWpCliCommand
      */
-    public function handle(StringInput $input): int
+    public function handle(array $args, array $assocArgs = []): int
     {
-        $streamOutput = new StreamOutput(fopen('php://stdout', 'w'));
-        \Termwind\renderUsing($streamOutput);
+        $argv = ['sloth'];
 
-        return $this->console->run($input, $streamOutput);
+        foreach ($args as $arg) {
+            $argv[] = $arg;
+        }
+
+        foreach ($assocArgs as $key => $value) {
+            $argv[] = $value === true ? "--{$key}" : "--{$key}={$value}";
+        }
+
+        return $this->run($argv);
     }
 
     /**
