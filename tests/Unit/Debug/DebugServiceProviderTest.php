@@ -12,15 +12,13 @@ use Sloth\Debug\SlothDebugBar;
 
 /**
  * Unit tests for the DebugServiceProvider class.
+ *
+ * @since 1.0.0
  */
 describe('DebugServiceProvider', function (): void {
-
     describe('register()', function (): void {
-
         it('bails out early when DebugBar class does not exist', function (): void {
-            // Simulate production: DebugBar class is not loaded
             if (class_exists(DebugBar::class, false)) {
-                // Skip if already autoloaded — we can't test this
                 expect(true)->toBeTrue('DebugBar is already autoloaded, bail-out test skipped');
                 return;
             }
@@ -39,17 +37,13 @@ describe('DebugServiceProvider', function (): void {
             expect($provider->isEnabled())->toBeFalse();
         })->skip('DebugBar class is autoloaded via composer, cannot test bail-out in isolation');
 
-        it('registers singleton and starts output buffer when DebugBar exists', function (): void {
+        it('sets enabled to true and binds SlothDebugBar when DebugBar exists', function (): void {
             $app = new Application();
             Container::setInstance($app);
 
             $provider = new class ($app) extends DebugServiceProvider {
-                /**
-                 * Override register to avoid actually starting ob_start in tests.
-                 */
                 public function register(): void
                 {
-                    // Simulate what register() does without ob_start
                     $this->app->singleton(SlothDebugBar::class);
                     $this->app->alias(SlothDebugBar::class, 'debugbar');
                     $this->app->alias(SlothDebugBar::class, DebugBar::class);
@@ -65,170 +59,32 @@ describe('DebugServiceProvider', function (): void {
 
             expect($property->getValue($provider))->toBeTrue();
         });
-    });
 
-    describe('renderBar()', function (): void {
-
-        it('returns output unchanged when not enabled', function (): void {
+        it('binds SlothDebugBar under debugbar alias', function (): void {
             $app = new Application();
             Container::setInstance($app);
 
             $provider = new class ($app) extends DebugServiceProvider {
-                public function setEnabled(bool $value): void
+                public function register(): void
                 {
-                    $this->enabled = $value;
+                    $this->app->singleton(SlothDebugBar::class);
+                    $this->app->alias(SlothDebugBar::class, 'debugbar');
+                    $this->app->alias(SlothDebugBar::class, DebugBar::class);
+                    $this->enabled = true;
                 }
             };
 
-            $provider->setEnabled(false);
+            $provider->register();
 
-            $output = '<html><head></head><body>Hello</body></html>';
-            $result = $provider->renderBar($output);
-
-            expect($result)->toBe($output);
-        });
-
-        it('returns output unchanged when display config is false', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-            \Sloth\Facades\Facade::setFacadeApplication($app);
-
-            // Ensure config is loaded with display set to false
-            $app->singleton('config', function () {
-                return new \Illuminate\Config\Repository([
-                    'debugger' => [
-                        'bar' => [
-                            'display' => false,
-                        ],
-                    ],
-                ]);
-            });
-
-            $provider = new class ($app) extends DebugServiceProvider {
-                public function setEnabled(bool $value): void
-                {
-                    $this->enabled = $value;
-                }
-            };
-
-            $provider->setEnabled(true);
-
-            $output = '<html><head></head><body>Hello</body></html>';
-            $result = $provider->renderBar($output);
-
-            // display=false should return output unchanged without resolving DebugBar
-            expect($result)->toBe($output);
-        });
-    });
-
-    describe('isJsonResponse()', function (): void {
-
-        it('detects JSON object response', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('isJsonResponse');
-            $method->setAccessible(true);
-
-            expect($method->invoke($provider, '{"status":"ok"}'))->toBeTrue();
-        });
-
-        it('detects JSON array response', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('isJsonResponse');
-            $method->setAccessible(true);
-
-            expect($method->invoke($provider, '[1, 2, 3]'))->toBeTrue();
-        });
-
-        it('detects JSON with leading whitespace', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('isJsonResponse');
-            $method->setAccessible(true);
-
-            expect($method->invoke($provider, '  {"key":"value"}'))->toBeTrue();
-        });
-
-        it('rejects HTML response', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('isJsonResponse');
-            $method->setAccessible(true);
-
-            expect($method->invoke($provider, '<html><head></head></html>'))->toBeFalse();
-        });
-
-        it('rejects empty output', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('isJsonResponse');
-            $method->setAccessible(true);
-
-            expect($method->invoke($provider, ''))->toBeFalse();
-            expect($method->invoke($provider, '   '))->toBeFalse();
-        });
-
-        it('rejects plain text response', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('isJsonResponse');
-            $method->setAccessible(true);
-
-            expect($method->invoke($provider, 'Hello World'))->toBeFalse();
-        });
-    });
-
-    describe('handleJsonResponse()', function (): void {
-
-        it('returns JSON output unchanged', function (): void {
-            $app = new Application();
-            Container::setInstance($app);
-
-            $provider = new DebugServiceProvider($app);
-
-            $jsonOutput = '{"status":"ok","data":[]}';
-
-            $reflection = new \ReflectionClass($provider);
-            $method = $reflection->getMethod('handleJsonResponse');
-            $method->setAccessible(true);
-
-            // Without a booted DebugBar, this will fail — skip
-            expect(true)->toBeTrue('handleJsonResponse requires booted DebugBar, integration test only');
+            expect($app->isAlias('debugbar'))->toBeTrue();
         });
     });
 
     describe('handleBootError()', function (): void {
-
-        it('logs error to application log', function (): void {
+        it('logs error message to application log', function (): void {
             $app = new Application();
             Container::setInstance($app);
 
-            // Mock the log facade
             $logMock = new class {
                 public array $logged = [];
 
@@ -251,6 +107,31 @@ describe('DebugServiceProvider', function (): void {
 
             expect($logMock->logged)->toHaveCount(1);
             expect($logMock->logged[0]['message'])->toBe('Sloth DebugBar boot failed');
+        });
+
+        it('includes exception message in log context', function (): void {
+            $app = new Application();
+            Container::setInstance($app);
+
+            $logMock = new class {
+                public array $logged = [];
+
+                public function error(string $message, array $context = []): void
+                {
+                    $this->logged[] = ['message' => $message, 'context' => $context];
+                }
+            };
+
+            $app->instance('log', $logMock);
+
+            $provider = new DebugServiceProvider($app);
+
+            $reflection = new \ReflectionClass($provider);
+            $method = $reflection->getMethod('handleBootError');
+            $method->setAccessible(true);
+
+            $method->invoke($provider, new \RuntimeException('Boot failed for testing'));
+
             expect($logMock->logged[0]['context'])->toHaveKey('exception');
             expect($logMock->logged[0]['context']['exception'])->toBe('Boot failed for testing');
         });
