@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Sloth\Facades;
 
+use Illuminate\View\Factory;
+
 /**
  * View Facade for accessing the view rendering service.
  *
  * @since 1.0.0
  * @see \Sloth\Facades\Facade
+ * @mixin Factory
  */
 class View extends Facade
 {
