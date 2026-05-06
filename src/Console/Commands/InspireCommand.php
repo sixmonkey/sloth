@@ -19,7 +19,6 @@ class InspireCommand extends Command
 
     public function handle(): int
     {
-        s
         \Termwind\render(
             <<<'HTML'
                     <div class="py-1 ml-2">
