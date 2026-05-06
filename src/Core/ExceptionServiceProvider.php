@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Laravel\Prompts\Output\ConsoleOutput;
 use Sloth\Exceptions\ExceptionHandler;
 
 /**
@@ -52,7 +53,7 @@ class ExceptionServiceProvider extends ServiceProvider
             ExceptionHandler::class
         );
 
-        if (! defined('WP_TESTS_PHASE')) {
+        if (!defined('WP_TESTS_PHASE')) {
             $this->registerExceptionHandler();
         }
     }
@@ -71,6 +72,11 @@ class ExceptionServiceProvider extends ServiceProvider
 
         set_exception_handler(function (\Throwable $e) use ($app) {
             $handler = $app->make(ExceptionHandlerContract::class);
+            if (PHP_SAPI === 'cli') {
+                $handler->renderForConsole(new ConsoleOutput(), $e);
+                return;
+            }
+
             $handler->render(null, $e);
         });
     }
