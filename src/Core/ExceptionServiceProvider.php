@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
-use Laravel\Prompts\Output\ConsoleOutput;
 use Sloth\Exceptions\ExceptionHandler;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Exception Handler Service Provider.
