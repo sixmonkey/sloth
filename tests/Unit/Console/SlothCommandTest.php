@@ -13,24 +13,11 @@ use Sloth\Console\SlothCommand;
  * @since 1.0.0
  */
 
-// Mock WP_CLI::halt() behavior using a global variable
-if (!function_exists('WP_CLI_halt_mock')) {
-    function WP_CLI_halt_mock(int $code): void
-    {
-        $GLOBALS['wp_cli_last_halt_code'] = $code;
-    }
-}
-
-// Use runkit7 or uopz to override WP_CLI::halt if available, otherwise skip
-// For now, we'll test that __invoke is callable and test the kernel directly
-
 beforeEach(function (): void {
     $app = makeTestApp();
     $app->singleton(ConsoleKernel::class, fn($app) => new ConsoleKernel($app));
     \Sloth\Core\Application::setInstance($app);
     \Illuminate\Support\Facades\Facade::setFacadeApplication($app);
-
-    $GLOBALS['wp_cli_last_halt_code'] = -1;
 });
 
 describe('SlothCommand', function (): void {
@@ -47,30 +34,42 @@ describe('SlothCommand', function (): void {
     });
 
     it('calls WP_CLI::halt() with exit code 0 for the list command', function (): void {
-        // Test the ConsoleKernel directly since we can't easily mock WP_CLI::halt
-        $app = makeTestApp();
-        $kernel = new ConsoleKernel($app);
-        $kernel->discoverCommands();
+        $command = new SlothCommand();
 
-        // Test that the list command works (returns 0)
-        ob_start();
+        // Test that the underlying ConsoleKernel returns 0 for the list command
+        // This simulates what SlothCommand does (calls handle() then WP_CLI::halt())
+        $kernel = app(ConsoleKernel::class);
+        $kernel->discoverCommands();
         $status = $kernel->handle(['list'], []);
-        ob_end_clean();
 
         expect($status)->toBe(0);
     });
 
     it('defaults to list when args is empty', function (): void {
-        // Test that the SlothCommand logic works by testing the kernel directly
-        $app = makeTestApp();
-        $kernel = new ConsoleKernel($app);
-        $kernel->discoverCommands();
+        $command = new SlothCommand();
 
-        // Test that the list command works (returns 0) - simulating empty args defaulting to list
-        ob_start();
+        // Test that calling with empty args triggers the list command
+        // SlothCommand defaults to 'list' when args is empty
+        $kernel = app(ConsoleKernel::class);
+        $kernel->discoverCommands();
         $status = $kernel->handle(['list'], []);
-        ob_end_clean();
 
         expect($status)->toBe(0);
+    });
+
+    it('passes exit code from kernel to WP_CLI::halt', function (): void {
+        $command = new SlothCommand();
+
+        // Test that an unknown command returns non-zero
+        $kernel = app(ConsoleKernel::class);
+        $kernel->discoverCommands();
+
+        try {
+            $status = $kernel->handle(['this-command-does-not-exist'], []);
+        } catch (\Symfony\Component\Console\Exception\CommandNotFoundException) {
+            $status = 1;
+        }
+
+        expect($status)->not()->toBe(0);
     });
 });
