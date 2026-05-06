@@ -109,7 +109,7 @@ describe('Collectors', function (): void {
             $data = $collector->collect();
 
             expect($data)->toBeArray();
-            expect($data)->toHaveKeys(['queries', 'count', 'total_time', 'slow']);
+            expect($data)->toHaveKeys(['nb_statements', 'accumulated_duration', 'accumulated_duration_str', 'statements']);
         });
 
         it('queries have source property', function (): void {
@@ -117,15 +117,7 @@ describe('Collectors', function (): void {
 
             $data = $collector->collect();
 
-            expect($data['queries'])->toBeArray();
-        });
-
-        it('slow count is integer', function (): void {
-            $collector = new QueryCollector();
-
-            $data = $collector->collect();
-
-            expect($data['slow'])->toBeInt();
+            expect($data['statements'])->toBeArray();
         });
     });
 });
