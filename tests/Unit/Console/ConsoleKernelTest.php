@@ -149,7 +149,7 @@ describe('ConsoleKernel', function (): void {
             $app = makeTestApp();
 
             ob_start();
-            $result = (new ConsoleKernel($app))->discoverCommands()->handle(['list'], []);
+            $result = new ConsoleKernel($app)->discoverCommands()->handle(['list'], []);
             ob_end_clean();
 
             expect($result)->toBeInt();
@@ -159,7 +159,7 @@ describe('ConsoleKernel', function (): void {
             $app = makeTestApp();
 
             ob_start();
-            $result = (new ConsoleKernel($app))->discoverCommands()->handleArgv(['sloth', 'list']);
+            $result = new ConsoleKernel($app)->discoverCommands()->handleArgv(['sloth', 'list']);
             ob_end_clean();
 
             expect($result)->toBeInt();
