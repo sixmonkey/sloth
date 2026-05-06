@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\Console\Output\OutputInterface;
 
 use function Termwind\renderUsing;
 
@@ -210,13 +211,14 @@ class ConsoleKernel
      *
      * @param array<int, string> $argv The command line arguments.
      * @return int The exit status code (0 for success, non-zero for failure).
+     * @throws \Exception
      * @since 1.0.0
      */
-    private function run(array $argv): int
+    protected function run(array $argv, ?OutputInterface $output = null): int
     {
-        $streamOutput = new StreamOutput(fopen('php://stdout', 'w'));
-        renderUsing($streamOutput);
+        $output ??= new StreamOutput(fopen('php://stdout', 'w'));
+        renderUsing($output);
 
-        return $this->console->run(new ArgvInput($argv), $streamOutput);
+        return $this->console->run(new ArgvInput($argv), $output);
     }
 }
