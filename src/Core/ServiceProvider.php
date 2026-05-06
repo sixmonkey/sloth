@@ -216,36 +216,32 @@ abstract class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * Handles calls to undefined methods.
+     * Boot the service provider.
      *
-     * This magic method catches any calls to undefined methods.
-     * The 'boot' method is silently ignored to allow for lazy booting.
-     * All other undefined method calls throw an exception.
+     * Override in subclasses to perform boot-time setup such as
+     * registering view composers, loading config files, or setting
+     * up integrations that require other providers to be registered.
+     *
+     * Called after all providers have been registered.
      *
      * @since 1.0.0
+     */
+    public function boot(): void
+    {
+    }
+
+    /**
+     * Handles calls to undefined methods.
      *
-     * @param string $method The method name that was called
-     * @param array<int, mixed> $parameters The parameters passed to the method
+     * @param string $method The method name that was called.
+     * @param array<int, mixed> $parameters The parameters passed to the method.
+     * @return mixed
+     * @throws \Exception If the method is not defined.
+     * @since 1.0.0
      *
-     * @return mixed|null Returns null for boot(), or throws exception
-     *
-     * @throws \Exception If the method is not 'boot' and is not defined
-     *
-     * @example
-     * ```php
-     * // Silently ignored (boot is optional)
-     * $provider->optionalBoot();
-     *
-     * // Throws exception
-     * $provider->undefinedMethod();
-     * ```
      */
     public function __call(string $method, array $parameters): mixed
     {
-        if ($method === 'boot') {
-            return null;
-        }
-
         throw new \Exception(sprintf(
             'Call to undefined method [%s::%s]',
             static::class,
