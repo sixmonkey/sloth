@@ -173,10 +173,16 @@ class ConsoleKernel
     {
         $finder = new ClassMapFinder(Command::class);
 
-        $paths = array_filter([
-            __DIR__ . '/Commands',
-            $this->app->path('Console'),
-        ], 'is_dir');
+        $paths = array_filter([__DIR__ . '/Commands'], 'is_dir');
+
+        try {
+            $appPath = $this->app->path('Console');
+            if (is_dir($appPath)) {
+                $paths[] = $appPath;
+            }
+        } catch (\Throwable) {
+            // path.app not registered — skip silently
+        }
 
         try {
             $themePath = $this->app->path('Console', 'theme');
@@ -184,7 +190,7 @@ class ConsoleKernel
                 $paths[] = $themePath;
             }
         } catch (\Throwable) {
-            // Ignore if path.theme doesn't exist
+            // path.theme not registered — skip silently
         }
 
         $map = $finder->find($paths);
