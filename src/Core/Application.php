@@ -245,6 +245,7 @@ class Application extends Container
             \Sloth\Model\ModelServiceProvider::class,
             \Sloth\Context\ContextServiceProvider::class,
             \Sloth\Template\TemplateServiceProvider::class,
+            \Sloth\Routing\RoutingServiceProvider::class,
             \Sloth\Api\ApiServiceProvider::class,
             \Sloth\Media\MediaServiceProvider::class,
             \Sloth\Admin\AdminServiceProvider::class,
