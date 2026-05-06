@@ -41,7 +41,7 @@
  *
  * @since 1.0.0
  * @see \Sloth\Console\ConsoleKernel
- * @see \Sloth\Console\SlothWpCliCommand
+ * @see \Sloth\Console\SlothCommand
  */
 
 define('USING_SLOTH_CLI', true);
