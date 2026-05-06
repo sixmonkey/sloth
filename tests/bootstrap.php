@@ -178,9 +178,18 @@ if (!function_exists('is_blog_installed')) {
     }
 }
 
+if (!function_exists('wp_get_wp_version')) {
+    function wp_get_wp_version(): string
+    {
+        return '6.0.0';
+    }
+}
+
 if (!function_exists('get_post_type_object')) {
     function get_post_type_object(string $post_type): ?object
     {
         return null;
     }
 }
+
+require_once __DIR__ . '/WP_CLI_stub.php';
