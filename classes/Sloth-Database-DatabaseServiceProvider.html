@@ -253,21 +253,47 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Database/DatabaseServiceProvider.php"><a href="files/src-database-databaseserviceprovider.html"><abbr title="src/Database/DatabaseServiceProvider.php">DatabaseServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Service provider for the database connection.</p>
 
 
-    <section class="phpdocumentor-description"><p>Establishes an Eloquent/Capsule connection to the WordPress database
-and sets up the event dispatcher for Eloquent model events.</p>
-<h2>Query logging</h2>
+    <section class="phpdocumentor-description"><p>Establishes Eloquent/Capsule connections and sets up the event
+dispatcher for Eloquent model events.</p>
+<h2>Configuration</h2>
+<p>Connection parameters are read from the <code class="prettyprint">database</code> config key.
+The default <code class="prettyprint">wordpress</code> connection resolves values in this order:</p>
+<ol>
+<li><code class="prettyprint">.env</code> file (via env())</li>
+<li>WordPress constants (DB_HOST, DB_NAME, etc.) if defined</li>
+<li>Hardcoded defaults</li>
+</ol>
+<p>This means Sloth can boot without WordPress constants — useful
+for CLI commands that only need the database.</p>
+<h2>Multiple Connections</h2>
+<p>Theme developers can add connections in app/config/database.php:</p>
+<pre class="prettyprint"><code class="language-php">return [
+    'connections' =&gt; [
+        'external' =&gt; [
+            'driver'   =&gt; 'mysql',
+            'host'     =&gt; env('EXTERNAL_DB_HOST'),
+            'database' =&gt; env('EXTERNAL_DB_NAME'),
+            'username' =&gt; env('EXTERNAL_DB_USER'),
+            'password' =&gt; env('EXTERNAL_DB_PASSWORD'),
+            'charset'  =&gt; 'utf8mb4',
+            'collation'=&gt; 'utf8mb4_unicode_ci',
+            'prefix'   =&gt; '',
+        ],
+    ],
+];
+</code></pre>
+<p>Then use it in a model: <code class="prettyprint">protected $connection = 'external';</code></p>
+<h2>Query Logging</h2>
 <p>Query logging is enabled unconditionally so that QueryCollector can
-display executed queries in the php-debugbar during development.
-In production the query collector is disabled.</p>
-<p>Also activates WordPress SAVEQUERIES constant to track $wpdb queries
-separately from Eloquent queries.</p>
+display executed queries in the DebugBar during development.
+In production the query collector is not loaded.</p>
 </section>
 
 
@@ -329,7 +355,7 @@ separately from Eloquent queries.</p>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a>
     <span>
-                                &nbsp;: mixed|null    </span>
+                                &nbsp;: mixed    </span>
 </dt>
 <dd>Handles calls to undefined methods.</dd>
 
@@ -338,7 +364,7 @@ separately from Eloquent queries.</p>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Establish the Eloquent database connection.</dd>
+<dd>Establish all configured Eloquent database connections.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
@@ -397,16 +423,12 @@ separately from Eloquent queries.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed|null</span></code>
+                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>This magic method catches any calls to undefined methods.
-The 'boot' method is silently ignored to allow for lazy booting.
-All other undefined method calls throw an exception.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -414,7 +436,7 @@ All other undefined method calls throw an exception.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name that was called</p>
+                    <section class="phpdocumentor-description"><p>The method name that was called.</p>
 </section>
 
             </dd>
@@ -423,7 +445,7 @@ All other undefined method calls throw an exception.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The parameters passed to the method</p>
+                    <section class="phpdocumentor-description"><p>The parameters passed to the method.</p>
 </section>
 
             </dd>
@@ -437,6 +459,16 @@ All other undefined method calls throw an exception.</p>
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the method is not defined.</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -444,43 +476,11 @@ All other undefined method calls throw an exception.</p>
                                                                                 
                                              
                                     </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
-                                                            
-                                                 <section class="phpdocumentor-description"><p>If the method is not 'boot' and is not defined</p>
-</section>
-
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">example</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><pre class="prettyprint"><code class="language-php">// Silently ignored (boot is optional)
-$provider-&gt;optionalBoot();
-
-// Throws exception
-$provider-&gt;undefinedMethod();
-</code></pre>
-</section>
-
-                                    </dd>
                                             </dl>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed|null</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Returns null for boot(), or throws exception</p>
-</section>
-
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -496,11 +496,11 @@ $provider-&gt;undefinedMethod();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Database/DatabaseServiceProvider.php"><a href="files/src-database-databaseserviceprovider.html"><abbr title="src/Database/DatabaseServiceProvider.php">DatabaseServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Establish the Eloquent database connection.</p>
+        <p class="phpdocumentor-summary">Establish all configured Eloquent database connections.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -509,8 +509,8 @@ $provider-&gt;undefinedMethod();
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Connects to WordPress's database using the constants defined
-in bootstrap.php (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, DB_PREFIX).</p>
+        <section class="phpdocumentor-description"><p>Iterates over database.connections and registers each with
+Capsule. The default connection is set from database.default.</p>
 </section>
 
     
@@ -532,6 +532,17 @@ in bootstrap.php (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, DB_PREFIX).</p>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Database-DatabaseServiceProvider.html#method_boot#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
     
 </article>
@@ -722,7 +733,7 @@ consider using the EventBridge in boot():</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Database/DatabaseServiceProvider.php"><a href="files/src-database-databaseserviceprovider.html"><abbr title="src/Database/DatabaseServiceProvider.php">DatabaseServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
@@ -735,7 +746,10 @@ consider using the EventBridge in boot():</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Merges the framework database config and binds db.prefix
+so other providers can access the table prefix early.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">

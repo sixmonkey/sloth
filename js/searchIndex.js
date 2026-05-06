@@ -1061,6 +1061,11 @@ Search.appendIndex(
             "summary": "Returns\u0020WordPress\u0020filters\u0020this\u0020provider\u0020wants\u0020to\u0020register.",
             "url": "classes/Sloth-Core-ServiceProvider.html#method_getFilters"
         },                {
+            "fqsen": "\\Sloth\\Core\\ServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020service\u0020provider.",
+            "url": "classes/Sloth-Core-ServiceProvider.html#method_boot"
+        },                {
             "fqsen": "\\Sloth\\Core\\ServiceProvider\u003A\u003A__call\u0028\u0029",
             "name": "__call",
             "summary": "Handles\u0020calls\u0020to\u0020undefined\u0020methods.",
@@ -1078,7 +1083,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Database\\DatabaseServiceProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Establish\u0020the\u0020Eloquent\u0020database\u0020connection.",
+            "summary": "Establish\u0020all\u0020configured\u0020Eloquent\u0020database\u0020connections.",
             "url": "classes/Sloth-Database-DatabaseServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider",
