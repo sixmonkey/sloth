@@ -32,7 +32,13 @@ describe('Collectors', function (): void {
             $data = $collector->collect();
 
             expect($data)->toBeArray();
-            expect($data)->toHaveKeys(['Environment', 'Template-Hierarchy', 'Models', 'Taxonomies', 'Loaded providers']);
+            expect($data)->toHaveKeys([
+                'Environment',
+                'Template-Hierarchy',
+                'Models',
+                'Taxonomies',
+                'Loaded providers',
+            ]);
         });
 
         it('has widgets', function (): void {
@@ -57,13 +63,14 @@ describe('Collectors', function (): void {
             expect($collector->getName())->toBe('wordpress');
         });
 
-        it('returns array from collect (WordPress functions unavailable)', function (): void {
+        it('returns array from collect', function (): void {
             $collector = new WordpressCollector();
 
-            // wp_get_wp_version() is undefined outside WordPress, so collect() throws
-            // This is expected — the collector is only usable in WordPress context
-            expect(method_exists($collector, 'collect'))->toBeTrue();
-        })->skip('wp_get_wp_version() requires WordPress environment');
+            $result = $collector->collect();
+
+            expect($result)->toBeArray();
+            expect($result)->toHaveKey('Version');
+        });
     });
 
     describe('AcfCollector', function (): void {
@@ -109,7 +116,12 @@ describe('Collectors', function (): void {
             $data = $collector->collect();
 
             expect($data)->toBeArray();
-            expect($data)->toHaveKeys(['nb_statements', 'accumulated_duration', 'accumulated_duration_str', 'statements']);
+            expect($data)->toHaveKeys([
+                'nb_statements',
+                'accumulated_duration',
+                'accumulated_duration_str',
+                'statements',
+            ]);
         });
 
         it('queries have source property', function (): void {
