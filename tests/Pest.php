@@ -8,6 +8,9 @@
 
 use Brain\Monkey;
 use Sloth\Core\Application;
+use Sloth\Console\ConsoleKernel;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 beforeEach(function (): void {
     Monkey\setUp();
@@ -35,4 +38,25 @@ function makeTestApp(): Application
     $app->instance('path.cache', sys_get_temp_dir() . '/cache');
 
     return $app;
+}
+
+/**
+ * Create a ConsoleKernel that routes all output to a BufferedOutput.
+ *
+ * Prevents terminal output during tests by overriding run() to write
+ * to an in-memory buffer instead of php://stdout.
+ *
+ * @param Application|null $app Optional application — creates a test app if not provided.
+ * @return ConsoleKernel The silent kernel instance.
+ * @since 1.0.0
+ */
+function makeTestKernel(?Application $app = null): ConsoleKernel
+{
+    return new class ($app ?? makeTestApp()) extends ConsoleKernel {
+        #[\Override]
+        protected function run(array $argv, ?OutputInterface $output = null): int
+        {
+            return parent::run($argv, $output ?? new BufferedOutput());
+        }
+    };
 }
