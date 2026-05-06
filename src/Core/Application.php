@@ -224,6 +224,7 @@ class Application extends Container
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Http\RequestContextServiceProvider::class,
+            \Sloth\Http\HttpServiceProvider::class,
             \Sloth\Core\ExceptionServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
             \Sloth\Core\ApplicationServiceProvider::class,
