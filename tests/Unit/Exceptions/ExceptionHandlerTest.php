@@ -21,10 +21,27 @@ describe('ExceptionHandler', function (): void {
 
     describe('report()', function (): void {
         it('logs exception via log manager', function (): void {
-            $handler = new ExceptionHandler();
+            $app = makeTestApp();
+            \Sloth\Core\Application::setInstance($app);
+
+            $logMock = new class {
+                public array $logged = [];
+
+                public function error(string $message, array $context = []): void
+                {
+                    $this->logged[] = ['message' => $message, 'context' => $context];
+                }
+            };
+
+            $app->instance('log', $logMock);
+
+            $handler = new \Sloth\Exceptions\ExceptionHandler();
             $exception = new \RuntimeException('Test error');
             $handler->report($exception);
-        })->skip('Requires WordPress environment');
+
+            expect($logMock->logged)->toHaveCount(1);
+            expect($logMock->logged[0]['message'])->toBe('Test error');
+        });
     });
 
     describe('shouldReport()', function (): void {
@@ -48,10 +65,10 @@ describe('ExceptionHandler', function (): void {
             $handler = new ExceptionHandler();
             $exception = new \RuntimeException('Test error');
 
-            // renderForConsole uses Symfony ConsoleOutput which writes to STDERR
-            // We just verify it doesn't throw an exception
+            $output = new \Symfony\Component\Console\Output\BufferedOutput();
+
             try {
-                $handler->renderForConsole(null, $exception);
+                $handler->renderForConsole($output, $exception);
                 expect(true)->toBeTrue();
             } catch (\Throwable $e) {
                 expect(false)->toBeTrue('renderForConsole should not throw');
