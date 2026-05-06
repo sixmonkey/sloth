@@ -636,184 +636,33 @@ use function Termwind\render;
 
 class MyCommand extends Command
 {
-    protected $signature = 'my:command';
-
+    protected $signature = 'my:command {name?}';
     protected $description = 'My custom command';
 
     public function handle(): int
     {
-        // Use Termwind for beautiful output
-        render('<div class="text-green-500">Hello from my command!</div>');
-
-        // Or use standard Laravel output methods
-        $this->info('Info message');
-        $this->warn('Warning message');
-        $this->error('Error message');
-
+        render('<div class="text-green-500">Hello ' . $this->argument('name') . '!</div>');
         return self::SUCCESS;
     }
 }
 ```
 
-Commands are auto-discovered from:
-- `src/Console/Commands/` - Framework commands
-- `app/Console/Commands/` - Theme/app commands
-- `theme/Console/Commands/` - Theme commands (legacy location)
-
-### Command Structure
-
-Extend `Sloth\Console\Command` (which extends `Illuminate\Console\Command`) to get:
-- Full Laravel Artisan command features
-- Termwind support for beautiful CLI output
-- Access to the Sloth container via `$this->app`
-
-```php
-use Sloth\Console\Command;
-
-class MyCommand extends Command
-{
-    protected $signature = 'my:command {arg?}. {--option= : An option}';
-
-    public function handle(): int
-    {
-        // Get arguments and options
-        $arg = $this->argument('arg');
-        $option = $this->option('option');
-
-        // Use Sloth services
-        $cache = app('cache');
-
-        $this->info('Done!');
-        return self::SUCCESS;
-    }
-}
-```
-
-### Termwind CLI Styling
-
-Use [Termwind](https://termwind.com) to create beautiful CLI output with Tailwind-like classes:
-
-```php
-use function Termwind\render;
-
-render(<<<'HTML'
-    <div class="mt-2">
-        <div class="text-center text-gray-500">
-            <span class="bg-green-400 text-black px-2">Success!</span>
-        </div>
-    </div>
-```
-
-## WordPress Event Bridge
-
-Sloth bridges WordPress hooks to the Laravel event system, allowing you to listen to WordPress lifecycle events using Laravel's familiar event syntax.
-
-### How It Works
-
-The `WordPressEventBridge` registers a curated set of WordPress hooks as Laravel events. Each bridged hook fires with the naming convention `wp:{hook_name}`. Listeners receive a `WpHookFired` event object containing the hook name, arguments, type, and (for filters) a modifiable result.
-
-### Listening to WordPress Actions
-
-```php
-use Sloth\Event\WpHookFired;
-use Illuminate\Support\Facades\Event;
-
-// WordPress is fully loaded
-Event::listen('wp:wp_loaded', function (WpHookFired $event) {
-    dump('WordPress booted at ' . $event->hook);
-});
-
-// After theme setup
-Event::listen('wp:after_setup_theme', function (WpHookFired $event) {
-    // Register post types, taxonomies, etc.
-});
-```
-
-### Modifying WordPress Filters
-
-Filter hooks are bidirectional — listeners can mutate `$event->result` to change the value returned by `apply_filters()`:
-
-```php
-// Modify post content
-Event::listen('wp:the_content', function (WpHookFired $event) {
-    $event->result = str_replace('old', 'new', $event->result);
-});
-
-// Add body classes
-Event::listen('wp:body_class', function (WpHookFired $event) {
-    $classes = (array) $event->result;
-    $classes[] = 'my-custom-class';
-    $event->result = $classes;
-});
-```
-
-### Available Hooks
-
-| Hook | Type | Phase |
-|------|------|-------|
-| `muplugins_loaded` | action | MU-plugins loaded (earliest) |
-| `plugins_loaded` | action | All plugins loaded |
-| `after_setup_theme` | action | Theme functions.php loaded |
-| `init` | action | WordPress fully initialized |
-| `wp_loaded` | action | All WordPress setup complete |
-| `template_redirect` | action | Before template is loaded |
-| `wp_head` | action | Inside `<head>` tag |
-| `wp_footer` | action | Before `</body>` tag |
-| `the_content` | filter | Post content before display |
-| `the_title` | filter | Post title before display |
-| `the_excerpt` | filter | Post excerpt before display |
-| `body_class` | filter | HTML body classes |
-| `shutdown` | action | PHP shutdown (last chance) |
-
-### Dynamically Registering Additional Hooks
-
-If you need to listen to a hook that isn't in the default list, you can register it at runtime:
-
-```php
-use Sloth\Event\WordPressEventBridge;
-use Illuminate\Support\Facades\Event;
-
-$bridge = app(WordPressEventBridge::class);
-$bridge->addHook('save_post', 'action');
-
-Event::listen('wp:save_post', function (WpHookFired $event) {
-    $postId = $event->firstArg();
-    // Do something when a post is saved
-});
-```
-
-### Performance
-
-The bridge uses a `hasListeners()` check before dispatching. If no Laravel listener is registered for a bridged hook, the callback returns immediately without creating event objects. This means you can safely bridge many hooks without performance penalty — only hooks with active listeners incur any overhead.
+Commands are auto-discovered from `src/Console/Commands/`, `app/Console/Commands/`, and `theme/Console/Commands/`.
 
 ## Development
 
-### Running Tests
-
 ```bash
+# Run tests
 composer test
-```
 
-### Static Analysis
-
-```bash
+# Static analysis
 composer analyse
-```
 
-### Code Style
-
-```bash
-# Check code style
+# Code style check
 composer cs-check
 
-# Auto-fix code style
+# Code style fix
 composer cs-fix
-```
-
-### Generate Documentation
-
-```bash
-composer docs
 ```
 
 ## Contributing
@@ -822,13 +671,19 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE).
 
-## Credits
+## Contributors
+<a href="https://github.com/sixmonkey/sloth/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=sixmonkey/sloth" />
+</a>
 
 - [Ben Kremer](https://benkremer.de)
 - [Jochen Wichmann](https://github.com/jochenwichmann)
 - [Max Leistner](https://maxleistner.de)
+- [Christof Hardt](https://christof-hardt.de/)
+- [Christian Müller-Brinkum](https://github.com/cmbsvk)
+- [Danielle Hardt](https://github.com/daniellehardt)
 
 ## Links
 
