@@ -39,7 +39,8 @@ class LayotterElementRegistrar
      */
     public function __construct(
         private readonly ModuleManifestBuilder $builder,
-    ) {}
+    ) {
+    }
 
     /**
      * Register all discovered modules that have Layotter integration.
@@ -52,6 +53,9 @@ class LayotterElementRegistrar
      */
     public function registerElements(): void
     {
+        if (!class_exists('Layotter')) {
+            return;
+        }
         collect($this->builder->getEntries())
             ->each(function ($info, $moduleClass) {
                 if ($moduleClass::$layotter) {
