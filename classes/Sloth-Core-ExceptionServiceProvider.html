@@ -253,7 +253,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ExceptionServiceProvider.php"><a href="files/src-core-exceptionserviceprovider.html"><abbr title="src/Core/ExceptionServiceProvider.php">ExceptionServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -351,6 +351,13 @@ implementation in a ServiceProvider:</p>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Register the exception handler and PHP native handlers.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerErrorHandler">registerErrorHandler()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Register PHP&#039;s native error handler.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerExceptionHandler">registerExceptionHandler()</a>
@@ -667,7 +674,7 @@ consider using the EventBridge in boot():</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ExceptionServiceProvider.php"><a href="files/src-core-exceptionserviceprovider.html"><abbr title="src/Core/ExceptionServiceProvider.php">ExceptionServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -682,7 +689,8 @@ consider using the EventBridge in boot():</p>
     
         <section class="phpdocumentor-description"><p>Binds the ExceptionHandlerContract to the Sloth ExceptionHandler
 implementation as a singleton, and registers set_exception_handler()
-so that uncaught exceptions are routed through our handler.</p>
+and set_error_handler() so that uncaught exceptions and PHP errors
+are routed through our handler.</p>
 <p>Native handler registration is skipped during unit tests to avoid
 polluting the global error/exception state between tests.</p>
 </section>
@@ -715,6 +723,66 @@ polluting the global error/exception state between tests.</p>
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_registerErrorHandler">
+        registerErrorHandler()
+        <a href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerErrorHandler" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ExceptionServiceProvider.php"><a href="files/src-core-exceptionserviceprovider.html"><abbr title="src/Core/ExceptionServiceProvider.php">ExceptionServiceProvider.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">107</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register PHP&#039;s native error handler.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">registerErrorHandler</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Converts PHP errors (warnings, notices, deprecated, type errors)
+to ErrorException so they are routed through the exception handler
+and rendered by Whoops in development or logged in production.</p>
+<p>In web context this handler is later replaced by
+MessageCollectorProvider::registerErrorHandler() which routes
+non-critical errors to the DebugBar instead.</p>
+<p>The @ operator is respected — errors suppressed via error_reporting()
+are silently skipped. All other errors are thrown as ErrorException
+and caught by the registered exception handler.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerErrorHandler#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_registerExceptionHandler">
         registerExceptionHandler()
         <a href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerExceptionHandler" class="headerlink"><i class="fas fa-link"></i></a>
@@ -723,7 +791,7 @@ polluting the global error/exception state between tests.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ExceptionServiceProvider.php"><a href="files/src-core-exceptionserviceprovider.html"><abbr title="src/Core/ExceptionServiceProvider.php">ExceptionServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">74</span>
 
     </aside>
 
@@ -736,8 +804,11 @@ polluting the global error/exception state between tests.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Routes all uncaught exceptions through the registered
-ExceptionHandlerContract implementation.</p>
+        <section class="phpdocumentor-description"><p>Routes uncaught exceptions through the ExceptionHandlerContract.
+In CLI context (PHP_SAPI === 'cli'), renderForConsole() is used
+so exceptions are formatted for terminal output. In web context,
+render() is used which routes to Whoops in development or a Twig
+error page in production.</p>
 </section>
 
     
@@ -881,6 +952,7 @@ ExceptionHandlerContract implementation.</p>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ExceptionServiceProvider.html#method_register">register()</a></li>
+                                            <li class=""><a href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerErrorHandler">registerErrorHandler()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ExceptionServiceProvider.html#method_registerExceptionHandler">registerExceptionHandler()</a></li>
                                     </ul>
             </li>

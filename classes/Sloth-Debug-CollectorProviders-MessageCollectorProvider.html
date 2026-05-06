@@ -575,7 +575,7 @@ are logged to the DebugBar MessagesCollector instead.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/CollectorProviders/MessageCollectorProvider.php"><a href="files/src-debug-collectorproviders-messagecollectorprovider.html"><abbr title="src/Debug/CollectorProviders/MessageCollectorProvider.php">MessageCollectorProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
@@ -591,6 +591,9 @@ are logged to the DebugBar MessagesCollector instead.</p>
         <section class="phpdocumentor-description"><p>Sets up message collection with file traces, editor integration,
 VarDumper override, and a PHP error handler that routes
 non-critical errors to the DebugBar.</p>
+<p>In CLI context neither the VarDumper handler nor the error handler
+are registered — the ExceptionServiceProvider's handlers remain
+active and route errors to the terminal via renderForConsole().</p>
 </section>
 
     
@@ -810,7 +813,7 @@ non-critical errors to the DebugBar.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/CollectorProviders/MessageCollectorProvider.php"><a href="files/src-debug-collectorproviders-messagecollectorprovider.html"><abbr title="src/Debug/CollectorProviders/MessageCollectorProvider.php">MessageCollectorProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">87</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 
     </aside>
 
@@ -878,7 +881,7 @@ Messages tab but non-blocking.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Debug/CollectorProviders/MessageCollectorProvider.php"><a href="files/src-debug-collectorproviders-messagecollectorprovider.html"><abbr title="src/Debug/CollectorProviders/MessageCollectorProvider.php">MessageCollectorProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">125</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 

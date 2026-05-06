@@ -250,34 +250,34 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Sloth Console Kernel.</p>
 
 
-    <section class="phpdocumentor-description"><p>This class bridges WP-CLI with Laravel's Illuminate\Console\Application,
-enabling framework, theme and app developers to write Artisan-style
+    <section class="phpdocumentor-description"><p>Bridges WP-CLI with Laravel's Illuminate\Console\Application,
+allowing framework, theme and app developers to write Artisan-style
 commands available via <code class="prettyprint">wp sloth</code>.</p>
-<h2>Supported Invocation Methods</h2>
+<h2>Entry Points</h2>
 <table>
 <thead>
 <tr>
 <th>Method</th>
-<th>Input Type</th>
+<th>Context</th>
 <th>Usage</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>handle()</td>
-<td>StringInput</td>
+<td>WP-CLI</td>
 <td><code class="prettyprint">wp sloth inspire</code></td>
 </tr>
 <tr>
 <td>handleArgv()</td>
-<td>ArgvInput</td>
+<td>Standalone CLI</td>
 <td><code class="prettyprint">bin/sloth inspire</code></td>
 </tr>
 </tbody>
@@ -289,7 +289,6 @@ commands available via <code class="prettyprint">wp sloth</code>.</p>
 <li>App: <code class="prettyprint">app/Console/</code></li>
 <li>Theme: <code class="prettyprint">theme/Console/</code> (if using a separate theme location)</li>
 </ol>
-<p>Each command must extend <code class="prettyprint">Illuminate\Console\Command</code> or <code class="prettyprint">Sloth\Console\Command</code>.</p>
 <h2>Example Command</h2>
 <pre class="prettyprint"><code class="language-php">class MyCommand extends \Illuminate\Console\Command
 {
@@ -307,13 +306,11 @@ commands available via <code class="prettyprint">wp sloth</code>.</p>
 <h2>Usage</h2>
 <pre class="prettyprint"><code class="language-php">// In WP-CLI context (wp sloth *)
 $kernel = app(ConsoleKernel::class);
-$kernel-&gt;discoverCommands();
-$kernel-&gt;handle(new StringInput('inspire'));
+$status = $kernel-&gt;discoverCommands()-&gt;handle(['inspire'], []);
 
 // In standalone context (bin/sloth *)
 $kernel = new ConsoleKernel($app);
-$kernel-&gt;discoverCommands();
-$kernel-&gt;handleArgv(['sloth', 'inspire']);
+$status = $kernel-&gt;discoverCommands()-&gt;handleArgv(['sloth', 'inspire']);
 </code></pre>
 </section>
 
@@ -344,7 +341,15 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Console-SlothWpCliCommand.html"><abbr title="\Sloth\Console\SlothWpCliCommand">SlothWpCliCommand</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Console-SlothCommand.html"><abbr title="\Sloth\Console\SlothCommand">SlothCommand</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Console-ConsoleServiceProvider.html"><abbr title="\Sloth\Console\ConsoleServiceProvider">ConsoleServiceProvider</abbr></a></span>
                                         
                                              
                                     </dd>
@@ -375,7 +380,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Sloth-Console-ConsoleKernel.html#property_app">$app</a>
     <span>
-                        &nbsp;: <abbr title="\Illuminate\Container\Container">Container</abbr>            </span>
+                        &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
@@ -403,7 +408,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Console-ConsoleKernel.html#method_discoverCommands">discoverCommands()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Discover and register all commands.</dd>
 
@@ -412,7 +417,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
     <span>
                                 &nbsp;: int    </span>
 </dt>
-<dd>Handle a WP-CLI invocation using StringInput.</dd>
+<dd>Handle a WP-CLI invocation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Console-ConsoleKernel.html#method_handleArgv">handleArgv()</a>
@@ -420,6 +425,13 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
                                 &nbsp;: int    </span>
 </dt>
 <dd>Handle a CLI invocation using ArgvInput.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Sloth-Console-ConsoleKernel.html#method_run">run()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Run the console application with the given argv array.</dd>
 
     </dl>
 
@@ -459,7 +471,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__type"><abbr title="\Illuminate\Container\Container">Container</abbr></span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
     <span class="phpdocumentor-signature__name">$app</span>
     </code>
 
@@ -488,7 +500,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
@@ -546,7 +558,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">89</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
@@ -554,7 +566,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Container\Container">Container</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -564,7 +576,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$app</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Container\Container">Container</abbr></span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The Sloth application container.</p>
@@ -608,7 +620,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">184</span>
+    <span class="phpdocumentor-element-found-in__line">173</span>
 
     </aside>
 
@@ -616,7 +628,7 @@ $kernel-&gt;handleArgv(['sloth', 'inspire']);
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">discoverCommands</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">discoverCommands</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -630,10 +642,7 @@ the console application.</p>
 <li>App: <code class="prettyprint">app/Console/</code></li>
 <li>Theme: <code class="prettyprint">theme/Console/</code> (if configured)</li>
 </ol>
-<h2>Example</h2>
-<pre class="prettyprint"><code class="language-php">$kernel = new ConsoleKernel($app);
-$kernel-&gt;discoverCommands();
-</code></pre>
+<p>Missing directories are silently skipped.</p>
 </section>
 
     
@@ -664,7 +673,15 @@ $kernel-&gt;discoverCommands();
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">static</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The kernel instance for fluent chaining.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -680,32 +697,40 @@ $kernel-&gt;discoverCommands();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">125</span>
+    <span class="phpdocumentor-element-found-in__line">124</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Handle a WP-CLI invocation using StringInput.</p>
+        <p class="phpdocumentor-summary">Handle a WP-CLI invocation.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">handle</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\StringInput">StringInput</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">handle</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assocArgs</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>This method is used by the WP-CLI integration (SlothWpCliCommand).
-It receives a command string like &quot;inspire&quot; or &quot;list&quot; and executes it.</p>
-<h2>Arguments</h2>
+        <section class="phpdocumentor-description"><p>Receives positional and named arguments from WP-CLI and executes
+the corresponding console command.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$input</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\StringInput">StringInput</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$args</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, string&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>A Symfony StringInput instance containing the command.</p>
+                    <section class="phpdocumentor-description"><p>Positional arguments from WP-CLI.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$assocArgs</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Named arguments from WP-CLI (--flag=value).</p>
 </section>
 
             </dd>
@@ -726,14 +751,6 @@ It receives a command string like &quot;inspire&quot; or &quot;list&quot; and ex
                                                                                 
                                              
                                     </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Console-SlothWpCliCommand.html"><abbr title="\Sloth\Console\SlothWpCliCommand">SlothWpCliCommand</abbr></a></span>
-                                        
-                                             
-                                    </dd>
                                             </dl>
 
         
@@ -743,10 +760,6 @@ It receives a command string like &quot;inspire&quot; or &quot;list&quot; and ex
         <span class="phpdocumentor-signature__response_type">int</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The exit status code (0 for success, non-zero for failure).</p>
-<h2>Example</h2>
-<pre class="prettyprint"><code class="language-php">$kernel = app(ConsoleKernel::class);
-$status = $kernel-&gt;handle(new StringInput('inspire'));
-</code></pre>
 </section>
 
             </section>
@@ -766,7 +779,7 @@ $status = $kernel-&gt;handle(new StringInput('inspire'));
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">150</span>
 
     </aside>
 
@@ -774,21 +787,20 @@ $status = $kernel-&gt;handle(new StringInput('inspire'));
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">handleArgv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$argv</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">handleArgv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$argv</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
         <section class="phpdocumentor-description"><p>This method is used by the standalone bin/sloth entry point.
 It receives the raw argv array from the command line.</p>
-<h2>Arguments</h2>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$argv</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, string&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The command line arguments (e.g., ['sloth', 'inspire']).</p>
@@ -830,10 +842,94 @@ It receives the raw argv array from the command line.</p>
         <span class="phpdocumentor-signature__response_type">int</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The exit status code (0 for success, non-zero for failure).</p>
-<h2>Example</h2>
-<pre class="prettyprint"><code class="language-php">$kernel = new ConsoleKernel($app);
-$status = $kernel-&gt;handleArgv(['sloth', 'inspire']);
-</code></pre>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_run">
+        run()
+        <a href="classes/Sloth-Console-ConsoleKernel.html#method_run" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">217</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Run the console application with the given argv array.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">run</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$argv</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Centralizes StreamOutput creation and Termwind renderUsing call
+for both handle() and handleArgv().</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$argv</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The command line arguments.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Console-ConsoleKernel.html#method_run#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The exit status code (0 for success, non-zero for failure).</p>
 </section>
 
             </section>
@@ -966,6 +1062,7 @@ $status = $kernel-&gt;handleArgv(['sloth', 'inspire']);
                                             <li class=""><a href="classes/Sloth-Console-ConsoleKernel.html#method_discoverCommands">discoverCommands()</a></li>
                                             <li class=""><a href="classes/Sloth-Console-ConsoleKernel.html#method_handle">handle()</a></li>
                                             <li class=""><a href="classes/Sloth-Console-ConsoleKernel.html#method_handleArgv">handleArgv()</a></li>
+                                            <li class=""><a href="classes/Sloth-Console-ConsoleKernel.html#method_run">run()</a></li>
                                     </ul>
             </li>
                     </ul>

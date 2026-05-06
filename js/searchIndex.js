@@ -628,7 +628,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003Ahandle\u0028\u0029",
             "name": "handle",
-            "summary": "Handle\u0020a\u0020WP\u002DCLI\u0020invocation\u0020using\u0020StringInput.",
+            "summary": "Handle\u0020a\u0020WP\u002DCLI\u0020invocation.",
             "url": "classes/Sloth-Console-ConsoleKernel.html#method_handle"
         },                {
             "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003AhandleArgv\u0028\u0029",
@@ -640,6 +640,11 @@ Search.appendIndex(
             "name": "discoverCommands",
             "summary": "Discover\u0020and\u0020register\u0020all\u0020commands.",
             "url": "classes/Sloth-Console-ConsoleKernel.html#method_discoverCommands"
+        },                {
+            "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003Arun\u0028\u0029",
+            "name": "run",
+            "summary": "Run\u0020the\u0020console\u0020application\u0020with\u0020the\u0020given\u0020argv\u0020array.",
+            "url": "classes/Sloth-Console-ConsoleKernel.html#method_run"
         },                {
             "fqsen": "\\Sloth\\Console\\ConsoleKernel\u003A\u003A\u0024console",
             "name": "console",
@@ -666,41 +671,6 @@ Search.appendIndex(
             "summary": "Register\u0020the\u0020\u0060wp\u0020sloth\u0060\u0020WP\u002DCLI\u0020command.",
             "url": "classes/Sloth-Console-ConsoleServiceProvider.html#method_boot"
         },                {
-            "fqsen": "\\Sloth\\Console\\Kernel",
-            "name": "Kernel",
-            "summary": "Sloth\u0020Console\u0020Kernel.",
-            "url": "classes/Sloth-Console-Kernel.html"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Sloth-Console-Kernel.html#method___construct"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003Ahandle\u0028\u0029",
-            "name": "handle",
-            "summary": "Handle\u0020a\u0020WP\u002DCLI\u0020invocation.",
-            "url": "classes/Sloth-Console-Kernel.html#method_handle"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003Aadd\u0028\u0029",
-            "name": "add",
-            "summary": "Register\u0020a\u0020single\u0020command\u0020with\u0020the\u0020console\u0020application.",
-            "url": "classes/Sloth-Console-Kernel.html#method_add"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003AdiscoverCommands\u0028\u0029",
-            "name": "discoverCommands",
-            "summary": "Discover\u0020and\u0020register\u0020all\u0020commands.",
-            "url": "classes/Sloth-Console-Kernel.html#method_discoverCommands"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003A\u0024console",
-            "name": "console",
-            "summary": "The\u0020underlying\u0020Illuminate\u0020console\u0020application.",
-            "url": "classes/Sloth-Console-Kernel.html#property_console"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Kernel\u003A\u003A\u0024app",
-            "name": "app",
-            "summary": "",
-            "url": "classes/Sloth-Console-Kernel.html#property_app"
-        },                {
             "fqsen": "\\Sloth\\Console\\SlothCommand",
             "name": "SlothCommand",
             "summary": "WP\u002DCLI\u0020command\u0020handler\u0020for\u0020\u0060wp\u0020sloth\u0060.",
@@ -710,16 +680,6 @@ Search.appendIndex(
             "name": "__invoke",
             "summary": "Handle\u0020a\u0020\u0060wp\u0020sloth\u0020\u003Ccommand\u003E\u0060\u0020invocation.",
             "url": "classes/Sloth-Console-SlothCommand.html#method___invoke"
-        },                {
-            "fqsen": "\\Sloth\\Console\\SlothWpCliCommand",
-            "name": "SlothWpCliCommand",
-            "summary": "WP\u002DCLI\u0020command\u0020handler\u0020for\u0020\u0060wp\u0020sloth\u0060.",
-            "url": "classes/Sloth-Console-SlothWpCliCommand.html"
-        },                {
-            "fqsen": "\\Sloth\\Console\\SlothWpCliCommand\u003A\u003A__invoke\u0028\u0029",
-            "name": "__invoke",
-            "summary": "Handle\u0020the\u0020WP\u002DCLI\u0020invocation.",
-            "url": "classes/Sloth-Console-SlothWpCliCommand.html#method___invoke"
         },                {
             "fqsen": "\\Sloth\\Context\\Context",
             "name": "Context",
@@ -1025,6 +985,11 @@ Search.appendIndex(
             "name": "registerExceptionHandler",
             "summary": "Register\u0020PHP\u0027s\u0020native\u0020exception\u0020handler.",
             "url": "classes/Sloth-Core-ExceptionServiceProvider.html#method_registerExceptionHandler"
+        },                {
+            "fqsen": "\\Sloth\\Core\\ExceptionServiceProvider\u003A\u003AregisterErrorHandler\u0028\u0029",
+            "name": "registerErrorHandler",
+            "summary": "Register\u0020PHP\u0027s\u0020native\u0020error\u0020handler.",
+            "url": "classes/Sloth-Core-ExceptionServiceProvider.html#method_registerErrorHandler"
         },                {
             "fqsen": "\\Sloth\\Core\\Manifest\\IncludesManifestBuilder",
             "name": "IncludesManifestBuilder",
