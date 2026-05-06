@@ -12,7 +12,6 @@ parameters:
         - vendor
         - src/_view
         - src/Assets
-        - src/Facades
         - src/ACF
         - src/Admin
         - src/Controller
