@@ -42,9 +42,10 @@
     "friendsofphp/php-cs-fixer": "^3.50",
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin": "^2.0",
-    "phpstan/phpstan": "^1.10",
+    "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^10.0",
-    "rector/rector": "^1.2"
+    "rector/rector": "^2.0",
+    "szepeviktor/phpstan-wordpress": "^2.0"
   },
   "extra": {
     "branch-alias": {
@@ -76,7 +77,7 @@
   "scripts": {
     "test": "pest",
     "test:coverage": "pest --coverage --coverage-html build/coverage",
-    "analyse": "phpstan analyse",
+    "analyse": "phpstan analyse --memory-limit=512M",
     "cs-fix": "php-cs-fixer fix",
     "cs-check": "php-cs-fixer fix --dry-run --diff",
     "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple"

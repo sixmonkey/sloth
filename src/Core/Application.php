@@ -114,6 +114,7 @@ class Application extends Container
      * Returns the existing instance if already booted.
      * This is the preferred entry point — chain with ->boot().
      *
+     * @return static
      * @since 1.0.0
      */
     public static function configure(): static
@@ -449,7 +450,6 @@ class Application extends Container
         });
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
-
                 return static::$cachedBasePath = $dir;
             }
             $dir = dirname($dir);

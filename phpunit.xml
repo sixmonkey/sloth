@@ -9,11 +9,11 @@
     </testsuite>
   </testsuites>
   <coverage>
-    <report>
+    <!-- report>
       <html outputDirectory="build/coverage"/>
       <text outputFile="build/coverage.txt"/>
       <clover outputFile="build/coverage.xml"/>
-    </report>
+    </report -->
   </coverage>
   <php>
     <env name="APP_ENV" value="testing"/>
