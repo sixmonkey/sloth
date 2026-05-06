@@ -495,7 +495,7 @@ public function getFilters(): array
 
 ### When to Use EventBridge Instead
 
-For provider-local hooks (only your provider cares), use `getHooks()`/`getFilters()`. For shared WordPress hooks that multiple components might listen to (e.g., `the_content`, `wp_loaded`), use the EventBridge in `boot()`:
+For shared hooks that multiple components might listen to, use the EventBridge in `boot()`:
 
 ```php
 use Sloth\Event\WpHookFired;
@@ -503,80 +503,131 @@ use Illuminate\Support\Facades\Event;
 
 public function boot(): void
 {
-    // Bidirectional filter — other listeners can also modify the_content
     Event::listen('wp:the_content', function (WpHookFired $event) {
         $event->result = transform($event->result);
     });
 }
 ```
 
-See the [WordPress Event Bridge](#wordpress-event-bridge) section for more details.
+## WordPress Event Bridge
+
+Sloth bridges WordPress hooks to the Laravel event system.
+
+### Listening to Actions
+
+```php
+Event::listen('wp:wp_loaded', function (WpHookFired $event) {
+    // WordPress fully loaded
+});
+```
+
+### Modifying Filters
+
+```php
+Event::listen('wp:body_class', function (WpHookFired $event) {
+    $event->result = [...(array) $event->result, 'my-class'];
+});
+```
+
+### Available Hooks
+
+| Hook                | Type   | Phase                   |
+|---------------------|--------|-------------------------|
+| `muplugins_loaded`  | action | MU-plugins loaded       |
+| `plugins_loaded`    | action | All plugins loaded      |
+| `after_setup_theme` | action | Theme loaded            |
+| `init`              | action | WordPress initialized   |
+| `wp_loaded`         | action | Full WordPress setup    |
+| `template_redirect` | action | Before template loading |
+| `wp_head`           | action | Inside `<head>`         |
+| `wp_footer`         | action | Before `</body>`        |
+| `the_content`       | filter | Post content            |
+| `the_title`         | filter | Post title              |
+| `the_excerpt`       | filter | Post excerpt            |
+| `body_class`        | filter | Body classes            |
+| `shutdown`          | action | PHP shutdown            |
+
+### Dynamic Hook Registration
+
+```php
+$bridge = app(WordPressEventBridge::class);
+$bridge->addHook('save_post', 'action');
+
+Event::listen('wp:save_post', function (WpHookFired $event) {
+    $postId = $event->firstArg();
+});
+```
 
 ## Directory Structure
 
 ```
 sloth/
 ├── src/
-│   ├── Core/           # Core framework classes
-│   ├── Model/          # WordPress model extensions
-│   ├── Route/          # Routing system
-│   ├── View/           # View system
-│   ├── Controller/     # Base controllers
+│   ├── ACF/            # ACF integration
+│   ├── Admin/          # WordPress admin
+│   ├── Api/            # REST API controllers
+│   ├── Cache/          # Cache layer
+│   ├── Configure/      # Legacy config compat
+│   ├── Console/        # WP-CLI commands
+│   ├── Context/        # View context
+│   ├── Core/           # Container, Application, ServiceProvider
+│   ├── Database/       # Eloquent/Capsule setup
+│   ├── Debug/          # DebugBar integration
+│   ├── Event/          # WordPress EventBridge
+│   ├── Exceptions/     # Exception handling
 │   ├── Facades/        # Facade classes
+│   ├── Filesystem/     # File system helpers
+│   ├── Http/           # Response, HttpServiceProvider
+│   ├── LayotterBridge/ # Layotter page builder integration
+│   ├── Media/          # Media handling
+│   ├── Model/          # Eloquent models + registrars
 │   ├── Module/         # Module system
-│   ├── Field/          # Custom ACF fields
-│   ├── _view/          # Twig templates
-│   └── config/         # Configuration files
-├── tests/              # PHPUnit tests
-├── docs/               # Additional documentation
-├── composer.json       # Dependencies
-└── phpunit.xml         # Test configuration
+│   ├── Pagination/     # Pagination
+│   ├── Routing/        # Route, Router, RoutingServiceProvider
+│   ├── Support/        # Manifests, utilities
+│   ├── Template/       # WordPress template hierarchy
+│   ├── Theme/          # Theme bootstrapping
+│   ├── Translation/    # i18n
+│   ├── Validation/     # Form validation
+│   └── View/           # Twig view rendering
+├── tests/              # Pest test suite
+├── composer.json
+└── phpunit.xml
 ```
 
 ## Available Facades
 
-| Facade       | Description          |
-|--------------|----------------------|
-| `Route`      | Routing system       |
-| `View`       | Template rendering   |
-| `Validation` | Form validation      |
-| `Configure`  | Configuration access |
-| `Pagination` | Pagination helper    |
-| `Module`     | Module management    |
-| `Menu`       | Menu system          |
-| `Customizer` | WordPress Customizer |
-| `Deployment` | Deployment helpers   |
-| `Layotter`   | Page builder         |
+| Facade       | Description                                        |
+|--------------|----------------------------------------------------|
+| `Route`      | Custom routing (`Route::get/post/put/delete`)      |
+| `Response`   | HTTP responses (`Response::make/json/redirect`)    |
+| `View`       | Twig template rendering                            |
+| `Cache`      | Laravel cache                                      |
+| `Validation` | Form validation                                    |
+| `Configure`  | Legacy config access (deprecated — use `config()`) |
+| `File`       | Filesystem operations                              |
 
 ## WP-CLI Commands
 
-Sloth provides Artisan-style console commands available via `wp sloth`:
-
 ```bash
-# List all available commands
+# List commands
 wp sloth list
 
-# Display a welcome message
+# Welcome message
 wp sloth inspire
 
-# Clear all manifest files
+# Clear manifest cache
 wp sloth manifest:clear
+
+# Get a config value
+wp sloth config:get app.env
 ```
-
-### Available Commands
-
-| Command | Description |
-|---------|-------------|
-| `wp sloth inspire` | Display a welcome message |
-| `wp sloth manifest:clear` | Clear all Sloth manifest files |
-| `wp sloth list` | List all available commands |
 
 ### Creating Custom Commands
 
-Create commands in your theme's `app/Console/Commands/` directory:
-
 ```php
 <?php
+// app/Console/Commands/MyCommand.php
 
 namespace App\Console\Commands;
 
