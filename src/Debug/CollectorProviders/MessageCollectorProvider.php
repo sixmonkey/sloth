@@ -42,6 +42,10 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      * VarDumper override, and a PHP error handler that routes
      * non-critical errors to the DebugBar.
      *
+     * In CLI context neither the VarDumper handler nor the error handler
+     * are registered — the ExceptionServiceProvider's handlers remain
+     * active and route errors to the terminal via renderForConsole().
+     *
      * @return void
      * @throws DebugBarException|BindingResolutionException
      * @since 1.0.0
@@ -73,7 +77,9 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             });
         }
 
-        $this->registerErrorHandler($messageCollector);
+        if (!$isCli) {
+            $this->registerErrorHandler($messageCollector);
+        }
 
         $this->addCollector($messageCollector);
     }
