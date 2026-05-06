@@ -128,73 +128,179 @@ if ($validator->fails()) {
 }
 ```
 
-## Configuration
+## Routing
 
-### Environment Variables
+Sloth's router is backed by `symfony/routing` and provides a Laravel-esque API. Routes are loaded from
+`app/routes/web.php` and `theme/routes/web.php` — both are optional.
 
-Create a `.env` file in your theme root:
+### HTTP Methods
 
-```env
-APP_ENV=local
-WP_DEBUG=true
-DATABASE_HOST=localhost
-DATABASE_NAME=wordpress
-DATABASE_USER=root
-DATABASE_PASSWORD=
+```php
+Route::get('/path', fn() => Response::make('hello'));
+Route::post('/path', fn() => Response::json(['ok' => true]));
+Route::put('/path', fn() => Response::noContent());
+Route::delete('/path', fn() => Response::noContent());
 ```
 
-### Custom Configuration
+### Route Parameters
 
-Add configuration files in `src/config/`:
+```php
+Route::get('/posts/{slug}', function (string $slug) {
+    return Response::make(view('single', compact('slug')));
+});
+
+Route::get('/archive/{year}/{month}', function (string $year, string $month) {
+    return Response::make(view('archive', compact('year', 'month')));
+});
+```
+
+### Named Routes & URL Generation
+
+```php
+Route::get('/posts/{slug}', fn($slug) => Response::make(view('single')))->name('post.show');
+
+// Generate URL
+$url = app('router')->url('post.show', ['slug' => 'hello-world']);
+// → /posts/hello-world
+```
+
+## HTTP Response
+
+`Sloth\Http\Response` extends `Illuminate\Http\Response` with static factory methods.
+
+```php
+use Sloth\Http\Response;
+
+// HTML response
+Response::make('<h1>Hello</h1>', 200);
+Response::make('<h1>Hello</h1>', 200, ['Content-Type' => 'text/html']);
+
+// JSON response
+Response::json(['key' => 'value']);
+Response::json(['error' => 'Not found'], 404);
+
+// No content
+Response::noContent();
+Response::noContent(205);
+
+// File download
+Response::download('/path/to/file.pdf', 'download.pdf');
+
+// Inline file (display in browser)
+Response::file('/path/to/file.pdf');
+
+// Redirect (uses wp_redirect() when available)
+Response::redirect('/new-path');
+Response::redirect('/new-path', 301);
+```
+
+All methods support chaining for headers:
+
+```php
+Response::make(view('styles.index'), 200)
+    ->header('Content-Type', 'text/css')
+    ->header('Cache-Control', 'public, max-age=3600');
+```
+
+## Configuration
+
+### Database
+
+Sloth reads database configuration from `database` config key. WordPress constants (`DB_HOST`, `DB_NAME` etc.) are used
+as fallbacks. Override in `app/config/database.php`:
 
 ```php
 <?php
 
 return [
-    'setting_name' => 'value',
-    'another_setting' => true,
+    'default' => 'wordpress',
+
+    'connections' => [
+        'wordpress' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST', DB_HOST),
+            'database'  => env('DB_NAME', DB_NAME),
+            'username'  => env('DB_USER', DB_USER),
+            'password'  => env('DB_PASSWORD', DB_PASSWORD),
+            'prefix'    => env('DB_PREFIX', DB_PREFIX),
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+        ],
+
+        // Add extra connections
+        'external' => [
+            'driver'   => 'mysql',
+            'host'     => env('EXTERNAL_DB_HOST'),
+            'database' => env('EXTERNAL_DB_NAME'),
+            'username' => env('EXTERNAL_DB_USER'),
+            'password' => env('EXTERNAL_DB_PASSWORD'),
+            'prefix'   => '',
+            'charset'  => 'utf8mb4',
+            'collation'=> 'utf8mb4_unicode_ci',
+        ],
+    ],
 ];
 ```
 
-Access configuration via:
+Use a specific connection in a model:
 
 ```php
-<?php
+class ExternalModel extends Model
+{
+    protected $connection = 'external';
+}
+```
 
-use Sloth\Facades\Configure;
+### Environment Variables
 
-$value = Configure::get('config_file.setting_name');
+```env
+APP_ENV=local
+APP_DEBUG=true
+DB_HOST=localhost
+DB_NAME=wordpress
+DB_USER=root
+DB_PASSWORD=
+DB_PREFIX=wp_
+```
+
+### Custom Configuration
+
+Add files to `app/config/` — each filename becomes a config key:
+
+```php
+// app/config/theme.php
+return [
+    'colors' => ['primary' => '#ff0000'],
+];
+
+// Access via
+config('theme.colors.primary');
 ```
 
 ## Auto-Discovery: Convention over Configuration
 
-Sloth automatically discovers and registers classes placed in convention-based directories. Drop a file in the right place and Sloth handles the rest — no manual registration required.
+Sloth automatically discovers and registers classes in convention-based directories.
 
 ### `app/` vs `theme/`
 
-Sloth scans **both** `app/` and `theme/` directories. The key difference is **scope**:
-
-| Path | Scope | When to use |
-|------|-------|-------------|
-| `app/` | **Framework-wide** — always loaded, regardless of theme | Shared functionality, data structures, reusable components |
-| `theme/` | **Theme-specific** — only loaded for the active theme (`wp-content/themes/{YOUR_THEME}/`) | Theme-specific UI, presentation logic, theme-only hooks |
-
-If you switch themes, everything in `app/` stays active. Everything in `theme/` disappears with the theme.
+| Path     | Scope                                     | When to use                                  |
+|----------|-------------------------------------------|----------------------------------------------|
+| `app/`   | Always loaded, regardless of active theme | Shared models, APIs, reusable components     |
+| `theme/` | Only loaded for the active theme          | UI, presentation logic, theme-specific hooks |
 
 ### Recommended Structure
 
-| Component | Recommended Location | Why |
-|-----------|---------------------|-----|
-| **Models** | `app/Model/` | Define data structure (post types). Should persist across theme changes. |
-| **Taxonomies** | `app/Taxonomy/` | Data structure — belongs with post types, theme-independent. |
-| **Modules** | `theme/Module/` | UI components with Twig templates — always theme-specific. |
-| **API Controllers** | Both | General APIs in `app/`, theme-specific endpoints in `theme/`. |
-| **Providers** | Both | Framework services in `app/`, theme hooks in `theme/`. |
-| **Includes** | Both | Shared helpers in `app/`, theme functions in `theme/`. |
+| Component           | Location                                       | Why                                                   |
+|---------------------|------------------------------------------------|-------------------------------------------------------|
+| **Models**          | `app/Model/`                                   | Data structure — theme-independent                    |
+| **Taxonomies**      | `app/Taxonomy/`                                | Data structure — belongs with models                  |
+| **Routes**          | `app/routes/web.php` or `theme/routes/web.php` | App-wide or theme-specific routes                     |
+| **Modules**         | `theme/Module/`                                | UI components — always theme-specific                 |
+| **API Controllers** | Both                                           | General APIs in `app/`, theme-specific in `theme/`    |
+| **Providers**       | Both                                           | Framework services in `app/`, theme hooks in `theme/` |
+| **Includes**        | Both                                           | Shared helpers in `app/`, theme functions in `theme/` |
 
 ### Models (Custom Post Types)
-
-Place model classes in `app/Model/` (recommended) or `theme/Model/`. Each class extending `Sloth\Model\Model` is automatically registered as a WordPress post type.
 
 ```php
 <?php
