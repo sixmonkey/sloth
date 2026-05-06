@@ -29,11 +29,11 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      * @since 1.0.0
      */
     private const CRITICAL_ERRORS = E_ERROR
-    | E_PARSE
-    | E_CORE_ERROR
-    | E_COMPILE_ERROR
-    | E_USER_ERROR
-    | E_RECOVERABLE_ERROR;
+        | E_PARSE
+        | E_CORE_ERROR
+        | E_COMPILE_ERROR
+        | E_USER_ERROR
+        | E_RECOVERABLE_ERROR;
 
     /**
      * Register and configure the MessagesCollector for debug bar in sloth.
