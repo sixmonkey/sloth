@@ -163,7 +163,7 @@ class ExceptionHandler implements ExceptionHandlerContract
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
 
-        new \Symfony\Component\Console\Application()->renderThrowable($e, $output);
+        (new \Symfony\Component\Console\Application())->renderThrowable($e, $output);
     }
 
     /**
