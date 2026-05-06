@@ -42,9 +42,10 @@
     "friendsofphp/php-cs-fixer": "^3.50",
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin": "^2.0",
-    "phpstan/phpstan": "^1.10",
+    "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^10.0",
-    "rector/rector": "^1.2"
+    "rector/rector": "^2.0",
+    "szepeviktor/phpstan-wordpress": "^2.0"
   },
   "extra": {
     "branch-alias": {
