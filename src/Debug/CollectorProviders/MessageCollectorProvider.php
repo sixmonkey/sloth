@@ -29,11 +29,11 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      * @since 1.0.0
      */
     private const CRITICAL_ERRORS = E_ERROR
-        | E_PARSE
-        | E_CORE_ERROR
-        | E_COMPILE_ERROR
-        | E_USER_ERROR
-        | E_RECOVERABLE_ERROR;
+    | E_PARSE
+    | E_CORE_ERROR
+    | E_COMPILE_ERROR
+    | E_USER_ERROR
+    | E_RECOVERABLE_ERROR;
 
     /**
      * Register and configure the MessagesCollector for debug bar in sloth.
@@ -107,17 +107,14 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             string $file = '',
             int $line = 0
         ) use ($messageCollector): bool {
-            // Critical errors → throw as exception → Whoops handles it
             if ($severity & self::CRITICAL_ERRORS) {
                 throw new \ErrorException($message, 0, $severity, $file, $line);
             }
 
-            // Respect error_reporting() — if suppressed, skip
             if (!(error_reporting() & $severity)) {
                 return false;
             }
 
-            // All other errors → DebugBar MessagesCollector
             $level = $this->severityLabel($severity);
             $messageCollector->addMessage(
                 "[$level] $message in $file:$line",
@@ -125,7 +122,6 @@ class MessageCollectorProvider extends AbstractCollectorProvider
                 ['file' => $file, 'line' => $line]
             );
 
-            // Return false to also trigger PHP's internal handler
             return false;
         });
     }
