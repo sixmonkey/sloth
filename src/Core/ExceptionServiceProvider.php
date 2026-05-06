@@ -39,7 +39,8 @@ class ExceptionServiceProvider extends ServiceProvider
      *
      * Binds the ExceptionHandlerContract to the Sloth ExceptionHandler
      * implementation as a singleton, and registers set_exception_handler()
-     * so that uncaught exceptions are routed through our handler.
+     * and set_error_handler() so that uncaught exceptions and PHP errors
+     * are routed through our handler.
      *
      * Native handler registration is skipped during unit tests to avoid
      * polluting the global error/exception state between tests.
@@ -53,16 +54,20 @@ class ExceptionServiceProvider extends ServiceProvider
             ExceptionHandler::class
         );
 
-        if (!defined('WP_TESTS_PHASE')) {
+        if (! defined('WP_TESTS_PHASE')) {
             $this->registerExceptionHandler();
+            $this->registerErrorHandler();
         }
     }
 
     /**
      * Register PHP's native exception handler.
      *
-     * Routes all uncaught exceptions through the registered
-     * ExceptionHandlerContract implementation.
+     * Routes uncaught exceptions through the ExceptionHandlerContract.
+     * In CLI context (PHP_SAPI === 'cli'), renderForConsole() is used
+     * so exceptions are formatted for terminal output. In web context,
+     * render() is used which routes to Whoops in development or a Twig
+     * error page in production.
      *
      * @since 1.0.0
      */
@@ -70,14 +75,48 @@ class ExceptionServiceProvider extends ServiceProvider
     {
         $app = $this->app;
 
-        set_exception_handler(function (\Throwable $e) use ($app) {
+        set_exception_handler(function (\Throwable $e) use ($app): void {
             $handler = $app->make(ExceptionHandlerContract::class);
+
             if (PHP_SAPI === 'cli') {
                 $handler->renderForConsole(new ConsoleOutput(), $e);
                 return;
             }
 
             $handler->render(null, $e);
+        });
+    }
+
+    /**
+     * Register PHP's native error handler.
+     *
+     * Converts PHP errors (warnings, notices, deprecated, type errors)
+     * to ErrorException so they are routed through the exception handler
+     * and rendered by Whoops in development or logged in production.
+     *
+     * In web context this handler is later replaced by
+     * MessageCollectorProvider::registerErrorHandler() which routes
+     * non-critical errors to the DebugBar instead.
+     *
+     * The @ operator is respected — errors suppressed via error_reporting()
+     * are silently skipped. All other errors are thrown as ErrorException
+     * and caught by the registered exception handler.
+     *
+     * @since 1.0.0
+     */
+    protected function registerErrorHandler(): void
+    {
+        set_error_handler(function (
+            int $severity,
+            string $message,
+            string $file = '',
+            int $line = 0,
+        ): bool {
+            if (!(error_reporting() & $severity)) {
+                return false;
+            }
+
+            throw new \ErrorException($message, 0, $severity, $file, $line);
         });
     }
 }
