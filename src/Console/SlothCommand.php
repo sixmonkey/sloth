@@ -9,9 +9,11 @@ namespace Sloth\Console;
  *
  * Acts as the entry point for all `wp sloth <command>` invocations.
  * Discovers framework, app and theme commands and delegates to the
- * Illuminate console application.
+ * Illuminate console application via ConsoleKernel.
  *
  * @since 1.0.0
+ * @see \Sloth\Console\ConsoleKernel
+ * @see \Sloth\Console\ConsoleServiceProvider
  */
 class SlothCommand
 {
@@ -31,8 +33,10 @@ class SlothCommand
             $args = ['list'];
         }
 
-        $kernel = app(Kernel::class);
-        $kernel->discoverCommands();
-        $kernel->handle($args, $assoc_args);
+        $status = app(ConsoleKernel::class)
+            ->discoverCommands()
+            ->handle($args, $assoc_args);
+
+        \WP_CLI::halt($status);
     }
 }

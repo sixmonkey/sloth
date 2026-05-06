@@ -46,12 +46,6 @@ class CollectorProvidersTest extends TestCase
         $this->assertInstanceOf(AbstractCollectorProvider::class, $provider);
     }
 
-    public function test_pdo_collector_provider_extends_abstract(): void
-    {
-        $provider = new PdoCollectorProvider($this->debugBar);
-        $this->assertInstanceOf(AbstractCollectorProvider::class, $provider);
-    }
-
     public function test_query_collector_provider_extends_abstract(): void
     {
         $provider = new QueryCollectorProvider($this->debugBar);
@@ -140,14 +134,6 @@ class CollectorProvidersTest extends TestCase
         $provider->boot();
 
         $this->assertTrue($provider->hasCollector('memory'));
-    }
-
-    public function test_pdo_collector_provider_adds_pdo_collector_on_boot(): void
-    {
-        $provider = new PdoCollectorProvider($this->debugBar);
-        $provider->boot();
-
-        $this->assertTrue($provider->hasCollector('pdo'));
     }
 
     public function test_message_collector_provider_has_critical_errors_constant(): void

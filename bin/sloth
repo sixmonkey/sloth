@@ -41,7 +41,7 @@
  *
  * @since 1.0.0
  * @see \Sloth\Console\ConsoleKernel
- * @see \Sloth\Console\SlothWpCliCommand
+ * @see \Sloth\Console\SlothCommand
  */
 
 define('USING_SLOTH_CLI', true);
@@ -80,6 +80,7 @@ define('USING_SLOTH_CLI', true);
     // Core services
     $app->singleton('config', fn() => new Illuminate\Config\Repository([]));
     $app->instance('files', new Illuminate\Filesystem\Filesystem());
+    $app->instance('events', new Illuminate\Events\Dispatcher($app));
 
     // Paths
     $app->instance('path.base', $rootPath);
@@ -109,10 +110,9 @@ define('USING_SLOTH_CLI', true);
     // Command Execution
     // -------------------------------------------------------------------------
 
-    $kernel = new Sloth\Console\ConsoleKernel($app);
-    $kernel->discoverCommands();
-
-    $exitCode = $kernel->handleArgv($_SERVER['argv'] ?? ['sloth']);
+    $exitCode = (new Sloth\Console\ConsoleKernel($app))
+        ->discoverCommands()
+        ->handleArgv($_SERVER['argv'] ?? ['sloth']);
 
     exit($exitCode);
 })();

@@ -42,6 +42,10 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      * VarDumper override, and a PHP error handler that routes
      * non-critical errors to the DebugBar.
      *
+     * In CLI context neither the VarDumper handler nor the error handler
+     * are registered — the ExceptionServiceProvider's handlers remain
+     * active and route errors to the terminal via renderForConsole().
+     *
      * @return void
      * @throws DebugBarException|BindingResolutionException
      * @since 1.0.0
@@ -57,14 +61,25 @@ class MessageCollectorProvider extends AbstractCollectorProvider
         ]);
         $messageCollector->setEditorLinkTemplate(config('debugger.editor', 'phpstorm'));
 
-        $originalHandler = VarDumper::setHandler(function ($var) use (&$originalHandler, $messageCollector): void {
-            if ($originalHandler && !config('debugger.bar.dump_all', false)) {
-                $originalHandler($var);
-            }
-            $messageCollector->addMessage($var);
-        });
+        $isCli = false;
+        try {
+            $isCli = app(\Sloth\Http\RequestContext::class)->isCli();
+        } catch (\Throwable) {
+            // RequestContext not yet available — default to not CLI
+        }
 
-        $this->registerErrorHandler($messageCollector);
+        if (!$isCli) {
+            $originalHandler = VarDumper::setHandler(function ($var) use (&$originalHandler, $messageCollector): void {
+                if ($originalHandler && !config('debugger.bar.dump_all', false)) {
+                    $originalHandler($var);
+                }
+                $messageCollector->addMessage($var);
+            });
+        }
+
+        if (!$isCli) {
+            $this->registerErrorHandler($messageCollector);
+        }
 
         $this->addCollector($messageCollector);
     }
@@ -92,17 +107,14 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             string $file = '',
             int $line = 0
         ) use ($messageCollector): bool {
-            // Critical errors → throw as exception → Whoops handles it
             if ($severity & self::CRITICAL_ERRORS) {
                 throw new \ErrorException($message, 0, $severity, $file, $line);
             }
 
-            // Respect error_reporting() — if suppressed, skip
             if (!(error_reporting() & $severity)) {
                 return false;
             }
 
-            // All other errors → DebugBar MessagesCollector
             $level = $this->severityLabel($severity);
             $messageCollector->addMessage(
                 "[$level] $message in $file:$line",
@@ -110,7 +122,6 @@ class MessageCollectorProvider extends AbstractCollectorProvider
                 ['file' => $file, 'line' => $line]
             );
 
-            // Return false to also trigger PHP's internal handler
             return false;
         });
     }

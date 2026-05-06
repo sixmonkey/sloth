@@ -7,6 +7,7 @@ namespace Sloth\Exceptions;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Sloth\Facades\View;
+use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 /**
@@ -148,16 +149,21 @@ class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Render an exception for the console.
      *
-     * Not used in WordPress context but required by the interface.
+     * Uses Symfony Console's Application::renderThrowable() to produce
+     * properly formatted error output with exception class, message,
+     * file/line, and a syntax-highlighted stack trace.
      *
-     * @param mixed $output Console output (unused).
+     * @param mixed $output Console output (auto-detected if not provided).
      * @param Throwable $e The exception to render.
      * @since 1.0.0
      */
     public function renderForConsole($output, Throwable $e): void
     {
-        echo $e->getMessage() . PHP_EOL;
-        echo $e->getTraceAsString() . PHP_EOL;
+        if (!$output instanceof \Symfony\Component\Console\Output\OutputInterface) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+
+        (new \Symfony\Component\Console\Application())->renderThrowable($e, $output);
     }
 
     /**

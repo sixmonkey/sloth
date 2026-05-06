@@ -52,6 +52,9 @@ class LayotterElementRegistrar
      */
     public function registerElements(): void
     {
+        if (!class_exists('Layotter')) {
+            return;
+        }
         collect($this->builder->getEntries())
             ->each(function ($info, $moduleClass) {
                 if ($moduleClass::$layotter) {

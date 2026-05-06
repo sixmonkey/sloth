@@ -82,9 +82,6 @@ class WordpressCollector extends DataCollector implements Renderable
         try {
             $parts = [];
 
-            if (!function_exists('get_plugins')) {
-                require_once ABSPATH . 'wp-admin/includes/plugin.php';
-            }
             $allPlugins = function_exists('get_plugins') ? get_plugins() : [];
 
             $active = get_option('active_plugins', []);

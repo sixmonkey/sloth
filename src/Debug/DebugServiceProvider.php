@@ -58,64 +58,69 @@ class DebugServiceProvider extends ServiceProvider
          * Injects `__debug` key into JSON body when debugger.json.prepend
          * is enabled. For HTML responses, passes buffer through unchanged
          * — the shutdown function appends the DebugBar toolbar.
+         *
+         * Only active in non-CLI contexts — in CLI the output buffer
+         * would swallow console output without any flush mechanism.
          */
-        ob_start(function ($output) {
-            if (!$this->enabled) {
-                return $output;
-            }
-
-            if (! config('debugger.json.prepend', true) && !app()->isLocal()) {
-                return $output;
-            }
-
-            try {
-                $context = $this->app->make(\Sloth\Http\RequestContext::class);
-
-                if (!$context->isJsonResponse($output)) {
+        if (PHP_SAPI !== 'cli') {
+            ob_start(function ($output) {
+                if (!$this->enabled) {
                     return $output;
                 }
 
-                $debugBar = $this->app->make(SlothDebugBar::class);
-                $messages = [];
-
-                foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
-                    $link = $entry['xdebug_link'] ?? null;
-                    if ($link) {
-                        $source = $link['filename'] . ':' . $link['line'];
-                    } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
-                        $frame = $entry['trace'][0];
-                        $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
-                    } else {
-                        $source = 'unknown';
-                    }
-
-                    if (!empty($entry['is_string'])) {
-                        $value = $entry['message'] ?? '';
-                    } elseif (!empty($entry['message_html'])) {
-                        $value = strip_tags($entry['message_html']);
-                    } elseif (!empty($entry['message_json'])) {
-                        $value = $entry['message_json'];
-                    } else {
-                        $value = '[dump]';
-                    }
-
-                    $messages[$source] = $value;
+                if (! config('debugger.json.prepend', true) && !app()->isLocal()) {
+                    return $output;
                 }
 
-                if ($messages && ($json = json_decode($output, true))) {
-                    $key = config('debugger.json.key', '__debug');
+                try {
+                    $context = $this->app->make(\Sloth\Http\RequestContext::class);
 
-                    return json_encode([
-                        $key => $messages,
-                        ...$json,
-                    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    if (!$context->isJsonResponse($output)) {
+                        return $output;
+                    }
+
+                    $debugBar = $this->app->make(SlothDebugBar::class);
+                    $messages = [];
+
+                    foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
+                        $link = $entry['xdebug_link'] ?? null;
+                        if ($link) {
+                            $source = $link['filename'] . ':' . $link['line'];
+                        } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
+                            $frame = $entry['trace'][0];
+                            $source = ($frame['file'] ?? 'unknown') . ':' . ($frame['line'] ?? '?');
+                        } else {
+                            $source = 'unknown';
+                        }
+
+                        if (!empty($entry['is_string'])) {
+                            $value = $entry['message'] ?? '';
+                        } elseif (!empty($entry['message_html'])) {
+                            $value = strip_tags($entry['message_html']);
+                        } elseif (!empty($entry['message_json'])) {
+                            $value = $entry['message_json'];
+                        } else {
+                            $value = '[dump]';
+                        }
+
+                        $messages[$source] = $value;
+                    }
+
+                    if ($messages && ($json = json_decode($output, true))) {
+                        $key = config('debugger.json.key', '__debug');
+
+                        return json_encode([
+                            $key => $messages,
+                            ...$json,
+                        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    }
+                } catch (\Throwable) {
+                    // DebugBar not available — pass through unchanged
                 }
-            } catch (\Throwable) {
-                // DebugBar not available — pass through unchanged
-            }
 
-            return $output;
-        });
+                return $output;
+            });
+        }
 
         /**
          * Register shutdown function to inject DebugBar toolbar for HTML responses.
