@@ -115,4 +115,3 @@ describe('handleBootError()', function (): void {
         expect($logMock->logged[0]['context']['exception'])->toBe('Boot failed for testing');
     });
 });
-});
