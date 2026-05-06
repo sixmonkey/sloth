@@ -9,157 +9,118 @@
 <a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/l/sixmonkey/sloth" alt="License"></a>
 </p>
 
-# Sloth - WordPress Theme Framework
+# Sloth — WordPress Theme Framework
 
 A modern WordPress theme framework built with Laravel components, designed for developers who want to build powerful
 WordPress themes with a clean, object-oriented architecture.
 
 ## Features
 
-- **Laravel Integration**: Leverages popular Laravel components (Container, Validation, Pagination, View, etc.)
-- **ACF Support**: Seamless integration with Advanced Custom Fields via Corcel
-- **Flexible Routing**: Custom routing system with FastRoute integration
+- **Laravel Components**: Container, Validation, Pagination, View, Cache, Events and more — without the full Laravel
+  stack
+- **Symfony Routing**: Laravel-esque custom routing backed by `symfony/routing` — zero extra dependencies
+- **HTTP Layer**: `Response::make()`, `Response::json()`, `Response::redirect()` and more
+- **ACF Support**: Seamless integration with Advanced Custom Fields
 - **Module System**: Organized module-based architecture for theme components
-- **Template Hierarchy**: Brain Hierarchy integration for intelligent template loading
-- **WordPress REST API**: Easy API endpoint creation
-- **Debugging**: Tracy integration for advanced debugging
-- **Scaffolding**: Generate modules, templates, and components with CLI tools
+- **Template Hierarchy**: `brain/hierarchy` integration for intelligent template loading
+- **WordPress REST API**: Easy API endpoint creation with auto-discovery
+- **DebugBar**: PHP DebugBar integration for development
+- **WP-CLI**: Artisan-style console commands via `wp sloth`
 
 ## Requirements
 
-- **PHP**: 8.2 or higher
+- **PHP**: 8.4 or higher
 - **WordPress**: 5.0 or higher
 - **Composer**: 2.0 or higher
 
 ## Installation
 
-### Via Composer
-
 ```bash
 composer create-project sixmonkey/sloth my-theme
 ```
-
-### Manual Installation
-
-1. Clone or download this repository into your WordPress theme directory
-2. Run `composer install` to install dependencies
-3. Configure your theme as needed
 
 ## Quick Start
 
 ### 1. Theme Activation
 
-Activate the theme in your WordPress admin panel. The framework will automatically bootstrap and register all service
-providers.
+Activate the theme in WordPress admin. Sloth automatically bootstraps and registers all service providers.
 
-### 2. Creating a Module
+### 2. Defining Routes
 
-Use the scaffolder to create a new module:
-
-```bash
-php sloth-cli.php make:module MyModule
-```
-
-This creates:
-
-- `src/Module/MyModule/`
-- `src/Module/MyModule/Module.php`
-- `src/_view/Module/my-module/`
-- SCSS files and ACF configuration
-
-### 3. Defining Routes
-
-Create a `routes.php` file in your theme root:
+Create `app/routes/web.php` or `theme/routes/web.php`:
 
 ```php
 <?php
 
 use Sloth\Facades\Route;
+use Sloth\Http\Response;
 
 // Basic route
-Route::get('/about', [
-    'controller' => 'PageController',
-    'action' => 'about',
-]);
+Route::get('/css/products', function () {
+    return Response::make(view('styles.index'), 200)
+        ->header('Content-Type', 'text/css');
+})->name('product-styles');
 
-// With parameters
-Route::get('/blog/{slug}', [
-    'controller' => 'BlogController',
-    'action' => 'show',
-]);
+// Route with parameters
+Route::get('/posts/{slug}', function (string $slug) {
+    return Response::make(view('single', compact('slug')));
+})->name('post.show');
+
+// JSON response
+Route::get('/api/status', function () {
+    return Response::json(['status' => 'ok']);
+});
+
+// Redirect
+Route::get('/old-path', function () {
+    Response::redirect('/new-path');
+});
 ```
 
-### 4. Creating Controllers
+Custom routes run on `template_redirect` at priority 1 — before WordPress template loading. If no route matches,
+WordPress handles the request normally.
 
-Controllers go in `Theme/Controller/`:
+> **Note:** Custom routes are for non-WordPress URLs like `/css/products`, `/sitemap.xml`, or `/api/custom`. Do not
+> register routes that conflict with WordPress template URLs unless you intentionally want to override them.
+
+### 3. Using Models
 
 ```php
 <?php
 
-namespace Theme\Controller;
-
-use Sloth\Controller\Controller;
-
-class PageController extends Controller
-{
-    public function about(): void
-    {
-        $this->view('about', [
-            'title' => 'About Us',
-        ]);
-    }
-}
-```
-
-### 5. Using Models
-
-```php
-<?php
-
-use Sloth\Model\Post;
+use App\Model\NewsModel;
 
 // Get a post by ID
-$post = Post::find(123);
+$post = NewsModel::find(123);
 
-// Get posts by category
-$posts = Post::where('category', 'news')
-    ->orderBy('date', 'DESC')
+// Query posts
+$posts = NewsModel::published()
+    ->orderBy('post_date', 'DESC')
     ->limit(10)
-    ->get();
-
-// Custom post type
-$projects = \Sloth\Model\Post::type('project')
-    ->status('publish')
     ->get();
 ```
 
-### 6. Using the View System
+### 4. Using the View System
 
 ```php
 <?php
 
 use Sloth\Facades\View;
 
-// Render a view
+// Render a Twig view
 View::make('partials.header', ['title' => 'Welcome']);
-
-// With layout
-View::make('content.page')
-    ->layout('layouts.main')
-    ->with(['title' => 'Page Title']);
 ```
 
-### 7. Validation
+### 5. Validation
 
 ```php
 <?php
 
-use Sloth\Facades\Validation;
+use Illuminate\Support\Facades\Validator;
 
-$validator = Validation::make($request->all(), [
+$validator = Validator::make($data, [
     'name'  => 'required|min:3|max:255',
     'email' => 'required|email',
-    'url'   => 'url|nullable',
 ]);
 
 if ($validator->fails()) {
