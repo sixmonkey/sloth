@@ -80,6 +80,7 @@ define('USING_SLOTH_CLI', true);
     // Core services
     $app->singleton('config', fn() => new Illuminate\Config\Repository([]));
     $app->instance('files', new Illuminate\Filesystem\Filesystem());
+    $app->instance('events', new Illuminate\Events\Dispatcher($app));
 
     // Paths
     $app->instance('path.base', $rootPath);
