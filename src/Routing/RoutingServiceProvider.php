@@ -6,6 +6,7 @@ namespace Sloth\Routing;
 
 use Sloth\Core\ServiceProvider;
 use Sloth\Http\Response;
+use Sloth\Routing\Manifest\RoutesManifestBuilder;
 
 /**
  * Service provider for the Sloth Router.
@@ -36,6 +37,7 @@ class RoutingServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Router::class, fn() => new Router());
         $this->app->alias(Router::class, 'router');
+        $this->app->singleton(RoutesManifestBuilder::class, fn($app) => new RoutesManifestBuilder($app));
     }
 
     /**
@@ -47,10 +49,7 @@ class RoutingServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $router = $this->app->make(Router::class);
-
-        foreach ($this->routeFiles() as $file) {
-            require $file;
-        }
+        $this->app->make(RoutesManifestBuilder::class)->init();
     }
 
     /**
@@ -110,29 +109,5 @@ class RoutingServiceProvider extends ServiceProvider
         }
 
         exit;
-    }
-
-    /**
-     * Collect routes/web.php files from app/ and theme/.
-     *
-     * @return list<string>
-     * @since 1.0.0
-     */
-    protected function routeFiles(): array
-    {
-        $files = [];
-
-        foreach (['app', 'theme'] as $location) {
-            try {
-                $path = $this->app->path('routes', $location) . '/web.php';
-                if (file_exists($path)) {
-                    $files[] = $path;
-                }
-            } catch (\Throwable) {
-                // path not registered — skip silently
-            }
-        }
-
-        return $files;
     }
 }
