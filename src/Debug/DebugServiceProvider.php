@@ -106,7 +106,10 @@ class DebugServiceProvider extends ServiceProvider
                             $value = '[dump]';
                         }
 
-                        $messages[$source] = $value;
+                        $messages[] = [
+                            'file'    => $source,
+                            'message' => $value,
+                        ];
                     }
 
                     if ($messages && ($json = json_decode($output, true))) {

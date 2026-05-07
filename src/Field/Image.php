@@ -203,8 +203,8 @@ class Image implements Stringable
 
                     return $image->getSize();
                 });
-                $this->width = $size['width'];
-                $this->height = $size['height'];
+                $this->width = (int) $size['width'];
+                $this->height = (int) $size['height'];
             }
 
             $this->sizes = $this->sizes();
