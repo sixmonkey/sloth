@@ -192,4 +192,11 @@ if (!function_exists('get_post_type_object')) {
     }
 }
 
+if (!function_exists('home_url')) {
+    function home_url(?string $path = ''): ?string
+    {
+        return 'http://localhost/' . $path;
+    }
+}
+
 require_once __DIR__ . '/WP_CLI_stub.php';
