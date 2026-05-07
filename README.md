@@ -675,6 +675,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 MIT — see [LICENSE](LICENSE).
 
 ## Contributors
+
 <a href="https://github.com/sixmonkey/sloth/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=sixmonkey/sloth" />
 </a>
