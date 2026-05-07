@@ -20,9 +20,7 @@ class Media
     /**
      * Constructor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Add SVG mime type.

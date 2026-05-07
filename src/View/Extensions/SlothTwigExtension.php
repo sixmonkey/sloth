@@ -43,9 +43,7 @@ class SlothTwigExtension extends AbstractExtension
      * @param Application $container The Sloth application container.
      * @since 1.0.0
      */
-    public function __construct(protected Application $container)
-    {
-    }
+    public function __construct(protected Application $container) {}
 
     /**
      * Return the unique extension name.
@@ -345,7 +343,5 @@ class SlothTwigExtension extends AbstractExtension
      * @param Environment $environment The Twig environment instance.
      * @since 1.0.0
      */
-    public function initRuntime(Environment $environment): void
-    {
-    }
+    public function initRuntime(Environment $environment): void {}
 }
