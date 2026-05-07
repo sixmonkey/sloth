@@ -21,23 +21,6 @@
         "config": {
           "label": "PHP CS Fixer"
         }
-      },
-      {
-        "action": "\\CaptainHook\\App\\Hook\\File\\Action\\DoesNotContainRegex",
-        "options": {
-          "regex": "/(?<![a-zA-Z_])var_dump\\s*\\(|(?<![a-zA-Z_])print_r\\s*\\(/",
-          "paths": [
-            "src/"
-          ],
-          "ignoreFiles": ["src/functions.php"],
-          "fileExtensions": [
-            "php"
-          ],
-          "message": "Debug statements found — remove before committing"
-        },
-        "config": {
-          "label": "Debug Statement Check"
-        }
       }
     ]
   },

@@ -49,6 +49,7 @@
     "phpunit/phpunit": "^10.0",
     "ramsey/conventional-commits": "^1.7",
     "rector/rector": "^2.0",
+    "spaze/phpstan-disallowed-calls": "^4.12",
     "szepeviktor/phpstan-wordpress": "^2.0",
     "unh3ck3d/php-cs-fixer-git-hook": "^1.0"
   },
