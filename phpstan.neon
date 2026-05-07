@@ -10,22 +10,17 @@ parameters:
     excludePaths:
         - tests
         - vendor
-        - src/_view
-        - src/Assets
-        - src/ACF
-        - src/Admin
-        - src/Controller
-        - src/Api
-        - src/Field
-        - src/Finder
-        - src/Installer
-        - src/View
+
+        # will be removed
+        - src/LayotterBridge
         - src/Model
-        - src/Module
-        - src/Pagination
+
+        # legacy
         - src/wp-config.php
         - src/bootstrap.php
     fileExtensions:
         - php
+    bootstrapFiles:
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
 
     reportUnmatchedIgnoredErrors: false
