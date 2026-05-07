@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Filesystem;
 
 use Illuminate\Filesystem\Filesystem;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -51,7 +51,7 @@ use Sloth\Core\ServiceProvider;
  * ```
  *
  * @since 1.0.0
- * @see \Illuminate\Filesystem\Filesystem For all available methods
+ * @see Filesystem For all available methods
  * @see \Sloth\Facades\File For the static Facade interface
  */
 class FilesystemServiceProvider extends ServiceProvider
@@ -68,9 +68,9 @@ class FilesystemServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton('files', fn() => new Filesystem());
+        $this->app->singleton('files', fn (): Filesystem => new Filesystem());
     }
 }

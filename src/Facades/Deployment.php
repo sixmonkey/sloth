@@ -1,14 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
+
+use Override;
 
 /**
  * Deployment Facade for accessing the deployment service.
  *
  * @since 1.0.0
- * @see \Sloth\Facades\Facade
+ * @see Facade
  */
 class Deployment extends Facade
 {
@@ -19,7 +20,7 @@ class Deployment extends Facade
      *
      * @return string The service identifier for the deployment facade
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'deployment';

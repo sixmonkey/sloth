@@ -1,14 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
+
+use Override;
 
 /**
  * Layotter Facade for accessing the Layotter page builder service.
  *
  * @since 1.0.0
- * @see \Sloth\Facades\Facade
+ * @see Facade
  */
 class Layotter extends Facade
 {
@@ -19,7 +20,7 @@ class Layotter extends Facade
      *
      * @return string The service identifier for the Layotter facade
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'layotter';

@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Traits;
 
 use Illuminate\Support\Arr;
+use Override;
 
 /**
  * Provides attribute alias resolution for WordPress compatibility.
@@ -75,6 +75,7 @@ trait HasAliases
 
         if (property_exists(parent::class, 'aliases')) {
             $parentAliases = parent::$aliases;
+
             if (is_array($parentAliases)) {
                 $aliases = array_merge($parentAliases, $aliases);
             }
@@ -113,9 +114,8 @@ trait HasAliases
      * for aliases when an attribute is not found. If an alias is found,
      * the method resolves it to the original column or meta field.
      *
-     * @param string $key The attribute key to retrieve
-     *
-     * @return mixed The attribute value, or the resolved alias value
+     * @param  string $key The attribute key to retrieve
+     * @return mixed  The attribute value, or the resolved alias value
      *
      * ## Resolution Order
      *
@@ -134,27 +134,25 @@ trait HasAliases
      * $post->author; // Resolves to $post->meta->user_id
      * ```
      */
-    #[\Override]
+    #[Override]
     public function getAttribute($key)
     {
         // First, try to get the attribute normally
         $value = parent::getAttribute($key);
 
         // If value is null and we have aliases, check for alias resolution
-        if ($value === null && count(static::getAliases())) {
-            // Look up the alias
-            if ($value = Arr::get(static::getAliases(), $key)) {
-                // Check if it's a meta alias (array format)
-                if (is_array($value)) {
-                    $metaKey = Arr::get($value, 'meta');
+        // Look up the alias
+        if ($value === null && count(static::getAliases()) && $value = Arr::get(static::getAliases(), $key)) {
+            // Check if it's a meta alias (array format)
+            if (is_array($value)) {
+                $metaKey = Arr::get($value, 'meta');
 
-                    // If a meta key is specified, return from meta relationship
-                    return $metaKey ? $this->meta->{$metaKey} : null;
-                }
-
-                // Simple alias: return the original column value
-                return parent::getAttribute($value);
+                // If a meta key is specified, return from meta relationship
+                return $metaKey ? $this->meta->{$metaKey} : null;
             }
+
+            // Simple alias: return the original column value
+            return parent::getAttribute($value);
         }
 
         return $value;
@@ -182,10 +180,9 @@ trait HasAliases
      * The fix is to call `parent::getAttribute()` directly, which bypasses
      * the alias logic and goes straight to Laravel's attribute resolution.
      *
-     * @param string $key The attribute key being accessed
-     * @param mixed $value The current value of the attribute
-     *
-     * @return mixed The mutated value
+     * @param  string $key   The attribute key being accessed
+     * @param  mixed  $value The current value of the attribute
+     * @return mixed  The mutated value
      *
      * @example
      * ```php
@@ -195,7 +192,7 @@ trait HasAliases
      * // 3. Return the mutated result
      * ```
      */
-    #[\Override]
+    #[Override]
     public function mutateAttribute($key, $value)
     {
         // Check if this attribute has a custom get mutator

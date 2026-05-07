@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Compatibility;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
- * Legacy Globals Service Provider
+ * Legacy Globals Service Provider.
  *
  * Registers deprecated $GLOBALS proxies for backwards compatibility
  * with themes that access Sloth via $GLOBALS['sloth'] or
@@ -25,7 +25,7 @@ use Sloth\Core\ServiceProvider;
  * See MIGRATE.md for the full migration guide.
  *
  * @since 1.0.0
- * @deprecated Will be removed in a future major version.
+ * @deprecated will be removed in a future major version
  */
 class LegacyGlobalsServiceProvider extends ServiceProvider
 {
@@ -38,7 +38,7 @@ class LegacyGlobalsServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $proxy = $this->makeProxy();
@@ -61,31 +61,31 @@ class LegacyGlobalsServiceProvider extends ServiceProvider
             /**
              * Proxy a property access to the Application container.
              *
-             * @param string $key The property name.
-             * @return mixed
+             * @param string $key the property name
              */
             public function __get(string $key): mixed
             {
                 trigger_error(
                     "\$GLOBALS['sloth']->{$key} is deprecated. Use app()->{$key} instead.",
-                    E_USER_DEPRECATED
+                    E_USER_DEPRECATED,
                 );
+
                 return app()->$key;
             }
 
             /**
              * Proxy a method call to the Application container.
              *
-             * @param string $method The method name.
-             * @param array $args The method arguments.
-             * @return mixed
+             * @param string $method the method name
+             * @param array  $args   the method arguments
              */
             public function __call(string $method, array $args): mixed
             {
                 trigger_error(
                     "\$GLOBALS['sloth']->{$method}() is deprecated. Use app()->{$method}() instead.",
-                    E_USER_DEPRECATED
+                    E_USER_DEPRECATED,
                 );
+
                 return app()->$method(...$args);
             }
         };

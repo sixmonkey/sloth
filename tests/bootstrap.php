@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Testing Bootstrap File
  *
@@ -189,6 +191,13 @@ if (!function_exists('get_post_type_object')) {
     function get_post_type_object(string $post_type): ?object
     {
         return null;
+    }
+}
+
+if (!function_exists('home_url')) {
+    function home_url(?string $path = ''): string
+    {
+        return 'http://localhost/' . $path;
     }
 }
 

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support\Manifest;
 
 use Illuminate\Support\Collection;
@@ -57,10 +56,13 @@ class ComposerFinder implements FinderInterface
     /**
      * Creates a new ComposerFinder instance.
      *
-     * @param Application $app The application container, used for path resolution.
+     * @param Application $app the application container, used for path resolution
+     *
      * @since 1.0.0
      */
-    public function __construct(protected Application $app) {}
+    public function __construct(protected Application $app)
+    {
+    }
 
     /**
      * Scan installed Composer packages and return discovered providers.
@@ -69,8 +71,9 @@ class ComposerFinder implements FinderInterface
      * regardless of which directories are passed. The interface requires the
      * parameter but it exists for consistency with other finder implementations.
      *
-     * @param list<string> $paths Ignored. Composer packages are discovered from installed.json.
-     * @return array<string, string> Map of provider-class => package-name.
+     * @param  list<string>          $paths Ignored. Composer packages are discovered from installed.json.
+     * @return array<string, string> map of provider-class => package-name
+     *
      * @since 1.0.0
      */
     public function find(array $paths): array
@@ -79,27 +82,30 @@ class ComposerFinder implements FinderInterface
         $ignored = $this->getIgnoredPackages();
 
         return new Collection($packages)
-            ->mapWithKeys(function ($package) {
+            ->mapWithKeys(function (array $package): array {
                 $providers = $package['extra']['folivoro']['providers'] ?? [];
+
                 return [$package['name'] => $providers];
             })
-            ->reject(function ($providers, $package) use ($ignored) {
-                return in_array($package, $ignored) || empty($providers);
-            })
-            ->flatMap(function ($providers, $package) {
+            ->reject(fn ($providers, $package): bool => in_array($package, $ignored, true) || empty($providers))
+            ->flatMap(function ($providers, $package): array {
                 $result = [];
+
                 foreach ($providers as $provider) {
                     $result[$provider] = $package;
                 }
+
                 return $result;
             })
-            ->all();
+            ->all()
+        ;
     }
 
     /**
      * Get all installed packages from composer/installed.json.
      *
-     * @return array<array{name: string, extra?: array}> List of installed package metadata.
+     * @return array<array{name: string, extra?: array}> list of installed package metadata
+     *
      * @since 1.0.0
      */
     protected function getInstalledPackages(): array
@@ -122,7 +128,8 @@ class ComposerFinder implements FinderInterface
      * Reads the extra.folivoro.dont-discover key from the application's
      * root composer.json.
      *
-     * @return list<string> Package names to ignore.
+     * @return list<string> package names to ignore
+     *
      * @since 1.0.0
      */
     protected function getIgnoredPackages(): array

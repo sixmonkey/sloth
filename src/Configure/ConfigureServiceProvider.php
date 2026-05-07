@@ -1,10 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Configure;
 
-use Sloth\Configure\Configure;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -36,12 +35,12 @@ class ConfigureServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(
             'configure',
-            fn($container): Configure => new Configure()
+            fn ($container): Configure => new Configure(),
         );
     }
 
@@ -57,6 +56,7 @@ class ConfigureServiceProvider extends ServiceProvider
         if (is_dir($configPath)) {
             // Load app.config.php first — procedural, may call Configure::write()
             $appConfig = $configPath . '/app.config.php';
+
             if (file_exists($appConfig)) {
                 require_once $appConfig;
             }

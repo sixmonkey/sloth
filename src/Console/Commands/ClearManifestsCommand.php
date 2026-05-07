@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console\Commands;
 
 use Sloth\Console\Command;
@@ -36,7 +35,7 @@ class ClearManifestsCommand extends Command
     public function handle(): int
     {
         $cachePath = app()->path('cache');
-        $cleared   = 0;
+        $cleared = 0;
 
         $manifests = app('files')->glob($cachePath . '/Manifest/*.php') ?: [];
 
@@ -44,7 +43,7 @@ class ClearManifestsCommand extends Command
             $this->info("Clearing {$path}");
 
             app('files')->delete($path);
-            $this->line("  <fg=green>✓</> Deleted " . basename($path));
+            $this->line('  <fg=green>✓</> Deleted ' . basename((string) $path));
             $cleared++;
         }
 

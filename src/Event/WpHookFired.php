@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Event;
 
 /**
@@ -36,22 +35,23 @@ class WpHookFired
     /**
      * Create a new WordPress hook fired event.
      *
-     * @param string $hook The WordPress hook name (e.g., 'wp_loaded', 'the_content').
-     * @param array<int, mixed> $args The arguments that were passed to the WordPress hook.
-     *                                For actions these are the do_action() arguments.
-     *                                For filters these are the apply_filters() arguments
-     *                                (with the filtered value always being the first element).
-     * @param string $type The hook type: 'action' or 'filter'.
-     * @param mixed $result The current filter result. Only relevant for filter hooks;
-     *                      listeners can mutate this property to change the value returned
-     *                      by apply_filters(). For action hooks this is always null.
+     * @param string            $hook   The WordPress hook name (e.g., 'wp_loaded', 'the_content').
+     * @param array<int, mixed> $args   The arguments that were passed to the WordPress hook.
+     *                                  For actions these are the do_action() arguments.
+     *                                  For filters these are the apply_filters() arguments
+     *                                  (with the filtered value always being the first element).
+     * @param string            $type   the hook type: 'action' or 'filter'
+     * @param mixed             $result The current filter result. Only relevant for filter hooks;
+     *                                  listeners can mutate this property to change the value returned
+     *                                  by apply_filters(). For action hooks this is always null.
      */
     public function __construct(
         public readonly string $hook,
         public readonly array $args,
         public readonly string $type,
         public mixed $result = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Determine whether this event represents a WordPress action.

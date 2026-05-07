@@ -1,11 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model;
 
 /**
- * Media Version Model
+ * Media Version Model.
  *
  * Extends the base Model for handling media version metadata.
  * Media versions store processed image variations in post excerpts as JSON.

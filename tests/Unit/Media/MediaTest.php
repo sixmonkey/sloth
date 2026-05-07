@@ -10,6 +10,7 @@ use Sloth\Media\Media;
  * Unit tests for the Media class.
  */
 describe('Media', function (): void {
+
     describe('Construction', function (): void {
         it('can be instantiated', function (): void {
             $media = new Media();

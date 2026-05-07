@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Finder;
 
 use Illuminate\Filesystem\Filesystem;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -20,12 +20,12 @@ class FinderServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->bind(
             'filesystem',
-            fn(): Filesystem => new Filesystem()
+            fn (): Filesystem => new Filesystem(),
         );
     }
 }

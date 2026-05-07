@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Http;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -16,9 +16,9 @@ use Sloth\Core\ServiceProvider;
  */
 class HttpServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        $this->app->bind('response', fn() => new Response());
+        $this->app->bind('response', fn (): Response => new Response());
     }
 }

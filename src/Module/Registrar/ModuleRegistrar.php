@@ -1,11 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Module\Registrar;
 
+use function add_action;
+use function register_rest_route;
 use Sloth\Module\Manifest\ModuleManifestBuilder;
 use Sloth\Utility\Utility;
+use WP_REST_Request;
 
 /**
  * Registers JSON/AJAX endpoints for modules from manifest entries.
@@ -37,7 +39,7 @@ use Sloth\Utility\Utility;
  * Utility::normalize() + Utility::viewize().
  *
  * @since 1.0.0
- * @see \Sloth\Module\Manifest\ModuleManifestBuilder For entry data computation
+ * @see ModuleManifestBuilder For entry data computation
  * @see \Sloth\Module\ModuleServiceProvider           For hook registration
  */
 class ModuleRegistrar
@@ -45,13 +47,15 @@ class ModuleRegistrar
     /**
      * Creates a new ModuleRegistrar instance.
      *
-     * @param ModuleManifestBuilder $builder The manifest builder that provides
-     *                                       the pre-computed entry data.
+     * @param ModuleManifestBuilder $builder the manifest builder that provides
+     *                                       the pre-computed entry data
+     *
      * @since 1.0.0
      */
     public function __construct(
         private readonly ModuleManifestBuilder $builder,
-    ) {}
+    ) {
+    }
 
     /**
      * Register JSON/AJAX endpoints for modules that have $json enabled.
@@ -78,8 +82,8 @@ class ModuleRegistrar
 
             $m = new $moduleClass();
 
-            \add_action('wp_ajax_nopriv_' . $m->getAjaxAction(), [$m, 'getJSON']);
-            \add_action('wp_ajax_' . $m->getAjaxAction(), [$m, 'getJSON']);
+            add_action('wp_ajax_nopriv_' . $m->getAjaxAction(), [$m, 'getJSON']);
+            add_action('wp_ajax_' . $m->getAjaxAction(), [$m, 'getJSON']);
 
             $route = [Utility::viewize(Utility::normalize(class_basename($m)))];
 
@@ -89,13 +93,13 @@ class ModuleRegistrar
                 }
             }
 
-            \register_rest_route(
+            register_rest_route(
                 'sloth/v1/module',
                 '/' . implode('/', $route),
                 [
                     'methods'  => ['GET', 'POST'],
-                    'callback' => fn(\WP_REST_Request $request) => $m->getJSON($request->get_params()),
-                ]
+                    'callback' => fn (WP_REST_Request $request) => $m->getJSON($request->get_params()),
+                ],
             );
         }
     }

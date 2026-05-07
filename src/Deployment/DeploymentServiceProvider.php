@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Deployment;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -26,12 +26,12 @@ class DeploymentServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(
             'deployment',
-            fn($container): \Sloth\Deployment\Deployment => new Deployment()
+            fn ($container): Deployment => new Deployment(),
         );
     }
 
@@ -39,10 +39,10 @@ class DeploymentServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      *
      * @return array<string>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function provides(): array
     {
         return [

@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Routing;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Http\Response;
 use Sloth\Routing\Manifest\RoutesManifestBuilder;
@@ -32,12 +32,12 @@ class RoutingServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(Router::class, fn() => new Router());
+        $this->app->singleton(Router::class, fn (): Router => new Router());
         $this->app->alias(Router::class, 'router');
-        $this->app->singleton(RoutesManifestBuilder::class, fn($app) => new RoutesManifestBuilder($app));
+        $this->app->singleton(RoutesManifestBuilder::class, fn ($app): RoutesManifestBuilder => new RoutesManifestBuilder($app));
     }
 
     /**
@@ -45,10 +45,9 @@ class RoutingServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function boot(): void
     {
-        $router = $this->app->make(Router::class);
         $this->app->make(RoutesManifestBuilder::class)->init();
     }
 
@@ -56,14 +55,15 @@ class RoutingServiceProvider extends ServiceProvider
      * Register template_redirect hook for route dispatching.
      *
      * @return array<string, callable>
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function getHooks(): array
     {
         return [
             'template_redirect' => [
-                'callback' => fn() => $this->dispatch(),
+                'callback' => $this->dispatch(...),
                 'priority' => 1,
             ],
         ];
@@ -92,7 +92,7 @@ class RoutingServiceProvider extends ServiceProvider
         $controller = $params['_controller'];
         $args = array_values(array_filter(
             $params,
-            fn($key) => !str_starts_with($key, '_'),
+            fn ($key): bool => !str_starts_with((string) $key, '_'),
             ARRAY_FILTER_USE_KEY,
         ));
 
@@ -100,11 +100,13 @@ class RoutingServiceProvider extends ServiceProvider
 
         if ($response instanceof Response) {
             $response->send();
+
             exit;
         }
 
         if (is_string($response)) {
             echo $response;
+
             exit;
         }
 

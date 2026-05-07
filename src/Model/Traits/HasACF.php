@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Traits;
 
 use Illuminate\Support\Collection;
@@ -19,8 +18,8 @@ use Sloth\Model\Casts\AcfBase;
  * Models using this trait must implement getAcfKey().
  *
  * @since 1.0.0
- * @see \Sloth\ACF\AcfProxy
- * @see \Sloth\Model\Casts\AcfBase
+ * @see AcfProxy
+ * @see AcfBase
  * @see https://www.advancedcustomfields.com/ ACF Plugin
  */
 trait HasACF
@@ -43,14 +42,12 @@ trait HasACF
      */
     public static function bootHasACF(): void
     {
-        static::retrieved(function (self $model) {
+        static::retrieved(function (self $model): void {
             $fields = $model->getFields($model);
             $acf_fields = $fields->keys();
             $native_fields = collect($model->getAttributes())->keys();
 
-            $acf_casts = $acf_fields->diff($native_fields)->mapWithKeys(function ($item) {
-                return [$item => AcfBase::class];
-            });
+            $acf_casts = $acf_fields->diff($native_fields)->mapWithKeys(fn ($item): array => [$item => AcfBase::class]);
 
             $model->mergeCasts($acf_casts->toArray());
         });
@@ -59,16 +56,19 @@ trait HasACF
     /**
      * Get ACF fields for a model, with caching.
      *
-     * @param mixed $model The model instance
+     * @param  mixed                     $model The model instance
      * @return Collection<string, mixed> Collection of ACF fields
+     *
      * @since 1.0.0
      */
     private function getFields(mixed $model): Collection
     {
         $key = $model->getAcfKey();
+
         if (!isset(static::$acfFieldCache[$key])) {
             static::$acfFieldCache[$key] = collect(get_fields($key) ?? []);
         }
+
         return static::$acfFieldCache[$key];
     }
 
@@ -83,6 +83,7 @@ trait HasACF
      * Get an ACF proxy for accessing fields.
      *
      * @return AcfProxy Proxy object for ACF field access
+     *
      * @since 1.0.0
      */
     public function getAcfAttribute(): AcfProxy

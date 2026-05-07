@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
 
+use Override;
 use Sloth\Routing\Router;
 
 /**
@@ -17,12 +17,13 @@ use Sloth\Routing\Router;
  * @method static string url(string $name, array $params = [])
  *
  * @mixin Router
- * @see \Sloth\Routing\Router
+ *
+ * @see Router
  * @since 1.0.0
  */
 class Route extends Facade
 {
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'router';

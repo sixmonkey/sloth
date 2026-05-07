@@ -1,11 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Debug;
 
 use DebugBar\DebugBar;
+use Override;
 use Sloth\Core\ServiceProvider;
+use Throwable;
 
 /**
  * Sloth Debug Service Provider.
@@ -40,6 +41,7 @@ class DebugServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
         if (!class_exists(DebugBar::class)) {
@@ -52,7 +54,7 @@ class DebugServiceProvider extends ServiceProvider
 
         $this->enabled = true;
 
-        /**
+        /*
          * Output buffer callback for JSON responses.
          *
          * Injects `__debug` key into JSON body when debugger.json.prepend
@@ -68,7 +70,7 @@ class DebugServiceProvider extends ServiceProvider
                     return $output;
                 }
 
-                if (! config('debugger.json.prepend', true) && !app()->isLocal()) {
+                if (!config('debugger.json.prepend', true) && !app()->isLocal()) {
                     return $output;
                 }
 
@@ -84,6 +86,7 @@ class DebugServiceProvider extends ServiceProvider
 
                     foreach ($debugBar->getMessagesCollector()->getMessages() as $entry) {
                         $link = $entry['xdebug_link'] ?? null;
+
                         if ($link) {
                             $source = $link['filename'] . ':' . $link['line'];
                         } elseif (isset($entry['trace']) && is_array($entry['trace']) && count($entry['trace']) > 0) {
@@ -96,7 +99,7 @@ class DebugServiceProvider extends ServiceProvider
                         if (!empty($entry['is_string'])) {
                             $value = $entry['message'] ?? '';
                         } elseif (!empty($entry['message_html'])) {
-                            $value = strip_tags($entry['message_html']);
+                            $value = strip_tags((string) $entry['message_html']);
                         } elseif (!empty($entry['message_json'])) {
                             $value = $entry['message_json'];
                         } else {
@@ -114,7 +117,7 @@ class DebugServiceProvider extends ServiceProvider
                             ...$json,
                         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
                     }
-                } catch (\Throwable) {
+                } catch (Throwable) {
                     // DebugBar not available — pass through unchanged
                 }
 
@@ -122,13 +125,13 @@ class DebugServiceProvider extends ServiceProvider
             });
         }
 
-        /**
+        /*
          * Register shutdown function to inject DebugBar toolbar for HTML responses.
          *
          * Works correctly with `die()` calls in templates (e.g. TemplateServiceProvider)
          * because it runs after all output is flushed and can safely echo content.
          */
-        register_shutdown_function(function () {
+        register_shutdown_function(function (): void {
             if (!$this->enabled) {
                 return;
             }
@@ -148,7 +151,7 @@ class DebugServiceProvider extends ServiceProvider
                 ) {
                     echo $debugBar->render();
                 }
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 // DebugBar not available — skip silently
             }
         });
@@ -170,13 +173,13 @@ class DebugServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(
             __DIR__ . '/config/debugger.php',
-            'debugger'
+            'debugger',
         );
 
         try {
             $debugBar = $this->app->make(SlothDebugBar::class);
             $debugBar->boot();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->handleBootError($e);
         }
     }
@@ -187,18 +190,19 @@ class DebugServiceProvider extends ServiceProvider
      * Logs the error to the application log instead of silently
      * ignoring it, so that developers are aware of the failure.
      *
-     * @param \Throwable $e The exception that occurred during boot.
+     * @param Throwable $e the exception that occurred during boot
+     *
      * @since 1.0.0
      */
-    protected function handleBootError(\Throwable $e): void
+    protected function handleBootError(Throwable $e): void
     {
         try {
             app('log')->error('Sloth DebugBar boot failed', [
                 'exception' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
             ]);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // Logging failed — nothing more we can do
         }
     }

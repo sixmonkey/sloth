@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support\Manifest;
 
 /**
@@ -18,8 +17,8 @@ interface FinderInterface
     /**
      * Scan the given directories and return discovered files.
      *
-     * @param  list<string>            $paths Absolute directory paths to scan.
-     * @return array<string, string>   Map of identifier => absolute file path.
+     * @param  list<string>          $paths absolute directory paths to scan
+     * @return array<string, string> map of identifier => absolute file path
      */
     public function find(array $paths): array;
 }

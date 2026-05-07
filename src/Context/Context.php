@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Context;
 
 use Sloth\Core\Application;
@@ -15,7 +14,7 @@ use Sloth\Model\User;
  * Sloth-specific variables like current layout.
  *
  * @since 1.0.0
- * @see \Sloth\Context\ContextServiceProvider
+ * @see ContextServiceProvider
  * @see \Sloth\Template\TemplateServiceProvider
  */
 class Context
@@ -29,25 +28,26 @@ class Context
 
     /**
      * Current model instance.
-     *
-     * @var mixed
      */
     protected mixed $currentModel = null;
 
     /**
      * Constructor for Context.
      *
-     * @param Application $app The application instance.
+     * @param Application $app the application instance
+     *
      * @since 1.0.0
      */
-    public function __construct(private Application $app) {}
+    public function __construct(private Application $app)
+    {
+    }
 
     /**
      * Get the template context for Twig.
      *
      * @return array<string, mixed> Context array for Twig templates
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function getContext(): array
     {
@@ -57,24 +57,24 @@ class Context
 
         $this->context = [
             'wp_title' => trim((string) wp_title('', false)),
-            'site' => [
-                'url' => (string) home_url(),
-                'rdf' => (string) get_bloginfo('rdf_url'),
-                'rss' => (string) get_bloginfo('rss_url'),
-                'rss2' => (string) get_bloginfo('rss2_url'),
-                'atom' => (string) get_bloginfo('atom_url'),
-                'language' => get_bloginfo('language'),
-                'charset' => get_bloginfo('charset'),
-                'pingback' => (string) get_bloginfo('pingback_url'),
-                'admin_email' => (string) get_bloginfo('admin_email'),
-                'name' => (string) get_bloginfo('name'),
-                'title' => (string) get_bloginfo('name'),
-                'description' => (string) get_bloginfo('description'),
-                'canonical_url' => (string) home_url((string) $_SERVER['REQUEST_URI']),
+            'site'     => [
+                'url'           => home_url(),
+                'rdf'           => (string) get_bloginfo('rdf_url'),
+                'rss'           => (string) get_bloginfo('rss_url'),
+                'rss2'          => (string) get_bloginfo('rss2_url'),
+                'atom'          => (string) get_bloginfo('atom_url'),
+                'language'      => get_bloginfo('language'),
+                'charset'       => get_bloginfo('charset'),
+                'pingback'      => (string) get_bloginfo('pingback_url'),
+                'admin_email'   => (string) get_bloginfo('admin_email'),
+                'name'          => (string) get_bloginfo('name'),
+                'title'         => (string) get_bloginfo('name'),
+                'description'   => (string) get_bloginfo('description'),
+                'canonical_url' => home_url((string) $_SERVER['REQUEST_URI']),
             ],
             'globals' => [
-                'home_url' => (string) home_url('/'),
-                'theme_url' => (string) get_template_directory_uri(),
+                'home_url'   => home_url('/'),
+                'theme_url'  => (string) get_template_directory_uri(),
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],
             'sloth' => [
@@ -127,6 +127,7 @@ class Context
         }
 
         global $taxonomy;
+
         if ($this->currentModel === null) {
             $taxonomies = $this->app['sloth.taxonomies'] ?? [];
             $taxonomyClass = $taxonomies[$taxonomy] ?? \Sloth\Model\Taxonomy::class;

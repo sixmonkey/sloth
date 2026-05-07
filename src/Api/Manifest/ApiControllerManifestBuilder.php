@@ -1,13 +1,14 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Api\Manifest;
 
+use Override;
+use ReflectionClass;
 use Sloth\Api\Controller;
-use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 
 /**
  * Builds a manifest for API controller discovery.
@@ -43,7 +44,7 @@ use Sloth\Support\Manifest\FinderInterface;
  * ```
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
+ * @see PathBasedManifestBuilder For the base class lifecycle
  * @see \Sloth\Api\ApiServiceProvider                   For route registration
  */
 class ApiControllerManifestBuilder extends PathBasedManifestBuilder
@@ -54,10 +55,11 @@ class ApiControllerManifestBuilder extends PathBasedManifestBuilder
      * Uses ClassMapFinder filtered to classes extending Sloth\Api\Controller.
      * Non-abstract subclasses are included; abstract base classes are excluded.
      *
-     * @return FinderInterface The configured ClassMapFinder.
+     * @return FinderInterface the configured ClassMapFinder
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function finder(): FinderInterface
     {
         return new ClassMapFinder(Controller::class);
@@ -68,10 +70,11 @@ class ApiControllerManifestBuilder extends PathBasedManifestBuilder
      *
      * Scans `app/Api/` and `theme/Api/`.
      *
-     * @return string Always 'Api'.
+     * @return string always 'Api'
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function directory(): string
     {
         return 'Api';
@@ -88,18 +91,19 @@ class ApiControllerManifestBuilder extends PathBasedManifestBuilder
      * The route prefix is derived from the class name via Utility::viewize()
      * (e.g. `NewsController` → `news`).
      *
-     * @param array<string, string> $map Controller class name => absolute file path.
+     * @param  array<string, string>                                                             $map controller class name => absolute file path
      * @return array<string, array{routePrefix: string, methods: list<string>, hasSingle: bool}>
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function entries(array $map): array
     {
         $entries = [];
 
         /** @var class-string<Controller> $controllerClass */
-        foreach ($map as $controllerClass => $file) {
-            $reflection = new \ReflectionClass($controllerClass);
+        foreach (array_keys($map) as $controllerClass) {
+            $reflection = new ReflectionClass($controllerClass);
             $methods = [];
 
             foreach ($reflection->getMethods() as $method) {
@@ -110,8 +114,8 @@ class ApiControllerManifestBuilder extends PathBasedManifestBuilder
 
             $entries[$controllerClass] = [
                 'routePrefix' => \Sloth\Utility\Utility::viewize($reflection->getShortName()),
-                'methods' => $methods,
-                'hasSingle' => $reflection->hasMethod('single'),
+                'methods'     => $methods,
+                'hasSingle'   => $reflection->hasMethod('single'),
             ];
         }
 

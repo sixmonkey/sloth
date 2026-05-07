@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Core;
 
+use Exception;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 /**
@@ -149,7 +149,8 @@ abstract class ServiceProvider extends IlluminateServiceProvider
      * Event::listen('wp:wp_loaded', fn() => $this->doSomething());
      * ```
      *
-     * @return array<string, callable|array{callback: callable, priority: int}|array<callable|array{callback: callable, priority: int}>>
+     * @return array<string, array<array{callback: callable, priority: int}|callable>|array{callback: callable, priority: int}|callable>
+     *
      * @since 1.0.0
      */
     public function getHooks(): array
@@ -207,7 +208,8 @@ abstract class ServiceProvider extends IlluminateServiceProvider
      * });
      * ```
      *
-     * @return array<string, callable|array{callback: callable, priority: int}|array<callable|array{callback: callable, priority: int}>>
+     * @return array<string, array<array{callback: callable, priority: int}|callable>|array{callback: callable, priority: int}|callable>
+     *
      * @since 1.0.0
      */
     public function getFilters(): array
@@ -226,24 +228,26 @@ abstract class ServiceProvider extends IlluminateServiceProvider
      *
      * @since 1.0.0
      */
-    public function boot(): void {}
+    public function boot(): void
+    {
+    }
 
     /**
      * Handles calls to undefined methods.
      *
-     * @param string $method The method name that was called.
-     * @param array<int, mixed> $parameters The parameters passed to the method.
-     * @return mixed
-     * @throws \Exception If the method is not defined.
-     * @since 1.0.0
+     * @param string            $method     the method name that was called
+     * @param array<int, mixed> $parameters the parameters passed to the method
      *
+     * @throws Exception if the method is not defined
+     *
+     * @since 1.0.0
      */
     public function __call(string $method, array $parameters): mixed
     {
-        throw new \Exception(sprintf(
+        throw new Exception(sprintf(
             'Call to undefined method [%s::%s]',
             static::class,
-            $method
+            $method,
         ));
     }
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * WordPress Event Bridge Configuration
+ * WordPress Event Bridge Configuration.
  *
  * This file defines which WordPress hooks are bridged to Laravel events.
  * Each entry maps a WordPress hook name to its type ('action' or 'filter').
@@ -28,7 +28,6 @@ declare(strict_types=1);
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | WordPress Hook Bridge
@@ -49,7 +48,6 @@ return [
     */
 
     'bridge' => [
-
         // ─── Core Lifecycle ───────────────────────────────────────────
         // These hooks fire during WordPress bootstrap, before theme output.
 
@@ -69,14 +67,12 @@ return [
         // ─── Important Filters ────────────────────────────────────────
         // Bidirectional: listeners can modify the filtered value.
 
-        'the_content'  => 'filter',       // Post content before display
-        'the_title'    => 'filter',       // Post title before display
-        'the_excerpt'  => 'filter',       // Post excerpt before display
-        'body_class'   => 'filter',       // HTML body classes
+        'the_content' => 'filter',       // Post content before display
+        'the_title'   => 'filter',       // Post title before display
+        'the_excerpt' => 'filter',       // Post excerpt before display
+        'body_class'  => 'filter',       // HTML body classes
 
         // ─── Request End ─────────────────────────────────────────────
-        'shutdown'     => 'action',       // PHP shutdown (last chance)
-
+        'shutdown' => 'action',       // PHP shutdown (last chance)
     ],
-
 ];

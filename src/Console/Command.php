@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console;
 
 use Illuminate\Console\Command as BaseCommand;
@@ -15,4 +14,6 @@ use Illuminate\Console\Command as BaseCommand;
  *
  * @since 1.0.0
  */
-abstract class Command extends BaseCommand {}
+abstract class Command extends BaseCommand
+{
+}

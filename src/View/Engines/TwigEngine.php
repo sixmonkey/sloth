@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\View\Engines;
 
 use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\ViewFinderInterface;
+use Override;
 use Twig\Environment;
 use Twig_Environment;
 
@@ -20,6 +20,7 @@ class TwigEngine extends PhpEngine
      * The Twig environment instance.
      *
      * @since 1.0.0
+     *
      * @var Twig_Environment
      */
     protected $environment;
@@ -28,11 +29,12 @@ class TwigEngine extends PhpEngine
      * The file extension used by this engine.
      *
      * @since 1.0.0
+     *
      * @var string
      */
     protected $extension = '.twig';
 
-    public function __construct(Environment $environment, protected \Illuminate\View\ViewFinderInterface $finder)
+    public function __construct(Environment $environment, protected ViewFinderInterface $finder)
     {
         $this->environment = $environment;
     }
@@ -40,19 +42,20 @@ class TwigEngine extends PhpEngine
     /**
      * Return the evaluated template.
      *
-     * @param string $path The file name with its file extension.
-     * @param array  $data Template data (view data)
-     *
+     * @param  string $path the file name with its file extension
+     * @param  array  $data Template data (view data)
      * @return string
      */
-    #[\Override]
+    #[Override]
     public function get($path, array $data = [])
     {
 
         foreach ($this->finder->getPaths() as $realpath) {
             $pattern = '~^' . realpath($realpath) . '~';
+
             if (preg_match($pattern, $path)) {
                 $path = preg_replace($pattern, '', $path);
+
                 break;
             }
         }

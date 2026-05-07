@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Builder;
 
 use Corcel\Model\Builder\PostBuilder as CorcelPostBuilder;
+use Override;
 
 /**
  * Custom query builder for WordPress posts.
@@ -25,10 +25,10 @@ class PostBuilder extends CorcelPostBuilder
      *
      * @since 1.0.0
      *
-     * @param mixed $type Post type name or array of types
+     * @param  mixed $type Post type name or array of types
      * @return $this
      */
-    #[\Override]
+    #[Override]
     public function type($type)
     {
         if ($this->isQueryingRevisions()) {

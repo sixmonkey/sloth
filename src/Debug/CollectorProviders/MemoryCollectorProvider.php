@@ -1,5 +1,4 @@
 <?php
-
 namespace Sloth\Debug\CollectorProviders;
 
 use DebugBar\DataCollector\MemoryCollector;
@@ -9,6 +8,7 @@ class MemoryCollectorProvider extends AbstractCollectorProvider
 {
     /**
      * @inheritDoc
+     *
      * @throws DebugBarException
      */
     public function boot(): void

@@ -7,6 +7,7 @@
 <a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/dt/sixmonkey/sloth" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/v/sixmonkey/sloth" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/l/sixmonkey/sloth" alt="License"></a>
+<a href="https://github.com/sixmonkey/sloth/actions/workflows/ci.yml"><img src="https://github.com/sixmonkey/sloth/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 # Sloth — WordPress Theme Framework
@@ -674,6 +675,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 MIT — see [LICENSE](LICENSE).
 
 ## Contributors
+
 <a href="https://github.com/sixmonkey/sloth/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=sixmonkey/sloth" />
 </a>

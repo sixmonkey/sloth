@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Core\Manifest;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
@@ -39,7 +39,7 @@ use Sloth\Support\Manifest\PathBasedManifestBuilder;
  * by discovered app/theme providers.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\PathBasedManifestBuilder   For the base class lifecycle
+ * @see PathBasedManifestBuilder   For the base class lifecycle
  * @see \Sloth\Core\Application::registerProviders()    For provider registration
  */
 class ProvidersManifestBuilder extends PathBasedManifestBuilder
@@ -50,10 +50,11 @@ class ProvidersManifestBuilder extends PathBasedManifestBuilder
      * Uses ClassMapFinder filtered to classes extending Sloth\Core\ServiceProvider.
      * Non-abstract subclasses are included; abstract base classes are excluded.
      *
-     * @return FinderInterface The configured ClassMapFinder.
+     * @return FinderInterface the configured ClassMapFinder
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function finder(): FinderInterface
     {
         return new ClassMapFinder(ServiceProvider::class);
@@ -64,10 +65,11 @@ class ProvidersManifestBuilder extends PathBasedManifestBuilder
      *
      * Scans `app/Providers/` and `theme/Providers/`.
      *
-     * @return string Always 'Providers'.
+     * @return string always 'Providers'
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function directory(): string
     {
         return 'Providers';
@@ -80,11 +82,12 @@ class ProvidersManifestBuilder extends PathBasedManifestBuilder
      * list of class names. Application::registerProviders() iterates over this
      * array and calls `$this->register()` for each one.
      *
-     * @param array<string, string> $map Provider class name => absolute file path.
-     * @return list<class-string<ServiceProvider>> Flat array of class names.
+     * @param  array<string, string>               $map provider class name => absolute file path
+     * @return list<class-string<ServiceProvider>> flat array of class names
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function entries(array $map): array
     {
         return array_keys($map);

@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
 
 use Illuminate\Cache\CacheManager;
+use Override;
 
 /**
  * Cache Facade — static access to the Cache service.
@@ -53,7 +53,7 @@ use Illuminate\Cache\CacheManager;
  * Registered in `Application::$classAliases` as `'Cache'`.
  *
  * @since 1.0.0
- * @see \Illuminate\Cache\CacheManager For all available methods
+ * @see CacheManager For all available methods
  * @see \Sloth\Cache\CacheServiceProvider For container registration
  *
  * @method static mixed    get(string $key, mixed $default = null)                          Retrieve an item from the cache.
@@ -75,11 +75,11 @@ class Cache extends Facade
      * The `Illuminate\Cache\CacheManager` instance is registered
      * under the `'cache'` key by `CacheServiceProvider`.
      *
-     * @return string The container binding key.
-     * @since 1.0.0
+     * @return string the container binding key
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'cache';

@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Configure;
 
+use Deprecated;
 use Sloth\Facades\Facade;
 
 /**
@@ -40,8 +40,9 @@ class Configure
      * Configure::write(['theme.foo' => 'bar', 'theme.baz' => 'qux']);
      * ```
      *
-     * @param string|array<string, mixed> $config
-     * @param mixed                       $value
+     * @param array<string, mixed>|string $config
+     * @param mixed|null                  $value
+     *
      * @since 1.0.0
      */
     public static function write(string|array $config, mixed $value = null): bool
@@ -63,6 +64,9 @@ class Configure
      * Returns all values when called without arguments.
      *
      * @since 1.0.0
+     *
+     * @param ?string    $var
+     * @param mixed|null $default
      */
     public static function read(?string $var = null, mixed $default = null): mixed
     {
@@ -74,6 +78,7 @@ class Configure
         // by other providers. Fall back to internal store during early boot.
         if (Facade::getFacadeApplication()?->bound('config')) {
             $fromConfig = config($var);
+
             if ($fromConfig !== null) {
                 return $fromConfig;
             }
@@ -86,6 +91,8 @@ class Configure
      * Read and delete a value from the store.
      *
      * @since 1.0.0
+     *
+     * @param string $var
      */
     public static function consume(string $var): mixed
     {
@@ -99,6 +106,8 @@ class Configure
      * Check if a key is set (and not null) in the store.
      *
      * @since 1.0.0
+     *
+     * @param string $var
      */
     public static function check(string $var): bool
     {
@@ -109,13 +118,15 @@ class Configure
      * Delete a key from the store.
      *
      * @since 1.0.0
+     *
+     * @param string $var
      */
     public static function delete(string $var): void
     {
         // Traverse and unset via dot notation
         $keys = explode('.', $var);
         $last = array_pop($keys);
-        $ref  = &self::$values;
+        $ref = &self::$values;
 
         foreach ($keys as $key) {
             if (!isset($ref[$key]) || !is_array($ref[$key])) {
@@ -130,9 +141,9 @@ class Configure
     /**
      * Copy all $_ENV values into Configure under the 'ENV.' prefix.
      *
-     * @deprecated ENV values are now available via env() directly.
      * @since 1.0.0
      */
+    #[Deprecated(message: 'ENV values are now available via env() directly')]
     public static function boot(): void
     {
         foreach ($_ENV as $k => $v) {

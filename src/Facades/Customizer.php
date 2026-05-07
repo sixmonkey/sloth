@@ -1,14 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
+
+use Override;
 
 /**
  * Customizer Facade for accessing the WordPress customizer service.
  *
  * @since 1.0.0
- * @see \Sloth\Facades\Facade
+ * @see Facade
  */
 class Customizer extends Facade
 {
@@ -19,7 +20,7 @@ class Customizer extends Facade
      *
      * @return string The service identifier for the customizer facade
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'customizer';

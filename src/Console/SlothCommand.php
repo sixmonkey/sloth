@@ -1,8 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console;
+
+use WP_CLI;
 
 /**
  * WP-CLI command handler for `wp sloth`.
@@ -12,8 +13,8 @@ namespace Sloth\Console;
  * Illuminate console application via ConsoleKernel.
  *
  * @since 1.0.0
- * @see \Sloth\Console\ConsoleKernel
- * @see \Sloth\Console\ConsoleServiceProvider
+ * @see ConsoleKernel
+ * @see ConsoleServiceProvider
  */
 class SlothCommand
 {
@@ -23,20 +24,22 @@ class SlothCommand
      * WP-CLI calls __invoke for any `wp sloth *` command.
      * Defaults to `list` when no subcommand is given.
      *
-     * @param array<int, string>   $args       Positional arguments.
-     * @param array<string, mixed> $assoc_args Named arguments (--flag=value).
+     * @param array<int, string>   $args       positional arguments
+     * @param array<string, mixed> $assoc_args named arguments (--flag=value)
+     *
      * @since 1.0.0
      */
     public function __invoke(array $args, array $assoc_args): void
     {
-        if (empty($args)) {
+        if ($args === []) {
             $args = ['list'];
         }
 
         $status = app(ConsoleKernel::class)
             ->discoverCommands()
-            ->handle($args, $assoc_args);
+            ->handle($args, $assoc_args)
+        ;
 
-        \WP_CLI::halt($status);
+        WP_CLI::halt($status);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support\Manifest;
 
 use Composer\ClassMapGenerator\ClassMapGenerator;
+use ReflectionClass;
 
 /**
  * Discovers PHP classes via tokenization.
@@ -25,15 +25,17 @@ class ClassMapFinder implements FinderInterface
      */
     public function __construct(
         private readonly ?string $subclassOf = null,
-    ) {}
+    ) {
+    }
 
     public function find(array $paths): array
     {
         $generator = new ClassMapGenerator();
 
         collect($paths)
-            ->filter(fn($path) => is_dir($path))
-            ->each(fn($path) => $generator->scanPaths($path));
+            ->filter(fn ($path): bool => is_dir($path))
+            ->each(fn ($path) => $generator->scanPaths($path))
+        ;
 
         $classMap = $generator->getClassMap();
         $classMap->sort();
@@ -42,7 +44,7 @@ class ClassMapFinder implements FinderInterface
             ->filter(function (string $file, string $class): bool {
                 require_once $file;
 
-                $reflection = new \ReflectionClass($class);
+                $reflection = new ReflectionClass($class);
 
                 if ($reflection->isAbstract()) {
                     return false;
@@ -54,6 +56,7 @@ class ClassMapFinder implements FinderInterface
 
                 return true;
             })
-            ->all();
+            ->all()
+        ;
     }
 }

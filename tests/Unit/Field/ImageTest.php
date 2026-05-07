@@ -9,7 +9,7 @@ use Sloth\Field\Image;
 describe('Image', function (): void {
     describe('constructor', function (): void {
         it('handles null input', function (): void {
-            $image = new Image(null);
+            $image = new Image();
             expect($image->url)->toBeNull();
         });
 
@@ -21,7 +21,7 @@ describe('Image', function (): void {
 
     describe('__toString()', function (): void {
         it('returns empty string when URL is null', function (): void {
-            $image = new Image(null);
+            $image = new Image();
             expect((string) $image)->toBe('');
         });
     });

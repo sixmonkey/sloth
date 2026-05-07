@@ -1,19 +1,22 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use function apply_filters;
+use function get_permalink;
 use Corcel\Model\Comment;
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Meta\ThumbnailMeta;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Override;
+use ReflectionClass;
 use Sloth\Field\Image;
 use Sloth\Http\RequestContext;
 use Sloth\Model\Builder\PostBuilder;
@@ -45,6 +48,7 @@ use Sloth\Model\Traits\HasRelationships;
  * $register, $layotter) are intentionally untyped static properties.
  * This allows theme developers to override them in child classes without
  * PHP 8.4 typed property inheritance errors. PHPStan is satisfied via
+ *
  * @var DocBlocks on each property.
  *
  * The ModelRegistrar reads these via static access: `$modelClass::$names`
@@ -58,8 +62,8 @@ use Sloth\Model\Traits\HasRelationships;
  *
  * @since 1.0.0
  * @see \Corcel\Model For the base Corcel implementation
- * @see \Sloth\Model\Post For the default post model
- * @see \Sloth\Model\Registrars\ModelRegistrar For post type registration
+ * @see Post For the default post model
+ * @see Registrars\ModelRegistrar For post type registration
  *
  * @property int $ID           The post ID
  * @property string $post_title   The post title
@@ -72,11 +76,17 @@ use Sloth\Model\Traits\HasRelationships;
 class Model extends Eloquent
 {
     use PostScopes;
+
     use HasACF;
+
     use HasAliases;
+
     use HasCustomTimestamps;
+
     use HasMetaFields;
+
     use HasOrderScopes;
+
     use HasRelationships;
 
     // -------------------------------------------------------------------------
@@ -88,6 +98,7 @@ class Model extends Eloquent
      * The database table used by the model.
      *
      * @corcel-compat Cannot be typed — Corcel declares $table without a type.
+     *
      * @var string
      */
     protected $table = 'posts';
@@ -96,6 +107,7 @@ class Model extends Eloquent
      * The primary key for the model.
      *
      * @corcel-compat Cannot be typed — Corcel declares $primaryKey without a type.
+     *
      * @var string
      */
     protected $primaryKey = 'ID';
@@ -104,6 +116,7 @@ class Model extends Eloquent
      * The attributes that should be cast to dates.
      *
      * @corcel-compat Cannot be typed — Corcel declares $dates without a type.
+     *
      * @var array<string>
      */
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
@@ -112,14 +125,13 @@ class Model extends Eloquent
      * Relationships to eager-load on every query.
      *
      * @corcel-compat Cannot be typed — Corcel declares $with without a type.
+     *
      * @var array<string>
      */
     protected $with = [];
 
     /**
      * The filtered content for this post.
-     *
-     * @var string|null
      */
     protected static ?string $filteredContent = null;
 
@@ -158,11 +170,11 @@ class Model extends Eloquent
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'post_content' => '',
-        'post_title' => '',
-        'post_excerpt' => '',
-        'to_ping' => false,
-        'pinged' => false,
+        'post_content'          => '',
+        'post_title'            => '',
+        'post_excerpt'          => '',
+        'to_ping'               => false,
+        'pinged'                => false,
         'post_content_filtered' => '',
     ];
 
@@ -195,7 +207,8 @@ class Model extends Eloquent
      * False means this is the base Model class (no specific post type).
      *
      * @since 1.0.0
-     * @var string|false
+     *
+     * @var false|string
      */
     public static $postType = false;
 
@@ -206,6 +219,7 @@ class Model extends Eloquent
      * Eloquent returns the correct model class when querying.
      *
      * @since 1.0.0
+     *
      * @var array<string, class-string>
      */
     protected static array $postTypes = [];
@@ -218,7 +232,6 @@ class Model extends Eloquent
      * @since 1.0.0
      */
     protected bool $filtered = false;
-
 
     public static $admin_columns = [];
 
@@ -238,21 +251,22 @@ class Model extends Eloquent
      * allowing $model->title instead of $model->post_title etc.
      *
      * @since 1.0.0
-     * @var array<string, string|array<string>>
+     *
+     * @var array<string, array<string>|string>
      */
     protected static array $aliases = [
-        'title' => 'post_title',
-        'content' => 'post_content',
-        'excerpt' => 'post_excerpt',
-        'slug' => 'post_name',
-        'type' => 'post_type',
-        'mime_type' => 'post_mime_type',
-        'url' => 'guid',
-        'author_id' => 'post_author',
-        'parent_id' => 'post_parent',
+        'title'      => 'post_title',
+        'content'    => 'post_content',
+        'excerpt'    => 'post_excerpt',
+        'slug'       => 'post_name',
+        'type'       => 'post_type',
+        'mime_type'  => 'post_mime_type',
+        'url'        => 'guid',
+        'author_id'  => 'post_author',
+        'parent_id'  => 'post_parent',
         'created_at' => 'post_date',
         'updated_at' => 'post_modified',
-        'status' => 'post_status',
+        'status'     => 'post_status',
     ];
 
     // -------------------------------------------------------------------------
@@ -272,6 +286,7 @@ class Model extends Eloquent
      * post type labels when $labels is empty.
      *
      * @since 1.0.0
+     *
      * @var array<string, string> e.g. ['singular' => 'News', 'plural' => 'News']
      */
     public static $names = [];
@@ -283,6 +298,7 @@ class Model extends Eloquent
      * Any valid register_post_type() argument can be set here.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>
      */
     public static $options = [];
@@ -294,6 +310,7 @@ class Model extends Eloquent
      * Supports all WordPress post type label keys.
      *
      * @since 1.0.0
+     *
      * @var array<string, string>
      */
     public static $labels = [];
@@ -305,9 +322,10 @@ class Model extends Eloquent
      * dashicons-* string. Null means WordPress uses its default icon.
      *
      * @since 1.0.0
+     *
      * @var string|null e.g. 'news', 'dashicons-megaphone'
      */
-    public static $icon = null;
+    public static $icon;
 
     /**
      * Whether this model should be registered as a WordPress post type.
@@ -315,6 +333,7 @@ class Model extends Eloquent
      * Set to false to use a model for querying only, without registration.
      *
      * @since 1.0.0
+     *
      * @var bool
      */
     public static $register = true;
@@ -328,7 +347,8 @@ class Model extends Eloquent
      *                   e.g. ['allowed_row_layouts' => ['full', 'half']]
      *
      * @since 1.0.0
-     * @var bool|array<string, mixed>
+     *
+     * @var array<string, mixed>|bool
      */
     public static $layotter = false;
 
@@ -337,6 +357,7 @@ class Model extends Eloquent
     // -------------------------------------------------------------------------
 
     public const CREATED_AT = 'post_date';
+
     public const UPDATED_AT = 'post_modified';
 
     // -------------------------------------------------------------------------
@@ -349,13 +370,13 @@ class Model extends Eloquent
      * Initializes the post type from the class name if not explicitly set,
      * sets default attributes including post_type, and boots global scopes.
      *
-     * @param array<string, mixed> $attributes Initial model attributes.
-     * @since 1.0.0
+     * @param array<string, mixed> $attributes initial model attributes
      *
+     * @since 1.0.0
      */
     public function __construct(array $attributes = [])
     {
-        $reflection = new \ReflectionClass($this);
+        $reflection = new ReflectionClass($this);
 
         if ($reflection->getName() === self::class) {
             static::$postType = false;
@@ -366,7 +387,7 @@ class Model extends Eloquent
         }
 
         $this->setRawAttributes(array_merge($this->attributes, [
-            'post_type' => $this->getPostType(),
+            'post_type' => static::getPostType(),
         ]), true);
 
         parent::__construct($attributes);
@@ -390,10 +411,9 @@ class Model extends Eloquent
 
         static::$globalScopesBooted = true;
 
-
-
         static::addGlobalScope('published_for_guests', function (Builder $builder): void {
             $context = app()->make(RequestContext::class);
+
             if (!$context->isLoggedin() && $context->isFrontoffice()) {
                 $builder->where('post_status', 'publish');
             }
@@ -410,13 +430,14 @@ class Model extends Eloquent
      * Returns the correct model class based on the post_type attribute,
      * using the $postTypes registry populated by ModelRegistrar.
      *
-     * @param object|array<string, mixed> $attributes The database row attributes.
-     * @param null $connection The connection name.
-     * @return Model|CorcelModel The model instance.
+     * @param  array<string, mixed>|object $attributes the database row attributes
+     * @param  null                        $connection the connection name
+     * @return CorcelModel|Model           the model instance
+     *
      * @since 1.0.0
      */
-    #[\Override]
-    public function newFromBuilder($attributes = [], $connection = null): Model|CorcelModel
+    #[Override]
+    public function newFromBuilder($attributes = [], $connection = null): self|CorcelModel
     {
         $attributes = (array) $attributes;
         $class = static::class;
@@ -434,6 +455,7 @@ class Model extends Eloquent
 
         if ($this->shouldLoadPreview($model)) {
             $preview = $this->loadPreview($model);
+
             if ($preview !== null) {
                 return $preview;
             }
@@ -445,12 +467,12 @@ class Model extends Eloquent
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param Builder $query The base query builder.
-     * @return PostBuilder The custom post builder instance.
-     * @since 1.0.0
+     * @param  Builder     $query the base query builder
+     * @return PostBuilder the custom post builder instance
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function newEloquentBuilder($query): PostBuilder
     {
         return new PostBuilder($query);
@@ -459,11 +481,11 @@ class Model extends Eloquent
     /**
      * Get a new query builder filtered by this model's post type.
      *
-     * @return Builder The filtered query builder.
-     * @since 1.0.0
+     * @return Builder the filtered query builder
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function newQuery()
     {
         return static::$postType
@@ -480,10 +502,10 @@ class Model extends Eloquent
      *
      * Called by ModelRegistrar after each post type is registered with WordPress.
      *
-     * @param string $name The post type slug.
-     * @param class-string $class The fully qualified class name.
-     * @since 1.0.0
+     * @param string       $name  the post type slug
+     * @param class-string $class the fully qualified class name
      *
+     * @since 1.0.0
      */
     public static function registerPostType(string $name, string $class): void
     {
@@ -506,12 +528,12 @@ class Model extends Eloquent
      * Get the post type identifier for this model.
      *
      * @return string The post type slug (e.g. 'post', 'page', 'news').
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function getPostType(): string
     {
-        return static::$postType ?: Str::lower(new \ReflectionClass(static::class)->getShortName());
+        return static::$postType ?: Str::lower(new ReflectionClass(static::class)->getShortName());
     }
 
     // -------------------------------------------------------------------------
@@ -524,10 +546,10 @@ class Model extends Eloquent
      * Returns true when preview mode is active, the user is logged in,
      * and the post is not a revision or inherited post.
      *
-     * @param Model $model The model to check.
-     * @return bool True if preview should be loaded.
-     * @since 1.0.0
+     * @param  Model $model the model to check
+     * @return bool  true if preview should be loaded
      *
+     * @since 1.0.0
      */
     protected function shouldLoadPreview(self $model): bool
     {
@@ -542,34 +564,33 @@ class Model extends Eloquent
      *
      * Finds the newest revision authored by the current user.
      *
-     * @param Model $model The model to load preview for.
-     * @return static|null The preview model or null if not found.
-     * @since 1.0.0
+     * @param  Model       $model the model to load preview for
+     * @return static|null the preview model or null if not found
      *
+     * @since 1.0.0
      */
     protected function loadPreview(self $model): ?static
     {
         return $model->revision()
             ->where('post_author', get_current_user_id())
             ->newest()
-            ->first();
+            ->first()
+        ;
     }
 
     // -------------------------------------------------------------------------
     // Relationships
     // -------------------------------------------------------------------------
-
     /**
      * Get the post thumbnail meta relationship.
      *
-     * @return HasOne
      * @since 1.0.0
-     *
      */
     public function thumbnail(): HasOne
     {
         return $this->hasOne(ThumbnailMeta::class, 'post_id')
-            ->where('meta_key', '_thumbnail_id');
+            ->where('meta_key', '_thumbnail_id')
+        ;
     }
 
     /**
@@ -577,9 +598,7 @@ class Model extends Eloquent
      *
      * Many-to-many via the term_relationships pivot table.
      *
-     * @return BelongsToMany
      * @since 1.0.0
-     *
      */
     public function taxonomies(): BelongsToMany
     {
@@ -587,16 +606,14 @@ class Model extends Eloquent
             Taxonomy::class,
             'term_relationships',
             'object_id',
-            'term_taxonomy_id'
+            'term_taxonomy_id',
         );
     }
 
     /**
      * Get all comments for this post.
      *
-     * @return HasMany
      * @since 1.0.0
-     *
      */
     public function comments(): HasMany
     {
@@ -606,9 +623,7 @@ class Model extends Eloquent
     /**
      * Get the post author.
      *
-     * @return BelongsTo
      * @since 1.0.0
-     *
      */
     public function author(): BelongsTo
     {
@@ -618,9 +633,7 @@ class Model extends Eloquent
     /**
      * Get the parent post (for hierarchical post types).
      *
-     * @return BelongsTo
      * @since 1.0.0
-     *
      */
     public function parent(): BelongsTo
     {
@@ -630,9 +643,7 @@ class Model extends Eloquent
     /**
      * Get child posts (for hierarchical post types).
      *
-     * @return HasMany
      * @since 1.0.0
-     *
      */
     public function children(): HasMany
     {
@@ -642,27 +653,25 @@ class Model extends Eloquent
     /**
      * Get media attachments for this post.
      *
-     * @return HasMany
      * @since 1.0.0
-     *
      */
     public function attachment(): HasMany
     {
         return $this->hasMany(static::class, 'post_parent')
-            ->where('post_type', 'attachment');
+            ->where('post_type', 'attachment')
+        ;
     }
 
     /**
      * Get post revisions.
      *
-     * @return HasMany
      * @since 1.0.0
-     *
      */
     public function revision(): HasMany
     {
         return $this->hasMany(static::class, 'post_parent')
-            ->where('post_type', 'revision');
+            ->where('post_type', 'revision')
+        ;
     }
 
     // -------------------------------------------------------------------------
@@ -675,17 +684,17 @@ class Model extends Eloquent
      * Applies the_content filter which processes shortcodes, embeds,
      * and paragraph formatting. Runs only once per instance.
      *
-     * @return string The filtered HTML content.
-     * @since 1.0.0
+     * @return string the filtered HTML content
      *
+     * @since 1.0.0
      */
     public function getContentAttribute(): string
     {
         if (static::$filteredContent === null) {
             $post_content = $this->getAttribute('post_content');
-            static::$filteredContent = !is_null($post_content)
-                ? \apply_filters('the_content', $post_content)
-                : '';
+            static::$filteredContent = is_null($post_content)
+                ? ''
+                : apply_filters('the_content', $post_content);
         }
 
         return static::$filteredContent;
@@ -694,9 +703,9 @@ class Model extends Eloquent
     /**
      * Get the post excerpt with shortcodes stripped.
      *
-     * @return string The stripped excerpt.
-     * @since 1.0.0
+     * @return string the stripped excerpt
      *
+     * @since 1.0.0
      */
     public function getExcerptAttribute(): string
     {
@@ -706,21 +715,21 @@ class Model extends Eloquent
     /**
      * Get the permalink for this post.
      *
-     * @return bool|string The permalink URL or false on failure.
-     * @since 1.0.0
+     * @return bool|string the permalink URL or false on failure
      *
+     * @since 1.0.0
      */
     public function getPermalinkAttribute(): bool|string
     {
-        return \get_permalink($this->ID);
+        return get_permalink($this->ID);
     }
 
     /**
      * Get the featured image thumbnail relationship meta.
      *
-     * @return Image The Image object wrapping the thumbnail.
-     * @since 1.0.0
+     * @return Image the Image object wrapping the thumbnail
      *
+     * @since 1.0.0
      */
     public function getPostThumbnailAttribute(): Image
     {
@@ -730,9 +739,9 @@ class Model extends Eloquent
     /**
      * Get the featured image (alias for getPostThumbnailAttribute).
      *
-     * @return Image The Image object wrapping the thumbnail.
-     * @since 1.0.0
+     * @return Image the Image object wrapping the thumbnail
      *
+     * @since 1.0.0
      */
     public function getImageAttribute(): Image
     {
@@ -746,15 +755,16 @@ class Model extends Eloquent
      * each containing slug => name pairs.
      *
      * @return array<string, array<string, string>>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function getTermsAttribute(): array
     {
         return $this->taxonomies
-            ->groupBy(fn($taxonomy) => $taxonomy->taxonomy === 'post_tag' ? 'tag' : $taxonomy->taxonomy)
-            ->map(fn($group) => $group->mapWithKeys(fn($item) => [$item->term->slug => $item->term->name]))
-            ->toArray();
+            ->groupBy(fn ($taxonomy) => $taxonomy->taxonomy === 'post_tag' ? 'tag' : $taxonomy->taxonomy)
+            ->map(fn ($group) => $group->mapWithKeys(fn ($item): array => [$item->term->slug => $item->term->name]))
+            ->toArray()
+        ;
     }
 
     /**
@@ -763,16 +773,18 @@ class Model extends Eloquent
      * Returns the first term name from the first non-empty taxonomy.
      * Falls back to 'Uncategorized' if no terms exist.
      *
-     * @return string The main category name.
-     * @since 1.0.0
+     * @return string the main category name
      *
+     * @since 1.0.0
      */
     public function getMainCategoryAttribute(): string
     {
         if (!empty($this->terms)) {
             $taxonomies = array_values($this->terms);
+
             if (!empty($taxonomies[0])) {
                 $terms = array_values($taxonomies[0]);
+
                 return $terms[0];
             }
         }
@@ -783,24 +795,25 @@ class Model extends Eloquent
     /**
      * Get all keywords from all taxonomies as a flat array.
      *
-     * @return array<string> All term names.
-     * @since 1.0.0
+     * @return array<string> all term names
      *
+     * @since 1.0.0
      */
     public function getKeywordsAttribute(): array
     {
         return collect($this->terms)
-            ->map(fn($taxonomy) => collect($taxonomy)->values())
+            ->map(fn ($taxonomy) => collect($taxonomy)->values())
             ->collapse()
-            ->toArray();
+            ->toArray()
+        ;
     }
 
     /**
      * Get all keywords as a comma-separated string.
      *
-     * @return string Comma-separated keywords.
-     * @since 1.0.0
+     * @return string comma-separated keywords
      *
+     * @since 1.0.0
      */
     public function getKeywordsStrAttribute(): string
     {
@@ -814,11 +827,11 @@ class Model extends Eloquent
     /**
      * Check if this post has a specific taxonomy term.
      *
-     * @param string $taxonomy The taxonomy name (e.g. 'category', 'post_tag').
-     * @param string $term The term slug to check for.
-     * @return bool True if the post has this term.
-     * @since 1.0.0
+     * @param  string $taxonomy The taxonomy name (e.g. 'category', 'post_tag').
+     * @param  string $term     the term slug to check for
+     * @return bool   true if the post has this term
      *
+     * @since 1.0.0
      */
     public function hasTerm(string $taxonomy, string $term): bool
     {
@@ -828,15 +841,16 @@ class Model extends Eloquent
     /**
      * Get the post format (e.g. 'standard', 'aside', 'gallery').
      *
-     * @return bool|string The post format slug or false if not found.
-     * @since 1.0.0
+     * @return bool|string the post format slug or false if not found
      *
+     * @since 1.0.0
      */
     public function getFormat(): bool|string
     {
         $taxonomy = $this->taxonomies()
             ->where('taxonomy', 'post_format')
-            ->first();
+            ->first()
+        ;
 
         if ($taxonomy && $taxonomy->term) {
             return str_replace('post-format-', '', $taxonomy->term->slug);
@@ -850,10 +864,10 @@ class Model extends Eloquent
      *
      * Returns the value wrapped in a link to the post edit screen.
      *
-     * @param string $which The column key (case-insensitive).
-     * @return string HTML anchor element linking to the edit screen.
-     * @since 1.0.0
+     * @param  string $which the column key (case-insensitive)
+     * @return string HTML anchor element linking to the edit screen
      *
+     * @since 1.0.0
      */
     public function getColumn(string $which): string
     {
@@ -868,9 +882,9 @@ class Model extends Eloquent
      * Returns the post ID as a string, which is how ACF identifies
      * field values for post objects.
      *
-     * @return string|null The ACF field group key (post ID as string).
-     * @since 1.0.0
+     * @return string|null the ACF field group key (post ID as string)
      *
+     * @since 1.0.0
      */
     public function getAcfKey(): ?string
     {
@@ -887,13 +901,13 @@ class Model extends Eloquent
      * Intercepts get{Key}Column() calls for admin column rendering,
      * then delegates to Eloquent.
      *
-     * @param string $method The method name.
-     * @param array<mixed, mixed> $parameters The method arguments.
+     * @param  string              $method     the method name
+     * @param  array<mixed, mixed> $parameters the method arguments
      * @return mixed
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function __call($method, $parameters)
     {
         $parts = preg_split('/(?=[A-Z])/', $method);
@@ -911,12 +925,12 @@ class Model extends Eloquent
      * Falls back to WordPress post meta when Eloquent returns null
      * and the key is not a declared property.
      *
-     * @param string $key The property name.
+     * @param  string $key the property name
      * @return mixed
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function __get($key)
     {
         $value = parent::__get($key);
@@ -934,12 +948,11 @@ class Model extends Eloquent
      * Checks Eloquent attributes, casts, loaded relations, ACF field cache,
      * and ACF field definitions.
      *
-     * @param string $key The property name.
-     * @return bool
-     * @since 1.0.0
+     * @param string $key the property name
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function __isset($key): bool
     {
         if (parent::__isset($key)) {
@@ -976,10 +989,10 @@ class Model extends Eloquent
      * that are not already present in the array.
      *
      * @return array<string, mixed>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         $array = parent::toArray();
@@ -1006,9 +1019,9 @@ class Model extends Eloquent
     /**
      * Get the meta model class for this model.
      *
-     * @return string The fully qualified class name of the meta model.
-     * @since 1.0.0
+     * @return string the fully qualified class name of the meta model
      *
+     * @since 1.0.0
      */
     protected function getMetaClass(): string
     {
@@ -1018,9 +1031,9 @@ class Model extends Eloquent
     /**
      * Get the foreign key for the meta relationship.
      *
-     * @return string The foreign key name.
-     * @since 1.0.0
+     * @return string the foreign key name
      *
+     * @since 1.0.0
      */
     protected function getMetaForeignKey(): string
     {

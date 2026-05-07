@@ -1,14 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
+
+use Override;
 
 /**
  * Pagination Facade for accessing the pagination service.
  *
  * @since 1.0.0
- * @see \Sloth\Facades\Facade
+ * @see Facade
  */
 class Pagination extends Facade
 {
@@ -19,7 +20,7 @@ class Pagination extends Facade
      *
      * @return string The service identifier for the pagination facade
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'paginaton';

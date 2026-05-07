@@ -155,7 +155,6 @@ class CollectorProvidersTest extends TestCase
         $provider = new MessageCollectorProvider($this->debugBar);
         $reflection = new \ReflectionClass($provider);
         $method = $reflection->getMethod('severityLabel');
-        $method->setAccessible(true);
 
         $this->assertEquals('warning', $method->invoke($provider, E_WARNING));
         $this->assertEquals('notice', $method->invoke($provider, E_NOTICE));

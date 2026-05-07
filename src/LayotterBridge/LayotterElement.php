@@ -1,12 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\LayotterBridge;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Layotter_Element;
 use Sloth\Facades\View;
-use Sloth\Field\Image;
 use Sloth\LayotterBridge\Registrar\LayotterElementRegistrar;
 use Sloth\Module\Module;
 
@@ -15,12 +14,13 @@ use Sloth\Module\Module;
  *
  * @since 1.0.0
  */
-class LayotterElement extends \Layotter_Element
+class LayotterElement extends Layotter_Element
 {
     /**
      * Module class name.
      *
      * @since 1.0.0
+     *
      * @var string
      */
     public static $module = '';
@@ -29,8 +29,8 @@ class LayotterElement extends \Layotter_Element
      * Set element attributes from module configuration.
      *
      * @throws BindingResolutionException
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function attributes(): void
     {
@@ -49,7 +49,6 @@ class LayotterElement extends \Layotter_Element
      * @param array<string, mixed> $fields The field values
      *
      * @since 1.0.0
-     *
      */
     public function frontend_view($fields): void
     {
@@ -68,7 +67,6 @@ class LayotterElement extends \Layotter_Element
      * @param array<string, mixed> $fields The field values
      *
      * @since 1.0.0
-     *
      */
     public function backend_view($fields): void
     {
@@ -82,13 +80,14 @@ class LayotterElement extends \Layotter_Element
             $module->set($fields);
             $module->setTemplate($backend_template);
             $module->render();
+
             return;
         }
-
 
         echo '<h1><i class="fa fa-' . $this->icon . '"></i> ' . $this->title . ' </h1>';
 
         echo '<table class="layotter-preview">';
+
         foreach ($this->getFields() as $field) {
             if (isset($fields[$field['name']])) {
                 if (is_a($fields[$field['name']], 'Sloth\Field\Image')) {
@@ -122,8 +121,8 @@ class LayotterElement extends \Layotter_Element
      * Get the fields for this element.
      *
      * @return array<string, mixed>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     protected function getFields(): array
     {
@@ -141,15 +140,15 @@ class LayotterElement extends \Layotter_Element
     /**
      * Prepare fields for output.
      *
-     * @param array<string, mixed> $values The field values
-     *
+     * @param  array<string, mixed> $values  The field values
+     * @param  mixed                $options
      * @return array<string, mixed>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     final protected function prepareFields(array $values, $options = []): array
     {
-        $fields = $this->getFields();
+        $this->getFields();
 
         array_shift($options);
 
@@ -163,7 +162,7 @@ class LayotterElement extends \Layotter_Element
         $values['_layotter'] = [];
         $values['_layotter']['passed'] = array_combine(
             array_intersect_key($keys, $options),
-            array_intersect_key($options, $keys)
+            array_intersect_key($options, $keys),
         );
 
         return $values;
@@ -173,8 +172,8 @@ class LayotterElement extends \Layotter_Element
      * Get the prepared values.
      *
      * @return array<string, mixed>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     final public function getValues(): array
     {
@@ -182,14 +181,14 @@ class LayotterElement extends \Layotter_Element
     }
 
     /**
-     * Get the instance of a related module
+     * Get the instance of a related module.
      *
-     * @return mixed
      * @throws BindingResolutionException
      */
     final public function getModuleInstance(): Module
     {
         $className = app(LayotterElementRegistrar::class)->resolveModuleClass($this->type);
+
         return new $className();
     }
 }

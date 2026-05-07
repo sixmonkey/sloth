@@ -1,15 +1,17 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Pagination;
 
+use function is_archive;
 use Illuminate\Pagination\LengthAwarePaginator as BasePaginator;
+use Override;
 
 /**
  * Custom paginator with WordPress integration.
  *
  * @since 1.0.0
+ *
  * @extends BasePaginator
  */
 class Paginator extends BasePaginator
@@ -19,15 +21,14 @@ class Paginator extends BasePaginator
      *
      * @since 1.0.0
      *
-     * @param int $page The page number
-     *
+     * @param  int    $page The page number
      * @return string The URL for the given page
      */
-    #[\Override]
-    public function url(int $page): string
+    #[Override]
+    public function url(mixed $page): string
     {
-        if (\is_archive()) {
-            return (string) get_pagenum_link($page);
+        if (is_archive()) {
+            return get_pagenum_link($page);
         }
 
         if (defined('REST_REQUEST') && REST_REQUEST) {
@@ -41,6 +42,7 @@ class Paginator extends BasePaginator
         }
 
         $parts = [rtrim((string) get_permalink(), '/')];
+
         if ($page > 1) {
             $parts[] = $page;
         }

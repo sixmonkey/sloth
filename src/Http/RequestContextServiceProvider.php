@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Http;
 
 use Inpsyde\WpContext;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -14,7 +14,7 @@ use Sloth\Core\ServiceProvider;
  * detection with early REST/AJAX detection.
  *
  * @since 1.0.0
- * @see \Sloth\Http\RequestContext
+ * @see RequestContext
  */
 class RequestContextServiceProvider extends ServiceProvider
 {
@@ -23,14 +23,13 @@ class RequestContextServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(RequestContext::class, function ($app) {
-            return new RequestContext(
-                wpContext: WpContext::determine(),
-                restPrefix: env('WP_REST_PREFIX')
-            );
-        });
+        $this->app->singleton(RequestContext::class, fn ($app): RequestContext => new RequestContext(
+            wpContext: WpContext::determine(),
+            restPrefix: env('WP_REST_PREFIX'),
+        ));
 
         $this->app->alias(RequestContext::class, 'request-context');
     }

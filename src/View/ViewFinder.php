@@ -1,15 +1,16 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\View;
 
 use Illuminate\View\FileViewFinder;
+use Override;
 
 /**
  * ViewFinder for locating view templates.
  *
  * @since 1.0.0
+ *
  * @extends FileViewFinder
  */
 class ViewFinder extends FileViewFinder
@@ -21,7 +22,7 @@ class ViewFinder extends FileViewFinder
      *
      * @return array<int, string>
      */
-    #[\Override]
+    #[Override]
     public function getViews(): array
     {
         return $this->views;

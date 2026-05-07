@@ -1,5 +1,4 @@
 <?php
-
 namespace Sloth\Debug\CollectorProviders;
 
 use DebugBar\DebugBarException;
@@ -9,6 +8,7 @@ class WordpressCollectorProvider extends AbstractCollectorProvider
 {
     /**
      * @inheritDoc
+     *
      * @throws DebugBarException
      */
     public function boot(): void
