@@ -17,7 +17,7 @@ use Sloth\Debug\SlothDebugBar;
  */
 describe('DebugServiceProvider', function (): void {
     it('sets enabled to true and binds SlothDebugBar when DebugBar exists', function (): void {
-        $app = new Application();
+        $app = Application::configure();
         Container::setInstance($app);
 
         $provider = new class ($app) extends DebugServiceProvider {
@@ -40,7 +40,7 @@ describe('DebugServiceProvider', function (): void {
     });
 
     it('binds SlothDebugBar under debugbar alias', function (): void {
-        $app = new Application();
+        $app = Application::configure();
         Container::setInstance($app);
 
         $provider = new class ($app) extends DebugServiceProvider {
@@ -61,7 +61,7 @@ describe('DebugServiceProvider', function (): void {
 
 describe('handleBootError()', function (): void {
     it('logs error message to application log', function (): void {
-        $app = new Application();
+        $app = Application::configure();
         Container::setInstance($app);
 
         $logMock = new class {
@@ -89,7 +89,7 @@ describe('handleBootError()', function (): void {
     });
 
     it('includes exception message in log context', function (): void {
-        $app = new Application();
+        $app = Application::configure();
         Container::setInstance($app);
 
         $logMock = new class {

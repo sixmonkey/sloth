@@ -28,7 +28,7 @@ afterEach(function (): void {
  */
 function makeTestApp(): Application
 {
-    $app = new Application();
+    $app = Application::configure();
     $app->instance('config', new \Illuminate\Config\Repository([]));
     $app->instance('files', new \Illuminate\Filesystem\Filesystem());
     $app->instance('events', new \Illuminate\Events\Dispatcher($app));
