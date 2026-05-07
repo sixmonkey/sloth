@@ -65,6 +65,22 @@ class Image implements \Stringable
     public array $sizes = [];
 
     /**
+     * The height of this image.
+     *
+     * @since 1.0.0
+     * @var int
+     */
+    public int $height = 0;
+
+    /**
+     * The width of this image.
+     *
+     * @since 1.0.0
+     * @var int
+     */
+    public int $width = 0;
+
+    /**
      * Post ID.
      *
      * @since 1.0.0
@@ -99,6 +115,8 @@ class Image implements \Stringable
      * @var object<string, mixed>|null
      */
     protected ?object $metaData = null;
+
+
 
     /**
      * Default options for image manipulation.
