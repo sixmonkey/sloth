@@ -226,9 +226,7 @@ abstract class ServiceProvider extends IlluminateServiceProvider
      *
      * @since 1.0.0
      */
-    public function boot(): void
-    {
-    }
+    public function boot(): void {}
 
     /**
      * Handles calls to undefined methods.
