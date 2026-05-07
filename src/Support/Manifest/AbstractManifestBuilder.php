@@ -136,10 +136,10 @@ abstract class AbstractManifestBuilder
         $map = $this->finder()->find($directories ?? []);
 
         $extraLines = collect($map)
-            ->mapWithKeys(fn ($file, $identifier) => [
+            ->mapWithKeys(fn (string $file, string $identifier): array => [
                 $identifier => $this->extraLines($identifier, $file),
             ])
-            ->filter(fn ($lines) => !empty($lines))
+            ->filter(fn ($lines): bool => $lines !== [])
             ->all()
         ;
 

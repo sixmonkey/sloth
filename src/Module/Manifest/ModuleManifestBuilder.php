@@ -91,7 +91,7 @@ class ModuleManifestBuilder extends PathBasedManifestBuilder
         $entries = [];
 
         /** @var class-string<Module> $moduleClass */
-        foreach ($map as $moduleClass => $file) {
+        foreach (array_keys($map) as $moduleClass) {
             $className = substr(strrchr($moduleClass, '\\'), 1);
 
             $entries[$moduleClass] = [

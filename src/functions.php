@@ -34,14 +34,12 @@ if (!function_exists('config')) {
      * @param mixed             $default
      *
      * @throws BindingResolutionException
-     *
-     * @return mixed
      */
     function config($key = null, $default = null): mixed
     {
         $app = Facade::getFacadeApplication();
 
-        if ($app !== null && $app->bound('config')) {
+        if ($app instanceof Sloth\Core\Application && $app->bound('config')) {
             /** @var Repository $repository */
             $repository = $app->make('config');
 
@@ -68,8 +66,6 @@ if (!function_exists('app')) {
      * @param array<string, mixed> $parameters
      *
      * @throws BindingResolutionException
-     *
-     * @return mixed
      */
     function app($abstract = null, array $parameters = []): mixed
     {

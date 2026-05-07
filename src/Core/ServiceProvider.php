@@ -240,8 +240,6 @@ abstract class ServiceProvider extends IlluminateServiceProvider
      *
      * @throws Exception if the method is not defined
      *
-     * @return mixed
-     *
      * @since 1.0.0
      */
     public function __call(string $method, array $parameters): mixed

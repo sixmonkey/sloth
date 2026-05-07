@@ -105,7 +105,7 @@ class ModelManifestBuilder extends PathBasedManifestBuilder
         $entries = [];
 
         /** @var class-string<Model> $modelClass */
-        foreach ($map as $modelClass => $file) {
+        foreach (array_keys($map) as $modelClass) {
             if (!$modelClass::$register) {
                 continue;
             }
@@ -190,7 +190,7 @@ class ModelManifestBuilder extends PathBasedManifestBuilder
     private function buildAdminCols(string $modelClass): array
     {
         return collect($modelClass::$admin_columns)
-            ->mapWithKeys(function ($label, $key) use ($modelClass) {
+            ->mapWithKeys(function ($label, $key) use ($modelClass): array {
                 if (is_array($label)) {
                     return [$key => $label];
                 }

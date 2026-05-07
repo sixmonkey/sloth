@@ -113,7 +113,6 @@ class Taxonomy extends CorcelModel
     // -------------------------------------------------------------------------
     // Sloth-specific instance properties
     // -------------------------------------------------------------------------
-
     /**
      * The WordPress taxonomy identifier.
      *
@@ -121,8 +120,6 @@ class Taxonomy extends CorcelModel
      * defined in the child class.
      *
      * @since 1.0.0
-     *
-     * @var string|null
      */
     protected ?string $taxonomy = null;
 
@@ -260,13 +257,10 @@ class Taxonomy extends CorcelModel
     // -------------------------------------------------------------------------
     // Relationships
     // -------------------------------------------------------------------------
-
     /**
      * Get the term relationship.
      *
      * @since 1.0.0
-     *
-     * @return BelongsTo
      */
     public function term(): BelongsTo
     {
@@ -277,8 +271,6 @@ class Taxonomy extends CorcelModel
      * Get the parent taxonomy term.
      *
      * @since 1.0.0
-     *
-     * @return BelongsTo
      */
     public function parent(): BelongsTo
     {
@@ -289,8 +281,6 @@ class Taxonomy extends CorcelModel
      * Get child taxonomy terms.
      *
      * @since 1.0.0
-     *
-     * @return HasMany
      */
     public function children(): HasMany
     {
@@ -301,8 +291,6 @@ class Taxonomy extends CorcelModel
      * Get all posts associated with this taxonomy term.
      *
      * @since 1.0.0
-     *
-     * @return BelongsToMany
      */
     public function posts(): BelongsToMany
     {

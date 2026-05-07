@@ -33,7 +33,7 @@ class ClassMapFinder implements FinderInterface
         $generator = new ClassMapGenerator();
 
         collect($paths)
-            ->filter(fn ($path) => is_dir($path))
+            ->filter(fn ($path): bool => is_dir($path))
             ->each(fn ($path) => $generator->scanPaths($path))
         ;
 

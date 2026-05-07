@@ -779,7 +779,7 @@ class Customizer
             });
         </script>
         <h2>Hallo <?php
-            echo esc_html(ucwords(wp_get_current_user()->data->display_name)); ?></h2>
+            echo esc_html(ucwords((string) wp_get_current_user()->data->display_name)); ?></h2>
         <p>
             Schön, dass du da bist! Was nun?
         </p>
@@ -835,10 +835,10 @@ class Customizer
     /**
      * Hide WordPress update notifications.
      *
-     * @param  mixed  $value
-     * @return object Fake update response with current time and WP version
-     *
      * @since 1.0.0
+     *
+     * @param  mixed|null $value
+     * @return object     Fake update response with current time and WP version
      */
     public function hideUpdates(mixed $value = null): object
     {

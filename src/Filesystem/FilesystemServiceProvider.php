@@ -71,6 +71,6 @@ class FilesystemServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton('files', fn () => new Filesystem());
+        $this->app->singleton('files', fn (): Filesystem => new Filesystem());
     }
 }

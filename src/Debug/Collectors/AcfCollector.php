@@ -42,9 +42,7 @@ class AcfCollector extends DataCollector implements Renderable
             }
 
             $fieldGroups = collect(acf_get_field_groups(['post_id' => $postId]))
-                ->mapWithKeys(function ($group) {
-                    return [$group['title'] => $group['key']];
-                })
+                ->mapWithKeys(fn ($group): array => [$group['title'] => $group['key']])
                 ->toArray()
             ;
         } catch (Throwable) {

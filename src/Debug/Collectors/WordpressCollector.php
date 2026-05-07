@@ -91,15 +91,15 @@ class WordpressCollector extends DataCollector implements Renderable
             foreach ($active as $pluginFile) {
                 if (isset($allPlugins[$pluginFile])) {
                     $info = $allPlugins[$pluginFile];
-                    $name = $info['Name'] ?? basename($pluginFile);
+                    $name = $info['Name'] ?? basename((string) $pluginFile);
                     $version = $info['Version'] ?? '';
                     $parts[] = $version ? "{$name} (v{$version})" : $name;
                 } else {
-                    $parts[] = basename($pluginFile);
+                    $parts[] = basename((string) $pluginFile);
                 }
             }
 
-            return $parts ? implode("\n", $parts) : 'None';
+            return $parts !== [] ? implode("\n", $parts) : 'None';
         } catch (Throwable) {
             return 'None';
         }
@@ -237,7 +237,7 @@ class WordpressCollector extends DataCollector implements Renderable
                 }
             }
 
-            return $parts ? implode("\n", $parts) : 'None';
+            return $parts !== [] ? implode("\n", $parts) : 'None';
         } catch (Throwable) {
             return 'None';
         }

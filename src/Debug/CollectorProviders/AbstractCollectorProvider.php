@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Sloth\Debug\CollectorProviders;
 
 use DebugBar\DataCollector\DataCollectorInterface;
@@ -12,9 +14,9 @@ abstract class AbstractCollectorProvider
      *
      * Collector providers are used to configure and add DataCollectors to the debug-bar
      *
-     * @param DebugBar $debugBar
-     *
      * @see https://php-debugbar.com/collectors/base/
+     *
+     * @param DebugBar $debugBar
      */
     public function __construct(protected DebugBar $debugBar)
     {
@@ -35,8 +37,7 @@ abstract class AbstractCollectorProvider
     /**
      * Check if a collector exists already in the bar.
      *
-     * @param  string $name
-     * @return bool
+     * @param string $name
      */
     public function hasCollector(string $name): bool
     {

@@ -141,20 +141,18 @@ trait HasAliases
         $value = parent::getAttribute($key);
 
         // If value is null and we have aliases, check for alias resolution
-        if ($value === null && count(static::getAliases())) {
-            // Look up the alias
-            if ($value = Arr::get(static::getAliases(), $key)) {
-                // Check if it's a meta alias (array format)
-                if (is_array($value)) {
-                    $metaKey = Arr::get($value, 'meta');
+        // Look up the alias
+        if ($value === null && count(static::getAliases()) && $value = Arr::get(static::getAliases(), $key)) {
+            // Check if it's a meta alias (array format)
+            if (is_array($value)) {
+                $metaKey = Arr::get($value, 'meta');
 
-                    // If a meta key is specified, return from meta relationship
-                    return $metaKey ? $this->meta->{$metaKey} : null;
-                }
-
-                // Simple alias: return the original column value
-                return parent::getAttribute($value);
+                // If a meta key is specified, return from meta relationship
+                return $metaKey ? $this->meta->{$metaKey} : null;
             }
+
+            // Simple alias: return the original column value
+            return parent::getAttribute($value);
         }
 
         return $value;

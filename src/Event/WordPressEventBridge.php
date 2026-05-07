@@ -6,6 +6,7 @@ namespace Sloth\Event;
 use function add_action;
 use function add_filter;
 use Illuminate\Contracts\Events\Dispatcher;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -62,9 +63,10 @@ class WordPressEventBridge extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(self::class, fn ($app) => $this);
+        $this->app->singleton(self::class, fn ($app): static => $this);
     }
 
     /**

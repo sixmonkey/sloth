@@ -70,7 +70,7 @@ describe('ExceptionHandler', function (): void {
             try {
                 $handler->renderForConsole($output, $exception);
                 expect(true)->toBeTrue();
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 expect(false)->toBeTrue('renderForConsole should not throw');
             }
         });
@@ -81,7 +81,6 @@ describe('ExceptionHandler', function (): void {
             $handler = new ExceptionHandler();
             $reflection = new \ReflectionClass($handler);
             $method = $reflection->getMethod('getStatusCode');
-            $method->setAccessible(true);
 
             $exception = new \RuntimeException('Test');
             expect($method->invoke($handler, $exception))->toBe(500);
@@ -91,7 +90,6 @@ describe('ExceptionHandler', function (): void {
             $handler = new ExceptionHandler();
             $reflection = new \ReflectionClass($handler);
             $method = $reflection->getMethod('getStatusCode');
-            $method->setAccessible(true);
 
             $exception = new class extends \RuntimeException {
                 public function getStatusCode(): int

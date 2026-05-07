@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Core;
 
 use function Illuminate\Filesystem\join_paths;
+use Deprecated;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
@@ -103,25 +104,22 @@ class Application extends Container
         'Customizer' => \Sloth\Facades\Customizer::class,
     ];
 
-    public ?string $basePath;
+    public ?string $basePath = null;
 
     // -------------------------------------------------------------------------
     // Boot lifecycle
     // -------------------------------------------------------------------------
-
     /**
      * Create and return the application instance.
      *
      * Returns the existing instance if already booted.
      * This is the preferred entry point — chain with ->boot().
      *
-     * @return static
-     *
      * @since 1.0.0
      */
     public static function configure(): static
     {
-        if (static::$booted) {
+        if (self::$booted) {
             return static::getInstance();
         }
 
@@ -159,7 +157,7 @@ class Application extends Container
      */
     public function boot(): static
     {
-        if (static::$booted || !is_blog_installed()) {
+        if (self::$booted || !is_blog_installed()) {
             return $this;
         }
 
@@ -167,7 +165,7 @@ class Application extends Container
         if (Facade::getFacadeApplication()?->bound('config')) {
             $this->singleton('config', fn () => Facade::getFacadeApplication()->make('config'));
         } else {
-            $this->singleton('config', fn () => new \Illuminate\Config\Repository([]));
+            $this->singleton('config', fn (): \Illuminate\Config\Repository => new \Illuminate\Config\Repository([]));
         }
 
         Facade::setFacadeApplication($this);
@@ -182,7 +180,7 @@ class Application extends Container
         // Aliases — after providers so all facades are bound
         $this->setAliases();
 
-        static::$booted = true;
+        self::$booted = true;
 
         return $this;
     }
@@ -194,7 +192,7 @@ class Application extends Container
      */
     public static function isBooted(): bool
     {
-        return static::$booted;
+        return self::$booted;
     }
 
     // -------------------------------------------------------------------------
@@ -287,9 +285,8 @@ class Application extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param  ServiceProvider|string $provider
-     * @param  bool                   $force    force re-registration
-     * @return ServiceProvider
+     * @param ServiceProvider|string $provider
+     * @param bool                   $force    force re-registration
      *
      * @since 1.0.0
      */
@@ -343,10 +340,10 @@ class Application extends Container
     /**
      * Normalize callbacks from getHooks/getFilters format.
      *
+     * @since 1.0.0
+     *
      * @param  mixed                                          $value
      * @return array<int, array{fn: callable, priority: int}>
-     *
-     * @since 1.0.0
      */
     private function normalizeCallbacks(mixed $value): array
     {
@@ -358,7 +355,7 @@ class Application extends Container
             return [['fn' => $value['callback'], 'priority' => $value['priority'] ?? 10]];
         }
 
-        return array_map(function ($item) {
+        return array_map(function (mixed $item): array {
             if (is_callable($item)) {
                 return ['fn' => $item, 'priority' => 10];
             }
@@ -447,12 +444,12 @@ class Application extends Container
      */
     protected function guessBasePath(): string
     {
-        if (static::$cachedBasePath !== null) {
-            return static::$cachedBasePath;
+        if (self::$cachedBasePath !== null) {
+            return self::$cachedBasePath;
         }
 
         if (defined('SLOTH_BASE_PATH')) {
-            return static::$cachedBasePath = rtrim(SLOTH_BASE_PATH, '/');
+            return self::$cachedBasePath = rtrim((string) SLOTH_BASE_PATH, '/');
         }
 
         $dir = dirname(match (defined('ABSPATH')) {
@@ -462,7 +459,7 @@ class Application extends Container
 
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
-                return static::$cachedBasePath = $dir;
+                return self::$cachedBasePath = $dir;
             }
             $dir = dirname($dir);
         }
@@ -471,7 +468,7 @@ class Application extends Container
             $theme = get_template_directory();
 
             if (is_dir($theme . '/app')) {
-                return static::$cachedBasePath = $theme;
+                return self::$cachedBasePath = $theme;
             }
         }
 
@@ -500,10 +497,9 @@ class Application extends Container
     /**
      * Get the base path of the Laravel installation.
      *
-     * @param  string $path
-     * @return string
+     * @param string $path
      */
-    public function basePath($path = '')
+    public function basePath(string $path = ''): string
     {
         return $this->joinPaths($this->basePath, $path);
     }
@@ -529,8 +525,6 @@ class Application extends Container
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     *
-     * @return string
      */
     public function configPath(): string
     {
@@ -584,15 +578,14 @@ class Application extends Container
     // -------------------------------------------------------------------------
     // Backwards compatibility
     // -------------------------------------------------------------------------
-
     /**
      * Get the template context.
      *
      * @return array<string, mixed>
      *
      * @since 1.0.0
-     * @deprecated use app('context')->getContext() instead
      */
+    #[Deprecated(message: "use app('context')->getContext() instead")]
     public function getContext(): array
     {
         return $this->bound('context') ? $this['context']->getContext() : [];
@@ -601,9 +594,9 @@ class Application extends Container
     /**
      * Check if running in a development environment.
      *
-     * @deprecated use app()->isLocal() instead
      * @since 1.0.0
      */
+    #[Deprecated(message: 'use app()->isLocal() instead')]
     public function isDevEnv(): bool
     {
         return $this->isLocal();
@@ -612,13 +605,11 @@ class Application extends Container
     /**
      * Get a class for a model by its post_type.
      *
+     * @todo deprecate in future versions
+     *
      * @param string $key
      *
      * @throws BindingResolutionException
-     *
-     * @return string
-     *
-     * @todo deprecate in future versions
      */
     public function getModelClass(string $key = ''): string
     {
@@ -630,8 +621,6 @@ class Application extends Container
      *
      * @throws BindingResolutionException
      *
-     * @return mixed
-     *
      * @todo deprecate in future versions
      */
     public function getAllModels(): array
@@ -642,13 +631,11 @@ class Application extends Container
     /**
      * Get a class for a taxonomy by its taxonomy type.
      *
+     * @todo deprecate in future versions
+     *
      * @param string $key
      *
      * @throws BindingResolutionException
-     *
-     * @return string
-     *
-     * @todo deprecate in future versions
      */
     public function getTaxonomyClass(string $key = ''): string
     {
@@ -659,8 +646,6 @@ class Application extends Container
      * Get all registered taxonomies.
      *
      * @throws BindingResolutionException
-     *
-     * @return array
      *
      * @todo deprecate in future versions
      */
@@ -685,9 +670,8 @@ class Application extends Container
     /**
      * Join the given paths together.
      *
-     * @param  string $basePath
-     * @param  string $path
-     * @return string
+     * @param string $basePath
+     * @param string $path
      */
     public function joinPaths(string $basePath, string $path = ''): string
     {

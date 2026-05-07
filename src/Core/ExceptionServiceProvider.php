@@ -5,6 +5,7 @@ namespace Sloth\Core;
 
 use ErrorException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Override;
 use Sloth\Exceptions\ExceptionHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
@@ -48,6 +49,7 @@ class ExceptionServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(
@@ -114,7 +116,7 @@ class ExceptionServiceProvider extends ServiceProvider
             string $file = '',
             int $line = 0,
         ): bool {
-            if (!(error_reporting() & $severity)) {
+            if ((error_reporting() & $severity) === 0) {
                 return false;
             }
 

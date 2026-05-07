@@ -21,15 +21,6 @@ use Throwable;
 class QueryCollector extends DataCollector implements Renderable, AssetProvider
 {
     /**
-     * Threshold in milliseconds for marking queries as slow.
-     *
-     * @since 1.0.0
-     *
-     * @var int
-     */
-    private const SLOW_THRESHOLD_MS = 100;
-
-    /**
      * Cached query results.
      *
      * @var array<int, array<string, mixed>>|null
@@ -94,7 +85,7 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
             $this->getWpdbQueries(),
         );
 
-        usort($queries, fn ($a, $b) => $b['time'] <=> $a['time']);
+        usort($queries, fn (array $a, array $b): int => $b['time'] <=> $a['time']);
 
         return $this->cachedQueries = $queries;
     }
@@ -164,7 +155,7 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
 
             foreach ($wpdb->queries as $q) {
                 $caller = isset($q[2]) ? (string) $q[2] : '';
-                $source = $caller ? 'WPDB — ' . $this->formatWpdbCaller($caller) : 'WPDB';
+                $source = $caller !== '' && $caller !== '0' ? 'WPDB — ' . $this->formatWpdbCaller($caller) : 'WPDB';
                 $queries[] = [
                     'sql'           => $q[0],
                     'time'          => round($q[1] * 1000, 2),

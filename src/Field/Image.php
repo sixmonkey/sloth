@@ -72,8 +72,6 @@ class Image implements Stringable
      * The height of this image.
      *
      * @since 1.0.0
-     *
-     * @var int
      */
     public int $height = 0;
 
@@ -81,8 +79,6 @@ class Image implements Stringable
      * The width of this image.
      *
      * @since 1.0.0
-     *
-     * @var int
      */
     public int $width = 0;
 
@@ -202,7 +198,7 @@ class Image implements Stringable
 
             if ($this->file) {
                 $file = $this->file;
-                $size = Cache::rememberForever('sloth.media.size' . md5($this->file), function () use ($file) {
+                $size = Cache::rememberForever('sloth.media.size' . md5($this->file), function () use ($file): array {
                     $image = new ImageInformation(new File($file));
 
                     return $image->getSize();

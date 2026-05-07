@@ -47,8 +47,6 @@ class Version
      * The SlothMediaVersion model instance for this version.
      *
      * Contains the URL and transformation options for this image version.
-     *
-     * @var SlothMediaVersion|null
      */
     protected ?SlothMediaVersion $mediaVersion = null;
 
@@ -69,7 +67,7 @@ class Version
         $this->mediaVersion = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
 
         // Exit early if version configuration not found
-        if (!$this->mediaVersion) {
+        if (!$this->mediaVersion instanceof SlothMediaVersion) {
             return;
         }
 
@@ -149,9 +147,7 @@ class Version
                 // for dimensions (width, height, crop, etc.).
                 //
                 // Example: '300' -> 300
-                $value = array_map(function ($v) {
-                    return is_numeric($v) ? (int) $v : $v;
-                }, $value);
+                $value = array_map(fn ($v): mixed => is_numeric($v) ? (int) $v : $v, $value);
 
                 // Call the Spatie Image method with the processed arguments
                 call_user_func_array([$img, $method], $value);
@@ -190,7 +186,7 @@ class Version
 
         // Set headers for proper browser handling
         header('Content-Type: ' . $mimeType);
-        header('Content-Length: ' . strlen($content));
+        header('Content-Length: ' . strlen((string) $content));
 
         // Output the file contents
         echo $content;

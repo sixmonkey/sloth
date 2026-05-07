@@ -77,7 +77,7 @@ class TaxonomyRegistrar
      */
     public function register(): void
     {
-        foreach ($this->builder->getEntries() as $taxonomyClass => $entry) {
+        foreach ($this->builder->getEntries() as $entry) {
             register_extended_taxonomy(
                 $entry['slug'],
                 $entry['postTypes'],
@@ -113,7 +113,7 @@ class TaxonomyRegistrar
             }
 
             $taxonomy = new $taxonomyClass();
-            $singular = $entry['names']['singular'] ?? ucfirst($entry['slug']);
+            $singular = $entry['names']['singular'] ?? ucfirst((string) $entry['slug']);
 
             add_meta_box(
                 'sloth-taxonomy-' . $entry['slug'],

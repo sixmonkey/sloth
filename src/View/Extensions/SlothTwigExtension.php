@@ -99,9 +99,8 @@ class SlothTwigExtension extends AbstractExtension
      * Called automatically by Twig when `fn.some_function()` is used
      * in a template.
      *
-     * @param  string       $name      the function name to call
-     * @param  array<mixed> $arguments arguments to pass
-     * @return mixed
+     * @param string       $name      the function name to call
+     * @param array<mixed> $arguments arguments to pass
      *
      * @since 1.0.0
      */
@@ -162,7 +161,7 @@ class SlothTwigExtension extends AbstractExtension
 
         // Merge in any additional filters registered via theme config
         if (config('theme.twig.filters')) {
-            $filters = array_merge($filters, config('theme.twig.filters'));
+            return array_merge($filters, config('theme.twig.filters'));
         }
 
         return $filters;
@@ -198,7 +197,7 @@ class SlothTwigExtension extends AbstractExtension
             // Render a Sloth module and return its output as a string
             new TwigFunction(
                 'module',
-                function ($name, $values = [], $options = []): string|false {
+                function (string $name, array $values = [], array $options = []): string|false {
                     ob_start();
                     module($name, $values, $options);
 
@@ -338,7 +337,7 @@ class SlothTwigExtension extends AbstractExtension
 
         // Merge in any additional functions registered via theme config
         if (config('theme.twig.functions')) {
-            $functions = array_merge($functions, config('theme.twig.functions'));
+            return array_merge($functions, config('theme.twig.functions'));
         }
 
         return $functions;

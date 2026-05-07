@@ -33,7 +33,7 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class Router
 {
-    private RouteCollection $routes;
+    private readonly RouteCollection $routes;
 
     private int $counter = 0;
 
@@ -106,7 +106,7 @@ class Router
      */
     public function hasName(string $name): bool
     {
-        return $this->routes->get($name) !== null;
+        return $this->routes->get($name) instanceof \Symfony\Component\Routing\Route;
     }
 
     /**
@@ -146,7 +146,7 @@ class Router
      */
     public function url(string $name, array $params = []): string
     {
-        if ($this->routes->get($name) === null) {
+        if (!$this->routes->get($name) instanceof \Symfony\Component\Routing\Route) {
             throw new InvalidArgumentException(
                 "Route [{$name}] not defined.",
             );

@@ -31,7 +31,7 @@ class SlothCommand
      */
     public function __invoke(array $args, array $assoc_args): void
     {
-        if (empty($args)) {
+        if ($args === []) {
             $args = ['list'];
         }
 

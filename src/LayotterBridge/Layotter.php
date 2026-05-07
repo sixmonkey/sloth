@@ -61,15 +61,6 @@ class Layotter
     public static array $enabledPostTypes = [];
 
     /**
-     * Constructor for Layotter.
-     *
-     * @since 1.0.0
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Get custom column classes for Layotter.
      *
      * @param  array<string>         $defaultClasses Default column classes

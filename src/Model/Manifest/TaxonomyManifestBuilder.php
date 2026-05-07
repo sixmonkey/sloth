@@ -104,7 +104,7 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
         $entries = [];
 
         /** @var class-string<Taxonomy> $taxonomyClass */
-        foreach ($map as $taxonomyClass => $file) {
+        foreach (array_keys($map) as $taxonomyClass) {
             if (!$taxonomyClass::$register) {
                 continue;
             }

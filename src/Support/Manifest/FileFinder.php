@@ -19,14 +19,14 @@ class FileFinder implements FinderInterface
 {
     public function find(array $paths): array
     {
-        $existingPaths = collect($paths)->filter(fn ($path) => is_dir($path))->all();
+        $existingPaths = collect($paths)->filter(fn ($path): bool => is_dir($path))->all();
 
         if (empty($existingPaths)) {
             return [];
         }
 
         return collect(new Finder()->in($existingPaths)->files()->name('*.php'))
-            ->mapWithKeys(fn ($file) => [
+            ->mapWithKeys(fn ($file): array => [
                 $file->getRealPath() => $file->getRealPath(),
             ])
             ->all()

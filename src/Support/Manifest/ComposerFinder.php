@@ -82,15 +82,13 @@ class ComposerFinder implements FinderInterface
         $ignored = $this->getIgnoredPackages();
 
         return new Collection($packages)
-            ->mapWithKeys(function ($package) {
+            ->mapWithKeys(function (array $package): array {
                 $providers = $package['extra']['folivoro']['providers'] ?? [];
 
                 return [$package['name'] => $providers];
             })
-            ->reject(function ($providers, $package) use ($ignored) {
-                return in_array($package, $ignored, true) || empty($providers);
-            })
-            ->flatMap(function ($providers, $package) {
+            ->reject(fn ($providers, $package): bool => in_array($package, $ignored, true) || empty($providers))
+            ->flatMap(function ($providers, $package): array {
                 $result = [];
 
                 foreach ($providers as $provider) {

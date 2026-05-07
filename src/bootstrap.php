@@ -140,7 +140,7 @@ defined('DISALLOW_FILE_EDIT') || define('DISALLOW_FILE_EDIT', true);
 // -------------------------------------------------------------------------
 
 $_webroot = __DIR__ . '/public';
-$_wp_path = substr(WP_SITEURL, strrpos(WP_SITEURL, '/'));
+$_wp_path = substr((string) WP_SITEURL, strrpos((string) WP_SITEURL, '/'));
 
 defined('ABSPATH') || define('ABSPATH', realpath($_webroot . $_wp_path) . '/');
 

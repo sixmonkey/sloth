@@ -24,6 +24,6 @@ class EventServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton('events', fn ($app) => new Dispatcher($app));
+        $this->app->singleton('events', fn ($app): Dispatcher => new Dispatcher($app));
     }
 }

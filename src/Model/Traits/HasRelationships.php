@@ -14,12 +14,11 @@ trait HasRelationships
     /**
      * Replace the original hasMany function to forward the connection name.
      *
-     * @param  string  $related
-     * @param  string  $foreignKey
-     * @param  string  $localKey
-     * @return HasMany
+     * @param string $related
+     * @param string $foreignKey
+     * @param string $localKey
      */
-    public function hasMany($related, $foreignKey = null, $localKey = null)
+    public function hasMany($related, $foreignKey = null, $localKey = null): HasMany
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
@@ -35,12 +34,11 @@ trait HasRelationships
     /**
      * Replace the original hasOne function to forward the connection name.
      *
-     * @param  string $related
-     * @param  string $foreignKey
-     * @param  string $localKey
-     * @return HasOne
+     * @param string $related
+     * @param string $foreignKey
+     * @param string $localKey
      */
-    public function hasOne($related, $foreignKey = null, $localKey = null)
+    public function hasOne($related, $foreignKey = null, $localKey = null): HasOne
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
@@ -56,13 +54,12 @@ trait HasRelationships
     /**
      * Replace the original belongsTo function to forward the connection name.
      *
-     * @param  string    $related
-     * @param  string    $foreignKey
-     * @param  string    $otherKey
-     * @param  string    $relation
-     * @return BelongsTo
+     * @param string $related
+     * @param string $foreignKey
+     * @param string $otherKey
+     * @param string $relation
      */
-    public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+    public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null): BelongsTo
     {
         if (is_null($relation)) {
             [, $caller] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
@@ -87,14 +84,13 @@ trait HasRelationships
     /**
      * Replace the original belongsToMany function to forward the connection name.
      *
-     * @param  string        $related
-     * @param  string        $table
-     * @param  string        $foreignPivotKey
-     * @param  string        $relatedPivotKey
-     * @param  string        $parentKey
-     * @param  string        $relatedKey
-     * @param  string        $relation
-     * @return BelongsToMany
+     * @param string $related
+     * @param string $table
+     * @param string $foreignPivotKey
+     * @param string $relatedPivotKey
+     * @param string $parentKey
+     * @param string $relatedKey
+     * @param string $relation
      */
     public function belongsToMany(
         $related,
@@ -104,7 +100,7 @@ trait HasRelationships
         $parentKey = null,
         $relatedKey = null,
         $relation = null,
-    ) {
+    ): BelongsToMany {
         if (is_null($relation)) {
             $relation = $this->guessBelongsToManyRelation();
         }

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Context;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -23,10 +24,9 @@ class ContextServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton('context', function () {
-            return new Context($this->app);
-        });
+        $this->app->singleton('context', fn (): Context => new Context($this->app));
     }
 }

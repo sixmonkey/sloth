@@ -25,7 +25,7 @@ class Route extends SymfonyRoute
      */
     public function __construct(
         string $path,
-        private readonly mixed $callback,
+        mixed $callback,
         array $methods,
         private readonly Router $router,
     ) {

@@ -47,9 +47,7 @@ trait HasACF
             $acf_fields = $fields->keys();
             $native_fields = collect($model->getAttributes())->keys();
 
-            $acf_casts = $acf_fields->diff($native_fields)->mapWithKeys(function ($item) {
-                return [$item => AcfBase::class];
-            });
+            $acf_casts = $acf_fields->diff($native_fields)->mapWithKeys(fn ($item): array => [$item => AcfBase::class]);
 
             $model->mergeCasts($acf_casts->toArray());
         });

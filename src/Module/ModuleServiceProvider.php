@@ -66,12 +66,12 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             ModuleManifestBuilder::class,
-            fn ($app) => new ModuleManifestBuilder($app),
+            fn ($app): ModuleManifestBuilder => new ModuleManifestBuilder($app),
         );
 
         $this->app->singleton(
             ModuleRegistrar::class,
-            fn ($app) => new ModuleRegistrar(app(ModuleManifestBuilder::class)),
+            fn ($app): ModuleRegistrar => new ModuleRegistrar(app(ModuleManifestBuilder::class)),
         );
     }
 
@@ -88,10 +88,11 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
-            'init'          => fn () => $this->initModules(),
+            'init'          => $this->initModules(...),
             'rest_api_init' => fn () => app(ModuleRegistrar::class)->registerJsonEndpoints(),
         ];
     }

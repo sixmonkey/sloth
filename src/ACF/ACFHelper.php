@@ -26,7 +26,7 @@ class ACFHelper
      *
      * @since 1.0.0
      */
-    public function loadImage($value, $post_id, $field)
+    public function loadImage($value, $post_id, $field): Image
     {
         return new Image($value);
     }

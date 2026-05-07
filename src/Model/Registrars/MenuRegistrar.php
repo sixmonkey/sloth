@@ -24,7 +24,7 @@ class MenuRegistrar
      *
      * @since 1.0.0
      */
-    public function __construct(private Application $app)
+    public function __construct(private readonly Application $app)
     {
     }
 

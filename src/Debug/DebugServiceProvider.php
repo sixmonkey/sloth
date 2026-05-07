@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Debug;
 
 use DebugBar\DebugBar;
+use Override;
 use Sloth\Core\ServiceProvider;
 use Throwable;
 
@@ -40,6 +41,7 @@ class DebugServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
         if (!class_exists(DebugBar::class)) {
@@ -97,7 +99,7 @@ class DebugServiceProvider extends ServiceProvider
                         if (!empty($entry['is_string'])) {
                             $value = $entry['message'] ?? '';
                         } elseif (!empty($entry['message_html'])) {
-                            $value = strip_tags($entry['message_html']);
+                            $value = strip_tags((string) $entry['message_html']);
                         } elseif (!empty($entry['message_json'])) {
                             $value = $entry['message_json'];
                         } else {

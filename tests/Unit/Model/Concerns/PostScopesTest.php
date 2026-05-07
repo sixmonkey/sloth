@@ -120,9 +120,7 @@ describe('PostScopes', function (): void {
             $innerQuery = Mockery::mock(Builder::class);
 
             $query->shouldReceive('where')
-                ->withArgs(function ($callback) {
-                    return is_callable($callback);
-                })
+                ->withArgs(fn($callback): bool => is_callable($callback))
                 ->once()
                 ->andReturnUsing(function ($callback) use ($query, $innerQuery): Builder {
                     $callback($innerQuery);

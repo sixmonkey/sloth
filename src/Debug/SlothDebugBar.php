@@ -58,9 +58,6 @@ class SlothDebugBar extends DebugBar
      * The baseURL to use for assets used by debug bar.
      *
      * @see https://php-debugbar.com/docs/rendering/#assets
-     *
-     * @var string
-     *
      * @since 1.0.0
      */
     protected string $baseUrl = '/debugbar/sloth';
@@ -122,21 +119,16 @@ class SlothDebugBar extends DebugBar
             ;
         });
 
-        Route::get($this->baseUrl . '/dist/debugbar.min.js', function () use ($renderer) {
-            return Response::make(
-                $renderer->dumpJsAssets(echo: false),
-            )
-                ->header('Content-Type', 'text/javascript')
-            ;
-        });
+        Route::get($this->baseUrl . '/dist/debugbar.min.js', fn () => Response::make(
+            $renderer->dumpJsAssets(echo: false),
+        )
+            ->header('Content-Type', 'text/javascript'));
 
         $this->booted = true;
     }
 
     /**
      * Get the time data collector.
-     *
-     * @return TimeDataCollector
      *
      * @since 1.0.0
      */
@@ -148,8 +140,6 @@ class SlothDebugBar extends DebugBar
     /**
      * Get the messages data collector.
      *
-     * @return MessagesCollector
-     *
      * @since 1.0.0
      */
     public function getMessagesCollector(): MessagesCollector
@@ -159,8 +149,6 @@ class SlothDebugBar extends DebugBar
 
     /**
      * Get the exceptions data collector.
-     *
-     * @return ExceptionsCollector
      *
      * @since 1.0.0
      */
@@ -175,8 +163,6 @@ class SlothDebugBar extends DebugBar
      * Returns true after all collector providers have been loaded
      * via boot(). Use this to determine whether custom collectors
      * (queries, sloth, acf, wordpress) are available.
-     *
-     * @return bool
      *
      * @since 1.0.0
      */

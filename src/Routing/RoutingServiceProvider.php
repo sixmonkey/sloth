@@ -35,9 +35,9 @@ class RoutingServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton(Router::class, fn () => new Router());
+        $this->app->singleton(Router::class, fn (): Router => new Router());
         $this->app->alias(Router::class, 'router');
-        $this->app->singleton(RoutesManifestBuilder::class, fn ($app) => new RoutesManifestBuilder($app));
+        $this->app->singleton(RoutesManifestBuilder::class, fn ($app): RoutesManifestBuilder => new RoutesManifestBuilder($app));
     }
 
     /**
@@ -63,7 +63,7 @@ class RoutingServiceProvider extends ServiceProvider
     {
         return [
             'template_redirect' => [
-                'callback' => fn () => $this->dispatch(),
+                'callback' => $this->dispatch(...),
                 'priority' => 1,
             ],
         ];
@@ -92,7 +92,7 @@ class RoutingServiceProvider extends ServiceProvider
         $controller = $params['_controller'];
         $args = array_values(array_filter(
             $params,
-            fn ($key) => !str_starts_with($key, '_'),
+            fn ($key): bool => !str_starts_with((string) $key, '_'),
             ARRAY_FILTER_USE_KEY,
         ));
 

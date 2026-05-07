@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Media;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Event\WpHookFired;
 
@@ -19,9 +20,10 @@ use Sloth\Event\WpHookFired;
  */
 class MediaServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton('media', fn () => new Media());
+        $this->app->singleton('media', fn (): Media => new Media());
     }
 
     /**
@@ -47,6 +49,7 @@ class MediaServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
@@ -59,6 +62,7 @@ class MediaServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getFilters(): array
     {
         return [

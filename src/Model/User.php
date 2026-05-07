@@ -7,6 +7,7 @@ use Corcel\Model as CorcelModel;
 use Corcel\Model\Comment;
 use Corcel\Model\Meta\UserMeta;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 use Sloth\Model\Traits\HasACF;
 use Sloth\Model\Traits\HasAliases;
 use Sloth\Model\Traits\HasMetaFields;
@@ -140,7 +141,7 @@ class User extends CorcelModel
      */
     public function getAvatarAttribute(): string
     {
-        $hash = !empty($this->email) ? md5(strtolower(trim($this->email))) : '';
+        $hash = empty($this->email) ? '' : md5(strtolower(trim((string) $this->email)));
 
         return sprintf('//secure.gravatar.com/avatar/%s?d=mm', $hash);
     }
@@ -152,6 +153,7 @@ class User extends CorcelModel
      *
      * @param mixed $value The timestamp value
      */
+    #[Override]
     public function setUpdatedAt($value): void
     {
     }

@@ -34,7 +34,7 @@ class ApplicationServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton(IncludesManifestBuilder::class, fn ($app) => new IncludesManifestBuilder($app));
+        $this->app->singleton(IncludesManifestBuilder::class, fn ($app): IncludesManifestBuilder => new IncludesManifestBuilder($app));
     }
 
     /**

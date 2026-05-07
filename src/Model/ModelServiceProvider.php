@@ -71,11 +71,11 @@ class ModelServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton(MenuRegistrar::class, fn ($app) => new MenuRegistrar($app));
-        $this->app->singleton(TaxonomyManifestBuilder::class, fn ($app) => new TaxonomyManifestBuilder($app));
-        $this->app->singleton(TaxonomyRegistrar::class, fn ($app) => new TaxonomyRegistrar(app(TaxonomyManifestBuilder::class)));
-        $this->app->singleton(ModelManifestBuilder::class, fn ($app) => new ModelManifestBuilder($app));
-        $this->app->singleton(ModelRegistrar::class, fn ($app) => new ModelRegistrar(app(ModelManifestBuilder::class)));
+        $this->app->singleton(MenuRegistrar::class, fn ($app): MenuRegistrar => new MenuRegistrar($app));
+        $this->app->singleton(TaxonomyManifestBuilder::class, fn ($app): TaxonomyManifestBuilder => new TaxonomyManifestBuilder($app));
+        $this->app->singleton(TaxonomyRegistrar::class, fn ($app): TaxonomyRegistrar => new TaxonomyRegistrar(app(TaxonomyManifestBuilder::class)));
+        $this->app->singleton(ModelManifestBuilder::class, fn ($app): ModelManifestBuilder => new ModelManifestBuilder($app));
+        $this->app->singleton(ModelRegistrar::class, fn ($app): ModelRegistrar => new ModelRegistrar(app(ModelManifestBuilder::class)));
     }
 
     /**
@@ -141,18 +141,19 @@ class ModelServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
             'init' => [
                 fn () => app(MenuRegistrar::class)->init(),
-                fn () => $this->initTaxonomies(),
-                fn () => $this->initModels(),
+                $this->initTaxonomies(...),
+                $this->initModels(...),
             ],
             'add_meta_boxes' => [
                 fn () => app(TaxonomyRegistrar::class)->addMetaBoxes(),
             ],
-            'registered_post_type' => fn (string $postType) => $this->onPostTypeRegistered($postType),
+            'registered_post_type' => $this->onPostTypeRegistered(...),
         ];
     }
 
@@ -174,9 +175,7 @@ class ModelServiceProvider extends ServiceProvider
         $entries = $builder->getEntries();
 
         $this->app->instance('sloth.taxonomies', collect($entries)
-            ->mapWithKeys(function ($entry, $taxonomyClass) {
-                return [new $taxonomyClass()->getTaxonomy() => $taxonomyClass];
-            })
+            ->mapWithKeys(fn ($entry, $taxonomyClass): array => [new $taxonomyClass()->getTaxonomy() => $taxonomyClass])
             ->all());
 
         app(TaxonomyRegistrar::class)->register();
@@ -200,9 +199,7 @@ class ModelServiceProvider extends ServiceProvider
         $entries = $builder->getEntries();
 
         $this->app->instance('sloth.models', collect($entries)
-            ->mapWithKeys(function ($entry, $modelClass) {
-                return [$entry['postType'] => $modelClass];
-            })
+            ->mapWithKeys(fn ($entry, $modelClass): array => [$entry['postType'] => $modelClass])
             ->all());
 
         app(ModelRegistrar::class)->register();
@@ -218,10 +215,11 @@ class ModelServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getFilters(): array
     {
         return [
-            'manage_posts_columns' => fn (array $columns) => $this->hideAdminColumns($columns),
+            'manage_posts_columns' => $this->hideAdminColumns(...),
         ];
     }
 }

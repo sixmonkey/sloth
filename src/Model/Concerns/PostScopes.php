@@ -190,13 +190,8 @@ trait PostScopes
     {
         $terms = (array) $terms;
 
-        return $query->whereHas('taxonomies', function (Builder $q) use ($taxonomy, $terms): Builder {
-            return $q->where('taxonomy', $taxonomy)
-                ->whereHas('term', function (Builder $q) use ($terms): Builder {
-                    return $q->whereIn('slug', $terms);
-                })
-            ;
-        });
+        return $query->whereHas('taxonomies', fn (Builder $q): Builder => $q->where('taxonomy', $taxonomy)
+            ->whereHas('term', fn (Builder $q): Builder => $q->whereIn('slug', $terms)));
     }
 
     /**
@@ -217,12 +212,9 @@ trait PostScopes
     {
         $term = '%' . $term . '%';
 
-        return $query->where(function (Builder $q) use ($term): Builder {
-            return $q->where('post_title', 'like', $term)
-                ->orWhere('post_excerpt', 'like', $term)
-                ->orWhere('post_content', 'like', $term)
-            ;
-        });
+        return $query->where(fn (Builder $q): Builder => $q->where('post_title', 'like', $term)
+            ->orWhere('post_excerpt', 'like', $term)
+            ->orWhere('post_content', 'like', $term));
     }
 
     /**

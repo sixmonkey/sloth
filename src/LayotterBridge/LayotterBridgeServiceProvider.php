@@ -34,7 +34,7 @@ class LayotterBridgeServiceProvider extends ServiceProvider
         );
         $this->app->singleton(
             LayotterElementRegistrar::class,
-            fn () => new LayotterElementRegistrar(app(ModuleManifestBuilder::class)),
+            fn (): LayotterElementRegistrar => new LayotterElementRegistrar(app(ModuleManifestBuilder::class)),
         );
     }
 
@@ -84,11 +84,12 @@ class LayotterBridgeServiceProvider extends ServiceProvider
     /**
      * @return array[]
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
             'init' => [
-                ['callback' => fn () => $this->configurePostTypes(), 'priority' => 20],
+                ['callback' => $this->configurePostTypes(...), 'priority' => 20],
                 ['callback' => fn () => app(LayotterElementRegistrar::class)->registerElements(), 'priority' => 20],
             ],
         ];
@@ -99,6 +100,7 @@ class LayotterBridgeServiceProvider extends ServiceProvider
      *
      * @return array|array[]|callable[]
      */
+    #[Override]
     public function getFilters(): array
     {
         return [

@@ -77,7 +77,7 @@ class WordPressTransientStore extends TaggableStore implements Store
      */
     public function many(array $keys): array
     {
-        return array_combine($keys, array_map(fn ($key) => $this->get($key), $keys));
+        return array_combine($keys, array_map($this->get(...), $keys));
     }
 
     /**
@@ -108,7 +108,7 @@ class WordPressTransientStore extends TaggableStore implements Store
     {
         return array_reduce(
             array_keys($values),
-            fn ($carry, $key) => $carry && $this->put($key, $values[$key], $seconds),
+            fn ($carry, $key): bool => $carry && $this->put($key, $values[$key], $seconds),
             true,
         );
     }

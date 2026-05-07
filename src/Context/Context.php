@@ -28,8 +28,6 @@ class Context
 
     /**
      * Current model instance.
-     *
-     * @var mixed
      */
     protected mixed $currentModel = null;
 
@@ -60,7 +58,7 @@ class Context
         $this->context = [
             'wp_title' => trim((string) wp_title('', false)),
             'site'     => [
-                'url'           => (string) home_url(),
+                'url'           => home_url(),
                 'rdf'           => (string) get_bloginfo('rdf_url'),
                 'rss'           => (string) get_bloginfo('rss_url'),
                 'rss2'          => (string) get_bloginfo('rss2_url'),
@@ -72,10 +70,10 @@ class Context
                 'name'          => (string) get_bloginfo('name'),
                 'title'         => (string) get_bloginfo('name'),
                 'description'   => (string) get_bloginfo('description'),
-                'canonical_url' => (string) home_url((string) $_SERVER['REQUEST_URI']),
+                'canonical_url' => home_url((string) $_SERVER['REQUEST_URI']),
             ],
             'globals' => [
-                'home_url'   => (string) home_url('/'),
+                'home_url'   => home_url('/'),
                 'theme_url'  => (string) get_template_directory_uri(),
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],

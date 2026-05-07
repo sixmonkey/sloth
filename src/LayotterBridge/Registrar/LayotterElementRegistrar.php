@@ -27,7 +27,7 @@ class LayotterElementRegistrar
      *
      * @since 1.0.0
      */
-    private $elmentModuleMapping = [];
+    private array $elmentModuleMapping = [];
 
     /**
      * Creates a new LayotterElementRegistrar instance.

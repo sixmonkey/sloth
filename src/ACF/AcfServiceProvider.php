@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\ACF;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -22,6 +23,7 @@ class AcfServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
         $this->app->singleton('acf.helper', fn (): ACFHelper => new ACFHelper());
@@ -32,6 +34,7 @@ class AcfServiceProvider extends ServiceProvider
      *
      * @return array[]
      */
+    #[Override]
     public function getFilters(): array
     {
         return [

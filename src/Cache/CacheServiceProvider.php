@@ -74,15 +74,11 @@ class CacheServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton('cache', function ($app) {
-            $manager = new CacheManager($app);
-
-            return $manager;
-        });
+        $this->app->singleton('cache', fn ($app): CacheManager => new CacheManager($app));
 
         $this->app->singleton('cache.store', fn ($app) => $app['cache']->driver());
 
-        $this->app->singleton('memcached.connector', fn () => new \Illuminate\Cache\MemcachedConnector());
+        $this->app->singleton('memcached.connector', fn (): \Illuminate\Cache\MemcachedConnector => new \Illuminate\Cache\MemcachedConnector());
     }
 
     /**
@@ -116,7 +112,7 @@ class CacheServiceProvider extends ServiceProvider
         // Register WordPress transients as a custom cache driver
         $this->app['cache']->extend(
             'wp-transients',
-            fn () => new Repository(new WordPressTransientStore()),
+            fn (): Repository => new Repository(new WordPressTransientStore()),
         );
     }
 }

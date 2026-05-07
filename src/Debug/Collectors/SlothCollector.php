@@ -85,9 +85,7 @@ class SlothCollector extends DataCollector implements Renderable
     {
         try {
             return collect(app('sloth.models'))
-                ->map(function ($class, $name) {
-                    return Str::ucfirst($name) . ' => ' . $class;
-                })
+                ->map(fn ($class, $name): string => Str::ucfirst($name) . ' => ' . $class)
                 ->join("\n")
             ;
         } catch (Throwable) {
@@ -106,9 +104,7 @@ class SlothCollector extends DataCollector implements Renderable
     {
         try {
             return collect(app('sloth.taxonomies'))
-                ->map(function ($class, $name) {
-                    return Str::ucfirst($name) . ' => ' . $class;
-                })
+                ->map(fn ($class, $name): string => Str::ucfirst($name) . ' => ' . $class)
                 ->join("\n")
             ;
         } catch (Throwable) {
@@ -132,14 +128,14 @@ class SlothCollector extends DataCollector implements Renderable
             $hierarchy = new Hierarchy();
             $templates = $hierarchy->templates();
 
-            if (empty($templates)) {
+            if ($templates === []) {
                 return 'None';
             }
 
             $current = app('sloth.current_layout') ?? '';
 
             return collect($templates)
-                ->map(function ($template) use ($current) {
+                ->map(function (?string $template) use ($current): string {
                     if ($template === $current) {
                         return $template . ' (active)';
                     }

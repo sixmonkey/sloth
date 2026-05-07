@@ -40,12 +40,12 @@ describe('ConsoleKernel', function (): void {
         });
 
         it('discovers framework commands without throwing', function (): void {
-            expect(fn() => makeTestKernel()->discoverCommands())
+            expect(fn(): \Sloth\Console\ConsoleKernel => makeTestKernel()->discoverCommands())
                 ->not()->toThrow(\Throwable::class);
         });
 
         it('does not throw when app/Console/ does not exist', function (): void {
-            expect(fn() => makeTestKernel()->discoverCommands())
+            expect(fn(): \Sloth\Console\ConsoleKernel => makeTestKernel()->discoverCommands())
                 ->not()->toThrow(\Throwable::class);
         });
     });

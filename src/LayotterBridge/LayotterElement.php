@@ -148,7 +148,7 @@ class LayotterElement extends Layotter_Element
      */
     final protected function prepareFields(array $values, $options = []): array
     {
-        $fields = $this->getFields();
+        $this->getFields();
 
         array_shift($options);
 
@@ -184,8 +184,6 @@ class LayotterElement extends Layotter_Element
      * Get the instance of a related module.
      *
      * @throws BindingResolutionException
-     *
-     * @return mixed
      */
     final public function getModuleInstance(): Module
     {

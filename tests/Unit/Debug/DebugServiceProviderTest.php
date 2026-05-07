@@ -34,7 +34,6 @@ describe('DebugServiceProvider', function (): void {
 
         $reflection = new \ReflectionClass($provider);
         $property = $reflection->getProperty('enabled');
-        $property->setAccessible(true);
 
         expect($property->getValue($provider))->toBeTrue();
     });
@@ -79,7 +78,6 @@ describe('handleBootError()', function (): void {
 
         $reflection = new \ReflectionClass($provider);
         $method = $reflection->getMethod('handleBootError');
-        $method->setAccessible(true);
 
         $exception = new \RuntimeException('Boot failed for testing');
         $method->invoke($provider, $exception);
@@ -107,7 +105,6 @@ describe('handleBootError()', function (): void {
 
         $reflection = new \ReflectionClass($provider);
         $method = $reflection->getMethod('handleBootError');
-        $method->setAccessible(true);
 
         $method->invoke($provider, new \RuntimeException('Boot failed for testing'));
 

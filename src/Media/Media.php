@@ -19,13 +19,6 @@ use function add_image_size;
 class Media
 {
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Add SVG mime type.
      *
      * @param  array<string, string> $mimes
@@ -153,7 +146,7 @@ class Media
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim((string) home_url(), '/'), 'href="', $content);
+        return str_replace('href="' . rtrim(home_url(), '/'), 'href="', $content);
     }
 
     /**

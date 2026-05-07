@@ -77,9 +77,6 @@ class MessageCollectorProvider extends AbstractCollectorProvider
                 }
                 $messageCollector->addMessage($var);
             });
-        }
-
-        if (!$isCli) {
             $this->registerErrorHandler($messageCollector);
         }
 
@@ -110,11 +107,11 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             string $file = '',
             int $line = 0,
         ) use ($messageCollector): bool {
-            if ($severity & self::CRITICAL_ERRORS) {
+            if (($severity & self::CRITICAL_ERRORS) !== 0) {
                 throw new ErrorException($message, 0, $severity, $file, $line);
             }
 
-            if (!(error_reporting() & $severity)) {
+            if ((error_reporting() & $severity) === 0) {
                 return false;
             }
 

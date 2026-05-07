@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Api;
 
 use function register_rest_route;
+use Override;
 use Sloth\Api\Manifest\ApiControllerManifestBuilder;
 use Sloth\Core\ServiceProvider;
 use WP_REST_Request;
@@ -72,9 +73,10 @@ class ApiServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(ApiControllerManifestBuilder::class, fn ($app) => new ApiControllerManifestBuilder($app));
+        $this->app->singleton(ApiControllerManifestBuilder::class, fn ($app): ApiControllerManifestBuilder => new ApiControllerManifestBuilder($app));
     }
 
     /**
@@ -88,11 +90,12 @@ class ApiServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
-            'init'          => fn () => $this->initControllers(),
-            'rest_api_init' => fn () => $this->registerControllers(),
+            'init'          => $this->initControllers(...),
+            'rest_api_init' => $this->registerControllers(...),
         ];
     }
 
@@ -107,6 +110,7 @@ class ApiServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getFilters(): array
     {
         return [
@@ -183,7 +187,7 @@ class ApiServiceProvider extends ServiceProvider
                 '/' . $route,
                 [
                     'methods'  => ['GET', 'POST', 'DELETE', 'PUT'],
-                    'callback' => function (WP_REST_Request $request) use ($controllerClass, $action) {
+                    'callback' => function (WP_REST_Request $request) use ($controllerClass, $action): WP_REST_Response {
                         $controller = new $controllerClass();
                         $controller->setRequest($request);
                         $param = $request->get_url_params('id');

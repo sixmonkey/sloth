@@ -36,6 +36,7 @@ class AdminServiceProvider extends ServiceProvider
      *
      * @return array[]
      */
+    #[Override]
     public function getFilters(): array
     {
         $filters = [
@@ -62,6 +63,7 @@ class AdminServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [

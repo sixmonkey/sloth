@@ -67,7 +67,7 @@ class ModelRegistrar
      */
     public function register(): void
     {
-        foreach ($this->builder->getEntries() as $modelClass => $entry) {
+        foreach ($this->builder->getEntries() as $entry) {
             register_extended_post_type(
                 $entry['postType'],
                 $entry['args'],

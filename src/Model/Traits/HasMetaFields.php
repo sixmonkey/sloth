@@ -424,9 +424,7 @@ trait HasMetaFields
     {
         // Handle array input: create multiple fields
         if (is_array($key)) {
-            return collect($key)->map(function ($value, $key) {
-                return $this->createOneMeta($key, $value);
-            });
+            return collect($key)->map(fn ($value, $key) => $this->createOneMeta($key, $value));
         }
 
         // Handle single field creation

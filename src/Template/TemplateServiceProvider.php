@@ -8,6 +8,7 @@ use function post_password_required;
 use function wp_redirect;
 use Brain\Hierarchy\Finder\ByFolders;
 use Brain\Hierarchy\QueryTemplate;
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Facades\View;
 use StdClass;
@@ -30,15 +31,11 @@ class TemplateServiceProvider extends ServiceProvider
 {
     /**
      * Current theme path.
-     *
-     * @var string|null
      */
     protected ?string $currentThemePath = null;
 
     /**
      * Current layout.
-     *
-     * @var string|null
      */
     protected ?string $currentLayout = null;
 
@@ -57,14 +54,15 @@ class TemplateServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         $hooks = [
-            ['callback' => fn () => $this->getTemplate(), 'priority' => 20],
+            ['callback' => $this->getTemplate(...), 'priority' => 20],
         ];
 
         if (getenv('FORCE_SSL')) {
-            $hooks[] = ['callback' => fn () => $this->forceSsl(), 'priority' => 30];
+            $hooks[] = ['callback' => $this->forceSsl(...), 'priority' => 30];
         }
 
         return [
@@ -77,12 +75,13 @@ class TemplateServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function getFilters(): array
     {
         $filters = [];
 
         if (config('wp-json.baseUrl')) {
-            $filters['rest_url_prefix'] = fn () => (string) config('wp-json.baseUrl');
+            $filters['rest_url_prefix'] = fn (): string => (string) config('wp-json.baseUrl');
         }
 
         return $filters;

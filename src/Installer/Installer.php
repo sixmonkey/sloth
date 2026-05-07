@@ -5,6 +5,7 @@ namespace Sloth\Installer;
 
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
+use Deprecated;
 use Imagick;
 use Sloth\Utility\Utility;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,14 +28,14 @@ class Installer
      *
      * @since 1.0.0
      */
-    private Filesystem $fs;
+    private readonly Filesystem $fs;
 
     /**
      * Composer IO interface used for all terminal interaction.
      *
      * @since 1.0.0
      */
-    private IOInterface $io;
+    private readonly IOInterface $io;
 
     /**
      * Absolute path to the project root (where composer.json lives).
@@ -111,9 +112,9 @@ class Installer
      *
      * @param Event $event the Composer script event injected by Composer
      *
-     * @deprecated use config() with the --no-interaction flag instead
      * @since 1.0.0
      */
+    #[Deprecated(message: 'use config() with the --no-interaction flag instead')]
     public static function config_quiet(Event $event): void
     {
         $installer = new self($event);

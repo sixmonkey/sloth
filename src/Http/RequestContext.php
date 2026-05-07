@@ -114,7 +114,11 @@ class RequestContext
      */
     public function isAjax(): bool
     {
-        return $this->wpContext->isAjax() || $this->isEarlyAjaxRequest();
+        if ($this->wpContext->isAjax()) {
+            return true;
+        }
+
+        return $this->isEarlyAjaxRequest();
     }
 
     /**

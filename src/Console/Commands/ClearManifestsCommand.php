@@ -43,7 +43,7 @@ class ClearManifestsCommand extends Command
             $this->info("Clearing {$path}");
 
             app('files')->delete($path);
-            $this->line('  <fg=green>✓</> Deleted ' . basename($path));
+            $this->line('  <fg=green>✓</> Deleted ' . basename((string) $path));
             $cleared++;
         }
 

@@ -61,8 +61,7 @@ class LegacyGlobalsServiceProvider extends ServiceProvider
             /**
              * Proxy a property access to the Application container.
              *
-             * @param  string $key the property name
-             * @return mixed
+             * @param string $key the property name
              */
             public function __get(string $key): mixed
             {
@@ -77,9 +76,8 @@ class LegacyGlobalsServiceProvider extends ServiceProvider
             /**
              * Proxy a method call to the Application container.
              *
-             * @param  string $method the method name
-             * @param  array  $args   the method arguments
-             * @return mixed
+             * @param string $method the method name
+             * @param array  $args   the method arguments
              */
             public function __call(string $method, array $args): mixed
             {

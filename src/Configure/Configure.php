@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Configure;
 
+use Deprecated;
 use Sloth\Facades\Facade;
 
 /**
@@ -40,7 +41,7 @@ class Configure
      * ```
      *
      * @param array<string, mixed>|string $config
-     * @param mixed                       $value
+     * @param mixed|null                  $value
      *
      * @since 1.0.0
      */
@@ -140,9 +141,9 @@ class Configure
     /**
      * Copy all $_ENV values into Configure under the 'ENV.' prefix.
      *
-     * @deprecated ENV values are now available via env() directly
      * @since 1.0.0
      */
+    #[Deprecated(message: 'ENV values are now available via env() directly')]
     public static function boot(): void
     {
         foreach ($_ENV as $k => $v) {

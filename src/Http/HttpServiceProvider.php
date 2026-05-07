@@ -19,6 +19,6 @@ class HttpServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->bind('response', fn () => new Response());
+        $this->app->bind('response', fn (): Response => new Response());
     }
 }

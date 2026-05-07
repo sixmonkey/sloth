@@ -132,7 +132,7 @@ class ExceptionHandler implements ExceptionHandlerContract
                 $remotePath = env('SLOTH_DEBUGGER_REMOTE_PATH');
 
                 if ($localPath && $remotePath) {
-                    $handler->setEditor(function ($file, $line) use ($editor, $localPath, $remotePath) {
+                    $handler->setEditor(function ($file, $line) use ($editor, $localPath, $remotePath): string {
                         $file = str_replace($remotePath, $localPath, $file);
                         $editors = [
                             'phpstorm' => "phpstorm://open?file=$file&line=$line",
@@ -272,7 +272,7 @@ class ExceptionHandler implements ExceptionHandlerContract
         if ($messageCount > 0) {
             $handler->addDataTable(
                 'Messages (' . $messageCount . ')',
-                array_reduce($messages['messages'] ?? [], function ($carry, $msg) {
+                array_reduce($messages['messages'] ?? [], function (array $carry, array $msg): array {
                     $key = $msg['label'] ?? 'info';
                     $value = $msg['message'] ?? '';
                     $carry[$key . ' — ' . $value] = '';

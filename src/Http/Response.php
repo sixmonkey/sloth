@@ -37,10 +37,9 @@ class Response extends IlluminateResponse
     /**
      * Create a new HTTP response.
      *
-     * @param  mixed                $content the response content
-     * @param  int                  $status  HTTP status code
-     * @param  array<string, mixed> $headers additional response headers
-     * @return static
+     * @param mixed                $content the response content
+     * @param int                  $status  HTTP status code
+     * @param array<string, mixed> $headers additional response headers
      *
      * @since 1.0.0
      */
@@ -53,11 +52,10 @@ class Response extends IlluminateResponse
     /**
      * Create a new JSON response.
      *
-     * @param  mixed                $data    data to encode as JSON
-     * @param  int                  $status  HTTP status code
-     * @param  array<string, mixed> $headers additional response headers
-     * @param  int                  $options JSON encoding options
-     * @return JsonResponse
+     * @param mixed                $data    data to encode as JSON
+     * @param int                  $status  HTTP status code
+     * @param array<string, mixed> $headers additional response headers
+     * @param int                  $options JSON encoding options
      *
      * @since 1.0.0
      */
@@ -73,9 +71,8 @@ class Response extends IlluminateResponse
     /**
      * Create a new empty response (204 No Content).
      *
-     * @param  int                  $status  HTTP status code (default 204)
-     * @param  array<string, mixed> $headers additional response headers
-     * @return static
+     * @param int                  $status  HTTP status code (default 204)
+     * @param array<string, mixed> $headers additional response headers
      *
      * @since 1.0.0
      */
@@ -88,11 +85,10 @@ class Response extends IlluminateResponse
     /**
      * Create a file download response.
      *
-     * @param  SplFileInfo|string   $file        path or file info of the file to download
-     * @param  string|null          $name        download filename shown to the user
-     * @param  array<string, mixed> $headers     additional response headers
-     * @param  string               $disposition content-Disposition (attachment or inline)
-     * @return BinaryFileResponse
+     * @param SplFileInfo|string   $file        path or file info of the file to download
+     * @param string|null          $name        download filename shown to the user
+     * @param array<string, mixed> $headers     additional response headers
+     * @param string               $disposition content-Disposition (attachment or inline)
      *
      * @since 1.0.0
      */
@@ -108,9 +104,8 @@ class Response extends IlluminateResponse
     /**
      * Create an inline file response (e.g. display PDF in browser).
      *
-     * @param  SplFileInfo|string   $file    path or file info of the file to display
-     * @param  array<string, mixed> $headers additional response headers
-     * @return BinaryFileResponse
+     * @param SplFileInfo|string   $file    path or file info of the file to display
+     * @param array<string, mixed> $headers additional response headers
      *
      * @since 1.0.0
      */
@@ -127,10 +122,9 @@ class Response extends IlluminateResponse
      * Uses wp_redirect() when WordPress is available, falls back to a
      * plain Location header otherwise (e.g. in CLI or standalone context).
      *
-     * @param  string               $url     the URL to redirect to
-     * @param  int                  $status  HTTP status code (default 302)
-     * @param  array<string, mixed> $headers additional response headers
-     * @return never
+     * @param string               $url     the URL to redirect to
+     * @param int                  $status  HTTP status code (default 302)
+     * @param array<string, mixed> $headers additional response headers
      *
      * @since 1.0.0
      */

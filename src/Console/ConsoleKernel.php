@@ -79,7 +79,7 @@ class ConsoleKernel
      *
      * @since 1.0.0
      */
-    private ConsoleApplication $console;
+    private readonly ConsoleApplication $console;
 
     /**
      * Create a new ConsoleKernel instance.
@@ -88,7 +88,7 @@ class ConsoleKernel
      *
      * @since 1.0.0
      */
-    public function __construct(private Application $app)
+    public function __construct(private readonly Application $app)
     {
         $this->console = new ConsoleApplication(
             laravel: $app,
@@ -117,9 +117,12 @@ class ConsoleKernel
      * Receives positional and named arguments from WP-CLI and executes
      * the corresponding console command.
      *
-     * @param  array<int, string>   $args      positional arguments from WP-CLI
-     * @param  array<string, mixed> $assocArgs named arguments from WP-CLI (--flag=value)
-     * @return int                  the exit status code (0 for success, non-zero for failure)
+     * @param array<int, string>   $args      positional arguments from WP-CLI
+     * @param array<string, mixed> $assocArgs named arguments from WP-CLI (--flag=value)
+     *
+     * @throws Exception
+     *
+     * @return int the exit status code (0 for success, non-zero for failure)
      *
      * @since 1.0.0
      */
@@ -178,7 +181,7 @@ class ConsoleKernel
     {
         $finder = new ClassMapFinder(Command::class);
 
-        $paths = array_filter([__DIR__ . '/Commands'], 'is_dir');
+        $paths = array_filter([__DIR__ . '/Commands'], is_dir(...));
 
         try {
             $appPath = $this->app->path('Console');
@@ -204,7 +207,7 @@ class ConsoleKernel
 
         collect($map)
             ->keys()
-            ->each(fn ($commandClass) => $this->console->add(new $commandClass()))
+            ->each(fn ($commandClass): ?\Symfony\Component\Console\Command\Command => $this->console->add(new $commandClass()))
         ;
 
         return $this;

@@ -132,8 +132,6 @@ class Model extends Eloquent
 
     /**
      * The filtered content for this post.
-     *
-     * @var string|null
      */
     protected static ?string $filteredContent = null;
 
@@ -327,7 +325,7 @@ class Model extends Eloquent
      *
      * @var string|null e.g. 'news', 'dashicons-megaphone'
      */
-    public static $icon = null;
+    public static $icon;
 
     /**
      * Whether this model should be registered as a WordPress post type.
@@ -389,7 +387,7 @@ class Model extends Eloquent
         }
 
         $this->setRawAttributes(array_merge($this->attributes, [
-            'post_type' => $this->getPostType(),
+            'post_type' => static::getPostType(),
         ]), true);
 
         parent::__construct($attributes);
@@ -583,11 +581,8 @@ class Model extends Eloquent
     // -------------------------------------------------------------------------
     // Relationships
     // -------------------------------------------------------------------------
-
     /**
      * Get the post thumbnail meta relationship.
-     *
-     * @return HasOne
      *
      * @since 1.0.0
      */
@@ -602,8 +597,6 @@ class Model extends Eloquent
      * Get all taxonomies associated with this post.
      *
      * Many-to-many via the term_relationships pivot table.
-     *
-     * @return BelongsToMany
      *
      * @since 1.0.0
      */
@@ -620,8 +613,6 @@ class Model extends Eloquent
     /**
      * Get all comments for this post.
      *
-     * @return HasMany
-     *
      * @since 1.0.0
      */
     public function comments(): HasMany
@@ -631,8 +622,6 @@ class Model extends Eloquent
 
     /**
      * Get the post author.
-     *
-     * @return BelongsTo
      *
      * @since 1.0.0
      */
@@ -644,8 +633,6 @@ class Model extends Eloquent
     /**
      * Get the parent post (for hierarchical post types).
      *
-     * @return BelongsTo
-     *
      * @since 1.0.0
      */
     public function parent(): BelongsTo
@@ -656,8 +643,6 @@ class Model extends Eloquent
     /**
      * Get child posts (for hierarchical post types).
      *
-     * @return HasMany
-     *
      * @since 1.0.0
      */
     public function children(): HasMany
@@ -667,8 +652,6 @@ class Model extends Eloquent
 
     /**
      * Get media attachments for this post.
-     *
-     * @return HasMany
      *
      * @since 1.0.0
      */
@@ -681,8 +664,6 @@ class Model extends Eloquent
 
     /**
      * Get post revisions.
-     *
-     * @return HasMany
      *
      * @since 1.0.0
      */
@@ -711,9 +692,9 @@ class Model extends Eloquent
     {
         if (static::$filteredContent === null) {
             $post_content = $this->getAttribute('post_content');
-            static::$filteredContent = !is_null($post_content)
-                ? apply_filters('the_content', $post_content)
-                : '';
+            static::$filteredContent = is_null($post_content)
+                ? ''
+                : apply_filters('the_content', $post_content);
         }
 
         return static::$filteredContent;
@@ -781,7 +762,7 @@ class Model extends Eloquent
     {
         return $this->taxonomies
             ->groupBy(fn ($taxonomy) => $taxonomy->taxonomy === 'post_tag' ? 'tag' : $taxonomy->taxonomy)
-            ->map(fn ($group) => $group->mapWithKeys(fn ($item) => [$item->term->slug => $item->term->name]))
+            ->map(fn ($group) => $group->mapWithKeys(fn ($item): array => [$item->term->slug => $item->term->name]))
             ->toArray()
         ;
     }
@@ -967,8 +948,7 @@ class Model extends Eloquent
      * Checks Eloquent attributes, casts, loaded relations, ACF field cache,
      * and ACF field definitions.
      *
-     * @param  string $key the property name
-     * @return bool
+     * @param string $key the property name
      *
      * @since 1.0.0
      */

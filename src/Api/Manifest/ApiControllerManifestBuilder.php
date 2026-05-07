@@ -102,7 +102,7 @@ class ApiControllerManifestBuilder extends PathBasedManifestBuilder
         $entries = [];
 
         /** @var class-string<Controller> $controllerClass */
-        foreach ($map as $controllerClass => $file) {
+        foreach (array_keys($map) as $controllerClass) {
             $reflection = new ReflectionClass($controllerClass);
             $methods = [];
 
