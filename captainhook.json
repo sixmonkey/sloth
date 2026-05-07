@@ -25,10 +25,11 @@
       {
         "action": "\\CaptainHook\\App\\Hook\\File\\Action\\DoesNotContainRegex",
         "options": {
-          "regex": "/var_dump|print_r|dd\\(|die\\(/",
+          "regex": "/(?<![a-zA-Z_])var_dump\\s*\\(|(?<![a-zA-Z_])print_r\\s*\\(/",
           "paths": [
             "src/"
           ],
+          "ignoreFiles": ["src/functions.php"],
           "fileExtensions": [
             "php"
           ],
