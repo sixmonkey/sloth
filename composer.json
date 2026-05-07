@@ -79,7 +79,7 @@
   "scripts": {
     "test": "pest",
     "test:coverage": "pest --coverage --coverage-html build/coverage",
-    "analyse": "phpstan analyse --memory-limit=512M",
+    "analyse": "phpstan analyse --memory-limit=1G",
     "cs-fix": "php-cs-fixer fix",
     "cs-check": "php-cs-fixer fix --dry-run --diff",
     "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple"
