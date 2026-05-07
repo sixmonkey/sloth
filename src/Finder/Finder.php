@@ -19,7 +19,7 @@ abstract class Finder extends IlluminateFileViewFinder
      * @since 1.0.0
      * @var array<int|string, string>
      */
-    protected array $paths = [];
+    protected $paths = [];
 
     /**
      * List of found files.
@@ -27,7 +27,7 @@ abstract class Finder extends IlluminateFileViewFinder
      * @since 1.0.0
      * @var array<string, string>
      */
-    protected array $files = [];
+    protected $files = [];
 
     /**
      * Allowed file extensions.
@@ -35,17 +35,17 @@ abstract class Finder extends IlluminateFileViewFinder
      * @since 1.0.0
      * @var array<string>
      */
-    protected array $extensions = [];
+    protected $extensions = [];
 
     /**
      * Register a path.
      *
-     * @since 1.0.0
-     *
-     * @param int|string $key  The file URL if defined or numeric index
-     * @param string     $path The path to register
+     * @param int|string $key The file URL if defined or numeric index
+     * @param string $path The path to register
      *
      * @return $this
+     * @since 1.0.0
+     *
      */
     protected function addPath(int|string $key, string $path): static
     {
@@ -63,11 +63,11 @@ abstract class Finder extends IlluminateFileViewFinder
     /**
      * Register multiple file paths.
      *
-     * @since 1.0.0
-     *
      * @param array<int|string, string> $paths Array of paths to register
      *
      * @return $this
+     * @since 1.0.0
+     *
      */
     public function addPaths(array $paths): static
     {
@@ -81,9 +81,9 @@ abstract class Finder extends IlluminateFileViewFinder
     /**
      * Return a list of registered paths.
      *
+     * @return array<int|string, string>
      * @since 1.0.0
      *
-     * @return array<int|string, string>
      */
     #[\Override]
     public function getPaths(): array
@@ -94,9 +94,9 @@ abstract class Finder extends IlluminateFileViewFinder
     /**
      * Return a list of found files.
      *
+     * @return array<string, string>
      * @since 1.0.0
      *
-     * @return array<string, string>
      */
     public function getFiles(): array
     {
@@ -106,31 +106,34 @@ abstract class Finder extends IlluminateFileViewFinder
     /**
      * Find a file by name.
      *
-     * @since 1.0.0
-     *
      * @param string $name The file name or relative path
      *
      * @throws FinderException
+     * @since 1.0.0
+     *
      */
     #[\Override]
-    public function find(string $name): string
+    public function find(mixed $name): string
     {
+        $name = (string)$name;
         return $this->files[$name] ?? ($this->files[$name] = $this->findInPaths($name, $this->paths));
     }
 
     /**
      * Look after a file in registered paths.
      *
-     * @since 1.0.0
-     *
-     * @param string               $name  The file name or relative path
-     * @param array<int, string>   $paths Registered paths to search
+     * @param string $name The file name or relative path
+     * @param array<int, string> $paths Registered paths to search
      *
      * @throws FinderException
+     * @since 1.0.0
+     *
      */
     #[\Override]
-    protected function findInPaths(string $name, array $paths): string
+    protected function findInPaths(mixed $name, mixed $paths): string
     {
+        $name = (string)$name;
+        $paths = (array)$paths;
         foreach ($paths as $path) {
             foreach ($this->getPossibleFiles($name) as $file) {
                 $filePath = $path . $file;
@@ -146,11 +149,11 @@ abstract class Finder extends IlluminateFileViewFinder
     /**
      * Returns a list of possible file names.
      *
-     * @since 1.0.0
-     *
      * @param string $name The file name or relative path
      *
      * @return array<int, string>
+     * @since 1.0.0
+     *
      */
     protected function getPossibleFiles(string $name): array
     {
