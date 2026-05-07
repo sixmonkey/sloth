@@ -4,29 +4,70 @@ declare(strict_types=1);
 
 namespace Sloth\View\Extensions;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Core\Application;
-use Twig_SimpleTest;
-use Twig_SimpleFilter;
-use Twig_Extension;
+use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 
+/**
+ * Sloth Twig Extension.
+ *
+ * Registers Sloth-specific functions, filters and tests with the Twig
+ * template engine. Also exposes WordPress core functions to Twig templates
+ * via a `fn` global and dedicated TwigFunction wrappers.
+ *
+ * ## Usage in Twig templates
+ *
+ * ```twig
+ * {# Call any PHP or WordPress function via fn namespace #}
+ * {{ fn.get_the_title() }}
+ *
+ * {# Use registered functions directly #}
+ * {{ get_field('my_field') }}
+ * {{ meta('my_key', post.ID) }}
+ * {{ module('hero', { title: 'Hello' }) }}
+ *
+ * {# Use registered filters #}
+ * {{ phone_number | tel }}
+ * {{ slug_string | sanitize }}
+ * ```
+ *
+ * @since 1.0.0
+ */
 class SlothTwigExtension extends AbstractExtension
 {
-    public function __construct(protected \Sloth\Core\Application $container) {}
+    /**
+     * @param Application $container The Sloth application container.
+     * @since 1.0.0
+     */
+    public function __construct(protected Application $container)
+    {
+    }
 
     /**
-     * Define the extension name.
+     * Return the unique extension name.
+     *
+     * @since 1.0.0
      */
     public function getName(): string
     {
         return 'sloth';
     }
 
+    /**
+     * Register Twig tests.
+     *
+     * Available in templates:
+     * - `value is string` — checks if a value is a string
+     *
+     * @return list<\Twig\TwigTest>
+     * @since 1.0.0
+     */
     #[\Override]
-    public function getTests()
+    public function getTests(): array
     {
         return [
             new TwigTest('string', fn($value): bool => is_string($value)),
@@ -34,8 +75,13 @@ class SlothTwigExtension extends AbstractExtension
     }
 
     /**
-     * Register a global "fn" which can be used
-     * to call any WordPress or core PHP functions.
+     * Register global Twig variables.
+     *
+     * Exposes `fn` as a proxy object so any PHP or WordPress function can
+     * be called from Twig using `{{ fn.function_name(args) }}`.
+     *
+     * @return array<string, mixed>
+     * @since 1.0.0
      */
     public function getGlobals(): array
     {
@@ -45,27 +91,49 @@ class SlothTwigExtension extends AbstractExtension
     }
 
     /**
-     * Allow developers to call core php and WordPress functions
-     * using the `fn` namespace inside their templates.
-     * Linked to the global call only...
+     * Proxy any PHP or WordPress function call through the `fn` global.
      *
-     * @param string $name
+     * Called automatically by Twig when `fn.some_function()` is used
+     * in a template.
      *
+     * @param string $name The function name to call.
+     * @param array<mixed> $arguments Arguments to pass.
      * @return mixed
+     * @since 1.0.0
      */
-    public function __call($name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         return call_user_func_array($name, $arguments);
     }
 
-
     /**
-     * Register a list of filters available into Twig templates.
+     * Register Twig filters.
      *
-     * @return array|\TwigFunction[]
+     * Built-in filters:
+     * - `hyphenate` — deprecated, returns input unchanged
+     * - `debug`     — dumps the value using Sloth's debug() helper
+     * - `print_r`   — alias for debug
+     * - `tel`       — wraps a phone number in a tel: URI
+     * - `sanitize`  — runs sanitize_title() on a string
+     *
+     * Additional filters can be registered via `theme.twig.filters` config:
+     *
+     * ```php
+     * // app/config/theme.php
+     * return [
+     *     'twig' => [
+     *         'filters' => [
+     *             new TwigFilter('my_filter', fn($value) => transform($value)),
+     *         ],
+     *     ],
+     * ];
+     * ```
+     *
+     * @return list<TwigFilter>
+     * @since 1.0.0
      */
     #[\Override]
-    public function getFilters()
+    public function getFilters(): array
     {
         $filters = [
             new TwigFilter('hyphenate', function (string $input): string {
@@ -73,33 +141,54 @@ class SlothTwigExtension extends AbstractExtension
 
                 return $input;
             }),
+
+            // Dump a variable using Sloth's debug() helper
             new TwigFilter('debug', fn($input): mixed => debug($input)),
+
+            // Alias for debug
             new TwigFilter('print_r', fn($input): mixed => debug($input)),
-            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string) $phone)),
-            new TwigFilter(
-                'sanitize',
-                fn($string) => sanitize_title($string)
-            ),
+
+            // Convert a phone number to a tel: URI — strips all non-numeric characters except +
+            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string)$phone)),
+
+            // Sanitize a string for use as a WordPress slug
+            new TwigFilter('sanitize', fn($string) => sanitize_title($string)),
         ];
 
-
+        // Merge in any additional filters registered via theme config
         if (config('theme.twig.filters')) {
-            $theme_filters = config('theme.twig.filters');
-            $filters = array_merge($filters, $theme_filters);
+            $filters = array_merge($filters, config('theme.twig.filters'));
         }
 
         return $filters;
     }
 
     /**
-     * Register a list of functions available into Twig templates.
+     * Register Twig functions.
      *
-     * @return array|\TwigFunction[]
+     * Built-in functions mirror their WordPress equivalents unless noted.
+     * Additional functions can be registered via `theme.twig.functions` config:
+     *
+     * ```php
+     * // app/config/theme.php
+     * return [
+     *     'twig' => [
+     *         'functions' => [
+     *             new TwigFunction('my_function', fn() => my_function()),
+     *         ],
+     *     ],
+     * ];
+     * ```
+     *
+     * @return list<TwigFunction>
+     * @throws BindingResolutionException
+     * @since 1.0.0
      */
     #[\Override]
     public function getFunctions(): array
     {
         $functions = [
+            // Render a Sloth module and return its output as a string
             new TwigFunction(
                 'module',
                 function ($name, $values = [], $options = []): string|false {
@@ -109,29 +198,52 @@ class SlothTwigExtension extends AbstractExtension
                     return ob_get_clean();
                 }
             ),
-            /*
-             * WordPress theme functions.
-             */
+
+            // -------------------------------------------------------------------------
+            // WordPress theme functions
+            // -------------------------------------------------------------------------
+
+            // Fires the wp_head action — outputs meta tags, scripts, styles etc.
             new TwigFunction('wp_head', 'wp_head'),
+
+            // Fires the wp_footer action — outputs scripts registered for the footer
             new TwigFunction('wp_footer', 'wp_footer'),
+
+            // Outputs the body class attribute value for the current page
             new TwigFunction('body_class', fn($class = '') => body_class($class)),
+
+            // Outputs post class attribute value for the current or given post
             new TwigFunction('post_class', fn($class = '', $id = null) => post_class($class, $id)),
-            /*
-             * WordPress formatting functions.
-             */
+
+            // -------------------------------------------------------------------------
+            // WordPress formatting functions
+            // -------------------------------------------------------------------------
+
+            // Adds paragraph tags and line breaks to text
             new TwigFunction('wpautop', fn($text, $br = true) => wpautop($text, $br)),
+
+            // Trims text to a specified number of words
             new TwigFunction(
                 'wp_trim_words',
                 fn($text, $num_words = 55, $more = null) => wp_trim_words($text, $num_words, $more)
             ),
+
+            // -------------------------------------------------------------------------
+            // ACF
+            // -------------------------------------------------------------------------
+
+            // Returns the value of an ACF field for the current or given post
             new TwigFunction('get_field', fn($field_name, $post = null) => get_field($field_name, $post)),
-            /*
-             * Use this to call any core, WordPress or user defined functions.
-             */
+
+            // -------------------------------------------------------------------------
+            // Dynamic function call
+            // -------------------------------------------------------------------------
+
+            // Allows calling any PHP or WordPress function from Twig:
+            // {{ function('my_function', arg1, arg2) }}
             new TwigFunction('function', function ($functionName) {
                 $args = func_get_args();
-                // By default, the function name should always be the first argument.
-                // This remove it from the arguments list.
+                // Remove the function name from the arguments — it's the first element
                 array_shift($args);
 
                 if (is_string($functionName)) {
@@ -140,16 +252,27 @@ class SlothTwigExtension extends AbstractExtension
 
                 return call_user_func_array($functionName, $args);
             }),
-            /*
-             * Retrieve any meta data from post, comment, user, ...
-             */
+
+            // -------------------------------------------------------------------------
+            // Meta data
+            // -------------------------------------------------------------------------
+
+            // Retrieve meta data from any WordPress object (post, comment, user, term)
+            // Usage: {{ meta('my_key') }} or {{ meta('my_key', post.ID, 'post', true) }}
             new TwigFunction(
                 'meta',
-                fn($key, $id = null, $context = 'post', $single = true) => meta($key, $id, $context, $single)
+                fn($key, $id = null, $context = 'post', $single = true) => get_metadata(
+                    $context,
+                    $id ?? get_the_ID(),
+                    $key,
+                    $single,
+                )
             ),
-            /*
-             * Gettext functions.
-             */
+
+            // -------------------------------------------------------------------------
+            // Gettext / i18n functions
+            // -------------------------------------------------------------------------
+
             new TwigFunction('translate', fn($text, $domain = 'default') => translate($text, $domain)),
             new TwigFunction('__', fn($text, $domain = 'default') => __($text, $domain)),
             new TwigFunction('_e', fn($text, $domain = 'default') => _e($text, $domain)),
@@ -166,7 +289,7 @@ class SlothTwigExtension extends AbstractExtension
                     $plural,
                     $number,
                     $context,
-                    $domain
+                    $domain,
                 )
             ),
             new TwigFunction(
@@ -179,7 +302,7 @@ class SlothTwigExtension extends AbstractExtension
                     $singular,
                     $plural,
                     $context,
-                    $domain
+                    $domain,
                 )
             ),
             new TwigFunction(
@@ -187,21 +310,42 @@ class SlothTwigExtension extends AbstractExtension
                 fn($nooped_plural, $count, $domain = 'default') => translate_nooped_plural(
                     $nooped_plural,
                     $count,
-                    $domain
+                    $domain,
                 )
             ),
-            new TwigFunction('pll_e', 'pll_e'),
-            new TwigFunction('pll__', 'pll__'),
         ];
 
+        // -------------------------------------------------------------------------
+        // Polylang i18n (optional plugin)
+        // -------------------------------------------------------------------------
 
+        // Only register Polylang functions when the plugin is active
+
+        if (function_exists('pll_e')) {
+            $functions[] = new TwigFunction('pll_e', 'pll_e');
+        }
+
+        if (function_exists('pll__')) {
+            $functions[] = new TwigFunction('pll__', 'pll__');
+        }
+        // Merge in any additional functions registered via theme config
         if (config('theme.twig.functions')) {
-            $theme_functions = config('theme.twig.functions');
-            $functions = array_merge($functions, $theme_functions);
+            $functions = array_merge($functions, config('theme.twig.functions'));
         }
 
         return $functions;
     }
 
-    public function initRuntime(\Twig_Environment $environment) {}
+    /**
+     * Initialize the Twig runtime environment.
+     *
+     * Called by Twig when the extension is loaded. Currently a no-op —
+     * kept for compatibility in case subclasses need it.
+     *
+     * @param Environment $environment The Twig environment instance.
+     * @since 1.0.0
+     */
+    public function initRuntime(Environment $environment): void
+    {
+    }
 }
