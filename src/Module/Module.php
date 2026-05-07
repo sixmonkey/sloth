@@ -127,7 +127,6 @@ class Module
      * Override this method in subclasses to perform setup
      * logic before the template is rendered.
      *
-     * @return void
      * @since 1.0.0
      */
     protected function beforeRender()
@@ -142,7 +141,6 @@ class Module
      *
      * @param mixed $payload The payload to process (usually array or object)
      *
-     * @return void
      * @since 1.0.0
      */
     protected function beforeGetJSON(mixed $payload)
