@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -407,14 +403,14 @@ names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_getFilters">getFilters()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, array&lt;string|int, callable&gt;|callable&gt;    </span>
 </dt>
 <dd>Register WordPress filter hooks for model management.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-ModelServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array&lt;string|int, callable&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, array&lt;string|int, callable&gt;|callable&gt;    </span>
 </dt>
 <dd>Register WordPress action hooks for model and taxonomy management.</dd>
 
@@ -481,7 +477,7 @@ names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">241</span>
+    <span class="phpdocumentor-element-found-in__line">245</span>
 
     </aside>
 
@@ -502,7 +498,7 @@ names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name that was called.</p>
+                    <section class="phpdocumentor-description"><p>the method name that was called</p>
 </section>
 
             </dd>
@@ -511,7 +507,7 @@ names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The parameters passed to the method.</p>
+                    <section class="phpdocumentor-description"><p>the parameters passed to the method</p>
 </section>
 
             </dd>
@@ -530,7 +526,7 @@ names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
                                                             
-                                                 <section class="phpdocumentor-description"><p>If the method is not defined.</p>
+                                                 <section class="phpdocumentor-description"><p>if the method is not defined</p>
 </section>
 
                                     </dd>
@@ -562,7 +558,7 @@ names. Read by TaxonomyRegistrar::addMetaBoxes().</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">229</span>
+    <span class="phpdocumentor-element-found-in__line">231</span>
 
     </aside>
 
@@ -617,7 +613,7 @@ up integrations that require other providers to be registered.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">215</span>
+    <span class="phpdocumentor-element-found-in__line">218</span>
 
     </aside>
 
@@ -625,7 +621,7 @@ up integrations that require other providers to be registered.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, callable&gt;|callable&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -655,12 +651,23 @@ up integrations that require other providers to be registered.</p>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-ModelServiceProvider.html#method_getFilters#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, callable&gt;|callable&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Filter mappings.</p>
+                <section class="phpdocumentor-description"><p>filter mappings</p>
 </section>
 
             </section>
@@ -680,7 +687,7 @@ up integrations that require other providers to be registered.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">139</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 
     </aside>
 
@@ -688,7 +695,7 @@ up integrations that require other providers to be registered.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, callable&gt;|callable&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -720,12 +727,23 @@ up integrations that require other providers to be registered.</p>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Model-ModelServiceProvider.html#method_getHooks#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array&lt;string|int, callable&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, callable&gt;|callable&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Hook mappings.</p>
+                <section class="phpdocumentor-description"><p>hook mappings</p>
 </section>
 
             </section>
@@ -810,7 +828,7 @@ they share the same entry data.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">120</span>
 
     </aside>
 
@@ -835,7 +853,7 @@ the model class and removes matching columns from the list table.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The current list table columns.</p>
+                    <section class="phpdocumentor-description"><p>the current list table columns</p>
 </section>
 
             </dd>
@@ -880,7 +898,7 @@ the model class and removes matching columns from the list table.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Filtered columns with hidden ones removed.</p>
+                <section class="phpdocumentor-description"><p>filtered columns with hidden ones removed</p>
 </section>
 
             </section>
@@ -900,7 +918,7 @@ the model class and removes matching columns from the list table.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">190</span>
+    <span class="phpdocumentor-element-found-in__line">194</span>
 
     </aside>
 
@@ -957,7 +975,7 @@ the model class and removes matching columns from the list table.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">164</span>
+    <span class="phpdocumentor-element-found-in__line">170</span>
 
     </aside>
 
@@ -1014,7 +1032,7 @@ the model class and removes matching columns from the list table.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/ModelServiceProvider.php"><a href="files/src-model-modelserviceprovider.html"><abbr title="src/Model/ModelServiceProvider.php">ModelServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">94</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -1041,7 +1059,7 @@ making it work for both the manifest fast path and the normal discovery path.</p
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The WordPress post type slug that was registered.</p>
+                    <section class="phpdocumentor-description"><p>the WordPress post type slug that was registered</p>
 </section>
 
             </dd>

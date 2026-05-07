@@ -48,7 +48,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\ACF\\AcfServiceProvider\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
-            "summary": "Get\u0020the\u0020filters\u0020for\u0020ACF",
+            "summary": "Get\u0020the\u0020filters\u0020for\u0020ACF.",
             "url": "classes/Sloth-ACF-AcfServiceProvider.html#method_getFilters"
         },                {
             "fqsen": "\\Sloth\\Admin\\AdminServiceProvider",
@@ -473,7 +473,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Compatibility\\LegacyGlobalsServiceProvider",
             "name": "LegacyGlobalsServiceProvider",
-            "summary": "Legacy\u0020Globals\u0020Service\u0020Provider",
+            "summary": "Legacy\u0020Globals\u0020Service\u0020Provider.",
             "url": "classes/Sloth-Compatibility-LegacyGlobalsServiceProvider.html"
         },                {
             "fqsen": "\\Sloth\\Compatibility\\LegacyGlobalsServiceProvider\u003A\u003Aregister\u0028\u0029",
@@ -736,64 +736,9 @@ Search.appendIndex(
             "summary": "Register\u0020the\u0020Context\u0020singleton.",
             "url": "classes/Sloth-Context-ContextServiceProvider.html#method_register"
         },                {
-            "fqsen": "\\Sloth\\Controller\\Controller",
-            "name": "Controller",
-            "summary": "Base\u0020controller\u0020class\u0020for\u0020handling\u0020requests.",
-            "url": "classes/Sloth-Controller-Controller.html"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Controller\u0020constructor.",
-            "url": "classes/Sloth-Controller-Controller.html#method___construct"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003AbeforeRender\u0028\u0029",
-            "name": "beforeRender",
-            "summary": "Called\u0020before\u0020rendering\u0020the\u0020view.",
-            "url": "classes/Sloth-Controller-Controller.html#method_beforeRender"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003AafterRender\u0028\u0029",
-            "name": "afterRender",
-            "summary": "Called\u0020after\u0020rendering\u0020the\u0020view.",
-            "url": "classes/Sloth-Controller-Controller.html#method_afterRender"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003AinvokeAction\u0028\u0029",
-            "name": "invokeAction",
-            "summary": "Invoke\u0020the\u0020controller\u0020action.",
-            "url": "classes/Sloth-Controller-Controller.html#method_invokeAction"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003Aindex\u0028\u0029",
-            "name": "index",
-            "summary": "Default\u0020index\u0020action.",
-            "url": "classes/Sloth-Controller-Controller.html#method_index"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003A\u0024viewVars",
-            "name": "viewVars",
-            "summary": "View\u0020variables\u0020to\u0020be\u0020passed\u0020to\u0020the\u0020view.",
-            "url": "classes/Sloth-Controller-Controller.html#property_viewVars"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003A\u0024template",
-            "name": "template",
-            "summary": "The\u0020current\u0020template\u0020name.",
-            "url": "classes/Sloth-Controller-Controller.html#property_template"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003A\u0024layout",
-            "name": "layout",
-            "summary": "The\u0020layout\u0020to\u0020use\u0020for\u0020rendering.",
-            "url": "classes/Sloth-Controller-Controller.html#property_layout"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003A\u0024request",
-            "name": "request",
-            "summary": "The\u0020current\u0020request\u0020object.",
-            "url": "classes/Sloth-Controller-Controller.html#property_request"
-        },                {
-            "fqsen": "\\Sloth\\Controller\\Controller\u003A\u003A\u0024response",
-            "name": "response",
-            "summary": "The\u0020response\u0020object.",
-            "url": "classes/Sloth-Controller-Controller.html#property_response"
-        },                {
             "fqsen": "\\Sloth\\Core\\Application",
             "name": "Application",
-            "summary": "Application\u0020Container",
+            "summary": "Application\u0020Container.",
             "url": "classes/Sloth-Core-Application.html"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aconfigure\u0028\u0029",
@@ -873,7 +818,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AconfigPath\u0028\u0029",
             "name": "configPath",
-            "summary": "Get\u0020the\u0020config\u0020path",
+            "summary": "Get\u0020the\u0020config\u0020path.",
             "url": "classes/Sloth-Core-Application.html#method_configPath"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisLocal\u0028\u0029",
@@ -908,22 +853,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetModelClass\u0028\u0029",
             "name": "getModelClass",
-            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020model\u0020by\u0020its\u0020post_type",
+            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020model\u0020by\u0020its\u0020post_type.",
             "url": "classes/Sloth-Core-Application.html#method_getModelClass"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetAllModels\u0028\u0029",
             "name": "getAllModels",
-            "summary": "Get\u0020all\u0020registered\u0020models",
+            "summary": "Get\u0020all\u0020registered\u0020models.",
             "url": "classes/Sloth-Core-Application.html#method_getAllModels"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetTaxonomyClass\u0028\u0029",
             "name": "getTaxonomyClass",
-            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020taxonomy\u0020by\u0020its\u0020taxonomy\u0020type",
+            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020taxonomy\u0020by\u0020its\u0020taxonomy\u0020type.",
             "url": "classes/Sloth-Core-Application.html#method_getTaxonomyClass"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetAllTaxonomies\u0028\u0029",
             "name": "getAllTaxonomies",
-            "summary": "Get\u0020all\u0020registered\u0020taxonomies",
+            "summary": "Get\u0020all\u0020registered\u0020taxonomies.",
             "url": "classes/Sloth-Core-Application.html#method_getAllTaxonomies"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aversion",
@@ -1093,27 +1038,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Constructor\u0020for\u0020a\u0020CollectorProvider",
+            "summary": "Constructor\u0020for\u0020a\u0020CollectorProvider.",
             "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method___construct"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003AaddCollector\u0028\u0029",
             "name": "addCollector",
-            "summary": "Adds\u0020a\u0020collector\u0020to\u0020the\u0020debug\u0020bar",
+            "summary": "Adds\u0020a\u0020collector\u0020to\u0020the\u0020debug\u0020bar.",
             "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_addCollector"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003AhasCollector\u0028\u0029",
             "name": "hasCollector",
-            "summary": "Check\u0020if\u0020a\u0020collector\u0020exists\u0020already\u0020in\u0020the\u0020bar",
+            "summary": "Check\u0020if\u0020a\u0020collector\u0020exists\u0020already\u0020in\u0020the\u0020bar.",
             "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_hasCollector"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003AgetCollector\u0028\u0029",
             "name": "getCollector",
-            "summary": "Getter\u0020for\u0020a\u0020certain\u0020collector",
+            "summary": "Getter\u0020for\u0020a\u0020certain\u0020collector.",
             "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_getCollector"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-AbstractCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AbstractCollectorProvider\u003A\u003A\u0024debugBar",
@@ -1128,7 +1073,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\AcfCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-AcfCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MemoryCollectorProvider",
@@ -1138,7 +1083,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MemoryCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-MemoryCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\MessageCollectorProvider",
@@ -1173,7 +1118,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\PhpInfoCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-PhpInfoCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\QueryCollectorProvider",
@@ -1183,7 +1128,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\QueryCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-QueryCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\SlothCollectorProvider",
@@ -1193,7 +1138,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\SlothCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-SlothCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\WordpressCollectorProvider",
@@ -1203,7 +1148,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\CollectorProviders\\WordpressCollectorProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question",
+            "summary": "Method\u0020used\u0020to\u0020boot\u0020the\u0020DataCollector\u0020in\u0020question.",
             "url": "classes/Sloth-Debug-CollectorProviders-WordpressCollectorProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Debug\\Collectors\\AcfCollector",
@@ -1270,11 +1215,6 @@ Search.appendIndex(
             "name": "getAssets",
             "summary": "Register\u0020custom\u0020JS\u0020widget\u0020that\u0020adds\u0020a\u0020Source\u0020column.",
             "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#method_getAssets"
-        },                {
-            "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003ASLOW_THRESHOLD_MS",
-            "name": "SLOW_THRESHOLD_MS",
-            "summary": "Threshold\u0020in\u0020milliseconds\u0020for\u0020marking\u0020queries\u0020as\u0020slow.",
-            "url": "classes/Sloth-Debug-Collectors-QueryCollector.html#constant_SLOW_THRESHOLD_MS"
         },                {
             "fqsen": "\\Sloth\\Debug\\Collectors\\QueryCollector\u003A\u003A\u0024cachedQueries",
             "name": "cachedQueries",
@@ -1483,7 +1423,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024baseUrl",
             "name": "baseUrl",
-            "summary": "The\u0020baseURL\u0020to\u0020use\u0020for\u0020assets\u0020used\u0020by\u0020debug\u0020bar",
+            "summary": "The\u0020baseURL\u0020to\u0020use\u0020for\u0020assets\u0020used\u0020by\u0020debug\u0020bar.",
             "url": "classes/Sloth-Debug-SlothDebugBar.html#property_baseUrl"
         },                {
             "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024app",
@@ -1718,7 +1658,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Facades\\Facade",
             "name": "Facade",
-            "summary": "Facade\u0020Base\u0020Class",
+            "summary": "Facade\u0020Base\u0020Class.",
             "url": "classes/Sloth-Facades-Facade.html"
         },                {
             "fqsen": "\\Sloth\\Facades\\Facade\u003A\u003AsetFacadeApplication\u0028\u0029",
@@ -1925,6 +1865,16 @@ Search.appendIndex(
             "name": "post",
             "summary": "Post\u0020object.",
             "url": "classes/Sloth-Field-Image.html#property_post"
+        },                {
+            "fqsen": "\\Sloth\\Field\\Image\u003A\u003A\u0024height",
+            "name": "height",
+            "summary": "The\u0020height\u0020of\u0020this\u0020image.",
+            "url": "classes/Sloth-Field-Image.html#property_height"
+        },                {
+            "fqsen": "\\Sloth\\Field\\Image\u003A\u003A\u0024width",
+            "name": "width",
+            "summary": "The\u0020width\u0020of\u0020this\u0020image.",
+            "url": "classes/Sloth-Field-Image.html#property_width"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A\u0024postID",
             "name": "postID",
@@ -2386,11 +2336,6 @@ Search.appendIndex(
             "summary": "Layotter\u0020page\u0020builder\u0020integration.",
             "url": "classes/Sloth-LayotterBridge-Layotter.html"
         },                {
-            "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Constructor\u0020for\u0020Layotter.",
-            "url": "classes/Sloth-LayotterBridge-Layotter.html#method___construct"
-        },                {
             "fqsen": "\\Sloth\\LayotterBridge\\Layotter\u003A\u003AcustomColumnClasses\u0028\u0029",
             "name": "customColumnClasses",
             "summary": "Get\u0020custom\u0020column\u0020classes\u0020for\u0020Layotter.",
@@ -2553,7 +2498,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003AgetModuleInstance\u0028\u0029",
             "name": "getModuleInstance",
-            "summary": "Get\u0020the\u0020instance\u0020of\u0020a\u0020related\u0020module",
+            "summary": "Get\u0020the\u0020instance\u0020of\u0020a\u0020related\u0020module.",
             "url": "classes/Sloth-LayotterBridge-LayotterElement.html#method_getModuleInstance"
         },                {
             "fqsen": "\\Sloth\\LayotterBridge\\LayotterElement\u003A\u003A\u0024module",
@@ -2595,11 +2540,6 @@ Search.appendIndex(
             "name": "Media",
             "summary": "Media\u0020handling\u0020utilities\u0020for\u0020WordPress.",
             "url": "classes/Sloth-Media-Media.html"
-        },                {
-            "fqsen": "\\Sloth\\Media\\Media\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Constructor.",
-            "url": "classes/Sloth-Media-Media.html#method___construct"
         },                {
             "fqsen": "\\Sloth\\Media\\Media\u003A\u003AaddSvgMime\u0028\u0029",
             "name": "addSvgMime",
@@ -2663,7 +2603,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Media\\Version",
             "name": "Version",
-            "summary": "Image\u0020Version\u0020Generator",
+            "summary": "Image\u0020Version\u0020Generator.",
             "url": "classes/Sloth-Media-Version.html"
         },                {
             "fqsen": "\\Sloth\\Media\\Version\u003A\u003A__construct\u0028\u0029",
@@ -2838,7 +2778,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Menu",
             "name": "Menu",
-            "summary": "Menu\u0020Model",
+            "summary": "Menu\u0020Model.",
             "url": "classes/Sloth-Model-Menu.html"
         },                {
             "fqsen": "\\Sloth\\Model\\Menu\u003A\u003Alocation\u0028\u0029",
@@ -2858,7 +2798,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\MenuItem",
             "name": "MenuItem",
-            "summary": "Menu\u0020Item\u0020Model",
+            "summary": "Menu\u0020Item\u0020Model.",
             "url": "classes/Sloth-Model-MenuItem.html"
         },                {
             "fqsen": "\\Sloth\\Model\\MenuItem\u003A\u003A__construct\u0028\u0029",
@@ -3288,7 +3228,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\Post",
             "name": "Post",
-            "summary": "Post\u0020Model",
+            "summary": "Post\u0020Model.",
             "url": "classes/Sloth-Model-Post.html"
         },                {
             "fqsen": "\\Sloth\\Model\\Post\u003A\u003AgetContentAttribute\u0028\u0029",
@@ -3383,7 +3323,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Model\\SlothMediaVersion",
             "name": "SlothMediaVersion",
-            "summary": "Media\u0020Version\u0020Model",
+            "summary": "Media\u0020Version\u0020Model.",
             "url": "classes/Sloth-Model-SlothMediaVersion.html"
         },                {
             "fqsen": "\\Sloth\\Model\\SlothMediaVersion\u003A\u003AgetOptionsAttribute\u0028\u0029",
@@ -4091,11 +4031,6 @@ Search.appendIndex(
             "summary": "Assign\u0020a\u0020name\u0020to\u0020this\u0020route.",
             "url": "classes/Sloth-Routing-Route.html#method_name"
         },                {
-            "fqsen": "\\Sloth\\Routing\\Route\u003A\u003A\u0024callback",
-            "name": "callback",
-            "summary": "",
-            "url": "classes/Sloth-Routing-Route.html#property_callback"
-        },                {
             "fqsen": "\\Sloth\\Routing\\Route\u003A\u003A\u0024router",
             "name": "router",
             "summary": "",
@@ -4593,7 +4528,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension",
             "name": "SlothTwigExtension",
-            "summary": "",
+            "summary": "Sloth\u0020Twig\u0020Extension.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003A__construct\u0028\u0029",
@@ -4603,37 +4538,37 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
-            "summary": "Define\u0020the\u0020extension\u0020name.",
+            "summary": "Return\u0020the\u0020unique\u0020extension\u0020name.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getName"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003AgetTests\u0028\u0029",
             "name": "getTests",
-            "summary": "",
+            "summary": "Register\u0020Twig\u0020tests.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getTests"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003AgetGlobals\u0028\u0029",
             "name": "getGlobals",
-            "summary": "Register\u0020a\u0020global\u0020\u0022fn\u0022\u0020which\u0020can\u0020be\u0020used\nto\u0020call\u0020any\u0020WordPress\u0020or\u0020core\u0020PHP\u0020functions.",
+            "summary": "Register\u0020global\u0020Twig\u0020variables.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getGlobals"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "Allow\u0020developers\u0020to\u0020call\u0020core\u0020php\u0020and\u0020WordPress\u0020functions\nusing\u0020the\u0020\u0060fn\u0060\u0020namespace\u0020inside\u0020their\u0020templates.",
+            "summary": "Proxy\u0020any\u0020PHP\u0020or\u0020WordPress\u0020function\u0020call\u0020through\u0020the\u0020\u0060fn\u0060\u0020global.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method___call"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
-            "summary": "Register\u0020a\u0020list\u0020of\u0020filters\u0020available\u0020into\u0020Twig\u0020templates.",
+            "summary": "Register\u0020Twig\u0020filters.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getFilters"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003AgetFunctions\u0028\u0029",
             "name": "getFunctions",
-            "summary": "Register\u0020a\u0020list\u0020of\u0020functions\u0020available\u0020into\u0020Twig\u0020templates.",
+            "summary": "Register\u0020Twig\u0020functions.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getFunctions"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003AinitRuntime\u0028\u0029",
             "name": "initRuntime",
-            "summary": "",
+            "summary": "Initialize\u0020the\u0020Twig\u0020runtime\u0020environment.",
             "url": "classes/Sloth-View-Extensions-SlothTwigExtension.html#method_initRuntime"
         },                {
             "fqsen": "\\Sloth\\View\\Extensions\\SlothTwigExtension\u003A\u003A\u0024container",
@@ -4760,11 +4695,6 @@ Search.appendIndex(
             "name": "Context",
             "summary": "",
             "url": "namespaces/sloth-context.html"
-        },                {
-            "fqsen": "\\Sloth\\Controller",
-            "name": "Controller",
-            "summary": "",
-            "url": "namespaces/sloth-controller.html"
         },                {
             "fqsen": "\\Sloth\\Core",
             "name": "Core",

@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -261,7 +257,7 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">Menu Model</p>
+            <p class="phpdocumentor-summary">Menu Model.</p>
 
 
     <section class="phpdocumentor-description"><p>Extends Corcel's Menu model to provide additional functionality
@@ -337,7 +333,7 @@ foreach ($menu-&gt;items as $item) {
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Menu.html#method_getLocationAttribute">getLocationAttribute()</a>
     <span>
-                                &nbsp;: int|string|false    </span>
+                                &nbsp;: false|int|string    </span>
 </dt>
 <dd>Gets the location name for this menu.</dd>
 
@@ -351,7 +347,7 @@ foreach ($menu-&gt;items as $item) {
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Menu.html#method_location">location()</a>
     <span>
-                                &nbsp;: <a href="classes/Sloth-Model-Menu.html"><abbr title="\Sloth\Model\Menu">Menu</abbr></a>|<abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>    </span>
+                                &nbsp;: <abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>|<a href="classes/Sloth-Model-Menu.html"><abbr title="\Sloth\Model\Menu">Menu</abbr></a>    </span>
 </dt>
 <dd>Gets a menu by its WordPress location.</dd>
 
@@ -391,7 +387,7 @@ foreach ($menu-&gt;items as $item) {
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getLocationAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|string|false</span></code>
+                    <span class="phpdocumentor-signature__name">getLocationAttribute</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">false|int|string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -419,7 +415,7 @@ foreach ($menu-&gt;items as $item) {
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int|string|false</span>
+        <span class="phpdocumentor-signature__response_type">false|int|string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The location name or false if not found</p>
 </section>
@@ -510,7 +506,7 @@ foreach ($menu-&gt;items as $item) {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Menu.php"><a href="files/src-model-menu.html"><abbr title="src/Model/Menu.php">Menu.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -518,7 +514,7 @@ foreach ($menu-&gt;items as $item) {
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">location</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$location_name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Menu.html"><abbr title="\Sloth\Model\Menu">Menu</abbr></a>|<abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">location</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$location_name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>|<a href="classes/Sloth-Model-Menu.html"><abbr title="\Sloth\Model\Menu">Menu</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -568,7 +564,7 @@ foreach ($menu-&gt;items as $item) {
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Menu.html"><abbr title="\Sloth\Model\Menu">Menu</abbr></a>|<abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>|<a href="classes/Sloth-Model-Menu.html"><abbr title="\Sloth\Model\Menu">Menu</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The menu query builder</p>
 </section>

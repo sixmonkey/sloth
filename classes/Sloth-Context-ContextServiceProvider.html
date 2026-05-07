@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -342,14 +338,14 @@ variables like current layout.</p>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, array&lt;string|int, array{callback: callable, priority: int}|callable&gt;|array{callback: callable, priority: int}|callable&gt;    </span>
 </dt>
 <dd>Returns WordPress filters this provider wants to register.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a>
     <span>
-                                &nbsp;: array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;    </span>
+                                &nbsp;: array&lt;string, array&lt;string|int, array{callback: callable, priority: int}|callable&gt;|array{callback: callable, priority: int}|callable&gt;    </span>
 </dt>
 <dd>Returns WordPress actions this provider wants to register.</dd>
 
@@ -388,7 +384,7 @@ variables like current layout.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">241</span>
+    <span class="phpdocumentor-element-found-in__line">245</span>
 
     </aside>
 
@@ -409,7 +405,7 @@ variables like current layout.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name that was called.</p>
+                    <section class="phpdocumentor-description"><p>the method name that was called</p>
 </section>
 
             </dd>
@@ -418,7 +414,7 @@ variables like current layout.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The parameters passed to the method.</p>
+                    <section class="phpdocumentor-description"><p>the parameters passed to the method</p>
 </section>
 
             </dd>
@@ -437,7 +433,7 @@ variables like current layout.</p>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
                                                             
-                                                 <section class="phpdocumentor-description"><p>If the method is not defined.</p>
+                                                 <section class="phpdocumentor-description"><p>if the method is not defined</p>
 </section>
 
                                     </dd>
@@ -469,7 +465,7 @@ variables like current layout.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">229</span>
+    <span class="phpdocumentor-element-found-in__line">231</span>
 
     </aside>
 
@@ -524,7 +520,7 @@ up integrations that require other providers to be registered.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">213</span>
+    <span class="phpdocumentor-element-found-in__line">215</span>
 
     </aside>
 
@@ -532,7 +528,7 @@ up integrations that require other providers to be registered.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, array{callback: callable, priority: int}|callable&gt;|array{callback: callable, priority: int}|callable&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -596,7 +592,7 @@ consider using the EventBridge in boot() for bidirectional filter support:</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, array{callback: callable, priority: int}|callable&gt;|array{callback: callable, priority: int}|callable&gt;</span>
             </section>
 
 </article>
@@ -614,7 +610,7 @@ consider using the EventBridge in boot() for bidirectional filter support:</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 
     </aside>
 
@@ -622,7 +618,7 @@ consider using the EventBridge in boot() for bidirectional filter support:</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getHooks</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, array{callback: callable, priority: int}|callable&gt;|array{callback: callable, priority: int}|callable&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -679,7 +675,7 @@ consider using the EventBridge in boot():</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, callable|array{callback: callable, priority: int}|array&lt;string|int, callable|array{callback: callable, priority: int}&gt;&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, array{callback: callable, priority: int}|callable&gt;|array{callback: callable, priority: int}|callable&gt;</span>
             </section>
 
 </article>
@@ -730,6 +726,17 @@ consider using the EventBridge in boot():</p>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Context-ContextServiceProvider.html#method_register#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
     
 </article>

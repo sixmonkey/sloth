@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -261,7 +257,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -356,7 +352,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Cache-Store-WordPressTransientStore.html#method_decrement">decrement()</a>
     <span>
-                                &nbsp;: int|bool    </span>
+                                &nbsp;: bool|int    </span>
 </dt>
 <dd>Decrement the value of an item in the cache.</dd>
 
@@ -398,7 +394,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Cache-Store-WordPressTransientStore.html#method_increment">increment()</a>
     <span>
-                                &nbsp;: int|bool    </span>
+                                &nbsp;: bool|int    </span>
 </dt>
 <dd>Increment the value of an item in the cache.</dd>
 
@@ -453,7 +449,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 
     </aside>
 
@@ -511,7 +507,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">140</span>
+    <span class="phpdocumentor-element-found-in__line">142</span>
 
     </aside>
 
@@ -519,7 +515,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">decrement</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|bool</span></code>
+                    <span class="phpdocumentor-signature__name">decrement</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -532,7 +528,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache key.</p>
+                    <section class="phpdocumentor-description"><p>the cache key</p>
 </section>
 
             </dd>
@@ -541,7 +537,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">1</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The amount to decrement by.</p>
+                    <section class="phpdocumentor-description"><p>the amount to decrement by</p>
 </section>
 
             </dd>
@@ -568,9 +564,9 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int|bool</span>
+        <span class="phpdocumentor-signature__response_type">bool|int</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The new value or false on failure.</p>
+                <section class="phpdocumentor-description"><p>the new value or false on failure</p>
 </section>
 
             </section>
@@ -590,7 +586,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">181</span>
+    <span class="phpdocumentor-element-found-in__line">183</span>
 
     </aside>
 
@@ -630,7 +626,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True on success.</p>
+                <section class="phpdocumentor-description"><p>true on success</p>
 </section>
 
             </section>
@@ -650,7 +646,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 
     </aside>
 
@@ -671,7 +667,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache key.</p>
+                    <section class="phpdocumentor-description"><p>the cache key</p>
 </section>
 
             </dd>
@@ -680,7 +676,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The value to cache.</p>
+                    <section class="phpdocumentor-description"><p>the value to cache</p>
 </section>
 
             </dd>
@@ -709,7 +705,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True on success.</p>
+                <section class="phpdocumentor-description"><p>true on success</p>
 </section>
 
             </section>
@@ -729,7 +725,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">167</span>
+    <span class="phpdocumentor-element-found-in__line">169</span>
 
     </aside>
 
@@ -750,7 +746,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache key.</p>
+                    <section class="phpdocumentor-description"><p>the cache key</p>
 </section>
 
             </dd>
@@ -779,7 +775,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True on success.</p>
+                <section class="phpdocumentor-description"><p>true on success</p>
 </section>
 
             </section>
@@ -799,7 +795,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -822,7 +818,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache key.</p>
+                    <section class="phpdocumentor-description"><p>the cache key</p>
 </section>
 
             </dd>
@@ -851,7 +847,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The cached value or null.</p>
+                <section class="phpdocumentor-description"><p>the cached value or null</p>
 </section>
 
             </section>
@@ -871,7 +867,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">203</span>
+    <span class="phpdocumentor-element-found-in__line">205</span>
 
     </aside>
 
@@ -909,7 +905,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The prefix string.</p>
+                <section class="phpdocumentor-description"><p>the prefix string</p>
 </section>
 
             </section>
@@ -929,7 +925,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">125</span>
 
     </aside>
 
@@ -937,7 +933,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">increment</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|bool</span></code>
+                    <span class="phpdocumentor-signature__name">increment</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -950,7 +946,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache key.</p>
+                    <section class="phpdocumentor-description"><p>the cache key</p>
 </section>
 
             </dd>
@@ -959,7 +955,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">1</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The amount to increment by.</p>
+                    <section class="phpdocumentor-description"><p>the amount to increment by</p>
 </section>
 
             </dd>
@@ -986,9 +982,9 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int|bool</span>
+        <span class="phpdocumentor-signature__response_type">bool|int</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The new value or false on failure.</p>
+                <section class="phpdocumentor-description"><p>the new value or false on failure</p>
 </section>
 
             </section>
@@ -1008,7 +1004,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 
     </aside>
 
@@ -1031,7 +1027,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, string&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache keys.</p>
+                    <section class="phpdocumentor-description"><p>the cache keys</p>
 </section>
 
             </dd>
@@ -1060,7 +1056,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Key-value pairs.</p>
+                <section class="phpdocumentor-description"><p>key-value pairs</p>
 </section>
 
             </section>
@@ -1080,7 +1076,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">93</span>
 
     </aside>
 
@@ -1101,7 +1097,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The cache key.</p>
+                    <section class="phpdocumentor-description"><p>the cache key</p>
 </section>
 
             </dd>
@@ -1110,7 +1106,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The value to cache.</p>
+                    <section class="phpdocumentor-description"><p>the value to cache</p>
 </section>
 
             </dd>
@@ -1148,7 +1144,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True on success.</p>
+                <section class="phpdocumentor-description"><p>true on success</p>
 </section>
 
             </section>
@@ -1168,7 +1164,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/Store/WordPressTransientStore.php"><a href="files/src-cache-store-wordpresstransientstore.html"><abbr title="src/Cache/Store/WordPressTransientStore.php">WordPressTransientStore.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">107</span>
 
     </aside>
 
@@ -1189,7 +1185,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Key-value pairs to cache.</p>
+                    <section class="phpdocumentor-description"><p>key-value pairs to cache</p>
 </section>
 
             </dd>
@@ -1198,7 +1194,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Number of seconds until expiry.</p>
+                    <section class="phpdocumentor-description"><p>number of seconds until expiry</p>
 </section>
 
             </dd>
@@ -1227,7 +1223,7 @@ indefinitely (no expiry). This maps to Laravel's <code class="prettyprint">forev
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True if all items were stored successfully.</p>
+                <section class="phpdocumentor-description"><p>true if all items were stored successfully</p>
 </section>
 
             </section>

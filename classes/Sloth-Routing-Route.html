@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -257,7 +253,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/Route.php"><a href="files/src-routing-route.html"><abbr title="src/Routing/Route.php">Route.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">16</span>
 
     </aside>
 
@@ -308,12 +304,6 @@ fluent name() chaining back through the Router.</p>
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Sloth-Routing-Route.html#property_callback">$callback</a>
-    <span>
-                        &nbsp;: mixed            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Sloth-Routing-Route.html#property_router">$router</a>
     <span>
                         &nbsp;: <a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a>            </span>
@@ -353,43 +343,6 @@ fluent name() chaining back through the Router.</p>
             <a href="classes/Sloth-Routing-Route.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                -read-only                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_callback">
-        $callback
-        <a href="classes/Sloth-Routing-Route.html#property_callback" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                        <small class="phpdocumentor-element__modifier">read-only</small>                    </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/Route.php"><a href="files/src-routing-route.html"><abbr title="src/Routing/Route.php">Route.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">28</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$callback</span>
-    </code>
-
-    
-    
-    
-
-        
-        
-
-</article>
                     <article
         class="
             phpdocumentor-element
@@ -456,7 +409,7 @@ fluent name() chaining back through the Router.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callback</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$methods</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$router</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callback</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$methods</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$router</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -475,7 +428,7 @@ fluent name() chaining back through the Router.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$callback</span>
-                : <span class="phpdocumentor-argument-list__argument__type">callable|array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|callable</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Route handler stored as _controller</p>
@@ -537,7 +490,7 @@ fluent name() chaining back through the Router.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/Route.php"><a href="files/src-routing-route.html"><abbr title="src/Routing/Route.php">Route.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -702,7 +655,6 @@ fluent name() chaining back through the Router.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Routing-Route.html#property_callback">$callback</a></li>
                                                     <li class=""><a href="classes/Sloth-Routing-Route.html#property_router">$router</a></li>
                                             </ul>
                 </li>

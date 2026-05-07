@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -261,7 +257,7 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">Post Model</p>
+            <p class="phpdocumentor-summary">Post Model.</p>
 
 
     <section class="phpdocumentor-description"><p>Extends Sloth's base Model class. This model inherits all functionality
@@ -402,7 +398,7 @@ $posts = Post::where('category', 'news')-&gt;get();
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/Sloth-Model-Model.html#property_layotter">$layotter</a>
     <span>
-                        &nbsp;: bool|array&lt;string, mixed&gt;            </span>
+                        &nbsp;: array&lt;string, mixed&gt;|bool            </span>
 </dt>
 <dd>Layotter page builder configuration for this post type.</dd>
 
@@ -459,7 +455,7 @@ $posts = Post::where('category', 'news')-&gt;get();
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/Sloth-Model-Model.html#property_postType">$postType</a>
     <span>
-                        &nbsp;: string|false            </span>
+                        &nbsp;: false|string            </span>
 </dt>
 <dd>Post type identifier for this model.</dd>
 
@@ -473,7 +469,7 @@ $posts = Post::where('category', 'news')-&gt;get();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Sloth-Model-Model.html#property_aliases">$aliases</a>
     <span>
-                        &nbsp;: array&lt;string, string|array&lt;string|int, string&gt;&gt;            </span>
+                        &nbsp;: array&lt;string, array&lt;string|int, string&gt;|string&gt;            </span>
 </dt>
 <dd>Aliases for attribute access.</dd>
 
@@ -858,7 +854,7 @@ $posts = Post::where('category', 'news')-&gt;get();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Model-Model.html#method_newFromBuilder">newFromBuilder()</a>
     <span>
-                                &nbsp;: <a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a>|<abbr title="\Sloth\Model\CorcelModel">CorcelModel</abbr>    </span>
+                                &nbsp;: <abbr title="\Sloth\Model\CorcelModel">CorcelModel</abbr>|<a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a>    </span>
 </dt>
 <dd>Create a model instance from a database row.</dd>
 
@@ -1081,7 +1077,7 @@ $posts = Post::where('category', 'news')-&gt;get();
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Model-Traits-HasRelationships.html#method_setRelationConnection">setRelationConnection()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
 <dd>Set the connection name to model.</dd>
 
@@ -1120,7 +1116,7 @@ $posts = Post::where('category', 'news')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">339</span>
+    <span class="phpdocumentor-element-found-in__line">359</span>
 
     </aside>
 
@@ -1150,7 +1146,7 @@ $posts = Post::where('category', 'news')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">340</span>
+    <span class="phpdocumentor-element-found-in__line">361</span>
 
     </aside>
 
@@ -1196,7 +1192,7 @@ $posts = Post::where('category', 'news')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -1234,7 +1230,7 @@ $posts = Post::where('category', 'news')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">223</span>
+    <span class="phpdocumentor-element-found-in__line">236</span>
 
     </aside>
 
@@ -1271,7 +1267,7 @@ $posts = Post::where('category', 'news')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">225</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 
     </aside>
 
@@ -1347,7 +1343,7 @@ $posts = Post::where('category', 'news')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">310</span>
+    <span class="phpdocumentor-element-found-in__line">328</span>
 
     </aside>
 
@@ -1358,7 +1354,7 @@ $posts = Post::where('category', 'news')-&gt;get();
         <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|null</span>
     <span class="phpdocumentor-signature__name">$icon</span>
-     = <span class="phpdocumentor-signature__default-value">null</span></code>
+    </code>
 
         <section class="phpdocumentor-description"><p>Set to a dashicon slug (without the 'dashicons-' prefix) or a full
 dashicons-* string. Null means WordPress uses its default icon.</p>
@@ -1444,7 +1440,7 @@ dashicons-* string. Null means WordPress uses its default icon.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">299</span>
+    <span class="phpdocumentor-element-found-in__line">316</span>
 
     </aside>
 
@@ -1500,7 +1496,7 @@ Supports all WordPress post type label keys.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">333</span>
+    <span class="phpdocumentor-element-found-in__line">353</span>
 
     </aside>
 
@@ -1509,7 +1505,7 @@ Supports all WordPress post type label keys.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">bool|array&lt;string, mixed&gt;</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;|bool</span>
     <span class="phpdocumentor-signature__name">$layotter</span>
      = <span class="phpdocumentor-signature__default-value">false</span></code>
 
@@ -1560,7 +1556,7 @@ e.g. ['allowed_row_layouts' =&gt; ['full', 'half']]</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">277</span>
+    <span class="phpdocumentor-element-found-in__line">292</span>
 
     </aside>
 
@@ -1618,7 +1614,7 @@ post type labels when $labels is empty.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">288</span>
+    <span class="phpdocumentor-element-found-in__line">304</span>
 
     </aside>
 
@@ -1908,7 +1904,7 @@ Any valid register_post_type() argument can be set here.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">200</span>
+    <span class="phpdocumentor-element-found-in__line">213</span>
 
     </aside>
 
@@ -1917,7 +1913,7 @@ Any valid register_post_type() argument can be set here.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string|false</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">false|string</span>
     <span class="phpdocumentor-signature__name">$postType</span>
      = <span class="phpdocumentor-signature__default-value">false</span></code>
 
@@ -1964,7 +1960,7 @@ False means this is the base Model class (no specific post type).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">320</span>
+    <span class="phpdocumentor-element-found-in__line">339</span>
 
     </aside>
 
@@ -2019,7 +2015,7 @@ False means this is the base Model class (no specific post type).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">243</span>
+    <span class="phpdocumentor-element-found-in__line">257</span>
 
     </aside>
 
@@ -2028,7 +2024,7 @@ False means this is the base Model class (no specific post type).</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, string|array&lt;string|int, string&gt;&gt;</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, array&lt;string|int, string&gt;|string&gt;</span>
     <span class="phpdocumentor-signature__name">$aliases</span>
      = <span class="phpdocumentor-signature__default-value">[&#039;title&#039; =&gt; &#039;post_title&#039;, &#039;content&#039; =&gt; &#039;post_content&#039;, &#039;excerpt&#039; =&gt; &#039;post_excerpt&#039;, &#039;slug&#039; =&gt; &#039;post_name&#039;, &#039;type&#039; =&gt; &#039;post_type&#039;, &#039;mime_type&#039; =&gt; &#039;post_mime_type&#039;, &#039;url&#039; =&gt; &#039;guid&#039;, &#039;author_id&#039; =&gt; &#039;post_author&#039;, &#039;parent_id&#039; =&gt; &#039;post_parent&#039;, &#039;created_at&#039; =&gt; &#039;post_date&#039;, &#039;updated_at&#039; =&gt; &#039;post_modified&#039;, &#039;status&#039; =&gt; &#039;post_status&#039;]</span></code>
 
@@ -2075,7 +2071,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">135</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 
     </aside>
 
@@ -2113,7 +2109,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">160</span>
+    <span class="phpdocumentor-element-found-in__line">172</span>
 
     </aside>
 
@@ -2151,7 +2147,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">109</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
@@ -2205,7 +2201,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 
     </aside>
 
@@ -2243,7 +2239,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">220</span>
+    <span class="phpdocumentor-element-found-in__line">234</span>
 
     </aside>
 
@@ -2298,7 +2294,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">124</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
@@ -2336,7 +2332,7 @@ allowing $model-&gt;title instead of $model-&gt;post_title etc.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">232</span>
+    <span class="phpdocumentor-element-found-in__line">245</span>
 
     </aside>
 
@@ -2449,7 +2445,7 @@ models and Sloth's custom models are supported.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">211</span>
+    <span class="phpdocumentor-element-found-in__line">225</span>
 
     </aside>
 
@@ -2505,7 +2501,7 @@ Eloquent returns the correct model class when querying.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
@@ -2559,7 +2555,7 @@ Eloquent returns the correct model class when querying.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">93</span>
+    <span class="phpdocumentor-element-found-in__line">104</span>
 
     </aside>
 
@@ -2613,7 +2609,7 @@ Eloquent returns the correct model class when querying.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">131</span>
 
     </aside>
 
@@ -2672,7 +2668,7 @@ Eloquent returns the correct model class when querying.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">896</span>
+    <span class="phpdocumentor-element-found-in__line">910</span>
 
     </aside>
 
@@ -2696,7 +2692,7 @@ then delegates to Eloquent.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name.</p>
+                    <section class="phpdocumentor-description"><p>the method name</p>
 </section>
 
             </dd>
@@ -2755,7 +2751,7 @@ then delegates to Eloquent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">356</span>
+    <span class="phpdocumentor-element-found-in__line">377</span>
 
     </aside>
 
@@ -2779,7 +2775,7 @@ sets default attributes including post_type, and boots global scopes.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Initial model attributes.</p>
+                    <section class="phpdocumentor-description"><p>initial model attributes</p>
 </section>
 
             </dd>
@@ -2820,7 +2816,7 @@ sets default attributes including post_type, and boots global scopes.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">919</span>
+    <span class="phpdocumentor-element-found-in__line">933</span>
 
     </aside>
 
@@ -2844,7 +2840,7 @@ and the key is not a declared property.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The property name.</p>
+                    <section class="phpdocumentor-description"><p>the property name</p>
 </section>
 
             </dd>
@@ -2896,7 +2892,7 @@ and the key is not a declared property.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">942</span>
+    <span class="phpdocumentor-element-found-in__line">955</span>
 
     </aside>
 
@@ -2920,7 +2916,7 @@ and ACF field definitions.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The property name.</p>
+                    <section class="phpdocumentor-description"><p>the property name</p>
 </section>
 
             </dd>
@@ -2976,7 +2972,7 @@ and ACF field definitions.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasAliases.php"><a href="files/src-model-traits-hasaliases.html"><abbr title="src/Model/Traits/HasAliases.php">HasAliases.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 
     </aside>
 
@@ -3053,7 +3049,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">649</span>
+    <span class="phpdocumentor-element-found-in__line">658</span>
 
     </aside>
 
@@ -3107,7 +3103,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">613</span>
+    <span class="phpdocumentor-element-found-in__line">628</span>
 
     </aside>
 
@@ -3161,7 +3157,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 
     </aside>
 
@@ -3231,7 +3227,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">100</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -3322,7 +3318,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -3378,7 +3374,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">637</span>
+    <span class="phpdocumentor-element-found-in__line">648</span>
 
     </aside>
 
@@ -3432,7 +3428,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">500</span>
+    <span class="phpdocumentor-element-found-in__line">522</span>
 
     </aside>
 
@@ -3484,7 +3480,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">601</span>
+    <span class="phpdocumentor-element-found-in__line">618</span>
 
     </aside>
 
@@ -3538,7 +3534,7 @@ when loading aliases from configuration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">401</span>
+    <span class="phpdocumentor-element-found-in__line">396</span>
 
     </aside>
 
@@ -3622,7 +3618,7 @@ even if the key already exists.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">429</span>
+    <span class="phpdocumentor-element-found-in__line">423</span>
 
     </aside>
 
@@ -3630,7 +3626,7 @@ even if the key already exists.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">createMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>|<abbr title="\Illuminate\Support\Collection">Collection</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">createMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Model">Model</abbr>|<abbr title="\Illuminate\Support\Collection">Collection</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3643,7 +3639,7 @@ Returns a Collection if multiple fields are created.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The meta key(s) to create</p>
@@ -3774,7 +3770,7 @@ $post-&gt;fields-&gt;custom_field;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">88</span>
+    <span class="phpdocumentor-element-found-in__line">89</span>
 
     </aside>
 
@@ -3832,7 +3828,7 @@ $post-&gt;fields-&gt;custom_field;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">875</span>
+    <span class="phpdocumentor-element-found-in__line">889</span>
 
     </aside>
 
@@ -3873,7 +3869,7 @@ field values for post objects.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The ACF field group key (post ID as string).</p>
+                <section class="phpdocumentor-description"><p>the ACF field group key (post ID as string)</p>
 </section>
 
             </section>
@@ -4056,7 +4052,7 @@ $post-&gt;author; // Resolves to $post-&gt;meta-&gt;user_id
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">858</span>
+    <span class="phpdocumentor-element-found-in__line">872</span>
 
     </aside>
 
@@ -4079,7 +4075,7 @@ $post-&gt;author; // Resolves to $post-&gt;meta-&gt;user_id
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The column key (case-insensitive).</p>
+                    <section class="phpdocumentor-description"><p>the column key (case-insensitive)</p>
 </section>
 
             </dd>
@@ -4108,7 +4104,7 @@ $post-&gt;author; // Resolves to $post-&gt;meta-&gt;user_id
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>HTML anchor element linking to the edit screen.</p>
+                <section class="phpdocumentor-description"><p>HTML anchor element linking to the edit screen</p>
 </section>
 
             </section>
@@ -4128,7 +4124,7 @@ $post-&gt;author; // Resolves to $post-&gt;meta-&gt;user_id
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">175</span>
+    <span class="phpdocumentor-element-found-in__line">170</span>
 
     </aside>
 
@@ -4249,7 +4245,7 @@ shortcodes, embeds, and paragraph formatting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">701</span>
+    <span class="phpdocumentor-element-found-in__line">710</span>
 
     </aside>
 
@@ -4287,7 +4283,7 @@ shortcodes, embeds, and paragraph formatting.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The stripped excerpt.</p>
+                <section class="phpdocumentor-description"><p>the stripped excerpt</p>
 </section>
 
             </section>
@@ -4307,7 +4303,7 @@ shortcodes, embeds, and paragraph formatting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">835</span>
+    <span class="phpdocumentor-element-found-in__line">848</span>
 
     </aside>
 
@@ -4345,7 +4341,7 @@ shortcodes, embeds, and paragraph formatting.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool|string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The post format slug or false if not found.</p>
+                <section class="phpdocumentor-description"><p>the post format slug or false if not found</p>
 </section>
 
             </section>
@@ -4365,7 +4361,7 @@ shortcodes, embeds, and paragraph formatting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">737</span>
+    <span class="phpdocumentor-element-found-in__line">746</span>
 
     </aside>
 
@@ -4403,7 +4399,7 @@ shortcodes, embeds, and paragraph formatting.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Field-Image.html"><abbr title="\Sloth\Field\Image">Image</abbr></a></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The Image object wrapping the thumbnail.</p>
+                <section class="phpdocumentor-description"><p>the Image object wrapping the thumbnail</p>
 </section>
 
             </section>
@@ -4423,7 +4419,7 @@ shortcodes, embeds, and paragraph formatting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">790</span>
+    <span class="phpdocumentor-element-found-in__line">802</span>
 
     </aside>
 
@@ -4461,7 +4457,7 @@ shortcodes, embeds, and paragraph formatting.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>All term names.</p>
+                <section class="phpdocumentor-description"><p>all term names</p>
 </section>
 
             </section>
@@ -4481,7 +4477,7 @@ shortcodes, embeds, and paragraph formatting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">805</span>
+    <span class="phpdocumentor-element-found-in__line">818</span>
 
     </aside>
 
@@ -4519,7 +4515,7 @@ shortcodes, embeds, and paragraph formatting.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Comma-separated keywords.</p>
+                <section class="phpdocumentor-description"><p>comma-separated keywords</p>
 </section>
 
             </section>
@@ -4539,7 +4535,7 @@ shortcodes, embeds, and paragraph formatting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">770</span>
+    <span class="phpdocumentor-element-found-in__line">780</span>
 
     </aside>
 
@@ -4580,7 +4576,7 @@ Falls back to 'Uncategorized' if no terms exist.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The main category name.</p>
+                <section class="phpdocumentor-description"><p>the main category name</p>
 </section>
 
             </section>
@@ -4600,7 +4596,7 @@ Falls back to 'Uncategorized' if no terms exist.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">485</span>
+    <span class="phpdocumentor-element-found-in__line">475</span>
 
     </aside>
 
@@ -4688,7 +4684,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">713</span>
+    <span class="phpdocumentor-element-found-in__line">722</span>
 
     </aside>
 
@@ -4726,7 +4722,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool|string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The permalink URL or false on failure.</p>
+                <section class="phpdocumentor-description"><p>the permalink URL or false on failure</p>
 </section>
 
             </section>
@@ -4746,7 +4742,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">725</span>
+    <span class="phpdocumentor-element-found-in__line">734</span>
 
     </aside>
 
@@ -4784,7 +4780,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Field-Image.html"><abbr title="\Sloth\Field\Image">Image</abbr></a></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The Image object wrapping the thumbnail.</p>
+                <section class="phpdocumentor-description"><p>the Image object wrapping the thumbnail</p>
 </section>
 
             </section>
@@ -4804,7 +4800,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">512</span>
+    <span class="phpdocumentor-element-found-in__line">534</span>
 
     </aside>
 
@@ -4862,7 +4858,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">143</span>
+    <span class="phpdocumentor-element-found-in__line">138</span>
 
     </aside>
 
@@ -4907,7 +4903,7 @@ $views = $post-&gt;getMeta('views') ?? 0;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">752</span>
+    <span class="phpdocumentor-element-found-in__line">761</span>
 
     </aside>
 
@@ -4964,7 +4960,7 @@ each containing slug =&gt; name pairs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -5027,7 +5023,7 @@ each containing slug =&gt; name pairs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -5090,7 +5086,7 @@ each containing slug =&gt; name pairs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">823</span>
+    <span class="phpdocumentor-element-found-in__line">836</span>
 
     </aside>
 
@@ -5120,7 +5116,7 @@ each containing slug =&gt; name pairs.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The term slug to check for.</p>
+                    <section class="phpdocumentor-description"><p>the term slug to check for</p>
 </section>
 
             </dd>
@@ -5149,7 +5145,7 @@ each containing slug =&gt; name pairs.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True if the post has this term.</p>
+                <section class="phpdocumentor-description"><p>true if the post has this term</p>
 </section>
 
             </section>
@@ -5246,7 +5242,7 @@ foreach ($post-&gt;meta as $meta) {
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasAliases.php"><a href="files/src-model-traits-hasaliases.html"><abbr title="src/Model/Traits/HasAliases.php">HasAliases.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">198</span>
+    <span class="phpdocumentor-element-found-in__line">195</span>
 
     </aside>
 
@@ -5358,7 +5354,7 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">453</span>
+    <span class="phpdocumentor-element-found-in__line">475</span>
 
     </aside>
 
@@ -5379,7 +5375,7 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The base query builder.</p>
+                    <section class="phpdocumentor-description"><p>the base query builder</p>
 </section>
 
             </dd>
@@ -5419,7 +5415,7 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Builder-PostBuilder.html"><abbr title="\Sloth\Model\Builder\PostBuilder">PostBuilder</abbr></a></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The custom post builder instance.</p>
+                <section class="phpdocumentor-description"><p>the custom post builder instance</p>
 </section>
 
             </section>
@@ -5439,7 +5435,7 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">418</span>
+    <span class="phpdocumentor-element-found-in__line">439</span>
 
     </aside>
 
@@ -5447,7 +5443,7 @@ the alias logic and goes straight to Laravel's attribute resolution.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newFromBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">object|array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a>|<abbr title="\Sloth\Model\CorcelModel">CorcelModel</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">newFromBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;|object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Sloth\Model\CorcelModel">CorcelModel</abbr>|<a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -5460,10 +5456,10 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$attributes</span>
-                : <span class="phpdocumentor-argument-list__argument__type">object|array&lt;string, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;|object</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The database row attributes.</p>
+                    <section class="phpdocumentor-description"><p>the database row attributes</p>
 </section>
 
             </dd>
@@ -5472,7 +5468,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The connection name.</p>
+                    <section class="phpdocumentor-description"><p>the connection name</p>
 </section>
 
             </dd>
@@ -5510,9 +5506,9 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a>|<abbr title="\Sloth\Model\CorcelModel">CorcelModel</abbr></span>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Sloth\Model\CorcelModel">CorcelModel</abbr>|<a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The model instance.</p>
+                <section class="phpdocumentor-description"><p>the model instance</p>
 </section>
 
             </section>
@@ -5532,7 +5528,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">466</span>
+    <span class="phpdocumentor-element-found-in__line">488</span>
 
     </aside>
 
@@ -5581,7 +5577,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The filtered query builder.</p>
+                <section class="phpdocumentor-description"><p>the filtered query builder</p>
 </section>
 
             </section>
@@ -5601,7 +5597,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">625</span>
+    <span class="phpdocumentor-element-found-in__line">638</span>
 
     </aside>
 
@@ -5655,7 +5651,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">488</span>
+    <span class="phpdocumentor-element-found-in__line">510</span>
 
     </aside>
 
@@ -5678,7 +5674,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The post type slug.</p>
+                    <section class="phpdocumentor-description"><p>the post type slug</p>
 </section>
 
             </dd>
@@ -5687,7 +5683,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">class-string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The fully qualified class name.</p>
+                    <section class="phpdocumentor-description"><p>the fully qualified class name</p>
 </section>
 
             </dd>
@@ -5797,7 +5793,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">312</span>
+    <span class="phpdocumentor-element-found-in__line">309</span>
 
     </aside>
 
@@ -5878,7 +5874,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">341</span>
+    <span class="phpdocumentor-element-found-in__line">337</span>
 
     </aside>
 
@@ -5886,7 +5882,7 @@ using the $postTypes registry populated by ModelRegistrar.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">saveMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">saveMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -5900,7 +5896,7 @@ after all saves complete.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The meta key to save, or an array of key =&gt; value pairs</p>
@@ -5970,7 +5966,7 @@ $post-&gt;saveMeta([
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Concerns/PostScopes.php"><a href="files/src-model-concerns-postscopes.html"><abbr title="src/Model/Concerns/PostScopes.php">PostScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">294</span>
+    <span class="phpdocumentor-element-found-in__line">289</span>
 
     </aside>
 
@@ -6054,7 +6050,7 @@ $post = Post::findBySlugOrId(123)-&gt;first();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">249</span>
+    <span class="phpdocumentor-element-found-in__line">248</span>
 
     </aside>
 
@@ -6062,7 +6058,7 @@ $post = Post::findBySlugOrId(123)-&gt;first();
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">scopeHasMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$meta</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$operator</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'='</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">scopeHasMeta</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$meta</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$operator</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'='</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -6084,7 +6080,7 @@ Laravel's query builder.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$meta</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The meta key to filter by, or an array of key =&gt; value pairs</p>
@@ -6166,7 +6162,7 @@ $results = Post::hasMeta([
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasMetaFields.php"><a href="files/src-model-traits-hasmetafields.html"><abbr title="src/Model/Traits/HasMetaFields.php">HasMetaFields.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">294</span>
+    <span class="phpdocumentor-element-found-in__line">292</span>
 
     </aside>
 
@@ -6259,7 +6255,7 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Concerns/PostScopes.php"><a href="files/src-model-concerns-postscopes.html"><abbr title="src/Model/Concerns/PostScopes.php">PostScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">239</span>
+    <span class="phpdocumentor-element-found-in__line">233</span>
 
     </aside>
 
@@ -6333,7 +6329,7 @@ $important = Post::hasMetaLike('title', '%important%')-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -6409,7 +6405,7 @@ $recentPosts = Post::newest()-&gt;limit(10)-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasOrderScopes.php"><a href="files/src-model-traits-hasorderscopes.html"><abbr title="src/Model/Traits/HasOrderScopes.php">HasOrderScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -6485,7 +6481,7 @@ $oldestPosts = Post::oldest()-&gt;limit(10)-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Concerns/PostScopes.php"><a href="files/src-model-concerns-postscopes.html"><abbr title="src/Model/Concerns/PostScopes.php">PostScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">263</span>
+    <span class="phpdocumentor-element-found-in__line">257</span>
 
     </aside>
 
@@ -6658,7 +6654,7 @@ $rootPages = Page::parent(0)-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Concerns/PostScopes.php"><a href="files/src-model-concerns-postscopes.html"><abbr title="src/Model/Concerns/PostScopes.php">PostScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">88</span>
+    <span class="phpdocumentor-element-found-in__line">87</span>
 
     </aside>
 
@@ -6733,7 +6729,7 @@ with post_status = 'publish' that have a published date.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Concerns/PostScopes.php"><a href="files/src-model-concerns-postscopes.html"><abbr title="src/Model/Concerns/PostScopes.php">PostScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">215</span>
+    <span class="phpdocumentor-element-found-in__line">211</span>
 
     </aside>
 
@@ -6897,7 +6893,7 @@ with post_status = 'publish' that have a published date.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Concerns/PostScopes.php"><a href="files/src-model-concerns-postscopes.html"><abbr title="src/Model/Concerns/PostScopes.php">PostScopes.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">69</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 
     </aside>
 
@@ -6988,7 +6984,7 @@ with post_status = 'publish' that have a published date.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">scopeTaxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$terms</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">scopeTaxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$terms</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Illuminate\Database\Eloquent\Builder">Builder</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -7019,7 +7015,7 @@ in the specified taxonomy.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$terms</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Term slug(s) to match</p>
@@ -7239,7 +7235,7 @@ $tagged = Post::taxonomy('post_tag', ['php', 'wordpress'])-&gt;get();
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -7316,7 +7312,7 @@ $post-&gt;setCreatedAt('2024-01-15 10:30:00');
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasCustomTimestamps.php"><a href="files/src-model-traits-hascustomtimestamps.html"><abbr title="src/Model/Traits/HasCustomTimestamps.php">HasCustomTimestamps.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
@@ -7393,7 +7389,7 @@ $post-&gt;setUpdatedAt('2024-01-15 14:45:00');
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">584</span>
+    <span class="phpdocumentor-element-found-in__line">603</span>
 
     </aside>
 
@@ -7449,7 +7445,7 @@ $post-&gt;setUpdatedAt('2024-01-15 14:45:00');
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">569</span>
+    <span class="phpdocumentor-element-found-in__line">589</span>
 
     </aside>
 
@@ -7503,7 +7499,7 @@ $post-&gt;setUpdatedAt('2024-01-15 14:45:00');
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">982</span>
+    <span class="phpdocumentor-element-found-in__line">995</span>
 
     </aside>
 
@@ -7571,7 +7567,7 @@ that are not already present in the array.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">385</span>
+    <span class="phpdocumentor-element-found-in__line">406</span>
 
     </aside>
 
@@ -7625,7 +7621,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1013</span>
+    <span class="phpdocumentor-element-found-in__line">1026</span>
 
     </aside>
 
@@ -7663,7 +7659,7 @@ Runs once per class to avoid duplicate scope registration.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The fully qualified class name of the meta model.</p>
+                <section class="phpdocumentor-description"><p>the fully qualified class name of the meta model</p>
 </section>
 
             </section>
@@ -7683,7 +7679,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1025</span>
+    <span class="phpdocumentor-element-found-in__line">1038</span>
 
     </aside>
 
@@ -7721,7 +7717,7 @@ Runs once per class to avoid duplicate scope registration.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The foreign key name.</p>
+                <section class="phpdocumentor-description"><p>the foreign key name</p>
 </section>
 
             </section>
@@ -7741,7 +7737,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">550</span>
+    <span class="phpdocumentor-element-found-in__line">572</span>
 
     </aside>
 
@@ -7764,7 +7760,7 @@ Runs once per class to avoid duplicate scope registration.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The model to load preview for.</p>
+                    <section class="phpdocumentor-description"><p>the model to load preview for</p>
 </section>
 
             </dd>
@@ -7793,7 +7789,7 @@ Runs once per class to avoid duplicate scope registration.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">static|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The preview model or null if not found.</p>
+                <section class="phpdocumentor-description"><p>the preview model or null if not found</p>
 </section>
 
             </section>
@@ -7813,7 +7809,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">183</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 
     </aside>
 
@@ -7857,7 +7853,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasRelationships.php"><a href="files/src-model-traits-hasrelationships.html"><abbr title="src/Model/Traits/HasRelationships.php">HasRelationships.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">165</span>
+    <span class="phpdocumentor-element-found-in__line">160</span>
 
     </aside>
 
@@ -7865,7 +7861,7 @@ Runs once per class to avoid duplicate scope registration.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">setRelationConnection</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$model</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setRelationConnection</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$model</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -7902,7 +7898,7 @@ Runs once per class to avoid duplicate scope registration.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Model.php"><a href="files/src-model-model.html"><abbr title="src/Model/Model.php">Model.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">532</span>
+    <span class="phpdocumentor-element-found-in__line">554</span>
 
     </aside>
 
@@ -7926,7 +7922,7 @@ and the post is not a revision or inherited post.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Model-Model.html"><abbr title="\Sloth\Model\Model">Model</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The model to check.</p>
+                    <section class="phpdocumentor-description"><p>the model to check</p>
 </section>
 
             </dd>
@@ -7955,7 +7951,7 @@ and the post is not a revision or inherited post.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True if preview should be loaded.</p>
+                <section class="phpdocumentor-description"><p>true if preview should be loaded</p>
 </section>
 
             </section>
@@ -7975,7 +7971,7 @@ and the post is not a revision or inherited post.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Model/Traits/HasACF.php"><a href="files/src-model-traits-hasacf.html"><abbr title="src/Model/Traits/HasACF.php">HasACF.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 

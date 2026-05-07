@@ -93,10 +93,6 @@
                 
             </li>
                     <li>
-                <a href="namespaces/sloth-controller.html" class="">Controller</a>
-                
-            </li>
-                    <li>
                 <a href="namespaces/sloth-core.html" class="">Core</a>
                 
             </li>
@@ -258,14 +254,47 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
-        
+            <p class="phpdocumentor-summary">Sloth Twig Extension.</p>
 
 
+    <section class="phpdocumentor-description"><p>Registers Sloth-specific functions, filters and tests with the Twig
+template engine. Also exposes WordPress core functions to Twig templates
+via a <code class="prettyprint">fn</code> global and dedicated TwigFunction wrappers.</p>
+<h2>Usage in Twig templates</h2>
+<pre class="prettyprint"><code class="language-twig">{# Call any PHP or WordPress function via fn namespace #}
+{{ fn.get_the_title() }}
 
+{# Use registered functions directly #}
+{{ get_field('my_field') }}
+{{ meta('my_key', post.ID) }}
+{{ module('hero', { title: 'Hello' }) }}
+
+{# Use registered filters #}
+{{ phone_number | tel }}
+{{ slug_string | sanitize }}
+</code></pre>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
     
     
@@ -308,8 +337,7 @@
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Allow developers to call core php and WordPress functions
-using the `fn` namespace inside their templates.</dd>
+<dd>Proxy any PHP or WordPress function call through the `fn` global.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method___construct">__construct()</a>
@@ -320,43 +348,44 @@ using the `fn` namespace inside their templates.</dd>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getFilters">getFilters()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;|array&lt;string|int, <abbr title="\TwigFunction">TwigFunction</abbr>&gt;    </span>
+                                &nbsp;: array&lt;int, <abbr title="\Twig\TwigFilter">TwigFilter</abbr>&gt;    </span>
 </dt>
-<dd>Register a list of filters available into Twig templates.</dd>
+<dd>Register Twig filters.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getFunctions">getFunctions()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;|array&lt;string|int, <abbr title="\TwigFunction">TwigFunction</abbr>&gt;    </span>
+                                &nbsp;: array&lt;int, <abbr title="\Twig\TwigFunction">TwigFunction</abbr>&gt;    </span>
 </dt>
-<dd>Register a list of functions available into Twig templates.</dd>
+<dd>Register Twig functions.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getGlobals">getGlobals()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
-<dd>Register a global &quot;fn&quot; which can be used
-to call any WordPress or core PHP functions.</dd>
+<dd>Register global Twig variables.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getName">getName()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Define the extension name.</dd>
+<dd>Return the unique extension name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getTests">getTests()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: array&lt;int, <abbr title="\Twig\TwigTest">TwigTest</abbr>&gt;    </span>
 </dt>
+<dd>Register Twig tests.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_initRuntime">initRuntime()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
+<dd>Initialize the Twig runtime environment.</dd>
 
     </dl>
 
@@ -388,7 +417,7 @@ to call any WordPress or core PHP functions.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -430,12 +459,11 @@ to call any WordPress or core PHP functions.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">107</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Allow developers to call core php and WordPress functions
-using the `fn` namespace inside their templates.</p>
+        <p class="phpdocumentor-summary">Proxy any PHP or WordPress function call through the `fn` global.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -444,7 +472,8 @@ using the `fn` namespace inside their templates.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Linked to the global call only...</p>
+        <section class="phpdocumentor-description"><p>Called automatically by Twig when <code class="prettyprint">fn.some_function()</code> is used
+in a template.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -454,18 +483,37 @@ using the `fn` namespace inside their templates.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>the function name to call</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$arguments</span>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>arguments to pass</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method___call#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -485,7 +533,7 @@ using the `fn` namespace inside their templates.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -505,11 +553,28 @@ using the `fn` namespace inside their templates.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>the Sloth application container</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -529,22 +594,56 @@ using the `fn` namespace inside their templates.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">139</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register a list of filters available into Twig templates.</p>
+        <p class="phpdocumentor-summary">Register Twig filters.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, <abbr title="\TwigFunction">TwigFunction</abbr>&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Twig\TwigFilter">TwigFilter</abbr>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Built-in filters:</p>
+<ul>
+<li><code class="prettyprint">hyphenate</code> — deprecated, returns input unchanged</li>
+<li><code class="prettyprint">debug</code>     — dumps the value using Sloth's debug() helper</li>
+<li><code class="prettyprint">print_r</code>   — alias for debug</li>
+<li><code class="prettyprint">tel</code>       — wraps a phone number in a tel: URI</li>
+<li><code class="prettyprint">sanitize</code>  — runs sanitize_title() on a string</li>
+</ul>
+<p>Additional filters can be registered via <code class="prettyprint">theme.twig.filters</code> config:</p>
+<pre class="prettyprint"><code class="language-php">// app/config/theme.php
+return [
+    'twig' =&gt; [
+        'filters' =&gt; [
+            new TwigFilter('my_filter', fn($value) =&gt; transform($value)),
+        ],
+    ],
+];
+</code></pre>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getFilters#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
             <section class="phpdocumentor-attributes">
@@ -561,7 +660,7 @@ using the `fn` namespace inside their templates.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, <abbr title="\TwigFunction">TwigFunction</abbr>&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Twig\TwigFilter">TwigFilter</abbr>&gt;</span>
             </section>
 
 </article>
@@ -579,22 +678,57 @@ using the `fn` namespace inside their templates.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">193</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register a list of functions available into Twig templates.</p>
+        <p class="phpdocumentor-summary">Register Twig functions.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getFunctions</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, <abbr title="\TwigFunction">TwigFunction</abbr>&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getFunctions</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Twig\TwigFunction">TwigFunction</abbr>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Built-in functions mirror their WordPress equivalents unless noted.
+Additional functions can be registered via <code class="prettyprint">theme.twig.functions</code> config:</p>
+<pre class="prettyprint"><code class="language-php">// app/config/theme.php
+return [
+    'twig' =&gt; [
+        'functions' =&gt; [
+            new TwigFunction('my_function', fn() =&gt; my_function()),
+        ],
+    ],
+];
+</code></pre>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getFunctions#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
             <section class="phpdocumentor-attributes">
@@ -611,7 +745,7 @@ using the `fn` namespace inside their templates.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|array&lt;string|int, <abbr title="\TwigFunction">TwigFunction</abbr>&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Twig\TwigFunction">TwigFunction</abbr>&gt;</span>
             </section>
 
 </article>
@@ -629,29 +763,46 @@ using the `fn` namespace inside their templates.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">89</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Register a global &quot;fn&quot; which can be used
-to call any WordPress or core PHP functions.</p>
+        <p class="phpdocumentor-summary">Register global Twig variables.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getGlobals</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getGlobals</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Exposes <code class="prettyprint">fn</code> as a proxy object so any PHP or WordPress function can
+be called from Twig using <code class="prettyprint">{{ fn.function_name(args) }}</code>.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getGlobals#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
             </section>
 
 </article>
@@ -669,11 +820,11 @@ to call any WordPress or core PHP functions.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Define the extension name.</p>
+        <p class="phpdocumentor-summary">Return the unique extension name.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -685,6 +836,21 @@ to call any WordPress or core PHP functions.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getName#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
@@ -708,21 +874,42 @@ to call any WordPress or core PHP functions.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Register Twig tests.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getTests</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getTests</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Twig\TwigTest">TwigTest</abbr>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>Available in templates:</p>
+<ul>
+<li><code class="prettyprint">value is string</code> — checks if a value is a string</li>
+</ul>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_getTests#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
             <section class="phpdocumentor-attributes">
@@ -737,7 +924,11 @@ to call any WordPress or core PHP functions.</p>
     </dl>
                     </section>
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Twig\TwigTest">TwigTest</abbr>&gt;</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -753,31 +944,52 @@ to call any WordPress or core PHP functions.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/View/Extensions/SlothTwigExtension.php"><a href="files/src-view-extensions-slothtwigextension.html"><abbr title="src/View/Extensions/SlothTwigExtension.php">SlothTwigExtension.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">206</span>
+    <span class="phpdocumentor-element-found-in__line">356</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Initialize the Twig runtime environment.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">initRuntime</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Twig_Environment">Twig_Environment</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$environment</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">initRuntime</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Twig\Environment">Environment</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$environment</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Called by Twig when the extension is loaded. Currently a no-op —
+kept for compatibility in case subclasses need it.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$environment</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Twig_Environment">Twig_Environment</abbr></span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Twig\Environment">Environment</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>the Twig environment instance</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-View-Extensions-SlothTwigExtension.html#method_initRuntime#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     
