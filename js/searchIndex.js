@@ -1481,6 +1481,11 @@ Search.appendIndex(
             "summary": "Whether\u0020the\u0020DebugBar\u0020has\u0020been\u0020fully\u0020booted.",
             "url": "classes/Sloth-Debug-SlothDebugBar.html#property_booted"
         },                {
+            "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024baseUrl",
+            "name": "baseUrl",
+            "summary": "The\u0020baseURL\u0020to\u0020use\u0020for\u0020assets\u0020used\u0020by\u0020debug\u0020bar",
+            "url": "classes/Sloth-Debug-SlothDebugBar.html#property_baseUrl"
+        },                {
             "fqsen": "\\Sloth\\Debug\\SlothDebugBar\u003A\u003A\u0024app",
             "name": "app",
             "summary": "",
@@ -1796,6 +1801,26 @@ Search.appendIndex(
             "summary": "Return\u0020the\u0020service\u0020provider\u0020key\u0020responsible\u0020for\u0020the\u0020pagination\u0020class.",
             "url": "classes/Sloth-Facades-Pagination.html#method_getFacadeAccessor"
         },                {
+            "fqsen": "\\Sloth\\Facades\\Response",
+            "name": "Response",
+            "summary": "Response\u0020Facade.",
+            "url": "classes/Sloth-Facades-Response.html"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\Response\u003A\u003AgetFacadeAccessor\u0028\u0029",
+            "name": "getFacadeAccessor",
+            "summary": "Returns\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020this\u0020facade.",
+            "url": "classes/Sloth-Facades-Response.html#method_getFacadeAccessor"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\Route",
+            "name": "Route",
+            "summary": "Route\u0020Facade.",
+            "url": "classes/Sloth-Facades-Route.html"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\Route\u003A\u003AgetFacadeAccessor\u0028\u0029",
+            "name": "getFacadeAccessor",
+            "summary": "Returns\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020this\u0020facade.",
+            "url": "classes/Sloth-Facades-Route.html#method_getFacadeAccessor"
+        },                {
             "fqsen": "\\Sloth\\Facades\\Validation",
             "name": "Validation",
             "summary": "Validation\u0020Facade\u0020for\u0020accessing\u0020the\u0020validation\u0020service.",
@@ -2061,6 +2086,16 @@ Search.appendIndex(
             "summary": "Instantiate\u0020and\u0020render\u0020a\u0020theme\u0020module.",
             "url": "namespaces/default.html#function_module"
         },                {
+            "fqsen": "\\Sloth\\Http\\HttpServiceProvider",
+            "name": "HttpServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020HTTP\u0020infrastructure.",
+            "url": "classes/Sloth-Http-HttpServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Http\\HttpServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "",
+            "url": "classes/Sloth-Http-HttpServiceProvider.html#method_register"
+        },                {
             "fqsen": "\\Sloth\\Http\\RequestContext",
             "name": "RequestContext",
             "summary": "Request\u0020Context.",
@@ -2165,6 +2200,41 @@ Search.appendIndex(
             "name": "register",
             "summary": "Register\u0020the\u0020RequestContext\u0020singleton.",
             "url": "classes/Sloth-Http-RequestContextServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response",
+            "name": "Response",
+            "summary": "Sloth\u0020HTTP\u0020Response.",
+            "url": "classes/Sloth-Http-Response.html"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003Amake\u0028\u0029",
+            "name": "make",
+            "summary": "Create\u0020a\u0020new\u0020HTTP\u0020response.",
+            "url": "classes/Sloth-Http-Response.html#method_make"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003Ajson\u0028\u0029",
+            "name": "json",
+            "summary": "Create\u0020a\u0020new\u0020JSON\u0020response.",
+            "url": "classes/Sloth-Http-Response.html#method_json"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003AnoContent\u0028\u0029",
+            "name": "noContent",
+            "summary": "Create\u0020a\u0020new\u0020empty\u0020response\u0020\u0028204\u0020No\u0020Content\u0029.",
+            "url": "classes/Sloth-Http-Response.html#method_noContent"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003Adownload\u0028\u0029",
+            "name": "download",
+            "summary": "Create\u0020a\u0020file\u0020download\u0020response.",
+            "url": "classes/Sloth-Http-Response.html#method_download"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003Afile\u0028\u0029",
+            "name": "file",
+            "summary": "Create\u0020an\u0020inline\u0020file\u0020response\u0020\u0028e.g.\u0020display\u0020PDF\u0020in\u0020browser\u0029.",
+            "url": "classes/Sloth-Http-Response.html#method_file"
+        },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003Aredirect\u0028\u0029",
+            "name": "redirect",
+            "summary": "Redirect\u0020to\u0020a\u0020URL\u0020and\u0020terminate\u0020the\u0020request.",
+            "url": "classes/Sloth-Http-Response.html#method_redirect"
         },                {
             "fqsen": "\\Sloth\\Installer\\Installer",
             "name": "Installer",
@@ -3991,6 +4061,131 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020services\u0020provided\u0020by\u0020the\u0020provider.",
             "url": "classes/Sloth-Request-RequestServiceProvider.html#method_provides"
         },                {
+            "fqsen": "\\Sloth\\Routing\\Manifest\\RoutesManifestBuilder",
+            "name": "RoutesManifestBuilder",
+            "summary": "Builds\u0020a\u0020manifest\u0020for\u0020routes\u0020discovery.",
+            "url": "classes/Sloth-Routing-Manifest-RoutesManifestBuilder.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Manifest\\RoutesManifestBuilder\u003A\u003Afinder\u0028\u0029",
+            "name": "finder",
+            "summary": "The\u0020finder\u0020to\u0020use\u0020for\u0020discovery.",
+            "url": "classes/Sloth-Routing-Manifest-RoutesManifestBuilder.html#method_finder"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Manifest\\RoutesManifestBuilder\u003A\u003Adirectory\u0028\u0029",
+            "name": "directory",
+            "summary": "Subdirectory\u0020name\u0020to\u0020scan,\u0020relative\u0020to\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Routing-Manifest-RoutesManifestBuilder.html#method_directory"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Route",
+            "name": "Route",
+            "summary": "Thin\u0020wrapper\u0020around\u0020Symfony\u0027s\u0020Route.",
+            "url": "classes/Sloth-Routing-Route.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Route\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Route.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Route\u003A\u003Aname\u0028\u0029",
+            "name": "name",
+            "summary": "Assign\u0020a\u0020name\u0020to\u0020this\u0020route.",
+            "url": "classes/Sloth-Routing-Route.html#method_name"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Route\u003A\u003A\u0024callback",
+            "name": "callback",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Route.html#property_callback"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Route\u003A\u003A\u0024router",
+            "name": "router",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Route.html#property_router"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router",
+            "name": "Router",
+            "summary": "Laravel\u002Desque\u0020router\u0020backed\u0020by\u0020Symfony\u0020Routing.",
+            "url": "classes/Sloth-Routing-Router.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Router.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Register\u0020a\u0020GET\u0020route.",
+            "url": "classes/Sloth-Routing-Router.html#method_get"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Apost\u0028\u0029",
+            "name": "post",
+            "summary": "Register\u0020a\u0020POST\u0020route.",
+            "url": "classes/Sloth-Routing-Router.html#method_post"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Aput\u0028\u0029",
+            "name": "put",
+            "summary": "Register\u0020a\u0020PUT\u0020route.",
+            "url": "classes/Sloth-Routing-Router.html#method_put"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "Register\u0020a\u0020DELETE\u0020route.",
+            "url": "classes/Sloth-Routing-Router.html#method_delete"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003AhasName\u0028\u0029",
+            "name": "hasName",
+            "summary": "Check\u0020if\u0020a\u0020named\u0020route\u0020exists.",
+            "url": "classes/Sloth-Routing-Router.html#method_hasName"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Amatch\u0028\u0029",
+            "name": "match",
+            "summary": "Match\u0020a\u0020path\u0020and\u0020HTTP\u0020method\u0020against\u0020registered\u0020routes.",
+            "url": "classes/Sloth-Routing-Router.html#method_match"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Aurl\u0028\u0029",
+            "name": "url",
+            "summary": "Generate\u0020a\u0020URL\u0020for\u0020a\u0020named\u0020route.",
+            "url": "classes/Sloth-Routing-Router.html#method_url"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003Aadd\u0028\u0029",
+            "name": "add",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Router.html#method_add"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003A\u0024routes",
+            "name": "routes",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Router.html#property_routes"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Router\u003A\u003A\u0024counter",
+            "name": "counter",
+            "summary": "",
+            "url": "classes/Sloth-Routing-Router.html#property_counter"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\RoutingServiceProvider",
+            "name": "RoutingServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020Sloth\u0020Router.",
+            "url": "classes/Sloth-Routing-RoutingServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\RoutingServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020Router\u0020singleton\u0020and\u0020facade\u0020alias.",
+            "url": "classes/Sloth-Routing-RoutingServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\RoutingServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Load\u0020route\u0020files\u0020from\u0020app\/\u0020and\u0020theme\/.",
+            "url": "classes/Sloth-Routing-RoutingServiceProvider.html#method_boot"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\RoutingServiceProvider\u003A\u003AgetHooks\u0028\u0029",
+            "name": "getHooks",
+            "summary": "Register\u0020template_redirect\u0020hook\u0020for\u0020route\u0020dispatching.",
+            "url": "classes/Sloth-Routing-RoutingServiceProvider.html#method_getHooks"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\RoutingServiceProvider\u003A\u003Adispatch\u0028\u0029",
+            "name": "dispatch",
+            "summary": "Dispatch\u0020the\u0020current\u0020request\u0020to\u0020a\u0020matching\u0020route.",
+            "url": "classes/Sloth-Routing-RoutingServiceProvider.html#method_dispatch"
+        },                {
             "fqsen": "\\Sloth\\Support\\AbstractRegistrar",
             "name": "AbstractRegistrar",
             "summary": "Base\u0020class\u0020for\u0020manifest\u002Dbased\u0020WordPress\u0020type\u0020registration.",
@@ -4735,6 +4930,16 @@ Search.appendIndex(
             "name": "Request",
             "summary": "",
             "url": "namespaces/sloth-request.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\Manifest",
+            "name": "Manifest",
+            "summary": "",
+            "url": "namespaces/sloth-routing-manifest.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing",
+            "name": "Routing",
+            "summary": "",
+            "url": "namespaces/sloth-routing.html"
         },                {
             "fqsen": "\\Sloth\\Support",
             "name": "Support",
