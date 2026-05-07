@@ -41,7 +41,7 @@ class WordPressEventBridgeTest extends TestCase
         $this->app = new Container();
 
         // Create and bind the event dispatcher
-        $this->app->singleton('events', fn() => new Dispatcher($this->app));
+        $this->app->singleton('events', fn(): \Illuminate\Events\Dispatcher => new Dispatcher($this->app));
         $this->app->alias('events', Dispatcher::class);
 
         // Create the bridge
@@ -156,7 +156,7 @@ class WordPressEventBridgeTest extends TestCase
         $listenerCalled = false;
         $receivedEvent = null;
 
-        $this->app->make('events')->listen('wp:init', function (WpHookFired $event) use (&$listenerCalled, &$receivedEvent) {
+        $this->app->make('events')->listen('wp:init', function (WpHookFired $event) use (&$listenerCalled, &$receivedEvent): void {
             $listenerCalled = true;
             $receivedEvent = $event;
         });
@@ -187,7 +187,7 @@ class WordPressEventBridgeTest extends TestCase
         $this->bridge->boot();
 
         // Listener modifies the result
-        $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event) {
+        $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event): void {
             $event->result = '<p>Modified: ' . $event->result . '</p>';
         });
 
@@ -213,7 +213,7 @@ class WordPressEventBridgeTest extends TestCase
         $this->bridge->boot();
 
         // Listener that does NOT modify the result
-        $this->app->make('events')->listen('wp:the_title', function (WpHookFired $event) {
+        $this->app->make('events')->listen('wp:the_title', function (WpHookFired $event): void {
             // Just observe, don't modify
             $this->assertSame('Hello World', $event->result);
         });
@@ -254,7 +254,7 @@ class WordPressEventBridgeTest extends TestCase
      */
     public function test_graceful_handling_when_dispatcher_not_bound(): void
     {
-        $bridge = new WordPressEventBridge($this->app);
+        new WordPressEventBridge($this->app);
 
         // Manually create a callback without booting (so no hooks registered)
         // Simulate a scenario where 'events' is not bound
@@ -264,18 +264,14 @@ class WordPressEventBridgeTest extends TestCase
         // We test the callback behavior when bound('events') returns false
 
         // Create a bridge callback manually
-        $callback = (function (string $hook, string $type): callable {
-            return $this->makeBridgeCallback($hook, $type);
-        })->call($testBridge, 'wp_loaded', 'action');
+        $callback = (fn(string $hook, string $type): callable => $this->makeBridgeCallback($hook, $type))->call($testBridge, 'wp_loaded', 'action');
 
         // Should not throw, should return null for action
         $result = $callback();
         $this->assertNull($result);
 
         // Same for filter — should return original value
-        $filterCallback = (function (string $hook, string $type): callable {
-            return $this->makeBridgeCallback($hook, $type);
-        })->call($testBridge, 'the_content', 'filter');
+        $filterCallback = (fn(string $hook, string $type): callable => $this->makeBridgeCallback($hook, $type))->call($testBridge, 'the_content', 'filter');
 
         $result = $filterCallback('original');
         $this->assertSame('original', $result);
@@ -337,12 +333,12 @@ class WordPressEventBridgeTest extends TestCase
         $this->bridge->boot();
 
         // First listener: wrap in div
-        $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event) {
+        $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event): void {
             $event->result = '<div>' . $event->result . '</div>';
         });
 
         // Second listener: add a class
-        $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event) {
+        $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event): void {
             $event->result = str_replace('<div>', '<div class="wrapped">', $event->result);
         });
 
@@ -370,7 +366,7 @@ class WordPressEventBridgeTest extends TestCase
         $this->bridge->boot();
 
         $receivedArgs = null;
-        $this->app->make('events')->listen('wp:save_post_data', function (WpHookFired $event) use (&$receivedArgs) {
+        $this->app->make('events')->listen('wp:save_post_data', function (WpHookFired $event) use (&$receivedArgs): void {
             $receivedArgs = $event->args;
         });
 

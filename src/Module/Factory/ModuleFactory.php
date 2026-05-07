@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Module\Factory;
 
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Sloth\Module\Module;
 
 /**
@@ -39,11 +39,14 @@ class ModuleFactory
     /**
      * Instantiate a module by name, set data, and return it ready to render.
      *
-     * @param string $name Module name (kebab-case or snake_case).
-     * @param array<string, mixed> $data Key-value pairs to set on the module.
-     * @param array<string, mixed> $options Module constructor options.
-     * @return Module The configured module instance.
-     * @throws \InvalidArgumentException If the module class does not exist.
+     * @param string               $name    module name (kebab-case or snake_case)
+     * @param array<string, mixed> $data    key-value pairs to set on the module
+     * @param array<string, mixed> $options module constructor options
+     *
+     * @throws InvalidArgumentException if the module class does not exist
+     *
+     * @return Module the configured module instance
+     *
      * @since 1.0.0
      */
     public function make(string $name, array $data = [], array $options = []): Module
@@ -51,9 +54,9 @@ class ModuleFactory
         $class = $this->resolveClass($name);
 
         if (!class_exists($class)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Module class [{$class}] not found. "
-                . "Make sure the module exists in Theme\\Module\\."
+                . 'Make sure the module exists in Theme\\Module\\.',
             );
         }
 
@@ -69,11 +72,14 @@ class ModuleFactory
     /**
      * Instantiate, configure, and immediately render a module.
      *
-     * @param string $name Module name (kebab-case or snake_case).
-     * @param array<string, mixed> $data Key-value pairs to set on the module.
-     * @param array<string, mixed> $options Module constructor options.
-     * @return string The rendered module output.
-     * @throws \InvalidArgumentException If the module class does not exist.
+     * @param string               $name    module name (kebab-case or snake_case)
+     * @param array<string, mixed> $data    key-value pairs to set on the module
+     * @param array<string, mixed> $options module constructor options
+     *
+     * @throws InvalidArgumentException if the module class does not exist
+     *
+     * @return string the rendered module output
+     *
      * @since 1.0.0
      */
     public function render(string $name, array $data = [], array $options = []): string
@@ -84,8 +90,9 @@ class ModuleFactory
     /**
      * Resolve a module name to a fully-qualified class name.
      *
-     * @param string $name Module name (kebab-case or snake_case).
+     * @param  string       $name module name (kebab-case or snake_case)
      * @return class-string
+     *
      * @since 1.0.0
      */
     public function resolveClass(string $name): string

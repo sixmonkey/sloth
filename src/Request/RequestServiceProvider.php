@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Request;
 
 use Illuminate\Http\Request;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -20,12 +20,12 @@ class RequestServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(
             'request',
-            fn($app) => Request::capture()
+            fn ($app) => Request::capture(),
         );
     }
 
@@ -36,7 +36,7 @@ class RequestServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
-    #[\Override]
+    #[Override]
     public function provides(): array
     {
         return [

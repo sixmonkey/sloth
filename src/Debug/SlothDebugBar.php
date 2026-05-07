@@ -1,15 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Debug;
 
 use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\TimeDataCollector;
 use DebugBar\DebugBar;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Sloth\Core\Application;
 use Sloth\Facades\Route;
 use Sloth\Http\Response;
@@ -22,7 +19,7 @@ use Sloth\Http\Response;
  * collector providers from the debugger configuration.
  *
  * @since 1.0.0
- * @see \Sloth\Debug\DebugServiceProvider
+ * @see DebugServiceProvider
  */
 class SlothDebugBar extends DebugBar
 {
@@ -58,11 +55,9 @@ class SlothDebugBar extends DebugBar
     protected bool $booted = false;
 
     /**
-     * The baseURL to use for assets used by debug bar
+     * The baseURL to use for assets used by debug bar.
      *
      * @see https://php-debugbar.com/docs/rendering/#assets
-     *
-     * @var string
      * @since 1.0.0
      */
     protected string $baseUrl = '/debugbar/sloth';
@@ -73,7 +68,8 @@ class SlothDebugBar extends DebugBar
      * Initializes the three core collectors with the application
      * start time (from SLOTH_START constant or microtime).
      *
-     * @param Application $app The application container.
+     * @param Application $app the application container
+     *
      * @since 1.0.0
      */
     public function __construct(protected Application $app)
@@ -103,30 +99,30 @@ class SlothDebugBar extends DebugBar
         }
 
         collect(config('debugger.bar.collector_providers', []))
-            ->each(function ($collectorProvider) {
-                (new $collectorProvider($this))->boot();
-            });
+            ->each(function ($collectorProvider): void {
+                new $collectorProvider($this)->boot();
+            })
+        ;
 
         $renderer = $this->getJavascriptRenderer();
 
         Route::get($this->baseUrl . '/dist/debugbar.min.css', function () use ($renderer) {
-            $content =
-                $renderer->dumpCssAssets(echo: false) .
-                app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css') .
-                app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
+            $content
+                = $renderer->dumpCssAssets(echo: false)
+                . app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css')
+                . app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
 
             return Response::make(
-                $content
+                $content,
             )
-                ->header('Content-Type', 'text/css');
+                ->header('Content-Type', 'text/css')
+            ;
         });
 
-        Route::get($this->baseUrl . '/dist/debugbar.min.js', function () use ($renderer) {
-            return Response::make(
-                $renderer->dumpJsAssets(echo: false)
-            )
-                ->header('Content-Type', 'text/javascript');
-        });
+        Route::get($this->baseUrl . '/dist/debugbar.min.js', fn () => Response::make(
+            $renderer->dumpJsAssets(echo: false),
+        )
+            ->header('Content-Type', 'text/javascript'));
 
         $this->booted = true;
     }
@@ -134,7 +130,6 @@ class SlothDebugBar extends DebugBar
     /**
      * Get the time data collector.
      *
-     * @return TimeDataCollector
      * @since 1.0.0
      */
     public function getTimeCollector(): TimeDataCollector
@@ -145,7 +140,6 @@ class SlothDebugBar extends DebugBar
     /**
      * Get the messages data collector.
      *
-     * @return MessagesCollector
      * @since 1.0.0
      */
     public function getMessagesCollector(): MessagesCollector
@@ -156,7 +150,6 @@ class SlothDebugBar extends DebugBar
     /**
      * Get the exceptions data collector.
      *
-     * @return ExceptionsCollector
      * @since 1.0.0
      */
     public function getExceptionsCollector(): ExceptionsCollector
@@ -171,7 +164,6 @@ class SlothDebugBar extends DebugBar
      * via boot(). Use this to determine whether custom collectors
      * (queries, sloth, acf, wordpress) are available.
      *
-     * @return bool
      * @since 1.0.0
      */
     public function isBooted(): bool
@@ -188,13 +180,15 @@ class SlothDebugBar extends DebugBar
      *     $debugBar->error('Something went wrong');
      *     $debugBar->info('Processing request');
      *
-     * @param string $method The PSR-3 log level.
-     * @param array $args Messages to add.
+     * @param string $method the PSR-3 log level
+     * @param array  $args   messages to add
+     *
      * @since 1.0.0
      */
     public function __call(string $method, array $args): void
     {
         $messageLevels = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug', 'log'];
+
         if (in_array($method, $messageLevels, true)) {
             foreach ($args as $arg) {
                 $this->addMessage($arg, $method);
@@ -207,9 +201,10 @@ class SlothDebugBar extends DebugBar
      *
      * A message can be anything from a scalar value to a complex object.
      *
-     * @param mixed $message The message content.
-     * @param string $label The message label/level (default: 'info').
-     * @param array $context Optional context data.
+     * @param mixed  $message the message content
+     * @param string $label   the message label/level (default: 'info')
+     * @param array  $context optional context data
+     *
      * @since 1.0.0
      */
     public function addMessage(mixed $message, string $label = 'info', array $context = []): void
@@ -223,7 +218,8 @@ class SlothDebugBar extends DebugBar
      * Configures the JavaScript renderer with the php-debugbar CDN
      * base URL and injects custom Sloth CSS for icons and styling.
      *
-     * @return string The DebugBar HTML (head + toolbar scripts).
+     * @return string the DebugBar HTML (head + toolbar scripts)
+     *
      * @since 1.0.0
      */
     public function render(): string

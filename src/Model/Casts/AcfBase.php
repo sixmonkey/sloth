@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
@@ -17,13 +16,13 @@ class AcfBase implements CastsAttributes
     /**
      * Get the ACF field value.
      *
-     * @param Model $model The model instance
-     * @param string $key The field name
-     * @param mixed $value The raw value from the database
-     * @param array $attributes All model attributes
-     * @return mixed The field value
-     * @since 1.0.0
+     * @param  Model  $model      The model instance
+     * @param  string $key        The field name
+     * @param  mixed  $value      The raw value from the database
+     * @param  array  $attributes All model attributes
+     * @return mixed  The field value
      *
+     * @since 1.0.0
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
@@ -41,11 +40,11 @@ class AcfBase implements CastsAttributes
     /**
      * Set the ACF field value.
      *
-     * @param Model $model The model instance
-     * @param string $key The field name
-     * @param mixed $value The value to set
-     * @param array $attributes All model attributes
-     * @return mixed The value to store
+     * @param  Model  $model      The model instance
+     * @param  string $key        The field name
+     * @param  mixed  $value      The value to set
+     * @param  array  $attributes All model attributes
+     * @return mixed  The value to store
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {

@@ -15,7 +15,7 @@ use Sloth\Console\SlothCommand;
 
 beforeEach(function (): void {
     $app = makeTestApp();
-    $app->singleton(ConsoleKernel::class, fn($a) => makeTestKernel($a));
+    $app->singleton(ConsoleKernel::class, fn(?\Sloth\Core\Application $a): \Sloth\Console\ConsoleKernel => makeTestKernel($a));
     \Sloth\Core\Application::setInstance($app);
     \Illuminate\Support\Facades\Facade::setFacadeApplication($app);
     \WP_CLI::$lastHaltCode = -1;

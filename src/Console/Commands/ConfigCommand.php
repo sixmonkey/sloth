@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console\Commands;
 
 use Sloth\Console\Command;
@@ -63,10 +62,12 @@ class ConfigCommand extends Command
 
         if ($value !== null) {
             $this->line($this->laravel->make('files')->jsonify($value));
+
             return self::SUCCESS;
         }
 
         $this->warn("Config key '{$key}' not found.");
+
         return self::FAILURE;
     }
 }

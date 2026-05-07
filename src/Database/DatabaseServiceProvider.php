@@ -1,12 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Database;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Events\Dispatcher;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -70,14 +70,14 @@ class DatabaseServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/config/database.php', 'database');
 
         $this->app->instance(
             'db.prefix',
-            config('database.connections.' . config('database.default') . '.prefix', 'wp_')
+            config('database.connections.' . config('database.default') . '.prefix', 'wp_'),
         );
     }
 
@@ -89,7 +89,7 @@ class DatabaseServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function boot(): void
     {
         $capsule = new Capsule();
@@ -99,7 +99,7 @@ class DatabaseServiceProvider extends ServiceProvider
         }
 
         $capsule->getDatabaseManager()->setDefaultConnection(
-            config('database.default', 'wordpress')
+            config('database.default', 'wordpress'),
         );
 
         $capsule->setAsGlobal();
@@ -110,6 +110,7 @@ class DatabaseServiceProvider extends ServiceProvider
         Model::resolveConnection()->enableQueryLog();
 
         global $wpdb;
+
         if (isset($wpdb)) {
             $wpdb->save_queries = true;
         }

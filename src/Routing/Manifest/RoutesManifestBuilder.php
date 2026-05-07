@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Routing\Manifest;
 
 use Sloth\Support\Manifest\FileFinder;
@@ -15,7 +14,7 @@ use Sloth\Support\Manifest\PathBasedManifestBuilder;
  * a manifest that requires them on every request.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\PathBasedManifestBuilder
+ * @see PathBasedManifestBuilder
  */
 class RoutesManifestBuilder extends PathBasedManifestBuilder
 {

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\ACF;
 
 /**
@@ -18,20 +17,23 @@ class AcfProxy
     /**
      * Constructor for AcfProxy.
      *
-     * @param array<string, mixed> $fields The ACF fields array.
+     * @param array<string, mixed> $fields the ACF fields array
+     *
      * @since 1.0.0
      */
     public function __construct(
         /** @var array<string, mixed> */
-        private mixed $fields
-    ) {}
+        private mixed $fields,
+    ) {
+    }
 
     /**
      * Magic method to get field values.
      *
-     * @param string $name The field name.
-     * @param array<int, mixed> $arguments Method arguments (unused).
-     * @return mixed The field value or null if not found.
+     * @param  string            $name      the field name
+     * @param  array<int, mixed> $arguments method arguments (unused)
+     * @return mixed             the field value or null if not found
+     *
      * @since 1.0.0
      */
     public function __call(string $name, array $arguments): mixed

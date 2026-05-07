@@ -1,16 +1,16 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\LayotterBridge;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sloth\Core\ServiceProvider;
 use Sloth\LayotterBridge\Registrar\LayotterElementRegistrar;
 use Sloth\Model\Model;
 use Sloth\Module\Manifest\ModuleManifestBuilder;
+use Throwable;
 
 /**
  * Service provider for the Layotter component.
@@ -25,16 +25,16 @@ class LayotterBridgeServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(
             'layotter',
-            Layotter::class
+            Layotter::class,
         );
         $this->app->singleton(
             LayotterElementRegistrar::class,
-            fn() => new LayotterElementRegistrar(app(ModuleManifestBuilder::class))
+            fn (): LayotterElementRegistrar => new LayotterElementRegistrar(app(ModuleManifestBuilder::class)),
         );
     }
 
@@ -51,20 +51,22 @@ class LayotterBridgeServiceProvider extends ServiceProvider
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
      * @since 1.0.0
      */
     protected function configurePostTypes(): void
     {
-        collect($this->app->get('sloth.models'))->each(function (string $modelClass, string $postType) {
+        collect($this->app->get('sloth.models'))->each(function (string $modelClass, string $postType): void {
             try {
                 $layotter = $modelClass::$layotter;
                 $layotterService = $this->app['layotter'];
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 return;
             }
 
             if ($layotter === false) {
                 $layotterService->disable_for_post_type($postType);
+
                 return;
             }
 
@@ -73,7 +75,7 @@ class LayotterBridgeServiceProvider extends ServiceProvider
             if (is_array($layotter) && isset($layotter['allowed_row_layouts'])) {
                 $layotterService->set_layouts_for_post_type(
                     $postType,
-                    $layotter['allowed_row_layouts']
+                    $layotter['allowed_row_layouts'],
                 );
             }
         });
@@ -82,12 +84,13 @@ class LayotterBridgeServiceProvider extends ServiceProvider
     /**
      * @return array[]
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
             'init' => [
-                ['callback' => fn() => $this->configurePostTypes(), 'priority' => 20],
-                ['callback' => fn() => app(LayotterElementRegistrar::class)->registerElements(), 'priority' => 20],
+                ['callback' => $this->configurePostTypes(...), 'priority' => 20],
+                ['callback' => fn () => app(LayotterElementRegistrar::class)->registerElements(), 'priority' => 20],
             ],
         ];
     }
@@ -97,36 +100,37 @@ class LayotterBridgeServiceProvider extends ServiceProvider
      *
      * @return array|array[]|callable[]
      */
+    #[Override]
     public function getFilters(): array
     {
         return [
-            'layotter/enable_example_element' => '__return_false',
-            'layotter/enable_default_css' => '__return_false',
+            'layotter/enable_example_element'   => '__return_false',
+            'layotter/enable_default_css'       => '__return_false',
             'layotter/enable_element_templates' => '__return_true',
-            'layotter/enable_post_layouts' => '__return_true',
+            'layotter/enable_post_layouts'      => '__return_true',
 
-            'layotter/enabled_post_types' => fn(...$args) => app('layotter')->enabledPostTypes(...$args),
-            'layotter/rows/allowed_layouts' => fn(...$args) => app('layotter')->allowedRowLayouts(...$args),
-            'layotter/rows/default_layout' => fn(...$args) => app('layotter')->defaultRowLayout(...$args),
-            'layotter/columns/classes' => fn(...$args) => app('layotter')->customColumnClasses(...$args),
-            'layotter/view/element' => [
-                'callback' => fn(...$args) => app('layotter')->customElementView(...$args),
+            'layotter/enabled_post_types'   => fn (...$args) => app('layotter')->enabledPostTypes(...$args),
+            'layotter/rows/allowed_layouts' => fn (...$args) => app('layotter')->allowedRowLayouts(...$args),
+            'layotter/rows/default_layout'  => fn (...$args) => app('layotter')->defaultRowLayout(...$args),
+            'layotter/columns/classes'      => fn (...$args) => app('layotter')->customColumnClasses(...$args),
+            'layotter/view/element'         => [
+                'callback' => fn (...$args) => app('layotter')->customElementView(...$args),
                 'priority' => 10,
             ],
             'layotter/view/column' => [
-                'callback' => fn(...$args) => app('layotter')->customColumnView(...$args),
+                'callback' => fn (...$args) => app('layotter')->customColumnView(...$args),
                 'priority' => 10,
             ],
             'layotter/view/row' => [
-                'callback' => fn(...$args) => app('layotter')->customRowView(...$args),
+                'callback' => fn (...$args) => app('layotter')->customRowView(...$args),
                 'priority' => 10,
             ],
             'layotter/view/post' => [
-                'callback' => fn(...$args) => app('layotter')->customPostView(...$args),
+                'callback' => fn (...$args) => app('layotter')->customPostView(...$args),
                 'priority' => 10,
             ],
 
-            'admin_head' => fn() => app('layotter')->renderLayotterStyles(),
+            'admin_head' => fn () => app('layotter')->renderLayotterStyles(),
         ];
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Context;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -14,7 +14,7 @@ use Sloth\Core\ServiceProvider;
  * variables like current layout.
  *
  * @since 1.0.0
- * @see \Sloth\Context\Context
+ * @see Context
  * @see \Sloth\Plugin\Plugin
  */
 class ContextServiceProvider extends ServiceProvider
@@ -24,10 +24,9 @@ class ContextServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton('context', function () {
-            return new Context($this->app);
-        });
+        $this->app->singleton('context', fn (): Context => new Context($this->app));
     }
 }

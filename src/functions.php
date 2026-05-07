@@ -11,7 +11,7 @@ if (!function_exists('debug')) {
     /**
      * Dumps variables to PHP Debug-Bar bar for debugging.
      *
-     * @param mixed ...$vars Variables to dump
+     * @param  mixed ...$vars Variables to dump
      * @return mixed Returns the first variable unchanged
      */
     function debug(mixed ...$vars): mixed
@@ -31,24 +31,29 @@ if (!function_exists('config')) {
      * Get / set the specified configuration value.
      *
      * @param array|string|null $key
-     * @param mixed $default
-     * @return mixed
+     * @param mixed             $default
+     *
      * @throws BindingResolutionException
      */
     function config($key = null, $default = null): mixed
     {
         $app = Facade::getFacadeApplication();
-        if ($app !== null && $app->bound('config')) {
+
+        if ($app instanceof Sloth\Core\Application && $app->bound('config')) {
             /** @var Repository $repository */
             $repository = $app->make('config');
+
             if (is_array($key)) {
                 foreach ($key as $k => $v) {
                     $repository->set($k, $v);
                 }
+
                 return true;
             }
+
             return $repository->get($key, $default);
         }
+
         return $default;
     }
 }
@@ -57,9 +62,9 @@ if (!function_exists('app')) {
     /**
      * Get the available container instance.
      *
-     * @param mixed $abstract
+     * @param mixed                $abstract
      * @param array<string, mixed> $parameters
-     * @return mixed
+     *
      * @throws BindingResolutionException
      */
     function app($abstract = null, array $parameters = []): mixed
@@ -67,6 +72,7 @@ if (!function_exists('app')) {
         if (is_null($abstract)) {
             return Container::getInstance();
         }
+
         return Container::getInstance()->make($abstract, $parameters);
     }
 }
@@ -77,11 +83,13 @@ if (!function_exists('module')) {
      *
      * Thin wrapper around app('module.factory')->render().
      *
-     * @param string $name Module name (kebab-case or snake_case).
-     * @param array<string, mixed> $data Key-value pairs passed to the module.
-     * @param array<string, mixed> $options Constructor options for the module.
-     * @return string The rendered module HTML.
-     * @throws \InvalidArgumentException|BindingResolutionException If the module class does not exist.
+     * @param string               $name    module name (kebab-case or snake_case)
+     * @param array<string, mixed> $data    key-value pairs passed to the module
+     * @param array<string, mixed> $options constructor options for the module
+     *
+     * @throws BindingResolutionException|InvalidArgumentException if the module class does not exist
+     *
+     * @return string the rendered module HTML
      *
      * @example
      * ```php

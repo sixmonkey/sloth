@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support\Manifest;
 
 use Illuminate\Filesystem\Filesystem;
+use Throwable;
 
 /**
  * Writes a manifest PHP file from a file map.
@@ -47,11 +47,12 @@ class ManifestWriter
     /**
      * Creates a new ManifestWriter instance.
      *
-     * @param Filesystem $files The filesystem abstraction used for directory creation and file writing.
+     * @param Filesystem $files the filesystem abstraction used for directory creation and file writing
      */
     public function __construct(
         private readonly Filesystem $files,
-    ) {}
+    ) {
+    }
 
     /**
      * Write the manifest file to the given path.
@@ -60,8 +61,8 @@ class ManifestWriter
      * file, optional extra lines (e.g. Layotter class definitions), and a return
      * statement with the serialized entry data.
      *
-     * @param string                      $path       Absolute path where the manifest file will be written.
-     * @param array<string, string>       $map        Identifier => absolute file path map produced by a Finder.
+     * @param string                      $path       absolute path where the manifest file will be written
+     * @param array<string, string>       $map        identifier => absolute file path map produced by a Finder
      * @param array<string, list<string>> $extraLines PHP code lines to embed after each file's require_once.
      *                                                Keys must match identifiers from $map.
      * @param array<string, mixed>        $entries    Structured data returned by the manifest. Consumed by
@@ -86,15 +87,15 @@ class ManifestWriter
         ]);
 
         if ($require) {
-            collect($map)->each(function ($file, $identifier) use ($lines, $extraLines) {
+            collect($map)->each(function ($file, $identifier) use ($lines, $extraLines): void {
                 $lines->push('require_once ' . var_export($file, true) . ';');
 
-                collect($extraLines[$identifier] ?? [])->each(fn($line) => $lines->push($line));
+                collect($extraLines[$identifier] ?? [])->each(fn ($line) => $lines->push($line));
 
                 $lines->push('');
             });
         } else {
-            collect($extraLines)->flatten()->each(fn($line) => $lines->push($line));
+            collect($extraLines)->flatten()->each(fn ($line) => $lines->push($line));
         }
 
         $lines->push('return ' . var_export($entries, true) . ';');
@@ -102,7 +103,7 @@ class ManifestWriter
         try {
             $this->files->ensureDirectoryExists(dirname($path));
             $this->files->put($path, $lines->implode("\n"));
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // Non-fatal — manifest is an optimisation, not a requirement
         }
     }

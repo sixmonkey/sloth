@@ -1,9 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Registrar;
 
+use function add_meta_box;
+use function register_extended_taxonomy;
+use function remove_meta_box;
 use Sloth\Model\Manifest\TaxonomyManifestBuilder;
 
 /**
@@ -40,7 +42,7 @@ use Sloth\Model\Manifest\TaxonomyManifestBuilder;
  * rendered by Taxonomy::metabox().
  *
  * @since 1.0.0
- * @see \Sloth\Model\Manifest\TaxonomyManifestBuilder For entry data computation
+ * @see TaxonomyManifestBuilder For entry data computation
  * @see \Sloth\Model\Taxonomy                        For the metabox template
  * @see \Sloth\Model\ModelServiceProvider             For hook registration
  */
@@ -49,13 +51,15 @@ class TaxonomyRegistrar
     /**
      * Creates a new TaxonomyRegistrar instance.
      *
-     * @param TaxonomyManifestBuilder $builder The manifest builder that provides
-     *                                         the pre-computed entry data.
+     * @param TaxonomyManifestBuilder $builder the manifest builder that provides
+     *                                         the pre-computed entry data
+     *
      * @since 1.0.0
      */
     public function __construct(
         private readonly TaxonomyManifestBuilder $builder,
-    ) {}
+    ) {
+    }
 
     /**
      * Register all discovered taxonomies with WordPress.
@@ -73,17 +77,17 @@ class TaxonomyRegistrar
      */
     public function register(): void
     {
-        foreach ($this->builder->getEntries() as $taxonomyClass => $entry) {
-            \register_extended_taxonomy(
+        foreach ($this->builder->getEntries() as $entry) {
+            register_extended_taxonomy(
                 $entry['slug'],
                 $entry['postTypes'],
                 $entry['args'],
-                $entry['names']
+                $entry['names'],
             );
 
             if ($entry['unique']) {
                 foreach ($entry['postTypes'] as $postType) {
-                    \remove_meta_box('tagsdiv-' . $entry['slug'], $postType, null);
+                    remove_meta_box('tagsdiv-' . $entry['slug'], $postType, null);
                 }
             }
         }
@@ -109,14 +113,14 @@ class TaxonomyRegistrar
             }
 
             $taxonomy = new $taxonomyClass();
-            $singular = $entry['names']['singular'] ?? ucfirst($entry['slug']);
+            $singular = $entry['names']['singular'] ?? ucfirst((string) $entry['slug']);
 
-            \add_meta_box(
+            add_meta_box(
                 'sloth-taxonomy-' . $entry['slug'],
                 $singular,
                 $taxonomy->metabox(...),
                 $entry['postTypes'],
-                'side'
+                'side',
             );
         }
     }

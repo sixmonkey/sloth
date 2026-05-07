@@ -1,6 +1,7 @@
 includes:
     - phpstan-baseline.neon
     - vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - vendor/spaze/phpstan-disallowed-calls/extension.neon
 
 parameters:
     level: 1
@@ -10,22 +11,25 @@ parameters:
     excludePaths:
         - tests
         - vendor
-        - src/_view
-        - src/Assets
-        - src/ACF
-        - src/Admin
-        - src/Controller
-        - src/Api
-        - src/Field
-        - src/Finder
-        - src/Installer
-        - src/View
+
+        # will be removed
+        - src/LayotterBridge
         - src/Model
-        - src/Module
-        - src/Pagination
+
+        # legacy
         - src/wp-config.php
         - src/bootstrap.php
     fileExtensions:
         - php
-
+    bootstrapFiles:
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
     reportUnmatchedIgnoredErrors: false
+    disallowedFunctionCalls:
+        - function: 'var_dump()'
+          message: 'Use Sloth\debug() helper instead'
+          allowIn:
+            - src/functions.php
+        - function: 'print_r()'
+          message: 'Use Sloth\debug() helper instead'
+        - function: 'dd()'
+          message: 'Remove debug statement before committing'

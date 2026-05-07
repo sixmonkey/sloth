@@ -1,14 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
+
+use Override;
 
 /**
  * Validation Facade for accessing the validation service.
  *
  * @since 1.0.0
- * @see \Sloth\Facades\Facade
+ * @see Facade
  */
 class Validation extends Facade
 {
@@ -19,7 +20,7 @@ class Validation extends Facade
      *
      * @return string The service identifier for the validator facade
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'validator';

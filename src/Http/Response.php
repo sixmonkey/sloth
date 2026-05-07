@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Http;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response as IlluminateResponse;
+use SplFileInfo;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -37,25 +37,26 @@ class Response extends IlluminateResponse
     /**
      * Create a new HTTP response.
      *
-     * @param mixed $content The response content.
-     * @param int $status HTTP status code.
-     * @param array<string, mixed> $headers Additional response headers.
-     * @return static
+     * @param mixed                $content the response content
+     * @param int                  $status  HTTP status code
+     * @param array<string, mixed> $headers additional response headers
+     *
      * @since 1.0.0
      */
     public static function make(mixed $content = '', int $status = 200, array $headers = []): static
     {
+        // @phpstan-ignore new.static
         return new static($content, $status, $headers);
     }
 
     /**
      * Create a new JSON response.
      *
-     * @param mixed $data Data to encode as JSON.
-     * @param int $status HTTP status code.
-     * @param array<string, mixed> $headers Additional response headers.
-     * @param int $options JSON encoding options.
-     * @return JsonResponse
+     * @param mixed                $data    data to encode as JSON
+     * @param int                  $status  HTTP status code
+     * @param array<string, mixed> $headers additional response headers
+     * @param int                  $options JSON encoding options
+     *
      * @since 1.0.0
      */
     public static function json(
@@ -70,28 +71,29 @@ class Response extends IlluminateResponse
     /**
      * Create a new empty response (204 No Content).
      *
-     * @param int $status HTTP status code (default 204).
-     * @param array<string, mixed> $headers Additional response headers.
-     * @return static
+     * @param int                  $status  HTTP status code (default 204)
+     * @param array<string, mixed> $headers additional response headers
+     *
      * @since 1.0.0
      */
     public static function noContent(int $status = 204, array $headers = []): static
     {
+        // @phpstan-ignore new.static
         return new static('', $status, $headers);
     }
 
     /**
      * Create a file download response.
      *
-     * @param \SplFileInfo|string $file Path or file info of the file to download.
-     * @param string|null $name Download filename shown to the user.
-     * @param array<string, mixed> $headers Additional response headers.
-     * @param string $disposition Content-Disposition (attachment or inline).
-     * @return BinaryFileResponse
+     * @param SplFileInfo|string   $file        path or file info of the file to download
+     * @param string|null          $name        download filename shown to the user
+     * @param array<string, mixed> $headers     additional response headers
+     * @param string               $disposition content-Disposition (attachment or inline)
+     *
      * @since 1.0.0
      */
     public static function download(
-        \SplFileInfo|string $file,
+        SplFileInfo|string $file,
         ?string $name = null,
         array $headers = [],
         string $disposition = 'attachment',
@@ -102,13 +104,13 @@ class Response extends IlluminateResponse
     /**
      * Create an inline file response (e.g. display PDF in browser).
      *
-     * @param \SplFileInfo|string $file Path or file info of the file to display.
-     * @param array<string, mixed> $headers Additional response headers.
-     * @return BinaryFileResponse
+     * @param SplFileInfo|string   $file    path or file info of the file to display
+     * @param array<string, mixed> $headers additional response headers
+     *
      * @since 1.0.0
      */
     public static function file(
-        \SplFileInfo|string $file,
+        SplFileInfo|string $file,
         array $headers = [],
     ): BinaryFileResponse {
         return new BinaryFileResponse($file, 200, $headers);
@@ -120,10 +122,10 @@ class Response extends IlluminateResponse
      * Uses wp_redirect() when WordPress is available, falls back to a
      * plain Location header otherwise (e.g. in CLI or standalone context).
      *
-     * @param string $url The URL to redirect to.
-     * @param int $status HTTP status code (default 302).
-     * @param array<string, mixed> $headers Additional response headers.
-     * @return never
+     * @param string               $url     the URL to redirect to
+     * @param int                  $status  HTTP status code (default 302)
+     * @param array<string, mixed> $headers additional response headers
+     *
      * @since 1.0.0
      */
     public static function redirect(string $url, int $status = 302, array $headers = []): never

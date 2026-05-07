@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Traits;
 
 /**
@@ -36,8 +35,7 @@ trait HasCustomTimestamps
      * When a model is created, both the local timestamp field (e.g., post_date)
      * and its GMT equivalent (e.g., post_date_gmt) are set.
      *
-     * @param mixed $value The timestamp value to set
-     *
+     * @param  mixed $value The timestamp value to set
      * @return mixed The result of the parent's setCreatedAt method
      *
      * @example
@@ -64,8 +62,7 @@ trait HasCustomTimestamps
      * When a model is updated, both the local timestamp field (e.g., post_modified)
      * and its GMT equivalent (e.g., post_modified_gmt) are set.
      *
-     * @param mixed $value The timestamp value to set
-     *
+     * @param  mixed $value The timestamp value to set
      * @return mixed The result of the parent's setUpdatedAt method
      *
      * @example

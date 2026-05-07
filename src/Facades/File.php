@@ -1,8 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
+
+use Override;
 
 /**
  * File Facade — static access to the Filesystem service.
@@ -94,11 +95,11 @@ class File extends Facade
      * The `Illuminate\Filesystem\Filesystem` instance is registered
      * under the `'files'` key by `FilesystemServiceProvider`.
      *
-     * @return string The container binding key.
-     * @since 1.0.0
+     * @return string the container binding key
      *
+     * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'files';

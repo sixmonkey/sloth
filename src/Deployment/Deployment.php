@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Deployment;
 
 /**
@@ -15,6 +14,7 @@ class Deployment
      * WordPress hooks to trigger deployment.
      *
      * @since 1.0.0
+     *
      * @var array<string>
      */
     protected array $hooks = [
@@ -46,6 +46,7 @@ class Deployment
     public function trigger(): void
     {
         $hook = getenv('SLOTH_DEPLOYMENT_WEBHOOK');
+
         if ($hook) {
             wp_remote_post($hook);
         }

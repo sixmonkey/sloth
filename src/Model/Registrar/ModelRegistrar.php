@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Registrar;
 
+use function register_extended_post_type;
 use Sloth\Model\Manifest\ModelManifestBuilder;
 
 /**
@@ -35,7 +35,7 @@ use Sloth\Model\Manifest\ModelManifestBuilder;
  * to call the WordPress API with pre-computed data.
  *
  * @since 1.0.0
- * @see \Sloth\Model\Manifest\ModelManifestBuilder For entry data computation
+ * @see ModelManifestBuilder For entry data computation
  * @see \Sloth\Model\ModelServiceProvider            For hook registration
  */
 class ModelRegistrar
@@ -43,13 +43,15 @@ class ModelRegistrar
     /**
      * Creates a new ModelRegistrar instance.
      *
-     * @param ModelManifestBuilder $builder The manifest builder that provides
-     *                                      the pre-computed entry data.
+     * @param ModelManifestBuilder $builder the manifest builder that provides
+     *                                      the pre-computed entry data
+     *
      * @since 1.0.0
      */
     public function __construct(
         private readonly ModelManifestBuilder $builder,
-    ) {}
+    ) {
+    }
 
     /**
      * Register all discovered post types with WordPress.
@@ -65,11 +67,11 @@ class ModelRegistrar
      */
     public function register(): void
     {
-        foreach ($this->builder->getEntries() as $modelClass => $entry) {
-            \register_extended_post_type(
+        foreach ($this->builder->getEntries() as $entry) {
+            register_extended_post_type(
                 $entry['postType'],
                 $entry['args'],
-                $entry['names']
+                $entry['names'],
             );
         }
     }

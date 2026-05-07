@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\ACF;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -17,12 +16,17 @@ class ACFHelper
     /**
      * Load an image from ACF field value.
      *
-     * @param mixed $value The ACF field value
-     * @return Image|null The Image object or null
+     * @param mixed $value   The ACF field value
+     * @param mixed $post_id
+     * @param mixed $field
+     *
      * @throws BindingResolutionException
+     *
+     * @return Image|null The Image object or null
+     *
      * @since 1.0.0
      */
-    public function loadImage($value, $post_id, $field)
+    public function loadImage($value, $post_id, $field): Image
     {
         return new Image($value);
     }
@@ -35,6 +39,7 @@ class ACFHelper
     public function autoSyncAcfFields(): void
     {
         $autosyncAcf = config('autosync_acf');
+
         if (
             !function_exists('acf_get_field_groups')
             || !app()->isLocal()
@@ -53,6 +58,7 @@ class ACFHelper
             $local = acf_maybe_get($group, 'local', false);
             $modified = acf_maybe_get($group, 'modified', 0);
             $private = acf_maybe_get($group, 'private', false);
+
             if ($private) {
                 continue;
             }
@@ -72,5 +78,4 @@ class ACFHelper
             }
         }
     }
-
 }

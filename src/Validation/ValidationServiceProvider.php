@@ -1,12 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Validation;
 
+use function get_locale;
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Factory;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -29,15 +30,15 @@ class ValidationServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(
             'validator',
-            fn($app): \Illuminate\Validation\Factory => new Factory(
-                new Translator(new ArrayLoader(), \get_locale()),
-                $app
-            )
+            fn ($app): Factory => new Factory(
+                new Translator(new ArrayLoader(), get_locale()),
+                $app,
+            ),
         );
     }
 
@@ -48,7 +49,7 @@ class ValidationServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
-    #[\Override]
+    #[Override]
     public function provides(): array
     {
         return [

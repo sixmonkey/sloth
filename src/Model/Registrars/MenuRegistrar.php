@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Registrars;
 
+use function register_nav_menu;
+use Exception;
 use Sloth\Core\Application;
-use Sloth\Facades\Configure;
 
 /**
  * Service provider for navigation menu registration.
@@ -20,25 +20,28 @@ class MenuRegistrar
     /**
      * Constructor.
      *
-     * @param Application $app The application container instance.
-     * @since 1.0.0
+     * @param Application $app the application container instance
      *
+     * @since 1.0.0
      */
-    public function __construct(private Application $app) {}
+    public function __construct(private readonly Application $app)
+    {
+    }
 
     /**
      * Register navigation menus from config.
      *
-     * @throws \Exception If theme.menus is not an array
-     * @since 1.0.0
+     * @throws Exception If theme.menus is not an array
      *
+     * @since 1.0.0
      */
     public function init(): void
     {
         $menus = [];
+
         foreach (config('theme.menus', []) as $location => $name) {
             $menus[$location] = $name;
-            \register_nav_menu($location, (string) $name);
+            register_nav_menu($location, (string) $name);
         }
         $this->app->instance('sloth.menus', $menus);
     }

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Media;
 
 use Corcel\Model\Attachment;
@@ -9,7 +8,7 @@ use Sloth\Model\SlothMediaVersion;
 use Spatie\Image\Image as SpatieImage;
 
 /**
- * Image Version Generator
+ * Image Version Generator.
  *
  * This class handles on-the-fly generation of image versions based on
  * configuration stored in WordPress meta fields. It uses the Spatie Image
@@ -48,8 +47,6 @@ class Version
      * The SlothMediaVersion model instance for this version.
      *
      * Contains the URL and transformation options for this image version.
-     *
-     * @var SlothMediaVersion|null
      */
     protected ?SlothMediaVersion $mediaVersion = null;
 
@@ -63,8 +60,6 @@ class Version
      * original-image-300x200.jpg
      *
      * @param string $url The versioned image URL to process
-     *
-     * @return void
      */
     public function __construct(string $url)
     {
@@ -72,7 +67,7 @@ class Version
         $this->mediaVersion = SlothMediaVersion::where('guid', 'like', '%' . $url)->first();
 
         // Exit early if version configuration not found
-        if (!$this->mediaVersion) {
+        if (!$this->mediaVersion instanceof SlothMediaVersion) {
             return;
         }
 
@@ -152,9 +147,7 @@ class Version
                 // for dimensions (width, height, crop, etc.).
                 //
                 // Example: '300' -> 300
-                $value = array_map(function ($v) {
-                    return is_numeric($v) ? (int) $v : $v;
-                }, $value);
+                $value = array_map(fn ($v): mixed => is_numeric($v) ? (int) $v : $v, $value);
 
                 // Call the Spatie Image method with the processed arguments
                 call_user_func_array([$img, $method], $value);
@@ -177,8 +170,6 @@ class Version
      *
      * @param string $path Absolute path to the file to serve
      *
-     * @return void
-     *
      * @uses header() To set Content-Type and Content-Length headers
      * @uses file_get_contents() To read file contents
      * @uses finfo_file() To determine MIME type
@@ -195,7 +186,7 @@ class Version
 
         // Set headers for proper browser handling
         header('Content-Type: ' . $mimeType);
-        header('Content-Length: ' . strlen($content));
+        header('Content-Length: ' . strlen((string) $content));
 
         // Output the file contents
         echo $content;

@@ -1,10 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console;
 
+use Override;
 use Sloth\Core\ServiceProvider;
+use WP_CLI;
 
 /**
  * Service provider for WP-CLI integration.
@@ -25,7 +26,7 @@ class ConsoleServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         if (!defined('WP_CLI') || !WP_CLI) {
@@ -34,7 +35,7 @@ class ConsoleServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             ConsoleKernel::class,
-            fn($app) => new ConsoleKernel($app),
+            fn ($app): ConsoleKernel => new ConsoleKernel($app),
         );
     }
 
@@ -49,6 +50,6 @@ class ConsoleServiceProvider extends ServiceProvider
             return;
         }
 
-        \WP_CLI::add_command('sloth', SlothCommand::class);
+        WP_CLI::add_command('sloth', SlothCommand::class);
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Api;
 
+use function register_rest_route;
+use Override;
 use Sloth\Api\Manifest\ApiControllerManifestBuilder;
 use Sloth\Core\ServiceProvider;
 use WP_REST_Request;
@@ -59,8 +60,8 @@ use WP_REST_Response;
  * accessed directly from ApiControllerManifestBuilder::getEntries().
  *
  * @since 1.0.0
- * @see \Sloth\Api\Controller                          For the controller base class
- * @see \Sloth\Api\Manifest\ApiControllerManifestBuilder For controller discovery
+ * @see Controller                          For the controller base class
+ * @see ApiControllerManifestBuilder For controller discovery
  */
 class ApiServiceProvider extends ServiceProvider
 {
@@ -72,9 +73,10 @@ class ApiServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(ApiControllerManifestBuilder::class, fn($app) => new ApiControllerManifestBuilder($app));
+        $this->app->singleton(ApiControllerManifestBuilder::class, fn ($app): ApiControllerManifestBuilder => new ApiControllerManifestBuilder($app));
     }
 
     /**
@@ -84,14 +86,16 @@ class ApiServiceProvider extends ServiceProvider
      * - **init**: Runs ApiControllerManifestBuilder::init() for discovery.
      * - **rest_api_init**: Calls registerControllers() to register REST routes.
      *
-     * @return array<string, callable|array<callable>> Hook mappings.
+     * @return array<string, array<callable>|callable> hook mappings
+     *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
-            'init' => fn() => $this->initControllers(),
-            'rest_api_init' => fn() => $this->registerControllers(),
+            'init'          => $this->initControllers(...),
+            'rest_api_init' => $this->registerControllers(...),
         ];
     }
 
@@ -102,13 +106,15 @@ class ApiServiceProvider extends ServiceProvider
      * - **rest_post_dispatch**: Passthrough filter, reserved for future
      *   response manipulation (e.g. adding custom headers).
      *
-     * @return array<string, callable|array<callable>> Filter mappings.
+     * @return array<string, array<callable>|callable> filter mappings
+     *
      * @since 1.0.0
      */
+    #[Override]
     public function getFilters(): array
     {
         return [
-            'rest_post_dispatch' => fn($response) => $response,
+            'rest_post_dispatch' => fn ($response) => $response,
         ];
     }
 
@@ -133,7 +139,7 @@ class ApiServiceProvider extends ServiceProvider
      * namespace.
      *
      * @since 1.0.0
-     * @see \Sloth\Api\Controller For controller base class requirements
+     * @see Controller For controller base class requirements
      */
     public function registerControllers(): void
     {
@@ -153,9 +159,10 @@ class ApiServiceProvider extends ServiceProvider
      * Each route callback instantiates the controller, sets the request,
      * extracts the `id` parameter, and delegates to the action method.
      *
-     * @param class-string<Controller> $controllerClass The controller class to register.
+     * @param class-string<Controller>                                           $controllerClass the controller class to register
      * @param array{routePrefix: string, methods: list<string>, hasSingle: bool} $entry
-     *                                                  Pre-computed route data.
+     *                                                                                            Pre-computed route data
+     *
      * @since 1.0.0
      */
     protected function registerControllerRoutes(string $controllerClass, array $entry): void
@@ -175,12 +182,12 @@ class ApiServiceProvider extends ServiceProvider
         }
 
         foreach ($routes as $route => $action) {
-            \register_rest_route(
+            register_rest_route(
                 'sloth/v1',
                 '/' . $route,
                 [
-                    'methods' => ['GET', 'POST', 'DELETE', 'PUT'],
-                    'callback' => function (WP_REST_Request $request) use ($controllerClass, $action) {
+                    'methods'  => ['GET', 'POST', 'DELETE', 'PUT'],
+                    'callback' => function (WP_REST_Request $request) use ($controllerClass, $action): WP_REST_Response {
                         $controller = new $controllerClass();
                         $controller->setRequest($request);
                         $param = $request->get_url_params('id');
@@ -188,7 +195,7 @@ class ApiServiceProvider extends ServiceProvider
 
                         if (empty($data) && $controller->response->status >= 400) {
                             $data = [
-                                'code' => $controller->response->status,
+                                'code'    => $controller->response->status,
                                 'message' => \Symfony\Component\HttpFoundation\Response::$statusTexts[$controller->response->status] ?? 'Unknown Error',
                             ];
                         }
@@ -196,10 +203,10 @@ class ApiServiceProvider extends ServiceProvider
                         return new WP_REST_Response(
                             $data,
                             $controller->response->status,
-                            $controller->response->headers
+                            $controller->response->headers,
                         );
                     },
-                ]
+                ],
             );
         }
     }

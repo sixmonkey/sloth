@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Manifest;
 
+use Override;
 use Sloth\Model\Taxonomy;
-use Sloth\Support\Manifest\PathBasedManifestBuilder;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Sloth\Support\Manifest\FinderInterface;
+use Sloth\Support\Manifest\PathBasedManifestBuilder;
 
 /**
  * Builds a manifest for WordPress taxonomy registration.
@@ -46,8 +46,8 @@ use Sloth\Support\Manifest\FinderInterface;
  * Taxonomies with `$register = false` are excluded from the entry data.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\PathBasedManifestBuilder For the base class lifecycle
- * @see \Sloth\Model\Manifest\TaxonomyRegistrar         For runtime registration
+ * @see PathBasedManifestBuilder For the base class lifecycle
+ * @see TaxonomyRegistrar         For runtime registration
  */
 class TaxonomyManifestBuilder extends PathBasedManifestBuilder
 {
@@ -57,10 +57,11 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
      * Uses ClassMapFinder filtered to classes extending Sloth\Model\Taxonomy.
      * Non-abstract subclasses are included; abstract base classes are excluded.
      *
-     * @return FinderInterface The configured ClassMapFinder.
+     * @return FinderInterface the configured ClassMapFinder
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function finder(): FinderInterface
     {
         return new ClassMapFinder(Taxonomy::class);
@@ -71,10 +72,11 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
      *
      * Scans `app/Taxonomy/` and `theme/Taxonomy/`.
      *
-     * @return string Always 'Taxonomy'.
+     * @return string always 'Taxonomy'
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function directory(): string
     {
         return 'Taxonomy';
@@ -91,17 +93,18 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
      * remove the default tag-style metabox and register a custom radio
      * metabox instead.
      *
-     * @param array<string, string> $map Taxonomy class name => absolute file path.
+     * @param  array<string, string>                                                                                                               $map taxonomy class name => absolute file path
      * @return array<string, array{slug: string, postTypes: list<string>, unique: bool, args: array<string, mixed>, names: array<string, string>}>
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function entries(array $map): array
     {
         $entries = [];
 
         /** @var class-string<Taxonomy> $taxonomyClass */
-        foreach ($map as $taxonomyClass => $file) {
+        foreach (array_keys($map) as $taxonomyClass) {
             if (!$taxonomyClass::$register) {
                 continue;
             }
@@ -109,11 +112,11 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
             $slug = new $taxonomyClass()->getTaxonomy();
 
             $entries[$taxonomyClass] = [
-                'slug' => $slug,
+                'slug'      => $slug,
                 'postTypes' => $taxonomyClass::$postTypes,
-                'unique' => $taxonomyClass::$unique,
-                'args' => $this->buildArgs($taxonomyClass),
-                'names' => $this->buildNames($taxonomyClass, $slug),
+                'unique'    => $taxonomyClass::$unique,
+                'args'      => $this->buildArgs($taxonomyClass),
+                'names'     => $this->buildNames($taxonomyClass, $slug),
             ];
         }
 
@@ -127,8 +130,9 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
      * - For unique taxonomies: sets hierarchical to false and clears
      *   parent item labels (unique taxonomies don't have hierarchy).
      *
-     * @param class-string<Taxonomy> $taxonomyClass The taxonomy class.
-     * @return array<string, mixed>                 The complete args array.
+     * @param  class-string<Taxonomy> $taxonomyClass the taxonomy class
+     * @return array<string, mixed>   the complete args array
+     *
      * @since 1.0.0
      */
     private function buildArgs(string $taxonomyClass): array
@@ -136,8 +140,8 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
         $args = $taxonomyClass::$options;
 
         if ($taxonomyClass::$unique) {
-            $args['hierarchical']      = false;
-            $args['parent_item']       = null;
+            $args['hierarchical'] = false;
+            $args['parent_item'] = null;
             $args['parent_item_colon'] = null;
         }
 
@@ -150,16 +154,17 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
      * Falls back to auto-generated names from the taxonomy slug when
      * $names is not defined on the taxonomy class.
      *
-     * @param class-string<Taxonomy> $taxonomyClass The taxonomy class.
-     * @param string                 $slug          The taxonomy slug.
+     * @param  class-string<Taxonomy>                  $taxonomyClass the taxonomy class
+     * @param  string                                  $slug          the taxonomy slug
      * @return array{singular: string, plural: string}
+     *
      * @since 1.0.0
      */
     private function buildNames(string $taxonomyClass, string $slug): array
     {
         return [
             'singular' => $taxonomyClass::$names['singular'] ?? ucfirst($slug),
-            'plural'   => $taxonomyClass::$names['plural']   ?? ucfirst($slug) . 's',
+            'plural'   => $taxonomyClass::$names['plural'] ?? ucfirst($slug) . 's',
         ];
     }
 }

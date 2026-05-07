@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Model\Manifest\ModelManifestBuilder;
 use Sloth\Model\Manifest\TaxonomyManifestBuilder;
@@ -51,11 +51,11 @@ use Sloth\Model\Registrars\MenuRegistrar;
  *   names. Read by TaxonomyRegistrar::addMetaBoxes().
  *
  * @since 1.0.0
- * @see \Sloth\Model\Manifest\ModelManifestBuilder    For Model discovery
- * @see \Sloth\Model\Registrar\ModelRegistrar          For post type registration
- * @see \Sloth\Model\Manifest\TaxonomyManifestBuilder For Taxonomy discovery
- * @see \Sloth\Model\Registrar\TaxonomyRegistrar       For taxonomy registration
- * @see \Sloth\Model\Registrars\MenuRegistrar         For menu registration
+ * @see ModelManifestBuilder    For Model discovery
+ * @see ModelRegistrar          For post type registration
+ * @see TaxonomyManifestBuilder For Taxonomy discovery
+ * @see TaxonomyRegistrar       For taxonomy registration
+ * @see MenuRegistrar         For menu registration
  */
 class ModelServiceProvider extends ServiceProvider
 {
@@ -68,14 +68,14 @@ class ModelServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(MenuRegistrar::class, fn($app) => new MenuRegistrar($app));
-        $this->app->singleton(TaxonomyManifestBuilder::class, fn($app) => new TaxonomyManifestBuilder($app));
-        $this->app->singleton(TaxonomyRegistrar::class, fn($app) => new TaxonomyRegistrar(app(TaxonomyManifestBuilder::class)));
-        $this->app->singleton(ModelManifestBuilder::class, fn($app) => new ModelManifestBuilder($app));
-        $this->app->singleton(ModelRegistrar::class, fn($app) => new ModelRegistrar(app(ModelManifestBuilder::class)));
+        $this->app->singleton(MenuRegistrar::class, fn ($app): MenuRegistrar => new MenuRegistrar($app));
+        $this->app->singleton(TaxonomyManifestBuilder::class, fn ($app): TaxonomyManifestBuilder => new TaxonomyManifestBuilder($app));
+        $this->app->singleton(TaxonomyRegistrar::class, fn ($app): TaxonomyRegistrar => new TaxonomyRegistrar(app(TaxonomyManifestBuilder::class)));
+        $this->app->singleton(ModelManifestBuilder::class, fn ($app): ModelManifestBuilder => new ModelManifestBuilder($app));
+        $this->app->singleton(ModelRegistrar::class, fn ($app): ModelRegistrar => new ModelRegistrar(app(ModelManifestBuilder::class)));
     }
 
     /**
@@ -88,7 +88,8 @@ class ModelServiceProvider extends ServiceProvider
      * This replaces the explicit Model::registerPostType() call in the registrar,
      * making it work for both the manifest fast path and the normal discovery path.
      *
-     * @param string $postType The WordPress post type slug that was registered.
+     * @param string $postType the WordPress post type slug that was registered
+     *
      * @since 1.0.0
      */
     protected function onPostTypeRegistered(string $postType): void
@@ -107,9 +108,12 @@ class ModelServiceProvider extends ServiceProvider
      * $admin_columns_hidden property on models. Reads the property from
      * the model class and removes matching columns from the list table.
      *
-     * @param array $columns The current list table columns.
-     * @return array         Filtered columns with hidden ones removed.
+     * @param array $columns the current list table columns
+     *
      * @throws BindingResolutionException
+     *
+     * @return array filtered columns with hidden ones removed
+     *
      * @since 1.0.0
      * @see https://github.com/johnbillion/extended-cpts/
      */
@@ -133,21 +137,23 @@ class ModelServiceProvider extends ServiceProvider
      * - **add_meta_boxes**: Custom radio metaboxes for unique taxonomies.
      * - **registered_post_type**: Post type to model class resolution.
      *
-     * @return array<string, callable|array<callable>> Hook mappings.
+     * @return array<string, array<callable>|callable> hook mappings
+     *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
             'init' => [
-                fn() => app(MenuRegistrar::class)->init(),
-                fn() => $this->initTaxonomies(),
-                fn() => $this->initModels(),
+                fn () => app(MenuRegistrar::class)->init(),
+                $this->initTaxonomies(...),
+                $this->initModels(...),
             ],
             'add_meta_boxes' => [
-                fn() => app(TaxonomyRegistrar::class)->addMetaBoxes(),
+                fn () => app(TaxonomyRegistrar::class)->addMetaBoxes(),
             ],
-            'registered_post_type' => fn(string $postType) => $this->onPostTypeRegistered($postType),
+            'registered_post_type' => $this->onPostTypeRegistered(...),
         ];
     }
 
@@ -169,9 +175,7 @@ class ModelServiceProvider extends ServiceProvider
         $entries = $builder->getEntries();
 
         $this->app->instance('sloth.taxonomies', collect($entries)
-            ->mapWithKeys(function ($entry, $taxonomyClass) {
-                return [new $taxonomyClass()->getTaxonomy() => $taxonomyClass];
-            })
+            ->mapWithKeys(fn ($entry, $taxonomyClass): array => [new $taxonomyClass()->getTaxonomy() => $taxonomyClass])
             ->all());
 
         app(TaxonomyRegistrar::class)->register();
@@ -195,9 +199,7 @@ class ModelServiceProvider extends ServiceProvider
         $entries = $builder->getEntries();
 
         $this->app->instance('sloth.models', collect($entries)
-            ->mapWithKeys(function ($entry, $modelClass) {
-                return [$entry['postType'] => $modelClass];
-            })
+            ->mapWithKeys(fn ($entry, $modelClass): array => [$entry['postType'] => $modelClass])
             ->all());
 
         app(ModelRegistrar::class)->register();
@@ -209,13 +211,15 @@ class ModelServiceProvider extends ServiceProvider
      * Returns an array of filter => callback mappings:
      * - **manage_posts_columns**: Hides admin list table columns.
      *
-     * @return array<string, callable|array<callable>> Filter mappings.
+     * @return array<string, array<callable>|callable> filter mappings
+     *
      * @since 1.0.0
      */
+    #[Override]
     public function getFilters(): array
     {
         return [
-            'manage_posts_columns' => fn(array $columns) => $this->hideAdminColumns($columns),
+            'manage_posts_columns' => $this->hideAdminColumns(...),
         ];
     }
 }

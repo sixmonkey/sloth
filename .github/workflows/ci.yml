@@ -17,29 +17,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Skip CI
-        run: echo "CI temporarily disabled"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  # jobs:
-  #   ci:
-  #     name: CI Pipeline
-  #     runs-on: ubuntu-latest
-  # 
-  #     steps:
-  #       - name: Checkout code
-  #         uses: actions/checkout@v4
-  # 
-  #       - name: Setup PHP
-  #         uses: shivammathur/setup-php@v2
-  #         with:
-  #           php-version: '8.2'
-  #           extensions: json, mbstring, xml, zip
-  # 
-  #       - name: Install Composer dependencies
-  #         run: composer install --no-progress --prefer-dist
-  # 
-  #       - name: Run Code Style Check
-  #         run: composer cs-check
-  # 
-  #       - name: Run PHPStan Static Analysis
-  #         run: vendor/bin/phpstan analyse --memory-limit=1G
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, mbstring, xml, zip
+          tools: composer:v2
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      - name: Run Code Style Check
+        run: composer cs-check
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+
+      - name: Run Tests
+        run: vendor/bin/pest --no-progress --log-junit=build/junit.xml
+
+      - name: Run Rector
+        run: vendor/bin/rector process --dry-run --no-progress
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: build/junit.xml

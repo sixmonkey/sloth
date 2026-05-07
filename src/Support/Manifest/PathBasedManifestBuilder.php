@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support\Manifest;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Override;
 
 /**
  * Base class for manifest builders that discover files from app/ and theme/ directories.
@@ -35,7 +35,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
  * ```
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base lifecycle
+ * @see AbstractManifestBuilder For the base lifecycle
  */
 abstract class PathBasedManifestBuilder extends AbstractManifestBuilder
 {
@@ -46,7 +46,8 @@ abstract class PathBasedManifestBuilder extends AbstractManifestBuilder
      * `'Providers'`. The builder scans both `app/{directory}/` and
      * `theme/{directory}/`.
      *
-     * @return string The subdirectory name.
+     * @return string the subdirectory name
+     *
      * @since 1.0.0
      */
     abstract protected function directory(): string;
@@ -54,11 +55,13 @@ abstract class PathBasedManifestBuilder extends AbstractManifestBuilder
     /**
      * Directories to scan — app/{directory}/ and theme/{directory}/.
      *
-     * @return list<string> Absolute directory paths to scan.
      * @throws BindingResolutionException
+     *
+     * @return list<string> absolute directory paths to scan
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function directories(): array
     {
         return [

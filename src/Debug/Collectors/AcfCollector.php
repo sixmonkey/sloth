@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Debug\Collectors;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
+use Throwable;
 
 /**
  * ACF Field Groups Collector.
@@ -24,7 +24,8 @@ class AcfCollector extends DataCollector implements Renderable
      * Retrieves all ACF field groups attached to the current
      * post and returns them as key-value pairs.
      *
-     * @return array<string, mixed> The collected data.
+     * @return array<string, mixed> the collected data
+     *
      * @since 1.0.0
      */
     public function collect(): array
@@ -35,30 +36,30 @@ class AcfCollector extends DataCollector implements Renderable
             }
 
             $postId = get_the_ID();
+
             if (!$postId) {
                 return ['groups' => []];
             }
 
             $fieldGroups = collect(acf_get_field_groups(['post_id' => $postId]))
-                ->mapWithKeys(function ($group) {
-                    return [$group['title'] => $group['key']];
-                })
-                ->toArray();
-        } catch (\Throwable) {
+                ->mapWithKeys(fn ($group): array => [$group['title'] => $group['key']])
+                ->toArray()
+            ;
+        } catch (Throwable) {
             $fieldGroups = [];
         }
 
         return [
             'groups' => $fieldGroups,
-            'count' => count($fieldGroups),
+            'count'  => count($fieldGroups),
         ];
     }
-
 
     /**
      * Get the collector name.
      *
-     * @return string The collector identifier.
+     * @return string the collector identifier
+     *
      * @since 1.0.0
      */
     public function getName(): string
@@ -72,20 +73,21 @@ class AcfCollector extends DataCollector implements Renderable
      * Returns the debug bar widget configuration for
      * displaying ACF field groups.
      *
-     * @return array<string, mixed> The widget configuration.
+     * @return array<string, mixed> the widget configuration
+     *
      * @since 1.0.0
      */
     public function getWidgets(): array
     {
         return [
             'acf' => [
-                'icon' => 'category',
-                'map' => 'acf.groups',
-                'widget' => 'PhpDebugBar.Widgets.KVListWidget',
+                'icon'    => 'category',
+                'map'     => 'acf.groups',
+                'widget'  => 'PhpDebugBar.Widgets.KVListWidget',
                 'default' => '{}',
             ],
             'acf:badge' => [
-                'map' => 'acf.count',
+                'map'     => 'acf.count',
                 'default' => 'null',
             ],
         ];

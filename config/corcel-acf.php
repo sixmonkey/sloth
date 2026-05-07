@@ -2,6 +2,6 @@
 
 return [
     'classMapping' => [
-        'image' => \Sloth\Field\AcfImageField::class,
+        'image' => Sloth\Field\AcfImageField::class,
     ],
 ];

@@ -21,27 +21,27 @@ describe('Router', function (): void {
         });
 
         it('get() returns a Route for fluent chaining', function (): void {
-            $route = $this->router->get('/about', fn() => 'about');
+            $route = $this->router->get('/about', fn(): string => 'about');
             expect($route)->toBeInstanceOf(Route::class);
         });
 
         it('post() returns a Route', function (): void {
-            expect($this->router->post('/contact', fn() => 'ok'))
+            expect($this->router->post('/contact', fn(): string => 'ok'))
                 ->toBeInstanceOf(Route::class);
         });
 
         it('put() returns a Route', function (): void {
-            expect($this->router->put('/posts/1', fn() => 'ok'))
+            expect($this->router->put('/posts/1', fn(): string => 'ok'))
                 ->toBeInstanceOf(Route::class);
         });
 
         it('delete() returns a Route', function (): void {
-            expect($this->router->delete('/posts/1', fn() => 'ok'))
+            expect($this->router->delete('/posts/1', fn(): string => 'ok'))
                 ->toBeInstanceOf(Route::class);
         });
 
         it('name() can be chained on Route', function (): void {
-            $this->router->get('/about', fn() => 'about')->name('about');
+            $this->router->get('/about', fn(): string => 'about')->name('about');
             expect($this->router->hasName('about'))->toBeTrue();
         });
     });
@@ -53,7 +53,7 @@ describe('Router', function (): void {
         });
 
         it('matches a registered GET route', function (): void {
-            $cb = fn() => 'hello';
+            $cb = fn(): string => 'hello';
             $this->router->get('/about', $cb);
 
             $params = $this->router->match('/about', 'GET');
@@ -63,12 +63,12 @@ describe('Router', function (): void {
         });
 
         it('returns null for unknown path', function (): void {
-            $this->router->get('/about', fn() => 'about');
+            $this->router->get('/about', fn(): string => 'about');
             expect($this->router->match('/nope', 'GET'))->toBeNull();
         });
 
         it('returns null for wrong method', function (): void {
-            $this->router->get('/about', fn() => 'about');
+            $this->router->get('/about', fn(): string => 'about');
             expect($this->router->match('/about', 'POST'))->toBeNull();
         });
 
@@ -81,7 +81,7 @@ describe('Router', function (): void {
         });
 
         it('resolves multiple {param} placeholders', function (): void {
-            $this->router->get('/posts/{year}/{slug}', fn($year, $slug) => '');
+            $this->router->get('/posts/{year}/{slug}', fn($year, $slug): string => '');
 
             $params = $this->router->match('/posts/2026/hello-world', 'GET');
 
@@ -97,12 +97,12 @@ describe('Router', function (): void {
         });
 
         it('generates URL for a named route', function (): void {
-            $this->router->get('/about', fn() => 'about')->name('about');
+            $this->router->get('/about', fn(): string => 'about')->name('about');
             expect($this->router->url('about'))->toBe('/about');
         });
 
         it('generates URL with parameters', function (): void {
-            $this->router->get('/posts/{slug}', fn() => '')->name('post.show');
+            $this->router->get('/posts/{slug}', fn(): string => '')->name('post.show');
             expect($this->router->url('post.show', ['slug' => 'hello-world']))
                 ->toBe('/posts/hello-world');
         });
@@ -130,7 +130,7 @@ describe('Router', function (): void {
             $controller = $params['_controller'];
             $result = $controller(...array_filter(
                 $params,
-                fn($k) => !str_starts_with($k, '_'),
+                fn($k): bool => !str_starts_with($k, '_'),
                 ARRAY_FILTER_USE_KEY
             ));
 

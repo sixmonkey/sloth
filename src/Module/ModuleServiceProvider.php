@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Module;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Module\Factory\ModuleFactory;
 use Sloth\Module\Manifest\ModuleManifestBuilder;
@@ -38,10 +38,10 @@ use Sloth\Module\Registrar\ModuleRegistrar;
  * - **sloth.modules**: List of discovered module class names (FQCNs).
  *
  * @since 1.0.0
- * @see \Sloth\Module\Module                           For the module base class
- * @see \Sloth\Module\Factory\ModuleFactory            For module resolution
- * @see \Sloth\Module\Manifest\ModuleManifestBuilder   For module discovery
- * @see \Sloth\Module\Registrar\ModuleRegistrar         For JSON endpoint registration
+ * @see Module                           For the module base class
+ * @see ModuleFactory            For module resolution
+ * @see ModuleManifestBuilder   For module discovery
+ * @see ModuleRegistrar         For JSON endpoint registration
  */
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -57,21 +57,21 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton('module.factory', ModuleFactory::class);
 
-        $this->app->bind('module', fn(): Module => new Module());
+        $this->app->bind('module', fn (): Module => new Module());
 
         $this->app->singleton(
             ModuleManifestBuilder::class,
-            fn($app) => new ModuleManifestBuilder($app)
+            fn ($app): ModuleManifestBuilder => new ModuleManifestBuilder($app),
         );
 
         $this->app->singleton(
             ModuleRegistrar::class,
-            fn($app) => new ModuleRegistrar(app(ModuleManifestBuilder::class))
+            fn ($app): ModuleRegistrar => new ModuleRegistrar(app(ModuleManifestBuilder::class)),
         );
     }
 
@@ -84,14 +84,16 @@ class ModuleServiceProvider extends ServiceProvider
      * - **rest_api_init**: Calls ModuleRegistrar::registerJsonEndpoints()
      *   for modules with $json enabled.
      *
-     * @return array<string, callable|array<callable>> Hook mappings.
+     * @return array<string, array<callable>|callable> hook mappings
+     *
      * @since 1.0.0
      */
+    #[Override]
     public function getHooks(): array
     {
         return [
-            'init' => fn() => $this->initModules(),
-            'rest_api_init' => fn() => app(ModuleRegistrar::class)->registerJsonEndpoints(),
+            'init'          => $this->initModules(...),
+            'rest_api_init' => fn () => app(ModuleRegistrar::class)->registerJsonEndpoints(),
         ];
     }
 

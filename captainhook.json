@@ -1,0 +1,38 @@
+{
+  "commit-msg": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit"
+      }
+    ]
+  },
+  "pre-commit": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+        "config": {
+          "label": "PHP Syntax Check"
+        }
+      },
+      {
+        "action": "\\Unh3ck3d\\PhpCsFixerGitHook\\LintStagedFiles",
+        "config": {
+          "label": "PHP CS Fixer"
+        }
+      }
+    ]
+  },
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "vendor/bin/pest --no-progress",
+        "config": {
+          "label": "Pest Tests"
+        }
+      }
+    ]
+  }
+}

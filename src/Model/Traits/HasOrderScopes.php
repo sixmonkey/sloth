@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -32,8 +31,7 @@ trait HasOrderScopes
      * Applies an ORDER BY clause on the model's CREATED_AT constant
      * in descending order (most recent first).
      *
-     * @param Builder $query The query builder instance
-     *
+     * @param  Builder $query The query builder instance
      * @return Builder The modified query builder
      *
      * @example
@@ -53,8 +51,7 @@ trait HasOrderScopes
      * Applies an ORDER BY clause on the model's CREATED_AT constant
      * in ascending order (oldest first).
      *
-     * @param Builder $query The query builder instance
-     *
+     * @param  Builder $query The query builder instance
      * @return Builder The modified query builder
      *
      * @example

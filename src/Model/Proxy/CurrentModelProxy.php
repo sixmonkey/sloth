@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Proxy;
 
 use Illuminate\Support\Str;
@@ -24,6 +23,7 @@ class CurrentModelProxy
      * Cached model instances by post ID.
      *
      * @var array<int, \Sloth\Model\Model>
+     *
      * @since 1.0.0
      */
     protected static array $instances = [];
@@ -31,14 +31,16 @@ class CurrentModelProxy
     /**
      * Call a model method on the current post.
      *
-     * @param string $method The method name to call.
-     * @param array<int, mixed> $args Method arguments.
-     * @return mixed The method result, or null if no model found.
+     * @param  string            $method the method name to call
+     * @param  array<int, mixed> $args   method arguments
+     * @return mixed             the method result, or null if no model found
+     *
      * @since 1.0.0
      */
     public static function __callStatic(string $method, array $args): mixed
     {
         $echo = false;
+
         if (Str::endsWith($method, 'Echo')) {
             $method = Str::beforeLast($method, 'Echo');
             $echo = true;
