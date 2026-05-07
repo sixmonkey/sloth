@@ -170,6 +170,6 @@ class Media
      */
     public function makeSrcsRelative(string $content): string
     {
-        return str_replace('src="' . rtrim((string) home_url(), '/'), 'src="' . rtrim((string) home_url(), '/'), $content);
+        return str_replace('src="' . rtrim(home_url(), '/'), 'src="', $content);
     }
 }
