@@ -123,6 +123,7 @@ class Application extends Container
             return static::getInstance();
         }
 
+        /** @phpstan-ignore new.static */
         return new static();
     }
 
@@ -131,7 +132,7 @@ class Application extends Container
      *
      * @since 1.0.0
      */
-    public function __construct()
+    protected function __construct()
     {
         static::setInstance($this);
         $this->instance('app', $this);
