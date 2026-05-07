@@ -40,14 +40,17 @@
   },
   "require-dev": {
     "brain/monkey": "^2.6",
+    "captainhook/captainhook": "^5.29",
     "friendsofphp/php-cs-fixer": "^3.50",
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin": "^2.0",
     "php-stubs/acf-pro-stubs": "^6.5",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^10.0",
+    "ramsey/conventional-commits": "^1.7",
     "rector/rector": "^2.0",
-    "szepeviktor/phpstan-wordpress": "^2.0"
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "unh3ck3d/php-cs-fixer-git-hook": "^1.0"
   },
   "extra": {
     "branch-alias": {
@@ -82,6 +85,9 @@
     "analyse": "phpstan analyse --memory-limit=1G",
     "cs-fix": "php-cs-fixer fix",
     "cs-check": "php-cs-fixer fix --dry-run --diff",
-    "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple"
+    "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple",
+    "post-autoload-dump": [
+      "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/captainhook install -f -s"
+    ]
   }
 }

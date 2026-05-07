@@ -1,0 +1,54 @@
+{
+  "commit-msg": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit"
+      }
+    ]
+  },
+  "pre-commit": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+        "config": {
+          "label": "PHP Syntax Check"
+        }
+      },
+      {
+        "action": "\\Unh3ck3d\\PhpCsFixerGitHook\\LintStagedFiles",
+        "config": {
+          "label": "PHP CS Fixer"
+        }
+      },
+      {
+        "action": "\\CaptainHook\\App\\Hook\\File\\Action\\DoesNotContainRegex",
+        "options": {
+          "regex": "/var_dump|print_r|dd\\(|die\\(/",
+          "paths": [
+            "src/"
+          ],
+          "fileExtensions": [
+            "php"
+          ],
+          "message": "Debug statements found — remove before committing"
+        },
+        "config": {
+          "label": "Debug Statement Check"
+        }
+      }
+    ]
+  },
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "vendor/bin/pest --no-progress",
+        "config": {
+          "label": "Pest Tests"
+        }
+      }
+    ]
+  }
+}
