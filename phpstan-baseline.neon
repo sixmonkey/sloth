@@ -1,76 +1,37 @@
 parameters:
-    ignoreErrors:
-        # Core/Application.php
-        -
-            identifier: missingType.generics
-            path: src/Core/Application.php
-        -
-            identifier: missingType.template
-            path: src/Core/Application.php
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined static method Sloth\\Model\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Context/Context.php
 
-        # Route/Route.php
-        -
-            identifier: missingType.generics
-            path: src/Route/Route.php
-        -
-            identifier: argument.type
-            path: src/Route/Route.php
+		-
+			message: '#^Call to an undefined static method Sloth\\Model\\Post\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Field/Image.php
 
-        # Model/Post.php
-        -
-            identifier: missingType.generics
-            path: src/Model/Post.php
+		-
+			message: '#^Call to an undefined static method Sloth\\Model\\Post\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Field/Image.php
 
-        # ServiceProvider issues
-        -
-            identifier: missingType.generics
-            path: src/*/*ServiceProvider.php
-        -
-            identifier: missingType.template
-            path: src/*/*ServiceProvider.php
+		-
+			message: '#^Call to an undefined static method Sloth\\Model\\SlothMediaVersion\:\:updateOrCreate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Field/Image.php
 
-        # Facade issues
-        -
-            identifier: missingType.generics
-            path: src/Facades/*.php
-        -
-            identifier: missingType.template
-            path: src/Facades/*.php
+		-
+			message: '#^Call to an undefined static method Corcel\\Model\\Attachment\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Media/Version.php
 
-        # Corcel model extensions
-        -
-            identifier: missingType.generics
-            path: src/Model/*.php
-        -
-            identifier: missingType.template
-            path: src/Model/*.php
-
-        # WordPress integration files
-        -
-            identifier: missingType.generics
-            path: src/ACF/ACFHelper.php
-        -
-            identifier: argument.type
-            path: src/ACF/ACFHelper.php
-        -
-            identifier: missingType.generics
-            path: src/Admin/Customizer.php
-        -
-            identifier: missingType.generics
-            path: src/Admin/CustomizerServiceProvider.php
-
-        # Third-party integrations
-        -
-            identifier: missingType.generics
-            path: src/Field/Image.php
-        -
-            identifier: missingType.template
-            path: src/Field/Image.php
-        -
-            identifier: missingType.generics
-            path: src/Field/CarbonFaker.php
-
-        # Media/Version.php - Spatie Image dependency
-        -
-            identifier: accessClassConstant
-            path: src/Media/Version.php
+		-
+			message: '#^Call to an undefined static method Sloth\\Model\\SlothMediaVersion\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Media/Version.php
