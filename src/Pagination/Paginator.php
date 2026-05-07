@@ -24,10 +24,10 @@ class Paginator extends BasePaginator
      * @return string The URL for the given page
      */
     #[\Override]
-    public function url(int $page): string
+    public function url(mixed $page): string
     {
         if (\is_archive()) {
-            return (string) get_pagenum_link($page);
+            return get_pagenum_link($page);
         }
 
         if (defined('REST_REQUEST') && REST_REQUEST) {
