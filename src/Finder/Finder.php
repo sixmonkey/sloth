@@ -115,7 +115,7 @@ abstract class Finder extends IlluminateFileViewFinder
     #[\Override]
     public function find(mixed $name): string
     {
-        $name = (string)$name;
+        $name = (string) $name;
         return $this->files[$name] ?? ($this->files[$name] = $this->findInPaths($name, $this->paths));
     }
 
@@ -132,8 +132,8 @@ abstract class Finder extends IlluminateFileViewFinder
     #[\Override]
     protected function findInPaths(mixed $name, mixed $paths): string
     {
-        $name = (string)$name;
-        $paths = (array)$paths;
+        $name = (string) $name;
+        $paths = (array) $paths;
         foreach ($paths as $path) {
             foreach ($this->getPossibleFiles($name) as $file) {
                 $filePath = $path . $file;

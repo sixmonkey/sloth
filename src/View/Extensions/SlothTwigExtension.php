@@ -147,7 +147,7 @@ class SlothTwigExtension extends AbstractExtension
             new TwigFilter('print_r', fn($input): mixed => debug($input)),
 
             // Convert a phone number to a tel: URI — strips all non-numeric characters except +
-            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string)$phone)),
+            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string) $phone)),
 
             // Sanitize a string for use as a WordPress slug
             new TwigFilter('sanitize', fn($string) => sanitize_title($string)),

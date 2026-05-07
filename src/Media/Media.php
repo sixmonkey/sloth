@@ -140,7 +140,7 @@ class Media
      */
     public function toRelativeUrl(string $url): string
     {
-        return (string)parse_url($url, PHP_URL_PATH);
+        return (string) parse_url($url, PHP_URL_PATH);
     }
 
     /**
@@ -154,7 +154,7 @@ class Media
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim((string)home_url(), '/'), 'href="', $content);
+        return str_replace('href="' . rtrim((string) home_url(), '/'), 'href="', $content);
     }
 
     /**
