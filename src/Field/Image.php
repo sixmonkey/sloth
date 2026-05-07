@@ -151,7 +151,7 @@ class Image implements \Stringable
             $this->post = Post::find($url);
             $url = is_object($this->post) ? $this->post->url : ($this->post['url'] ?? null);
         } else {
-            $this->post = Post::where('guid', 'like', str_replace(WP_CONTENT_URL, '%', (string) $url))->first();
+            $this->post = Post::where('guid', 'like', str_replace(content_url(), '%', (string) $url))->first();
         }
 
         if (is_object($this->post)) {

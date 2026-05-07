@@ -154,7 +154,7 @@ class Media
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim((string) WP_HOME, '/'), 'href="', $content);
+        return str_replace('href="' . rtrim((string) home_url(), '/'), 'href="', $content);
     }
 
     /**
@@ -168,6 +168,6 @@ class Media
      */
     public function makeSrcsRelative(string $content): string
     {
-        return str_replace('src="' . rtrim((string) WP_HOME, '/'), 'src="' . rtrim((string) WP_HOME, '/'), $content);
+        return str_replace('src="' . rtrim((string) home_url(), '/'), 'src="' . rtrim((string) home_url(), '/'), $content);
     }
 }
