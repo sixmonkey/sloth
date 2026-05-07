@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Sloth\Field;
 
 use AllowDynamicProperties;
@@ -127,8 +128,8 @@ class Image implements Stringable
      * @var array<string, mixed>
      */
     protected array $defaults = [
-        'width'   => null,
-        'height'  => null,
+        'width' => null,
+        'height' => null,
         'upscale' => true,
     ];
 
@@ -140,11 +141,11 @@ class Image implements Stringable
      * @var array<string, string>
      */
     protected array $attributeTranslations = [
-        'caption'     => 'post_excerpt',
+        'caption' => 'post_excerpt',
         'description' => 'post_content',
-        'title'       => 'post_title',
-        'alt'         => '_wp_attachment_image_alt',
-        'metadata'    => '_wp_attachment_metadata',
+        'title' => 'post_title',
+        'alt' => '_wp_attachment_image_alt',
+        'metadata' => '_wp_attachment_metadata',
     ];
 
     /**
@@ -274,7 +275,7 @@ class Image implements Stringable
         $sheerFileName = $this->getFilename($options);
 
         SlothMediaVersion::updateOrCreate([
-            'guid'        => $this->getUrl($sheerFileName, false),
+            'guid' => $this->getUrl($sheerFileName, false),
             'post_parent' => $this->post->ID,
         ], [
             'post_excerpt' => json_encode($options),
@@ -350,8 +351,8 @@ class Image implements Stringable
     /**
      * Get the URL for a file.
      *
-     * @param string    $filename Relative filename
-     * @param bool|null $full     Whether to include full URL (default: true)
+     * @param string $filename Relative filename
+     * @param bool|null $full Whether to include full URL (default: true)
      *
      * @since 1.0.0
      */
@@ -367,7 +368,7 @@ class Image implements Stringable
     /**
      * Process manipulation options.
      *
-     * @param  array<string, mixed> $options Manipulation options
+     * @param array<string, mixed> $options Manipulation options
      * @return array<string, mixed>
      *
      * @since 1.0.0
@@ -454,9 +455,9 @@ class Image implements Stringable
     /**
      * Get all available sizes.
      *
-     * @throws BindingResolutionException
-     *
      * @return array<string, string>
+     *
+     * @throws BindingResolutionException
      *
      * @since 1.0.0
      */
