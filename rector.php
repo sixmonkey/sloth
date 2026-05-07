@@ -23,5 +23,6 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class,
+        Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector::class,
     ])
 ;
