@@ -29,8 +29,7 @@ return $config
     ->setRiskyAllowed(true)
     ->setCacheFile('.php-cs-fixer.cache')
     ->setRules([
-        '@WordPress' => true,
-        '@PHP82Migration' => true,
+        '@PHP84Migration' => true,
 
         // Additional rules for modern PHP
         'array_syntax' => ['syntax' => 'short'],
