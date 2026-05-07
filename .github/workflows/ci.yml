@@ -50,6 +50,9 @@ jobs:
       - name: Run Tests
         run: vendor/bin/pest --no-progress --log-junit=build/junit.xml
 
+      - name: Run Rector
+        run: vendor/bin/rector process --dry-run --no-progress
+
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         if: always()
