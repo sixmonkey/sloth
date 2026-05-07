@@ -11,6 +11,8 @@ use DebugBar\DebugBar;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Sloth\Core\Application;
+use Sloth\Facades\Route;
+use Sloth\Http\Response;
 
 /**
  * Extended PHP DebugBar for the Sloth framework.
@@ -56,6 +58,16 @@ class SlothDebugBar extends DebugBar
     protected bool $booted = false;
 
     /**
+     * The baseURL to use for assets used by debug bar
+     *
+     * @see https://php-debugbar.com/docs/rendering/#assets
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    protected string $baseUrl = '/debugbar/sloth';
+
+    /**
      * Create a new SlothDebugBar instance.
      *
      * Initializes the three core collectors with the application
@@ -92,8 +104,29 @@ class SlothDebugBar extends DebugBar
 
         collect(config('debugger.bar.collector_providers', []))
             ->each(function ($collectorProvider) {
-                new $collectorProvider($this)->boot();
+                (new $collectorProvider($this))->boot();
             });
+
+        $renderer = $this->getJavascriptRenderer();
+
+        Route::get($this->baseUrl . '/dist/debugbar.min.css', function () use ($renderer) {
+            $content =
+                $renderer->dumpCssAssets(echo: false) .
+                app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css') .
+                app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
+
+            return Response::make(
+                $content
+            )
+                ->header('Content-Type', 'text/css');
+        });
+
+        Route::get($this->baseUrl . '/dist/debugbar.min.js', function () use ($renderer) {
+            return Response::make(
+                $renderer->dumpJsAssets(echo: false)
+            )
+                ->header('Content-Type', 'text/javascript');
+        });
 
         $this->booted = true;
     }
@@ -191,29 +224,14 @@ class SlothDebugBar extends DebugBar
      * base URL and injects custom Sloth CSS for icons and styling.
      *
      * @return string The DebugBar HTML (head + toolbar scripts).
-     * @throws BindingResolutionException
-     * @throws FileNotFoundException
      * @since 1.0.0
      */
     public function render(): string
     {
         $renderer = $this->getJavascriptRenderer();
 
-        $renderer->addInlineAssets(
-            $renderer->dumpCssAssets(echo: false),
-            $renderer->dumpJsAssets(echo: false),
-            $renderer->dumpHeadAssets(echo: false)
-        );
-        $renderer->addInlineAssets(
-            app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css'),
-            '',
-            ''
-        );
-        $renderer->addInlineAssets(
-            app('files')->get(__DIR__ . '/resources/sloth-debugbar.css'),
-            '',
-            ''
-        );
+        $renderer->setBaseUrl($this->baseUrl);
+
         return $renderer->renderHead() . "\n" . $renderer->render();
     }
 }
