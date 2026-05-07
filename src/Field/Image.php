@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Field;
 
 use AllowDynamicProperties;
@@ -128,8 +127,8 @@ class Image implements Stringable
      * @var array<string, mixed>
      */
     protected array $defaults = [
-        'width' => null,
-        'height' => null,
+        'width'   => null,
+        'height'  => null,
         'upscale' => true,
     ];
 
@@ -141,11 +140,11 @@ class Image implements Stringable
      * @var array<string, string>
      */
     protected array $attributeTranslations = [
-        'caption' => 'post_excerpt',
+        'caption'     => 'post_excerpt',
         'description' => 'post_content',
-        'title' => 'post_title',
-        'alt' => '_wp_attachment_image_alt',
-        'metadata' => '_wp_attachment_metadata',
+        'title'       => 'post_title',
+        'alt'         => '_wp_attachment_image_alt',
+        'metadata'    => '_wp_attachment_metadata',
     ];
 
     /**
@@ -170,11 +169,11 @@ class Image implements Stringable
             $url = $url['url'];
         }
 
-        if ((int)$url !== 0) {
+        if ((int) $url !== 0) {
             $this->post = Post::find($url);
             $url = is_object($this->post) ? $this->post->url : ($this->post['url'] ?? null);
         } else {
-            $this->post = Post::where('guid', 'like', str_replace(content_url(), '%', (string)$url))->first();
+            $this->post = Post::where('guid', 'like', str_replace(content_url(), '%', (string) $url))->first();
         }
 
         if (is_object($this->post)) {
@@ -182,14 +181,14 @@ class Image implements Stringable
             $this->caption = $this->post->post_excerpt ?? '';
             $this->description = $this->post->post_content ?? '';
 
-            $this->postID = (int)$this->post->ID;
+            $this->postID = (int) $this->post->ID;
             $metadata = $this->post->_wp_attachment_metadata ?? null;
-            $this->metaData = is_string($metadata) ? (object)@unserialize($metadata) : null;
+            $this->metaData = is_string($metadata) ? (object) @unserialize($metadata) : null;
 
-            $this->width = (int)$this->metaData->width;
-            $this->height = (int)$this->metaData->height;
+            $this->width = (int) $this->metaData?->width;
+            $this->height = (int) $this->metaData?->height;
 
-            $this->url = (string)apply_filters('sloth_get_attachment_link', (string)($url ?? ''));
+            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
             $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
             $this->file = $path !== false ? $path : null;
 
@@ -204,8 +203,8 @@ class Image implements Stringable
 
                     return $image->getSize();
                 });
-                $this->width = (int)$size['width'];
-                $this->height = (int)$size['height'];
+                $this->width = (int) $size['width'];
+                $this->height = (int) $size['height'];
             }
 
             $this->sizes = $this->sizes();
@@ -226,7 +225,7 @@ class Image implements Stringable
     public function getThemeSized(string|array $size): string
     {
         if (is_array($size)) {
-            $size = (string)reset($size);
+            $size = (string) reset($size);
         }
 
         if (isset($this->sizes[$size])) {
@@ -252,7 +251,7 @@ class Image implements Stringable
     public function resize(...$options): string
     {
         if (!$this->isResizable || $this->url === null || $this->file === null) {
-            return (string)$this->url;
+            return (string) $this->url;
         }
 
         $args = func_get_args();
@@ -267,7 +266,7 @@ class Image implements Stringable
 
         if (!isset($options['height']) && isset($this->metaData->width, $this->metaData->height)) {
             $ratio = $this->metaData->width / $options['width'];
-            $options['height'] = (int)round($this->metaData->height / $ratio);
+            $options['height'] = (int) round($this->metaData->height / $ratio);
         }
 
         $options = $this->processOptions($options);
@@ -275,7 +274,7 @@ class Image implements Stringable
         $sheerFileName = $this->getFilename($options);
 
         SlothMediaVersion::updateOrCreate([
-            'guid' => $this->getUrl($sheerFileName, false),
+            'guid'        => $this->getUrl($sheerFileName, false),
             'post_parent' => $this->post->ID,
         ], [
             'post_excerpt' => json_encode($options),
@@ -328,7 +327,7 @@ class Image implements Stringable
         $ext = $info['extension'] ?? '';
 
         $dstRelPath = str_replace('.' . $ext, '', $this->file);
-        $dstRelPath = str_replace((string)$uploadDir, '', $dstRelPath);
+        $dstRelPath = str_replace((string) $uploadDir, '', $dstRelPath);
 
         return sprintf('%s-%s.%s', $dstRelPath, $suffix, $ext);
     }
@@ -351,8 +350,8 @@ class Image implements Stringable
     /**
      * Get the URL for a file.
      *
-     * @param string $filename Relative filename
-     * @param bool|null $full Whether to include full URL (default: true)
+     * @param string    $filename Relative filename
+     * @param bool|null $full     Whether to include full URL (default: true)
      *
      * @since 1.0.0
      */
@@ -360,7 +359,7 @@ class Image implements Stringable
     {
         $uploadInfo = wp_upload_dir();
 
-        $baseUrl = rtrim((string)apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
+        $baseUrl = rtrim((string) apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
 
         return $baseUrl . '/' . ltrim($filename, '/');
     }
@@ -368,7 +367,7 @@ class Image implements Stringable
     /**
      * Process manipulation options.
      *
-     * @param array<string, mixed> $options Manipulation options
+     * @param  array<string, mixed> $options Manipulation options
      * @return array<string, mixed>
      *
      * @since 1.0.0
@@ -401,7 +400,7 @@ class Image implements Stringable
     #[Override]
     public function __toString(): string
     {
-        return (string)$this->url;
+        return (string) $this->url;
     }
 
     /**
@@ -455,9 +454,9 @@ class Image implements Stringable
     /**
      * Get all available sizes.
      *
-     * @return array<string, string>
-     *
      * @throws BindingResolutionException
+     *
+     * @return array<string, string>
      *
      * @since 1.0.0
      */
