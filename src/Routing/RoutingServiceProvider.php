@@ -48,7 +48,6 @@ class RoutingServiceProvider extends ServiceProvider
     #[\Override]
     public function boot(): void
     {
-        $router = $this->app->make(Router::class);
         $this->app->make(RoutesManifestBuilder::class)->init();
     }
 
