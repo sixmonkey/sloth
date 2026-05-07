@@ -100,7 +100,7 @@ class SlothDebugBar extends DebugBar
 
         collect(config('debugger.bar.collector_providers', []))
             ->each(function ($collectorProvider): void {
-                new $collectorProvider($this)->boot();
+                (new $collectorProvider($this))->boot();
             })
         ;
 
