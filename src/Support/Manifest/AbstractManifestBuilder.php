@@ -140,7 +140,7 @@ abstract class AbstractManifestBuilder
 
         $entries = $this->entries($map);
 
-        (new ManifestWriter(app('files')))->write(
+        new ManifestWriter(app('files'))->write(
             path: $manifest,
             map: $map,
             extraLines: $extraLines,
