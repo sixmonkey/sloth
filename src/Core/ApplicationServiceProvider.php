@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Core;
 
+use Override;
 use Sloth\Core\Manifest\IncludesManifestBuilder;
 
 /**
@@ -18,8 +18,8 @@ use Sloth\Core\Manifest\IncludesManifestBuilder;
  *
  * @since 1.0.0
  * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the manifest lifecycle
- * @see \Sloth\Core\Manifest\IncludesManifestBuilder   For include file discovery
- * @see \Sloth\Core\Application::registerProviders()    For provider auto-discovery
+ * @see IncludesManifestBuilder   For include file discovery
+ * @see Application::registerProviders()    For provider auto-discovery
  */
 class ApplicationServiceProvider extends ServiceProvider
 {
@@ -31,10 +31,10 @@ class ApplicationServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton(IncludesManifestBuilder::class, fn($app) => new IncludesManifestBuilder($app));
+        $this->app->singleton(IncludesManifestBuilder::class, fn ($app) => new IncludesManifestBuilder($app));
     }
 
     /**
@@ -44,7 +44,6 @@ class ApplicationServiceProvider extends ServiceProvider
      * discovery is handled by Application::registerProviders() before
      * this provider even boots.
      *
-     * @return void
      * @since 1.0.0
      */
     public function boot(): void

@@ -1,12 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\View;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory;
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\View\Engines\TwigEngine;
 use Sloth\View\Extensions\SlothTwigExtension;
@@ -38,7 +38,7 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->registerTwigLoader();
@@ -82,7 +82,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'twig.loader',
-            fn(): FilesystemLoader => new FilesystemLoader([])
+            fn (): FilesystemLoader => new FilesystemLoader([]),
         );
     }
 
@@ -99,11 +99,11 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'twig',
-            fn($c): Environment => new Environment($c['twig.loader'], [
+            fn ($c): Environment => new Environment($c['twig.loader'], [
                 'auto_reload' => true,
                 'cache'       => $c['path.cache'] . '/Twig',
                 'autoescape'  => (bool) $c['config']->get('twig.autoescape', false),
-            ])
+            ]),
         );
     }
 
@@ -116,7 +116,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'view.engine.resolver',
-            fn(): EngineResolver => $this->createEngineResolver()
+            fn (): EngineResolver => $this->createEngineResolver(),
         );
     }
 
@@ -132,7 +132,7 @@ class ViewServiceProvider extends ServiceProvider
 
         $resolver->register(
             'twig',
-            fn(): TwigEngine => new TwigEngine($container['twig'], $container['view.finder'])
+            fn (): TwigEngine => new TwigEngine($container['twig'], $container['view.finder']),
         );
 
         return $resolver;
@@ -147,12 +147,12 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'view.finder',
-            fn($c): ViewFinder => new ViewFinder($c['files'], [], [])
+            fn ($c): ViewFinder => new ViewFinder($c['files'], [], []),
         );
 
         $this->app->singleton(
             'view',
-            fn($c): Factory => $this->createViewFactory($c)
+            fn ($c): Factory => $this->createViewFactory($c),
         );
     }
 
@@ -160,13 +160,15 @@ class ViewServiceProvider extends ServiceProvider
      * Create and configure the View Factory.
      *
      * @since 1.0.0
+     *
+     * @param mixed $container
      */
     protected function createViewFactory(mixed $container): Factory
     {
         $factory = new Factory(
             $container['view.engine.resolver'],
             $container['view.finder'],
-            new Dispatcher($container)
+            new Dispatcher($container),
         );
 
         $factory->setContainer($container);

@@ -1,24 +1,26 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Field;
 
+use AllowDynamicProperties;
 use BitAndBlack\ImageInformation\Exception\ExtensionNotSupportedException;
-use BitAndBlack\ImageInformation\Source\File;
 use BitAndBlack\ImageInformation\Image as ImageInformation;
+use BitAndBlack\ImageInformation\Source\File;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Override;
 use Sloth\Facades\Cache;
 use Sloth\Model\Post;
 use Sloth\Model\SlothMediaVersion;
+use Stringable;
 
 /**
  * Image field wrapper with manipulation capabilities.
  *
  * @since 1.0.0
  */
-#[\AllowDynamicProperties]
-class Image implements \Stringable
+#[AllowDynamicProperties]
+class Image implements Stringable
 {
     /**
      * Image URL.
@@ -52,7 +54,8 @@ class Image implements \Stringable
      * Post object.
      *
      * @since 1.0.0
-     * @var Post|array<string, mixed>|null
+     *
+     * @var array<string, mixed>|Post|null
      */
     protected Post|array|null $post = null;
 
@@ -60,6 +63,7 @@ class Image implements \Stringable
      * Available image sizes.
      *
      * @since 1.0.0
+     *
      * @var array<string, string>
      */
     public array $sizes = [];
@@ -68,6 +72,7 @@ class Image implements \Stringable
      * The height of this image.
      *
      * @since 1.0.0
+     *
      * @var int
      */
     public int $height = 0;
@@ -76,6 +81,7 @@ class Image implements \Stringable
      * The width of this image.
      *
      * @since 1.0.0
+     *
      * @var int
      */
     public int $width = 0;
@@ -112,21 +118,21 @@ class Image implements \Stringable
      * Image metadata.
      *
      * @since 1.0.0
+     *
      * @var object<string, mixed>|null
      */
     protected ?object $metaData = null;
-
-
 
     /**
      * Default options for image manipulation.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>
      */
     protected array $defaults = [
-        'width' => null,
-        'height' => null,
+        'width'   => null,
+        'height'  => null,
         'upscale' => true,
     ];
 
@@ -134,24 +140,26 @@ class Image implements \Stringable
      * Attribute translation mapping.
      *
      * @since 1.0.0
+     *
      * @var array<string, string>
      */
     protected array $attributeTranslations = [
-        'caption' => 'post_excerpt',
+        'caption'     => 'post_excerpt',
         'description' => 'post_content',
-        'title' => 'post_title',
-        'alt' => '_wp_attachment_image_alt',
-        'metadata' => '_wp_attachment_metadata',
+        'title'       => 'post_title',
+        'alt'         => '_wp_attachment_image_alt',
+        'metadata'    => '_wp_attachment_metadata',
     ];
 
     /**
      * Image constructor.
      *
-     * @param int|array<string, mixed>|null $url URL, array with 'url' key, or attachment ID
+     * @param array<string, mixed>|int|null $url URL, array with 'url' key, or attachment ID
+     *
      * @throws BindingResolutionException
      * @throws ExtensionNotSupportedException
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function __construct(int|array|false|string|null $url = null)
     {
@@ -196,6 +204,7 @@ class Image implements \Stringable
                 $file = $this->file;
                 $size = Cache::rememberForever('sloth.media.size' . md5($this->file), function () use ($file) {
                     $image = new ImageInformation(new File($file));
+
                     return $image->getSize();
                 });
                 $this->width = $size['width'];
@@ -211,10 +220,11 @@ class Image implements \Stringable
     /**
      * Get a theme-sized image.
      *
-     * @param string|array<string> $size Size name or array of dimensions
-     * @throws BindingResolutionException
-     * @since 1.0.0
+     * @param array<string>|string $size Size name or array of dimensions
      *
+     * @throws BindingResolutionException
+     *
+     * @since 1.0.0
      */
     public function getThemeSized(string|array $size): string
     {
@@ -239,8 +249,8 @@ class Image implements \Stringable
      * Resize the image with options.
      *
      * @param array<string, mixed> ...$options Resize options or width
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function resize(...$options): string
     {
@@ -254,7 +264,7 @@ class Image implements \Stringable
         if (!is_array($options)) {
             $options = array_combine(
                 array_slice(array_keys($this->defaults), 0, count($args)),
-                array_slice($args, 0, count($this->defaults))
+                array_slice($args, 0, count($this->defaults)),
             );
         }
 
@@ -268,7 +278,7 @@ class Image implements \Stringable
         $sheerFileName = $this->getFilename($options);
 
         SlothMediaVersion::updateOrCreate([
-            'guid' => $this->getUrl($sheerFileName, false),
+            'guid'        => $this->getUrl($sheerFileName, false),
             'post_parent' => $this->post->ID,
         ], [
             'post_excerpt' => json_encode($options),
@@ -281,8 +291,8 @@ class Image implements \Stringable
      * Get the filename for a manipulated image.
      *
      * @param array<string, mixed> $options Manipulation options
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     protected function getFilename(array $options = []): string
     {
@@ -298,12 +308,14 @@ class Image implements \Stringable
         unset($options['width'], $options['height']);
 
         $optionsNamed = [];
+
         foreach ($options as $method => $values) {
             if (is_array($values)) {
                 $values = implode('-', $values);
             }
 
             $name = $method;
+
             if (!is_bool($values)) {
                 $name .= '-' . $values;
             }
@@ -328,8 +340,8 @@ class Image implements \Stringable
      * Get the absolute file path.
      *
      * @param string $filename Relative filename
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     protected function getAbsoluteFilename(string $filename): string
     {
@@ -342,10 +354,10 @@ class Image implements \Stringable
     /**
      * Get the URL for a file.
      *
-     * @param string $filename Relative filename
-     * @param bool|null $full Whether to include full URL (default: true)
-     * @since 1.0.0
+     * @param string    $filename Relative filename
+     * @param bool|null $full     Whether to include full URL (default: true)
      *
+     * @since 1.0.0
      */
     protected function getUrl(string $filename, ?bool $full = true): string
     {
@@ -359,11 +371,10 @@ class Image implements \Stringable
     /**
      * Process manipulation options.
      *
-     * @param array<string, mixed> $options Manipulation options
-     *
+     * @param  array<string, mixed> $options Manipulation options
      * @return array<string, mixed>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     protected function processOptions(array $options): array
     {
@@ -372,6 +383,7 @@ class Image implements \Stringable
         ksort($options);
 
         $output = [];
+
         foreach ($options as $method => $values) {
             if (is_numeric($method) && is_string($values) && is_bool($values)) {
                 $method = $values;
@@ -389,7 +401,7 @@ class Image implements \Stringable
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->url;
@@ -399,9 +411,10 @@ class Image implements \Stringable
      * Get a dynamic property.
      *
      * @param string $what Property name
-     * @throws BindingResolutionException
-     * @since 1.0.0
      *
+     * @throws BindingResolutionException
+     *
+     * @since 1.0.0
      */
     public function __get(string $what): mixed
     {
@@ -424,8 +437,8 @@ class Image implements \Stringable
      * Check if a property is set.
      *
      * @param string $what Property name
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function __isset(string $what): bool
     {
@@ -445,10 +458,11 @@ class Image implements \Stringable
     /**
      * Get all available sizes.
      *
-     * @return array<string, string>
      * @throws BindingResolutionException
-     * @since 1.0.0
      *
+     * @return array<string, string>
+     *
+     * @since 1.0.0
      */
     public function sizes(): array
     {

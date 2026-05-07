@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Http;
 
 use Inpsyde\WpContext;
@@ -42,7 +41,7 @@ use Inpsyde\WpContext;
  * ```
  *
  * @since 1.0.0
- * @see \Inpsyde\WpContext
+ * @see WpContext
  */
 class RequestContext
 {
@@ -63,8 +62,9 @@ class RequestContext
     /**
      * Create a new RequestContext instance.
      *
-     * @param WpContext|null $wpContext Optional WpContext instance (for testing).
-     * @param string|null    $restPrefix Optional REST prefix (falls back to WP_REST_PREFIX env var, then 'wp-json').
+     * @param WpContext|null $wpContext  optional WpContext instance (for testing)
+     * @param string|null    $restPrefix optional REST prefix (falls back to WP_REST_PREFIX env var, then 'wp-json')
+     *
      * @since 1.0.0
      */
     public function __construct(?WpContext $wpContext = null, ?string $restPrefix = null)
@@ -84,7 +84,8 @@ class RequestContext
      * - Late (after rest_api_loaded): checks REST_REQUEST constant and WpContext
      * - Early (during boot): checks URI prefix and rest_route query var
      *
-     * @return bool True if this is a REST API request.
+     * @return bool true if this is a REST API request
+     *
      * @since 1.0.0
      */
     public function isRest(): bool
@@ -107,7 +108,8 @@ class RequestContext
     /**
      * Check if the current request is an AJAX request.
      *
-     * @return bool True if this is an AJAX request.
+     * @return bool true if this is an AJAX request
+     *
      * @since 1.0.0
      */
     public function isAjax(): bool
@@ -118,7 +120,8 @@ class RequestContext
     /**
      * Check if the current request is a WordPress admin request.
      *
-     * @return bool True if this is a backoffice request.
+     * @return bool true if this is a backoffice request
+     *
      * @since 1.0.0
      */
     public function isBackoffice(): bool
@@ -132,7 +135,8 @@ class RequestContext
      * Excludes REST and AJAX requests even if WpContext reports
      * frontoffice (which it may do early in the lifecycle).
      *
-     * @return bool True if this is a frontoffice request.
+     * @return bool true if this is a frontoffice request
+     *
      * @since 1.0.0
      */
     public function isFrontoffice(): bool
@@ -145,7 +149,8 @@ class RequestContext
     /**
      * Check if the current request is a cron request.
      *
-     * @return bool True if this is a cron request.
+     * @return bool true if this is a cron request
+     *
      * @since 1.0.0
      */
     public function isCron(): bool
@@ -156,7 +161,8 @@ class RequestContext
     /**
      * Check if the current request is a WP-CLI request.
      *
-     * @return bool True if this is a WP-CLI request.
+     * @return bool true if this is a WP-CLI request
+     *
      * @since 1.0.0
      */
     public function isCli(): bool
@@ -167,7 +173,8 @@ class RequestContext
     /**
      * Check if the current request is an XML-RPC request.
      *
-     * @return bool True if this is an XML-RPC request.
+     * @return bool true if this is an XML-RPC request
+     *
      * @since 1.0.0
      */
     public function isXmlRpc(): bool
@@ -178,7 +185,8 @@ class RequestContext
     /**
      * Check if WordPress is currently installing.
      *
-     * @return bool True if WordPress is installing.
+     * @return bool true if WordPress is installing
+     *
      * @since 1.0.0
      */
     public function isInstalling(): bool
@@ -189,7 +197,8 @@ class RequestContext
     /**
      * Check if the current request is a login page.
      *
-     * @return bool True if this is a login request.
+     * @return bool true if this is a login request
+     *
      * @since 1.0.0
      */
     public function isLogin(): bool
@@ -200,7 +209,8 @@ class RequestContext
     /**
      * Check if a user is currently logged in.
      *
-     * @return bool True if a user is logged in.
+     * @return bool true if a user is logged in
+     *
      * @since 1.0.0
      */
     public function isLoggedin(): bool
@@ -211,7 +221,8 @@ class RequestContext
     /**
      * Get the underlying WpContext instance.
      *
-     * @return WpContext The WpContext instance.
+     * @return WpContext the WpContext instance
+     *
      * @since 1.0.0
      */
     public function wpContext(): WpContext
@@ -222,8 +233,9 @@ class RequestContext
     /**
      * Check if the current response is JSON.
      *
-     * @param string|null $output Optional output to inspect.
-     * @return bool True if this is a JSON response.
+     * @param  string|null $output optional output to inspect
+     * @return bool        true if this is a JSON response
+     *
      * @since 1.0.0
      */
     public function isJsonResponse(?string $output = null): bool
@@ -246,8 +258,9 @@ class RequestContext
     /**
      * Check if the current response is XML.
      *
-     * @param string|null $output Optional output to inspect.
-     * @return bool True if this is an XML response.
+     * @param  string|null $output optional output to inspect
+     * @return bool        true if this is an XML response
+     *
      * @since 1.0.0
      */
     public function isXmlResponse(?string $output = null): bool
@@ -274,7 +287,8 @@ class RequestContext
     /**
      * Detect REST requests early via URI prefix.
      *
-     * @return bool True if the request URI starts with the REST prefix.
+     * @return bool true if the request URI starts with the REST prefix
+     *
      * @since 1.0.0
      */
     protected function isRestFromUri(): bool
@@ -293,6 +307,7 @@ class RequestContext
      * Detect AJAX requests early via script name.
      *
      * @return bool True if the script is admin-ajax.php.
+     *
      * @since 1.0.0
      */
     protected function isEarlyAjaxRequest(): bool
@@ -310,7 +325,8 @@ class RequestContext
      * 2. WP_REST_PREFIX env var
      * 3. Default 'wp-json'
      *
-     * @return string The REST API prefix.
+     * @return string the REST API prefix
+     *
      * @since 1.0.0
      */
     protected function getRestPrefix(): string

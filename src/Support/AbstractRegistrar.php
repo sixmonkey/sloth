@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support;
 
 use Composer\ClassMapGenerator\ClassMapGenerator;
 use Sloth\Core\Application;
+use Throwable;
 
 /**
  * Base class for manifest-based WordPress type registration.
@@ -39,7 +39,9 @@ abstract class AbstractRegistrar
     /** Filename for the generated manifest in the cache directory. */
     protected static string $manifestName;
 
-    public function __construct(protected Application $app) {}
+    public function __construct(protected Application $app)
+    {
+    }
 
     /**
      * Discover and register all types with WordPress.
@@ -54,6 +56,7 @@ abstract class AbstractRegistrar
         $manifest = app()->path('cache') . '/Manifest/' . static::$manifestName;
         app()->instance('sloth.models', []);
         app()->instance('sloth.taxonomies', []);
+
         if (app()->isLocal() || !app('files')->exists($manifest)) {
             $this->run($manifest);
         }
@@ -67,6 +70,8 @@ abstract class AbstractRegistrar
      * Scan directories, build args, and write the manifest.
      *
      * @since 1.0.0
+     *
+     * @param string $manifest
      */
     protected function run(string $manifest): void
     {
@@ -75,8 +80,9 @@ abstract class AbstractRegistrar
             app()->path(static::$dir),
             app()->path(static::$dir, 'theme'),
         ])
-            ->filter(fn($path) => app('files')->isDirectory($path))
-            ->each(fn($path) => $generator->scanPaths($path));
+            ->filter(fn ($path) => app('files')->isDirectory($path))
+            ->each(fn ($path) => $generator->scanPaths($path))
+        ;
 
         $classMap = $generator->getClassMap();
         $classMap->sort();
@@ -89,8 +95,9 @@ abstract class AbstractRegistrar
         ];
 
         collect($classMap->getMap())
-            ->each(function ($file, $class) use (&$manifestLines, &$registered) {
+            ->each(function ($file, $class) use (&$manifestLines, &$registered): void {
                 require_once $file;
+
                 if (!$class::$register) {
                     return;
                 }
@@ -111,7 +118,8 @@ abstract class AbstractRegistrar
                 $manifestLines[] = '';
 
                 $registered[$slug] = $class;
-            });
+            })
+        ;
 
         $manifestLines[] = $this->toContainerLine($registered);
 
@@ -122,6 +130,8 @@ abstract class AbstractRegistrar
      * Get the WordPress slug for an instance (post type name or taxonomy name).
      *
      * @param class-string $class
+     * @param object       $instance
+     *
      * @since 1.0.0
      */
     abstract protected function getSlug(string $class, object $instance): string;
@@ -129,8 +139,10 @@ abstract class AbstractRegistrar
     /**
      * Build the registration args for a class.
      *
-     * @param class-string $class
+     * @param  class-string         $class
+     * @param  object               $instance
      * @return array<string, mixed>
+     *
      * @since 1.0.0
      */
     abstract protected function buildArgs(string $class, object $instance): array;
@@ -138,8 +150,10 @@ abstract class AbstractRegistrar
     /**
      * Build the names array for register_extended_*().
      *
-     * @param class-string $class
+     * @param  class-string                            $class
+     * @param  string                                  $slug
      * @return array{singular: string, plural: string}
+     *
      * @since 1.0.0
      */
     abstract protected function buildNames(string $class, string $slug): array;
@@ -149,9 +163,11 @@ abstract class AbstractRegistrar
      *
      * Written into the manifest. Must produce the same effect when executed.
      *
-     * @param class-string $class
-     * @param array<string, mixed> $args
+     * @param string                                  $slug
+     * @param class-string                            $class
+     * @param array<string, mixed>                    $args
      * @param array{singular: string, plural: string} $names
+     *
      * @since 1.0.0
      */
     abstract protected function toManifestLine(string $slug, string $class, array $args, array $names): string;
@@ -162,6 +178,7 @@ abstract class AbstractRegistrar
      * Written once at the end of the manifest.
      *
      * @param array<string, class-string> $registered Map of slug => class name
+     *
      * @since 1.0.0
      */
     abstract protected function toContainerLine(array $registered): string;
@@ -174,7 +191,9 @@ abstract class AbstractRegistrar
      *
      * @since 1.0.0
      */
-    protected function afterManifest(): void {}
+    protected function afterManifest(): void
+    {
+    }
 
     /**
      * Write the manifest to the cache directory.
@@ -182,13 +201,16 @@ abstract class AbstractRegistrar
      * Non-fatal — manifest is an optimisation, not a requirement.
      *
      * @since 1.0.0
+     *
+     * @param string $path
+     * @param array  $lines
      */
     protected function writeManifest(string $path, array $lines): void
     {
         try {
             app('files')->ensureDirectoryExists(dirname($path));
             app('files')->put($path, implode("\n", $lines));
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // Non-fatal
         }
     }

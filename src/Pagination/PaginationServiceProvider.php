@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Pagination;
 
 use Illuminate\Pagination\AbstractPaginator;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -27,15 +27,15 @@ class PaginationServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        AbstractPaginator::viewFactoryResolver(fn() => $this->app['view']);
+        AbstractPaginator::viewFactoryResolver(fn () => $this->app['view']);
 
-        AbstractPaginator::$defaultView       = 'Pagination.default';
+        AbstractPaginator::$defaultView = 'Pagination.default';
         AbstractPaginator::$defaultSimpleView = 'Pagination.default';
 
-        AbstractPaginator::currentPathResolver(fn(): string => '');
+        AbstractPaginator::currentPathResolver(fn (): string => '');
     }
 
     /**
@@ -45,7 +45,7 @@ class PaginationServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
-    #[\Override]
+    #[Override]
     public function provides(): array
     {
         return [

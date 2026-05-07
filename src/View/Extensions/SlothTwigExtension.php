@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\View\Extensions;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Override;
 use Sloth\Core\Application;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -40,10 +40,13 @@ use Twig\TwigTest;
 class SlothTwigExtension extends AbstractExtension
 {
     /**
-     * @param Application $container The Sloth application container.
+     * @param Application $container the Sloth application container
+     *
      * @since 1.0.0
      */
-    public function __construct(protected Application $container) {}
+    public function __construct(protected Application $container)
+    {
+    }
 
     /**
      * Return the unique extension name.
@@ -61,14 +64,15 @@ class SlothTwigExtension extends AbstractExtension
      * Available in templates:
      * - `value is string` — checks if a value is a string
      *
-     * @return list<\Twig\TwigTest>
+     * @return list<TwigTest>
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function getTests(): array
     {
         return [
-            new TwigTest('string', fn($value): bool => is_string($value)),
+            new TwigTest('string', fn ($value): bool => is_string($value)),
         ];
     }
 
@@ -79,6 +83,7 @@ class SlothTwigExtension extends AbstractExtension
      * be called from Twig using `{{ fn.function_name(args) }}`.
      *
      * @return array<string, mixed>
+     *
      * @since 1.0.0
      */
     public function getGlobals(): array
@@ -94,9 +99,10 @@ class SlothTwigExtension extends AbstractExtension
      * Called automatically by Twig when `fn.some_function()` is used
      * in a template.
      *
-     * @param string $name The function name to call.
-     * @param array<mixed> $arguments Arguments to pass.
+     * @param  string       $name      the function name to call
+     * @param  array<mixed> $arguments arguments to pass
      * @return mixed
+     *
      * @since 1.0.0
      */
     public function __call(string $name, array $arguments): mixed
@@ -128,9 +134,10 @@ class SlothTwigExtension extends AbstractExtension
      * ```
      *
      * @return list<TwigFilter>
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function getFilters(): array
     {
         $filters = [
@@ -141,16 +148,16 @@ class SlothTwigExtension extends AbstractExtension
             }),
 
             // Dump a variable using Sloth's debug() helper
-            new TwigFilter('debug', fn($input): mixed => debug($input)),
+            new TwigFilter('debug', fn ($input): mixed => debug($input)),
 
             // Alias for debug
-            new TwigFilter('print_r', fn($input): mixed => debug($input)),
+            new TwigFilter('print_r', fn ($input): mixed => debug($input)),
 
             // Convert a phone number to a tel: URI — strips all non-numeric characters except +
-            new TwigFilter('tel', fn($phone) => 'tel:' . preg_replace("/[^0-9\+]/", "", (string) $phone)),
+            new TwigFilter('tel', fn ($phone) => 'tel:' . preg_replace("/[^0-9\+]/", '', (string) $phone)),
 
             // Sanitize a string for use as a WordPress slug
-            new TwigFilter('sanitize', fn($string) => sanitize_title($string)),
+            new TwigFilter('sanitize', fn ($string) => sanitize_title($string)),
         ];
 
         // Merge in any additional filters registered via theme config
@@ -178,11 +185,13 @@ class SlothTwigExtension extends AbstractExtension
      * ];
      * ```
      *
-     * @return list<TwigFunction>
      * @throws BindingResolutionException
+     *
+     * @return list<TwigFunction>
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function getFunctions(): array
     {
         $functions = [
@@ -194,7 +203,7 @@ class SlothTwigExtension extends AbstractExtension
                     module($name, $values, $options);
 
                     return ob_get_clean();
-                }
+                },
             ),
 
             // -------------------------------------------------------------------------
@@ -208,22 +217,22 @@ class SlothTwigExtension extends AbstractExtension
             new TwigFunction('wp_footer', 'wp_footer'),
 
             // Outputs the body class attribute value for the current page
-            new TwigFunction('body_class', fn($class = '') => body_class($class)),
+            new TwigFunction('body_class', fn ($class = '') => body_class($class)),
 
             // Outputs post class attribute value for the current or given post
-            new TwigFunction('post_class', fn($class = '', $id = null) => post_class($class, $id)),
+            new TwigFunction('post_class', fn ($class = '', $id = null) => post_class($class, $id)),
 
             // -------------------------------------------------------------------------
             // WordPress formatting functions
             // -------------------------------------------------------------------------
 
             // Adds paragraph tags and line breaks to text
-            new TwigFunction('wpautop', fn($text, $br = true) => wpautop($text, $br)),
+            new TwigFunction('wpautop', fn ($text, $br = true) => wpautop($text, $br)),
 
             // Trims text to a specified number of words
             new TwigFunction(
                 'wp_trim_words',
-                fn($text, $num_words = 55, $more = null) => wp_trim_words($text, $num_words, $more)
+                fn ($text, $num_words = 55, $more = null) => wp_trim_words($text, $num_words, $more),
             ),
 
             // -------------------------------------------------------------------------
@@ -231,7 +240,7 @@ class SlothTwigExtension extends AbstractExtension
             // -------------------------------------------------------------------------
 
             // Returns the value of an ACF field for the current or given post
-            new TwigFunction('get_field', fn($field_name, $post = null) => get_field($field_name, $post)),
+            new TwigFunction('get_field', fn ($field_name, $post = null) => get_field($field_name, $post)),
 
             // -------------------------------------------------------------------------
             // Dynamic function call
@@ -259,57 +268,57 @@ class SlothTwigExtension extends AbstractExtension
             // Usage: {{ meta('my_key') }} or {{ meta('my_key', post.ID, 'post', true) }}
             new TwigFunction(
                 'meta',
-                fn($key, $id = null, $context = 'post', $single = true) => get_metadata(
+                fn ($key, $id = null, $context = 'post', $single = true) => get_metadata(
                     $context,
                     $id ?? get_the_ID(),
                     $key,
                     $single,
-                )
+                ),
             ),
 
             // -------------------------------------------------------------------------
             // Gettext / i18n functions
             // -------------------------------------------------------------------------
 
-            new TwigFunction('translate', fn($text, $domain = 'default') => translate($text, $domain)),
-            new TwigFunction('__', fn($text, $domain = 'default') => __($text, $domain)),
-            new TwigFunction('_e', fn($text, $domain = 'default') => _e($text, $domain)),
+            new TwigFunction('translate', fn ($text, $domain = 'default') => translate($text, $domain)),
+            new TwigFunction('__', fn ($text, $domain = 'default') => __($text, $domain)),
+            new TwigFunction('_e', fn ($text, $domain = 'default') => _e($text, $domain)),
             new TwigFunction(
                 '_n',
-                fn($single, $plural, $number, $domain = 'default') => _n($single, $plural, $number, $domain)
+                fn ($single, $plural, $number, $domain = 'default') => _n($single, $plural, $number, $domain),
             ),
-            new TwigFunction('_x', fn($text, $context, $domain = 'default') => _x($text, $context, $domain)),
-            new TwigFunction('_ex', fn($text, $context, $domain = 'default') => _ex($text, $context, $domain)),
+            new TwigFunction('_x', fn ($text, $context, $domain = 'default') => _x($text, $context, $domain)),
+            new TwigFunction('_ex', fn ($text, $context, $domain = 'default') => _ex($text, $context, $domain)),
             new TwigFunction(
                 '_nx',
-                fn($single, $plural, $number, $context, $domain = 'default') => _nx(
+                fn ($single, $plural, $number, $context, $domain = 'default') => _nx(
                     $single,
                     $plural,
                     $number,
                     $context,
                     $domain,
-                )
+                ),
             ),
             new TwigFunction(
                 '_n_noop',
-                fn($singular, $plural, $domain = 'default') => _n_noop($singular, $plural, $domain)
+                fn ($singular, $plural, $domain = 'default') => _n_noop($singular, $plural, $domain),
             ),
             new TwigFunction(
                 '_nx_noop',
-                fn($singular, $plural, $context, $domain = 'default') => _nx_noop(
+                fn ($singular, $plural, $context, $domain = 'default') => _nx_noop(
                     $singular,
                     $plural,
                     $context,
                     $domain,
-                )
+                ),
             ),
             new TwigFunction(
                 'translate_nooped_plural',
-                fn($nooped_plural, $count, $domain = 'default') => translate_nooped_plural(
+                fn ($nooped_plural, $count, $domain = 'default') => translate_nooped_plural(
                     $nooped_plural,
                     $count,
                     $domain,
-                )
+                ),
             ),
         ];
 
@@ -326,6 +335,7 @@ class SlothTwigExtension extends AbstractExtension
         if (function_exists('pll__')) {
             $functions[] = new TwigFunction('pll__', 'pll__');
         }
+
         // Merge in any additional functions registered via theme config
         if (config('theme.twig.functions')) {
             $functions = array_merge($functions, config('theme.twig.functions'));
@@ -340,8 +350,11 @@ class SlothTwigExtension extends AbstractExtension
      * Called by Twig when the extension is loaded. Currently a no-op —
      * kept for compatibility in case subclasses need it.
      *
-     * @param Environment $environment The Twig environment instance.
+     * @param Environment $environment the Twig environment instance
+     *
      * @since 1.0.0
      */
-    public function initRuntime(Environment $environment): void {}
+    public function initRuntime(Environment $environment): void
+    {
+    }
 }

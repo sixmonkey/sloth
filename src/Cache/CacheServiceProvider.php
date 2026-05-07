@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Cache;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Cache\Repository;
+use Override;
 use Sloth\Cache\Store\WordPressTransientStore;
 use Sloth\Core\ServiceProvider;
 
@@ -55,7 +55,7 @@ use Sloth\Core\ServiceProvider;
  *
  * @since 1.0.0
  * @see \Sloth\Facades\Cache For the static Facade interface
- * @see \Sloth\Cache\WordPressTransientsStore For the WP Transients driver
+ * @see WordPressTransientsStore For the WP Transients driver
  */
 class CacheServiceProvider extends ServiceProvider
 {
@@ -71,17 +71,18 @@ class CacheServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->singleton('cache', function ($app) {
             $manager = new CacheManager($app);
+
             return $manager;
         });
 
-        $this->app->singleton('cache.store', fn($app) => $app['cache']->driver());
+        $this->app->singleton('cache.store', fn ($app) => $app['cache']->driver());
 
-        $this->app->singleton('memcached.connector', fn() => new \Illuminate\Cache\MemcachedConnector());
+        $this->app->singleton('memcached.connector', fn () => new \Illuminate\Cache\MemcachedConnector());
     }
 
     /**
@@ -115,8 +116,7 @@ class CacheServiceProvider extends ServiceProvider
         // Register WordPress transients as a custom cache driver
         $this->app['cache']->extend(
             'wp-transients',
-            fn()
-        => new Repository(new WordPressTransientStore())
+            fn () => new Repository(new WordPressTransientStore()),
         );
     }
 }

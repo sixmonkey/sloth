@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Support\Manifest;
 
 use Illuminate\Support\Str;
@@ -66,10 +65,10 @@ use Sloth\Core\Application;
  * - Write failures are silently swallowed — manifests are an optimisation.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\ManifestWriter      For manifest file generation
- * @see \Sloth\Support\Manifest\ClassMapFinder      For class-based discovery
- * @see \Sloth\Support\Manifest\FileFinder          For file-based discovery
- * @see \Sloth\Support\Manifest\ComposerFinder      For vendor package discovery
+ * @see ManifestWriter      For manifest file generation
+ * @see ClassMapFinder      For class-based discovery
+ * @see FileFinder          For file-based discovery
+ * @see ComposerFinder      For vendor package discovery
  */
 abstract class AbstractManifestBuilder
 {
@@ -80,6 +79,7 @@ abstract class AbstractManifestBuilder
      * computing fresh data (build). Consumed by Registrars via getEntries().
      *
      * @var array<string, mixed>
+     *
      * @since 1.0.0
      */
     protected array $entries = [];
@@ -87,11 +87,14 @@ abstract class AbstractManifestBuilder
     /**
      * Creates a new manifest builder instance.
      *
-     * @param Application $app The application container, used for path resolution
-     *                         and filesystem access.
+     * @param Application $app the application container, used for path resolution
+     *                         and filesystem access
+     *
      * @since 1.0.0
      */
-    public function __construct(protected Application $app) {}
+    public function __construct(protected Application $app)
+    {
+    }
 
     /**
      * Run discovery, build the manifest if needed, and load it.
@@ -123,7 +126,8 @@ abstract class AbstractManifestBuilder
      * Called internally by init() when the manifest needs to be rebuilt.
      * Subclasses should not call this directly — use init() instead.
      *
-     * @param string $manifest Absolute path where the manifest file will be written.
+     * @param string $manifest absolute path where the manifest file will be written
+     *
      * @since 1.0.0
      */
     protected function build(string $manifest): void
@@ -132,11 +136,12 @@ abstract class AbstractManifestBuilder
         $map = $this->finder()->find($directories ?? []);
 
         $extraLines = collect($map)
-            ->mapWithKeys(fn($file, $identifier) => [
+            ->mapWithKeys(fn ($file, $identifier) => [
                 $identifier => $this->extraLines($identifier, $file),
             ])
-            ->filter(fn($lines) => !empty($lines))
-            ->all();
+            ->filter(fn ($lines) => !empty($lines))
+            ->all()
+        ;
 
         $entries = $this->entries($map);
 
@@ -161,8 +166,9 @@ abstract class AbstractManifestBuilder
      * Override this method if you need non-standard paths (e.g. scanning
      * additional directories or a single source).
      *
-     * @return list<string>|null Absolute directory paths to scan, or null
-     *                           when the finder does not require directory input.
+     * @return list<string>|null absolute directory paths to scan, or null
+     *                           when the finder does not require directory input
+     *
      * @since 1.0.0
      */
     protected function directories(): ?array
@@ -176,7 +182,8 @@ abstract class AbstractManifestBuilder
      * Defaults to true. Override and return false when Composer handles
      * autoloading (e.g. vendor package discovery).
      *
-     * @return bool True to emit require_once statements, false to skip them.
+     * @return bool true to emit require_once statements, false to skip them
+     *
      * @since 1.0.0
      */
     protected function requireFiles(): bool
@@ -190,7 +197,8 @@ abstract class AbstractManifestBuilder
      * Registrars call this method to access the pre-computed registration
      * arguments without triggering discovery or recomputation.
      *
-     * @return array<string, mixed> Entry data keyed by class identifier.
+     * @return array<string, mixed> entry data keyed by class identifier
+     *
      * @since 1.0.0
      */
     public function getEntries(): array
@@ -205,7 +213,8 @@ abstract class AbstractManifestBuilder
      * FileFinder to discover all PHP files in a directory, or ComposerFinder
      * to discover vendor packages from installed.json.
      *
-     * @return FinderInterface The configured finder instance.
+     * @return FinderInterface the configured finder instance
+     *
      * @since 1.0.0
      */
     abstract protected function finder(): FinderInterface;
@@ -222,7 +231,8 @@ abstract class AbstractManifestBuilder
      *
      * Override if you need a non-standard name.
      *
-     * @return string The manifest filename.
+     * @return string the manifest filename
+     *
      * @since 1.0.0
      */
     protected function manifestName(): string
@@ -230,6 +240,7 @@ abstract class AbstractManifestBuilder
         $name = class_basename(static::class);
         $name = str_replace('ManifestBuilder', '', $name);
         $hash = substr(md5(static::class), 0, 6);
+
         return ucfirst(Str::kebab($name)) . '-' . $hash . '.php';
     }
 
@@ -250,10 +261,11 @@ abstract class AbstractManifestBuilder
      * ];
      * ```
      *
-     * @param string $identifier Fully qualified class name or file path,
-     *                           depending on the finder implementation.
-     * @param string $file       Absolute path to the discovered file.
-     * @return list<string>      PHP code lines to embed. Empty array for none.
+     * @param  string       $identifier fully qualified class name or file path,
+     *                                  depending on the finder implementation
+     * @param  string       $file       absolute path to the discovered file
+     * @return list<string> PHP code lines to embed. Empty array for none.
+     *
      * @since 1.0.0
      */
     protected function extraLines(string $identifier, string $file): array
@@ -283,9 +295,10 @@ abstract class AbstractManifestBuilder
      * ];
      * ```
      *
-     * @param array<string, string> $map Identifier => absolute file path map
-     *                                   from the finder.
-     * @return array<string, mixed>      Entry data keyed by identifier.
+     * @param  array<string, string> $map identifier => absolute file path map
+     *                                    from the finder
+     * @return array<string, mixed>  entry data keyed by identifier
+     *
      * @since 1.0.0
      */
     protected function entries(array $map): array

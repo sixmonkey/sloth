@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model;
 
 use Corcel\Model\Menu as CorcelMenu;
+use Override;
 
 /**
- * Menu Model
+ * Menu Model.
  *
  * Extends Corcel's Menu model to provide additional functionality
  * for WordPress navigation menus.
@@ -33,13 +33,12 @@ class Menu extends CorcelMenu
      *
      * @since 1.0.0
      *
-     * @param string $location_name The menu location identifier
-     *
-     * @return Menu|\Illuminate\Database\Eloquent\Builder The menu query builder
+     * @param  string                                     $location_name The menu location identifier
+     * @return \Illuminate\Database\Eloquent\Builder|Menu The menu query builder
      *
      * @uses get_nav_menu_locations() To find the menu ID for the location
      */
-    public static function location(string $location_name): Menu|\Illuminate\Database\Eloquent\Builder
+    public static function location(string $location_name): self|\Illuminate\Database\Eloquent\Builder
     {
         $locations = get_nav_menu_locations();
         $id = null;
@@ -47,6 +46,7 @@ class Menu extends CorcelMenu
         foreach ($locations as $location => $location_id) {
             if ($location === $location_name) {
                 $id = $location_id;
+
                 break;
             }
         }
@@ -59,7 +59,7 @@ class Menu extends CorcelMenu
      *
      * @since 1.0.0
      *
-     * @return int|string|false The location name or false if not found
+     * @return false|int|string The location name or false if not found
      */
     public function getLocationAttribute(): int|string|false
     {
@@ -75,14 +75,14 @@ class Menu extends CorcelMenu
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany The items relationship
      */
-    #[\Override]
+    #[Override]
     public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(
             MenuItem::class,
             'term_relationships',
             'term_taxonomy_id',
-            'object_id'
+            'object_id',
         )->orderBy('menu_order');
     }
 }

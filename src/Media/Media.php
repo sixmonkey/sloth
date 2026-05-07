@@ -1,8 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Media;
+
+use function add_image_size;
 
 /**
  * Media handling utilities for WordPress.
@@ -13,20 +14,21 @@ namespace Sloth\Media;
  * - Converting absolute URLs to root-relative paths
  *
  * @since 1.0.0
- * @see \Sloth\Media\MediaServiceProvider
+ * @see MediaServiceProvider
  */
 class Media
 {
     /**
      * Constructor.
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * Add SVG mime type.
      *
-     * @param array<string, string> $mimes
-     *
+     * @param  array<string, string> $mimes
      * @return array<string, string>
      *
      * @since 1.0.0
@@ -46,15 +48,16 @@ class Media
     public function registerImageSizes(): void
     {
         $imageSizes = config('theme.image-sizes');
+
         if ($imageSizes && is_array($imageSizes)) {
             foreach ($imageSizes as $name => $options) {
                 $options = array_merge([
-                    'width' => 800,
-                    'height' => 600,
-                    'crop' => false,
+                    'width'   => 800,
+                    'height'  => 600,
+                    'crop'    => false,
                     'upscale' => false,
                 ], $options);
-                \add_image_size($name, $options['width'], $options['height'], $options['crop']);
+                add_image_size($name, $options['width'], $options['height'], $options['crop']);
             }
         }
 
@@ -76,7 +79,6 @@ class Media
      * Convert all links to root-relative URLs.
      *
      * @since 1.0.0
-     *
      * @see toRelativeUrl() For the URL transformation
      */
     public function makeLinksRelative(): void
@@ -109,7 +111,6 @@ class Media
      * Convert all upload URLs to root-relative.
      *
      * @since 1.0.0
-     *
      * @see toRelativeUrl() For the URL transformation
      */
     public function makeUploadsRelative(): void
@@ -132,11 +133,10 @@ class Media
     /**
      * Convert a URL to a root-relative path.
      *
-     * @param string $url The full URL to convert
-     *
+     * @param  string $url The full URL to convert
      * @return string The relative path
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function toRelativeUrl(string $url): string
     {
@@ -146,11 +146,10 @@ class Media
     /**
      * Convert href attributes in content to relative paths.
      *
-     * @param string $content HTML content with href attributes
-     *
+     * @param  string $content HTML content with href attributes
      * @return string Content with relative hrefs
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function makeHrefsRelative(string $content): string
     {
@@ -160,11 +159,10 @@ class Media
     /**
      * Convert src attributes in content to relative paths.
      *
-     * @param string $content HTML content with src attributes
-     *
+     * @param  string $content HTML content with src attributes
      * @return string Content with relative srcs
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function makeSrcsRelative(string $content): string
     {

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console\Commands;
 
 use Sloth\Console\Command;
@@ -27,7 +26,7 @@ class InspireCommand extends Command
                           May the sloth be with you!
                         </em>
                     </div>
-                HTML
+                HTML,
         );
 
         return self::SUCCESS;

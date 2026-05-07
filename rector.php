@@ -18,5 +18,6 @@ return RectorConfig::configure()
         SetList::EARLY_RETURN,
     ])
     ->withSkip([
-        \Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class,
-    ]);
+        Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class,
+    ])
+;

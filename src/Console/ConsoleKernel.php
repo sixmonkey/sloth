@@ -1,21 +1,21 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console;
 
+use function Termwind\renderUsing;
+use Exception;
 use Illuminate\Console\Application as ConsoleApplication;
 use Illuminate\Console\Command;
 use Sloth\Core\Application;
 use Sloth\Support\Manifest\ClassMapFinder;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
-use Symfony\Component\Console\Output\OutputInterface;
-
-use function Termwind\renderUsing;
+use Symfony\Component\VarDumper\VarDumper;
+use Throwable;
 
 /**
  * Sloth Console Kernel.
@@ -69,8 +69,8 @@ use function Termwind\renderUsing;
  *
  * @since 1.0.0
  * @see \Sloth\Console\Command
- * @see \Sloth\Console\SlothCommand
- * @see \Sloth\Console\ConsoleServiceProvider
+ * @see SlothCommand
+ * @see ConsoleServiceProvider
  */
 class ConsoleKernel
 {
@@ -84,7 +84,8 @@ class ConsoleKernel
     /**
      * Create a new ConsoleKernel instance.
      *
-     * @param Application $app The Sloth application container.
+     * @param Application $app the Sloth application container
+     *
      * @since 1.0.0
      */
     public function __construct(private Application $app)
@@ -116,9 +117,10 @@ class ConsoleKernel
      * Receives positional and named arguments from WP-CLI and executes
      * the corresponding console command.
      *
-     * @param array<int, string> $args Positional arguments from WP-CLI.
-     * @param array<string, mixed> $assocArgs Named arguments from WP-CLI (--flag=value).
-     * @return int The exit status code (0 for success, non-zero for failure).
+     * @param  array<int, string>   $args      positional arguments from WP-CLI
+     * @param  array<string, mixed> $assocArgs named arguments from WP-CLI (--flag=value)
+     * @return int                  the exit status code (0 for success, non-zero for failure)
+     *
      * @since 1.0.0
      */
     public function handle(array $args, array $assocArgs = []): int
@@ -142,8 +144,9 @@ class ConsoleKernel
      * This method is used by the standalone bin/sloth entry point.
      * It receives the raw argv array from the command line.
      *
-     * @param array<int, string> $argv The command line arguments (e.g., ['sloth', 'inspire']).
-     * @return int The exit status code (0 for success, non-zero for failure).
+     * @param  array<int, string> $argv The command line arguments (e.g., ['sloth', 'inspire']).
+     * @return int                the exit status code (0 for success, non-zero for failure)
+     *
      * @since 1.0.0
      * @see bin/sloth
      */
@@ -166,7 +169,8 @@ class ConsoleKernel
      *
      * Missing directories are silently skipped.
      *
-     * @return static The kernel instance for fluent chaining.
+     * @return static the kernel instance for fluent chaining
+     *
      * @since 1.0.0
      * @see \Sloth\Console\Command
      */
@@ -178,19 +182,21 @@ class ConsoleKernel
 
         try {
             $appPath = $this->app->path('Console');
+
             if (is_dir($appPath)) {
                 $paths[] = $appPath;
             }
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // path.app not registered — skip silently
         }
 
         try {
             $themePath = $this->app->path('Console', 'theme');
+
             if ($themePath && is_dir($themePath)) {
                 $paths[] = $themePath;
             }
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // path.theme not registered — skip silently
         }
 
@@ -198,7 +204,8 @@ class ConsoleKernel
 
         collect($map)
             ->keys()
-            ->each(fn($commandClass) => $this->console->add(new $commandClass()));
+            ->each(fn ($commandClass) => $this->console->add(new $commandClass()))
+        ;
 
         return $this;
     }
@@ -209,9 +216,13 @@ class ConsoleKernel
      * Centralizes StreamOutput creation and Termwind renderUsing call
      * for both handle() and handleArgv().
      *
-     * @param array<int, string> $argv The command line arguments.
-     * @return int The exit status code (0 for success, non-zero for failure).
-     * @throws \Exception
+     * @param array<int, string> $argv   the command line arguments
+     * @param ?OutputInterface   $output
+     *
+     * @throws Exception
+     *
+     * @return int the exit status code (0 for success, non-zero for failure)
+     *
      * @since 1.0.0
      */
     protected function run(array $argv, ?OutputInterface $output = null): int

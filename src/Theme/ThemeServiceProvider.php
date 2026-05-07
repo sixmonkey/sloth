@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Theme;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -50,7 +50,7 @@ class ThemeServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->themePath = realpath(get_template_directory());
@@ -63,6 +63,7 @@ class ThemeServiceProvider extends ServiceProvider
 
         // Load theme config.php — may register theme.twig.filters etc.
         $themeConfig = $this->themePath . '/config.php';
+
         if (file_exists($themeConfig)) {
             include_once $themeConfig;
         }
@@ -86,5 +87,4 @@ class ThemeServiceProvider extends ServiceProvider
         $this->app['view.finder']->addLocation($this->app->path('_view', 'framework'));
         $this->app['twig.loader']->setPaths($this->app['view.finder']->getPaths());
     }
-
 }

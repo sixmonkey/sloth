@@ -1,22 +1,21 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Core;
 
+use function Illuminate\Filesystem\join_paths;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use RuntimeException;
 use Sloth\Facades\Facade;
 use Sloth\Model\Model;
 use Sloth\Model\Taxonomy;
 
-use function Illuminate\Filesystem\join_paths;
-
 /**
- * Application Container
+ * Application Container.
  *
  * The main application container for the Sloth framework.
  * Extends Laravel's Container to provide dependency injection
@@ -51,7 +50,7 @@ use function Illuminate\Filesystem\join_paths;
  * ```
  *
  * @since 1.0.0
- * @see \Illuminate\Container\Container
+ * @see Container
  */
 class Application extends Container
 {
@@ -82,6 +81,7 @@ class Application extends Container
      * Registry of loaded service providers.
      *
      * @since 1.0.0
+     *
      * @var array<string, ServiceProvider>
      */
     protected array $loadedProviders = [];
@@ -90,14 +90,15 @@ class Application extends Container
      * Class aliases registered on boot.
      *
      * @since 1.0.0
+     *
      * @var array<string, class-string>
      */
     private array $classAliases = [
-        'Cache' => \Sloth\Facades\Cache::class,
-        'File' => \Sloth\Facades\File::class,
-        'View' => \Sloth\Facades\View::class,
-        'Configure' => \Sloth\Facades\Configure::class,
-        'Validator' => \Sloth\Facades\Validation::class,
+        'Cache'      => \Sloth\Facades\Cache::class,
+        'File'       => \Sloth\Facades\File::class,
+        'View'       => \Sloth\Facades\View::class,
+        'Configure'  => \Sloth\Facades\Configure::class,
+        'Validator'  => \Sloth\Facades\Validation::class,
         'Deployment' => \Sloth\Facades\Deployment::class,
         'Customizer' => \Sloth\Facades\Customizer::class,
     ];
@@ -115,6 +116,7 @@ class Application extends Container
      * This is the preferred entry point — chain with ->boot().
      *
      * @return static
+     *
      * @since 1.0.0
      */
     public static function configure(): static
@@ -123,7 +125,7 @@ class Application extends Container
             return static::getInstance();
         }
 
-        /** @phpstan-ignore new.static */
+        // @phpstan-ignore new.static
         return new static();
     }
 
@@ -136,7 +138,7 @@ class Application extends Container
     {
         static::setInstance($this);
         $this->instance('app', $this);
-        $this->instance(Application::class, $this);
+        $this->instance(self::class, $this);
         $this->instance(Container::class, $this);
     }
 
@@ -163,9 +165,9 @@ class Application extends Container
 
         // Config repository — must exist before any provider reads config
         if (Facade::getFacadeApplication()?->bound('config')) {
-            $this->singleton('config', fn() => Facade::getFacadeApplication()->make('config'));
+            $this->singleton('config', fn () => Facade::getFacadeApplication()->make('config'));
         } else {
-            $this->singleton('config', fn() => new \Illuminate\Config\Repository([]));
+            $this->singleton('config', fn () => new \Illuminate\Config\Repository([]));
         }
 
         Facade::setFacadeApplication($this);
@@ -226,10 +228,9 @@ class Application extends Container
             \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Http\RequestContextServiceProvider::class,
             \Sloth\Http\HttpServiceProvider::class,
-            \Sloth\Core\ExceptionServiceProvider::class,
+            ExceptionServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
-            \Sloth\Core\ApplicationServiceProvider::class,
-
+            ApplicationServiceProvider::class,
 
             // Theme — config + view paths before other providers read them
             \Sloth\Theme\ThemeServiceProvider::class,
@@ -257,7 +258,6 @@ class Application extends Container
 
             // Console
             \Sloth\Console\ConsoleServiceProvider::class,
-
         ];
 
         // Register framework providers first (including FilesystemServiceProvider)
@@ -267,16 +267,18 @@ class Application extends Container
 
         // Autodiscover app/Providers/ and theme/Providers/
         // (app('files') is now available since FilesystemServiceProvider is registered)
-        $builder = new \Sloth\Core\Manifest\ProvidersManifestBuilder($this);
+        $builder = new Manifest\ProvidersManifestBuilder($this);
         $builder->init();
+
         foreach ($builder->getEntries() as $provider) {
             $this->register($provider);
         }
 
         // Autodiscover vendor package providers from installed.json
         // (uses extra.laravel.providers — Laravel-compatible format)
-        $vendorBuilder = new \Sloth\Core\Manifest\VendorProviderManifestBuilder($this);
+        $vendorBuilder = new Manifest\VendorProviderManifestBuilder($this);
         $vendorBuilder->init();
+
         foreach ($vendorBuilder->getEntries() as $provider) {
             $this->register($provider);
         }
@@ -285,9 +287,10 @@ class Application extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param ServiceProvider|string $provider
-     * @param bool $force Force re-registration.
+     * @param  ServiceProvider|string $provider
+     * @param  bool                   $force    force re-registration
      * @return ServiceProvider
+     *
      * @since 1.0.0
      */
     public function register(string|ServiceProvider $provider, bool $force = false): ServiceProvider
@@ -318,7 +321,7 @@ class Application extends Container
     {
         $providers = $this->getLoadedProviders();
 
-        $providers->each(function (ServiceProvider $provider) {
+        $providers->each(function (ServiceProvider $provider): void {
             $provider->boot();
         });
 
@@ -328,6 +331,7 @@ class Application extends Container
                     add_action($hook, $callback['fn'], $callback['priority'], PHP_INT_MAX);
                 }
             }
+
             foreach ($provider->getFilters() as $filter => $value) {
                 foreach ($this->normalizeCallbacks($value) as $callback) {
                     add_filter($filter, $callback['fn'], $callback['priority'], PHP_INT_MAX);
@@ -339,8 +343,9 @@ class Application extends Container
     /**
      * Normalize callbacks from getHooks/getFilters format.
      *
-     * @param mixed $value
+     * @param  mixed                                          $value
      * @return array<int, array{fn: callable, priority: int}>
+     *
      * @since 1.0.0
      */
     private function normalizeCallbacks(mixed $value): array
@@ -357,6 +362,7 @@ class Application extends Container
             if (is_callable($item)) {
                 return ['fn' => $item, 'priority' => 10];
             }
+
             return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
         }, $value);
     }
@@ -365,6 +371,7 @@ class Application extends Container
      * Get all loaded service providers as a Collection.
      *
      * @return Collection<string, ServiceProvider>
+     *
      * @since 1.0.0
      */
     public function getLoadedProviders(): Collection
@@ -416,6 +423,7 @@ class Application extends Container
         // Cache and logs live in the theme — auto-create if missing
         foreach (['cache', 'logs'] as $key) {
             $path = get_template_directory() . '/' . $key;
+
             if (!is_dir($path)) {
                 mkdir($path, 0o755, true);
             }
@@ -433,7 +441,8 @@ class Application extends Container
      *
      * Result is cached statically for the duration of the request.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
+     *
      * @since 1.0.0
      */
     protected function guessBasePath(): string
@@ -446,11 +455,11 @@ class Application extends Container
             return static::$cachedBasePath = rtrim(SLOTH_BASE_PATH, '/');
         }
 
-
         $dir = dirname(match (defined('ABSPATH')) {
-            true => ABSPATH,
+            true    => ABSPATH,
             default => __DIR__
         });
+
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
                 return static::$cachedBasePath = $dir;
@@ -460,22 +469,24 @@ class Application extends Container
 
         if (function_exists('get_template_directory')) {
             $theme = get_template_directory();
+
             if (is_dir($theme . '/app')) {
                 return static::$cachedBasePath = $theme;
             }
         }
 
-        throw new \RuntimeException(
+        throw new RuntimeException(
             'Sloth could not determine the project base path. '
-            . 'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.'
+            . 'Define SLOTH_BASE_PATH in wp-config.php if your structure is non-standard.',
         );
     }
 
     /**
      * Add a path to the container.
      *
-     * @param string $key Path identifier (e.g. 'cache', 'theme').
-     * @param string $path Full filesystem path.
+     * @param string $key  Path identifier (e.g. 'cache', 'theme').
+     * @param string $path full filesystem path
+     *
      * @since 1.0.0
      */
     public function addPath(string $key, string $path): void
@@ -486,11 +497,10 @@ class Application extends Container
         $this->instance('path.' . $key, $path);
     }
 
-
     /**
      * Get the base path of the Laravel installation.
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      */
     public function basePath($path = '')
@@ -501,10 +511,12 @@ class Application extends Container
     /**
      * Get a path from the container.
      *
-     * @param string $path Optional subpath to append.
-     * @param string $prefix Path key (default: 'app').
+     * @param string $path   optional subpath to append
+     * @param string $prefix path key (default: 'app')
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
      * @since 1.0.0
      */
     public function path(string $path = '', string $prefix = 'app'): string
@@ -513,11 +525,12 @@ class Application extends Container
     }
 
     /**
-     * Get the config path
+     * Get the config path.
      *
-     * @return string
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return string
      */
     public function configPath(): string
     {
@@ -576,8 +589,9 @@ class Application extends Container
      * Get the template context.
      *
      * @return array<string, mixed>
+     *
      * @since 1.0.0
-     * @deprecated Use app('context')->getContext() instead.
+     * @deprecated use app('context')->getContext() instead
      */
     public function getContext(): array
     {
@@ -587,7 +601,7 @@ class Application extends Container
     /**
      * Check if running in a development environment.
      *
-     * @deprecated Use app()->isLocal() instead.
+     * @deprecated use app()->isLocal() instead
      * @since 1.0.0
      */
     public function isDevEnv(): bool
@@ -596,11 +610,14 @@ class Application extends Container
     }
 
     /**
-     * Get a class for a model by its post_type
+     * Get a class for a model by its post_type.
      *
      * @param string $key
-     * @return string
+     *
      * @throws BindingResolutionException
+     *
+     * @return string
+     *
      * @todo deprecate in future versions
      */
     public function getModelClass(string $key = ''): string
@@ -609,10 +626,12 @@ class Application extends Container
     }
 
     /**
-     * Get all registered models
+     * Get all registered models.
+     *
+     * @throws BindingResolutionException
      *
      * @return mixed
-     * @throws BindingResolutionException
+     *
      * @todo deprecate in future versions
      */
     public function getAllModels(): array
@@ -621,11 +640,14 @@ class Application extends Container
     }
 
     /**
-     * Get a class for a taxonomy by its taxonomy type
+     * Get a class for a taxonomy by its taxonomy type.
      *
      * @param string $key
-     * @return string
+     *
      * @throws BindingResolutionException
+     *
+     * @return string
+     *
      * @todo deprecate in future versions
      */
     public function getTaxonomyClass(string $key = ''): string
@@ -634,10 +656,12 @@ class Application extends Container
     }
 
     /**
-     * Get all registered taxonomies
+     * Get all registered taxonomies.
+     *
+     * @throws BindingResolutionException
      *
      * @return array
-     * @throws BindingResolutionException
+     *
      * @todo deprecate in future versions
      */
     public function getAllTaxonomies(): array
@@ -661,13 +685,12 @@ class Application extends Container
     /**
      * Join the given paths together.
      *
-     * @param string $basePath
-     * @param string $path
+     * @param  string $basePath
+     * @param  string $path
      * @return string
      */
     public function joinPaths(string $basePath, string $path = ''): string
     {
         return join_paths($basePath, $path);
     }
-
 }

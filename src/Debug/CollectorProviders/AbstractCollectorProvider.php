@@ -1,5 +1,4 @@
 <?php
-
 namespace Sloth\Debug\CollectorProviders;
 
 use DebugBar\DataCollector\DataCollectorInterface;
@@ -9,17 +8,22 @@ use DebugBar\DebugBarException;
 abstract class AbstractCollectorProvider
 {
     /**
-     * Constructor for a CollectorProvider
+     * Constructor for a CollectorProvider.
      *
      * Collector providers are used to configure and add DataCollectors to the debug-bar
      *
      * @param DebugBar $debugBar
+     *
      * @see https://php-debugbar.com/collectors/base/
      */
-    public function __construct(protected DebugBar $debugBar) {}
+    public function __construct(protected DebugBar $debugBar)
+    {
+    }
 
     /**
-     * Adds a collector to the debug bar
+     * Adds a collector to the debug bar.
+     *
+     * @param DataCollectorInterface $collector
      *
      * @throws DebugBarException
      */
@@ -29,9 +33,9 @@ abstract class AbstractCollectorProvider
     }
 
     /**
-     * Check if a collector exists already in the bar
+     * Check if a collector exists already in the bar.
      *
-     * @param string $name
+     * @param  string $name
      * @return bool
      */
     public function hasCollector(string $name): bool
@@ -40,7 +44,9 @@ abstract class AbstractCollectorProvider
     }
 
     /**
-     * Getter for a certain collector
+     * Getter for a certain collector.
+     *
+     * @param string $name
      *
      * @throws DebugBarException
      */
@@ -50,9 +56,7 @@ abstract class AbstractCollectorProvider
     }
 
     /**
-     * Method used to boot the DataCollector in question
-     *
-     * @return void
+     * Method used to boot the DataCollector in question.
      */
     abstract public function boot(): void;
 }

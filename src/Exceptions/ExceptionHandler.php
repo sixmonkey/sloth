@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Exceptions;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -35,7 +34,8 @@ class ExceptionHandler implements ExceptionHandlerContract
      *
      * Logs via Illuminate LogManager to the configured log channel.
      *
-     * @param Throwable $e The exception to report.
+     * @param Throwable $e the exception to report
+     *
      * @since 1.0.0
      */
     public function report(Throwable $e): void
@@ -44,10 +44,10 @@ class ExceptionHandler implements ExceptionHandlerContract
             $log = app('log');
             $log->error($e->getMessage(), [
                 'exception' => $e,
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
             ]);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // Logging failed - ignore
         }
     }
@@ -55,8 +55,9 @@ class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Determine if the exception should be reported.
      *
-     * @param Throwable $e The exception to check.
-     * @return bool True if the exception should be reported.
+     * @param  Throwable $e the exception to check
+     * @return bool      true if the exception should be reported
+     *
      * @since 1.0.0
      */
     public function shouldReport(Throwable $e): bool
@@ -75,9 +76,11 @@ class ExceptionHandler implements ExceptionHandlerContract
      * - Renders a Twig error template (Error/500.twig, Error/404.twig)
      * - Falls back to a plain error message if no template found
      *
-     * @param mixed $request The current HTTP request (unused — WP handles routing).
-     * @param Throwable $e The exception to render.
+     * @param mixed     $request the current HTTP request (unused — WP handles routing)
+     * @param Throwable $e       the exception to render
+     *
      * @throws BindingResolutionException
+     *
      * @since 1.0.0
      */
     public function render($request, Throwable $e): void
@@ -86,6 +89,7 @@ class ExceptionHandler implements ExceptionHandlerContract
 
         if (app()->isLocal()) {
             $this->renderWithWhoops($e);
+
             return;
         }
 
@@ -103,7 +107,8 @@ class ExceptionHandler implements ExceptionHandlerContract
      * (queries, messages, sloth info) as additional tables in the
      * Whoops error screen.
      *
-     * @param Throwable $e The exception to render.
+     * @param Throwable $e the exception to render
+     *
      * @since 1.0.0
      */
     protected function renderWithWhoops(Throwable $e): void
@@ -131,9 +136,10 @@ class ExceptionHandler implements ExceptionHandlerContract
                         $file = str_replace($remotePath, $localPath, $file);
                         $editors = [
                             'phpstorm' => "phpstorm://open?file=$file&line=$line",
-                            'vscode' => "vscode://file/$file:$line",
-                            'cursor' => "cursor://file/$file:$line",
+                            'vscode'   => "vscode://file/$file:$line",
+                            'cursor'   => "cursor://file/$file:$line",
                         ];
+
                         return $editors[$editor] ?? "phpstorm://open?file=$file&line=$line";
                     });
                 } else {
@@ -153,13 +159,14 @@ class ExceptionHandler implements ExceptionHandlerContract
      * properly formatted error output with exception class, message,
      * file/line, and a syntax-highlighted stack trace.
      *
-     * @param mixed $output Console output (auto-detected if not provided).
-     * @param Throwable $e The exception to render.
+     * @param mixed     $output console output (auto-detected if not provided)
+     * @param Throwable $e      the exception to render
+     *
      * @since 1.0.0
      */
     public function renderForConsole($output, Throwable $e): void
     {
-        if (!$output instanceof \Symfony\Component\Console\Output\OutputInterface) {
+        if (!$output instanceof OutputInterface) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
 
@@ -172,7 +179,8 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Looks for View/Error/{statusCode}.twig in the theme,
      * falling back to View/Error/500.twig, then to a plain message.
      *
-     * @param Throwable $e The exception to render.
+     * @param Throwable $e the exception to render
+     *
      * @since 1.0.0
      */
     protected function renderErrorPage(Throwable $e): void
@@ -191,9 +199,10 @@ class ExceptionHandler implements ExceptionHandlerContract
             try {
                 echo View::make($template)->with([
                     'exception' => app()->isLocal() ? $e : null,
-                    'status' => $status,
-                    'message' => app()->isLocal() ? $e->getMessage() : 'An error occurred.',
+                    'status'    => $status,
+                    'message'   => app()->isLocal() ? $e->getMessage() : 'An error occurred.',
                 ])->render();
+
                 return;
             } catch (Throwable) {
                 // Template not found — try next
@@ -203,15 +212,16 @@ class ExceptionHandler implements ExceptionHandlerContract
         // Final fallback — plain text
         echo sprintf(
             '<h1>%d — An error occurred.</h1>',
-            $status
+            $status,
         );
     }
 
     /**
      * Determine the HTTP status code for the given exception.
      *
-     * @param Throwable $e The exception.
-     * @return int HTTP status code.
+     * @param  Throwable $e the exception
+     * @return int       HTTP status code
+     *
      * @since 1.0.0
      */
     protected function getStatusCode(Throwable $e): int
@@ -235,7 +245,8 @@ class ExceptionHandler implements ExceptionHandlerContract
      * Bail-outs are silent so that exception rendering never fails
      * due to missing debug data.
      *
-     * @param \Whoops\Handler\PrettyPageHandler $handler The Whoops handler.
+     * @param \Whoops\Handler\PrettyPageHandler $handler the Whoops handler
+     *
      * @since 1.0.0
      */
     protected function injectDebugBarData(\Whoops\Handler\PrettyPageHandler $handler): void
@@ -265,8 +276,9 @@ class ExceptionHandler implements ExceptionHandlerContract
                     $key = $msg['label'] ?? 'info';
                     $value = $msg['message'] ?? '';
                     $carry[$key . ' — ' . $value] = '';
+
                     return $carry;
-                }, [])
+                }, []),
             );
         }
 
@@ -282,10 +294,10 @@ class ExceptionHandler implements ExceptionHandlerContract
             $handler->addDataTable(
                 'Database Queries (' . $count . ' total)',
                 [
-                    'Count' => $count,
-                    'Total Time' => round($totalTime, 2) . ' ms',
+                    'Count'        => $count,
+                    'Total Time'   => round($totalTime, 2) . ' ms',
                     'Slow Queries' => $queries['slow'] ?? 0,
-                ]
+                ],
             );
         }
 

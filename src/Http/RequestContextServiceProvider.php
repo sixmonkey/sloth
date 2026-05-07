@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Http;
 
 use Inpsyde\WpContext;
@@ -14,7 +13,7 @@ use Sloth\Core\ServiceProvider;
  * detection with early REST/AJAX detection.
  *
  * @since 1.0.0
- * @see \Sloth\Http\RequestContext
+ * @see RequestContext
  */
 class RequestContextServiceProvider extends ServiceProvider
 {
@@ -28,7 +27,7 @@ class RequestContextServiceProvider extends ServiceProvider
         $this->app->singleton(RequestContext::class, function ($app) {
             return new RequestContext(
                 wpContext: WpContext::determine(),
-                restPrefix: env('WP_REST_PREFIX')
+                restPrefix: env('WP_REST_PREFIX'),
             );
         });
 

@@ -43,15 +43,15 @@ require_once __DIR__ . '/vendor/autoload.php';
 // TODO: remove when all themes have migrated to config() — see MIGRATE.md.
 // -------------------------------------------------------------------------
 
-class_alias(\Sloth\Configure\Configure::class, 'Configure');
-\Sloth\Configure\Configure::boot();
+class_alias(Sloth\Configure\Configure::class, 'Configure');
+Sloth\Configure\Configure::boot();
 
 // -------------------------------------------------------------------------
 // Environment variables
 // -------------------------------------------------------------------------
 
 if (file_exists(__DIR__ . '/.env')) {
-    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
     $dotenv->required(['DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL']);
 }
@@ -95,21 +95,21 @@ $_salt_secret = env('APP_SECRET', 'changeme-' . gethostname());
 defined('AUTH_KEY') || define('AUTH_KEY', env('AUTH_KEY', hash('sha256', $_salt_secret . 'AUTH_KEY')));
 defined('SECURE_AUTH_KEY') || define(
     'SECURE_AUTH_KEY',
-    env('SECURE_AUTH_KEY', hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY'))
+    env('SECURE_AUTH_KEY', hash('sha256', $_salt_secret . 'SECURE_AUTH_KEY')),
 );
 defined('LOGGED_IN_KEY') || define(
     'LOGGED_IN_KEY',
-    env('LOGGED_IN_KEY', hash('sha256', $_salt_secret . 'LOGGED_IN_KEY'))
+    env('LOGGED_IN_KEY', hash('sha256', $_salt_secret . 'LOGGED_IN_KEY')),
 );
 defined('NONCE_KEY') || define('NONCE_KEY', env('NONCE_KEY', hash('sha256', $_salt_secret . 'NONCE_KEY')));
 defined('AUTH_SALT') || define('AUTH_SALT', env('AUTH_SALT', hash('sha256', $_salt_secret . 'AUTH_SALT')));
 defined('SECURE_AUTH_SALT') || define(
     'SECURE_AUTH_SALT',
-    env('SECURE_AUTH_SALT', hash('sha256', $_salt_secret . 'SECURE_AUTH_SALT'))
+    env('SECURE_AUTH_SALT', hash('sha256', $_salt_secret . 'SECURE_AUTH_SALT')),
 );
 defined('LOGGED_IN_SALT') || define(
     'LOGGED_IN_SALT',
-    env('LOGGED_IN_SALT', hash('sha256', $_salt_secret . 'LOGGED_IN_SALT'))
+    env('LOGGED_IN_SALT', hash('sha256', $_salt_secret . 'LOGGED_IN_SALT')),
 );
 defined('NONCE_SALT') || define('NONCE_SALT', env('NONCE_SALT', hash('sha256', $_salt_secret . 'NONCE_SALT')));
 

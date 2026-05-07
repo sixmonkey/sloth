@@ -1,12 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Core;
 
+use ErrorException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Sloth\Exceptions\ExceptionHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Throwable;
 
 /**
  * Exception Handler Service Provider.
@@ -30,7 +31,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  *     );
  *
  * @since 1.0.0
- * @see \Sloth\Exceptions\ExceptionHandler
+ * @see ExceptionHandler
  */
 class ExceptionServiceProvider extends ServiceProvider
 {
@@ -51,10 +52,10 @@ class ExceptionServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             ExceptionHandlerContract::class,
-            ExceptionHandler::class
+            ExceptionHandler::class,
         );
 
-        if (! defined('WP_TESTS_PHASE')) {
+        if (!defined('WP_TESTS_PHASE')) {
             $this->registerExceptionHandler();
             $this->registerErrorHandler();
         }
@@ -75,11 +76,12 @@ class ExceptionServiceProvider extends ServiceProvider
     {
         $app = $this->app;
 
-        set_exception_handler(function (\Throwable $e) use ($app): void {
+        set_exception_handler(function (Throwable $e) use ($app): void {
             $handler = $app->make(ExceptionHandlerContract::class);
 
             if (PHP_SAPI === 'cli') {
                 $handler->renderForConsole(new ConsoleOutput(), $e);
+
                 return;
             }
 
@@ -116,7 +118,7 @@ class ExceptionServiceProvider extends ServiceProvider
                 return false;
             }
 
-            throw new \ErrorException($message, 0, $severity, $file, $line);
+            throw new ErrorException($message, 0, $severity, $file, $line);
         });
     }
 }

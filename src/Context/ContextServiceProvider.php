@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Context;
 
 use Sloth\Core\ServiceProvider;
@@ -14,7 +13,7 @@ use Sloth\Core\ServiceProvider;
  * variables like current layout.
  *
  * @since 1.0.0
- * @see \Sloth\Context\Context
+ * @see Context
  * @see \Sloth\Plugin\Plugin
  */
 class ContextServiceProvider extends ServiceProvider

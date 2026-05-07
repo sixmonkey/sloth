@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model\Traits;
 
 use Corcel\Model\Meta\CommentMeta;
@@ -10,6 +9,7 @@ use Corcel\Model\Meta\TermMeta;
 use Corcel\Model\Meta\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use ReturnTypeWillChange;
 use UnexpectedValueException;
 
 /**
@@ -80,9 +80,9 @@ trait HasMetaFields
      */
     protected static array $metaClassMap = [
         CommentMeta::class => CommentMeta::class,
-        PostMeta::class => PostMeta::class,
-        TermMeta::class => TermMeta::class,
-        UserMeta::class => UserMeta::class,
+        PostMeta::class    => PostMeta::class,
+        TermMeta::class    => TermMeta::class,
+        UserMeta::class    => UserMeta::class,
     ];
 
     /**
@@ -112,9 +112,9 @@ trait HasMetaFields
      * (PostMeta, UserMeta, TermMeta, or CommentMeta) based on the
      * model class hierarchy.
      *
-     * @return HasMany The meta relationship
-     *
      * @throws UnexpectedValueException If the model doesn't extend a known Corcel model
+     *
+     * @return HasMany The meta relationship
      *
      * @example
      * ```php
@@ -136,9 +136,9 @@ trait HasMetaFields
      * which Corcel model the current model extends, then returns
      * the corresponding meta class.
      *
-     * @return string The fully qualified class name of the meta model
-     *
      * @throws UnexpectedValueException If the model doesn't extend a known Corcel model
+     *
+     * @return string The fully qualified class name of the meta model
      *
      * @example
      * ```php
@@ -152,12 +152,12 @@ trait HasMetaFields
         // This includes both Corcel's native models and Sloth's custom models
         $builtInClasses = [
             \Corcel\Model\Comment::class => CommentMeta::class,
-            \Corcel\Model\Post::class => PostMeta::class,
-            \Corcel\Model\Term::class => TermMeta::class,
-            \Corcel\Model\User::class => UserMeta::class,
+            \Corcel\Model\Post::class    => PostMeta::class,
+            \Corcel\Model\Term::class    => TermMeta::class,
+            \Corcel\Model\User::class    => UserMeta::class,
             // Sloth-specific mappings
-            \Sloth\Model\Model::class => PostMeta::class,
-            \Sloth\Model\User::class => UserMeta::class,
+            \Sloth\Model\Model::class    => PostMeta::class,
+            \Sloth\Model\User::class     => UserMeta::class,
             \Sloth\Model\Taxonomy::class => TermMeta::class,
         ];
 
@@ -170,7 +170,7 @@ trait HasMetaFields
         throw new UnexpectedValueException(sprintf(
             '%s must extend one of Corcel built-in models: Comment, Post, Term or User, '
             . 'or a Sloth model: Sloth\Model\Model, Sloth\Model\User, Sloth\Model\Taxonomy.',
-            static::class
+            static::class,
         ));
     }
 
@@ -180,9 +180,9 @@ trait HasMetaFields
      * Returns the foreign key that should be used when querying the
      * meta table (e.g., 'post_id', 'user_id', 'term_id', 'comment_id').
      *
-     * @return string The foreign key name without '_id' suffix
-     *
      * @throws UnexpectedValueException If the model doesn't extend a known Corcel model
+     *
+     * @return string The foreign key name without '_id' suffix
      *
      * @example
      * ```php
@@ -196,12 +196,12 @@ trait HasMetaFields
         // The foreign key is derived from the lowercase model class name + '_id'
         $builtInClasses = [
             \Corcel\Model\Comment::class => 'comment_id',
-            \Corcel\Model\Post::class => 'post_id',
-            \Corcel\Model\Term::class => 'term_id',
-            \Corcel\Model\User::class => 'user_id',
+            \Corcel\Model\Post::class    => 'post_id',
+            \Corcel\Model\Term::class    => 'term_id',
+            \Corcel\Model\User::class    => 'user_id',
             // Sloth-specific mappings
-            \Sloth\Model\Model::class => 'post_id',
-            \Sloth\Model\User::class => 'user_id',
+            \Sloth\Model\Model::class    => 'post_id',
+            \Sloth\Model\User::class     => 'user_id',
             \Sloth\Model\Taxonomy::class => 'term_id',
         ];
 
@@ -214,7 +214,7 @@ trait HasMetaFields
         throw new UnexpectedValueException(sprintf(
             '%s must extend one of Corcel built-in models: Comment, Post, Term or User, '
             . 'or a Sloth model: Sloth\Model\Model, Sloth\Model\User, Sloth\Model\Taxonomy.',
-            static::class
+            static::class,
         ));
     }
 
@@ -224,12 +224,11 @@ trait HasMetaFields
      * Allows querying models based on their meta field values using
      * Laravel's query builder.
      *
-     * @param Builder $query The query builder instance
-     * @param string|array $meta The meta key to filter by, or an array of key => value pairs
-     * @param mixed $value The expected value (optional, use null for existence check)
-     * @param string $operator The comparison operator (default: '=')
-     *
-     * @return Builder The modified query builder
+     * @param  Builder      $query    The query builder instance
+     * @param  array|string $meta     The meta key to filter by, or an array of key => value pairs
+     * @param  mixed        $value    The expected value (optional, use null for existence check)
+     * @param  string       $operator The comparison operator (default: '=')
+     * @return Builder      The modified query builder
      *
      * @example
      * ```php
@@ -279,10 +278,9 @@ trait HasMetaFields
      *
      * Convenience method for text searches within meta values.
      *
-     * @param Builder $query The query builder instance
-     * @param string $meta The meta key to search
-     * @param mixed $value The value pattern to search for
-     *
+     * @param  Builder $query The query builder instance
+     * @param  string  $meta  The meta key to search
+     * @param  mixed   $value The value pattern to search for
      * @return Builder The modified query builder
      *
      * @example
@@ -299,10 +297,9 @@ trait HasMetaFields
     /**
      * Save a single meta field.
      *
-     * @param string $key The meta key
-     * @param mixed $value The value to save
-     *
-     * @return bool True on success, false on failure
+     * @param  string $key   The meta key
+     * @param  mixed  $value The value to save
+     * @return bool   True on success, false on failure
      *
      * @example
      * ```php
@@ -321,10 +318,9 @@ trait HasMetaFields
      * When saving multiple fields, the meta relationship is reloaded
      * after all saves complete.
      *
-     * @param string|array $key The meta key to save, or an array of key => value pairs
-     * @param mixed $value The value to save (ignored if $key is an array)
-     *
-     * @return bool True on success, false on failure
+     * @param  array|string $key   The meta key to save, or an array of key => value pairs
+     * @param  mixed        $value The value to save (ignored if $key is an array)
+     * @return bool         True on success, false on failure
      *
      * @example
      * ```php
@@ -361,10 +357,9 @@ trait HasMetaFields
      * Internal method that handles the actual save operation for
      * one meta field.
      *
-     * @param string $key The meta key
-     * @param mixed $value The value to save
-     *
-     * @return bool True on success, false on failure
+     * @param  string $key   The meta key
+     * @param  mixed  $value The value to save
+     * @return bool   True on success, false on failure
      *
      * @internal
      */
@@ -373,7 +368,8 @@ trait HasMetaFields
         // Find existing meta record or create a new one
         $meta = $this->meta()
             ->where('meta_key', $key)
-            ->firstOrNew(['meta_key' => $key]);
+            ->firstOrNew(['meta_key' => $key])
+        ;
 
         // Save the value and reload the relationship
         $result = $meta->fill(['meta_value' => $value])->save();
@@ -388,9 +384,8 @@ trait HasMetaFields
      * Similar to saveMeta, but always creates a new record
      * even if the key already exists.
      *
-     * @param string $key The meta key
-     * @param mixed $value The value to store
-     *
+     * @param  string                              $key   The meta key
+     * @param  mixed                               $value The value to store
      * @return \Illuminate\Database\Eloquent\Model The created meta model
      *
      * @example
@@ -409,9 +404,8 @@ trait HasMetaFields
      * Always creates new records, even if the key already exists.
      * Returns a Collection if multiple fields are created.
      *
-     * @param string|array $key The meta key(s) to create
-     * @param mixed $value The value(s) to store (ignored if $key is an array)
-     *
+     * @param  array|string                                                       $key   The meta key(s) to create
+     * @param  mixed                                                              $value The value(s) to store (ignored if $key is an array)
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      *
      * @example
@@ -444,9 +438,8 @@ trait HasMetaFields
      *
      * Internal method that handles the actual creation of one meta record.
      *
-     * @param string $key The meta key
-     * @param mixed $value The value to store
-     *
+     * @param  string                              $key   The meta key
+     * @param  mixed                               $value The value to store
      * @return \Illuminate\Database\Eloquent\Model The created meta model
      *
      * @internal
@@ -455,7 +448,7 @@ trait HasMetaFields
     {
         // Create new meta record
         $meta = $this->meta()->create([
-            'meta_key' => $key,
+            'meta_key'   => $key,
             'meta_value' => $value,
         ]);
 
@@ -472,9 +465,8 @@ trait HasMetaFields
      * relationship. This is a convenience method for accessing
      * meta values without manually iterating through the relationship.
      *
-     * @param string $attribute The meta key to retrieve
-     *
-     * @return mixed The meta value, or null if not found
+     * @param  string $attribute The meta key to retrieve
+     * @return mixed  The meta value, or null if not found
      *
      * @example
      * ```php
@@ -482,7 +474,7 @@ trait HasMetaFields
      * $views = $post->getMeta('views') ?? 0;
      * ```
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getMeta($attribute)
     {
         // Access the meta relationship using the key as property name
@@ -490,6 +482,5 @@ trait HasMetaFields
             return $meta;
         }
 
-        return null;
     }
 }

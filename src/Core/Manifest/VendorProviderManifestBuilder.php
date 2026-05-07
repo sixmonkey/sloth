@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Core\Manifest;
 
+use Override;
 use Sloth\Core\ServiceProvider;
 use Sloth\Support\Manifest\AbstractManifestBuilder;
 use Sloth\Support\Manifest\ComposerFinder;
@@ -67,8 +67,8 @@ use Sloth\Support\Manifest\FinderInterface;
  * provider class names.
  *
  * @since 1.0.0
- * @see \Sloth\Support\Manifest\AbstractManifestBuilder For the base class lifecycle
- * @see \Sloth\Support\Manifest\ComposerFinder           For installed.json parsing
+ * @see AbstractManifestBuilder For the base class lifecycle
+ * @see ComposerFinder           For installed.json parsing
  * @see \Sloth\Core\Application::registerProviders()     For provider registration
  */
 class VendorProviderManifestBuilder extends AbstractManifestBuilder
@@ -79,10 +79,11 @@ class VendorProviderManifestBuilder extends AbstractManifestBuilder
      * Composer handles autoloading for vendor packages — the manifest
      * only caches the list of provider class names.
      *
-     * @return bool Always false for vendor package discovery.
+     * @return bool always false for vendor package discovery
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function requireFiles(): bool
     {
         return false;
@@ -94,10 +95,11 @@ class VendorProviderManifestBuilder extends AbstractManifestBuilder
      * Uses ComposerFinder to parse vendor/composer/installed.json
      * and extract provider class names from extra.laravel.providers.
      *
-     * @return FinderInterface The configured ComposerFinder.
+     * @return FinderInterface the configured ComposerFinder
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function finder(): FinderInterface
     {
         return new ComposerFinder($this->app);
@@ -109,11 +111,12 @@ class VendorProviderManifestBuilder extends AbstractManifestBuilder
      * The map from ComposerFinder is [provider-class => package-name].
      * We return a flat list of provider class names for easy iteration.
      *
-     * @param array<string, string> $map Provider class name => package name.
-     * @return list<class-string<ServiceProvider>> Flat array of provider class names.
+     * @param  array<string, string>               $map provider class name => package name
+     * @return list<class-string<ServiceProvider>> flat array of provider class names
+     *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     protected function entries(array $map): array
     {
         return array_keys($map);

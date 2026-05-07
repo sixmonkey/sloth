@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Event;
 
 use Illuminate\Events\Dispatcher;
+use Override;
 use Sloth\Core\ServiceProvider;
 
 /**
@@ -21,9 +21,9 @@ class EventServiceProvider extends ServiceProvider
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
-        $this->app->singleton('events', fn($app) => new Dispatcher($app));
+        $this->app->singleton('events', fn ($app) => new Dispatcher($app));
     }
 }

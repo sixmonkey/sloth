@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Debug\Collectors;
 
 use Brain\Hierarchy\Hierarchy;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 use Illuminate\Support\Str;
+use Throwable;
 
 /**
  * Sloth Framework Collector.
@@ -27,31 +27,33 @@ class SlothCollector extends DataCollector implements Renderable
      * template hierarchy, registered models, taxonomies,
      * and loaded service providers.
      *
-     * @return array<string, mixed> The collected data.
+     * @return array<string, mixed> the collected data
+     *
      * @since 1.0.0
      */
     public function collect(): array
     {
         return [
-            'Environment' => $this->getEnvironment(),
+            'Environment'        => $this->getEnvironment(),
             'Template-Hierarchy' => $this->getTemplateHierarchy(),
-            'Models' => $this->getModels(),
-            'Taxonomies' => $this->getTaxonomies(),
-            'Loaded providers' => $this->getProviders(),
+            'Models'             => $this->getModels(),
+            'Taxonomies'         => $this->getTaxonomies(),
+            'Loaded providers'   => $this->getProviders(),
         ];
     }
 
     /**
      * Get the list of loaded service providers.
      *
-     * @return string The provider names joined by newlines.
+     * @return string the provider names joined by newlines
+     *
      * @since 1.0.0
      */
     private function getProviders(): string
     {
         try {
             return app()->getLoadedProviders()->keys()->join("\n");
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return 'None';
         }
     }
@@ -59,14 +61,15 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the current application environment.
      *
-     * @return string The environment name.
+     * @return string the environment name
+     *
      * @since 1.0.0
      */
     private function getEnvironment(): string
     {
         try {
             return app()->environment();
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return 'unknown';
         }
     }
@@ -74,7 +77,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the registered Sloth models.
      *
-     * @return string The model names and classes joined by newlines.
+     * @return string the model names and classes joined by newlines
+     *
      * @since 1.0.0
      */
     private function getModels(): string
@@ -82,10 +86,11 @@ class SlothCollector extends DataCollector implements Renderable
         try {
             return collect(app('sloth.models'))
                 ->map(function ($class, $name) {
-                    return Str::ucfirst($name) . " => " . $class;
+                    return Str::ucfirst($name) . ' => ' . $class;
                 })
-                ->join("\n");
-        } catch (\Throwable) {
+                ->join("\n")
+            ;
+        } catch (Throwable) {
             return 'None';
         }
     }
@@ -93,7 +98,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the registered Sloth taxonomies.
      *
-     * @return string The taxonomy names and classes joined by newlines.
+     * @return string the taxonomy names and classes joined by newlines
+     *
      * @since 1.0.0
      */
     private function getTaxonomies(): string
@@ -101,10 +107,11 @@ class SlothCollector extends DataCollector implements Renderable
         try {
             return collect(app('sloth.taxonomies'))
                 ->map(function ($class, $name) {
-                    return Str::ucfirst($name) . " => " . $class;
+                    return Str::ucfirst($name) . ' => ' . $class;
                 })
-                ->join("\n");
-        } catch (\Throwable) {
+                ->join("\n")
+            ;
+        } catch (Throwable) {
             return 'None';
         }
     }
@@ -115,7 +122,8 @@ class SlothCollector extends DataCollector implements Renderable
      * Returns the list of templates that would be used
      * for the current request, with the active layout marked.
      *
-     * @return string The template hierarchy as a newline-separated string.
+     * @return string the template hierarchy as a newline-separated string
+     *
      * @since 1.0.0
      */
     private function getTemplateHierarchy(): string
@@ -135,10 +143,12 @@ class SlothCollector extends DataCollector implements Renderable
                     if ($template === $current) {
                         return $template . ' (active)';
                     }
+
                     return $template;
                 })
-                ->join("\n");
-        } catch (\Throwable) {
+                ->join("\n")
+            ;
+        } catch (Throwable) {
             return 'None';
         }
     }
@@ -146,7 +156,8 @@ class SlothCollector extends DataCollector implements Renderable
     /**
      * Get the collector name.
      *
-     * @return string The collector identifier.
+     * @return string the collector identifier
+     *
      * @since 1.0.0
      */
     public function getName(): string
@@ -160,16 +171,17 @@ class SlothCollector extends DataCollector implements Renderable
      * Returns the debug bar widget configuration for
      * displaying Sloth framework data.
      *
-     * @return array<string, mixed> The widget configuration.
+     * @return array<string, mixed> the widget configuration
+     *
      * @since 1.0.0
      */
     public function getWidgets(): array
     {
         return [
             'sloth' => [
-                'icon' => 'brand-folivoro',
-                'map' => 'sloth',
-                'widget' => 'PhpDebugBar.Widgets.KVListWidget',
+                'icon'    => 'brand-folivoro',
+                'map'     => 'sloth',
+                'widget'  => 'PhpDebugBar.Widgets.KVListWidget',
                 'default' => '{}',
             ],
         ];

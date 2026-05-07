@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Media;
 
 use Sloth\Core\ServiceProvider;
@@ -22,7 +21,7 @@ class MediaServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton('media', fn() => new Media());
+        $this->app->singleton('media', fn () => new Media());
     }
 
     /**
@@ -37,7 +36,7 @@ class MediaServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (config('urls.relative')) {
-            $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event) {
+            $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event): void {
                 $event->result = app('media')->makeHrefsRelative($event->result);
             });
         }
@@ -51,7 +50,7 @@ class MediaServiceProvider extends ServiceProvider
     public function getHooks(): array
     {
         return [
-            'init' => ['callback' => fn() => app('media')->registerImageSizes(), 'priority' => 20],
+            'init' => ['callback' => fn () => app('media')->registerImageSizes(), 'priority' => 20],
         ];
     }
 
@@ -63,7 +62,7 @@ class MediaServiceProvider extends ServiceProvider
     public function getFilters(): array
     {
         return [
-            'upload_mimes' => fn(array $mimes) => app('media')->addSvgMime($mimes),
+            'upload_mimes' => fn (array $mimes) => app('media')->addSvgMime($mimes),
         ];
     }
 }

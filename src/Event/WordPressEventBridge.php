@@ -1,9 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Event;
 
+use function add_action;
+use function add_filter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Sloth\Core\ServiceProvider;
 
@@ -63,7 +64,7 @@ class WordPressEventBridge extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(WordPressEventBridge::class, fn($app) => $this);
+        $this->app->singleton(self::class, fn ($app) => $this);
     }
 
     /**
@@ -77,6 +78,7 @@ class WordPressEventBridge extends ServiceProvider
     public function boot(): void
     {
         $configRepo = $this->app->bound('config') ? $this->app->make('config') : null;
+
         if ($configRepo === null) {
             // Fallback: load config directly
             $configRepo = new \Illuminate\Config\Repository([
@@ -86,7 +88,7 @@ class WordPressEventBridge extends ServiceProvider
         } else {
             $configRepo->set('events', array_replace_recursive(
                 $configRepo->get('events', []),
-                include __DIR__ . '/config/events.php'
+                include __DIR__ . '/config/events.php',
             ));
         }
 
@@ -109,7 +111,8 @@ class WordPressEventBridge extends ServiceProvider
      * to avoid unnecessary overhead.
      *
      * @param string $hook The WordPress hook name (e.g., 'wp_loaded').
-     * @param string $type The hook type: 'action' or 'filter'.
+     * @param string $type the hook type: 'action' or 'filter'
+     *
      * @since 1.0.0
      */
     public function registerHook(string $hook, string $type): void
@@ -129,9 +132,9 @@ class WordPressEventBridge extends ServiceProvider
         if ($type === 'filter') {
             // Filters need to accept at least 1 arg (the value being filtered)
             // We use 99 as accepted_args to handle filters with many arguments
-            \add_filter($hook, $callback, PHP_INT_MAX, 99);
+            add_filter($hook, $callback, PHP_INT_MAX, 99);
         } else {
-            \add_action($hook, $callback, PHP_INT_MAX, 99);
+            add_action($hook, $callback, PHP_INT_MAX, 99);
         }
 
         // Track registration
@@ -152,8 +155,9 @@ class WordPressEventBridge extends ServiceProvider
      * here will have no effect. Use did_action() to check if a hook
      * has already fired before adding it.
      *
-     * @param string $hook The WordPress hook name.
-     * @param string $type The hook type: 'action' (default) or 'filter'.
+     * @param string $hook the WordPress hook name
+     * @param string $type the hook type: 'action' (default) or 'filter'
+     *
      * @since 1.0.0
      */
     public function addHook(string $hook, string $type = 'action'): void
@@ -171,9 +175,10 @@ class WordPressEventBridge extends ServiceProvider
      * For filter hooks, the closure returns $event->result to allow
      * listeners to modify the filtered value.
      *
-     * @param string $hook The WordPress hook name.
-     * @param string $type The hook type: 'action' or 'filter'.
-     * @return callable The WordPress hook callback.
+     * @param  string   $hook the WordPress hook name
+     * @param  string   $type the hook type: 'action' or 'filter'
+     * @return callable the WordPress hook callback
+     *
      * @since 1.0.0
      */
     protected function makeBridgeCallback(string $hook, string $type): callable
@@ -181,7 +186,7 @@ class WordPressEventBridge extends ServiceProvider
         return function (...$args) use ($hook, $type): mixed {
             // Skip if the event dispatcher is not yet available
             // This can happen if the bridge boots before EventServiceProvider
-            if (! $this->app->bound('events')) {
+            if (!$this->app->bound('events')) {
                 return $type === 'filter' ? ($args[0] ?? null) : null;
             }
 
@@ -191,7 +196,8 @@ class WordPressEventBridge extends ServiceProvider
             // Only dispatch if there are active listeners
             // This avoids unnecessary object creation and dispatcher overhead
             $eventName = "wp:{$hook}";
-            if (! $dispatcher->hasListeners($eventName)) {
+
+            if (!$dispatcher->hasListeners($eventName)) {
                 return $type === 'filter' ? ($args[0] ?? null) : null;
             }
 
@@ -218,6 +224,7 @@ class WordPressEventBridge extends ServiceProvider
      * Get the list of registered WordPress hooks.
      *
      * @return array<string, array{type: string, callback: callable}>
+     *
      * @since 1.0.0
      */
     public function getRegisteredHooks(): array
@@ -228,8 +235,9 @@ class WordPressEventBridge extends ServiceProvider
     /**
      * Check if a specific WordPress hook is registered by this bridge.
      *
-     * @param string $hook The WordPress hook name.
-     * @return bool True if the hook is registered.
+     * @param  string $hook the WordPress hook name
+     * @return bool   true if the hook is registered
+     *
      * @since 1.0.0
      */
     public function hasHook(string $hook): bool

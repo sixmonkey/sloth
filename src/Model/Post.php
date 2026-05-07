@@ -1,20 +1,20 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 
 /**
- * Post Model
+ * Post Model.
  *
  * Extends Sloth's base Model class. This model inherits all functionality
  * from Sloth\Model\Model, including ACF integration, taxonomy relationships,
  * and WordPress-specific query scopes.
  *
  * @since 1.0.0
- * @see \Sloth\Model\Model For the base implementation
+ * @see Model For the base implementation
  *
  * @property string $content The post content with WordPress filters applied
  *
@@ -45,7 +45,7 @@ class Post extends Model
      *
      * @uses apply_filters() To apply the_content filter
      */
-    #[\Override]
+    #[Override]
     public function getContentAttribute(): string
     {
         return (string) apply_filters('the_content', $this->post_content ?? '');
@@ -58,10 +58,11 @@ class Post extends Model
      *
      * @return HasMany The revisions relationship
      */
-    #[\Override]
+    #[Override]
     public function revision(): HasMany
     {
         return $this->hasMany(static::class, 'post_parent')
-            ->where('post_type', 'revision');
+            ->where('post_type', 'revision')
+        ;
     }
 }

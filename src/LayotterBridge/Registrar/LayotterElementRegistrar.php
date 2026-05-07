@@ -1,11 +1,9 @@
 <?php
-
 namespace Sloth\LayotterBridge\Registrar;
 
-use Illuminate\Support\Str;
+use Layotter;
 use Sloth\LayotterBridge\LayotterElement;
 use Sloth\Module\Manifest\ModuleManifestBuilder;
-use Sloth\Utility\Utility;
 
 /**
  * Registers Layotter elements discovered by ModuleManifestBuilder.
@@ -15,7 +13,7 @@ use Sloth\Utility\Utility;
  * element slugs and their original module classes for runtime resolution.
  *
  * @since 1.0.0
- * @see \Sloth\Module\Manifest\ModuleManifestBuilder For the entry data source
+ * @see ModuleManifestBuilder For the entry data source
  */
 class LayotterElementRegistrar
 {
@@ -26,6 +24,7 @@ class LayotterElementRegistrar
      * corresponds to.
      *
      * @var array<string, class-string>
+     *
      * @since 1.0.0
      */
     private $elmentModuleMapping = [];
@@ -33,13 +32,15 @@ class LayotterElementRegistrar
     /**
      * Creates a new LayotterElementRegistrar instance.
      *
-     * @param ModuleManifestBuilder $builder The manifest builder that provides
-     *                                       the pre-computed entry data.
+     * @param ModuleManifestBuilder $builder the manifest builder that provides
+     *                                       the pre-computed entry data
+     *
      * @since 1.0.0
      */
     public function __construct(
         private readonly ModuleManifestBuilder $builder,
-    ) {}
+    ) {
+    }
 
     /**
      * Register all discovered modules that have Layotter integration.
@@ -56,20 +57,22 @@ class LayotterElementRegistrar
             return;
         }
         collect($this->builder->getEntries())
-            ->each(function ($info, $moduleClass) {
+            ->each(function ($info, $moduleClass): void {
                 if ($moduleClass::$layotter) {
                     $key = strtolower(substr(strrchr($moduleClass, '\\'), 1));
                     $this->elmentModuleMapping[$key] = $moduleClass;
-                    \Layotter::register_element($key, LayotterElement::class);
+                    Layotter::register_element($key, LayotterElement::class);
                 }
-            });
+            })
+        ;
     }
 
     /**
      * Resolve a module class name from a Layotter element slug.
      *
-     * @param string $key The element slug (e.g. 'teaser-module').
-     * @return class-string The resolved module class name, or LayotterElement::class if not found.
+     * @param  string       $key The element slug (e.g. 'teaser-module').
+     * @return class-string the resolved module class name, or LayotterElement::class if not found
+     *
      * @since 1.0.0
      */
     public function resolveModuleClass($key)

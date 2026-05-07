@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Installer;
 
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
+use Imagick;
 use Sloth\Utility\Utility;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
@@ -50,6 +50,7 @@ class Installer
      * Values: absolute paths.
      *
      * @var array<string, string>
+     *
      * @since 1.0.0
      */
     private array $dirs = [];
@@ -96,7 +97,8 @@ class Installer
     /**
      * Primary Composer script entrypoint.
      *
-     * @param Event $event The Composer script event injected by Composer.
+     * @param Event $event the Composer script event injected by Composer
+     *
      * @since 1.0.0
      */
     public static function config(Event $event): void
@@ -107,15 +109,16 @@ class Installer
     /**
      * Silent Composer script entrypoint.
      *
-     * @param Event $event The Composer script event injected by Composer.
-     * @deprecated Use config() with the --no-interaction flag instead.
+     * @param Event $event the Composer script event injected by Composer
+     *
+     * @deprecated use config() with the --no-interaction flag instead
      * @since 1.0.0
      */
     public static function config_quiet(Event $event): void
     {
         $installer = new self($event);
         $installer->io->writeError(
-            '<warning>config_quiet is deprecated. Use config() with --no-interaction instead.</warning>'
+            '<warning>config_quiet is deprecated. Use config() with --no-interaction instead.</warning>',
         );
         $installer->run();
     }
@@ -125,7 +128,8 @@ class Installer
     // -------------------------------------------------------------------------
 
     /**
-     * @param Event $event The Composer script event.
+     * @param Event $event the Composer script event
+     *
      * @since 1.0.0
      */
     private function __construct(Event $event)
@@ -163,24 +167,25 @@ class Installer
     /**
      * Resolve all paths and default metadata from the Composer configuration.
      *
-     * @param Event $event The Composer script event.
+     * @param Event $event the Composer script event
+     *
      * @since 1.0.0
      */
     private function gatherInfo(Event $event): void
     {
-        $composer    = $event->getComposer();
+        $composer = $event->getComposer();
         $extraConfig = $composer->getPackage()->getExtra();
 
         $this->baseDir = Path::canonicalize(
-            dirname($composer->getConfig()->getConfigSource()->getName())
+            dirname($composer->getConfig()->getConfigSource()->getName()),
         );
 
-        $webRoot      = $this->absPath($extraConfig['webroot'] ?? 'public');
+        $webRoot = $this->absPath($extraConfig['webroot'] ?? 'public');
         $wpInstallDir = $this->absPath($extraConfig['wordpress-install-dir'] ?? '');
 
         $installerPaths = $extraConfig['installer-paths'] ?? [];
-        $muPluginsDir   = $this->resolveInstallerPath($installerPaths, 'type:wordpress-muplugin');
-        $themesDir      = $this->resolveInstallerPath($installerPaths, 'type:wordpress-theme');
+        $muPluginsDir = $this->resolveInstallerPath($installerPaths, 'type:wordpress-muplugin');
+        $themesDir = $this->resolveInstallerPath($installerPaths, 'type:wordpress-theme');
 
         $this->dirs = [
             'webroot' => $webRoot,
@@ -192,18 +197,19 @@ class Installer
             'cache'   => $this->absPath('app/cache'),
         ];
 
-        $this->themeName        = basename($this->baseDir);
-        $this->authorName       = get_current_user();
+        $this->themeName = basename($this->baseDir);
+        $this->authorName = get_current_user();
         $this->themeDescription = $this->themeName . ': Just another WordPress theme.';
-        $this->dirThemeDefault  = Path::join($themesDir, 'sloth-theme');
+        $this->dirThemeDefault = Path::join($themesDir, 'sloth-theme');
     }
 
     /**
      * Resolve a directory from the installer-paths extra config by type condition.
      *
-     * @param array<string, mixed> $installerPaths The installer-paths map.
-     * @param string               $type           The type condition to match.
-     * @return string Absolute resolved path.
+     * @param  array<string, mixed> $installerPaths the installer-paths map
+     * @param  string               $type           the type condition to match
+     * @return string               absolute resolved path
+     *
      * @since 1.0.0
      */
     private function resolveInstallerPath(array $installerPaths, string $type): string
@@ -236,18 +242,18 @@ class Installer
 
         $this->themeName = $this->io->ask(
             'What will your WordPress theme be called? [<comment>' . $this->themeName . '</comment>]: ',
-            $this->themeName
+            $this->themeName,
         );
 
         $this->authorName = $this->io->ask(
             "What is the name of your theme's author? [<comment>" . $this->authorName . '</comment>]: ',
-            $this->authorName
+            $this->authorName,
         );
 
         $this->themeDescription = $this->themeName . ': Just another WordPress theme.';
         $this->themeDescription = $this->io->ask(
             'Please describe your theme [<comment>' . $this->themeDescription . '</comment>]: ',
-            $this->themeDescription
+            $this->themeDescription,
         );
     }
 
@@ -274,19 +280,19 @@ class Installer
      */
     private function rebuildIndex(): void
     {
-        $wpIndexPath  = Path::join($this->dirs['wp'], 'index.php');
+        $wpIndexPath = Path::join($this->dirs['wp'], 'index.php');
         $webIndexPath = Path::join($this->dirs['webroot'], 'index.php');
 
         $relativeHeader = Path::makeRelative(
             Path::join($this->dirs['wp'], 'wp-blog-header.php'),
-            $this->dirs['webroot']
+            $this->dirs['webroot'],
         );
 
         $original = file_get_contents($wpIndexPath);
-        $custom   = str_replace(
+        $custom = str_replace(
             "__DIR__ . '/wp-blog-header.php'",
             "__DIR__ . '/" . $relativeHeader . "'",
-            $original
+            $original,
         );
 
         file_put_contents($webIndexPath, $custom);
@@ -326,7 +332,7 @@ class Installer
      */
     private function initializeDotenv(): void
     {
-        $envFile    = Path::join($this->baseDir, '.env');
+        $envFile = Path::join($this->baseDir, '.env');
         $envExample = Path::join($this->baseDir, '.env.example');
 
         if (!$this->fs->exists($envFile) && $this->fs->exists($envExample)) {
@@ -346,7 +352,7 @@ class Installer
         $this->fs->copy(
             Path::join(dirname(__DIR__), 'wp-config.php'),
             Path::join($this->dirs['webroot'], 'wp-config.php'),
-            true
+            true,
         );
     }
 
@@ -362,7 +368,7 @@ class Installer
         if (!$this->fs->exists($htaccess)) {
             $this->fs->copy(
                 Path::join(dirname(__DIR__), '.htaccess'),
-                $htaccess
+                $htaccess,
             );
         }
     }
@@ -389,13 +395,14 @@ class Installer
 
             $confirmed = $this->io->askConfirmation(
                 '   Did you make a backup? [<comment>y/N</comment>]: ',
-                false
+                false,
             );
 
             if (!$confirmed) {
                 $this->io->write('');
                 $this->io->write('<info>Skipping bootstrap.php — please make a backup and run composer install again.</info>');
                 $this->io->write('');
+
                 return;
             }
         }
@@ -410,7 +417,8 @@ class Installer
     /**
      * Check whether the bundled default "sloth-theme" directory is present.
      *
-     * @return bool True if the default theme directory exists.
+     * @return bool true if the default theme directory exists
+     *
      * @since 1.0.0
      */
     private function defaultThemeExists(): bool
@@ -427,7 +435,7 @@ class Installer
     {
         $this->dirThemeNew = Path::join(
             $this->dirs['themes'],
-            Utility::viewize(strtolower($this->themeName))
+            Utility::viewize(strtolower($this->themeName)),
         );
 
         $this->fs->rename($this->dirThemeDefault, $this->dirThemeNew);
@@ -446,7 +454,7 @@ class Installer
             "/*\nTheme Name: %s\nAuthor: %s\nVersion: 0.0.1\nDescription: %s\n*/",
             $this->themeName,
             $this->authorName,
-            $this->themeDescription
+            $this->themeDescription,
         );
 
         $this->fs->dumpFile(Path::join($this->dirThemeNew, 'style.css'), $css);
@@ -472,17 +480,18 @@ class Installer
         $pngPath = Path::join($this->dirThemeNew, 'screenshot.png');
 
         if (extension_loaded('imagick')) {
-            $imagick = new \Imagick();
+            $imagick = new Imagick();
             $imagick->readImageBlob($svg);
             $imagick->setImageFormat('png');
             $this->fs->dumpFile($pngPath, $imagick->getImageBlob());
             $imagick->destroy();
+
             return;
         }
 
         $this->fs->dumpFile(
             Path::join($this->dirThemeNew, 'screenshot.svg'),
-            $svg
+            $svg,
         );
 
         $this->io->writeError('<warning>Imagick not available — screenshot.svg created instead of screenshot.png.</warning>');
@@ -495,8 +504,9 @@ class Installer
     /**
      * Resolve a relative path against the project base directory.
      *
-     * @param string $relative A path relative to the project root.
-     * @return string Absolute, canonicalized path.
+     * @param  string $relative a path relative to the project root
+     * @return string absolute, canonicalized path
+     *
      * @since 1.0.0
      */
     private function absPath(string $relative): string

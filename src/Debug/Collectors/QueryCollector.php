@@ -1,12 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Debug\Collectors;
 
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
+use Throwable;
 
 /**
  * Database Query Collector.
@@ -24,6 +24,7 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * Threshold in milliseconds for marking queries as slow.
      *
      * @since 1.0.0
+     *
      * @var int
      */
     private const SLOW_THRESHOLD_MS = 100;
@@ -42,7 +43,8 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * sorted by execution time.
      *
      * @since 1.0.0
-     * @return array<string, mixed> The collected data.
+     *
+     * @return array<string, mixed> the collected data
      */
     public function collect(): array
     {
@@ -51,22 +53,23 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
         $totalTime = $count > 0 ? round(array_sum(array_column($queries, 'time')), 2) : 0;
 
         $statements = [];
+
         foreach ($queries as $q) {
             $statements[] = [
-                'sql' => $q['sql'],
-                'time' => $q['time'],
-                'params' => $q['params'] ?? [],
-                'source' => $q['source'] ?? '',
-                'is_success' => $q['is_success'] ?? true,
+                'sql'           => $q['sql'],
+                'time'          => $q['time'],
+                'params'        => $q['params'] ?? [],
+                'source'        => $q['source'] ?? '',
+                'is_success'    => $q['is_success'] ?? true,
                 'error_message' => $q['error_message'] ?? null,
             ];
         }
 
         return [
-            'nb_statements' => $count,
-            'accumulated_duration' => $totalTime,
+            'nb_statements'            => $count,
+            'accumulated_duration'     => $totalTime,
             'accumulated_duration_str' => round($totalTime, 2) . 'ms',
-            'statements' => $statements,
+            'statements'               => $statements,
         ];
     }
 
@@ -77,7 +80,8 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * and sorting.
      *
      * @since 1.0.0
-     * @return array<int, array<string, mixed>> The merged and sorted queries.
+     *
+     * @return array<int, array<string, mixed>> the merged and sorted queries
      */
     private function getAllQueries(): array
     {
@@ -87,10 +91,10 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
 
         $queries = array_merge(
             $this->getEloquentQueries(),
-            $this->getWpdbQueries()
+            $this->getWpdbQueries(),
         );
 
-        usort($queries, fn($a, $b) => $b['time'] <=> $a['time']);
+        usort($queries, fn ($a, $b) => $b['time'] <=> $a['time']);
 
         return $this->cachedQueries = $queries;
     }
@@ -99,7 +103,8 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * Get all Eloquent queries from the current connection.
      *
      * @since 1.0.0
-     * @return array<int, array<string, mixed>> The Eloquent queries.
+     *
+     * @return array<int, array<string, mixed>> the Eloquent queries
      */
     private function getEloquentQueries(): array
     {
@@ -115,19 +120,20 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
             }
 
             $queries = [];
+
             foreach ($connection->getQueryLog() as $q) {
                 $queries[] = [
-                    'sql' => $q['query'],
-                    'time' => round($q['time'], 2),
-                    'params' => $q['bindings'] ?? [],
-                    'source' => 'Eloquent',
-                    'is_success' => true,
+                    'sql'           => $q['query'],
+                    'time'          => round($q['time'], 2),
+                    'params'        => $q['bindings'] ?? [],
+                    'source'        => 'Eloquent',
+                    'is_success'    => true,
                     'error_message' => null,
                 ];
             }
 
             return $queries;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return [];
         }
     }
@@ -138,7 +144,8 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * Requires the SAVEQUERIES constant to be enabled.
      *
      * @since 1.0.0
-     * @return array<int, array<string, mixed>> The WordPress queries.
+     *
+     * @return array<int, array<string, mixed>> the WordPress queries
      */
     private function getWpdbQueries(): array
     {
@@ -150,6 +157,7 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
             }
 
             global $wpdb;
+
             if (!$wpdb || !isset($wpdb->queries)) {
                 return [];
             }
@@ -158,15 +166,15 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
                 $caller = isset($q[2]) ? (string) $q[2] : '';
                 $source = $caller ? 'WPDB — ' . $this->formatWpdbCaller($caller) : 'WPDB';
                 $queries[] = [
-                    'sql' => $q[0],
-                    'time' => round($q[1] * 1000, 2),
-                    'params' => [],
-                    'source' => $source,
-                    'is_success' => true,
+                    'sql'           => $q[0],
+                    'time'          => round($q[1] * 1000, 2),
+                    'params'        => [],
+                    'source'        => $source,
+                    'is_success'    => true,
                     'error_message' => null,
                 ];
             }
-        } catch (\Throwable) {
+        } catch (Throwable) {
         }
 
         return $queries;
@@ -175,8 +183,8 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
     /**
      * Format a WPDB caller string into a readable file:line reference.
      *
-     * @param string $caller The raw caller string from $wpdb->queries.
-     * @return string Formatted caller reference.
+     * @param  string $caller the raw caller string from $wpdb->queries
+     * @return string formatted caller reference
      */
     private function formatWpdbCaller(string $caller): string
     {
@@ -193,7 +201,8 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * Get the collector name.
      *
      * @since 1.0.0
-     * @return string The collector identifier.
+     *
+     * @return string the collector identifier
      */
     public function getName(): string
     {
@@ -207,20 +216,21 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
      * displaying database queries.
      *
      * @since 1.0.0
-     * @return array<string, mixed> The widget configuration.
+     *
+     * @return array<string, mixed> the widget configuration
      */
     public function getWidgets(): array
     {
         return [
             'queries' => [
-                'icon' => 'database',
+                'icon'    => 'database',
                 'tooltip' => 'Database Queries',
-                'widget' => 'PhpDebugBar.Widgets.SlothQueriesWidget',
-                'map' => 'queries',
+                'widget'  => 'PhpDebugBar.Widgets.SlothQueriesWidget',
+                'map'     => 'queries',
                 'default' => '{}',
             ],
             'queries:badge' => [
-                'map' => 'queries.nb_statements',
+                'map'     => 'queries.nb_statements',
                 'default' => '0',
             ],
         ];

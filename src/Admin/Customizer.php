@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Admin;
 
 use Sloth\Core\Application;
@@ -18,6 +17,7 @@ class Customizer
      * Completed actions.
      *
      * @since 1.0.0
+     *
      * @var array<string>
      */
     public static array $done = [];
@@ -26,6 +26,7 @@ class Customizer
      * Meta boxes to remove.
      *
      * @since 1.0.0
+     *
      * @var array<string, array<string>>
      */
     public static array $removeMetaBoxes = [];
@@ -34,6 +35,7 @@ class Customizer
      * TinyMCE styles.
      *
      * @since 1.0.0
+     *
      * @var array<string, array<string>>
      */
     public static array $tinymceStyles = [];
@@ -42,6 +44,7 @@ class Customizer
      * TinyMCE buttons to remove.
      *
      * @since 1.0.0
+     *
      * @var array<int, array<string>>
      */
     public static array $tinymceRemoveButtons = [
@@ -55,6 +58,7 @@ class Customizer
      * TinyMCE buttons to add.
      *
      * @since 1.0.0
+     *
      * @var array<int, array<string, mixed>>
      */
     public static array $tinymceAddButtons = [
@@ -68,6 +72,7 @@ class Customizer
      * Admin bar menu items to remove.
      *
      * @since 1.0.0
+     *
      * @var array<string>
      */
     public static array $removeAdminBarMenus = [];
@@ -76,6 +81,7 @@ class Customizer
      * Menu separators to add.
      *
      * @since 1.0.0
+     *
      * @var array<string>
      */
     public static array $addMenuSeparators = [];
@@ -84,6 +90,7 @@ class Customizer
      * Post list columns to add.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>
      */
     public static array $addPostListColumns = [];
@@ -92,6 +99,7 @@ class Customizer
      * SEO features to use.
      *
      * @since 1.0.0
+     *
      * @var array<string, bool>
      */
     public static array $useSeoFeatures = [];
@@ -100,6 +108,7 @@ class Customizer
      * Meta description as excerpt settings.
      *
      * @since 1.0.0
+     *
      * @var array<string, bool>
      */
     public static array $useMetaDescriptionAsExcerpt = [];
@@ -108,6 +117,7 @@ class Customizer
      * Taxonomies to disable.
      *
      * @since 1.0.0
+     *
      * @var array<string, bool>
      */
     public static array $disableTaxonomies = [];
@@ -116,6 +126,7 @@ class Customizer
      * Menu items to move.
      *
      * @since 1.0.0
+     *
      * @var array<string, string>
      */
     public static array $moveMenuItems = [];
@@ -124,6 +135,7 @@ class Customizer
      * Menu items to remove.
      *
      * @since 1.0.0
+     *
      * @var array<string>
      */
     public static array $removeMenuItems = [];
@@ -132,6 +144,7 @@ class Customizer
      * Menu items to add.
      *
      * @since 1.0.0
+     *
      * @var array<array<string, mixed>>
      */
     public static array $addMenuItems = [];
@@ -140,6 +153,7 @@ class Customizer
      * Menu items to rename.
      *
      * @since 1.0.0
+     *
      * @var array<string, string>
      */
     public static array $renameMenuItems = [];
@@ -148,6 +162,7 @@ class Customizer
      * Submenu items to add.
      *
      * @since 1.0.0
+     *
      * @var array<array<string, mixed>>
      */
     public static array $addSubmenuItems = [];
@@ -156,6 +171,7 @@ class Customizer
      * Custom dashboard items.
      *
      * @since 1.0.0
+     *
      * @var array<array<string, string>>
      */
     public static array $customDashboard = [];
@@ -165,7 +181,9 @@ class Customizer
      *
      * @param Application $app Application instance
      */
-    public function __construct(protected Application $app) {}
+    public function __construct(protected Application $app)
+    {
+    }
 
     /**
      * Boot the customizer hooks.
@@ -178,19 +196,18 @@ class Customizer
             'admin_menu',
             function (): void {
                 remove_filter('update_footer', 'core_update_footer');
-            }
+            },
         );
     }
 
     /**
      * Join arrays together.
      *
-     * @param array<string> $existing Existing items
-     * @param mixed $new New items to add
-     *
+     * @param  array<string> $existing Existing items
+     * @param  mixed         $new      New items to add
      * @return array<string>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     private static function joinArray(array $existing, mixed $new): array
     {
@@ -207,8 +224,8 @@ class Customizer
      * Check if an action has been done.
      *
      * @param string $what Action identifier
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     private static function done(string $what): bool
     {
@@ -225,9 +242,9 @@ class Customizer
      * Remove a post meta box.
      *
      * @param string $postType Post type
-     * @param string $box Meta box ID
-     * @since 1.0.0
+     * @param string $box      Meta box ID
      *
+     * @since 1.0.0
      */
     public static function removePostMetaBox(string $postType, string $box): void
     {
@@ -247,7 +264,7 @@ class Customizer
                             remove_meta_box($box, $postType, 'side');
                         }
                     }
-                }
+                },
             );
         }
     }
@@ -255,10 +272,10 @@ class Customizer
     /**
      * Remove a TinyMCE button.
      *
-     * @param int $row Row number (1-4)
+     * @param int    $row    Row number (1-4)
      * @param string $button Button name
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function tinymceRemoveButton(int $row, string $button): void
     {
@@ -275,15 +292,17 @@ class Customizer
                     }
 
                     $removeButtons = self::$tinymceRemoveButtons[$row];
+
                     foreach ($removeButtons as $buttonName) {
                         $key = array_search($buttonName, $buttons, true);
+
                         if ($key !== false) {
                             unset($buttons[$key]);
                         }
                     }
 
                     return $buttons;
-                }
+                },
             );
         }
     }
@@ -291,16 +310,16 @@ class Customizer
     /**
      * Add a TinyMCE button.
      *
-     * @param int $row Row number (1-4)
-     * @param string $button Button name
+     * @param int      $row      Row number (1-4)
+     * @param string   $button   Button name
      * @param bool|int $position Position to insert (false for end)
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function tinymceAddButton(int $row, string $button, bool|int $position = false): void
     {
         self::$tinymceAddButtons[$row][] = [
-            'name' => $button,
+            'name'     => $button,
             'position' => $position,
         ];
         $filter = $row === 1 ? 'mce_buttons' : 'mce_buttons_' . $row;
@@ -314,6 +333,7 @@ class Customizer
                     }
 
                     $addButtons = self::$tinymceAddButtons[$row];
+
                     foreach ($addButtons as $button) {
                         if ($button['position'] === false) {
                             $buttons[] = $button['name'];
@@ -322,13 +342,13 @@ class Customizer
                                 $buttons,
                                 $button['position'],
                                 0,
-                                $button['name']
+                                $button['name'],
                             );
                         }
                     }
 
                     return $buttons;
-                }
+                },
             );
         }
     }
@@ -355,13 +375,14 @@ class Customizer
                 remove_meta_box('dashboard_primary', 'dashboard', 'side');
                 remove_meta_box('dashboard_secondary', 'dashboard', 'side');
                 remove_meta_box('dashboard_activity', 'dashboard', 'normal');
-            }
+            },
         );
 
         add_action(
             'admin_head',
             function (): void {
                 $currentScreen = get_current_screen();
+
                 if ($currentScreen->base === 'dashboard') {
                     ?>
                         <style type="text/css">
@@ -376,7 +397,7 @@ class Customizer
                         </style>
                         <?php
                 }
-            }
+            },
         );
     }
 
@@ -384,8 +405,8 @@ class Customizer
      * Remove an admin bar menu item.
      *
      * @param string $item Menu item ID
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function removeAdminBarItem(string $item): void
     {
@@ -396,10 +417,11 @@ class Customizer
                 'wp_before_admin_bar_render',
                 function (): void {
                     global $wpAdminBar;
+
                     foreach (self::$removeAdminBarMenus as $item) {
                         $wpAdminBar->remove_menu($item);
                     }
-                }
+                },
             );
         }
     }
@@ -415,6 +437,7 @@ class Customizer
             'admin_head',
             function (): void {
                 $currentScreen = get_current_screen();
+
                 if ($currentScreen->base === 'profile' || $currentScreen->base === 'profile-user') {
                     ?>
                         <style type="text/css">
@@ -433,7 +456,7 @@ class Customizer
                         </style>
                         <?php
                 }
-            }
+            },
         );
     }
 
@@ -441,8 +464,8 @@ class Customizer
      * Add a menu separator.
      *
      * @param string $after Menu item to place separator after
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function addMenuSeparator(string $after): void
     {
@@ -462,6 +485,7 @@ class Customizer
                     }
 
                     $index = 1;
+
                     foreach (self::$addMenuSeparators as $after) {
                         foreach ($menu as $offset => $section) {
                             if ($section[2] === $after) {
@@ -469,14 +493,15 @@ class Customizer
                                     $menu,
                                     $offset + 1,
                                     0,
-                                    [['', 'read', 'separator' . $index++, '', 'wp-menu-separator']]
+                                    [['', 'read', 'separator' . $index++, '', 'wp-menu-separator']],
                                 );
+
                                 break;
                             }
                         }
                     }
                 },
-                9999999
+                9999999,
             );
         }
     }
@@ -484,10 +509,10 @@ class Customizer
     /**
      * Move a menu item.
      *
-     * @param string $move Menu item to move
+     * @param string $move  Menu item to move
      * @param string $after Menu item to place it after
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function moveMenuItem(string $move, string $after): void
     {
@@ -507,6 +532,7 @@ class Customizer
                             if ($section[2] === $move) {
                                 $toBeMoved = $section;
                                 array_splice($menu, $offset, 1);
+
                                 break;
                             }
                         }
@@ -515,13 +541,14 @@ class Customizer
                             foreach ($menu as $offset => $section) {
                                 if ($section[2] === $after) {
                                     array_splice($menu, $offset + 1, 0, [$toBeMoved]);
+
                                     break;
                                 }
                             }
                         }
                     }
                 },
-                9999998
+                9999998,
             );
         }
     }
@@ -530,8 +557,8 @@ class Customizer
      * Remove a menu item.
      *
      * @param string $url Menu item URL
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function removeMenuItem(string $url): void
     {
@@ -550,7 +577,7 @@ class Customizer
                         }
                     }
                 },
-                9999
+                9999,
             );
         }
     }
@@ -558,10 +585,10 @@ class Customizer
     /**
      * Rename a menu item.
      *
-     * @param string $url Menu item URL
+     * @param string $url     Menu item URL
      * @param string $newName New display name
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function renameMenuItem(string $url, string $newName): void
     {
@@ -579,7 +606,7 @@ class Customizer
                         }
                     }
                 },
-                9999996
+                9999996,
             );
         }
     }
@@ -587,27 +614,27 @@ class Customizer
     /**
      * Add a top-level menu item.
      *
-     * @param string $url Menu item URL
-     * @param string $after Menu item to place it after
-     * @param string $title Display title
+     * @param string $url        Menu item URL
+     * @param string $after      Menu item to place it after
+     * @param string $title      Display title
      * @param string $capability Required capability
-     * @param string $icon Dashicons icon class
-     * @since 1.0.0
+     * @param string $icon       Dashicons icon class
      *
+     * @since 1.0.0
      */
     public static function addMenuItem(
         string $url,
         string $after,
         string $title,
         string $capability,
-        string $icon = 'dashicons-admin-post'
+        string $icon = 'dashicons-admin-post',
     ): void {
         self::$addMenuItems[] = [
-            'url' => $url,
-            'after' => $after,
-            'title' => $title,
+            'url'        => $url,
+            'after'      => $after,
+            'title'      => $title,
             'capability' => $capability,
-            'icon' => $icon,
+            'icon'       => $icon,
         ];
         self::moveMenuItem($url, $after);
 
@@ -622,11 +649,11 @@ class Customizer
                             $item['capability'],
                             $item['url'],
                             null,
-                            $item['icon']
+                            $item['icon'],
                         );
                     }
                 },
-                9999996
+                9999996,
             );
         }
     }
@@ -634,19 +661,19 @@ class Customizer
     /**
      * Add a submenu item.
      *
-     * @param string $url Submenu item URL
-     * @param string $parent Parent menu item URL
-     * @param string $title Display title
+     * @param string $url        Submenu item URL
+     * @param string $parent     Parent menu item URL
+     * @param string $title      Display title
      * @param string $capability Required capability
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function addSubmenuItem(string $url, string $parent, string $title, string $capability): void
     {
         self::$addSubmenuItems[] = [
-            'url' => $url,
-            'parent' => $parent,
-            'title' => $title,
+            'url'        => $url,
+            'parent'     => $parent,
+            'title'      => $title,
             'capability' => $capability,
         ];
 
@@ -660,11 +687,11 @@ class Customizer
                             $item['title'],
                             $item['title'],
                             $item['capability'],
-                            $item['url']
+                            $item['url'],
                         );
                     }
                 },
-                9999997
+                9999997,
             );
         }
     }
@@ -680,6 +707,7 @@ class Customizer
             'clean_url',
             function (string $url): string {
                 $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+
                 if ($extension === 'js') {
                     $url .= "' async='async";
                 }
@@ -687,26 +715,26 @@ class Customizer
                 return $url;
             },
             11,
-            1
+            1,
         );
     }
 
     /**
      * Add a custom dashboard item.
      *
-     * @param string $url Item URL
+     * @param string $url  Item URL
      * @param string $text Display text
      * @param string $icon Dashicons icon class
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public static function addCustomDashboardItem(
         string $url,
         string $text,
-        string $icon = 'dashicons-admin-post'
+        string $icon = 'dashicons-admin-post',
     ): void {
         self::$customDashboard[] = [
-            'url' => $url,
+            'url'  => $url,
             'text' => $text,
             'icon' => $icon,
         ];
@@ -720,9 +748,9 @@ class Customizer
                         'Start',
                         self::dashboardWelcome(...),
                         'dashboard',
-                        'normal'
+                        'normal',
                     );
-                }
+                },
             );
         }
     }
@@ -799,29 +827,28 @@ class Customizer
         $view = View::make('Admin.footer');
 
         return $view
-                ->with($data)
-                ->render();
+            ->with($data)
+            ->render()
+        ;
     }
 
     /**
      * Hide WordPress update notifications.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return object Fake update response with current time and WP version
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function hideUpdates(mixed $value = null): object
     {
         global $wpVersion;
 
         return (object) [
-            'last_checked' => time(),
+            'last_checked'    => time(),
             'version_checked' => $wpVersion,
         ];
     }
-
 
     /**
      * Clean up admin menu by removing duplicate PHP pages.
@@ -832,14 +859,17 @@ class Customizer
     {
         global $menu;
         $used = [];
+
         foreach ($menu as $offset => $menuItem) {
             $pi = pathinfo((string) $menuItem[2], PATHINFO_EXTENSION);
+
             if (!preg_match('/^php/', $pi)) {
                 continue;
             }
 
             if (in_array($menuItem[2], $used, true)) {
                 unset($menu[$offset]);
+
                 continue;
             }
 

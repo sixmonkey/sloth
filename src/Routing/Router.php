@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Routing;
 
+use InvalidArgumentException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -34,6 +34,7 @@ use Symfony\Component\Routing\RouteCollection;
 class Router
 {
     private RouteCollection $routes;
+
     private int $counter = 0;
 
     /**
@@ -47,8 +48,9 @@ class Router
     /**
      * Register a GET route.
      *
-     * @param string $path
-     * @param callable|array $callback
+     * @param string         $path
+     * @param array|callable $callback
+     *
      * @since 1.0.0
      */
     public function get(string $path, mixed $callback): Route
@@ -60,6 +62,9 @@ class Router
      * Register a POST route.
      *
      * @since 1.0.0
+     *
+     * @param string $path
+     * @param mixed  $callback
      */
     public function post(string $path, mixed $callback): Route
     {
@@ -70,6 +75,9 @@ class Router
      * Register a PUT route.
      *
      * @since 1.0.0
+     *
+     * @param string $path
+     * @param mixed  $callback
      */
     public function put(string $path, mixed $callback): Route
     {
@@ -80,6 +88,9 @@ class Router
      * Register a DELETE route.
      *
      * @since 1.0.0
+     *
+     * @param string $path
+     * @param mixed  $callback
      */
     public function delete(string $path, mixed $callback): Route
     {
@@ -90,6 +101,8 @@ class Router
      * Check if a named route exists.
      *
      * @since 1.0.0
+     *
+     * @param string $name
      */
     public function hasName(string $name): bool
     {
@@ -103,8 +116,11 @@ class Router
      * _controller (the callback), _route (the route name),
      * and any URL parameters. Returns null if no route matches.
      *
-     * @return array<string, mixed>|null
      * @since 1.0.0
+     *
+     * @param  string                    $path
+     * @param  string                    $method
+     * @return array<string, mixed>|null
      */
     public function match(string $path, string $method): ?array
     {
@@ -121,27 +137,35 @@ class Router
     /**
      * Generate a URL for a named route.
      *
+     * @param string                $name
      * @param array<string, string> $params
-     * @throws \InvalidArgumentException If route name does not exist.
+     *
+     * @throws InvalidArgumentException if route name does not exist
+     *
      * @since 1.0.0
      */
     public function url(string $name, array $params = []): string
     {
         if ($this->routes->get($name) === null) {
-            throw new \InvalidArgumentException(
-                "Route [{$name}] not defined."
+            throw new InvalidArgumentException(
+                "Route [{$name}] not defined.",
             );
         }
 
         return new UrlGenerator($this->routes, new RequestContext())
-            ->generate($name, $params);
+            ->generate($name, $params)
+        ;
     }
 
     /**
      * Register a name for a route. Called by Route::name().
      *
      * @internal
+     *
      * @since 1.0.0
+     *
+     * @param string $name
+     * @param Route  $route
      */
     public function registerName(string $name, Route $route): void
     {
@@ -149,6 +173,7 @@ class Router
             if ($r === $route) {
                 $this->routes->remove($key);
                 $this->routes->add($name, $route);
+
                 return;
             }
         }
@@ -156,6 +181,10 @@ class Router
 
     /**
      * @since 1.0.0
+     *
+     * @param string $method
+     * @param string $path
+     * @param mixed  $callback
      */
     private function add(string $method, string $path, mixed $callback): Route
     {

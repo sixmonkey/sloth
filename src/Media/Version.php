@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Media;
 
 use Corcel\Model\Attachment;
@@ -9,7 +8,7 @@ use Sloth\Model\SlothMediaVersion;
 use Spatie\Image\Image as SpatieImage;
 
 /**
- * Image Version Generator
+ * Image Version Generator.
  *
  * This class handles on-the-fly generation of image versions based on
  * configuration stored in WordPress meta fields. It uses the Spatie Image
@@ -63,8 +62,6 @@ class Version
      * original-image-300x200.jpg
      *
      * @param string $url The versioned image URL to process
-     *
-     * @return void
      */
     public function __construct(string $url)
     {
@@ -176,8 +173,6 @@ class Version
      * the file.
      *
      * @param string $path Absolute path to the file to serve
-     *
-     * @return void
      *
      * @uses header() To set Content-Type and Content-Length headers
      * @uses file_get_contents() To read file contents

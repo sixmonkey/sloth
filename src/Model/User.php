@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Model;
 
 use Corcel\Model as CorcelModel;
@@ -30,11 +29,15 @@ use Sloth\Model\Traits\HasOrderScopes;
 class User extends CorcelModel
 {
     use HasACF;
+
     use HasAliases;
+
     use HasMetaFields;
+
     use HasOrderScopes;
 
     public const CREATED_AT = 'user_registered';
+
     public const UPDATED_AT = null;
 
     /**
@@ -79,18 +82,18 @@ class User extends CorcelModel
      *
      * Maps alternative property names to their original database columns or meta fields.
      *
-     * @var array<string, string|array>
+     * @var array<string, array|string>
      */
     protected static array $aliases = [
-        'login' => 'user_login',
-        'email' => 'user_email',
-        'slug' => 'user_nicename',
-        'url' => 'user_url',
-        'nickname' => ['meta' => 'nickname'],
-        'first_name' => ['meta' => 'first_name'],
-        'last_name' => ['meta' => 'last_name'],
+        'login'       => 'user_login',
+        'email'       => 'user_email',
+        'slug'        => 'user_nicename',
+        'url'         => 'user_url',
+        'nickname'    => ['meta' => 'nickname'],
+        'first_name'  => ['meta' => 'first_name'],
+        'last_name'   => ['meta' => 'last_name'],
         'description' => ['meta' => 'description'],
-        'created_at' => 'user_registered',
+        'created_at'  => 'user_registered',
     ];
 
     /**
@@ -149,7 +152,9 @@ class User extends CorcelModel
      *
      * @param mixed $value The timestamp value
      */
-    public function setUpdatedAt($value): void {}
+    public function setUpdatedAt($value): void
+    {
+    }
 
     /**
      * Get the ACF key for this user.

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Utility;
 
 use Illuminate\Support\Str;
@@ -17,7 +16,7 @@ use Illuminate\Support\Str;
  * - Normalized names (cleaned for comparison)
  *
  * @since 1.0.0
- * @see \Illuminate\Support\Str For the underlying string manipulation
+ * @see Str For the underlying string manipulation
  */
 class Utility
 {
@@ -29,8 +28,7 @@ class Utility
      *
      * @since 1.0.0
      *
-     * @param string $name The name to normalize (e.g., 'App\Controller\PageController' or 'HeaderModule')
-     *
+     * @param  string $name The name to normalize (e.g., 'App\Controller\PageController' or 'HeaderModule')
      * @return string The normalized name (e.g., 'PageController' or 'Header')
      *
      * @example
@@ -60,9 +58,8 @@ class Utility
      *
      * @since 1.0.0
      *
-     * @param string $name The name to convert (e.g., 'page', 'home-page', 'HeaderModule')
-     * @param bool $namespaced Whether to prefix with 'Theme\Module\' namespace
-     *
+     * @param  string $name       The name to convert (e.g., 'page', 'home-page', 'HeaderModule')
+     * @param  bool   $namespaced Whether to prefix with 'Theme\Module\' namespace
      * @return string The module class name (e.g., 'PageModule' or 'Theme\Module\PageModule')
      *
      * @example
@@ -95,8 +92,7 @@ class Utility
      *
      * @since 1.0.0
      *
-     * @param string $name The name to convert (e.g., 'PageController', 'HomePage')
-     *
+     * @param  string $name The name to convert (e.g., 'PageController', 'HomePage')
      * @return string The kebab-case name (e.g., 'page-controller', 'home-page')
      *
      * @example
@@ -123,9 +119,8 @@ class Utility
      *
      * @since 1.0.0
      *
-     * @param string $name The name to convert (e.g., 'hero_image', 'HeroImage')
-     * @param bool $prefixed Whether to add the 'group_module_' prefix
-     *
+     * @param  string $name     The name to convert (e.g., 'hero_image', 'HeroImage')
+     * @param  bool   $prefixed Whether to add the 'group_module_' prefix
      * @return string The ACF-formatted name (e.g., 'group_module_hero_image' or 'hero_image')
      *
      * @example
@@ -158,9 +153,8 @@ class Utility
      *
      * @since 1.0.0
      *
-     * @param float $n The floating point number to convert (must be > 0)
-     * @param float $tolerance The maximum relative error allowed (default: 1e-6)
-     *
+     * @param  float  $n         The floating point number to convert (must be > 0)
+     * @param  float  $tolerance The maximum relative error allowed (default: 1e-6)
      * @return string The fraction in 'numerator/denominator' format
      *
      * @example

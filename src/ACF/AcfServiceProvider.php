@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\ACF;
 
 use Sloth\Core\ServiceProvider;
@@ -14,7 +13,7 @@ use Sloth\Core\ServiceProvider;
  * - Auto-sync of ACF JSON field groups in local environments
  *
  * @since 1.0.0
- * @see \Sloth\ACF\ACFHelper
+ * @see ACFHelper
  */
 class AcfServiceProvider extends ServiceProvider
 {
@@ -25,20 +24,20 @@ class AcfServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('acf.helper', fn(): ACFHelper => new ACFHelper());
+        $this->app->singleton('acf.helper', fn (): ACFHelper => new ACFHelper());
     }
 
     /**
-     * Get the filters for ACF
+     * Get the filters for ACF.
      *
      * @return array[]
      */
     public function getFilters(): array
     {
         return [
-            'admin_init' => fn() => app('acf.helper')->autoSyncAcfFields(),
+            'admin_init'                  => fn () => app('acf.helper')->autoSyncAcfFields(),
             'acf/format_value/type=image' => [
-                'callback' => fn(...$args) => app('acf.helper')->loadImage(...$args),
+                'callback' => fn (...$args) => app('acf.helper')->loadImage(...$args),
                 'priority' => PHP_INT_MAX,
             ],
         ];

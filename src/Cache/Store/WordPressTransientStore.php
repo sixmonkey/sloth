@@ -1,9 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Cache\Store;
 
+use function delete_transient;
+use function get_transient;
+use function set_transient;
 use Illuminate\Cache\TaggableStore;
 use Illuminate\Contracts\Cache\Store;
 
@@ -35,7 +37,7 @@ use Illuminate\Contracts\Cache\Store;
  * indefinitely (no expiry). This maps to Laravel's `forever()` behaviour.
  *
  * @since 1.0.0
- * @see \Illuminate\Contracts\Cache\Store
+ * @see Store
  */
 class WordPressTransientStore extends TaggableStore implements Store
 {
@@ -53,12 +55,12 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param string $key The cache key.
-     * @return mixed The cached value or null.
+     * @param  string $key the cache key
+     * @return mixed  the cached value or null
      */
     public function get($key): mixed
     {
-        $value = \get_transient($this->prefix . $key);
+        $value = get_transient($this->prefix . $key);
 
         return $value === false ? null : $value;
     }
@@ -70,12 +72,12 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param array<string> $keys The cache keys.
-     * @return array<string, mixed> Key-value pairs.
+     * @param  array<string>        $keys the cache keys
+     * @return array<string, mixed> key-value pairs
      */
     public function many(array $keys): array
     {
-        return array_combine($keys, array_map(fn($key) => $this->get($key), $keys));
+        return array_combine($keys, array_map(fn ($key) => $this->get($key), $keys));
     }
 
     /**
@@ -83,14 +85,14 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param string $key     The cache key.
-     * @param mixed  $value   The value to cache.
-     * @param int    $seconds Number of seconds until expiry. 0 = no expiry.
-     * @return bool True on success.
+     * @param  string $key     the cache key
+     * @param  mixed  $value   the value to cache
+     * @param  int    $seconds Number of seconds until expiry. 0 = no expiry.
+     * @return bool   true on success
      */
     public function put($key, $value, $seconds): bool
     {
-        return \set_transient($this->prefix . $key, $value, $seconds);
+        return set_transient($this->prefix . $key, $value, $seconds);
     }
 
     /**
@@ -98,16 +100,16 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param array<string, mixed> $values  Key-value pairs to cache.
-     * @param int                  $seconds Number of seconds until expiry.
-     * @return bool True if all items were stored successfully.
+     * @param  array<string, mixed> $values  key-value pairs to cache
+     * @param  int                  $seconds number of seconds until expiry
+     * @return bool                 true if all items were stored successfully
      */
     public function putMany(array $values, $seconds): bool
     {
         return array_reduce(
             array_keys($values),
-            fn($carry, $key) => $carry && $this->put($key, $values[$key], $seconds),
-            true
+            fn ($carry, $key) => $carry && $this->put($key, $values[$key], $seconds),
+            true,
         );
     }
 
@@ -116,14 +118,14 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param string $key   The cache key.
-     * @param int    $value The amount to increment by.
-     * @return int|bool The new value or false on failure.
+     * @param  string   $key   the cache key
+     * @param  int      $value the amount to increment by
+     * @return bool|int the new value or false on failure
      */
     public function increment($key, $value = 1): int|bool
     {
         $current = $this->get($key) ?? 0;
-        $new     = $current + $value;
+        $new = $current + $value;
 
         return $this->put($key, $new, 0) ? $new : false;
     }
@@ -133,9 +135,9 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param string $key   The cache key.
-     * @param int    $value The amount to decrement by.
-     * @return int|bool The new value or false on failure.
+     * @param  string   $key   the cache key
+     * @param  int      $value the amount to decrement by
+     * @return bool|int the new value or false on failure
      */
     public function decrement($key, $value = 1): int|bool
     {
@@ -147,9 +149,9 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param string $key   The cache key.
-     * @param mixed  $value The value to cache.
-     * @return bool True on success.
+     * @param  string $key   the cache key
+     * @param  mixed  $value the value to cache
+     * @return bool   true on success
      */
     public function forever($key, $value): bool
     {
@@ -161,12 +163,12 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @param string $key The cache key.
-     * @return bool True on success.
+     * @param  string $key the cache key
+     * @return bool   true on success
      */
     public function forget($key): bool
     {
-        return \delete_transient($this->prefix . $key);
+        return delete_transient($this->prefix . $key);
     }
 
     /**
@@ -176,7 +178,7 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @return bool True on success.
+     * @return bool true on success
      */
     public function flush(): bool
     {
@@ -186,8 +188,8 @@ class WordPressTransientStore extends TaggableStore implements Store
             $wpdb->prepare(
                 "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
                 '_transient_' . $this->prefix . '%',
-                '_transient_timeout_' . $this->prefix . '%'
-            )
+                '_transient_timeout_' . $this->prefix . '%',
+            ),
         );
 
         return true;
@@ -198,7 +200,7 @@ class WordPressTransientStore extends TaggableStore implements Store
      *
      * @since 1.0.0
      *
-     * @return string The prefix string.
+     * @return string the prefix string
      */
     public function getPrefix(): string
     {

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Routing;
 
 use Symfony\Component\Routing\Route as SymfonyRoute;
@@ -17,10 +16,11 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
 class Route extends SymfonyRoute
 {
     /**
-     * @param string $path Route path (e.g. /posts/{slug})
-     * @param callable|array $callback Route handler stored as _controller
-     * @param list<string> $methods HTTP methods
-     * @param Router $router Parent router for name registration
+     * @param string         $path     Route path (e.g. /posts/{slug})
+     * @param array|callable $callback Route handler stored as _controller
+     * @param list<string>   $methods  HTTP methods
+     * @param Router         $router   Parent router for name registration
+     *
      * @since 1.0.0
      */
     public function __construct(
@@ -40,6 +40,8 @@ class Route extends SymfonyRoute
      * Assign a name to this route.
      *
      * @since 1.0.0
+     *
+     * @param string $name
      */
     public function name(string $name): static
     {

@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
 
+use RuntimeException;
 use Sloth\Core\Application;
 
 /**
- * Facade Base Class
+ * Facade Base Class.
  *
  * Provides a static interface to services registered in the
  * application container. Each facade must define a getFacadeAccessor
@@ -66,16 +66,16 @@ abstract class Facade
      *
      * @since 1.0.0
      *
-     * @return object The resolved service instance
+     * @throws RuntimeException If no application is set
      *
-     * @throws \RuntimeException If no application is set
+     * @return object The resolved service instance
      */
     protected static function getInstance(): object
     {
         $name = static::getFacadeAccessor();
 
-        if (!static::$app instanceof \Sloth\Core\Application) {
-            throw new \RuntimeException('Facade application not set.');
+        if (!static::$app instanceof Application) {
+            throw new RuntimeException('Facade application not set.');
         }
 
         return static::$app[$name];
@@ -89,14 +89,14 @@ abstract class Facade
      *
      * @since 1.0.0
      *
-     * @return string The container binding key
+     * @throws RuntimeException Always - subclasses must implement this
      *
-     * @throws \RuntimeException Always - subclasses must implement this
+     * @return string The container binding key
      */
     protected static function getFacadeAccessor(): string
     {
-        throw new \RuntimeException(
-            'Facade does not implement the "getFacadeAccessor" method.'
+        throw new RuntimeException(
+            'Facade does not implement the "getFacadeAccessor" method.',
         );
     }
 
@@ -108,10 +108,9 @@ abstract class Facade
      *
      * @since 1.0.0
      *
-     * @param string $method The method name to call
-     * @param array<int, mixed> $args The arguments to pass
-     *
-     * @return mixed The result of the method call
+     * @param  string            $method The method name to call
+     * @param  array<int, mixed> $args   The arguments to pass
+     * @return mixed             The result of the method call
      */
     public static function __callStatic(string $method, array $args): mixed
     {

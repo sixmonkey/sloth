@@ -1,5 +1,4 @@
 <?php
-
 namespace Sloth\Model\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -15,9 +14,9 @@ trait HasRelationships
     /**
      * Replace the original hasMany function to forward the connection name.
      *
-     * @param string $related
-     * @param string $foreignKey
-     * @param string $localKey
+     * @param  string  $related
+     * @param  string  $foreignKey
+     * @param  string  $localKey
      * @return HasMany
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
@@ -25,7 +24,7 @@ trait HasRelationships
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
         $instance = $this->setInstanceConnection(
-            new $related()
+            new $related(),
         );
 
         $localKey = $localKey ?: $this->getKeyName();
@@ -36,9 +35,9 @@ trait HasRelationships
     /**
      * Replace the original hasOne function to forward the connection name.
      *
-     * @param string $related
-     * @param string $foreignKey
-     * @param string $localKey
+     * @param  string $related
+     * @param  string $foreignKey
+     * @param  string $localKey
      * @return HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
@@ -46,7 +45,7 @@ trait HasRelationships
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
         $instance = $this->setInstanceConnection(
-            new $related()
+            new $related(),
         );
 
         $localKey = $localKey ?: $this->getKeyName();
@@ -57,10 +56,10 @@ trait HasRelationships
     /**
      * Replace the original belongsTo function to forward the connection name.
      *
-     * @param string $related
-     * @param string $foreignKey
-     * @param string $otherKey
-     * @param string $relation
+     * @param  string    $related
+     * @param  string    $foreignKey
+     * @param  string    $otherKey
+     * @param  string    $relation
      * @return BelongsTo
      */
     public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
@@ -75,7 +74,7 @@ trait HasRelationships
         }
 
         $instance = $this->setInstanceConnection(
-            new $related()
+            new $related(),
         );
 
         $query = $instance->newQuery();
@@ -88,13 +87,13 @@ trait HasRelationships
     /**
      * Replace the original belongsToMany function to forward the connection name.
      *
-     * @param string $related
-     * @param string $table
-     * @param string $foreignPivotKey
-     * @param string $relatedPivotKey
-     * @param string $parentKey
-     * @param string $relatedKey
-     * @param string $relation
+     * @param  string        $related
+     * @param  string        $table
+     * @param  string        $foreignPivotKey
+     * @param  string        $relatedPivotKey
+     * @param  string        $parentKey
+     * @param  string        $relatedKey
+     * @param  string        $relation
      * @return BelongsToMany
      */
     public function belongsToMany(
@@ -104,14 +103,14 @@ trait HasRelationships
         $relatedPivotKey = null,
         $parentKey = null,
         $relatedKey = null,
-        $relation = null
+        $relation = null,
     ) {
         if (is_null($relation)) {
             $relation = $this->guessBelongsToManyRelation();
         }
 
         $instance = $this->setInstanceConnection(
-            $this->newRelatedInstance($related)
+            $this->newRelatedInstance($related),
         );
 
         $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey();
@@ -130,14 +129,14 @@ trait HasRelationships
             $relatedPivotKey,
             $parentKey ?: $this->getKeyName(),
             $relatedKey ?: $instance->getKeyName(),
-            $relation
+            $relation,
         );
     }
 
     /**
      * Get the relation value setting the connection name.
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function getRelationValue($key)
@@ -145,7 +144,7 @@ trait HasRelationships
         $relation = parent::getRelationValue($key);
 
         if ($relation instanceof Collection) {
-            $relation->each(function ($model) {
+            $relation->each(function ($model): void {
                 $this->setRelationConnection($model);
             });
 
@@ -162,7 +161,7 @@ trait HasRelationships
      *
      * @param $model
      */
-    protected function setRelationConnection($model)
+    protected function setRelationConnection($model): void
     {
         if ($model instanceof Eloquent) {
             $model->setConnection($this->getConnectionName());
@@ -185,7 +184,7 @@ trait HasRelationships
         return $instance->setConnection(
             $instance instanceof self
                 ? $this->getConnection()->getName()
-                : $instance->getConnection()->getName()
+                : $instance->getConnection()->getName(),
         );
     }
 }

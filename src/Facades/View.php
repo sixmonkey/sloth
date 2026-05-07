@@ -1,16 +1,17 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Facades;
 
 use Illuminate\View\Factory;
+use Override;
 
 /**
  * View Facade for accessing the view rendering service.
  *
  * @since 1.0.0
- * @see \Sloth\Facades\Facade
+ * @see Facade
+ *
  * @mixin Factory
  */
 class View extends Facade
@@ -22,7 +23,7 @@ class View extends Facade
      *
      * @return string The service identifier for the view facade
      */
-    #[\Override]
+    #[Override]
     protected static function getFacadeAccessor(): string
     {
         return 'view';

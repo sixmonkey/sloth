@@ -1,11 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Api;
 
+use ReflectionClass;
 use Sloth\Utility\Utility;
 use stdClass;
+use WP_REST_Request;
 
 /**
  * Base API controller class for handling REST API requests.
@@ -18,6 +19,7 @@ class Controller
      * The current request object.
      *
      * @since 1.0.0
+     *
      * @var mixed
      */
     protected $request;
@@ -26,6 +28,7 @@ class Controller
      * The response object.
      *
      * @since 1.0.0
+     *
      * @var object
      */
     public $response;
@@ -71,7 +74,7 @@ class Controller
      *
      * @since 1.0.0
      *
-     * @param \WP_REST_Request $request The request object
+     * @param WP_REST_Request $request The request object
      */
     public function setRequest($request): void
     {
@@ -83,10 +86,9 @@ class Controller
      *
      * @since 1.0.0
      *
-     * @param string     $path   The path to the endpoint
-     * @param array<string, mixed> $params Optional query parameters
-     *
-     * @return string The constructed URL
+     * @param  string               $path   The path to the endpoint
+     * @param  array<string, mixed> $params Optional query parameters
+     * @return string               The constructed URL
      */
     public function getUrl(string $path, array $params = []): string
     {
@@ -94,7 +96,8 @@ class Controller
 
         $params = array_merge($getArray, $params);
 
-        $path = '/sloth/v1/' . Utility::viewize(new \ReflectionClass($this)->getShortName()) . '/' . $path;
+        $path = '/sloth/v1/' . Utility::viewize(new ReflectionClass($this)->getShortName()) . '/' . $path;
+
         if ($params !== []) {
             $path .= '?' . http_build_query($params);
         }

@@ -1,11 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Module;
 
+use function admin_url;
+use function home_url;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use JsonException;
 use Sloth\Facades\View;
 
 /**
@@ -19,6 +21,7 @@ class Module
      * Layotter configuration.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>|false
      */
     public static $layotter = false;
@@ -27,6 +30,7 @@ class Module
      * JSON API configuration.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>|false
      */
     public static $json = false;
@@ -35,6 +39,7 @@ class Module
      * Ajax URL for the module.
      *
      * @since 1.0.0
+     *
      * @var string|null
      */
     public static $ajax_url;
@@ -43,6 +48,7 @@ class Module
      * View instance.
      *
      * @since 1.0.0
+     *
      * @var mixed
      */
     private $view;
@@ -51,6 +57,7 @@ class Module
      * View variables.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>
      */
     private array $viewVars = [];
@@ -59,6 +66,7 @@ class Module
      * View prefix for template resolution.
      *
      * @since 1.0.0
+     *
      * @var string
      */
     protected $viewPrefix = 'Module';
@@ -67,6 +75,7 @@ class Module
      * Whether to render the output.
      *
      * @since 1.0.0
+     *
      * @var bool
      */
     protected $render = true;
@@ -75,6 +84,7 @@ class Module
      * Template name.
      *
      * @since 1.0.0
+     *
      * @var string|null
      */
     protected $template;
@@ -83,6 +93,7 @@ class Module
      * Whether an AJAX request is being processed.
      *
      * @since 1.0.0
+     *
      * @var bool
      */
     protected $doingAjax = false;
@@ -91,6 +102,7 @@ class Module
      * Whether to wrap output in a row.
      *
      * @since 1.0.0
+     *
      * @var array<string, mixed>|bool
      */
     protected $wrapInRow = false;
@@ -99,8 +111,8 @@ class Module
      * Module constructor.
      *
      * @param array<string, mixed> $options Configuration options
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function __construct(array $options = [])
     {
@@ -115,9 +127,12 @@ class Module
      * Override this method in subclasses to perform setup
      * logic before the template is rendered.
      *
+     * @return void
      * @since 1.0.0
      */
-    protected function beforeRender() {}
+    protected function beforeRender()
+    {
+    }
 
     /**
      * Called before getting JSON output.
@@ -126,10 +141,13 @@ class Module
      * payload before it's returned in AJAX/REST responses.
      *
      * @param mixed $payload The payload to process (usually array or object)
-     * @since 1.0.0
      *
+     * @return void
+     * @since 1.0.0
      */
-    protected function beforeGetJSON(mixed $payload) {}
+    protected function beforeGetJSON(mixed $payload)
+    {
+    }
 
     /**
      * Get the template name.
@@ -141,8 +159,8 @@ class Module
      * 4. Adding 'Module.' prefix (e.g., 'HeaderModule' -> 'Module.header')
      *
      * @return string The template name with prefix (e.g., 'Module.hero-section')
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     public function getTemplate(): string
     {
@@ -177,8 +195,8 @@ class Module
      * for this module. Returns the static $layotter configuration.
      *
      * @return array<string, mixed>|false The Layotter config or false if disabled
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     final public function getLayotterAttributes(): array|false
     {
@@ -191,7 +209,6 @@ class Module
      * Render the module view.
      *
      * @since 1.0.0
-     *
      */
     public function render(): string
     {
@@ -208,6 +225,7 @@ class Module
             $this->makeView();
             $vars = array_merge(app('context')->getContext() ?? [], $this->viewVars);
             $output = $this->view->with($vars)->render();
+
             if ($this->wrapInRow) {
                 $output = View::make('Layotter.row')->with([
                     'content' => $output,
@@ -224,17 +242,17 @@ class Module
     /**
      * Set a view variable.
      *
-     * @param string|array<string, mixed> $key Variable name or array of variables
-     * @param mixed $value Variable value (ignored if $key is array)
-     * @param bool $override Whether to override existing values
+     * @param array<string, mixed>|string $key      Variable name or array of variables
+     * @param mixed                       $value    Variable value (ignored if $key is array)
+     * @param bool                        $override Whether to override existing values
      *
      * @since 1.0.0
-     *
      */
     final public function set(string|array $key, mixed $value = null, bool $override = true): void
     {
         if (is_array($key)) {
             $override = !is_bool($value) || $value;
+
             foreach ($key as $k => $v) {
                 if ($override || !$this->isSet($k)) {
                     $this->set($k, $v);
@@ -251,7 +269,6 @@ class Module
      * @param string $k Variable name
      *
      * @since 1.0.0
-     *
      */
     final protected function get(string $k): mixed
     {
@@ -264,7 +281,6 @@ class Module
      * @param string $key Variable name
      *
      * @since 1.0.0
-     *
      */
     final public function isSet(string $key): bool
     {
@@ -277,7 +293,6 @@ class Module
      * @param string $key Variable name
      *
      * @since 1.0.0
-     *
      */
     final public function unset(string $key): void
     {
@@ -290,7 +305,6 @@ class Module
      * @param string $k Variable name
      *
      * @since 1.0.0
-     *
      */
     final protected function _get(string $k): mixed
     {
@@ -302,9 +316,9 @@ class Module
      *
      * @param mixed $request The request object
      *
-     * @throws \JsonException
-     * @since 1.0.0
+     * @throws JsonException
      *
+     * @since 1.0.0
      */
     final public function getJSON(mixed $request = null): void
     {
@@ -313,22 +327,23 @@ class Module
         $this->beforeGetJSON($request);
         header('Content-Type: application/json');
         echo json_encode($this->viewVars, JSON_THROW_ON_ERROR);
+
         die();
     }
 
     /**
      * Get the view data.
      *
-     * @param array<string, mixed> $data Additional data to set
-     *
+     * @param  array<string, mixed> $data Additional data to set
      * @return array<string, mixed>
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     final public function getData(array $data = []): array
     {
         $this->set($data);
         $this->beforeRender();
+
         return $this->viewVars;
     }
 
@@ -336,14 +351,13 @@ class Module
      * Get the AJAX URL.
      *
      * @since 1.0.0
-     *
      */
     final public function getAjaxUrl(): string
     {
         return (string) str_replace(
-            \home_url(),
+            home_url(),
             '',
-            \admin_url('admin-ajax.php?action=' . $this->getAjaxAction())
+            admin_url('admin-ajax.php?action=' . $this->getAjaxAction()),
         );
     }
 
@@ -351,7 +365,6 @@ class Module
      * Get the AJAX action name.
      *
      * @since 1.0.0
-     *
      */
     final public function getAjaxAction(): string
     {
@@ -364,7 +377,6 @@ class Module
      * @param mixed $value The value to prepare
      *
      * @since 1.0.0
-     *
      */
     final protected function prepareValue(mixed $value): mixed
     {
@@ -381,7 +393,6 @@ class Module
      * Debug view variables.
      *
      * @since 1.0.0
-     *
      */
     final protected function debugViewVars(): void
     {
@@ -394,7 +405,6 @@ class Module
      * @param string $template Template name
      *
      * @since 1.0.0
-     *
      */
     public function setTemplate($template): void
     {

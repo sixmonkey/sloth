@@ -1,12 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Debug\CollectorProviders;
 
 use DebugBar\DebugBarException;
+use ErrorException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Symfony\Component\VarDumper\VarDumper;
+use Throwable;
 
 /**
  * Message Collector Provider.
@@ -46,8 +47,8 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      * are registered — the ExceptionServiceProvider's handlers remain
      * active and route errors to the terminal via renderForConsole().
      *
-     * @return void
-     * @throws DebugBarException|BindingResolutionException
+     * @throws BindingResolutionException|DebugBarException
+     *
      * @since 1.0.0
      */
     public function boot(): void
@@ -62,9 +63,10 @@ class MessageCollectorProvider extends AbstractCollectorProvider
         $messageCollector->setEditorLinkTemplate(config('debugger.editor', 'phpstorm'));
 
         $isCli = false;
+
         try {
             $isCli = app(\Sloth\Http\RequestContext::class)->isCli();
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // RequestContext not yet available — default to not CLI
         }
 
@@ -97,6 +99,7 @@ class MessageCollectorProvider extends AbstractCollectorProvider
      * Messages tab but non-blocking.
      *
      * @param \DebugBar\DataCollector\MessagesCollector $messageCollector
+     *
      * @since 1.0.0
      */
     protected function registerErrorHandler($messageCollector): void
@@ -105,10 +108,10 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             int $severity,
             string $message,
             string $file = '',
-            int $line = 0
+            int $line = 0,
         ) use ($messageCollector): bool {
             if ($severity & self::CRITICAL_ERRORS) {
-                throw new \ErrorException($message, 0, $severity, $file, $line);
+                throw new ErrorException($message, 0, $severity, $file, $line);
             }
 
             if (!(error_reporting() & $severity)) {
@@ -119,7 +122,7 @@ class MessageCollectorProvider extends AbstractCollectorProvider
             $messageCollector->addMessage(
                 "[$level] $message in $file:$line",
                 $level === 'notice' ? 'notice' : 'warning',
-                ['file' => $file, 'line' => $line]
+                ['file' => $file, 'line' => $line],
             );
 
             return false;
@@ -129,19 +132,20 @@ class MessageCollectorProvider extends AbstractCollectorProvider
     /**
      * Convert a PHP error severity constant to a human-readable label.
      *
-     * @param int $severity The PHP error level constant.
-     * @return string The label for the DebugBar message.
+     * @param  int    $severity the PHP error level constant
+     * @return string the label for the DebugBar message
+     *
      * @since 1.0.0
      */
     protected function severityLabel(int $severity): string
     {
         return match ($severity) {
-            E_WARNING => 'warning',
-            E_NOTICE => 'notice',
-            E_USER_WARNING => 'warning',
-            E_USER_NOTICE => 'notice',
+            E_WARNING                       => 'warning',
+            E_NOTICE                        => 'notice',
+            E_USER_WARNING                  => 'warning',
+            E_USER_NOTICE                   => 'notice',
             E_DEPRECATED, E_USER_DEPRECATED => 'info',
-            default => 'warning',
+            default                         => 'warning',
         };
     }
 }
