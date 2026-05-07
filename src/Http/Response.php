@@ -45,6 +45,7 @@ class Response extends IlluminateResponse
      */
     public static function make(mixed $content = '', int $status = 200, array $headers = []): static
     {
+        /** @phpstan-ignore new.static */
         return new static($content, $status, $headers);
     }
 
@@ -77,6 +78,7 @@ class Response extends IlluminateResponse
      */
     public static function noContent(int $status = 204, array $headers = []): static
     {
+        /** @phpstan-ignore new.static */
         return new static('', $status, $headers);
     }
 
