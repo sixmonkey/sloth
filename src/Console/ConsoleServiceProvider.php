@@ -33,8 +33,8 @@ class ConsoleServiceProvider extends ServiceProvider
         }
 
         $this->app->singleton(
-            Kernel::class,
-            fn($app) => new Kernel($app),
+            ConsoleKernel::class,
+            fn($app) => new ConsoleKernel($app),
         );
     }
 

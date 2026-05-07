@@ -1,8 +1,10 @@
 includes:
     - phpstan-baseline.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
 
 parameters:
     level: 1
+    phpVersion: 80400
     paths:
         - src
     excludePaths:
@@ -10,39 +12,20 @@ parameters:
         - vendor
         - src/_view
         - src/Assets
-        - src/bootstrap.php
-        - src/sloth-cli.php
-        - src/Module/LayotterElement.php
-        - src/Plugin/Plugin.php
-        - src/Facades
         - src/ACF
         - src/Admin
-        - src/Layotter
         - src/Controller
         - src/Api
         - src/Field
         - src/Finder
-        - src/Debugger
         - src/Installer
         - src/View
-        - src/Route
         - src/Model
         - src/Module
         - src/Pagination
+        - src/wp-config.php
+        - src/bootstrap.php
     fileExtensions:
         - php
 
     reportUnmatchedIgnoredErrors: false
-
-    ignoreErrors:
-        - '#not found#'
-        - '#undefined#'
-        - '#PHPDoc tag @.+ has invalid#'
-        - '#has invalid type#'
-        - '#uses class#'
-        - '#extends#'
-        - '#Unsafe usage#'
-        - '#Right side of#'
-        - '#contravariant#'
-        - '#does not accept#'
-        - '#Access to constant CROP_CENTER on an unknown class Spatie\\Image\\Manipulations#'

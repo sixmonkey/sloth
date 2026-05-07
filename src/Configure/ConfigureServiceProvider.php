@@ -41,7 +41,7 @@ class ConfigureServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'configure',
-            fn($container): Configure => Configure::getInstance()
+            fn($container): Configure => new Configure()
         );
     }
 

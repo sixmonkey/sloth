@@ -114,6 +114,7 @@ class Application extends Container
      * Returns the existing instance if already booted.
      * This is the preferred entry point — chain with ->boot().
      *
+     * @return static
      * @since 1.0.0
      */
     public static function configure(): static
@@ -223,6 +224,7 @@ class Application extends Container
             \Sloth\Filesystem\FilesystemServiceProvider::class,
             \Sloth\Cache\CacheServiceProvider::class,
             \Sloth\Http\RequestContextServiceProvider::class,
+            \Sloth\Http\HttpServiceProvider::class,
             \Sloth\Core\ExceptionServiceProvider::class,
             \Sloth\Debug\DebugServiceProvider::class,
             \Sloth\Core\ApplicationServiceProvider::class,
@@ -243,6 +245,7 @@ class Application extends Container
             \Sloth\Model\ModelServiceProvider::class,
             \Sloth\Context\ContextServiceProvider::class,
             \Sloth\Template\TemplateServiceProvider::class,
+            \Sloth\Routing\RoutingServiceProvider::class,
             \Sloth\Api\ApiServiceProvider::class,
             \Sloth\Media\MediaServiceProvider::class,
             \Sloth\Admin\AdminServiceProvider::class,
@@ -449,7 +452,6 @@ class Application extends Container
         });
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
-
                 return static::$cachedBasePath = $dir;
             }
             $dir = dirname($dir);
