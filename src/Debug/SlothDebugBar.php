@@ -104,16 +104,16 @@ class SlothDebugBar extends DebugBar
 
         collect(config('debugger.bar.collector_providers', []))
             ->each(function ($collectorProvider) {
-                (new $collectorProvider($this))->boot();
+                new $collectorProvider($this)->boot();
             });
 
         $renderer = $this->getJavascriptRenderer();
 
         Route::get($this->baseUrl . '/dist/debugbar.min.css', function () use ($renderer) {
-            $content =
-                $renderer->dumpCssAssets(echo: false) .
-                app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css') .
-                app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
+            $content
+                = $renderer->dumpCssAssets(echo: false)
+                . app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css')
+                . app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
 
             return Response::make(
                 $content
