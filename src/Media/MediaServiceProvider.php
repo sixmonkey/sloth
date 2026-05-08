@@ -16,14 +16,13 @@ use Sloth\Event\WpHookFired;
  * - Converting absolute URLs to root-relative paths
  *
  * @since 1.0.0
- * @see \Sloth\Plugin\Plugin
  */
 class MediaServiceProvider extends ServiceProvider
 {
     #[Override]
     public function register(): void
     {
-        $this->app->singleton('media', fn (): Media => new Media());
+        $this->app->singleton('media', fn (): Media => new Media($this->app));
     }
 
     /**

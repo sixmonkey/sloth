@@ -333,8 +333,9 @@ class Application extends Container
      * Instantiates string class names automatically. Skips already-registered
      * providers unless $force is true.
      *
-     * @param ServiceProvider|string $provider
-     * @param bool                   $force    force re-registration
+     * @param  ServiceProvider|string $provider
+     * @param  bool                   $force    force re-registration
+     * @return ServiceProvider
      *
      * @since 1.0.0
      */
@@ -487,7 +488,7 @@ class Application extends Container
         $this->addPath('vendor', $this->basePath . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
-        $this->addPath('plugins', WP_PLUGIN_DIR);
+        $this->addPath('plugins', plugin_dir_path());
         $this->addPath('theme', get_template_directory());
         $this->addPath('uploads', wp_upload_dir()['basedir']);
 

@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Config\Repository;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Sloth\Core\Application;
 use Sloth\Facades\Facade;
 use Sloth\Routing\UrlGenerator;
 
@@ -40,7 +40,7 @@ if (!function_exists('config')) {
     {
         $app = Facade::getFacadeApplication();
 
-        if ($app instanceof Sloth\Core\Application && $app->bound('config')) {
+        if ($app instanceof Application && $app->bound('config')) {
             /** @var Repository $repository */
             $repository = $app->make('config');
 
@@ -71,10 +71,10 @@ if (!function_exists('app')) {
     function app($abstract = null, array $parameters = []): mixed
     {
         if (is_null($abstract)) {
-            return Container::getInstance();
+            return Application::getInstance();
         }
 
-        return Container::getInstance()->make($abstract, $parameters);
+        return Application::getInstance()->make($abstract, $parameters);
     }
 }
 
