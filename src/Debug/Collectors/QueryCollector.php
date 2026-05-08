@@ -235,9 +235,6 @@ class QueryCollector extends DataCollector implements Renderable, AssetProvider
     public function getAssets(): array
     {
         return [
-            'css' => [
-                __DIR__ . '/../resources/sloth-queries-widget.css',
-            ],
             'inline_js' => [
                 file_get_contents(__DIR__ . '/../resources/sloth-queries-widget.js'),
             ],

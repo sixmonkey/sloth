@@ -4,13 +4,9 @@ declare(strict_types=1);
 namespace Sloth\Field;
 
 use AllowDynamicProperties;
-use BitAndBlack\ImageInformation\Exception\ExtensionNotSupportedException;
-use BitAndBlack\ImageInformation\Image as ImageInformation;
-use BitAndBlack\ImageInformation\Source\File;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Override;
-use Sloth\Facades\Cache;
-use Sloth\Model\Post;
+use Sloth\Model\Image as ImageModel;
 use Sloth\Model\SlothMediaVersion;
 use Stringable;
 
@@ -51,13 +47,11 @@ class Image implements Stringable
     public ?string $description = null;
 
     /**
-     * Post object.
+     * The underlying image model.
      *
      * @since 1.0.0
-     *
-     * @var array<string, mixed>|Post|null
      */
-    protected Post|array|null $post = null;
+    protected ?ImageModel $post = null;
 
     /**
      * Available image sizes.
@@ -150,67 +144,60 @@ class Image implements Stringable
     /**
      * Image constructor.
      *
-     * @param array<string, mixed>|int|null $url URL, array with 'url' key, or attachment ID
+     * @param array<string, mixed>|int|string|null $url URL, array with 'url'/'ID' key, or (numeric) ID
      *
      * @throws BindingResolutionException
-     * @throws ExtensionNotSupportedException
      *
      * @since 1.0.0
      */
-    public function __construct(int|array|false|string|null $url = null)
+    public function __construct(mixed $url = null)
     {
-        if ($url === null || $url === false) {
-            $this->url = null;
+        $url = self::normaliseInput($url);
+
+        if ($url === null) {
+            $this->isResizable = false;
 
             return;
         }
 
-        if (is_array($url) && isset($url['url'])) {
-            $url = $url['url'];
-        }
+        $this->post = ImageModel::findByIdOrUrl($url);
 
-        if ((int) $url !== 0) {
-            $this->post = Post::find($url);
-            $url = is_object($this->post) ? $this->post->url : ($this->post['url'] ?? null);
-        } else {
-            $this->post = Post::where('guid', 'like', str_replace(content_url(), '%', (string) $url))->first();
-        }
-
-        if (is_object($this->post)) {
-            $this->alt = $this->post->meta->_wp_attachment_image_alt ?? '';
-            $this->caption = $this->post->post_excerpt ?? '';
-            $this->description = $this->post->post_content ?? '';
-
-            $this->postID = (int) $this->post->ID;
-            $metadata = $this->post->_wp_attachment_metadata ?? null;
-            $this->metaData = is_string($metadata) ? (object) @unserialize($metadata) : null;
-
-            $this->width = (int) $this->metaData?->width;
-            $this->height = (int) $this->metaData?->height;
-
-            $this->url = (string) apply_filters('sloth_get_attachment_link', (string) ($url ?? ''));
-            $path = realpath(WP_CONTENT_DIR . '/' . 'uploads' . '/' . ($this->post->meta->_wp_attached_file ?? ''));
-            $this->file = $path !== false ? $path : null;
-
-            if ($this->file !== null) {
-                $this->isResizable = @is_array(getimagesize($this->file));
-            }
-
-            if ($this->file) {
-                $file = $this->file;
-                $size = Cache::rememberForever('sloth.media.size' . md5($this->file), function () use ($file): array {
-                    $image = new ImageInformation(new File($file));
-
-                    return $image->getSize();
-                });
-                $this->width = (int) $size['width'];
-                $this->height = (int) $size['height'];
-            }
-
-            $this->sizes = $this->sizes();
-        } else {
+        if ($this->post === null) {
             $this->isResizable = false;
+
+            return;
         }
+
+        $this->alt = $this->post->alt;
+        $this->caption = $this->post->caption;
+        $this->description = $this->post->description;
+        $this->postID = (int) $this->post->ID;
+        $this->metaData = $this->post->attachmentMetaData;
+        $this->width = $this->post->imageWidth;
+        $this->height = $this->post->imageHeight;
+        $this->url = $this->post->imageUrl;
+        $this->file = $this->post->attachmentFile;
+        $this->isResizable = $this->post->isResizable;
+
+        $this->sizes = $this->sizes();
+    }
+
+    /**
+     * Normalise constructor input to a value that ImageModel::findByIdOrUrl
+     * can resolve.
+     *
+     * @param  mixed           $url raw constructor argument
+     * @return int|string|null normalised ID, URL string, or null when unresolvable
+     */
+    private static function normaliseInput(mixed $url): int|string|null
+    {
+        return match (true) {
+            $url === null, $url === false        => null,
+            is_array($url) && isset($url['ID'])  => (int) $url['ID'],
+            is_array($url) && isset($url['url']) => $url['url'],
+            is_array($url)                       => null,
+            default                              => $url,
+        };
     }
 
     /**

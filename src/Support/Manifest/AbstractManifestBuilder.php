@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Support\Manifest;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use Sloth\Core\Application;
 
@@ -128,6 +129,8 @@ abstract class AbstractManifestBuilder
      *
      * @param string $manifest absolute path where the manifest file will be written
      *
+     * @throws BindingResolutionException
+     *
      * @since 1.0.0
      */
     protected function build(string $manifest): void
@@ -153,7 +156,7 @@ abstract class AbstractManifestBuilder
             require: $this->requireFiles(),
         );
 
-        $this->entries = $entries;
+        $this->entries = $entries ?? [];
     }
 
     /**
