@@ -416,6 +416,7 @@ class Application extends Container
         $this->addPath('cms', ABSPATH);
         $this->addPath('plugins', WP_PLUGIN_DIR);
         $this->addPath('theme', get_template_directory());
+        $this->addPath('uploads', wp_upload_dir()['basedir']);
 
         // Cache and logs live in the theme — auto-create if missing
         foreach (['cache', 'logs'] as $key) {
