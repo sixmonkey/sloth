@@ -66,8 +66,7 @@ class MediaServiceProvider extends ServiceProvider
     public function getFilters(): array
     {
         return [
-            'upload_mimes'                => fn (array $mimes) => app('media')->addSvgMime($mimes),
-            'wp_generate_attachment_metadata' => fn (array $metadata, int $attachmentId) => app('media')->fixAttachmentDimensions($metadata, $attachmentId),
+            'upload_mimes' => fn (array $mimes) => app('media')->addSvgMime($mimes),
         ];
     }
 }
