@@ -100,42 +100,60 @@ class Application extends Container
      */
     private static ?string $cachedBasePath = null;
 
+    // -------------------------------------------------------------------------
+    // Instance state
+    // -------------------------------------------------------------------------
+
     /**
      * Registry of loaded service providers.
      *
-     * @since 1.0.0
-     *
      * @var array<string, ServiceProvider>
+     *
+     * @since 1.0.0
      */
     protected array $loadedProviders = [];
 
     /**
      * Class aliases registered on boot.
      *
-     * @since 1.0.0
+     * Maps short alias names to fully-qualified Facade class names.
+     * Aliases are registered after all providers are booted.
      *
      * @var array<string, class-string>
+     *
+     * @since 1.0.0
      */
     private array $classAliases = [
         'Cache'      => \Sloth\Facades\Cache::class,
-        'File'       => \Sloth\Facades\File::class,
-        'View'       => \Sloth\Facades\View::class,
         'Configure'  => \Sloth\Facades\Configure::class,
-        'Validator'  => \Sloth\Facades\Validation::class,
-        'Deployment' => \Sloth\Facades\Deployment::class,
         'Customizer' => \Sloth\Facades\Customizer::class,
+        'Deployment' => \Sloth\Facades\Deployment::class,
+        'File'       => \Sloth\Facades\File::class,
+        'Validator'  => \Sloth\Facades\Validation::class,
+        'View'       => \Sloth\Facades\View::class,
+        'URL'        => \Sloth\Facades\URL::class,
     ];
 
+    /**
+     * The resolved base path of the project.
+     *
+     * @since 1.0.0
+     */
     public ?string $basePath = null;
 
     // -------------------------------------------------------------------------
     // Boot lifecycle
     // -------------------------------------------------------------------------
+
     /**
      * Create and return the application instance.
      *
      * Returns the existing instance if already booted.
      * This is the preferred entry point — chain with ->boot().
+     *
+     * ```php
+     * Application::configure()->boot();
+     * ```
      *
      * @since 1.0.0
      */
