@@ -50,11 +50,33 @@ use Sloth\Model\Taxonomy;
  * }, 0);
  * ```
  *
+ * ## Path and URI management
+ *
+ * Filesystem paths are stored under the `path.*` prefix:
+ *
+ * ```php
+ * app()->path('theme')           // get_template_directory()
+ * app()->path('config', 'app')   // app/config/
+ * app()->path('cache')           // theme/cache/
+ * ```
+ *
+ * URIs are stored separately under the `uri.*` prefix:
+ *
+ * ```php
+ * app()->uri('theme')            // get_template_directory_uri()
+ * app()->uri('home')             // home_url('/')
+ * app()->uri('css/app.css', 'theme') // theme_uri/css/app.css
+ * ```
+ *
  * @since 1.0.0
  * @see Container
  */
 class Application extends Container
 {
+    // -------------------------------------------------------------------------
+    // Constants & static state
+    // -------------------------------------------------------------------------
+
     /**
      * Application version.
      *
@@ -170,8 +192,9 @@ class Application extends Container
 
         Facade::setFacadeApplication($this);
 
-        // Paths — must exist before providers boot
+        // Paths and URIs — must exist before providers boot
         $this->registerBasePaths();
+        $this->registerBaseUris();
 
         // Providers
         $this->registerProviders();
@@ -425,8 +448,36 @@ class Application extends Container
             if (!is_dir($path)) {
                 mkdir($path, 0o755, true);
             }
+
             $this->addPath($key, $path);
         }
+    }
+
+    /**
+     * Register all base URIs for the application.
+     *
+     * Called during boot() after WordPress is available. URIs are stored
+     * in the container under the `uri.*` prefix and accessible via uri().
+     * Trailing slashes are stripped for consistency.
+     *
+     * Registered URIs:
+     * - `uri.home`    — WordPress home URL (home_url('/'))
+     * - `uri.theme`   — Active theme directory URI
+     * - `uri.content` — WordPress content directory URI
+     * - `uri.uploads` — WordPress uploads directory URI
+     *
+     * @since 1.0.0
+     */
+    protected function registerBaseUris(): void
+    {
+        if (!function_exists('home_url')) {
+            return;
+        }
+
+        $this->addUri('home', home_url('/'));
+        $this->addUri('theme', get_template_directory_uri());
+        $this->addUri('content', content_url());
+        $this->addUri('uploads', wp_upload_dir()['baseurl']);
     }
 
     /**
@@ -434,12 +485,12 @@ class Application extends Container
      *
      * Resolution order:
      * 1. `SLOTH_BASE_PATH` constant — explicit override
-     * 2. Walk up from __DIR__ to find composer.json outside vendor/
+     * 2. Walk up from ABSPATH to find composer.json outside vendor/
      * 3. Theme-only fallback — app/ inside get_template_directory()
      *
      * Result is cached statically for the duration of the request.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException if the base path cannot be determined
      *
      * @since 1.0.0
      */
@@ -492,13 +543,32 @@ class Application extends Container
         if (is_dir($path)) {
             $path = realpath($path);
         }
+
         $this->instance('path.' . $key, $path);
     }
 
     /**
-     * Get the base path of the Laravel installation.
+     * Add a URI to the container.
      *
-     * @param string $path
+     * Trailing slashes are stripped so callers can safely append paths
+     * with a leading slash or without.
+     *
+     * @param string $key URI identifier (e.g. 'home', 'theme').
+     * @param string $uri absolute URI
+     *
+     * @since 1.0.0
+     */
+    public function addUri(string $key, string $uri): void
+    {
+        $this->instance('uri.' . $key, rtrim($uri, '/'));
+    }
+
+    /**
+     * Get the project base path.
+     *
+     * @param string $path optional sub-path to append
+     *
+     * @since 1.0.0
      */
     public function basePath(string $path = ''): string
     {
@@ -522,10 +592,32 @@ class Application extends Container
     }
 
     /**
-     * Get the config path.
+     * Get a registered URI from the container.
+     *
+     * @param string $path   optional path to append (leading slash is stripped)
+     * @param string $prefix URI key — see registerBaseUris() for available keys
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @since 1.0.0
+     */
+    public function uri(string $path = '', string $prefix = 'home'): string
+    {
+        $base = $this->get('uri.' . $prefix);
+
+        return $path ? $base . '/' . ltrim($path, '/') : $base;
+    }
+
+    /**
+     * Get the app config path.
+     *
+     * Shorthand for path('config').
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     *
+     * @since 1.0.0
      */
     public function configPath(): string
     {
