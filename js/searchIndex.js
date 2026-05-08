@@ -1791,6 +1791,11 @@ Search.appendIndex(
             "summary": "Image\u0020constructor.",
             "url": "classes/Sloth-Field-Image.html#method___construct"
         },                {
+            "fqsen": "\\Sloth\\Field\\Image\u003A\u003AnormaliseInput\u0028\u0029",
+            "name": "normaliseInput",
+            "summary": "Normalise\u0020constructor\u0020input\u0020to\u0020a\u0020value\u0020that\u0020ImageModel\u003A\u003AfindByIdOrUrl\ncan\u0020resolve.",
+            "url": "classes/Sloth-Field-Image.html#method_normaliseInput"
+        },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AgetThemeSized\u0028\u0029",
             "name": "getThemeSized",
             "summary": "Get\u0020a\u0020theme\u002Dsized\u0020image.",
@@ -1863,7 +1868,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A\u0024post",
             "name": "post",
-            "summary": "Post\u0020object.",
+            "summary": "The\u0020underlying\u0020image\u0020model.",
             "url": "classes/Sloth-Field-Image.html#property_post"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A\u0024height",
@@ -2710,6 +2715,96 @@ Search.appendIndex(
             "name": "scopeFindBySlugOrId",
             "summary": "Find\u0020a\u0020post\u0020by\u0020its\u0020slug\u0020or\u0020ID.",
             "url": "classes/Sloth-Model-Concerns-PostScopes.html#method_scopeFindBySlugOrId"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image",
+            "name": "Image",
+            "summary": "Image\u0020Model\u0020for\u0020WordPress\u0020image\u0020attachments.",
+            "url": "classes/Sloth-Model-Image.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AnewQuery\u0028\u0029",
+            "name": "newQuery",
+            "summary": "Create\u0020a\u0020new\u0020query\u0020builder\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Image.html#method_newQuery"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AfindByIdOrUrl\u0028\u0029",
+            "name": "findByIdOrUrl",
+            "summary": "Find\u0020a\u0020single\u0020image\u0020by\u0020numeric\u0020ID\u0020or\u0020URL\u0020string.",
+            "url": "classes/Sloth-Model-Image.html#method_findByIdOrUrl"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AfindByUrl\u0028\u0029",
+            "name": "findByUrl",
+            "summary": "Find\u0020a\u0020single\u0020image\u0020by\u0020URL\u0020string\u0020or\u0020relative\u0020path.",
+            "url": "classes/Sloth-Model-Image.html#method_findByUrl"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AurlToRelativePath\u0028\u0029",
+            "name": "urlToRelativePath",
+            "summary": "Convert\u0020an\u0020image\u0020URL\u0020to\u0020its\u0020relative\u0020upload\u0020path.",
+            "url": "classes/Sloth-Model-Image.html#method_urlToRelativePath"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetAltAttribute\u0028\u0029",
+            "name": "getAltAttribute",
+            "summary": "Get\u0020the\u0020image\u0020alt\u0020text.",
+            "url": "classes/Sloth-Model-Image.html#method_getAltAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetCaptionAttribute\u0028\u0029",
+            "name": "getCaptionAttribute",
+            "summary": "Get\u0020the\u0020image\u0020caption.",
+            "url": "classes/Sloth-Model-Image.html#method_getCaptionAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetDescriptionAttribute\u0028\u0029",
+            "name": "getDescriptionAttribute",
+            "summary": "Get\u0020the\u0020image\u0020description.",
+            "url": "classes/Sloth-Model-Image.html#method_getDescriptionAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetAttachmentMetaDataAttribute\u0028\u0029",
+            "name": "getAttachmentMetaDataAttribute",
+            "summary": "Get\u0020the\u0020unserialised\u0020attachment\u0020metadata.",
+            "url": "classes/Sloth-Model-Image.html#method_getAttachmentMetaDataAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetAttachmentFileAttribute\u0028\u0029",
+            "name": "getAttachmentFileAttribute",
+            "summary": "Get\u0020the\u0020absolute\u0020filesystem\u0020path\u0020to\u0020the\u0020image\u0020file.",
+            "url": "classes/Sloth-Model-Image.html#method_getAttachmentFileAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetImageUrlAttribute\u0028\u0029",
+            "name": "getImageUrlAttribute",
+            "summary": "Get\u0020the\u0020full\u0020URL\u0020to\u0020the\u0020image.",
+            "url": "classes/Sloth-Model-Image.html#method_getImageUrlAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetImageWidthAttribute\u0028\u0029",
+            "name": "getImageWidthAttribute",
+            "summary": "Get\u0020the\u0020image\u0020width\u0020from\u0020attachment\u0020metadata.",
+            "url": "classes/Sloth-Model-Image.html#method_getImageWidthAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetImageHeightAttribute\u0028\u0029",
+            "name": "getImageHeightAttribute",
+            "summary": "Get\u0020the\u0020image\u0020height\u0020from\u0020attachment\u0020metadata.",
+            "url": "classes/Sloth-Model-Image.html#method_getImageHeightAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003AgetIsResizableAttribute\u0028\u0029",
+            "name": "getIsResizableAttribute",
+            "summary": "Check\u0020whether\u0020this\u0020image\u0020can\u0020be\u0020resized\u0020or\u0020manipulated.",
+            "url": "classes/Sloth-Model-Image.html#method_getIsResizableAttribute"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003A\u0024postType",
+            "name": "postType",
+            "summary": "WordPress\u0020post\u0020type\u0020for\u0020this\u0020model.",
+            "url": "classes/Sloth-Model-Image.html#property_postType"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003A\u0024register",
+            "name": "register",
+            "summary": "Whether\u0020to\u0020register\u0020this\u0020model\u0020as\u0020a\u0020WordPress\u0020post\u0020type.",
+            "url": "classes/Sloth-Model-Image.html#property_register"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003A\u0024with",
+            "name": "with",
+            "summary": "Relationships\u0020to\u0020eager\u002Dload\u0020on\u0020every\u0020query.",
+            "url": "classes/Sloth-Model-Image.html#property_with"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Image\u003A\u003A\u0024appends",
+            "name": "appends",
+            "summary": "Accessors\u0020to\u0020append\u0020to\u0020array\/JSON\u0020representation.",
+            "url": "classes/Sloth-Model-Image.html#property_appends"
         },                {
             "fqsen": "\\Sloth\\Model\\Manifest\\ModelManifestBuilder",
             "name": "ModelManifestBuilder",
@@ -4801,15 +4896,15 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/sloth-model-concerns.html"
         },                {
-            "fqsen": "\\Sloth\\Model\\Manifest",
-            "name": "Manifest",
-            "summary": "",
-            "url": "namespaces/sloth-model-manifest.html"
-        },                {
             "fqsen": "\\Sloth\\Model",
             "name": "Model",
             "summary": "",
             "url": "namespaces/sloth-model.html"
+        },                {
+            "fqsen": "\\Sloth\\Model\\Manifest",
+            "name": "Manifest",
+            "summary": "",
+            "url": "namespaces/sloth-model-manifest.html"
         },                {
             "fqsen": "\\Sloth\\Model\\Proxy",
             "name": "Proxy",
