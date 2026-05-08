@@ -178,16 +178,16 @@ class Image implements Stringable
         $this->url = $this->post->imageUrl;
         $this->file = $this->post->attachmentFile;
         $this->isResizable = $this->post->isResizable;
-
         $this->sizes = $this->sizes();
     }
 
     /**
-     * Normalise constructor input to a value that ImageModel::findByIdOrUrl
-     * can resolve.
+     * Normalise constructor input to a value that ImageModel::findByIdOrUrl can resolve.
      *
      * @param  mixed           $url raw constructor argument
      * @return int|string|null normalised ID, URL string, or null when unresolvable
+     *
+     * @since 1.0.0
      */
     private static function normaliseInput(mixed $url): int|string|null
     {
@@ -203,7 +203,10 @@ class Image implements Stringable
     /**
      * Get a theme-sized image.
      *
-     * @param array<string>|string $size Size name or array of dimensions
+     * Looks up the size in theme.image-sizes config and resizes accordingly.
+     * Falls back to resize() without options when the size is not configured.
+     *
+     * @param array<string>|string $size size name or array of dimensions
      *
      * @throws BindingResolutionException
      *
@@ -229,9 +232,12 @@ class Image implements Stringable
     }
 
     /**
-     * Resize the image with options.
+     * Resize the image with the given options.
      *
-     * @param array<string, mixed> ...$options Resize options or width
+     * Stores a SlothMediaVersion record for the resized image so that
+     * the media version processor can generate the actual file.
+     *
+     * @param array<string, mixed> ...$options Resize options (width, height, etc.)
      *
      * @since 1.0.0
      */
@@ -257,7 +263,6 @@ class Image implements Stringable
         }
 
         $options = $this->processOptions($options);
-
         $sheerFileName = $this->getFilename($options);
 
         SlothMediaVersion::updateOrCreate([
@@ -273,7 +278,10 @@ class Image implements Stringable
     /**
      * Get the filename for a manipulated image.
      *
-     * @param array<string, mixed> $options Manipulation options
+     * Builds the destination filename by appending a suffix that encodes
+     * the manipulation options (e.g. 'image-800x600-crop-center.jpg').
+     *
+     * @param array<string, mixed> $options manipulation options
      *
      * @since 1.0.0
      */
@@ -283,9 +291,7 @@ class Image implements Stringable
             return '';
         }
 
-        $uploadInfo = wp_upload_dir();
-        $uploadDir = realpath($uploadInfo['basedir']);
-
+        $uploadDir = realpath(app()->path('uploads'));
         $suffix = sprintf('%sx%s', $options['width'], $options['height']);
 
         unset($options['width'], $options['height']);
@@ -307,12 +313,10 @@ class Image implements Stringable
         }
 
         $optionsNamed[] = $suffix;
-
         $suffix = implode('-', $optionsNamed);
 
         $info = pathinfo($this->file);
         $ext = $info['extension'] ?? '';
-
         $dstRelPath = str_replace('.' . $ext, '', $this->file);
         $dstRelPath = str_replace((string) $uploadDir, '', $dstRelPath);
 
@@ -320,42 +324,50 @@ class Image implements Stringable
     }
 
     /**
-     * Get the absolute file path.
+     * Get the absolute filesystem path for a relative upload filename.
      *
-     * @param string $filename Relative filename
+     * @param string $filename Relative filename (e.g. '/2026/05/image-800x600.jpg').
+     *
+     * @throws BindingResolutionException
      *
      * @since 1.0.0
      */
     protected function getAbsoluteFilename(string $filename): string
     {
-        $uploadInfo = wp_upload_dir();
-        $uploadDir = realpath($uploadInfo['basedir']);
+        $uploadDir = realpath(app()->path('uploads'));
 
         return ($uploadDir !== false ? $uploadDir : '') . $filename;
     }
 
     /**
-     * Get the URL for a file.
+     * Get the URL for an upload file.
      *
-     * @param string    $filename Relative filename
-     * @param bool|null $full     Whether to include full URL (default: true)
+     * Passes the base upload URI through the `sloth_get_attachment_link`
+     * filter so themes can substitute a CDN URL.
+     *
+     * @param string    $filename relative filename
+     * @param bool|null $full     whether to return a full URL (default: true)
      *
      * @since 1.0.0
      */
     protected function getUrl(string $filename, ?bool $full = true): string
     {
-        $uploadInfo = wp_upload_dir();
-
-        $baseUrl = rtrim((string) apply_filters('sloth_get_attachment_link', $uploadInfo['baseurl']), '/');
+        $baseUrl = rtrim(
+            (string) apply_filters('sloth_get_attachment_link', app()->uri('uploads')),
+            '/',
+        );
 
         return $baseUrl . '/' . ltrim($filename, '/');
     }
 
     /**
-     * Process manipulation options.
+     * Process and normalise manipulation options.
      *
-     * @param  array<string, mixed> $options Manipulation options
-     * @return array<string, mixed>
+     * Merges with defaults, removes upscale, sorts keys alphabetically
+     * so the option suffix is deterministic.
+     *
+     * @param  array<string, mixed> $options raw manipulation options
+     * @return array<string, mixed> processed options
      *
      * @since 1.0.0
      */
@@ -380,7 +392,7 @@ class Image implements Stringable
     }
 
     /**
-     * Convert to string (returns URL).
+     * Convert to string — returns the image URL.
      *
      * @since 1.0.0
      */
@@ -393,7 +405,10 @@ class Image implements Stringable
     /**
      * Get a dynamic property.
      *
-     * @param string $what Property name
+     * Translates common aliases (caption, description, title, alt, metadata)
+     * to their underlying WordPress column/meta names before lookup.
+     *
+     * @param string $what property name
      *
      * @throws BindingResolutionException
      *
@@ -417,9 +432,9 @@ class Image implements Stringable
     }
 
     /**
-     * Check if a property is set.
+     * Check if a dynamic property is set.
      *
-     * @param string $what Property name
+     * @param string $what property name
      *
      * @since 1.0.0
      */
@@ -433,13 +448,14 @@ class Image implements Stringable
             $what = $this->attributeTranslations[$what];
         }
 
-        $v = $this->post->{$what} ?? null;
-
-        return $v != null;
+        return ($this->post->{$what} ?? null) != null;
     }
 
     /**
-     * Get all available sizes.
+     * Get all available theme-defined image sizes.
+     *
+     * Iterates over theme.image-sizes config and returns a map
+     * of size name to resized URL.
      *
      * @throws BindingResolutionException
      *

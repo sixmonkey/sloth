@@ -146,7 +146,7 @@ class Media
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim(home_url(), '/'), 'href="', $content);
+        return str_replace('href="' . rtrim(rtrim(app()->uri('home'), '/'), '/'), 'href="', $content);
     }
 
     /**
@@ -159,6 +159,6 @@ class Media
      */
     public function makeSrcsRelative(string $content): string
     {
-        return str_replace('src="' . rtrim(home_url(), '/'), 'src="', $content);
+        return str_replace('src="' . rtrim(rtrim(app()->uri('home'), '/'), '/'), 'src="', $content);
     }
 }
