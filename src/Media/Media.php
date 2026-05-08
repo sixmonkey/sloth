@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace Sloth\Media;
 
+use BitAndBlack\ImageInformation\Image as ImageInformation;
+use BitAndBlack\ImageInformation\Source\File;
 use function add_image_size;
 
 /**
@@ -31,6 +33,40 @@ class Media
         $mimes['svg'] = 'image/svg+xml';
 
         return $mimes;
+    }
+
+    /**
+     * Fix missing or incorrect image dimensions in attachment metadata.
+     *
+     * WordPress stores image dimensions in _wp_attachment_metadata during
+     * upload. This filter ensures width and height are always correct by
+     * reading the actual file via ImageInformation when the metadata
+     * contains zero or missing values.
+     *
+     * @param  array<string, mixed> $metadata     The generated attachment metadata.
+     * @param  int                  $attachmentId The attachment post ID.
+     * @return array<string, mixed> The corrected metadata.
+     *
+     * @since 1.0.0
+     */
+    public function fixAttachmentDimensions(array $metadata, int $attachmentId): array
+    {
+        if (isset($metadata['width'], $metadata['height']) && $metadata['width'] > 0 && $metadata['height'] > 0) {
+            return $metadata;
+        }
+
+        $file = get_attached_file($attachmentId);
+
+        if ($file === false || !file_exists($file)) {
+            return $metadata;
+        }
+
+        $size = (new ImageInformation(new File($file)))->getSize();
+
+        $metadata['width'] = $size['width'];
+        $metadata['height'] = $size['height'];
+
+        return $metadata;
     }
 
     /**
