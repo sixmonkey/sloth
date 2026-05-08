@@ -139,12 +139,11 @@ abstract class AbstractManifestBuilder
         $map = $this->finder()->find($directories ?? []);
 
         $extraLines = collect($map)
-            ->mapWithKeys(fn (string $file, string $identifier): array => [
+            ->mapWithKeys(fn(string $file, string $identifier): array => [
                 $identifier => $this->extraLines($identifier, $file),
             ])
-            ->filter(fn ($lines): bool => $lines !== [])
-            ->all()
-        ;
+            ->filter(fn($lines): bool => $lines !== [])
+            ->all();
 
         $entries = $this->entries($map);
 
@@ -264,9 +263,9 @@ abstract class AbstractManifestBuilder
      * ];
      * ```
      *
-     * @param  string       $identifier fully qualified class name or file path,
+     * @param string $identifier fully qualified class name or file path,
      *                                  depending on the finder implementation
-     * @param  string       $file       absolute path to the discovered file
+     * @param string $file absolute path to the discovered file
      * @return list<string> PHP code lines to embed. Empty array for none.
      *
      * @since 1.0.0
@@ -298,7 +297,7 @@ abstract class AbstractManifestBuilder
      * ];
      * ```
      *
-     * @param  array<string, string> $map identifier => absolute file path map
+     * @param array<string, string> $map identifier => absolute file path map
      *                                    from the finder
      * @return array<string, mixed>  entry data keyed by identifier
      *
