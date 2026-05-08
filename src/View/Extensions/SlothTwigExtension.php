@@ -319,6 +319,7 @@ class SlothTwigExtension extends AbstractExtension
                     $domain,
                 ),
             ),
+            new TwigFunction('url', fn ($path = null) => url($path)),
         ];
 
         // -------------------------------------------------------------------------

@@ -6,6 +6,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Sloth\Facades\Facade;
+use Sloth\Routing\UrlGenerator;
 
 if (!function_exists('debug')) {
     /**
@@ -101,5 +102,39 @@ if (!function_exists('module')) {
     function module(string $name, array $data = [], array $options = []): string
     {
         return app('module.factory')->render($name, $data, $options);
+    }
+}
+
+if (!function_exists('url')) {
+    /**
+     * Generate a URL using the UrlGenerator.
+     *
+     * Returns the UrlGenerator instance when called without arguments,
+     * or generates a URL for the given path.
+     *
+     * ```php
+     * url()                    // UrlGenerator instance
+     * url('/about')            // https://example.com/about
+     * url()->theme('css/app')  // https://example.com/.../theme/css/app
+     * url()->route('post.show', ['slug' => 'hello'])
+     * ```
+     *
+     * @param string|null $path optional path to append to the home URL
+     *
+     * @throws BindingResolutionException
+     *
+     * @return string|UrlGenerator
+     *
+     * @since 1.0.0
+     */
+    function url(?string $path = null): UrlGenerator|string
+    {
+        $generator = app('url');
+
+        if ($path === null) {
+            return $generator;
+        }
+
+        return $generator->to($path);
     }
 }
