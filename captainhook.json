@@ -11,7 +11,7 @@
     "enabled": true,
     "actions": [
       {
-        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+        "action": "vendor/bin/php-cs-fixer fix --dry-run",
         "config": {
           "label": "PHP Syntax Check"
         }
