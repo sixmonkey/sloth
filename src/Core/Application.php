@@ -572,9 +572,7 @@ class Application extends Container
         if (function_exists('get_template_directory')) {
             $theme = get_template_directory();
 
-            if (is_dir($theme . '/app')) {
-                return self::$cachedBasePath = $theme;
-            }
+            return self::$cachedBasePath = $theme;
         }
 
         throw new RuntimeException(
