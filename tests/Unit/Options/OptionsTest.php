@@ -13,40 +13,40 @@ describe('Options', function (): void {
         it('returns value from get_option()', function (): void {
             \Brain\Monkey\Functions\when('get_option')->justReturn('WordPress');
 
-            expect((new Options())->get('blogname'))->toBe('WordPress');
+            expect(new Options()->get('blogname'))->toBe('WordPress');
         });
 
         it('returns default when option does not exist', function (): void {
             \Brain\Monkey\Functions\when('get_option')->justReturn(false);
 
-            expect((new Options())->get('nonexistent', 'fallback'))->toBe('fallback');
+            expect(new Options()->get('nonexistent', 'fallback'))->toBe('fallback');
         });
 
         it('returns null as default when no default given', function (): void {
             \Brain\Monkey\Functions\when('get_option')->justReturn(false);
 
-            expect((new Options())->get('nonexistent'))->toBeNull();
+            expect(new Options()->get('nonexistent'))->toBeNull();
         });
 
         it('prefers ACF value over get_option() when ACF is available', function (): void {
             \Brain\Monkey\Functions\when('get_field')->justReturn('acf-value');
             \Brain\Monkey\Functions\when('get_option')->justReturn('wp-value');
 
-            expect((new Options())->get('primary_color'))->toBe('acf-value');
+            expect(new Options()->get('primary_color'))->toBe('acf-value');
         });
 
         it('falls back to get_option() when ACF returns null', function (): void {
-            \Brain\Monkey\Functions\when('get_field')->justReturn(null);
+            \Brain\Monkey\Functions\when('get_field')->justReturn();
             \Brain\Monkey\Functions\when('get_option')->justReturn('wp-value');
 
-            expect((new Options())->get('blogname'))->toBe('wp-value');
+            expect(new Options()->get('blogname'))->toBe('wp-value');
         });
 
         it('falls back to get_option() when ACF returns false', function (): void {
             \Brain\Monkey\Functions\when('get_field')->justReturn(false);
             \Brain\Monkey\Functions\when('get_option')->justReturn('wp-value');
 
-            expect((new Options())->get('blogname'))->toBe('wp-value');
+            expect(new Options()->get('blogname'))->toBe('wp-value');
         });
     });
 
@@ -55,13 +55,13 @@ describe('Options', function (): void {
         it('calls update_option() and returns true on success', function (): void {
             \Brain\Monkey\Functions\when('update_option')->justReturn(true);
 
-            expect((new Options())->set('my_option', 'value'))->toBeTrue();
+            expect(new Options()->set('my_option', 'value'))->toBeTrue();
         });
 
         it('returns false on failure', function (): void {
             \Brain\Monkey\Functions\when('update_option')->justReturn(false);
 
-            expect((new Options())->set('my_option', 'value'))->toBeFalse();
+            expect(new Options()->set('my_option', 'value'))->toBeFalse();
         });
     });
 
@@ -70,13 +70,13 @@ describe('Options', function (): void {
         it('returns true when option exists', function (): void {
             \Brain\Monkey\Functions\when('get_option')->justReturn('some-value');
 
-            expect((new Options())->has('blogname'))->toBeTrue();
+            expect(new Options()->has('blogname'))->toBeTrue();
         });
 
         it('returns false when option does not exist', function (): void {
             \Brain\Monkey\Functions\when('get_option')->justReturn(false);
 
-            expect((new Options())->has('nonexistent'))->toBeFalse();
+            expect(new Options()->has('nonexistent'))->toBeFalse();
         });
     });
 
@@ -85,13 +85,13 @@ describe('Options', function (): void {
         it('calls delete_option() and returns true on success', function (): void {
             \Brain\Monkey\Functions\when('delete_option')->justReturn(true);
 
-            expect((new Options())->delete('my_option'))->toBeTrue();
+            expect(new Options()->delete('my_option'))->toBeTrue();
         });
 
         it('returns false on failure', function (): void {
             \Brain\Monkey\Functions\when('delete_option')->justReturn(false);
 
-            expect((new Options())->delete('my_option'))->toBeFalse();
+            expect(new Options()->delete('my_option'))->toBeFalse();
         });
     });
 

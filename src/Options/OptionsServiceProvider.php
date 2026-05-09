@@ -19,7 +19,7 @@ class OptionsServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton(Options::class, fn () => new Options());
+        $this->app->singleton(Options::class, fn (): Options => new Options());
         $this->app->alias(Options::class, 'options');
     }
 }
