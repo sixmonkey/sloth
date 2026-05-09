@@ -25,9 +25,9 @@ class WordpressCollector extends DataCollector implements Renderable
      * Gathers information about the WordPress installation,
      * current request state, and environment.
      *
-     * @since 1.0.0
-     *
      * @return array<string, mixed> the collected data
+     *
+     * @since 1.0.0
      */
     public function collect(): array
     {
@@ -87,6 +87,10 @@ class WordpressCollector extends DataCollector implements Renderable
             $allPlugins = function_exists('get_plugins') ? get_plugins() : [];
 
             $active = get_option('active_plugins', []);
+
+            if (!is_array($active)) {
+                return 'None';
+            }
 
             foreach ($active as $pluginFile) {
                 if (isset($allPlugins[$pluginFile])) {
@@ -246,9 +250,9 @@ class WordpressCollector extends DataCollector implements Renderable
     /**
      * Get the collector name.
      *
-     * @since 1.0.0
-     *
      * @return string the collector identifier
+     *
+     * @since 1.0.0
      */
     public function getName(): string
     {
@@ -261,9 +265,9 @@ class WordpressCollector extends DataCollector implements Renderable
      * Returns the debug bar widget configuration for
      * displaying WordPress data.
      *
-     * @since 1.0.0
-     *
      * @return array<string, mixed> the widget configuration
+     *
+     * @since 1.0.0
      */
     public function getWidgets(): array
     {
