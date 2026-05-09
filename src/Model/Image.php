@@ -244,7 +244,7 @@ class Image extends Model
      */
     public static function urlToRelativePath(string $url, ?string $baseUrl = null): string
     {
-        $baseUrl ??= wp_upload_dir()['baseurl'];
+        $baseUrl ??= app()->uri('uploads');
         $relativePath = str_starts_with($url, $baseUrl)
             ? substr($url, strlen($baseUrl))
             : $url;
@@ -347,7 +347,7 @@ class Image extends Model
             return null;
         }
 
-        $path = realpath(wp_upload_dir()['basedir'] . '/' . ltrim($relPath, '/'));
+        $path = realpath(app()->path('uploads') . '/' . ltrim($relPath, '/'));
 
         return $path !== false ? $path : null;
     }

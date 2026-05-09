@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Sloth\Module;
 
 use function admin_url;
-use function home_url;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use JsonException;
@@ -353,7 +352,7 @@ class Module
     final public function getAjaxUrl(): string
     {
         return (string) str_replace(
-            home_url(),
+            app()->uri('home'),
             '',
             admin_url('admin-ajax.php?action=' . $this->getAjaxAction()),
         );

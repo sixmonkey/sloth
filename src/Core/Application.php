@@ -27,16 +27,17 @@ use Sloth\Model\Taxonomy;
  * This class is intentionally lean — it only owns:
  * - Boot lifecycle (configure/boot/isBooted)
  * - Container registration
- * - Path management
+ * - Path and URI management
  * - Provider registration and booting
  * - Environment helpers
  *
  * Everything else lives in dedicated ServiceProviders:
- * - Database connection → CorcelServiceProvider
- * - Config loading → ConfigServiceProvider
+ * - Database connection → DatabaseServiceProvider
+ * - Config loading → ConfigureServiceProvider
  * - Theme setup → ThemeServiceProvider
  * - Filesystem → FilesystemServiceProvider
  * - Cache → CacheServiceProvider
+ * - Routing → RoutingServiceProvider
  *
  * ## Boot lifecycle
  *
@@ -50,11 +51,33 @@ use Sloth\Model\Taxonomy;
  * }, 0);
  * ```
  *
+ * ## Path and URI management
+ *
+ * Filesystem paths are stored under the `path.*` prefix:
+ *
+ * ```php
+ * app()->path('theme')           // get_template_directory()
+ * app()->path('config', 'app')   // app/config/
+ * app()->path('cache')           // theme/cache/
+ * ```
+ *
+ * URIs are stored separately under the `uri.*` prefix:
+ *
+ * ```php
+ * app()->uri('theme')            // get_template_directory_uri()
+ * app()->uri('home')             // home_url('/')
+ * app()->uri('css/app.css', 'theme') // theme_uri/css/app.css
+ * ```
+ *
  * @since 1.0.0
  * @see Container
  */
 class Application extends Container
 {
+    // -------------------------------------------------------------------------
+    // Constants & static state
+    // -------------------------------------------------------------------------
+
     /**
      * Application version.
      *
@@ -78,42 +101,60 @@ class Application extends Container
      */
     private static ?string $cachedBasePath = null;
 
+    // -------------------------------------------------------------------------
+    // Instance state
+    // -------------------------------------------------------------------------
+
     /**
      * Registry of loaded service providers.
      *
-     * @since 1.0.0
-     *
      * @var array<string, ServiceProvider>
+     *
+     * @since 1.0.0
      */
     protected array $loadedProviders = [];
 
     /**
      * Class aliases registered on boot.
      *
-     * @since 1.0.0
+     * Maps short alias names to fully-qualified Facade class names.
+     * Aliases are registered after all providers are booted.
      *
      * @var array<string, class-string>
+     *
+     * @since 1.0.0
      */
     private array $classAliases = [
         'Cache'      => \Sloth\Facades\Cache::class,
-        'File'       => \Sloth\Facades\File::class,
-        'View'       => \Sloth\Facades\View::class,
         'Configure'  => \Sloth\Facades\Configure::class,
-        'Validator'  => \Sloth\Facades\Validation::class,
-        'Deployment' => \Sloth\Facades\Deployment::class,
         'Customizer' => \Sloth\Facades\Customizer::class,
+        'Deployment' => \Sloth\Facades\Deployment::class,
+        'File'       => \Sloth\Facades\File::class,
+        'Validator'  => \Sloth\Facades\Validation::class,
+        'View'       => \Sloth\Facades\View::class,
+        'URL'        => \Sloth\Facades\URL::class,
     ];
 
+    /**
+     * The resolved base path of the project.
+     *
+     * @since 1.0.0
+     */
     public ?string $basePath = null;
 
     // -------------------------------------------------------------------------
     // Boot lifecycle
     // -------------------------------------------------------------------------
+
     /**
      * Create and return the application instance.
      *
      * Returns the existing instance if already booted.
      * This is the preferred entry point — chain with ->boot().
+     *
+     * ```php
+     * Application::configure()->boot();
+     * ```
      *
      * @since 1.0.0
      */
@@ -129,6 +170,9 @@ class Application extends Container
 
     /**
      * Create a new Application instance.
+     *
+     * Protected to enforce use of configure() as the entry point.
+     * Registers the instance in the container under 'app' and class names.
      *
      * @since 1.0.0
      */
@@ -149,9 +193,10 @@ class Application extends Container
      * 1. Guard — skip if already booted or WordPress not installed
      * 2. Config repository
      * 3. Facades
-     * 4. Base paths
-     * 5. Providers (register + boot + hooks)
-     * 6. Aliases
+     * 4. Filesystem paths (path.*)
+     * 5. Base URIs (uri.*)
+     * 6. Providers (register + boot + hooks)
+     * 7. Class aliases
      *
      * @since 1.0.0
      */
@@ -170,8 +215,9 @@ class Application extends Container
 
         Facade::setFacadeApplication($this);
 
-        // Paths — must exist before providers boot
+        // Paths and URIs — must exist before providers boot
         $this->registerBasePaths();
+        $this->registerBaseUris();
 
         // Providers
         $this->registerProviders();
@@ -258,7 +304,6 @@ class Application extends Container
             \Sloth\Console\ConsoleServiceProvider::class,
         ];
 
-        // Register framework providers first (including FilesystemServiceProvider)
         foreach ($providers as $provider) {
             $this->register($provider);
         }
@@ -285,8 +330,12 @@ class Application extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param ServiceProvider|string $provider
-     * @param bool                   $force    force re-registration
+     * Instantiates string class names automatically. Skips already-registered
+     * providers unless $force is true.
+     *
+     * @param  ServiceProvider|string $provider
+     * @param  bool                   $force    force re-registration
+     * @return ServiceProvider
      *
      * @since 1.0.0
      */
@@ -311,6 +360,10 @@ class Application extends Container
 
     /**
      * Boot all registered providers and register their hooks and filters.
+     *
+     * Runs in two passes: first boot() on all providers, then registers
+     * WordPress hooks/filters. This ensures all bindings are available
+     * before any hook callback fires.
      *
      * @since 1.0.0
      */
@@ -338,12 +391,17 @@ class Application extends Container
     }
 
     /**
-     * Normalize callbacks from getHooks/getFilters format.
+     * Normalize a hook/filter value into a flat array of callback descriptors.
      *
-     * @since 1.0.0
+     * Accepts three forms:
+     * - Callable: `fn() => ...`
+     * - Array with callback key: `['callback' => fn() => ..., 'priority' => 20]`
+     * - Array of either of the above
      *
      * @param  mixed                                          $value
      * @return array<int, array{fn: callable, priority: int}>
+     *
+     * @since 1.0.0
      */
     private function normalizeCallbacks(mixed $value): array
     {
@@ -383,6 +441,9 @@ class Application extends Container
     /**
      * Create class aliases for framework facades.
      *
+     * Allows using short names like `Cache::get()` instead of
+     * `Sloth\Facades\Cache::get()` in theme code.
+     *
      * @since 1.0.0
      */
     private function setAliases(): void
@@ -399,9 +460,22 @@ class Application extends Container
     // -------------------------------------------------------------------------
 
     /**
-     * Register all base paths for the application.
+     * Register all base filesystem paths for the application.
      *
-     * Called after after_setup_theme — WordPress functions are available.
+     * Called during boot() after WordPress is available. Paths are stored
+     * in the container under the `path.*` prefix and accessible via path().
+     *
+     * Registered paths:
+     * - `path.base`      — project root (where composer.json lives)
+     * - `path.app`       — app/ directory
+     * - `path.vendor`    — vendor/ directory
+     * - `path.framework` — Sloth src/ directory
+     * - `path.cms`       — WordPress ABSPATH
+     * - `path.plugins`   — WP_PLUGIN_DIR
+     * - `path.theme`     — active theme directory
+     * - `path.uploads`   — WordPress uploads base directory
+     * - `path.cache`     — theme/cache/ (auto-created)
+     * - `path.logs`      — theme/logs/ (auto-created)
      *
      * @since 1.0.0
      */
@@ -414,7 +488,7 @@ class Application extends Container
         $this->addPath('vendor', $this->basePath . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
-        $this->addPath('plugins', WP_PLUGIN_DIR);
+        $this->addPath('plugins', plugin_dir_path());
         $this->addPath('theme', get_template_directory());
         $this->addPath('uploads', wp_upload_dir()['basedir']);
 
@@ -425,8 +499,36 @@ class Application extends Container
             if (!is_dir($path)) {
                 mkdir($path, 0o755, true);
             }
+
             $this->addPath($key, $path);
         }
+    }
+
+    /**
+     * Register all base URIs for the application.
+     *
+     * Called during boot() after WordPress is available. URIs are stored
+     * in the container under the `uri.*` prefix and accessible via uri().
+     * Trailing slashes are stripped for consistency.
+     *
+     * Registered URIs:
+     * - `uri.home`    — WordPress home URL (home_url('/'))
+     * - `uri.theme`   — Active theme directory URI
+     * - `uri.content` — WordPress content directory URI
+     * - `uri.uploads` — WordPress uploads directory URI
+     *
+     * @since 1.0.0
+     */
+    protected function registerBaseUris(): void
+    {
+        if (!function_exists('home_url')) {
+            return;
+        }
+
+        $this->addUri('home', home_url('/'));
+        $this->addUri('theme', get_template_directory_uri());
+        $this->addUri('content', content_url());
+        $this->addUri('uploads', wp_upload_dir()['baseurl']);
     }
 
     /**
@@ -434,12 +536,12 @@ class Application extends Container
      *
      * Resolution order:
      * 1. `SLOTH_BASE_PATH` constant — explicit override
-     * 2. Walk up from __DIR__ to find composer.json outside vendor/
+     * 2. Walk up from ABSPATH to find composer.json outside vendor/
      * 3. Theme-only fallback — app/ inside get_template_directory()
      *
      * Result is cached statically for the duration of the request.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException if the base path cannot be determined
      *
      * @since 1.0.0
      */
@@ -455,13 +557,14 @@ class Application extends Container
 
         $dir = dirname(match (defined('ABSPATH')) {
             true    => ABSPATH,
-            default => __DIR__
+            default => __DIR__,
         });
 
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
                 return self::$cachedBasePath = $dir;
             }
+
             $dir = dirname($dir);
         }
 
@@ -480,10 +583,13 @@ class Application extends Container
     }
 
     /**
-     * Add a path to the container.
+     * Add a filesystem path to the container.
+     *
+     * If the path is an existing directory, realpath() is used to resolve
+     * symlinks and normalise the path.
      *
      * @param string $key  Path identifier (e.g. 'cache', 'theme').
-     * @param string $path full filesystem path
+     * @param string $path absolute filesystem path
      *
      * @since 1.0.0
      */
@@ -492,13 +598,32 @@ class Application extends Container
         if (is_dir($path)) {
             $path = realpath($path);
         }
+
         $this->instance('path.' . $key, $path);
     }
 
     /**
-     * Get the base path of the Laravel installation.
+     * Add a URI to the container.
      *
-     * @param string $path
+     * Trailing slashes are stripped so callers can safely append paths
+     * with a leading slash or without.
+     *
+     * @param string $key URI identifier (e.g. 'home', 'theme').
+     * @param string $uri absolute URI
+     *
+     * @since 1.0.0
+     */
+    public function addUri(string $key, string $uri): void
+    {
+        $this->instance('uri.' . $key, rtrim($uri, '/'));
+    }
+
+    /**
+     * Get the project base path.
+     *
+     * @param string $path optional sub-path to append
+     *
+     * @since 1.0.0
      */
     public function basePath(string $path = ''): string
     {
@@ -506,10 +631,10 @@ class Application extends Container
     }
 
     /**
-     * Get a path from the container.
+     * Get a registered filesystem path from the container.
      *
-     * @param string $path   optional subpath to append
-     * @param string $prefix path key (default: 'app')
+     * @param string $path   optional sub-path to append
+     * @param string $prefix path key — see registerBasePaths() for available keys
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -522,10 +647,32 @@ class Application extends Container
     }
 
     /**
-     * Get the config path.
+     * Get a registered URI from the container.
+     *
+     * @param string $path   optional path to append (leading slash is stripped)
+     * @param string $prefix URI key — see registerBaseUris() for available keys
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @since 1.0.0
+     */
+    public function uri(string $path = '', string $prefix = 'home'): string
+    {
+        $base = $this->get('uri.' . $prefix);
+
+        return $path ? $base . '/' . ltrim($path, '/') : $base;
+    }
+
+    /**
+     * Get the app config path.
+     *
+     * Shorthand for path('config').
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     *
+     * @since 1.0.0
      */
     public function configPath(): string
     {
@@ -538,6 +685,8 @@ class Application extends Container
 
     /**
      * Check if running in a local/development environment.
+     *
+     * Matches WP_ENV values: 'development', 'develop', 'dev'.
      *
      * @since 1.0.0
      */
@@ -569,6 +718,8 @@ class Application extends Container
     /**
      * Get the current environment name.
      *
+     * Returns the value of WP_ENV, defaulting to 'production'.
+     *
      * @since 1.0.0
      */
     public function environment(): string
@@ -579,6 +730,7 @@ class Application extends Container
     // -------------------------------------------------------------------------
     // Backwards compatibility
     // -------------------------------------------------------------------------
+
     /**
      * Get the template context.
      *
@@ -604,13 +756,15 @@ class Application extends Container
     }
 
     /**
-     * Get a class for a model by its post_type.
+     * Get the class name for a model by its post_type.
      *
-     * @todo deprecate in future versions
-     *
-     * @param string $key
+     * @param string $key post type slug
      *
      * @throws BindingResolutionException
+     *
+     * @todo Deprecate — use app('sloth.models')[$key] directly.
+     *
+     * @since 1.0.0
      */
     public function getModelClass(string $key = ''): string
     {
@@ -622,7 +776,9 @@ class Application extends Container
      *
      * @throws BindingResolutionException
      *
-     * @todo deprecate in future versions
+     * @todo Deprecate — use app('sloth.models') directly.
+     *
+     * @since 1.0.0
      */
     public function getAllModels(): array
     {
@@ -630,13 +786,15 @@ class Application extends Container
     }
 
     /**
-     * Get a class for a taxonomy by its taxonomy type.
+     * Get the class name for a taxonomy by its slug.
      *
-     * @todo deprecate in future versions
-     *
-     * @param string $key
+     * @param string $key taxonomy slug
      *
      * @throws BindingResolutionException
+     *
+     * @todo Deprecate — use app('sloth.taxonomies')[$key] directly.
+     *
+     * @since 1.0.0
      */
     public function getTaxonomyClass(string $key = ''): string
     {
@@ -648,12 +806,15 @@ class Application extends Container
      *
      * @throws BindingResolutionException
      *
-     * @todo deprecate in future versions
+     * @todo Deprecate — use app('sloth.taxonomies') directly.
+     *
+     * @since 1.0.0
      */
     public function getAllTaxonomies(): array
     {
         return app('sloth.taxonomies');
     }
+
     // -------------------------------------------------------------------------
     // Misc
     // -------------------------------------------------------------------------
@@ -671,8 +832,12 @@ class Application extends Container
     /**
      * Join the given paths together.
      *
-     * @param string $basePath
-     * @param string $path
+     * Delegates to Illuminate's join_paths() helper.
+     *
+     * @param string $basePath base path
+     * @param string $path     optional sub-path to append
+     *
+     * @since 1.0.0
      */
     public function joinPaths(string $basePath, string $path = ''): string
     {

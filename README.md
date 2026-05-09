@@ -160,9 +160,12 @@ Route::get('/archive/{year}/{month}', function (string $year, string $month) {
 ```php
 Route::get('/posts/{slug}', fn($slug) => Response::make(view('single')))->name('post.show');
 
-// Generate URL
-$url = app('router')->url('post.show', ['slug' => 'hello-world']);
-// → /posts/hello-world
+// Generate URL via facade
+URL::route('post.show', ['slug' => 'hello-world']);
+// → https://example.com/posts/hello-world
+
+// Or via helper
+url()->route('post.show', ['slug' => 'hello-world']);
 ```
 
 ## HTTP Response
@@ -201,6 +204,45 @@ All methods support chaining for headers:
 Response::make(view('styles.index'), 200)
     ->header('Content-Type', 'text/css')
     ->header('Cache-Control', 'public, max-age=3600');
+```
+
+## URL Generation
+
+Sloth provides a `UrlGenerator` that abstracts WordPress URL functions and integrates with the router for named route URLs. All values are read from the container — WordPress functions are never called directly in your code.
+
+### Via Facade
+
+```php
+use Sloth\Facades\URL;
+
+URL::home()                                   // https://example.com
+URL::to('/about')                             // https://example.com/about
+URL::theme()                                  // https://example.com/wp-content/themes/my-theme
+URL::theme('css/app.css')                     // https://example.com/.../my-theme/css/app.css
+URL::asset('css/app.css')                     // https://example.com/.../my-theme/public/css/app.css
+URL::content()                                // https://example.com/wp-content
+URL::uploads()                                // https://example.com/wp-content/uploads
+URL::route('post.show', ['slug' => 'hello'])  // https://example.com/posts/hello
+URL::current()                                // /current/path
+URL::full()                                   // https://example.com/current/path
+```
+
+### Via Helper
+
+```php
+url('/about')            // https://example.com/about
+url()->theme('css/app')  // https://example.com/.../theme/css/app.css
+url()->asset('js/app.js') // https://example.com/.../theme/public/js/app.js
+url()->route('post.show', ['slug' => 'hello'])
+```
+
+### In Twig
+
+```twig
+{{ url('/about') }}
+{{ url().theme('css/app.css') }}
+{{ url().asset('js/app.js') }}
+{{ url().route('post.show', { slug: 'hello' }) }}
 ```
 
 ## Configuration
@@ -607,6 +649,7 @@ sloth/
 | `Validation` | Form validation                                    |
 | `Configure`  | Legacy config access (deprecated — use `config()`) |
 | `File`       | Filesystem operations                              |
+| `URL`        | URL generation (`URL::home/theme/asset/route`)     |
 
 ## WP-CLI Commands
 
