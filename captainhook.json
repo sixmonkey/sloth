@@ -11,7 +11,7 @@
     "enabled": true,
     "actions": [
       {
-        "action": "vendor/bin/php-cs-fixer fix --dry-run",
+        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
         "config": {
           "label": "PHP Syntax Check"
         }
@@ -19,7 +19,7 @@
       {
         "action": "\\Unh3ck3d\\PhpCsFixerGitHook\\LintStagedFiles",
         "config": {
-          "label": "PHP CS Fixer"
+          "label": "PHP CS Fixer (staged files)"
         }
       }
     ]
