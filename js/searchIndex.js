@@ -751,6 +751,11 @@ Search.appendIndex(
             "summary": "Create\u0020a\u0020new\u0020Application\u0020instance.",
             "url": "classes/Sloth-Core-Application.html#method___construct"
         },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AloadEnvironment\u0028\u0029",
+            "name": "loadEnvironment",
+            "summary": "Load\u0020environment\u0020variables\u0020from\u0020.env\u0020if\u0020present.",
+            "url": "classes/Sloth-Core-Application.html#method_loadEnvironment"
+        },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
             "summary": "Boot\u0020the\u0020application.",
