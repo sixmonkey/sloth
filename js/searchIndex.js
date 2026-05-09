@@ -1746,6 +1746,16 @@ Search.appendIndex(
             "summary": "Return\u0020the\u0020service\u0020provider\u0020key\u0020responsible\u0020for\u0020the\u0020module\u0020class.",
             "url": "classes/Sloth-Facades-Module.html#method_getFacadeAccessor"
         },                {
+            "fqsen": "\\Sloth\\Facades\\Options",
+            "name": "Options",
+            "summary": "Options\u0020Facade.",
+            "url": "classes/Sloth-Facades-Options.html"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\Options\u003A\u003AgetFacadeAccessor\u0028\u0029",
+            "name": "getFacadeAccessor",
+            "summary": "Returns\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020this\u0020facade.",
+            "url": "classes/Sloth-Facades-Options.html#method_getFacadeAccessor"
+        },                {
             "fqsen": "\\Sloth\\Facades\\Pagination",
             "name": "Pagination",
             "summary": "Pagination\u0020Facade\u0020for\u0020accessing\u0020the\u0020pagination\u0020service.",
@@ -4091,6 +4101,51 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Module-Registrar-ModuleRegistrar.html#property_builder"
         },                {
+            "fqsen": "\\Sloth\\Options\\Options",
+            "name": "Options",
+            "summary": "Options\u0020accessor\u0020for\u0020WordPress\u0020Core\u0020and\u0020ACF\u0020Options.",
+            "url": "classes/Sloth-Options-Options.html"
+        },                {
+            "fqsen": "\\Sloth\\Options\\Options\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Get\u0020an\u0020option\u0020value.",
+            "url": "classes/Sloth-Options-Options.html#method_get"
+        },                {
+            "fqsen": "\\Sloth\\Options\\Options\u003A\u003Aset\u0028\u0029",
+            "name": "set",
+            "summary": "Set\u0020an\u0020option\u0020value.",
+            "url": "classes/Sloth-Options-Options.html#method_set"
+        },                {
+            "fqsen": "\\Sloth\\Options\\Options\u003A\u003Ahas\u0028\u0029",
+            "name": "has",
+            "summary": "Check\u0020whether\u0020an\u0020option\u0020exists\u0020and\u0020is\u0020not\u0020empty.",
+            "url": "classes/Sloth-Options-Options.html#method_has"
+        },                {
+            "fqsen": "\\Sloth\\Options\\Options\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "Delete\u0020an\u0020option.",
+            "url": "classes/Sloth-Options-Options.html#method_delete"
+        },                {
+            "fqsen": "\\Sloth\\Options\\Options\u003A\u003A__get\u0028\u0029",
+            "name": "__get",
+            "summary": "Magic\u0020property\u0020access\u0020\u2014\u0020allows\u0020\u0024options\u002D\u003Eblogname.",
+            "url": "classes/Sloth-Options-Options.html#method___get"
+        },                {
+            "fqsen": "\\Sloth\\Options\\Options\u003A\u003A__isset\u0028\u0029",
+            "name": "__isset",
+            "summary": "Magic\u0020isset\u0020\u2014\u0020allows\u0020isset\u0028\u0024options\u002D\u003Eblogname\u0029.",
+            "url": "classes/Sloth-Options-Options.html#method___isset"
+        },                {
+            "fqsen": "\\Sloth\\Options\\OptionsServiceProvider",
+            "name": "OptionsServiceProvider",
+            "summary": "Service\u0020provider\u0020for\u0020the\u0020Options\u0020accessor.",
+            "url": "classes/Sloth-Options-OptionsServiceProvider.html"
+        },                {
+            "fqsen": "\\Sloth\\Options\\OptionsServiceProvider\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "",
+            "url": "classes/Sloth-Options-OptionsServiceProvider.html#method_register"
+        },                {
             "fqsen": "\\Sloth\\Pagination\\PaginationServiceProvider",
             "name": "PaginationServiceProvider",
             "summary": "Service\u0020provider\u0020for\u0020the\u0020Pagination\u0020component.",
@@ -5050,6 +5105,11 @@ Search.appendIndex(
             "name": "Registrar",
             "summary": "",
             "url": "namespaces/sloth-module-registrar.html"
+        },                {
+            "fqsen": "\\Sloth\\Options",
+            "name": "Options",
+            "summary": "",
+            "url": "namespaces/sloth-options.html"
         },                {
             "fqsen": "\\Sloth\\Pagination",
             "name": "Pagination",
