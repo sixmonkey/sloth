@@ -28,6 +28,12 @@
     "enabled": true,
     "actions": [
       {
+        "action": "vendor/bin/rector process --dry-run --no-progress-bar",
+        "config": {
+          "label": "Rector"
+        }
+      },
+      {
         "action": "vendor/bin/pest --no-progress",
         "config": {
           "label": "Pest Tests"
