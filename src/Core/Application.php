@@ -175,6 +175,9 @@ class Application extends Container
      * Protected to enforce use of configure() as the entry point.
      * Registers the instance in the container under 'app' and class names.
      *
+     * Environment variables are loaded here — before boot() — so that
+     * all service providers can safely call env() during registration.
+     *
      * @since 1.0.0
      */
     protected function __construct()
@@ -183,6 +186,34 @@ class Application extends Container
         $this->instance('app', $this);
         $this->instance(self::class, $this);
         $this->instance(Container::class, $this);
+
+        // Load .env before providers boot so env() is available everywhere.
+        // basePath is guessed here and cached — no performance penalty on
+        // the second call in registerBasePaths().
+        $this->loadEnvironment();
+    }
+
+    /**
+     * Load environment variables from .env if present.
+     *
+     * Silently skips if no .env file exists — this is intentional.
+     * The developer is responsible for ensuring the required variables
+     * are set through other means (e.g. server environment, wp-config.php).
+     *
+     * No variables are marked as required here — that is too opinionated
+     * for a framework. Validate required variables in your own bootstrap
+     * if needed.
+     *
+     * @since 1.0.0
+     */
+    private function loadEnvironment(): void
+    {
+        $basePath = $this->guessBasePath();
+
+        if (file_exists($basePath . '/.env')) {
+            $dotenv = \Dotenv\Dotenv::createImmutable($basePath);
+            $dotenv->load();
+        }
     }
 
     /**
