@@ -137,20 +137,6 @@ if (!function_exists('wp_upload_dir')) {
     }
 }
 
-if (!function_exists('get_option')) {
-    function get_option(string $option, mixed $default = false): mixed
-    {
-        return $default;
-    }
-}
-
-if (!function_exists('update_option')) {
-    function update_option(string $option, mixed $value, bool $autoload = true): bool
-    {
-        return true;
-    }
-}
-
 if (!function_exists('get_template_directory')) {
     function get_template_directory(): string
     {

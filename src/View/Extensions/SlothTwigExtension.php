@@ -89,7 +89,8 @@ class SlothTwigExtension extends AbstractExtension
     public function getGlobals(): array
     {
         return [
-            'fn' => $this,
+            'fn'      => $this,
+            'options' => app('options'),
         ];
     }
 

@@ -133,6 +133,7 @@ class Application extends Container
         'Validator'  => \Sloth\Facades\Validation::class,
         'View'       => \Sloth\Facades\View::class,
         'URL'        => \Sloth\Facades\URL::class,
+        'Options'    => \Sloth\Facades\Options::class,
     ];
 
     /**
@@ -299,6 +300,7 @@ class Application extends Container
             \Sloth\Module\ModuleServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
             \Sloth\ACF\AcfServiceProvider::class,
+            \Sloth\Options\OptionsServiceProvider::class,
 
             // Console
             \Sloth\Console\ConsoleServiceProvider::class,
