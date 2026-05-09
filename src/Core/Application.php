@@ -333,9 +333,8 @@ class Application extends Container
      * Instantiates string class names automatically. Skips already-registered
      * providers unless $force is true.
      *
-     * @param  ServiceProvider|string $provider
-     * @param  bool                   $force    force re-registration
-     * @return ServiceProvider
+     * @param ServiceProvider|string $provider
+     * @param bool                   $force    force re-registration
      *
      * @since 1.0.0
      */
@@ -661,7 +660,7 @@ class Application extends Container
     {
         $base = $this->get('uri.' . $prefix);
 
-        return $path ? $base . '/' . ltrim($path, '/') : $base;
+        return $path !== '' && $path !== '0' ? $base . '/' . ltrim($path, '/') : $base;
     }
 
     /**

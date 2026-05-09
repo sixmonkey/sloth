@@ -123,8 +123,6 @@ if (!function_exists('url')) {
      *
      * @throws BindingResolutionException
      *
-     * @return string|UrlGenerator
-     *
      * @since 1.0.0
      */
     function url(?string $path = null): UrlGenerator|string

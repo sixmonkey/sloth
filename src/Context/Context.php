@@ -74,7 +74,7 @@ class Context
             ],
             'globals' => [
                 'home_url'   => home_url('/'),
-                'theme_url'  => (string) get_template_directory_uri(),
+                'theme_url'  => get_template_directory_uri(),
                 'images_url' => get_template_directory_uri() . '/assets/img',
             ],
             'sloth' => [

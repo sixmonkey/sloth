@@ -152,7 +152,7 @@ class Image implements Stringable
      */
     public function __construct(mixed $url = null)
     {
-        $url = self::normaliseInput($url);
+        $url = $this->normaliseInput($url);
 
         if ($url === null) {
             $this->isResizable = false;
@@ -162,7 +162,7 @@ class Image implements Stringable
 
         $this->post = ImageModel::findByIdOrUrl($url);
 
-        if ($this->post === null) {
+        if (!$this->post instanceof ImageModel) {
             $this->isResizable = false;
 
             return;
@@ -189,7 +189,7 @@ class Image implements Stringable
      *
      * @since 1.0.0
      */
-    private static function normaliseInput(mixed $url): int|string|null
+    private function normaliseInput(mixed $url): int|string|null
     {
         return match (true) {
             $url === null, $url === false        => null,
@@ -424,7 +424,7 @@ class Image implements Stringable
             $what = $this->attributeTranslations[$what];
         }
 
-        if ($this->post === null) {
+        if (!$this->post instanceof ImageModel) {
             return null;
         }
 
@@ -440,7 +440,7 @@ class Image implements Stringable
      */
     public function __isset(string $what): bool
     {
-        if ($this->post === null) {
+        if (!$this->post instanceof ImageModel) {
             return false;
         }
 
