@@ -691,7 +691,7 @@ class Application extends Container
      */
     public function isLocal(): bool
     {
-        return in_array(env('WP_ENV', 'production'), ['development', 'develop', 'dev'], true);
+        return in_array(env('WP_ENV', 'production'), ['local', 'development', 'develop', 'dev'], true);
     }
 
     /**
@@ -701,7 +701,7 @@ class Application extends Container
      */
     public function isProduction(): bool
     {
-        return env('WP_ENV', 'production') === 'production';
+        return !$this->isLocal();
     }
 
     /**
@@ -711,7 +711,7 @@ class Application extends Container
      */
     public function runningUnitTests(): bool
     {
-        return defined('WP_TESTS_PHASE');
+        return defined('WP_TESTS_PHASE') || env('WP_ENV') === 'testing';
     }
 
     /**
