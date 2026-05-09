@@ -488,7 +488,7 @@ class Application extends Container
         $this->addPath('vendor', $this->basePath . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
-        $this->addPath('plugins', plugin_dir_path());
+        $this->addPath('plugins', WP_PLUGIN_DIR);
         $this->addPath('theme', get_template_directory());
         $this->addPath('uploads', wp_upload_dir()['basedir']);
 
