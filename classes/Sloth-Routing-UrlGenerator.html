@@ -224,12 +224,12 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth.html">Sloth</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-media.html">Media</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/sloth-routing.html">Routing</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Media
+    UrlGenerator
 
     
             <div class="phpdocumentor-element__package">
@@ -248,27 +248,40 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Media handling utilities for WordPress.</p>
+            <p class="phpdocumentor-summary">URL Generator.</p>
 
 
-    <section class="phpdocumentor-description"><p>Provides functionality for:</p>
-<ul>
-<li>Custom image sizes registration</li>
-<li>SVG mime type support</li>
-<li>Converting absolute URLs to root-relative paths</li>
-</ul>
+    <section class="phpdocumentor-description"><p>Provides a clean abstraction over WordPress URL functions and integrates
+with Sloth's Router for named route URL generation.</p>
+<p>All values are read from the container's <code class="prettyprint">uri.*</code> bindings — registered
+during Application::registerBaseUris() — so WordPress functions are
+never called directly here.</p>
+<h2>Usage</h2>
+<pre class="prettyprint"><code class="language-php">use Sloth\Facades\URL;
+
+URL::home()                                      // https://example.com
+URL::to('/about')                                // https://example.com/about
+URL::theme()                                     // https://example.com/wp-content/themes/my-theme
+URL::theme('css/app.css')                        // https://example.com/.../my-theme/css/app.css
+URL::asset('css/app.css')                        // https://example.com/.../my-theme/public/css/app.css
+URL::content()                                   // https://example.com/wp-content
+URL::uploads()                                   // https://example.com/wp-content/uploads
+URL::route('post.show', ['slug' =&gt; 'hello'])     // https://example.com/posts/hello
+URL::current()                                   // /current/path
+URL::full()                                      // https://example.com/current/path
+</code></pre>
 </section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Media-Media.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -280,21 +293,13 @@
                                                                                 
                                              
                                     </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Sloth-Media-MediaServiceProvider.html"><abbr title="\Sloth\Media\MediaServiceProvider">MediaServiceProvider</abbr></a></span>
-                                        
-                                             
-                                    </dd>
                                             </dl>
 
     
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Sloth-Media-Media.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Routing-UrlGenerator.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -308,78 +313,98 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Sloth-Media-Media.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Routing-UrlGenerator.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Sloth-Media-Media.html#property_app">$app</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#property_app">$app</a>
     <span>
                         &nbsp;: <a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#property_router">$router</a>
+    <span>
+                        &nbsp;: <a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a>            </span>
 </dt>
 
     </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Sloth-Media-Media.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Sloth-Routing-UrlGenerator.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method___construct">__construct()</a>
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_addSvgMime">addSvgMime()</a>
-    <span>
-                                &nbsp;: array&lt;string, string&gt;    </span>
-</dt>
-<dd>Add SVG mime type.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_makeHrefsRelative">makeHrefsRelative()</a>
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_asset">asset()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert href attributes in content to relative paths.</dd>
+<dd>Get the URL for a theme asset in the public/ directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_makeLinksRelative">makeLinksRelative()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Convert all links to root-relative URLs.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_makeSrcsRelative">makeSrcsRelative()</a>
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_content">content()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert src attributes in content to relative paths.</dd>
+<dd>Get the WordPress content directory URI.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_makeUploadsRelative">makeUploadsRelative()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Convert all upload URLs to root-relative.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_registerImageSizes">registerImageSizes()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Register custom image sizes from config.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Media-Media.html#method_toRelativeUrl">toRelativeUrl()</a>
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_current">current()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert a URL to a root-relative path.</dd>
+<dd>Get the current request path.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_full">full()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the full current URL including the home base.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_home">home()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the WordPress home URL.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_route">route()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Generate a URL for a named route.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_theme">theme()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the active theme&#039;s directory URI.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_to">to()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Generate an absolute URL for the given path.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Sloth-Routing-UrlGenerator.html#method_uploads">uploads()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get the WordPress uploads directory URI.</dd>
 
     </dl>
 
@@ -391,36 +416,73 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Sloth-Media-Media.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Routing-UrlGenerator.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
         class="
             phpdocumentor-element
             -property
-            -protected
-                                                                    "
+            -private
+                                                -read-only                    "
 >
     <h4 class="phpdocumentor-element__name" id="property_app">
         $app
-        <a href="classes/Sloth-Media-Media.html#property_app" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#property_app" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                            </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>                    </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
     
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__visibility">private</span>
             <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
     <span class="phpdocumentor-signature__name">$app</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                -read-only                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_router">
+        $router
+        <a href="classes/Sloth-Routing-UrlGenerator.html#property_router" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>                    </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">48</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$router</span>
     </code>
 
     
@@ -436,7 +498,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Sloth-Media-Media.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Sloth-Routing-UrlGenerator.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -447,20 +509,20 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Sloth-Media-Media.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$app</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$router</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -473,59 +535,25 @@
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Core-Application.html"><abbr title="\Sloth\Core\Application">Application</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>the application container</p>
+</section>
+
             </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_addSvgMime">
-        addSvgMime()
-        <a href="classes/Sloth-Media-Media.html#method_addSvgMime" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">35</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Add SVG mime type.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">addSvgMime</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mimes</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$mimes</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, string&gt;</span>
+                <span class="phpdocumentor-argument-list__argument__name">$router</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Sloth-Routing-Router.html"><abbr title="\Sloth\Routing\Router">Router</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>the router for named route generation</p>
+</section>
+
             </dd>
             </dl>
 
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Media-Media.html#method_addSvgMime#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -541,11 +569,7 @@
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -553,36 +577,38 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_makeHrefsRelative">
-        makeHrefsRelative()
-        <a href="classes/Sloth-Media-Media.html#method_makeHrefsRelative" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_asset">
+        asset()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_asset" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">156</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert href attributes in content to relative paths.</p>
+        <p class="phpdocumentor-summary">Get the URL for a theme asset in the public/ directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">makeHrefsRelative</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$content</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">asset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Assumes a Vite/webpack build output in theme/public/.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$content</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>HTML content with href attributes</p>
+                    <section class="phpdocumentor-description"><p>Asset path relative to public/ (e.g. 'css/app.css').</p>
 </section>
 
             </dd>
@@ -591,19 +617,11 @@
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Media-Media.html#method_makeHrefsRelative#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_asset#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
-                                                            
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -618,10 +636,6 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Content with relative hrefs</p>
-</section>
-
             </section>
 
 </article>
@@ -631,83 +645,23 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_makeLinksRelative">
-        makeLinksRelative()
-        <a href="classes/Sloth-Media-Media.html#method_makeLinksRelative" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_content">
+        content()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_content" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">111</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert all links to root-relative URLs.</p>
+        <p class="phpdocumentor-summary">Get the WordPress content directory URI.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">makeLinksRelative</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Media-Media.html#method_makeLinksRelative#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Media\toRelativeUrl()">toRelativeUrl()</abbr></span>
-                                        
-                                                 <section class="phpdocumentor-description"><p>For the URL transformation</p>
-</section>
-
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_makeSrcsRelative">
-        makeSrcsRelative()
-        <a href="classes/Sloth-Media-Media.html#method_makeSrcsRelative" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">172</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Convert src attributes in content to relative paths.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">makeSrcsRelative</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$content</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">content</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -716,11 +670,11 @@
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$content</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>HTML content with src attributes</p>
+                    <section class="phpdocumentor-description"><p>optional path to append</p>
 </section>
 
             </dd>
@@ -729,19 +683,11 @@
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Media-Media.html#method_makeSrcsRelative#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_content#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
-                                                            
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -756,10 +702,6 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Content with relative srcs</p>
-</section>
-
             </section>
 
 </article>
@@ -769,93 +711,35 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_makeUploadsRelative">
-        makeUploadsRelative()
-        <a href="classes/Sloth-Media-Media.html#method_makeUploadsRelative" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_current">
+        current()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_current" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">115</span>
+    <span class="phpdocumentor-element-found-in__line">152</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert all upload URLs to root-relative.</p>
+        <p class="phpdocumentor-summary">Get the current request path.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">makeUploadsRelative</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">current</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-    
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="classes/Sloth-Media-Media.html#method_makeUploadsRelative#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">since</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">see</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Sloth\Media\toRelativeUrl()">toRelativeUrl()</abbr></span>
-                                        
-                                                 <section class="phpdocumentor-description"><p>For the URL transformation</p>
+        <section class="phpdocumentor-description"><p>Returns the REQUEST_URI without query string — just the path portion.</p>
 </section>
 
-                                    </dd>
-                                            </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_registerImageSizes">
-        registerImageSizes()
-        <a href="classes/Sloth-Media-Media.html#method_registerImageSizes" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">47</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Register custom image sizes from config.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">registerImageSizes</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Media-Media.html#method_registerImageSizes#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_current#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -871,7 +755,11 @@
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -879,36 +767,167 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_toRelativeUrl">
-        toRelativeUrl()
-        <a href="classes/Sloth-Media-Media.html#method_toRelativeUrl" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_full">
+        full()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_full" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Media/Media.php"><a href="files/src-media-media.html"><abbr title="src/Media/Media.php">Media.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">162</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the full current URL including the home base.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">full</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_full#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_home">
+        home()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_home" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">59</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the WordPress home URL.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">home</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>optional path to append</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_home#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_route">
+        route()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_route" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">140</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert a URL to a root-relative path.</p>
+        <p class="phpdocumentor-summary">Generate a URL for a named route.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">toRelativeUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">route</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>The router generates the path and the home URL is prepended.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The full URL to convert</p>
+                    <section class="phpdocumentor-description"><p>route name</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>route parameters</p>
 </section>
 
             </dd>
@@ -917,7 +936,83 @@
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Media-Media.html#method_toRelativeUrl#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_route#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\InvalidArgumentException">InvalidArgumentException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>if the route name does not exist</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_theme">
+        theme()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_theme" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">85</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the active theme&#039;s directory URI.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">theme</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Optional path to append (e.g. 'css/app.css').</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_theme#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -936,10 +1031,140 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The relative path</p>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_to">
+        to()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_to" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">73</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Generate an absolute URL for the given path.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">to</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Alias for home() — mirrors Laravel's URL::to() API.</p>
 </section>
 
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>path to append to the home URL</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_to#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_uploads">
+        uploads()
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_uploads" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Routing/UrlGenerator.php"><a href="files/src-routing-urlgenerator.html"><abbr title="src/Routing/UrlGenerator.php">UrlGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">123</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the WordPress uploads directory URI.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">uploads</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>optional path to append</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Routing-UrlGenerator.html#method_uploads#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
 </article>
@@ -949,7 +1174,7 @@
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Media/Media.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Routing/UrlGenerator.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -1050,29 +1275,32 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Sloth-Media-Media.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Sloth-Media-Media.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Sloth-Routing-UrlGenerator.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Sloth-Routing-UrlGenerator.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Sloth-Media-Media.html#property_app">$app</a></li>
+                                                    <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#property_app">$app</a></li>
+                                                    <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#property_router">$router</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method___construct">__construct()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_addSvgMime">addSvgMime()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_makeHrefsRelative">makeHrefsRelative()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_makeLinksRelative">makeLinksRelative()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_makeSrcsRelative">makeSrcsRelative()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_makeUploadsRelative">makeUploadsRelative()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_registerImageSizes">registerImageSizes()</a></li>
-                                            <li class=""><a href="classes/Sloth-Media-Media.html#method_toRelativeUrl">toRelativeUrl()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_asset">asset()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_content">content()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_current">current()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_full">full()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_home">home()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_route">route()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_theme">theme()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_to">to()</a></li>
+                                            <li class=""><a href="classes/Sloth-Routing-UrlGenerator.html#method_uploads">uploads()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1092,7 +1320,7 @@
     </section>
 </section>
         </div>
-        <a href="classes/Sloth-Media-Media.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Sloth-Routing-UrlGenerator.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

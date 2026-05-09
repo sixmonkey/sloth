@@ -450,14 +450,14 @@
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Check if a property is set.</dd>
+<dd>Check if a dynamic property is set.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Field-Image.html#method___toString">__toString()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Convert to string (returns URL).</dd>
+<dd>Convert to string — returns the image URL.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Field-Image.html#method_getThemeSized">getThemeSized()</a>
@@ -471,21 +471,21 @@
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Resize the image with options.</dd>
+<dd>Resize the image with the given options.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Field-Image.html#method_sizes">sizes()</a>
     <span>
                                 &nbsp;: array&lt;string, string&gt;    </span>
 </dt>
-<dd>Get all available sizes.</dd>
+<dd>Get all available theme-defined image sizes.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Field-Image.html#method_getAbsoluteFilename">getAbsoluteFilename()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Get the absolute file path.</dd>
+<dd>Get the absolute filesystem path for a relative upload filename.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Field-Image.html#method_getFilename">getFilename()</a>
@@ -499,22 +499,21 @@
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Get the URL for a file.</dd>
+<dd>Get the URL for an upload file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Sloth-Field-Image.html#method_processOptions">processOptions()</a>
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
-<dd>Process manipulation options.</dd>
+<dd>Process and normalise manipulation options.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Sloth-Field-Image.html#method_normaliseInput">normaliseInput()</a>
     <span>
                                 &nbsp;: int|string|null    </span>
 </dt>
-<dd>Normalise constructor input to a value that ImageModel::findByIdOrUrl
-can resolve.</dd>
+<dd>Normalise constructor input to a value that ImageModel::findByIdOrUrl can resolve.</dd>
 
     </dl>
 
@@ -1416,7 +1415,7 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">402</span>
+    <span class="phpdocumentor-element-found-in__line">417</span>
 
     </aside>
 
@@ -1429,7 +1428,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Translates common aliases (caption, description, title, alt, metadata)
+to their underlying WordPress column/meta names before lookup.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1437,7 +1439,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Property name</p>
+                    <section class="phpdocumentor-description"><p>property name</p>
 </section>
 
             </dd>
@@ -1486,11 +1488,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">441</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Check if a property is set.</p>
+        <p class="phpdocumentor-summary">Check if a dynamic property is set.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1507,7 +1509,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Property name</p>
+                    <section class="phpdocumentor-description"><p>property name</p>
 </section>
 
             </dd>
@@ -1552,11 +1554,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">387</span>
+    <span class="phpdocumentor-element-found-in__line">399</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Convert to string (returns URL).</p>
+        <p class="phpdocumentor-summary">Convert to string — returns the image URL.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1617,7 +1619,7 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">212</span>
+    <span class="phpdocumentor-element-found-in__line">215</span>
 
     </aside>
 
@@ -1630,7 +1632,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Looks up the size in theme.image-sizes config and resizes accordingly.
+Falls back to resize() without options when the size is not configured.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1638,7 +1643,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, string&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Size name or array of dimensions</p>
+                    <section class="phpdocumentor-description"><p>size name or array of dimensions</p>
 </section>
 
             </dd>
@@ -1691,11 +1696,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">238</span>
+    <span class="phpdocumentor-element-found-in__line">244</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Resize the image with options.</p>
+        <p class="phpdocumentor-summary">Resize the image with the given options.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1704,7 +1709,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Stores a SlothMediaVersion record for the resized image so that
+the media version processor can generate the actual file.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1712,7 +1720,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Resize options or width</p>
+                    <section class="phpdocumentor-description"><p>Resize options (width, height, etc.)</p>
 </section>
 
             </dd>
@@ -1757,11 +1765,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">450</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get all available sizes.</p>
+        <p class="phpdocumentor-summary">Get all available theme-defined image sizes.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1770,7 +1778,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Iterates over theme.image-sizes config and returns a map
+of size name to resized URL.</p>
+</section>
+
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -1819,11 +1830,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">329</span>
+    <span class="phpdocumentor-element-found-in__line">335</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the absolute file path.</p>
+        <p class="phpdocumentor-summary">Get the absolute filesystem path for a relative upload filename.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1840,7 +1851,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Relative filename</p>
+                    <section class="phpdocumentor-description"><p>Relative filename (e.g. '/2026/05/image-800x600.jpg').</p>
 </section>
 
             </dd>
@@ -1854,6 +1865,14 @@ can resolve.</dd>
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Illuminate\Contracts\Container\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -1885,7 +1904,7 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">280</span>
+    <span class="phpdocumentor-element-found-in__line">288</span>
 
     </aside>
 
@@ -1898,7 +1917,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Builds the destination filename by appending a suffix that encodes
+the manipulation options (e.g. 'image-800x600-crop-center.jpg').</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1906,7 +1928,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Manipulation options</p>
+                    <section class="phpdocumentor-description"><p>manipulation options</p>
 </section>
 
             </dd>
@@ -1951,11 +1973,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">345</span>
+    <span class="phpdocumentor-element-found-in__line">353</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Get the URL for a file.</p>
+        <p class="phpdocumentor-summary">Get the URL for an upload file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1964,7 +1986,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Passes the base upload URI through the <code class="prettyprint">sloth_get_attachment_link</code>
+filter so themes can substitute a CDN URL.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1972,7 +1997,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Relative filename</p>
+                    <section class="phpdocumentor-description"><p>relative filename</p>
 </section>
 
             </dd>
@@ -1981,7 +2006,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">bool|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">true</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Whether to include full URL (default: true)</p>
+                    <section class="phpdocumentor-description"><p>whether to return a full URL (default: true)</p>
 </section>
 
             </dd>
@@ -2026,11 +2051,11 @@ can resolve.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Field/Image.php"><a href="files/src-field-image.html"><abbr title="src/Field/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">362</span>
+    <span class="phpdocumentor-element-found-in__line">374</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Process manipulation options.</p>
+        <p class="phpdocumentor-summary">Process and normalise manipulation options.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -2039,7 +2064,10 @@ can resolve.</dd>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Merges with defaults, removes upscale, sorts keys alphabetically
+so the option suffix is deterministic.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2047,7 +2075,7 @@ can resolve.</dd>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Manipulation options</p>
+                    <section class="phpdocumentor-description"><p>raw manipulation options</p>
 </section>
 
             </dd>
@@ -2075,6 +2103,10 @@ can resolve.</dd>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>processed options</p>
+</section>
+
             </section>
 
 </article>
@@ -2096,8 +2128,7 @@ can resolve.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Normalise constructor input to a value that ImageModel::findByIdOrUrl
-can resolve.</p>
+        <p class="phpdocumentor-summary">Normalise constructor input to a value that ImageModel::findByIdOrUrl can resolve.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -2121,6 +2152,21 @@ can resolve.</p>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Sloth-Field-Image.html#method_normaliseInput#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
         
     

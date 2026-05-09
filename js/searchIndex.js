@@ -778,7 +778,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AnormalizeCallbacks\u0028\u0029",
             "name": "normalizeCallbacks",
-            "summary": "Normalize\u0020callbacks\u0020from\u0020getHooks\/getFilters\u0020format.",
+            "summary": "Normalize\u0020a\u0020hook\/filter\u0020value\u0020into\u0020a\u0020flat\u0020array\u0020of\u0020callback\u0020descriptors.",
             "url": "classes/Sloth-Core-Application.html#method_normalizeCallbacks"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetLoadedProviders\u0028\u0029",
@@ -793,8 +793,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AregisterBasePaths\u0028\u0029",
             "name": "registerBasePaths",
-            "summary": "Register\u0020all\u0020base\u0020paths\u0020for\u0020the\u0020application.",
+            "summary": "Register\u0020all\u0020base\u0020filesystem\u0020paths\u0020for\u0020the\u0020application.",
             "url": "classes/Sloth-Core-Application.html#method_registerBasePaths"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AregisterBaseUris\u0028\u0029",
+            "name": "registerBaseUris",
+            "summary": "Register\u0020all\u0020base\u0020URIs\u0020for\u0020the\u0020application.",
+            "url": "classes/Sloth-Core-Application.html#method_registerBaseUris"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AguessBasePath\u0028\u0029",
             "name": "guessBasePath",
@@ -803,22 +808,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AaddPath\u0028\u0029",
             "name": "addPath",
-            "summary": "Add\u0020a\u0020path\u0020to\u0020the\u0020container.",
+            "summary": "Add\u0020a\u0020filesystem\u0020path\u0020to\u0020the\u0020container.",
             "url": "classes/Sloth-Core-Application.html#method_addPath"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003AaddUri\u0028\u0029",
+            "name": "addUri",
+            "summary": "Add\u0020a\u0020URI\u0020to\u0020the\u0020container.",
+            "url": "classes/Sloth-Core-Application.html#method_addUri"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003A\u0024basePath",
             "name": "basePath",
-            "summary": "",
+            "summary": "The\u0020resolved\u0020base\u0020path\u0020of\u0020the\u0020project.",
             "url": "classes/Sloth-Core-Application.html#property_basePath"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003Apath\u0028\u0029",
             "name": "path",
-            "summary": "Get\u0020a\u0020path\u0020from\u0020the\u0020container.",
+            "summary": "Get\u0020a\u0020registered\u0020filesystem\u0020path\u0020from\u0020the\u0020container.",
             "url": "classes/Sloth-Core-Application.html#method_path"
+        },                {
+            "fqsen": "\\Sloth\\Core\\Application\u003A\u003Auri\u0028\u0029",
+            "name": "uri",
+            "summary": "Get\u0020a\u0020registered\u0020URI\u0020from\u0020the\u0020container.",
+            "url": "classes/Sloth-Core-Application.html#method_uri"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AconfigPath\u0028\u0029",
             "name": "configPath",
-            "summary": "Get\u0020the\u0020config\u0020path.",
+            "summary": "Get\u0020the\u0020app\u0020config\u0020path.",
             "url": "classes/Sloth-Core-Application.html#method_configPath"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AisLocal\u0028\u0029",
@@ -853,7 +868,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetModelClass\u0028\u0029",
             "name": "getModelClass",
-            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020model\u0020by\u0020its\u0020post_type.",
+            "summary": "Get\u0020the\u0020class\u0020name\u0020for\u0020a\u0020model\u0020by\u0020its\u0020post_type.",
             "url": "classes/Sloth-Core-Application.html#method_getModelClass"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetAllModels\u0028\u0029",
@@ -863,7 +878,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetTaxonomyClass\u0028\u0029",
             "name": "getTaxonomyClass",
-            "summary": "Get\u0020a\u0020class\u0020for\u0020a\u0020taxonomy\u0020by\u0020its\u0020taxonomy\u0020type.",
+            "summary": "Get\u0020the\u0020class\u0020name\u0020for\u0020a\u0020taxonomy\u0020by\u0020its\u0020slug.",
             "url": "classes/Sloth-Core-Application.html#method_getTaxonomyClass"
         },                {
             "fqsen": "\\Sloth\\Core\\Application\u003A\u003AgetAllTaxonomies\u0028\u0029",
@@ -1761,6 +1776,16 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020this\u0020facade.",
             "url": "classes/Sloth-Facades-Route.html#method_getFacadeAccessor"
         },                {
+            "fqsen": "\\Sloth\\Facades\\URL",
+            "name": "URL",
+            "summary": "URL\u0020Facade.",
+            "url": "classes/Sloth-Facades-URL.html"
+        },                {
+            "fqsen": "\\Sloth\\Facades\\URL\u003A\u003AgetFacadeAccessor\u0028\u0029",
+            "name": "getFacadeAccessor",
+            "summary": "Returns\u0020the\u0020container\u0020binding\u0020key\u0020for\u0020this\u0020facade.",
+            "url": "classes/Sloth-Facades-URL.html#method_getFacadeAccessor"
+        },                {
             "fqsen": "\\Sloth\\Facades\\Validation",
             "name": "Validation",
             "summary": "Validation\u0020Facade\u0020for\u0020accessing\u0020the\u0020validation\u0020service.",
@@ -1793,7 +1818,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AnormaliseInput\u0028\u0029",
             "name": "normaliseInput",
-            "summary": "Normalise\u0020constructor\u0020input\u0020to\u0020a\u0020value\u0020that\u0020ImageModel\u003A\u003AfindByIdOrUrl\ncan\u0020resolve.",
+            "summary": "Normalise\u0020constructor\u0020input\u0020to\u0020a\u0020value\u0020that\u0020ImageModel\u003A\u003AfindByIdOrUrl\u0020can\u0020resolve.",
             "url": "classes/Sloth-Field-Image.html#method_normaliseInput"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AgetThemeSized\u0028\u0029",
@@ -1803,7 +1828,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003Aresize\u0028\u0029",
             "name": "resize",
-            "summary": "Resize\u0020the\u0020image\u0020with\u0020options.",
+            "summary": "Resize\u0020the\u0020image\u0020with\u0020the\u0020given\u0020options.",
             "url": "classes/Sloth-Field-Image.html#method_resize"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AgetFilename\u0028\u0029",
@@ -1813,22 +1838,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AgetAbsoluteFilename\u0028\u0029",
             "name": "getAbsoluteFilename",
-            "summary": "Get\u0020the\u0020absolute\u0020file\u0020path.",
+            "summary": "Get\u0020the\u0020absolute\u0020filesystem\u0020path\u0020for\u0020a\u0020relative\u0020upload\u0020filename.",
             "url": "classes/Sloth-Field-Image.html#method_getAbsoluteFilename"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AgetUrl\u0028\u0029",
             "name": "getUrl",
-            "summary": "Get\u0020the\u0020URL\u0020for\u0020a\u0020file.",
+            "summary": "Get\u0020the\u0020URL\u0020for\u0020an\u0020upload\u0020file.",
             "url": "classes/Sloth-Field-Image.html#method_getUrl"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003AprocessOptions\u0028\u0029",
             "name": "processOptions",
-            "summary": "Process\u0020manipulation\u0020options.",
+            "summary": "Process\u0020and\u0020normalise\u0020manipulation\u0020options.",
             "url": "classes/Sloth-Field-Image.html#method_processOptions"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
-            "summary": "Convert\u0020to\u0020string\u0020\u0028returns\u0020URL\u0029.",
+            "summary": "Convert\u0020to\u0020string\u0020\u2014\u0020returns\u0020the\u0020image\u0020URL.",
             "url": "classes/Sloth-Field-Image.html#method___toString"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A__get\u0028\u0029",
@@ -1838,7 +1863,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A__isset\u0028\u0029",
             "name": "__isset",
-            "summary": "Check\u0020if\u0020a\u0020property\u0020is\u0020set.",
+            "summary": "Check\u0020if\u0020a\u0020dynamic\u0020property\u0020is\u0020set.",
             "url": "classes/Sloth-Field-Image.html#method___isset"
         },                {
             "fqsen": "\\Sloth\\Field\\Image\u003A\u003A\u0024sizes",
@@ -2040,6 +2065,11 @@ Search.appendIndex(
             "name": "module",
             "summary": "Instantiate\u0020and\u0020render\u0020a\u0020theme\u0020module.",
             "url": "namespaces/default.html#function_module"
+        },                {
+            "fqsen": "\\url\u0028\u0029",
+            "name": "url",
+            "summary": "Generate\u0020a\u0020URL\u0020using\u0020the\u0020UrlGenerator.",
+            "url": "namespaces/default.html#function_url"
         },                {
             "fqsen": "\\Sloth\\Http\\HttpServiceProvider",
             "name": "HttpServiceProvider",
@@ -2546,6 +2576,11 @@ Search.appendIndex(
             "summary": "Media\u0020handling\u0020utilities\u0020for\u0020WordPress.",
             "url": "classes/Sloth-Media-Media.html"
         },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Media-Media.html#method___construct"
+        },                {
             "fqsen": "\\Sloth\\Media\\Media\u003A\u003AaddSvgMime\u0028\u0029",
             "name": "addSvgMime",
             "summary": "Add\u0020SVG\u0020mime\u0020type.",
@@ -2580,6 +2615,11 @@ Search.appendIndex(
             "name": "makeSrcsRelative",
             "summary": "Convert\u0020src\u0020attributes\u0020in\u0020content\u0020to\u0020relative\u0020paths.",
             "url": "classes/Sloth-Media-Media.html#method_makeSrcsRelative"
+        },                {
+            "fqsen": "\\Sloth\\Media\\Media\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Media-Media.html#property_app"
         },                {
             "fqsen": "\\Sloth\\Media\\MediaServiceProvider",
             "name": "MediaServiceProvider",
@@ -4215,6 +4255,71 @@ Search.appendIndex(
             "name": "dispatch",
             "summary": "Dispatch\u0020the\u0020current\u0020request\u0020to\u0020a\u0020matching\u0020route.",
             "url": "classes/Sloth-Routing-RoutingServiceProvider.html#method_dispatch"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator",
+            "name": "UrlGenerator",
+            "summary": "URL\u0020Generator.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method___construct"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Ahome\u0028\u0029",
+            "name": "home",
+            "summary": "Get\u0020the\u0020WordPress\u0020home\u0020URL.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_home"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Ato\u0028\u0029",
+            "name": "to",
+            "summary": "Generate\u0020an\u0020absolute\u0020URL\u0020for\u0020the\u0020given\u0020path.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_to"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Atheme\u0028\u0029",
+            "name": "theme",
+            "summary": "Get\u0020the\u0020active\u0020theme\u0027s\u0020directory\u0020URI.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_theme"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Aasset\u0028\u0029",
+            "name": "asset",
+            "summary": "Get\u0020the\u0020URL\u0020for\u0020a\u0020theme\u0020asset\u0020in\u0020the\u0020public\/\u0020directory.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_asset"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Acontent\u0028\u0029",
+            "name": "content",
+            "summary": "Get\u0020the\u0020WordPress\u0020content\u0020directory\u0020URI.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_content"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Auploads\u0028\u0029",
+            "name": "uploads",
+            "summary": "Get\u0020the\u0020WordPress\u0020uploads\u0020directory\u0020URI.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_uploads"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Aroute\u0028\u0029",
+            "name": "route",
+            "summary": "Generate\u0020a\u0020URL\u0020for\u0020a\u0020named\u0020route.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_route"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Acurrent\u0028\u0029",
+            "name": "current",
+            "summary": "Get\u0020the\u0020current\u0020request\u0020path.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_current"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003Afull\u0028\u0029",
+            "name": "full",
+            "summary": "Get\u0020the\u0020full\u0020current\u0020URL\u0020including\u0020the\u0020home\u0020base.",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#method_full"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003A\u0024app",
+            "name": "app",
+            "summary": "",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#property_app"
+        },                {
+            "fqsen": "\\Sloth\\Routing\\UrlGenerator\u003A\u003A\u0024router",
+            "name": "router",
+            "summary": "",
+            "url": "classes/Sloth-Routing-UrlGenerator.html#property_router"
         },                {
             "fqsen": "\\Sloth\\Support\\AbstractRegistrar",
             "name": "AbstractRegistrar",
