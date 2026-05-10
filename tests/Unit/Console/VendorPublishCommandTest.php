@@ -12,6 +12,7 @@ use Illuminate\Support\ServiceProvider;
  */
 class TestPublishProvider extends ServiceProvider
 {
+    #[\Override]
     public function register(): void {}
 
     public function boot(): void {}
