@@ -100,8 +100,8 @@ describe('ConsoleKernel', function (): void {
                 $kernel = makeTestKernel($app)->discoverCommands();
 
                 // Both commands should be available
-                expect(fn() => $kernel->handle(['provider:test'], []))->not()->toThrow(\Throwable::class);
-                expect(fn() => $kernel->handle(['provider:other'], []))->not()->toThrow(\Throwable::class);
+                expect(fn(): int => $kernel->handle(['provider:test'], []))->not()->toThrow(\Throwable::class);
+                expect(fn(): int => $kernel->handle(['provider:other'], []))->not()->toThrow(\Throwable::class);
             });
 
             it('accepts an already-instantiated command object', function (): void {
