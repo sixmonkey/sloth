@@ -117,6 +117,8 @@ class VendorPublishCommand extends Command
      * Falls back to the absolute path if the path is outside the project root.
      *
      * @since 1.0.0
+     *
+     * @param string $path
      */
     private function relativePath(string $path): string
     {
