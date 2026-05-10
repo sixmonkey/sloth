@@ -719,8 +719,8 @@ MIT — see [LICENSE](LICENSE).
 
 ## Contributors
 
-<a href="https://github.com/folvioro/sloth/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=folvioro/sloth" />
+<a href="https://github.com/folvioro/sloth/graphs/contributors" target="_blank">
+  <img src="https://contrib.rocks/image?repo=folvioro/sloth"  alt="Our contributers"/>
 </a>
 
 - [Ben Kremer](https://benkremer.de)
