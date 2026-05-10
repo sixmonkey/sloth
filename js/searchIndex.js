@@ -616,6 +616,31 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Console-Commands-InspireCommand.html#property_description"
         },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\VendorPublishCommand",
+            "name": "VendorPublishCommand",
+            "summary": "Publishes\u0020config\u0020and\u0020view\u0020files\u0020from\u0020a\u0020package\u0020into\u0020the\u0020project.",
+            "url": "classes/Sloth-Console-Commands-VendorPublishCommand.html"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\VendorPublishCommand\u003A\u003Ahandle\u0028\u0029",
+            "name": "handle",
+            "summary": "Execute\u0020the\u0020command.",
+            "url": "classes/Sloth-Console-Commands-VendorPublishCommand.html#method_handle"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\VendorPublishCommand\u003A\u003ArelativePath\u0028\u0029",
+            "name": "relativePath",
+            "summary": "Return\u0020a\u0020path\u0020relative\u0020to\u0020the\u0020project\u0020root\u0020for\u0020cleaner\u0020output.",
+            "url": "classes/Sloth-Console-Commands-VendorPublishCommand.html#method_relativePath"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\VendorPublishCommand\u003A\u003A\u0024signature",
+            "name": "signature",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-VendorPublishCommand.html#property_signature"
+        },                {
+            "fqsen": "\\Sloth\\Console\\Commands\\VendorPublishCommand\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/Sloth-Console-Commands-VendorPublishCommand.html#property_description"
+        },                {
             "fqsen": "\\Sloth\\Console\\ConsoleKernel",
             "name": "ConsoleKernel",
             "summary": "Sloth\u0020Console\u0020Kernel.",

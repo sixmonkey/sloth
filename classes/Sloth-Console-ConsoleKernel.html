@@ -624,7 +624,7 @@ $status = $kernel-&gt;discoverCommands()-&gt;handleArgv(['sloth', 'inspire']);
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">180</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
@@ -640,11 +640,15 @@ $status = $kernel-&gt;discoverCommands()-&gt;handleArgv(['sloth', 'inspire']);
         <section class="phpdocumentor-description"><p>Scans the framework, app, and theme Console directories for classes
 extending <code class="prettyprint">Illuminate\Console\Command</code> and registers them with
 the console application.</p>
+<p>Also picks up any commands registered by service providers via
+$this-&gt;commands([MyCommand::class]) in their boot() method —
+the same pattern Laravel uses for package commands.</p>
 <p>Discovery order (first found, first registered):</p>
 <ol>
 <li>Framework: <code class="prettyprint">src/Console/Commands/</code></li>
 <li>App: <code class="prettyprint">app/Console/</code></li>
 <li>Theme: <code class="prettyprint">theme/Console/</code> (if configured)</li>
+<li>Provider-registered: tagged 'commands' in the container</li>
 </ol>
 <p>Missing directories are silently skipped.</p>
 </section>
@@ -873,7 +877,7 @@ It receives the raw argv array from the command line.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Console/ConsoleKernel.php"><a href="files/src-console-consolekernel.html"><abbr title="src/Console/ConsoleKernel.php">ConsoleKernel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">231</span>
+    <span class="phpdocumentor-element-found-in__line">246</span>
 
     </aside>
 
