@@ -117,6 +117,41 @@ class Response extends IlluminateResponse
     }
 
     /**
+     * Create a response from a Twig view.
+     *
+     * Convenience wrapper around View::make() + Response::make() —
+     * the idiomatic way to return a rendered template from a route callback.
+     *
+     * ```php
+     * Route::get('/projects', function () {
+     *     return Response::view('Layout/projects', [
+     *         'projects' => Project::all(),
+     *     ]);
+     * });
+     * ```
+     *
+     * @param string               $template the template path (relative to View/)
+     * @param array<string, mixed> $data     variables to pass to the template
+     * @param int                  $status   HTTP status code
+     * @param array<string, mixed> $headers  additional response headers
+     *
+     * @since 1.0.0
+     */
+    public static function view(
+        string $template,
+        array $data = [],
+        int $status = 200,
+        array $headers = [],
+    ): static {
+        $content = \Sloth\Facades\View::make(
+            str_replace('.', DIRECTORY_SEPARATOR, $template),
+        )->with($data)->render();
+
+        // @phpstan-ignore new.static
+        return new static($content, $status, $headers);
+    }
+
+    /**
      * Redirect to a URL and terminate the request.
      *
      * Uses wp_redirect() when WordPress is available, falls back to a
