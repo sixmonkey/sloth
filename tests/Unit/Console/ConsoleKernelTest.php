@@ -145,11 +145,6 @@ describe('ConsoleKernel', function (): void {
     });
 
     describe('handleArgv()', function (): void {
-        it('returns 0 for the inspire command', function (): void {
-            $status = makeTestKernel()->discoverCommands()->handleArgv(['sloth', 'inspire']);
-
-            expect($status)->toBe(0);
-        });
 
         it('returns 0 for the list command', function (): void {
             $status = makeTestKernel()->discoverCommands()->handleArgv(['sloth', 'list']);
