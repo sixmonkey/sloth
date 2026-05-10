@@ -156,7 +156,7 @@ abstract class AbstractManifestBuilder
             require: $this->requireFiles(),
         );
 
-        $this->entries = $entries ?? [];
+        $this->entries = $entries;
     }
 
     /**

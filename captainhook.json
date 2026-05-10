@@ -19,7 +19,7 @@
       {
         "action": "\\Unh3ck3d\\PhpCsFixerGitHook\\LintStagedFiles",
         "config": {
-          "label": "PHP CS Fixer"
+          "label": "PHP CS Fixer (staged files)"
         }
       }
     ]
@@ -27,6 +27,12 @@
   "pre-push": {
     "enabled": true,
     "actions": [
+      {
+        "action": "vendor/bin/rector process --dry-run --no-progress-bar",
+        "config": {
+          "label": "Rector"
+        }
+      },
       {
         "action": "vendor/bin/pest --no-progress",
         "config": {

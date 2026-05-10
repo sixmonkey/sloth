@@ -4,10 +4,10 @@
 </a>
 </p>
 <p align="center">
-<a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/dt/sixmonkey/sloth" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/v/sixmonkey/sloth" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/l/sixmonkey/sloth" alt="License"></a>
-<a href="https://github.com/sixmonkey/sloth/actions/workflows/ci.yml"><img src="https://github.com/sixmonkey/sloth/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<a href="https://packagist.org/packages/folvioro/sloth"><img src="https://img.shields.io/packagist/dt/folvioro/sloth" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/folvioro/sloth"><img src="https://img.shields.io/packagist/v/folvioro/sloth" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/folvioro/sloth"><img src="https://img.shields.io/packagist/l/folvioro/sloth" alt="License"></a>
+<a href="https://github.com/folvioro/sloth/actions/workflows/ci.yml"><img src="https://github.com/folvioro/sloth/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 # Sloth — WordPress Theme Framework
@@ -37,7 +37,7 @@ WordPress themes with a clean, object-oriented architecture.
 ## Installation
 
 ```bash
-composer create-project sixmonkey/sloth my-theme
+composer create-project folvioro/sloth my-theme
 ```
 
 ## Quick Start
@@ -160,9 +160,12 @@ Route::get('/archive/{year}/{month}', function (string $year, string $month) {
 ```php
 Route::get('/posts/{slug}', fn($slug) => Response::make(view('single')))->name('post.show');
 
-// Generate URL
-$url = app('router')->url('post.show', ['slug' => 'hello-world']);
-// → /posts/hello-world
+// Generate URL via facade
+URL::route('post.show', ['slug' => 'hello-world']);
+// → https://example.com/posts/hello-world
+
+// Or via helper
+url()->route('post.show', ['slug' => 'hello-world']);
 ```
 
 ## HTTP Response
@@ -201,6 +204,45 @@ All methods support chaining for headers:
 Response::make(view('styles.index'), 200)
     ->header('Content-Type', 'text/css')
     ->header('Cache-Control', 'public, max-age=3600');
+```
+
+## URL Generation
+
+Sloth provides a `UrlGenerator` that abstracts WordPress URL functions and integrates with the router for named route URLs. All values are read from the container — WordPress functions are never called directly in your code.
+
+### Via Facade
+
+```php
+use Sloth\Facades\URL;
+
+URL::home()                                   // https://example.com
+URL::to('/about')                             // https://example.com/about
+URL::theme()                                  // https://example.com/wp-content/themes/my-theme
+URL::theme('css/app.css')                     // https://example.com/.../my-theme/css/app.css
+URL::asset('css/app.css')                     // https://example.com/.../my-theme/public/css/app.css
+URL::content()                                // https://example.com/wp-content
+URL::uploads()                                // https://example.com/wp-content/uploads
+URL::route('post.show', ['slug' => 'hello'])  // https://example.com/posts/hello
+URL::current()                                // /current/path
+URL::full()                                   // https://example.com/current/path
+```
+
+### Via Helper
+
+```php
+url('/about')            // https://example.com/about
+url()->theme('css/app')  // https://example.com/.../theme/css/app.css
+url()->asset('js/app.js') // https://example.com/.../theme/public/js/app.js
+url()->route('post.show', ['slug' => 'hello'])
+```
+
+### In Twig
+
+```twig
+{{ url('/about') }}
+{{ url().theme('css/app.css') }}
+{{ url().asset('js/app.js') }}
+{{ url().route('post.show', { slug: 'hello' }) }}
 ```
 
 ## Configuration
@@ -607,6 +649,7 @@ sloth/
 | `Validation` | Form validation                                    |
 | `Configure`  | Legacy config access (deprecated — use `config()`) |
 | `File`       | Filesystem operations                              |
+| `URL`        | URL generation (`URL::home/theme/asset/route`)     |
 
 ## WP-CLI Commands
 
@@ -676,8 +719,8 @@ MIT — see [LICENSE](LICENSE).
 
 ## Contributors
 
-<a href="https://github.com/sixmonkey/sloth/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=sixmonkey/sloth" />
+<a href="https://github.com/folvioro/sloth/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=folvioro/sloth" />
 </a>
 
 - [Ben Kremer](https://benkremer.de)
@@ -689,6 +732,6 @@ MIT — see [LICENSE](LICENSE).
 
 ## Links
 
-- [Documentation](https://sixmonkey.github.io/sloth)
-- [Issue Tracker](https://github.com/sixmonkey/sloth/issues)
-- [Packagist](https://packagist.org/packages/sixmonkey/sloth)
+- [Documentation](https://folvioro.github.io/sloth)
+- [Issue Tracker](https://github.com/folvioro/sloth/issues)
+- [Packagist](https://packagist.org/packages/folvioro/sloth)

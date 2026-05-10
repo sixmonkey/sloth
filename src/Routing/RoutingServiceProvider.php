@@ -37,7 +37,17 @@ class RoutingServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Router::class, fn (): Router => new Router());
         $this->app->alias(Router::class, 'router');
-        $this->app->singleton(RoutesManifestBuilder::class, fn ($app): RoutesManifestBuilder => new RoutesManifestBuilder($app));
+
+        $this->app->singleton(
+            UrlGenerator::class,
+            fn ($app): UrlGenerator => new UrlGenerator($app, $app->make(Router::class)),
+        );
+        $this->app->alias(UrlGenerator::class, 'url');
+
+        $this->app->singleton(
+            RoutesManifestBuilder::class,
+            fn ($app): RoutesManifestBuilder => new RoutesManifestBuilder($app),
+        );
     }
 
     /**

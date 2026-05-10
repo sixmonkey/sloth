@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace Sloth\Model;
 
+use Override;
+
 /**
  * Image Model for WordPress image attachments.
  *
@@ -132,6 +134,7 @@ class Image extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
+    #[Override]
     public function newQuery()
     {
         return parent::newQuery()
@@ -244,9 +247,9 @@ class Image extends Model
      */
     public static function urlToRelativePath(string $url, ?string $baseUrl = null): string
     {
-        $baseUrl ??= wp_upload_dir()['baseurl'];
-        $relativePath = str_starts_with($url, $baseUrl)
-            ? substr($url, strlen($baseUrl))
+        $baseUrl ??= app()->uri('uploads');
+        $relativePath = str_starts_with($url, (string) $baseUrl)
+            ? substr($url, strlen((string) $baseUrl))
             : $url;
 
         return ltrim($relativePath, '/');
@@ -347,7 +350,7 @@ class Image extends Model
             return null;
         }
 
-        $path = realpath(wp_upload_dir()['basedir'] . '/' . ltrim($relPath, '/'));
+        $path = realpath(app()->path('uploads') . '/' . ltrim($relPath, '/'));
 
         return $path !== false ? $path : null;
     }

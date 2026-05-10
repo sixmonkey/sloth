@@ -21,6 +21,10 @@ if (!defined('WP_CONTENT_DIR')) {
     define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
 }
 
+if (!defined('WP_PLUGIN_DIR')) {
+    define('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins');
+}
+
 if (!defined('WP_DEBUG')) {
     define('WP_DEBUG', true);
 }
@@ -133,20 +137,6 @@ if (!function_exists('wp_upload_dir')) {
     }
 }
 
-if (!function_exists('get_option')) {
-    function get_option(string $option, mixed $default = false): mixed
-    {
-        return $default;
-    }
-}
-
-if (!function_exists('update_option')) {
-    function update_option(string $option, mixed $value, bool $autoload = true): bool
-    {
-        return true;
-    }
-}
-
 if (!function_exists('get_template_directory')) {
     function get_template_directory(): string
     {
@@ -154,10 +144,25 @@ if (!function_exists('get_template_directory')) {
     }
 }
 
+if (!function_exists('get_template_directory_uri')) {
+    function get_template_directory_uri(): string
+    {
+        return 'http://localhost/wp-content/themes/test';
+    }
+}
+
 if (!function_exists('get_stylesheet_directory')) {
     function get_stylesheet_directory(): string
     {
         return __DIR__ . '/../src';
+    }
+}
+
+if (!function_exists('content_url')) {
+    function content_url(?string $path = ''): string
+    {
+        $url = 'http://localhost/wp-content';
+        return $path ? $url . '/' . ltrim($path, '/') : $url;
     }
 }
 
@@ -198,6 +203,20 @@ if (!function_exists('home_url')) {
     function home_url(?string $path = ''): string
     {
         return 'http://localhost/' . $path;
+    }
+}
+
+if (!function_exists('__return_true')) {
+    function __return_true(): bool
+    {
+        return true;
+    }
+}
+
+if (!function_exists('__return_false')) {
+    function __return_false(): bool
+    {
+        return false;
     }
 }
 

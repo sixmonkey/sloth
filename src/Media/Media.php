@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Sloth\Media;
 
 use function add_image_size;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Sloth\Core\Application;
 
 /**
  * Media handling utilities for WordPress.
@@ -18,6 +20,10 @@ use function add_image_size;
  */
 class Media
 {
+    public function __construct(protected Application $app)
+    {
+    }
+
     /**
      * Add SVG mime type.
      *
@@ -139,26 +145,32 @@ class Media
     /**
      * Convert href attributes in content to relative paths.
      *
-     * @param  string $content HTML content with href attributes
+     * @param string $content HTML content with href attributes
+     *
+     * @throws BindingResolutionException
+     *
      * @return string Content with relative hrefs
      *
      * @since 1.0.0
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim(home_url(), '/'), 'href="', $content);
+        return str_replace('href="' . rtrim((string) app()->uri(), '/'), 'href="', $content);
     }
 
     /**
      * Convert src attributes in content to relative paths.
      *
-     * @param  string $content HTML content with src attributes
+     * @param string $content HTML content with src attributes
+     *
+     * @throws BindingResolutionException
+     *
      * @return string Content with relative srcs
      *
      * @since 1.0.0
      */
     public function makeSrcsRelative(string $content): string
     {
-        return str_replace('src="' . rtrim(home_url(), '/'), 'src="', $content);
+        return str_replace('src="' . rtrim((string) app()->uri(), '/'), 'src="', $content);
     }
 }

@@ -12,3 +12,4 @@ REFACTOR.md
 /build/
 /.phpunit.cache/
 .php-cs-fixer.cache
+/app

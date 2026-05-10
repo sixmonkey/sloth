@@ -89,7 +89,8 @@ class SlothTwigExtension extends AbstractExtension
     public function getGlobals(): array
     {
         return [
-            'fn' => $this,
+            'fn'      => $this,
+            'options' => app('options'),
         ];
     }
 
@@ -319,6 +320,7 @@ class SlothTwigExtension extends AbstractExtension
                     $domain,
                 ),
             ),
+            new TwigFunction('url', fn (?string $path = null): \Sloth\Routing\UrlGenerator|string => url($path)),
         ];
 
         // -------------------------------------------------------------------------

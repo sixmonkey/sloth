@@ -12,13 +12,6 @@ use Sloth\Console\ConsoleKernel;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-beforeEach(function (): void {
-    Monkey\setUp();
-});
-
-afterEach(function (): void {
-    Monkey\tearDown();
-});
 
 /**
  * Create a minimal test Application for console tests.
@@ -32,10 +25,16 @@ function makeTestApp(): Application
     $app->instance('config', new \Illuminate\Config\Repository([]));
     $app->instance('files', new \Illuminate\Filesystem\Filesystem());
     $app->instance('events', new \Illuminate\Events\Dispatcher($app));
+
     $app->instance('path.base', sys_get_temp_dir());
     $app->instance('path.app', sys_get_temp_dir() . '/app');
     $app->instance('path.theme', sys_get_temp_dir() . '/theme');
     $app->instance('path.cache', sys_get_temp_dir() . '/cache');
+
+    $app->instance('uri.home', 'http://example.com');
+    $app->instance('uri.theme', 'http://example.com/wp-content/themes/sloth/');
+    $app->instance('uri.content', 'http://example.com/wp-content/');
+    $app->instance('uri.uploads', 'http://example.com/wp-content/uploads/');
 
     return $app;
 }
@@ -60,3 +59,12 @@ function makeTestKernel(?Application $app = null): ConsoleKernel
         }
     };
 }
+
+beforeEach(function (): void {
+    Monkey\setUp();
+    Application::setInstance(makeTestApp());
+});
+
+afterEach(function (): void {
+    Monkey\tearDown();
+});
