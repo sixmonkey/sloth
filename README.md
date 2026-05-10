@@ -4,10 +4,10 @@
 </a>
 </p>
 <p align="center">
-<a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/dt/sixmonkey/sloth" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/v/sixmonkey/sloth" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/sixmonkey/sloth"><img src="https://img.shields.io/packagist/l/sixmonkey/sloth" alt="License"></a>
-<a href="https://github.com/sixmonkey/sloth/actions/workflows/ci.yml"><img src="https://github.com/sixmonkey/sloth/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<a href="https://packagist.org/packages/folvioro/sloth"><img src="https://img.shields.io/packagist/dt/folvioro/sloth" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/folvioro/sloth"><img src="https://img.shields.io/packagist/v/folvioro/sloth" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/folvioro/sloth"><img src="https://img.shields.io/packagist/l/folvioro/sloth" alt="License"></a>
+<a href="https://github.com/folvioro/sloth/actions/workflows/ci.yml"><img src="https://github.com/folvioro/sloth/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 # Sloth — WordPress Theme Framework
@@ -37,7 +37,7 @@ WordPress themes with a clean, object-oriented architecture.
 ## Installation
 
 ```bash
-composer create-project sixmonkey/sloth my-theme
+composer create-project folvioro/sloth my-theme
 ```
 
 ## Quick Start
@@ -719,8 +719,8 @@ MIT — see [LICENSE](LICENSE).
 
 ## Contributors
 
-<a href="https://github.com/sixmonkey/sloth/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=sixmonkey/sloth" />
+<a href="https://github.com/folvioro/sloth/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=folvioro/sloth" />
 </a>
 
 - [Ben Kremer](https://benkremer.de)
@@ -732,6 +732,6 @@ MIT — see [LICENSE](LICENSE).
 
 ## Links
 
-- [Documentation](https://sixmonkey.github.io/sloth)
-- [Issue Tracker](https://github.com/sixmonkey/sloth/issues)
-- [Packagist](https://packagist.org/packages/sixmonkey/sloth)
+- [Documentation](https://folvioro.github.io/sloth)
+- [Issue Tracker](https://github.com/folvioro/sloth/issues)
+- [Packagist](https://packagist.org/packages/folvioro/sloth)
