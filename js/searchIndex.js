@@ -2231,6 +2231,11 @@ Search.appendIndex(
             "summary": "Create\u0020an\u0020inline\u0020file\u0020response\u0020\u0028e.g.\u0020display\u0020PDF\u0020in\u0020browser\u0029.",
             "url": "classes/Sloth-Http-Response.html#method_file"
         },                {
+            "fqsen": "\\Sloth\\Http\\Response\u003A\u003Aview\u0028\u0029",
+            "name": "view",
+            "summary": "Create\u0020a\u0020response\u0020from\u0020a\u0020Twig\u0020view.",
+            "url": "classes/Sloth-Http-Response.html#method_view"
+        },                {
             "fqsen": "\\Sloth\\Http\\Response\u003A\u003Aredirect\u0028\u0029",
             "name": "redirect",
             "summary": "Redirect\u0020to\u0020a\u0020URL\u0020and\u0020terminate\u0020the\u0020request.",
