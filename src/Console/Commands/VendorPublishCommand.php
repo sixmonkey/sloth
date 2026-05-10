@@ -82,7 +82,7 @@ class VendorPublishCommand extends Command
         foreach ($paths as $from => $to) {
             // Skip if the target already exists and --force was not passed.
             if (file_exists($to) && !$this->option('force')) {
-                $this->line("  <fg=yellow>SKIP</> " . $this->relativePath($to) . ' (use --force to overwrite)');
+                $this->line('  <fg=yellow>SKIP</> ' . $this->relativePath($to) . ' (use --force to overwrite)');
                 $skipped++;
 
                 continue;
@@ -90,11 +90,11 @@ class VendorPublishCommand extends Command
 
             // Create parent directories if they don't exist.
             if (!is_dir(dirname($to))) {
-                mkdir(dirname($to), 0755, true);
+                mkdir(dirname($to), 0o755, true);
             }
 
             copy($from, $to);
-            $this->line("  <fg=green>✓</> " . $this->relativePath($to));
+            $this->line('  <fg=green>✓</> ' . $this->relativePath($to));
             $published++;
         }
 
