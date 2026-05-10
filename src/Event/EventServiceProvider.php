@@ -28,7 +28,7 @@ class EventServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boots the EventServiceProviders and publishes it's config
+     * Boots the EventServiceProviders and publishes it's config.
      *
      * @since 1.0.2
      */
