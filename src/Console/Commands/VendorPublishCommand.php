@@ -89,8 +89,8 @@ class VendorPublishCommand extends Command
             }
 
             // Create parent directories if they don't exist.
-            if (!is_dir(dirname($to))) {
-                mkdir(dirname($to), 0o755, true);
+            if (!is_dir(dirname((string) $to))) {
+                mkdir(dirname((string) $to), 0o755, true);
             }
 
             copy($from, $to);
@@ -124,8 +124,8 @@ class VendorPublishCommand extends Command
     {
         $base = app()->path();
 
-        if (str_starts_with($path, $base)) {
-            return ltrim(substr($path, strlen($base)), '/');
+        if (str_starts_with($path, (string) $base)) {
+            return ltrim(substr($path, strlen((string) $base)), '/');
         }
 
         return $path;
