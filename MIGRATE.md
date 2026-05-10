@@ -7,13 +7,13 @@ Many changes can be applied automatically — see [Automated Migration](#automat
 
 ## Automated Migration
 
-Migration rules live in a separate companion package — `sixmonkey/sloth-rector` —
+Migration rules live in a separate companion package — `folivoro/shift` —
 to keep Sloth's production dependencies clean.
 
 ### Install
 
 ```bash
-composer require --dev sixmonkey/sloth-rector
+composer require --dev folivoro/shift
 ```
 
 ### Run once after upgrading Sloth
@@ -25,14 +25,14 @@ composer sloth:migrate
 Or manually:
 
 ```bash
-vendor/bin/rector process app/ --config vendor/sixmonkey/sloth-rector/config/sloth-migrate.php
+vendor/bin/rector process app/ --config vendor/folivoro/shift/config/sloth-migrate.php
 ```
 
 ### Add to your theme's composer.json
 
 ```json
 "scripts": {
-"sloth:migrate": "rector process app/ --config vendor/sixmonkey/sloth-rector/config/sloth-migrate.php"
+"sloth:migrate": "rector process app/ --config vendor/folivoro/shift/config/sloth-migrate.php"
 }
 ```
 
