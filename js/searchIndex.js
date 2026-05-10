@@ -596,26 +596,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sloth-Console-Commands-ConfigCommand.html#property_description"
         },                {
-            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand",
-            "name": "InspireCommand",
-            "summary": "Display\u0020a\u0020welcome\u0020message.",
-            "url": "classes/Sloth-Console-Commands-InspireCommand.html"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand\u003A\u003Ahandle\u0028\u0029",
-            "name": "handle",
-            "summary": "",
-            "url": "classes/Sloth-Console-Commands-InspireCommand.html#method_handle"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand\u003A\u003A\u0024signature",
-            "name": "signature",
-            "summary": "",
-            "url": "classes/Sloth-Console-Commands-InspireCommand.html#property_signature"
-        },                {
-            "fqsen": "\\Sloth\\Console\\Commands\\InspireCommand\u003A\u003A\u0024description",
-            "name": "description",
-            "summary": "",
-            "url": "classes/Sloth-Console-Commands-InspireCommand.html#property_description"
-        },                {
             "fqsen": "\\Sloth\\Console\\Commands\\VendorPublishCommand",
             "name": "VendorPublishCommand",
             "summary": "Publishes\u0020config\u0020and\u0020view\u0020files\u0020from\u0020a\u0020package\u0020into\u0020the\u0020project.",
@@ -1525,6 +1505,11 @@ Search.appendIndex(
             "name": "register",
             "summary": "Register\u0020the\u0020events\u0020service.",
             "url": "classes/Sloth-Event-EventServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\Event\\EventServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boots\u0020the\u0020EventServiceProviders\u0020and\u0020publishes\u0020it\u0027s\u0020config",
+            "url": "classes/Sloth-Event-EventServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Event\\WordPressEventBridge",
             "name": "WordPressEventBridge",

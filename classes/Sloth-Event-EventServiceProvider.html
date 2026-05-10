@@ -315,11 +315,11 @@
 <dd>Handles calls to undefined methods.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_boot">boot()</a>
+    <a class="" href="classes/Sloth-Event-EventServiceProvider.html#method_boot">boot()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Boot the service provider.</dd>
+<dd>Boots the EventServiceProviders and publishes it&#039;s config</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a>
@@ -445,17 +445,17 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_boot">
         boot()
-        <a href="classes/Sloth-Core-ServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Event-EventServiceProvider.html#method_boot" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/ServiceProvider.php"><a href="files/src-core-serviceprovider.html"><abbr title="src/Core/ServiceProvider.php">ServiceProvider.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Event/EventServiceProvider.php"><a href="files/src-event-eventserviceprovider.html"><abbr title="src/Event/EventServiceProvider.php">EventServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">231</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Boot the service provider.</p>
+        <p class="phpdocumentor-summary">Boots the EventServiceProviders and publishes it&#039;s config</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -464,17 +464,12 @@
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Override in subclasses to perform boot-time setup such as
-registering view composers, loading config files, or setting
-up integrations that require other providers to be registered.</p>
-<p>Called after all providers have been registered.</p>
-</section>
-
+    
     
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Sloth-Core-ServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Sloth-Event-EventServiceProvider.html#method_boot#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -482,13 +477,24 @@ up integrations that require other providers to be registered.</p>
                     <span class="phpdocumentor-tag__name">since</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                            <span class="phpdocumentor-tag-link">1.0.2</span>
                                                                                 
                                              
                                     </dd>
                                             </dl>
 
         
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="attributes">
+                Attributes <a href="classes/Sloth-Event-EventServiceProvider.html#method_boot#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Override">Override</abbr>]
+    </dt>
+    </dl>
+                    </section>
     
     
 </article>
@@ -842,7 +848,7 @@ consider using the EventBridge in boot():</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method___call">__call()</a></li>
-                                            <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_boot">boot()</a></li>
+                                            <li class=""><a href="classes/Sloth-Event-EventServiceProvider.html#method_boot">boot()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getFilters">getFilters()</a></li>
                                             <li class=""><a href="classes/Sloth-Core-ServiceProvider.html#method_getHooks">getHooks()</a></li>
                                             <li class=""><a href="classes/Sloth-Event-EventServiceProvider.html#method_register">register()</a></li>
