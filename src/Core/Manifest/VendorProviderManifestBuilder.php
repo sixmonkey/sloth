@@ -13,7 +13,7 @@ use Sloth\Support\Manifest\FinderInterface;
  * Builds a manifest for vendor Composer package ServiceProvider discovery.
  *
  * Parses vendor/composer/installed.json to find packages that declare
- * Sloth service providers via extra.laravel.providers (Laravel-compatible format).
+ * Sloth service providers via extra.folivoro.providers (Folivoro-compatible format).
  *
  * ## How it works
  *
@@ -93,7 +93,7 @@ class VendorProviderManifestBuilder extends AbstractManifestBuilder
      * Return the finder for Composer package discovery.
      *
      * Uses ComposerFinder to parse vendor/composer/installed.json
-     * and extract provider class names from extra.laravel.providers.
+     * and extract provider class names from extra.folivoro.providers.
      *
      * @return FinderInterface the configured ComposerFinder
      *
