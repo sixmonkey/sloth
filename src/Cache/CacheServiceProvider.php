@@ -87,32 +87,44 @@ class CacheServiceProvider extends ServiceProvider
      * Configures the file cache driver with the theme cache path,
      * and registers the WordPress transients driver.
      *
+     * The default driver can be overridden by publishing and editing
+     * the cache config file:
+     *
+     * ```bash
+     * wp sloth vendor:publish --provider="Sloth\Cache\CacheServiceProvider" --tag=config
+     * ```
+     *
      * @since 1.0.0
      */
     public function boot(): void
     {
-        // Configure the cache repository in the Laravel config format
-        $cachePath = $this->app->path('Cache', 'cache');
+        // Merge driver and prefix defaults into Laravel's cache config.
+        // If the user publishes app/config/cache.php, their values take precedence.
+        $this->mergeConfigFrom(__DIR__ . '/config/cache.php', 'cache');
 
-        $this->app['config']->set('cache', [
-            'default' => 'file',
-            'stores'  => [
-                'file' => [
-                    'driver' => 'file',
-                    'path'   => $cachePath,
-                ],
-                'array' => [
-                    'driver'    => 'array',
-                    'serialize' => false,
-                ],
-            ],
-            'prefix' => 'sloth',
+        // Publish the config file for customization
+        $this->publishes([
+            __DIR__ . '/config/cache.php' => app()->path('config', 'app') . '/cache.php',
+        ], 'config');
+
+        // Set the file store path — this can't come from the published config
+        // because the path is resolved at runtime from the application.
+        $this->app['config']->set('cache.stores.file', [
+            'driver' => 'file',
+            'path'   => $this->app->path('Cache', 'cache'),
+        ]);
+
+        $this->app['config']->set('cache.stores.array', [
+            'driver'    => 'array',
+            'serialize' => false,
         ]);
 
         // Register WordPress transients as a custom cache driver
         $this->app['cache']->extend(
             'wp-transients',
-            fn (): Repository => new Repository(new WordPressTransientStore()),
+            fn (): Repository => new Repository(
+                new WordPressTransientStore(config('cache.prefix', 'sloth_')),
+            ),
         );
     }
 }
