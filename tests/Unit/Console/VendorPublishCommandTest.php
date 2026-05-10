@@ -96,7 +96,7 @@ describe('VendorPublishCommand', function (): void {
             unlink($from);
             unlink($to);
             rmdir(dirname($to));
-            rmdir(dirname(dirname($to)));
+            rmdir(dirname($to, 2));
         });
     });
 
