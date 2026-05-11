@@ -28,6 +28,7 @@ class NeverProvider extends ContextProvider
 
     public function resolve(): mixed { return 'should not appear'; }
 
+    #[\Override]
     public function shouldResolve(): bool { return false; }
 }
 

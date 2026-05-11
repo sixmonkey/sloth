@@ -20,6 +20,7 @@ class PostContextProvider extends ContextProvider
         return 'post';
     }
 
+    #[\Override]
     public function shouldResolve(): bool
     {
         return is_single() || is_page();

@@ -21,6 +21,7 @@ class AuthorContextProvider extends ContextProvider
         return 'author';
     }
 
+    #[\Override]
     public function shouldResolve(): bool
     {
         return is_author();

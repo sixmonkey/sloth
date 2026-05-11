@@ -20,6 +20,7 @@ class TaxonomyContextProvider extends ContextProvider
         return 'taxonomy';
     }
 
+    #[\Override]
     public function shouldResolve(): bool
     {
         return is_tax();
