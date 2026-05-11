@@ -416,6 +416,11 @@ Search.appendIndex(
             "summary": "WordPress\u0020Transients\u0020Cache\u0020Store.",
             "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html"
         },                {
+            "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020WordPressTransientStore\u0020instance.",
+            "url": "classes/Sloth-Cache-Store-WordPressTransientStore.html#method___construct"
+        },                {
             "fqsen": "\\Sloth\\Cache\\Store\\WordPressTransientStore\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Retrieve\u0020an\u0020item\u0020from\u0020the\u0020cache\u0020by\u0020key.",
@@ -1508,7 +1513,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sloth\\Event\\EventServiceProvider\u003A\u003Aboot\u0028\u0029",
             "name": "boot",
-            "summary": "Boots\u0020the\u0020EventServiceProviders\u0020and\u0020publishes\u0020it\u0027s\u0020config",
+            "summary": "Boots\u0020the\u0020EventServiceProviders\u0020and\u0020publishes\u0020it\u0027s\u0020config.",
             "url": "classes/Sloth-Event-EventServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\Event\\WordPressEventBridge",
@@ -2091,6 +2096,11 @@ Search.appendIndex(
             "summary": "Instantiate\u0020and\u0020render\u0020a\u0020theme\u0020module.",
             "url": "namespaces/default.html#function_module"
         },                {
+            "fqsen": "\\options\u0028\u0029",
+            "name": "options",
+            "summary": "Access\u0020the\u0020Options\u0020store.",
+            "url": "namespaces/default.html#function_options"
+        },                {
             "fqsen": "\\url\u0028\u0029",
             "name": "url",
             "summary": "Generate\u0020a\u0020URL\u0020using\u0020the\u0020UrlGenerator.",
@@ -2510,6 +2520,11 @@ Search.appendIndex(
             "name": "register",
             "summary": "Register\u0020the\u0020Layotter\u0020service\u0020provider.",
             "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_register"
+        },                {
+            "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider\u003A\u003Aboot\u0028\u0029",
+            "name": "boot",
+            "summary": "Boot\u0020the\u0020Layotter\u0020service\u0020provider.",
+            "url": "classes/Sloth-LayotterBridge-LayotterBridgeServiceProvider.html#method_boot"
         },                {
             "fqsen": "\\Sloth\\LayotterBridge\\LayotterBridgeServiceProvider\u003A\u003AconfigurePostTypes\u0028\u0029",
             "name": "configurePostTypes",

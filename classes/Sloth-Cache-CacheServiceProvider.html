@@ -498,7 +498,7 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache/CacheServiceProvider.php"><a href="files/src-cache-cacheserviceprovider.html"><abbr title="src/Cache/CacheServiceProvider.php">CacheServiceProvider.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
@@ -513,6 +513,10 @@ that is auto-created by <code class="prettyprint">Application::registerBasePaths
     
         <section class="phpdocumentor-description"><p>Configures the file cache driver with the theme cache path,
 and registers the WordPress transients driver.</p>
+<p>The default driver can be overridden by publishing and editing
+the cache config file:</p>
+<pre class="prettyprint"><code class="language-bash">wp sloth vendor:publish --provider=&quot;Sloth\Cache\CacheServiceProvider&quot; --tag=config
+</code></pre>
 </section>
 
     

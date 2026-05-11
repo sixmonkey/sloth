@@ -348,6 +348,13 @@
 <dd>Instantiate and render a theme module.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_options">options()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Access the Options store.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_url">url()</a>
     <span>
                                 &nbsp;: <a href="classes/Sloth-Routing-UrlGenerator.html"><abbr title="\Sloth\Routing\UrlGenerator">UrlGenerator</abbr></a>|string    </span>
@@ -809,6 +816,83 @@ echo module('hero-section', ['posts' =&gt; $posts], ['wrapInRow' =&gt; true]);
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_options">
+        options()
+        <a href="namespaces/default.html#function_options" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/functions.php"><a href="files/src-functions.html"><abbr title="src/functions.php">functions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">129</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Access the Options store.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">options</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$default</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+        <section class="phpdocumentor-description"><p>Returns the Options instance when called without arguments,
+or retrieves a single option value.</p>
+<pre class="prettyprint"><code class="language-php">options()                          // Options instance
+options('blogname')                // 'My Site'
+options('primary_color', '#000')   // with default
+</code></pre>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>option key — if null, returns the Options instance</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$default</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>default value if option is not found</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="namespaces/default.html#function_options#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\BindingResolutionException">BindingResolutionException</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_url">
         url()
         <a href="namespaces/default.html#function_url" class="headerlink"><i class="fas fa-link"></i></a>
@@ -817,7 +901,7 @@ echo module('hero-section', ['posts' =&gt; $posts], ['wrapInRow' =&gt; true]);
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/functions.php"><a href="files/src-functions.html"><abbr title="src/functions.php">functions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">128</span>
+    <span class="phpdocumentor-element-found-in__line">161</span>
 
     </aside>
 
@@ -1015,6 +1099,7 @@ url()-&gt;route('post.show', ['slug' =&gt; 'hello'])
                                                     <li class=""><a href="namespaces/default.html#function_config">config()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_debug">debug()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_module">module()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_options">options()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_url">url()</a></li>
                                             </ul>
                 </li>
