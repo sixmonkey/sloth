@@ -76,6 +76,7 @@ class ContextServiceProvider extends ServiceProvider
     {
         $context = $this->app['context'];
 
+        // Built-in framework providers
         $context
             ->register(new WpTitleContextProvider())
             ->register(new SiteContextProvider($this->app->make(BlogInfo::class)))
@@ -86,5 +87,18 @@ class ContextServiceProvider extends ServiceProvider
             ->register(new AuthorContextProvider())
             ->register(new OptionsContextProvider())
         ;
+
+        // Auto-discovered providers from app/Context/ and theme/Context/
+        // Theme providers are registered last so they can override framework providers.
+        $manifest = $this->app->make(ContextManifestBuilder::class)->build();
+
+        foreach (array_keys($manifest) as $providerClass) {
+            // Skip built-in providers — already registered above
+            if (str_starts_with($providerClass, 'Sloth\\Context\\Providers\\')) {
+                continue;
+            }
+
+            $context->register(new $providerClass());
+        }
     }
 }
