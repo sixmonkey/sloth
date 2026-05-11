@@ -15,7 +15,9 @@ use Sloth\Context\ContextProvider;
  */
 class SiteContextProvider extends ContextProvider
 {
-    public function __construct(private readonly BlogInfo $blogInfo) {}
+    public function __construct(private readonly BlogInfo $blogInfo)
+    {
+    }
 
     public function key(): string
     {
