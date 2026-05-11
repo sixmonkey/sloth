@@ -321,6 +321,7 @@ class SlothTwigExtension extends AbstractExtension
                 ),
             ),
             new TwigFunction('url', fn (?string $path = null): \Sloth\Routing\UrlGenerator|string => url($path)),
+            new TwigFunction('options', fn (?string $key = null, mixed $default = null): mixed => options($key, $default)),
         ];
 
         // -------------------------------------------------------------------------
