@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Context\Providers;
 
+use Override;
 use Sloth\Context\ContextProvider;
 use Sloth\Model\User;
 
@@ -21,7 +22,7 @@ class AuthorContextProvider extends ContextProvider
         return 'author';
     }
 
-    #[\Override]
+    #[Override]
     public function shouldResolve(): bool
     {
         return is_author();

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Context\Providers;
 
+use Override;
 use Sloth\Context\ContextProvider;
 
 /**
@@ -20,7 +21,7 @@ class PostContextProvider extends ContextProvider
         return 'post';
     }
 
-    #[\Override]
+    #[Override]
     public function shouldResolve(): bool
     {
         return is_single() || is_page();

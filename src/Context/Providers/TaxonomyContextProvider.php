@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Context\Providers;
 
+use Override;
 use Sloth\Context\ContextProvider;
 
 /**
@@ -20,7 +21,7 @@ class TaxonomyContextProvider extends ContextProvider
         return 'taxonomy';
     }
 
-    #[\Override]
+    #[Override]
     public function shouldResolve(): bool
     {
         return is_tax();
