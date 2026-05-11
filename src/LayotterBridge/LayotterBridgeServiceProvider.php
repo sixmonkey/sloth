@@ -39,6 +39,21 @@ class LayotterBridgeServiceProvider extends ServiceProvider
     }
 
     /**
+     * Boot the Layotter service provider.
+     *
+     * @since 1.0.0
+     */
+    #[Override]
+    public function boot(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/config/layotter.php', 'layotter');
+
+        $this->publishes([
+            __DIR__ . '/config/layotter.php' => app()->path('config', 'app') . '/layotter.php',
+        ], 'config');
+    }
+
+    /**
      * Configure Layotter page builder integration for a model.
      *
      * Reads $modelClass::$layotter — falls back to false if not declared.
