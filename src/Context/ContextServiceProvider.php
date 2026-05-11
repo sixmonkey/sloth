@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Context;
 
 use Override;
+use Sloth\Context\Manifest\ContextManifestBuilder;
 use Sloth\Context\Providers\AuthorContextProvider;
 use Sloth\Context\Providers\GlobalsContextProvider;
 use Sloth\Context\Providers\OptionsContextProvider;
@@ -40,7 +41,7 @@ use Sloth\Core\ServiceProvider;
 class ContextServiceProvider extends ServiceProvider
 {
     /**
-     * Register the Context singleton and BlogInfo service.
+     * Register the Context singleton, BlogInfo service and manifest builder.
      *
      * @since 1.0.0
      */
@@ -54,14 +55,19 @@ class ContextServiceProvider extends ServiceProvider
             'context',
             fn (): Context => new Context($this->app),
         );
+
+        $this->app->singleton(
+            ContextManifestBuilder::class,
+            fn (): ContextManifestBuilder => new ContextManifestBuilder(),
+        );
     }
 
     /**
-     * Register all built-in context providers.
+     * Register all built-in context providers and auto-discovered theme providers.
      *
-     * Framework providers are registered here. Theme providers are
-     * auto-discovered from app/Context/ and theme/Context/ by the
-     * ContextManifestBuilder.
+     * Framework providers are registered first. Theme providers discovered
+     * from app/Context/ and theme/Context/ are registered after, so they
+     * can override framework providers by using the same key.
      *
      * @since 1.0.0
      */
