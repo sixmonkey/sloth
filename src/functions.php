@@ -105,7 +105,6 @@ if (!function_exists('module')) {
     }
 }
 
-
 if (!function_exists('options')) {
     /**
      * Access the Options store.

@@ -17,7 +17,6 @@ declare(strict_types=1);
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Row Layouts
@@ -60,5 +59,4 @@ return [
     | 'prepare_fields' => true,
     |
     */
-
 ];
