@@ -40,13 +40,16 @@ use Sloth\Core\ServiceProvider;
 class ContextServiceProvider extends ServiceProvider
 {
     /**
-     * Register the Context singleton.
+     * Register the Context singleton and BlogInfo service.
      *
      * @since 1.0.0
      */
     #[Override]
     public function register(): void
     {
+        // BlogInfo wraps get_bloginfo() for testability — injected into SiteContextProvider.
+        $this->app->singleton(BlogInfo::class, fn (): BlogInfo => new BlogInfo());
+
         $this->app->singleton(
             'context',
             fn (): Context => new Context($this->app),
@@ -69,7 +72,7 @@ class ContextServiceProvider extends ServiceProvider
 
         $context
             ->register(new WpTitleContextProvider())
-            ->register(new SiteContextProvider())
+            ->register(new SiteContextProvider($this->app->make(BlogInfo::class)))
             ->register(new GlobalsContextProvider())
             ->register(new SlothContextProvider())
             ->register(new PostContextProvider())
