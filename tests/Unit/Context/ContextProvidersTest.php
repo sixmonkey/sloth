@@ -31,7 +31,7 @@ describe('Built-in Context Providers', function (): void {
                 public function get(string $key): string { return ''; }
                 public function homeUrl(string $path = ''): string { return ''; }
             };
-            expect((new SiteContextProvider($blogInfo))->key())->toBe('site');
+            expect(new SiteContextProvider($blogInfo)->key())->toBe('site');
         });
 
         it('always resolves', function (): void {
@@ -39,7 +39,7 @@ describe('Built-in Context Providers', function (): void {
                 public function get(string $key): string { return ''; }
                 public function homeUrl(string $path = ''): string { return ''; }
             };
-            expect((new SiteContextProvider($blogInfo))->shouldResolve())->toBeTrue();
+            expect(new SiteContextProvider($blogInfo)->shouldResolve())->toBeTrue();
         });
 
         it('returns site data array with correct keys', function (): void {
@@ -62,7 +62,7 @@ describe('Built-in Context Providers', function (): void {
                 }
             };
 
-            $result = (new SiteContextProvider($blogInfo))->resolve();
+            $result = new SiteContextProvider($blogInfo)->resolve();
 
             expect($result['name'])->toBe('My Site');
             expect($result['title'])->toBe('My Site');
@@ -75,11 +75,11 @@ describe('Built-in Context Providers', function (): void {
 
     describe('GlobalsContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new GlobalsContextProvider())->key())->toBe('globals');
+            expect(new GlobalsContextProvider()->key())->toBe('globals');
         });
 
         it('always resolves', function (): void {
-            expect((new GlobalsContextProvider())->shouldResolve())->toBeTrue();
+            expect(new GlobalsContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('returns global URLs from app uris', function (): void {
@@ -88,7 +88,7 @@ describe('Built-in Context Providers', function (): void {
             $app->instance('uri.theme', 'https://example.com/wp-content/themes/my-theme');
             \Sloth\Facades\Facade::setFacadeApplication($app);
 
-            $result = (new GlobalsContextProvider())->resolve();
+            $result = new GlobalsContextProvider()->resolve();
 
             expect($result['home_url'])->toBe('https://example.com/');
             expect($result['theme_url'])->toBe('https://example.com/wp-content/themes/my-theme');
@@ -98,31 +98,31 @@ describe('Built-in Context Providers', function (): void {
 
     describe('WpTitleContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new WpTitleContextProvider())->key())->toBe('wp_title');
+            expect(new WpTitleContextProvider()->key())->toBe('wp_title');
         });
 
         it('always resolves', function (): void {
-            expect((new WpTitleContextProvider())->shouldResolve())->toBeTrue();
+            expect(new WpTitleContextProvider()->shouldResolve())->toBeTrue();
         });
     });
 
     describe('SlothContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new SlothContextProvider())->key())->toBe('sloth');
+            expect(new SlothContextProvider()->key())->toBe('sloth');
         });
 
         it('always resolves', function (): void {
-            expect((new SlothContextProvider())->shouldResolve())->toBeTrue();
+            expect(new SlothContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('returns current_layout as basename without extension', function (): void {
-            $result = (new SlothContextProvider('Layout/single-project.twig'))->resolve();
+            $result = new SlothContextProvider('Layout/single-project.twig')->resolve();
 
             expect($result['current_layout'])->toBe('single-project');
         });
 
         it('returns empty string when no layout is set', function (): void {
-            $result = (new SlothContextProvider())->resolve();
+            $result = new SlothContextProvider()->resolve();
 
             expect($result['current_layout'])->toBe('');
         });
@@ -130,74 +130,74 @@ describe('Built-in Context Providers', function (): void {
 
     describe('PostContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new PostContextProvider())->key())->toBe('post');
+            expect(new PostContextProvider()->key())->toBe('post');
         });
 
         it('resolves on single posts', function (): void {
             Functions\when('is_single')->justReturn(true);
             Functions\when('is_page')->justReturn(false);
 
-            expect((new PostContextProvider())->shouldResolve())->toBeTrue();
+            expect(new PostContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('resolves on pages', function (): void {
             Functions\when('is_single')->justReturn(false);
             Functions\when('is_page')->justReturn(true);
 
-            expect((new PostContextProvider())->shouldResolve())->toBeTrue();
+            expect(new PostContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('does not resolve on archives', function (): void {
             Functions\when('is_single')->justReturn(false);
             Functions\when('is_page')->justReturn(false);
 
-            expect((new PostContextProvider())->shouldResolve())->toBeFalse();
+            expect(new PostContextProvider()->shouldResolve())->toBeFalse();
         });
     });
 
     describe('TaxonomyContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new TaxonomyContextProvider())->key())->toBe('taxonomy');
+            expect(new TaxonomyContextProvider()->key())->toBe('taxonomy');
         });
 
         it('resolves on taxonomy archives', function (): void {
             Functions\when('is_tax')->justReturn(true);
 
-            expect((new TaxonomyContextProvider())->shouldResolve())->toBeTrue();
+            expect(new TaxonomyContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('does not resolve on non-taxonomy pages', function (): void {
             Functions\when('is_tax')->justReturn(false);
 
-            expect((new TaxonomyContextProvider())->shouldResolve())->toBeFalse();
+            expect(new TaxonomyContextProvider()->shouldResolve())->toBeFalse();
         });
     });
 
     describe('AuthorContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new AuthorContextProvider())->key())->toBe('author');
+            expect(new AuthorContextProvider()->key())->toBe('author');
         });
 
         it('resolves on author archives', function (): void {
             Functions\when('is_author')->justReturn(true);
 
-            expect((new AuthorContextProvider())->shouldResolve())->toBeTrue();
+            expect(new AuthorContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('does not resolve on non-author pages', function (): void {
             Functions\when('is_author')->justReturn(false);
 
-            expect((new AuthorContextProvider())->shouldResolve())->toBeFalse();
+            expect(new AuthorContextProvider()->shouldResolve())->toBeFalse();
         });
     });
 
     describe('OptionsContextProvider', function (): void {
         it('has correct key', function (): void {
-            expect((new OptionsContextProvider())->key())->toBe('options');
+            expect(new OptionsContextProvider()->key())->toBe('options');
         });
 
         it('always resolves', function (): void {
-            expect((new OptionsContextProvider())->shouldResolve())->toBeTrue();
+            expect(new OptionsContextProvider()->shouldResolve())->toBeTrue();
         });
 
         it('returns the options instance from the container', function (): void {
@@ -206,7 +206,7 @@ describe('Built-in Context Providers', function (): void {
             $app->instance('options', $mockOptions);
             \Sloth\Facades\Facade::setFacadeApplication($app);
 
-            expect((new OptionsContextProvider())->resolve())->toBe($mockOptions);
+            expect(new OptionsContextProvider()->resolve())->toBe($mockOptions);
         });
     });
 });
