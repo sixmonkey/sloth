@@ -105,6 +105,39 @@ if (!function_exists('module')) {
     }
 }
 
+
+if (!function_exists('options')) {
+    /**
+     * Access the Options store.
+     *
+     * Returns the Options instance when called without arguments,
+     * or retrieves a single option value.
+     *
+     * ```php
+     * options()                          // Options instance
+     * options('blogname')                // 'My Site'
+     * options('primary_color', '#000')   // with default
+     * ```
+     *
+     * @param string|null $key     option key — if null, returns the Options instance
+     * @param mixed       $default default value if option is not found
+     *
+     * @throws BindingResolutionException
+     *
+     * @since 1.0.0
+     */
+    function options(?string $key = null, mixed $default = null): mixed
+    {
+        $options = app('options');
+
+        if ($key === null) {
+            return $options;
+        }
+
+        return $options->get($key, $default);
+    }
+}
+
 if (!function_exists('url')) {
     /**
      * Generate a URL using the UrlGenerator.
