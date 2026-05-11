@@ -159,7 +159,7 @@ class TemplateServiceProvider extends ServiceProvider
         $viewName = basename($template, '.twig');
         $view = View::make('Layout.' . $viewName);
 
-        echo $view->with(app('context')->getContext())->render();
+        echo $view->with(app('context')->toArray())->render();
 
         die();
     }

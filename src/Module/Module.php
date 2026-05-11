@@ -210,7 +210,7 @@ class Module
     public function render(): string
     {
         if (!$this->doingAjax) {
-            $this->set(app('context')->getContext() ?? [], false);
+            $this->set(app('context')->toArray() ?? [], false);
         }
 
         $this->set('ajax_url', $this->getAjaxUrl());
@@ -220,7 +220,7 @@ class Module
 
         if ($this->render) {
             $this->makeView();
-            $vars = array_merge(app('context')->getContext() ?? [], $this->viewVars);
+            $vars = array_merge(app('context')->toArray() ?? [], $this->viewVars);
             $output = $this->view->with($vars)->render();
 
             if ($this->wrapInRow) {
