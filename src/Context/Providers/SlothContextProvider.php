@@ -14,7 +14,9 @@ use Sloth\Context\ContextProvider;
  */
 class SlothContextProvider extends ContextProvider
 {
-    public function __construct(private readonly ?string $currentLayout = null) {}
+    public function __construct(private readonly ?string $currentLayout = null)
+    {
+    }
 
     public function key(): string
     {

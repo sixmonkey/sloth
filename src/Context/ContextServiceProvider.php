@@ -75,6 +75,7 @@ class ContextServiceProvider extends ServiceProvider
             ->register(new PostContextProvider())
             ->register(new TaxonomyContextProvider())
             ->register(new AuthorContextProvider())
-            ->register(new OptionsContextProvider());
+            ->register(new OptionsContextProvider())
+        ;
     }
 }

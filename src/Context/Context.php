@@ -55,6 +55,7 @@ use Traversable;
  * array_merge($context->toArray(), $extra) instead.
  *
  * @since 1.0.0
+ *
  * @implements ArrayAccess<string, mixed>
  * @implements IteratorAggregate<string, mixed>
  */
@@ -161,6 +162,7 @@ class Context implements ArrayAccess, IteratorAggregate
                 // Taxonomy slug alias
                 if ($key === 'taxonomy') {
                     global $taxonomy;
+
                     if ($taxonomy) {
                         $context[$taxonomy] = $context[$key];
                     }
