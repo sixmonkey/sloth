@@ -11,7 +11,7 @@ describe('Options', function (): void {
     describe('get()', function (): void {
 
         it('returns value from get_option()', function (): void {
-            \Brain\Monkey\Functions\when('get_field')->justReturn(null);
+            \Brain\Monkey\Functions\when('get_field')->justReturn();
             \Brain\Monkey\Functions\when('get_option')->justReturn('WordPress');
 
             expect(new Options()->get('blogname'))->toBe('WordPress');

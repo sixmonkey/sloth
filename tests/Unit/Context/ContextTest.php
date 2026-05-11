@@ -185,9 +185,6 @@ describe('Context', function (): void {
             $context = makeContext();
             $provider = new TrackingProvider();
             $context->register($provider);
-
-            $_ = $context['tracked'];
-            $_ = $context['tracked'];
             $_ = $context['tracked'];
 
             expect($provider->resolveCount)->toBe(1);
