@@ -8,103 +8,197 @@ use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory;
 use Override;
 use Sloth\Core\ServiceProvider;
-use Sloth\View\Engines\TwigEngine;
-use Sloth\View\Extensions\SlothTwigExtension;
-use Twig\Environment;
-use Twig\Extension\DebugExtension;
-use Twig\Loader\FilesystemLoader;
+use Sloth\View\Engines\Twig\TwigAdapter;
+use Sloth\View\Extensions\AbstractViewExtension;
+use Sloth\View\Extensions\Manifest\ViewExtensionManifestBuilder;
+use Sloth\View\Extensions\SlothViewExtension;
 
 /**
  * Service provider for the View rendering component.
  *
- * ## Boot sequence
+ * Orchestrates view engine adapters and discovers view extensions.
+ * Engine-agnostic — knows nothing about Twig or Blade directly.
  *
- * register() only binds singletons — it does NOT resolve them.
- * Resolving a singleton during register() can cause infinite loops
- * if the singleton's closure calls config() or other container bindings
- * that are still being built.
+ * ## Architecture
  *
- * Twig extensions are added in boot() — after all providers have
- * registered their services and the container is fully built.
+ * - ViewServiceProvider discovers extensions and builds _helpers/_directives/_shared
+ * - Each adapter (TwigAdapter, BladeAdapter) consumes these from the View Factory
+ * - Extensions define getHelpers(), getDirectives(), share() — engine-agnostically
+ *
+ * ## Adding a new engine
+ *
+ * Add an adapter to $adapters — it will be registered and booted automatically:
+ *
+ * ```php
+ * protected array $adapters = [
+ *     TwigAdapter::class,
+ *     BladeAdapter::class,
+ * ];
+ * ```
  *
  * @since 1.0.0
  */
 class ViewServiceProvider extends ServiceProvider
 {
     /**
-     * Register View services.
+     * Registered view adapters.
      *
-     * Binds singletons only — does not resolve any of them.
+     * Each adapter handles a specific template engine.
+     * All adapters are always registered — the Framework decides, not the developer.
+     *
+     * @var list<class-string<Extensions\ViewAdapterInterface>>
+     *
+     * @since 1.0.0
+     */
+    protected array $adapters = [
+        TwigAdapter::class,
+        // BladeAdapter::class, // coming soon
+    ];
+
+    /**
+     * Register View services and all engine adapters.
      *
      * @since 1.0.0
      */
     #[Override]
     public function register(): void
     {
-        $this->registerTwigLoader();
-        $this->registerTwigEnvironment();
         $this->registerEngineResolver();
         $this->registerViewFactory();
+
+        // Register all adapters
+        collect($this->adapters)
+            ->each(fn (string $adapterClass) => new $adapterClass()->register($this->app))
+        ;
     }
 
     /**
      * Boot View services.
      *
-     * Adds Twig extensions after all providers are registered and
-     * the container is fully built. Safe to resolve singletons here.
+     * Discovers all view extensions, collects helpers/directives/shared variables
+     * with conflict detection, then boots all adapters.
      *
      * @since 1.0.0
      */
+    #[Override]
     public function boot(): void
     {
-        $twig = $this->app['twig'];
+        $helpers = [];
+        $directives = [];
+        $registered = ['helpers' => [], 'directives' => []];
 
-        $twig->addExtension(new DebugExtension());
-        $twig->addExtension(new SlothTwigExtension($this->app));
+        // Discover all extensions — framework built-ins first, then theme extensions
+        $extensions = $this->discoverExtensions();
 
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            $twig->enableDebug();
+        foreach ($extensions as $extensionClass) {
+            $instance = new $extensionClass();
+
+            // Process helpers
+            foreach ($this->normalizeEntries($instance->getHelpers()) as $name => $callable) {
+                if (isset($registered['helpers'][$name]) && $this->app->isLocal()) {
+                    trigger_error(
+                        sprintf(
+                            'View helper "%s" registered by "%s" was already registered by "%s" and will be overwritten.',
+                            $name,
+                            $extensionClass,
+                            $registered['helpers'][$name],
+                        ),
+                        E_USER_WARNING,
+                    );
+                }
+
+                $registered['helpers'][$name] = $extensionClass;
+                $helpers[$name] = $callable;
+            }
+
+            // Process directives
+            foreach ($this->normalizeEntries($instance->getDirectives()) as $name => $callable) {
+                if (isset($registered['directives'][$name]) && $this->app->isLocal()) {
+                    trigger_error(
+                        sprintf(
+                            'View directive "%s" registered by "%s" was already registered by "%s" and will be overwritten.',
+                            $name,
+                            $extensionClass,
+                            $registered['directives'][$name],
+                        ),
+                        E_USER_WARNING,
+                    );
+                }
+
+                $registered['directives'][$name] = $extensionClass;
+                $directives[$name] = $callable;
+            }
+
+            // Process shared variables
+            foreach ($instance->share() as $key => $value) {
+                $this->app['view']->share($key, $value);
+            }
         }
 
-        // Theme filters and functions registered via config
-        // are picked up by SlothTwigExtension::getFilters/getFunctions()
+        // Store helpers and directives on the View Factory for adapters to consume
+        $this->app['view']->share('_helpers', $helpers);
+        $this->app['view']->share('_directives', $directives);
+
+        // Boot all adapters
+        collect($this->adapters)
+            ->each(fn (string $adapterClass) => new $adapterClass()->boot(
+                $this->app['view'],
+                $this->app,
+            ))
+        ;
     }
 
     /**
-     * Register the Twig filesystem loader.
+     * Discover all view extensions.
      *
-     * Starts with an empty paths array — ThemeServiceProvider adds
-     * theme and framework view paths after providers are registered.
+     * SlothViewExtension always comes first so theme extensions can override
+     * framework-provided helpers and directives.
+     *
+     * @return list<class-string<AbstractViewExtension>>
      *
      * @since 1.0.0
      */
-    protected function registerTwigLoader(): void
+    protected function discoverExtensions(): array
     {
-        $this->app->singleton(
-            'twig.loader',
-            fn (): FilesystemLoader => new FilesystemLoader([]),
-        );
+        // SlothViewExtension always first — framework built-ins
+        $builtin = [SlothViewExtension::class];
+
+        // Theme extensions discovered from app/Extensions/View/ and theme/Extensions/View/
+        $discovered = array_values(array_filter(
+            array_keys(new ViewExtensionManifestBuilder($this->app)->getEntries()),
+            fn (string $c): bool => $c !== SlothViewExtension::class,
+        ));
+
+        return [...$builtin, ...$discovered];
     }
 
     /**
-     * Register the Twig environment.
+     * Normalize an entries array to always be [name => callable].
      *
-     * Uses $c['config']->get() instead of config() to avoid triggering
-     * the container's make() while the singleton closure is being built,
-     * which would cause an infinite loop.
+     * Supports:
+     * - 'name'             → ['name' => 'name']
+     * - 'alias' => 'func'  → ['alias' => 'func']
+     * - 'name' => fn()...  → ['name' => fn()...]
+     *
+     * @param  array<int|string, callable|string> $entries
+     * @return array<string, callable|string>
      *
      * @since 1.0.0
      */
-    protected function registerTwigEnvironment(): void
+    protected function normalizeEntries(array $entries): array
     {
-        $this->app->singleton(
-            'twig',
-            fn ($c): Environment => new Environment($c['twig.loader'], [
-                'auto_reload' => true,
-                'cache'       => $c['path.cache'] . '/Twig',
-                'autoescape'  => (bool) $c['config']->get('twig.autoescape', false),
-            ]),
-        );
+        $normalized = [];
+
+        foreach ($entries as $key => $value) {
+            if (is_int($key)) {
+                // 'name' → callable 'name'
+                $normalized[(string) $value] = $value;
+            } else {
+                $normalized[$key] = $value;
+            }
+        }
+
+        return $normalized;
     }
 
     /**
@@ -116,26 +210,8 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'view.engine.resolver',
-            fn (): EngineResolver => $this->createEngineResolver(),
+            fn (): EngineResolver => new EngineResolver(),
         );
-    }
-
-    /**
-     * Create and configure the EngineResolver.
-     *
-     * @since 1.0.0
-     */
-    protected function createEngineResolver(): EngineResolver
-    {
-        $resolver = new EngineResolver();
-        $container = $this->app;
-
-        $resolver->register(
-            'twig',
-            fn (): TwigEngine => new TwigEngine($container['twig'], $container['view.finder']),
-        );
-
-        return $resolver;
     }
 
     /**
@@ -172,8 +248,6 @@ class ViewServiceProvider extends ServiceProvider
         );
 
         $factory->setContainer($container);
-        $factory->addExtension('twig', 'twig');
-        $factory->share('app', $container);
 
         return $factory;
     }
