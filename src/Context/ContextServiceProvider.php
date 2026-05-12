@@ -58,7 +58,7 @@ class ContextServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             ContextManifestBuilder::class,
-            fn (): ContextManifestBuilder => new ContextManifestBuilder(),
+            fn (): ContextManifestBuilder => new ContextManifestBuilder($this->app),
         );
     }
 
@@ -90,7 +90,7 @@ class ContextServiceProvider extends ServiceProvider
 
         // Auto-discovered providers from app/Context/ and theme/Context/
         // Theme providers are registered last so they can override framework providers.
-        $manifest = $this->app->make(ContextManifestBuilder::class)->build();
+        $manifest = $this->app->make(ContextManifestBuilder::class)->getEntries();
 
         foreach (array_keys($manifest) as $providerClass) {
             // Skip built-in providers — already registered above
