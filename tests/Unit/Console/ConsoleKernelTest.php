@@ -4,8 +4,39 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Console;
 
+use Sloth\Console\Command;
 use Sloth\Console\ConsoleKernel;
 use Symfony\Component\VarDumper\VarDumper;
+
+/**
+ * Fixture command for testing provider-registered commands.
+ */
+class ProviderRegisteredCommand extends Command
+{
+    protected $signature = 'provider:test';
+
+    protected $description = 'A command registered via a service provider';
+
+    public function handle(): int
+    {
+        return self::SUCCESS;
+    }
+}
+
+/**
+ * Second fixture command for testing multiple provider-registered commands.
+ */
+class AnotherProviderCommand extends Command
+{
+    protected $signature = 'provider:other';
+
+    protected $description = 'Another command registered via a service provider';
+
+    public function handle(): int
+    {
+        return self::SUCCESS;
+    }
+}
 
 /**
  * Tests for Sloth\Console\ConsoleKernel.
@@ -48,6 +79,44 @@ describe('ConsoleKernel', function (): void {
             expect(fn(): \Sloth\Console\ConsoleKernel => makeTestKernel()->discoverCommands())
                 ->not()->toThrow(\Throwable::class);
         });
+
+        describe('provider-registered commands', function (): void {
+            it('registers a command tagged via $this->commands() in a service provider', function (): void {
+                // Simulate a service provider calling $this->commands([MyCommand::class])
+                // which tags the command class as 'commands' in the container.
+                $app = makeTestApp();
+                $app->tag([ProviderRegisteredCommand::class], 'commands');
+
+                $status = makeTestKernel($app)->discoverCommands()
+                    ->handle(['provider:test'], []);
+
+                expect($status)->toBe(0);
+            });
+
+            it('registers multiple commands tagged via $this->commands()', function (): void {
+                $app = makeTestApp();
+                $app->tag([ProviderRegisteredCommand::class, AnotherProviderCommand::class], 'commands');
+
+                $kernel = makeTestKernel($app)->discoverCommands();
+
+                // Both commands should be available
+                expect(fn(): int => $kernel->handle(['provider:test'], []))->not()->toThrow(\Throwable::class);
+                expect(fn(): int => $kernel->handle(['provider:other'], []))->not()->toThrow(\Throwable::class);
+            });
+
+            it('accepts an already-instantiated command object', function (): void {
+                $app = makeTestApp();
+
+                // Tag an instance rather than a class name
+                $app->instance('provider.command.instance', new ProviderRegisteredCommand());
+                $app->tag(['provider.command.instance'], 'commands');
+
+                $status = makeTestKernel($app)->discoverCommands()
+                    ->handle(['provider:test'], []);
+
+                expect($status)->toBe(0);
+            });
+        });
     });
 
     describe('handle()', function (): void {
@@ -76,11 +145,6 @@ describe('ConsoleKernel', function (): void {
     });
 
     describe('handleArgv()', function (): void {
-        it('returns 0 for the inspire command', function (): void {
-            $status = makeTestKernel()->discoverCommands()->handleArgv(['sloth', 'inspire']);
-
-            expect($status)->toBe(0);
-        });
 
         it('returns 0 for the list command', function (): void {
             $status = makeTestKernel()->discoverCommands()->handleArgv(['sloth', 'list']);

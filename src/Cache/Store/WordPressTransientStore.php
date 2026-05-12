@@ -49,6 +49,18 @@ class WordPressTransientStore extends TaggableStore implements Store
     protected string $prefix = 'sloth_';
 
     /**
+     * Create a new WordPressTransientStore instance.
+     *
+     * @param string $prefix Key prefix — defaults to 'sloth_'
+     *
+     * @since 1.0.0
+     */
+    public function __construct(string $prefix = 'sloth_')
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
      * Retrieve an item from the cache by key.
      *
      * Returns null if the item does not exist or has expired.

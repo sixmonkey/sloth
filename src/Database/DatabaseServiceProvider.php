@@ -92,6 +92,10 @@ class DatabaseServiceProvider extends ServiceProvider
     #[Override]
     public function boot(): void
     {
+        $this->publishes([
+            __DIR__ . '/config/database.php' => app()->path('config', 'app') . '/database.php',
+        ], 'config');
+
         $capsule = new Capsule();
 
         foreach (config('database.connections', []) as $name => $config) {

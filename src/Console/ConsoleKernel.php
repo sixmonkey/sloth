@@ -165,10 +165,15 @@ class ConsoleKernel
      * extending `Illuminate\Console\Command` and registers them with
      * the console application.
      *
+     * Also picks up any commands registered by service providers via
+     * $this->commands([MyCommand::class]) in their boot() method —
+     * the same pattern Laravel uses for package commands.
+     *
      * Discovery order (first found, first registered):
      * 1. Framework: `src/Console/Commands/`
      * 2. App: `app/Console/`
      * 3. Theme: `theme/Console/` (if configured)
+     * 4. Provider-registered: tagged 'commands' in the container
      *
      * Missing directories are silently skipped.
      *
@@ -208,6 +213,16 @@ class ConsoleKernel
         collect($map)
             ->keys()
             ->each(fn ($commandClass): ?\Symfony\Component\Console\Command\Command => $this->console->add(new $commandClass()))
+        ;
+
+        // Also register commands declared via $this->commands() in any service provider.
+        // ServiceProvider::commands() tags them as 'commands' in the container —
+        // the same mechanism Laravel uses for package command registration.
+        collect($this->app->tagged('commands'))
+            ->each(function (mixed $command): void {
+                $instance = $command instanceof Command ? $command : new $command();
+                $this->console->add($instance);
+            })
         ;
 
         return $this;

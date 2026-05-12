@@ -26,4 +26,17 @@ class EventServiceProvider extends ServiceProvider
     {
         $this->app->singleton('events', fn ($app): Dispatcher => new Dispatcher($app));
     }
+
+    /**
+     * Boots the EventServiceProviders and publishes it's config.
+     *
+     * @since 1.0.2
+     */
+    #[Override]
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__ . '/config/events.php' => app()->path('config', 'app') . '/events.php',
+        ], 'config');
+    }
 }
