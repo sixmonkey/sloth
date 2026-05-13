@@ -8,8 +8,6 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\TimeDataCollector;
 use DebugBar\DebugBar;
 use Sloth\Core\Application;
-use Sloth\Facades\Route;
-use Sloth\Http\Response;
 
 /**
  * Extended PHP DebugBar for the Sloth framework.

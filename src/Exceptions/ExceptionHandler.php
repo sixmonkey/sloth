@@ -88,7 +88,7 @@ class ExceptionHandler implements ExceptionHandlerContract
         $this->report($e);
 
         // Always log the actual error message so it's visible even if Whoops crashes
-        error_log('SLOTH: ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+        error_log('SLOTH: ' . $e::class . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
 
         if (app()->isLocal()) {
             $this->renderWithWhoops($e);

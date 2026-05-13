@@ -158,6 +158,8 @@ class Application extends Container
      * ```
      *
      * @since 1.0.0
+     *
+     * @param ?string $basePath
      */
     /**
      * Create and return the application instance.
@@ -547,7 +549,7 @@ class Application extends Container
         // basePath is always the App-Root — path() is always relative to it
         $this->addPath('base', $this->basePath);
         $this->addPath('app', $this->basePath);
-        $this->addPath('vendor', dirname($this->basePath) . '/vendor');
+        $this->addPath('vendor', dirname((string) $this->basePath) . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
         $this->addPath('plugins', WP_PLUGIN_DIR);

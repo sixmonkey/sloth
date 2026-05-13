@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Model\Traits;
 
+use function get_fields;
 use Illuminate\Support\Collection;
 use Sloth\ACF\AcfProxy;
 use Sloth\Model\Casts\AcfBase;
@@ -71,7 +72,7 @@ trait HasACF
         $key = $model->getAcfKey();
 
         if (!isset(static::$acfFieldCache[$key])) {
-            static::$acfFieldCache[$key] = collect(\get_fields($key) ?? []);
+            static::$acfFieldCache[$key] = collect(get_fields($key) ?? []);
         }
 
         return static::$acfFieldCache[$key];

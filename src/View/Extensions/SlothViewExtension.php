@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace Sloth\View\Extensions;
 
+use Override;
+
 /**
  * Sloth's built-in view extension.
  *
@@ -18,7 +20,7 @@ class SlothViewExtension extends AbstractViewExtension
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function getHelpers(): array
     {
         return [
@@ -46,7 +48,7 @@ class SlothViewExtension extends AbstractViewExtension
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function getDirectives(): array
     {
         $directives = [
@@ -123,7 +125,7 @@ class SlothViewExtension extends AbstractViewExtension
      *
      * @since 1.0.0
      */
-    #[\Override]
+    #[Override]
     public function share(): array
     {
         return [
