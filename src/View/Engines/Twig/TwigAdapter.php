@@ -46,7 +46,7 @@ class TwigAdapter implements ViewAdapterInterface
             fn ($c): Environment => new Environment($c['twig.loader'], [
                 'auto_reload' => $c->isLocal(),
                 'cache'       => $c['path.cache'] . '/Twig',
-                'autoescape'  => (bool) $c['config']->get('twig.autoescape', false),
+                'autoescape'  => (bool) ($c['config']->get('view.autoescape') ?? $c['config']->get('twig.autoescape', false)),
             ]),
         );
     }
