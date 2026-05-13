@@ -209,7 +209,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    private static function joinArray(array $existing, mixed $new): array
+    private function joinArray(array $existing, mixed $new): array
     {
         if (is_array($new)) {
             return array_merge($existing, $new);
@@ -227,7 +227,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    private static function done(string $what): bool
+    private function done(string $what): bool
     {
         if (in_array($what, self::$done, true)) {
             return true;
