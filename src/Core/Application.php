@@ -58,7 +58,7 @@ use Sloth\Model\Taxonomy;
  * ```php
  * app()->path('theme')           // get_template_directory()
  * app()->path('config', 'app')   // app/config/
- * app()->path('cache')           // theme/cache/
+ * app()->path('', 'cache')       // theme/storage/cache/
  * ```
  *
  * URIs are stored separately under the `uri.*` prefix:
