@@ -85,8 +85,12 @@ class AdminServiceProvider extends ServiceProvider
     #[Override]
     public function getHooks(): array
     {
-        return [
-            'admin_menu' => ['callback' => fn () => app('customizer')->cleanupAdminMenu(), 'priority' => 20],
-        ];
+        $hooks = [];
+
+        if (config('admin.cleanup_menu', true)) {
+            $hooks['admin_menu'] = ['callback' => fn () => app('customizer')->cleanupAdminMenu(), 'priority' => 20];
+        }
+
+        return $hooks;
     }
 }
