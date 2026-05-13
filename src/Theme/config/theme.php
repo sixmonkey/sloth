@@ -51,4 +51,30 @@ return [
 
     'process_acf' => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Theme Supports
+    |--------------------------------------------------------------------------
+    |
+    | Registers theme support for given features.
+    |
+    | Example:
+    |   'supports' => [
+    |       'menus',
+    |       'html5' =>  [
+    |           'search-form',
+    |           'comment-form',
+    |           'comment-list',
+    |           'gallery',
+    |           'caption',
+    |       ]
+    |   ],
+    |
+    */
+
+    'supports' => [
+        'menus',
+        'post-thumbnails',
+        'title-tag',
+    ],
 ];

@@ -81,5 +81,56 @@ class ThemeServiceProvider extends ServiceProvider
 
         $this->app['view.finder']->addLocation($this->app->path('_view', 'framework'));
         $this->app['twig.loader']->setPaths($this->app['view.finder']->getPaths());
+
+    }
+
+    /*
+     * Add theme supports from config
+     *
+     * Can be configured either as a simple value
+     * or as key => value pair
+     *
+     * Example:
+     *   'supports' => [
+     *       'menus',
+     *       'html5' =>  [
+     *           'search-form',
+     *           'comment-form',
+     *           'comment-list',
+     *           'gallery',
+     *           'caption',
+     *       ]
+     *   ],
+     *
+     * @since 1.0.2
+     */
+    protected function addThemeSupports(): void
+    {
+        if (!function_exists('add_theme_support')) {
+            return;
+        }
+
+        collect(config('theme.supports', []))
+            ->each(function ($value, $key): void {
+                if (is_int($key)) {
+                    add_theme_support($value);
+                } else {
+                    add_theme_support($key, $value);
+                }
+            })
+        ;
+    }
+
+    /**
+     * Register WordPress action hooks.
+     *
+     * @since 1.0.0
+     */
+    #[\Override]
+    public function getHooks(): array
+    {
+        return [
+            'after_setup_theme' => $this->addThemeSupports(...),
+        ];
     }
 }
