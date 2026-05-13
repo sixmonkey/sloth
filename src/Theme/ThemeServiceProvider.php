@@ -59,16 +59,6 @@ class ThemeServiceProvider extends ServiceProvider
 
         // Make theme path available in the container
         $this->app->instance('theme.path', $this->themePath);
-
-        // Load develop.config.php if present — local overrides
-        @include $this->themePath . '/develop.config.php';
-
-        // Load theme config.php — may register theme.twig.filters etc.
-        $themeConfig = $this->themePath . '/config.php';
-
-        if (file_exists($themeConfig)) {
-            include_once $themeConfig;
-        }
     }
 
     /**
