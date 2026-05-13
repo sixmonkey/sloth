@@ -261,7 +261,7 @@ class Application extends Container
      */
     public function boot(): static
     {
-        if (self::$booted || !is_blog_installed()) {
+        if (self::$booted) {
             return $this;
         }
 

@@ -75,8 +75,8 @@ define('USING_SLOTH_CLI', true);
     // -------------------------------------------------------------------------
 
     // Create minimal container without WordPress
-    $app = new Sloth\Core\Application();
-    
+    $app = Sloth\Core\Application::configure()->boot();
+
     // Core services
     $app->singleton('config', fn() => new Illuminate\Config\Repository([]));
     $app->instance('files', new Illuminate\Filesystem\Filesystem());
