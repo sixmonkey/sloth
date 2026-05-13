@@ -522,17 +522,21 @@ class Application extends Container
      * Called during boot() after WordPress is available. Paths are stored
      * in the container under the `path.*` prefix and accessible via path().
      *
+     * `basePath` is always the App-Root — consistent in both modes:
+     * - Classic mode: ${composer_dir}/app/
+     * - Theme mode:   get_template_directory()
+     *
      * Registered paths:
-     * - `path.base`      — project root (where composer.json lives)
-     * - `path.app`       — app/ directory
-     * - `path.vendor`    — vendor/ directory
+     * - `path.base`      — project root (where composer.json lives in Classic, theme dir in Theme)
+     * - `path.vendor`    — vendor/ directory (relative to composer.json root)
      * - `path.framework` — Sloth src/ directory
      * - `path.cms`       — WordPress ABSPATH
      * - `path.plugins`   — WP_PLUGIN_DIR
      * - `path.theme`     — active theme directory
      * - `path.uploads`   — WordPress uploads base directory
-     * - `path.cache`     — theme/cache/ (auto-created)
-     * - `path.logs`      — theme/logs/ (auto-created)
+     * - `path.storage`   — basePath/storage/ (auto-created)
+     * - `path.cache`     — basePath/storage/cache/ (auto-created)
+     * - `path.logs`      — basePath/storage/logs/ (auto-created)
      *
      * @since 1.0.0
      */
@@ -540,25 +544,29 @@ class Application extends Container
     {
         $this->basePath = $this->guessBasePath();
 
+        // basePath is always the App-Root — path() is always relative to it
         $this->addPath('base', $this->basePath);
-        $this->addPath('app', $this->basePath . '/app');
-        $this->addPath('vendor', $this->basePath . '/vendor');
+        $this->addPath('app', $this->basePath);
+        $this->addPath('vendor', dirname($this->basePath) . '/vendor');
         $this->addPath('framework', dirname(__DIR__));
         $this->addPath('cms', ABSPATH);
         $this->addPath('plugins', WP_PLUGIN_DIR);
         $this->addPath('theme', get_template_directory());
         $this->addPath('uploads', wp_upload_dir()['basedir']);
 
-        // Cache and logs live in the theme — auto-create if missing
-        foreach (['cache', 'logs'] as $key) {
-            $path = get_template_directory() . '/' . $key;
+        // Storage is always relative to the App-Root — auto-create if missing.
+        // Add storage/ to .gitignore.
+        $storagePath = $this->basePath . '/storage';
 
-            if (!is_dir($path)) {
-                mkdir($path, 0o755, true);
+        foreach ([$storagePath, $storagePath . '/cache', $storagePath . '/logs'] as $dir) {
+            if (!is_dir($dir)) {
+                mkdir($dir, 0o755, true);
             }
-
-            $this->addPath($key, $path);
         }
+
+        $this->addPath('storage', $storagePath);
+        $this->addPath('cache', $storagePath . '/cache');
+        $this->addPath('logs', $storagePath . '/logs');
     }
 
     /**
