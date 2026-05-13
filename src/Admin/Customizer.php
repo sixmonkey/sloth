@@ -246,7 +246,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function removePostMetaBox(string $postType, string $box): void
+    public function removePostMetaBox(string $postType, string $box): static
     {
         if (!isset(self::$removeMetaBoxes[$postType])) {
             self::$removeMetaBoxes[$postType] = [];
@@ -267,6 +267,8 @@ class Customizer
                 },
             );
         }
+
+        return $this;
     }
 
     /**
@@ -277,7 +279,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function tinymceRemoveButton(int $row, string $button): void
+    public function tinymceRemoveButton(int $row, string $button): static
     {
         self::$tinymceRemoveButtons[$row] = self::joinArray(self::$tinymceRemoveButtons[$row], $button);
 
@@ -305,6 +307,8 @@ class Customizer
                 },
             );
         }
+
+        return $this;
     }
 
     /**
@@ -316,7 +320,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function tinymceAddButton(int $row, string $button, bool|int $position = false): void
+    public function tinymceAddButton(int $row, string $button, bool|int $position = false): static
     {
         self::$tinymceAddButtons[$row][] = [
             'name'     => $button,
@@ -351,6 +355,8 @@ class Customizer
                 },
             );
         }
+
+        return $this;
     }
 
     /**
@@ -358,7 +364,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function cleanDashboard(): void
+    public function cleanDashboard(): static
     {
         remove_action('welcome_panel', 'wp_welcome_panel');
 
@@ -399,6 +405,8 @@ class Customizer
                 }
             },
         );
+
+        return $this;
     }
 
     /**
@@ -408,7 +416,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function removeAdminBarItem(string $item): void
+    public function removeAdminBarItem(string $item): static
     {
         self::$removeAdminBarMenus = self::joinArray(self::$removeAdminBarMenus, $item);
 
@@ -424,6 +432,8 @@ class Customizer
                 },
             );
         }
+
+        return $this;
     }
 
     /**
@@ -431,7 +441,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function cleanProfileEditForm(): void
+    public function cleanProfileEditForm(): static
     {
         add_action(
             'admin_head',
@@ -458,6 +468,8 @@ class Customizer
                 }
             },
         );
+
+        return $this;
     }
 
     /**
@@ -467,7 +479,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function addMenuSeparator(string $after): void
+    public function addMenuSeparator(string $after): static
     {
         self::$addMenuSeparators = self::joinArray(self::$addMenuSeparators, $after);
 
@@ -504,6 +516,8 @@ class Customizer
                 9999999,
             );
         }
+
+        return $this;
     }
 
     /**
@@ -514,7 +528,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function moveMenuItem(string $move, string $after): void
+    public function moveMenuItem(string $move, string $after): static
     {
         self::$moveMenuItems[$move] = $after;
 
@@ -551,6 +565,8 @@ class Customizer
                 9999998,
             );
         }
+
+        return $this;
     }
 
     /**
@@ -560,7 +576,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function removeMenuItem(string $url): void
+    public function removeMenuItem(string $url): static
     {
         self::$removeMenuItems = self::joinArray(self::$removeMenuItems, $url);
 
@@ -580,6 +596,8 @@ class Customizer
                 9999,
             );
         }
+
+        return $this;
     }
 
     /**
@@ -590,7 +608,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function renameMenuItem(string $url, string $newName): void
+    public function renameMenuItem(string $url, string $newName): static
     {
         self::$renameMenuItems[$url] = $newName;
 
@@ -609,6 +627,8 @@ class Customizer
                 9999996,
             );
         }
+
+        return $this;
     }
 
     /**
@@ -622,13 +642,13 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function addMenuItem(
+    public function addMenuItem(
         string $url,
         string $after,
         string $title,
         string $capability,
         string $icon = 'dashicons-admin-post',
-    ): void {
+    ): static {
         self::$addMenuItems[] = [
             'url'        => $url,
             'after'      => $after,
@@ -656,6 +676,8 @@ class Customizer
                 9999996,
             );
         }
+
+        return $this;
     }
 
     /**
@@ -668,7 +690,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function addSubmenuItem(string $url, string $parent, string $title, string $capability): void
+    public function addSubmenuItem(string $url, string $parent, string $title, string $capability): static
     {
         self::$addSubmenuItems[] = [
             'url'        => $url,
@@ -694,6 +716,8 @@ class Customizer
                 9999997,
             );
         }
+
+        return $this;
     }
 
     /**
@@ -701,7 +725,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function loadScriptsAsynchronously(): void
+    public function loadScriptsAsynchronously(): static
     {
         add_filter(
             'clean_url',
@@ -717,6 +741,8 @@ class Customizer
             11,
             1,
         );
+
+        return $this;
     }
 
     /**
@@ -728,11 +754,11 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function addCustomDashboardItem(
+    public function addCustomDashboardItem(
         string $url,
         string $text,
         string $icon = 'dashicons-admin-post',
-    ): void {
+    ): static {
         self::$customDashboard[] = [
             'url'  => $url,
             'text' => $text,
@@ -753,6 +779,8 @@ class Customizer
                 },
             );
         }
+
+        return $this;
     }
 
     /**
@@ -760,7 +788,7 @@ class Customizer
      *
      * @since 1.0.0
      */
-    public static function dashboardWelcome(): void
+    public function dashboardWelcome(): static
     {
         ?>
         <style type="text/css">
@@ -801,6 +829,7 @@ class Customizer
         ?>
         </ul>
         <?php
+        return $this;
     }
 
     /**
