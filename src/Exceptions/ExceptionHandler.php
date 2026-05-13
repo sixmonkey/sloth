@@ -87,6 +87,9 @@ class ExceptionHandler implements ExceptionHandlerContract
     {
         $this->report($e);
 
+        // Always log the actual error message so it's visible even if Whoops crashes
+        error_log('SLOTH: ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+
         if (app()->isLocal()) {
             $this->renderWithWhoops($e);
 
@@ -149,7 +152,14 @@ class ExceptionHandler implements ExceptionHandlerContract
         }
 
         $whoops->pushHandler($handler);
+
+        // Temporarily restore the default error handler while Whoops renders.
+        // Sloth's error handler converts E_NOTICE to ErrorException — this causes
+        // a fatal error when Whoops calls http_response_code() after WordPress
+        // has already sent headers via header('HTTP/...').
+        $previousHandler = set_error_handler(null);
         $whoops->handleException($e);
+        set_error_handler($previousHandler);
     }
 
     /**
