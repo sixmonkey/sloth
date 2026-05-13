@@ -80,8 +80,8 @@ class TemplateServiceProvider extends ServiceProvider
     {
         $filters = [];
 
-        if (config('wp-json.baseUrl')) {
-            $filters['rest_url_prefix'] = fn (): string => (string) config('wp-json.baseUrl');
+        if (config('app.wp_json.base_url') ?? config('wp-json.baseUrl')) {
+            $filters['rest_url_prefix'] = fn (): string => (string) config('app.wp_json.base_url') ?? config('wp-json.baseUrl');
         }
 
         return $filters;

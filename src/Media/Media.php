@@ -60,16 +60,16 @@ class Media
             }
         }
 
-        if (config('urls.relative')) {
+        if (config('app.relative_urls') ?? config('urls.relative')) {
             $this->makeUploadsRelative();
             $this->makeLinksRelative();
         }
 
-        if (config('links.urls.relative')) {
+        if (config('app.relative_links') ?? config('links.urls.relative')) {
             $this->makeLinksRelative();
         }
 
-        if (config('uploads.urls.relative')) {
+        if (config('app.relative_uploads') ?? config('uploads.urls.relative')) {
             $this->makeUploadsRelative();
         }
     }
