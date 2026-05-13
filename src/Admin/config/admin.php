@@ -41,5 +41,4 @@ return [
     */
 
     'cleanup_menu' => true,
-
 ];

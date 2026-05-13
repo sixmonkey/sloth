@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'relative_urls'   => false,
-    'relative_links'  => false,
+    'relative_urls'    => false,
+    'relative_links'   => false,
     'relative_uploads' => false,
 
     /*
@@ -31,5 +31,4 @@ return [
     'wp_json' => [
         'base_url' => 'wp-json',
     ],
-
 ];
