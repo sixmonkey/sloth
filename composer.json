@@ -26,7 +26,7 @@
     "johnbillion/args": "^2.4",
     "johnbillion/extended-cpts": "^5.1",
     "nunomaduro/termwind": "^2.4",
-    "php-debugbar/php-debugbar": "^2.0",
+    "php-debugbar/php-debugbar": "^3.7",
     "spatie/image": "^1.10 || ^2.0 || ^3.0",
     "symfony/filesystem": "^8.0",
     "symfony/process": "^7.4",
