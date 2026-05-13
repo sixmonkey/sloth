@@ -55,7 +55,7 @@ class SlothViewExtension extends AbstractViewExtension
             // WordPress theme hooks
             'wp_head'    => 'wp_head',
             'wp_footer'  => 'wp_footer',
-            'wp_title'  => 'wp_title',
+            'wp_title'   => 'wp_title',
             'body_class' => fn ($class = '') => body_class($class),
             'post_class' => fn ($class = '', $id = null) => post_class($class, $id),
 

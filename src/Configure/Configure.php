@@ -16,7 +16,6 @@ use Sloth\Facades\Facade;
  * @deprecated 2.0 Use config() and Laravel config files instead.
  *             Run `wp sloth modernize` to migrate automatically.
  * @see https://docs.folivoro.com/upgrade#config-system
- *
  * @since 1.0.0
  */
 class Configure
