@@ -210,7 +210,7 @@ class DebugServiceProvider extends ServiceProvider
                 'line'      => $e->getLine(),
             ]);
         } catch (Throwable) {
-            die($e->getMessage());
+            error_log($e->getMessage());
         }
     }
 }
