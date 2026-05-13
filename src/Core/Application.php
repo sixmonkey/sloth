@@ -589,12 +589,17 @@ class Application extends Container
     }
 
     /**
-     * Guess the project root path.
+     * Guess the App-Root path.
+     *
+     * The App-Root is always the directory where Models, Modules, Providers etc. live:
+     * - Classic mode: ${composer_dir}/app/
+     * - Theme mode:   get_template_directory()
      *
      * Resolution order:
-     * 1. `SLOTH_BASE_PATH` constant — explicit override
-     * 2. Walk up from ABSPATH to find composer.json outside vendor/
-     * 3. Theme-only fallback — app/ inside get_template_directory()
+     * 1. Already cached — return immediately
+     * 2. `SLOTH_BASE_PATH` constant — explicit override, used as-is
+     * 3. Walk up from ABSPATH to find composer.json outside vendor/ → Classic mode → append /app
+     * 4. Theme-only fallback — get_template_directory() → Theme mode
      *
      * Result is cached statically for the duration of the request.
      *
@@ -619,16 +624,16 @@ class Application extends Container
 
         while ($dir !== '/') {
             if (file_exists($dir . '/composer.json') && !str_contains($dir, '/vendor/')) {
-                return self::$cachedBasePath = $dir;
+                // Classic mode — App-Root is app/ inside the project root
+                return self::$cachedBasePath = $dir . '/app';
             }
 
             $dir = dirname($dir);
         }
 
         if (function_exists('get_template_directory')) {
-            $theme = get_template_directory();
-
-            return self::$cachedBasePath = $theme;
+            // Theme mode — App-Root is the theme directory itself
+            return self::$cachedBasePath = get_template_directory();
         }
 
         throw new RuntimeException(
