@@ -709,7 +709,7 @@ class Application extends Container
      *
      * @since 1.0.0
      */
-    public function path(string $path = '', string $prefix = 'app'): string
+    public function path(string $path = '', string $prefix = 'base'): string
     {
         return join_paths($this->get('path.' . $prefix), $path);
     }
