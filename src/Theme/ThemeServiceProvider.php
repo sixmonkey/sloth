@@ -53,6 +53,8 @@ class ThemeServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/config/theme.php', 'theme');
+
         $this->themePath = realpath(get_template_directory());
 
         // Make theme path available in the container
@@ -67,7 +69,6 @@ class ThemeServiceProvider extends ServiceProvider
         if (file_exists($themeConfig)) {
             include_once $themeConfig;
         }
-
     }
 
     /**
@@ -80,6 +81,10 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->publishes([
+            __DIR__ . '/config/theme.php' => app()->path('config', 'theme') . '/theme.php',
+        ], 'config');
+
         if (is_dir($this->themePath . '/View')) {
             $this->app['view.finder']->addLocation($this->themePath . '/View');
         }
