@@ -49,7 +49,7 @@ class LayotterBridgeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/layotter.php', 'layotter');
 
         $this->publishes([
-            __DIR__ . '/config/layotter.php' => app()->path('config', 'app') . '/layotter.php',
+            __DIR__ . '/config/layotter.php' => app()->path('config', 'theme') . '/layotter.php',
         ], 'config');
     }
 
