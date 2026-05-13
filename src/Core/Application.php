@@ -159,14 +159,32 @@ class Application extends Container
      *
      * @since 1.0.0
      */
-    public static function configure(): static
+    /**
+     * Create and return the application instance.
+     *
+     * Returns the existing instance if already booted.
+     * This is the preferred entry point — chain with ->boot().
+     *
+     * ```php
+     * // Auto-detect base path
+     * Application::configure()->boot();
+     *
+     * // Explicit base path — skips path guessing (recommended in starters)
+     * Application::configure(basePath: __DIR__)->boot();
+     * ```
+     *
+     * @param string|null $basePath explicit project root — if null, guessed automatically
+     *
+     * @since 1.0.0
+     */
+    public static function configure(?string $basePath = null): static
     {
         if (self::$booted) {
             return static::getInstance();
         }
 
         // @phpstan-ignore new.static
-        return new static();
+        return new static($basePath);
     }
 
     /**
@@ -178,10 +196,17 @@ class Application extends Container
      * Environment variables are loaded here — before boot() — so that
      * all service providers can safely call env() during registration.
      *
+     * @param string|null $basePath explicit project root — if null, guessed via guessBasePath()
+     *
      * @since 1.0.0
      */
-    protected function __construct()
+    protected function __construct(?string $basePath = null)
     {
+        // Cache an explicit basePath immediately — skips guessBasePath() entirely
+        if ($basePath !== null) {
+            self::$cachedBasePath = rtrim($basePath, '/');
+        }
+
         static::setInstance($this);
         $this->instance('app', $this);
         $this->instance(self::class, $this);
