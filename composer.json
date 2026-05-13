@@ -2,9 +2,6 @@
   "name": "folivoro/sloth",
   "description": "A WordPress theme framework built with Laravel components",
   "license": "MIT",
-  "suggest": {
-    "ext-imagick": "Required for generating screenshot.png during theme setup"
-  },
   "require": {
     "php": ">=8.4",
     "ext-json": "*",
@@ -53,11 +50,14 @@
     "szepeviktor/phpstan-wordpress": "^2.0",
     "unh3ck3d/php-cs-fixer-git-hook": "^1.0"
   },
-  "extra": {
-    "branch-alias": {
-      "dev-develop": "1.0.x-dev"
-    }
+  "replace": {
+    "sixmonkey/sloth": "self.version"
   },
+  "suggest": {
+    "ext-imagick": "Required for generating screenshot.png during theme setup"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "Sloth\\": "src/"
@@ -72,25 +72,28 @@
     }
   },
   "config": {
-    "sort-packages": true,
     "allow-plugins": {
-      "php-http/discovery": true,
-      "pestphp/pest-plugin": true
+      "pestphp/pest-plugin": true,
+      "php-http/discovery": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "1.0.x-dev"
     }
   },
-  "minimum-stability": "stable",
-  "prefer-stable": true,
   "scripts": {
-    "test": "pest",
-    "test:coverage": "pest --coverage --coverage-html build/coverage",
-    "analyse": "phpstan analyse --memory-limit=1G",
-    "cs-fix": "php-cs-fixer fix",
-    "cs-check": "php-cs-fixer fix --dry-run --diff",
-    "rector": "rector process",
-    "rector:dry": "rector process --dry-run",
-    "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple",
     "post-autoload-dump": [
       "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/captainhook install -f -s"
-    ]
+    ],
+    "analyse": "phpstan analyse --memory-limit=1G",
+    "cs-check": "php-cs-fixer fix --dry-run --diff",
+    "cs-fix": "php-cs-fixer fix",
+    "docs": "docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -d src -t docs/api -s template.color=deep-purple",
+    "rector": "rector process",
+    "rector:dry": "rector process --dry-run",
+    "test": "pest",
+    "test:coverage": "pest --coverage --coverage-html build/coverage"
   }
 }
