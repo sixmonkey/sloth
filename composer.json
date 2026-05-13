@@ -95,5 +95,9 @@
     "rector:dry": "rector process --dry-run",
     "test": "pest",
     "test:coverage": "pest --coverage --coverage-html build/coverage"
+  },
+  "support": {
+    "issues": "https://github.com/folivoro/sloth/issues",
+    "source": "https://github.com/folivoro/sloth"
   }
 }
