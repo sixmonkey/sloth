@@ -34,20 +34,22 @@ class ApplicationServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/config/app.php', 'app');
+
         $this->app->singleton(IncludesManifestBuilder::class, fn ($app): IncludesManifestBuilder => new IncludesManifestBuilder($app));
     }
 
     /**
      * Boot the ApplicationServiceProvider and load the includes manifest.
      *
-     * Loads the includes manifest for automatic file inclusion. Provider
-     * discovery is handled by Application::registerProviders() before
-     * this provider even boots.
-     *
      * @since 1.0.0
      */
     public function boot(): void
     {
+        $this->publishes([
+            __DIR__ . '/config/app.php' => app()->path('config') . '/app.php',
+        ], 'config');
+
         app(IncludesManifestBuilder::class)->init();
     }
 }
