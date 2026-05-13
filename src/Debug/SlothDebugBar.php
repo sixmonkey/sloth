@@ -104,26 +104,6 @@ class SlothDebugBar extends DebugBar
             })
         ;
 
-        $renderer = $this->getJavascriptRenderer();
-
-        Route::get($this->baseUrl . '/dist/debugbar.min.css', function () use ($renderer) {
-            $content
-                = $renderer->dumpCssAssets(echo: false)
-                . app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css')
-                . app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
-
-            return Response::make(
-                $content,
-            )
-                ->header('Content-Type', 'text/css')
-            ;
-        });
-
-        Route::get($this->baseUrl . '/dist/debugbar.min.js', fn () => Response::make(
-            $renderer->dumpJsAssets(echo: false),
-        )
-            ->header('Content-Type', 'text/javascript'));
-
         $this->booted = true;
     }
 
@@ -226,8 +206,20 @@ class SlothDebugBar extends DebugBar
     {
         $renderer = $this->getJavascriptRenderer();
 
-        $renderer->setBaseUrl($this->baseUrl);
+        // Inline all assets — no external routes needed, works in any environment
+        ob_start();
+        $renderer->dumpCssAssets();
+        $css = ob_get_clean();
 
-        return $renderer->renderHead() . "\n" . $renderer->render();
+        $customCss = app('files')->get(__DIR__ . '/resources/sloth-debugbar-icons.css')
+            . app('files')->get(__DIR__ . '/resources/sloth-debugbar.css');
+
+        ob_start();
+        $renderer->dumpJsAssets();
+        $js = ob_get_clean();
+
+        return "<style>\n{$css}\n{$customCss}\n</style>\n"
+            . "<script>\n{$js}\n</script>\n"
+            . $renderer->render();
     }
 }
