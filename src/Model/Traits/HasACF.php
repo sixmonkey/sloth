@@ -63,10 +63,15 @@ trait HasACF
      */
     private function getFields(mixed $model): Collection
     {
+        // ACF not installed — return empty collection
+        if (!function_exists('get_fields')) {
+            return collect();
+        }
+
         $key = $model->getAcfKey();
 
         if (!isset(static::$acfFieldCache[$key])) {
-            static::$acfFieldCache[$key] = collect(get_fields($key) ?? []);
+            static::$acfFieldCache[$key] = collect(\get_fields($key) ?? []);
         }
 
         return static::$acfFieldCache[$key];
