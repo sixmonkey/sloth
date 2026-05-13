@@ -488,8 +488,10 @@ class Model extends Eloquent
     #[Override]
     public function newQuery()
     {
-        return static::$postType
-            ? parent::newQuery()->type(static::$postType)
+        $postType = static::getPostType();
+
+        return $postType !== '' && $postType !== '0'
+            ? parent::newQuery()->type($postType)
             : parent::newQuery();
     }
 
