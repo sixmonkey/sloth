@@ -414,7 +414,7 @@ class Model extends Eloquent
         static::addGlobalScope('published_for_guests', function (Builder $builder): void {
             $context = app()->make(RequestContext::class);
 
-            if (!$context->isLoggedin() && $context->isFrontoffice()) {
+            if (!$context->isLoggedin() || $context->isFrontoffice()) {
                 $builder->where('post_status', 'publish');
             }
         });
