@@ -13,11 +13,9 @@ use Sloth\Facades\Facade;
  * It intentionally does NOT proxy to Laravel's config() helper —
  * that would create circular dependencies during boot.
  *
- * ## Migration path
- *
- * Theme code using Configure::write/read will continue to work.
- * Framework internals have been migrated to config() directly.
- * Use folivoro/shift to migrate theme code — see MIGRATE.md.
+ * @deprecated 2.0 Use config() and Laravel config files instead.
+ *             Run `wp sloth modernize` to migrate automatically.
+ * @see https://docs.folivoro.com/upgrade#config-system
  *
  * @since 1.0.0
  */
