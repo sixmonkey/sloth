@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace Sloth\Routing;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Override;
 use Sloth\Core\ServiceProvider;
 
@@ -45,13 +44,13 @@ class UrlServiceProvider extends ServiceProvider
     {
         $filters = [];
 
-        $relativeLinks   = config('app.relative_links', false);
+        $relativeLinks = config('app.relative_links', false);
         $relativeUploads = config('app.relative_uploads', false);
-        $relativeUrls    = config('app.relative_urls', false);
+        $relativeUrls = config('app.relative_urls', false);
 
         // app.relative_urls enables both links and uploads
         if ($relativeUrls) {
-            $relativeLinks   = true;
+            $relativeLinks = true;
             $relativeUploads = true;
         }
 
@@ -99,8 +98,8 @@ class UrlServiceProvider extends ServiceProvider
                 'callback' => function ($content) {
                     $handler = app(RelativeUrlHandler::class);
                     $content = $handler->makeHrefsRelative($content);
-                    $content = $handler->makeSrcsRelative($content);
-                    return $content;
+
+                    return $handler->makeSrcsRelative($content);
                 },
                 'priority' => 90,
             ];

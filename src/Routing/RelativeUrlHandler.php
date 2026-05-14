@@ -34,30 +34,32 @@ class RelativeUrlHandler
     /**
      * Convert href attributes in HTML content to relative paths.
      *
-     * @param  string $content HTML content with href attributes
-     * @return string Content with relative hrefs
+     * @param string $content HTML content with href attributes
      *
      * @throws BindingResolutionException
+     *
+     * @return string Content with relative hrefs
      *
      * @since 1.0.0
      */
     public function makeHrefsRelative(string $content): string
     {
-        return str_replace('href="' . rtrim((string) $this->app->uri(), '/'), 'href="', $content);
+        return str_replace('href="' . rtrim($this->app->uri(), '/'), 'href="', $content);
     }
 
     /**
      * Convert src attributes in HTML content to relative paths.
      *
-     * @param  string $content HTML content with src attributes
-     * @return string Content with relative srcs
+     * @param string $content HTML content with src attributes
      *
      * @throws BindingResolutionException
+     *
+     * @return string Content with relative srcs
      *
      * @since 1.0.0
      */
     public function makeSrcsRelative(string $content): string
     {
-        return str_replace('src="' . rtrim((string) $this->app->uri(), '/'), 'src="', $content);
+        return str_replace('src="' . rtrim($this->app->uri(), '/'), 'src="', $content);
     }
 }
