@@ -89,9 +89,7 @@ class SlothViewExtension extends AbstractViewExtension
             'options' => fn (?string $key = null, mixed $default = null): mixed => options($key, $default),
 
             // Dynamic function call
-            'function' => function (string $functionName, mixed ...$args): mixed {
-                return call_user_func_array($functionName, $args);
-            },
+            'function' => fn (string $functionName, mixed ...$args): mixed => call_user_func_array($functionName, $args),
 
             // i18n
             'translate'               => fn ($text, $domain = 'default') => translate($text, $domain),

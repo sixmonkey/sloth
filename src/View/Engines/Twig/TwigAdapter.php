@@ -90,6 +90,9 @@ class TwigAdapter implements ViewAdapterInterface
             }
         });
 
+        // Sync all registered view paths to the Twig FilesystemLoader
+        $app['twig.loader']->setPaths($app['view.finder']->getPaths());
+
         // Register .twig as a view engine
         $view->addExtension(
             'twig',

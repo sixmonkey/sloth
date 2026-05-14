@@ -69,13 +69,10 @@ class ThemeServiceProvider extends ServiceProvider
             __DIR__ . '/config/theme.php' => app()->path('config', 'theme') . '/theme.php',
         ], 'config');
 
+        // Register theme view path — ViewServiceProvider handles the rest
         if (is_dir($this->themePath . '/View')) {
             $this->app['view.finder']->addLocation($this->themePath . '/View');
         }
-
-        $this->app['view.finder']->addLocation($this->app->path('_view', 'framework'));
-        $this->app['twig.loader']->setPaths($this->app['view.finder']->getPaths());
-
     }
 
     /*
