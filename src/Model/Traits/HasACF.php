@@ -43,6 +43,11 @@ trait HasACF
      */
     public static function bootHasACF(): void
     {
+        // Skip automatic ACF field processing if disabled in config
+        if (!config('theme.process_acf', true)) {
+            return;
+        }
+
         static::retrieved(function (self $model): void {
             $fields = $model->getFields($model);
             $acf_fields = $fields->keys();

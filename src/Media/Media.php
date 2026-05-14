@@ -46,7 +46,7 @@ class Media
      */
     public function registerImageSizes(): void
     {
-        $imageSizes = config('theme.image-sizes');
+        $imageSizes = config('theme.image_sizes') ?? config('theme.image-sizes');
 
         if ($imageSizes && is_array($imageSizes)) {
             foreach ($imageSizes as $name => $options) {
@@ -60,16 +60,16 @@ class Media
             }
         }
 
-        if (config('urls.relative')) {
+        if (config('app.relative_urls') ?? config('urls.relative')) {
             $this->makeUploadsRelative();
             $this->makeLinksRelative();
         }
 
-        if (config('links.urls.relative')) {
+        if (config('app.relative_links') ?? config('links.urls.relative')) {
             $this->makeLinksRelative();
         }
 
-        if (config('uploads.urls.relative')) {
+        if (config('app.relative_uploads') ?? config('uploads.urls.relative')) {
             $this->makeUploadsRelative();
         }
     }

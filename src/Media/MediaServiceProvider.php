@@ -36,7 +36,7 @@ class MediaServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('urls.relative')) {
+        if (config('app.relative_urls') ?? config('urls.relative')) {
             $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event): void {
                 $event->result = app('media')->makeHrefsRelative($event->result);
             });

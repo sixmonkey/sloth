@@ -38,6 +38,7 @@ class ACFHelper
      */
     public function autoSyncAcfFields(): void
     {
+        // @deprecated — autosync_acf is no longer part of Sloth
         $autosyncAcf = config('autosync_acf');
 
         if (
