@@ -19,6 +19,8 @@ use Sloth\Model\Traits\HasOrderScopes;
  * This model extends Corcel\Model directly to provide WordPress user functionality.
  * It uses Sloth's own trait implementations for meta fields and aliases.
  *
+ * @method static static|null find(mixed $id)
+ *
  * ## Independence from Corcel
  *
  * This model does NOT extend Corcel\Model\User. Instead, it implements all
