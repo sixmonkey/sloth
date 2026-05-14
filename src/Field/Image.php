@@ -222,7 +222,7 @@ class Image implements Stringable
             return $this->sizes[$size];
         }
 
-        $imageSizes = config('theme.image_sizes') ?? config('theme.image-sizes');
+        $imageSizes = config('theme.image_sizes', []);
 
         if (isset($imageSizes[$size])) {
             return $this->resize($imageSizes[$size]);
@@ -465,7 +465,7 @@ class Image implements Stringable
      */
     public function sizes(): array
     {
-        $imageSizes = config('theme.image_sizes') ?? config('theme.image-sizes');
+        $imageSizes = config('theme.image_sizes', []);
         $sizes = [];
 
         if (is_array($imageSizes)) {
