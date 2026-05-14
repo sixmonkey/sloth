@@ -52,13 +52,7 @@ class ConfigCommand extends Command
     {
         $key = $this->argument('key');
 
-        // Try Laravel config first
         $value = config($key);
-
-        // Fall back to Configure
-        if ($value === null) {
-            $value = \Sloth\Configure\Configure::read($key);
-        }
 
         if ($value !== null) {
             $this->line($this->laravel->make('files')->jsonify($value));
