@@ -22,7 +22,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 function makeTestApp(): Application
 {
     $app = Application::configure();
-    $app->instance('config', new \Illuminate\Config\Repository([]));
+    $app->instance('config', new \Illuminate\Config\Repository([
+        'admin' => require dirname(__DIR__) . '/src/Admin/config/admin.php',
+        'app'   => require dirname(__DIR__) . '/src/Core/config/app.php',
+        'theme' => require dirname(__DIR__) . '/src/Theme/config/theme.php',
+    ]));
     $app->instance('files', new \Illuminate\Filesystem\Filesystem());
     $app->instance('events', new \Illuminate\Events\Dispatcher($app));
 
@@ -62,7 +66,9 @@ function makeTestKernel(?Application $app = null): ConsoleKernel
 
 beforeEach(function (): void {
     Monkey\setUp();
-    Application::setInstance(makeTestApp());
+    $app = makeTestApp();
+    Application::setInstance($app);
+    \Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 });
 
 afterEach(function (): void {
