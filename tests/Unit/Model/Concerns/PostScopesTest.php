@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Sloth\Tests\Unit\Model\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
-use Sloth\Model\Concerns\PostScopes;
-use Sloth\Model\Builder\PostBuilder;
 use Mockery;
+use Sloth\Model\Builder\PostBuilder;
+use Sloth\Model\Traits\PostScopes;
 
 /**
  * Unit tests for the PostScopes trait.

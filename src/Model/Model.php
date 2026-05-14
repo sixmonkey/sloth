@@ -20,13 +20,13 @@ use ReflectionClass;
 use Sloth\Field\Image;
 use Sloth\Http\RequestContext;
 use Sloth\Model\Builder\PostBuilder;
-use Sloth\Model\Concerns\PostScopes;
 use Sloth\Model\Traits\HasACF;
 use Sloth\Model\Traits\HasAliases;
 use Sloth\Model\Traits\HasCustomTimestamps;
 use Sloth\Model\Traits\HasMetaFields;
 use Sloth\Model\Traits\HasOrderScopes;
 use Sloth\Model\Traits\HasRelationships;
+use Sloth\Model\Traits\PostScopes;
 
 /**
  * Base Model class for WordPress post types.

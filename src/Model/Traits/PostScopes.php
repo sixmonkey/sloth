@@ -1,8 +1,9 @@
 <?php
 
 declare(strict_types=1);
-namespace Sloth\Model\Concerns;
+namespace Sloth\Model\Traits;
 
+use function Sloth\Model\Concerns\get_option;
 use Carbon\Carbon;
 use Corcel\Model\Meta\PostMeta;
 use Illuminate\Database\Eloquent\Builder;
