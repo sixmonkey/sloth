@@ -14,21 +14,15 @@ use Sloth\Core\ServiceProvider;
  *
  * ## Registration (register())
  *
- * Loads configuration files so that config values are available when
- * subsequent providers register their services.
- *
- * Order matters:
- * 1. `app/config/app.config.php` — procedural config (Configure::write, define)
- * 2. `app/config/*.php` — Laravel-style config files (return [...])
- * 3. `theme/config.php` — theme-specific config
- *
- * This must run before ViewServiceProvider so that theme.twig.filters
- * and other config values are available during Twig setup.
+ * Merges default theme config and loads any theme-specific config files
+ * so that config values are available when subsequent providers register
+ * their services.
  *
  * ## Boot (boot())
  *
- * Sets up theme view paths after ViewServiceProvider has registered
- * view.finder and twig.loader in the container.
+ * Publishes config files, registers theme supports and sets up view paths
+ * after ViewServiceProvider has registered view.finder and twig.loader
+ * in the container.
  *
  * @since 1.0.0
  * @see \Sloth\View\ViewServiceProvider

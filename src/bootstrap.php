@@ -20,7 +20,6 @@
  * ## What does NOT belong here
  *
  * - Any Sloth class instantiation
- * - Configure::boot() or facade usage
  * - ServiceProvider registration
  *
  * ## Deprecated

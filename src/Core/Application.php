@@ -126,7 +126,6 @@ class Application extends Container
      */
     private array $classAliases = [
         'Cache'      => \Sloth\Facades\Cache::class,
-        'Configure'  => \Sloth\Facades\Configure::class,
         'Customizer' => \Sloth\Facades\Customizer::class,
         'Deployment' => \Sloth\Facades\Deployment::class,
         'File'       => \Sloth\Facades\File::class,
