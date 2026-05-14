@@ -324,7 +324,6 @@ class Application extends Container
             \Sloth\Compatibility\LegacyGlobalsServiceProvider::class,
 
             // Infrastructure
-            \Sloth\Configure\ConfigureServiceProvider::class,
             \Sloth\Event\EventServiceProvider::class,
             \Sloth\Event\WordPressEventBridge::class,
             \Sloth\Filesystem\FilesystemServiceProvider::class,
