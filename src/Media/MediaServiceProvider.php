@@ -5,15 +5,12 @@ namespace Sloth\Media;
 
 use Override;
 use Sloth\Core\ServiceProvider;
-use Sloth\Event\WpHookFired;
 
 /**
- * Service provider for media and URL handling.
+ * Service provider for media handling.
  *
- * Handles:
- * - Custom image sizes registration
- * - SVG mime type for media uploads
- * - Converting absolute URLs to root-relative paths
+ * Registers image sizes and SVG mime type support.
+ * Relative URL handling is managed by UrlServiceProvider.
  *
  * @since 1.0.0
  */
@@ -26,25 +23,7 @@ class MediaServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot the media service provider.
-     *
-     * Registers the content filter for relative URL conversion
-     * via the WordPress Event Bridge, so that other listeners
-     * can also manipulate the_content in a decoupled manner.
-     *
-     * @since 1.0.0
-     */
-    public function boot(): void
-    {
-        if (config('app.relative_urls') ?? config('urls.relative')) {
-            $this->app->make('events')->listen('wp:the_content', function (WpHookFired $event): void {
-                $event->result = app('media')->makeHrefsRelative($event->result);
-            });
-        }
-    }
-
-    /**
-     * Register media hooks and filters.
+     * Register media hooks.
      *
      * @since 1.0.0
      */
