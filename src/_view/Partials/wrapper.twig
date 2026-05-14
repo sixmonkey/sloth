@@ -4,17 +4,16 @@
     <meta charset="{{ site.charset }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if wp_title %}{{ wp_title }} - {% endif %}{{ site.name }}</title>
-    {{ function('wp_head') }}
+    {{ wp_head() }}
 </head>
-<body {{ function('body_class') }}>
+<body {{ body_class() }}>
     <script>
         var themes_url = '{{ globals.theme_url }}';
         document.body.className = document.body.className.replace(/no-js/g, 'js');
     </script>
-    <div>
+    <main>
         {% block content %}{% endblock %}
-    </div>
-</div>
-{{ function('wp_footer') }}
+    </main>
+{{ wp_footer() }}
 </body>
 </html>
