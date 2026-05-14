@@ -235,11 +235,19 @@ class Application extends Container
      */
     private function loadEnvironment(): void
     {
-        $basePath = $this->guessBasePath();
+        $dir = $this->guessBasePath();
 
-        if (file_exists($basePath . '/.env')) {
-            $dotenv = \Dotenv\Dotenv::createImmutable($basePath);
-            $dotenv->load();
+        // Walk up from the App-Root until a .env file is found.
+        // In Theme mode this is typically the theme root itself.
+        // In Classic mode it's the project root — one level above app/.
+        while ($dir !== '/') {
+            if (file_exists($dir . '/.env')) {
+                \Dotenv\Dotenv::createImmutable($dir)->load();
+
+                return;
+            }
+
+            $dir = dirname($dir);
         }
     }
 
