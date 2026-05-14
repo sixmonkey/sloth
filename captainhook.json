@@ -28,6 +28,12 @@
     "enabled": true,
     "actions": [
       {
+        "action": "vendor/bin/phpstan analyse --memory-limit=1G --no-progress",
+        "config": {
+          "label": "PHPStan"
+        }
+      },
+      {
         "action": "vendor/bin/rector process --dry-run --no-progress-bar",
         "config": {
           "label": "Rector"
