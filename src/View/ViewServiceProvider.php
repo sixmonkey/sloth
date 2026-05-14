@@ -83,6 +83,9 @@ class ViewServiceProvider extends ServiceProvider
     #[Override]
     public function boot(): void
     {
+        // Register framework built-in views
+        $this->app['view.finder']->addLocation(dirname(__DIR__, 2) . '/resources/views');
+
         $helpers = [];
         $directives = [];
         $registered = ['helpers' => [], 'directives' => []];
