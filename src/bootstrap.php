@@ -37,16 +37,6 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 // -------------------------------------------------------------------------
-// Configure — must be available before WordPress loads
-//
-// Theme includes may reference Configure before after_setup_theme fires.
-// TODO: remove when all themes have migrated to config() — see MIGRATE.md.
-// -------------------------------------------------------------------------
-
-class_alias(Sloth\Configure\Configure::class, 'Configure');
-Sloth\Configure\Configure::boot();
-
-// -------------------------------------------------------------------------
 // Environment variables
 // -------------------------------------------------------------------------
 
