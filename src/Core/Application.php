@@ -210,6 +210,7 @@ class Application extends Container
         }
 
         static::setInstance($this);
+        Facade::setFacadeApplication($this);
         $this->instance('app', $this);
         $this->instance(self::class, $this);
         $this->instance(Container::class, $this);
