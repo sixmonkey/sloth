@@ -39,7 +39,7 @@ class MakeLayoutCommand extends Command
      *
      * @var array<string, string>
      */
-    private const HIERARCHY = [
+    private const array HIERARCHY = [
         'index'                      => 'Fallback for all pages',
         'front-page'                 => 'Static front page',
         'home'                       => 'Blog posts index',
@@ -81,7 +81,7 @@ class MakeLayoutCommand extends Command
             return self::FAILURE;
         }
 
-        $dir = dirname($path);
+        $dir = dirname((string) $path);
 
         if (!is_dir($dir)) {
             mkdir($dir, 0o755, true);
@@ -97,7 +97,7 @@ class MakeLayoutCommand extends Command
     /**
      * Run the interactive prompt to select a template type.
      */
-    private function askInteractive(): ?string
+    private function askInteractive(): string
     {
         // select() with key => label map returns the key directly — no parsing needed
         $template = select(
