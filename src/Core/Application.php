@@ -606,7 +606,7 @@ class Application extends Container
      *
      * @since 1.0.0
      */
-    public function getAllModels(): array
+    public function getAllModels(): Collection
     {
         return collect(app('sloth.models'));
     }
@@ -636,9 +636,9 @@ class Application extends Container
      *
      * @since 1.0.0
      */
-    public function getAllTaxonomies(): array
+    public function getAllTaxonomies(): Collection
     {
-        return app('sloth.taxonomies');
+        return collect(app('sloth.taxonomies'));
     }
 
     // -------------------------------------------------------------------------
