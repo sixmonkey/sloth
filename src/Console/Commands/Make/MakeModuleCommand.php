@@ -77,7 +77,7 @@ class MakeModuleCommand extends MakeCommand
                 );
                 file_put_contents($viewPath, $stub);
 
-                $relative = str_replace(app()->path() . '/', '', $viewPath);
+                $relative = str_replace(app()->basePath() . '/', '', $viewPath);
                 $this->info("Created: {$relative}");
             }
         }
@@ -87,7 +87,7 @@ class MakeModuleCommand extends MakeCommand
 
     protected function resolveStubByName(string $stubName): string
     {
-        $custom = app()->path('stubs') . '/' . $stubName;
+        $custom = app()->basePath('stubs') . '/' . $stubName;
 
         if (file_exists($custom)) {
             return file_get_contents($custom);

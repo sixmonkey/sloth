@@ -28,7 +28,7 @@ class StubPublishCommand extends Command
     public function handle(): int
     {
         $source = dirname(__DIR__, 3) . '/resources/stubs';
-        $dest = app()->path('stubs');
+        $dest = app()->basePath('stubs');
 
         if (!is_dir($source)) {
             $this->error('Stubs directory not found: ' . $source);

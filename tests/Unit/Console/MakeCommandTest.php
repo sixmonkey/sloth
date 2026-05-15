@@ -17,7 +17,7 @@ class TestMakeCommand extends MakeCommand
 
     protected function stub(): string { return 'Provider.php.stub'; }
     protected function outputPath(string $name): string { return 'Providers/' . $name . '.php'; }
-    protected function destination(): string { return app()->path(); }
+    protected function destination(): string { return app()->basePath(); }
 }
 
 describe('MakeCommand', function (): void {
@@ -26,7 +26,7 @@ describe('MakeCommand', function (): void {
         it('returns framework stub when no custom stub exists', function (): void {
             $app = makeTestApp();
             Application::setInstance($app);
-            $app->instance('path.base', sys_get_temp_dir() . '/no_stubs_' . uniqid());
+            $app->basePath = sys_get_temp_dir() . '/no_stubs_' . uniqid();
 
             $command = new TestMakeCommand();
             $command->setLaravel($app);
@@ -44,7 +44,7 @@ describe('MakeCommand', function (): void {
 
             $app = makeTestApp();
             Application::setInstance($app);
-            $app->instance('path.base', $tmpDir);
+            $app->basePath = $tmpDir;
 
             $command = new TestMakeCommand();
             $command->setLaravel($app);
@@ -101,7 +101,7 @@ describe('MakeCommand', function (): void {
             $reflection = new \ReflectionMethod($command, 'namespace');
             $result = $reflection->invoke($command, 'MyProvider');
 
-            // TestMakeCommand::destination() returns app()->path() — not 'app'
+            // TestMakeCommand::destination() returns app()->basePath() — not 'app'
             expect($result)->toContain('Providers');
         });
 

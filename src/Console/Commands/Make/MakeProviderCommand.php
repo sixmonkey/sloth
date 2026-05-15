@@ -38,10 +38,10 @@ class MakeProviderCommand extends MakeCommand
         }
 
         if ($this->option('theme')) {
-            return app()->path('theme');
+            return app()->basePath('theme');
         }
 
-        return app()->path();
+        return app()->basePath();
     }
 
     protected function baseNamespace(): string

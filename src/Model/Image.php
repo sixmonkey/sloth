@@ -350,7 +350,7 @@ class Image extends Model
             return null;
         }
 
-        $path = realpath(app()->path('uploads') . '/' . ltrim($relPath, '/'));
+        $path = realpath(app()->basePath('uploads') . '/' . ltrim($relPath, '/'));
 
         return $path !== false ? $path : null;
     }

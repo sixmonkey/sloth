@@ -291,7 +291,7 @@ class Image implements Stringable
             return '';
         }
 
-        $uploadDir = realpath(app()->path('uploads'));
+        $uploadDir = realpath(app()->basePath('uploads'));
         $suffix = sprintf('%sx%s', $options['width'], $options['height']);
 
         unset($options['width'], $options['height']);
@@ -334,7 +334,7 @@ class Image implements Stringable
      */
     protected function getAbsoluteFilename(string $filename): string
     {
-        $uploadDir = realpath(app()->path('uploads'));
+        $uploadDir = realpath(app()->basePath('uploads'));
 
         return ($uploadDir !== false ? $uploadDir : '') . $filename;
     }

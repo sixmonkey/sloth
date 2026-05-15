@@ -129,7 +129,7 @@ class VendorPublishCommand extends Command
      */
     private function relativePath(string $path): string
     {
-        $base = app()->path();
+        $base = app()->basePath();
 
         if (str_starts_with($path, (string) $base)) {
             return ltrim(substr($path, strlen((string) $base)), '/');
