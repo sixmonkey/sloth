@@ -13,7 +13,6 @@ parameters:
         - vendor
 
         # will be removed
-        - src/LayotterBridge
         - src/Model
 
         # legacy
