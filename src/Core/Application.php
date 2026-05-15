@@ -71,9 +71,13 @@ use Sloth\Facades\Facade;
 class Application extends Container
 {
     use ApplicationPathTrait;
+
     use ApplicationUriTrait;
+
     use ApplicationEnvironmentTrait;
+
     use ApplicationProviderTrait;
+
     use ApplicationConvenienceTrait;
 
     // -------------------------------------------------------------------------
@@ -85,7 +89,7 @@ class Application extends Container
      *
      * @since 1.0.0
      */
-    public const version = '1.0.0';
+    public const version = '2.0.0';
 
     /**
      * Whether the application has already been booted.
@@ -260,5 +264,4 @@ class Application extends Container
             }
         }
     }
-
 }

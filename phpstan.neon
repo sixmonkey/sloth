@@ -14,10 +14,6 @@ parameters:
 
         # will be removed
         - src/Model
-
-        # legacy
-        - src/wp-config.php
-        - src/bootstrap.php
     fileExtensions:
         - php
     bootstrapFiles:
