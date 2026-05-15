@@ -40,7 +40,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config/admin.php' => app()->path('config') . '/admin.php',
+            __DIR__ . '/config/admin.php' => app()->basePath('config/admin.php'),
         ], 'config');
     }
 

@@ -175,7 +175,7 @@ class DebugServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/config/debugger.php' => app()->path('config', 'app') . '/debugger.php',
+            __DIR__ . '/config/debugger.php' => app()->configPath('debugger.php'),
         ], 'config');
 
         $this->mergeConfigFrom(

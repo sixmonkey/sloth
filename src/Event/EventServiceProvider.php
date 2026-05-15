@@ -36,7 +36,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config/events.php' => app()->path('config', 'app') . '/events.php',
+            __DIR__ . '/config/events.php' => app()->configPath('events.php'),
         ], 'config');
     }
 }

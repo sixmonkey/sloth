@@ -93,7 +93,7 @@ class DatabaseServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config/database.php' => app()->path('config', 'app') . '/database.php',
+            __DIR__ . '/config/database.php' => app()->configPath('database.php'),
         ], 'config');
 
         $capsule = new Capsule();

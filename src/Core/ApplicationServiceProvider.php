@@ -47,7 +47,7 @@ class ApplicationServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config/app.php' => app()->path('config') . '/app.php',
+            __DIR__ . '/config/app.php' => app()->basePath('config/app.php'),
         ], 'config');
 
         app(IncludesManifestBuilder::class)->init();
