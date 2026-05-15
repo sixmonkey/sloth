@@ -26,6 +26,8 @@ abstract class MakeCommand extends Command
      * Get the output path relative to the destination directory.
      *
      * @since 1.0.0
+     *
+     * @param string $name
      */
     abstract protected function outputPath(string $name): string;
 
@@ -39,9 +41,10 @@ abstract class MakeCommand extends Command
     /**
      * Get additional placeholder replacements.
      *
-     * @return array<string, string>
-     *
      * @since 1.0.0
+     *
+     * @param  string                $name
+     * @return array<string, string>
      */
     protected function replacements(string $name): array
     {
@@ -106,6 +109,9 @@ abstract class MakeCommand extends Command
      * Replace all placeholders in the stub.
      *
      * @since 1.0.0
+     *
+     * @param string $stub
+     * @param string $name
      */
     protected function replaceStub(string $stub, string $name): string
     {
@@ -131,10 +137,12 @@ abstract class MakeCommand extends Command
      * - Otherwise → Theme\...
      *
      * @since 1.0.0
+     *
+     * @param string $name
      */
     protected function namespace(string $name): string
     {
-        $root    = basename($this->destination()) === 'app' ? 'App' : 'Theme';
+        $root = basename($this->destination()) === 'app' ? 'App' : 'Theme';
         $subPath = dirname($this->outputPath($name));
 
         if ($subPath === '.') {
@@ -142,8 +150,9 @@ abstract class MakeCommand extends Command
         }
 
         $sub = collect(explode('/', $subPath))
-            ->map(fn($s) => Str::studly($s))
-            ->join('\\');
+            ->map(fn ($s) => Str::studly($s))
+            ->join('\\')
+        ;
 
         return $root . '\\' . $sub;
     }
