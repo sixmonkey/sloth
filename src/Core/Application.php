@@ -3,14 +3,13 @@
 declare(strict_types=1);
 namespace Sloth\Core;
 
-use Deprecated;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Collection;
+use Sloth\Core\Traits\ApplicationConvenienceTrait;
+use Sloth\Core\Traits\ApplicationEnvironmentTrait;
 use Sloth\Core\Traits\ApplicationPathTrait;
+use Sloth\Core\Traits\ApplicationProviderTrait;
+use Sloth\Core\Traits\ApplicationUriTrait;
 use Sloth\Facades\Facade;
-use Sloth\Model\Model;
-use Sloth\Model\Taxonomy;
 
 /**
  * Application Container.
@@ -72,6 +71,10 @@ use Sloth\Model\Taxonomy;
 class Application extends Container
 {
     use ApplicationPathTrait;
+    use ApplicationUriTrait;
+    use ApplicationEnvironmentTrait;
+    use ApplicationProviderTrait;
+    use ApplicationConvenienceTrait;
 
     // -------------------------------------------------------------------------
     // Constants & static state
@@ -94,15 +97,6 @@ class Application extends Container
     // -------------------------------------------------------------------------
     // Instance state
     // -------------------------------------------------------------------------
-
-    /**
-     * Registry of loaded service providers.
-     *
-     * @var array<string, ServiceProvider>
-     *
-     * @since 1.0.0
-     */
-    protected array $loadedProviders = [];
 
     /**
      * Class aliases registered on boot.
@@ -129,20 +123,6 @@ class Application extends Container
     // Boot lifecycle
     // -------------------------------------------------------------------------
 
-    /**
-     * Create and return the application instance.
-     *
-     * Returns the existing instance if already booted.
-     * This is the preferred entry point — chain with ->boot().
-     *
-     * ```php
-     * Application::configure()->boot();
-     * ```
-     *
-     * @since 1.0.0
-     *
-     * @param ?string $basePath
-     */
     /**
      * Create and return the application instance.
      *
@@ -204,37 +184,6 @@ class Application extends Container
     }
 
     /**
-     * Load environment variables from .env if present.
-     *
-     * Silently skips if no .env file exists — this is intentional.
-     * The developer is responsible for ensuring the required variables
-     * are set through other means (e.g. server environment, wp-config.php).
-     *
-     * No variables are marked as required here — that is too opinionated
-     * for a framework. Validate required variables in your own bootstrap
-     * if needed.
-     *
-     * @since 1.0.0
-     */
-    private function loadEnvironment(): void
-    {
-        $dir = $this->guessBasePath();
-
-        // Walk up from the App-Root until a .env file is found.
-        // In Theme mode this is typically the theme root itself.
-        // In Classic mode it's the project root — one level above app/.
-        while ($dir !== '/') {
-            if (file_exists($dir . '/.env')) {
-                \Dotenv\Dotenv::createImmutable($dir)->load();
-
-                return;
-            }
-
-            $dir = dirname($dir);
-        }
-    }
-
-    /**
      * Boot the application.
      *
      * Idempotent — subsequent calls are no-ops.
@@ -292,199 +241,6 @@ class Application extends Container
     }
 
     // -------------------------------------------------------------------------
-    // Providers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Register all core framework service providers.
-     *
-     * Order matters — providers listed first are registered first.
-     * ConfigureServiceProvider must come before any provider that
-     * calls Configure::read/write during registration.
-     *
-     * After all hardcoded providers are registered, the method discovers
-     * additional providers via ProvidersManifestBuilder (scans app/Providers/
-     * and theme/Providers/ for classes extending Sloth\Core\ServiceProvider).
-     *
-     * @since 1.0.0
-     */
-    protected function registerProviders(): void
-    {
-        $providers = [
-            // Compatibility — must be first so $GLOBALS proxies are available
-            \Sloth\Compatibility\LegacyGlobalsServiceProvider::class,
-
-            // Infrastructure
-            \Sloth\Event\EventServiceProvider::class,
-            \Sloth\Event\WordPressEventBridge::class,
-            \Sloth\Filesystem\FilesystemServiceProvider::class,
-            \Sloth\Cache\CacheServiceProvider::class,
-            \Sloth\Http\RequestContextServiceProvider::class,
-            \Sloth\Http\HttpServiceProvider::class,
-            ExceptionServiceProvider::class,
-            \Sloth\Debug\DebugServiceProvider::class,
-            ApplicationServiceProvider::class,
-
-            // Theme — config + view paths before other providers read them
-            \Sloth\Theme\ThemeServiceProvider::class,
-
-            // Framework
-            \Sloth\Finder\FinderServiceProvider::class,
-            \Sloth\View\ViewServiceProvider::class,
-            \Sloth\Pagination\PaginationServiceProvider::class,
-            \Sloth\Request\RequestServiceProvider::class,
-            \Sloth\Validation\ValidationServiceProvider::class,
-
-            // WordPress integration
-            \Sloth\Database\DatabaseServiceProvider::class,
-            \Sloth\Model\ModelServiceProvider::class,
-            \Sloth\Context\ContextServiceProvider::class,
-            \Sloth\Template\TemplateServiceProvider::class,
-            \Sloth\Routing\RoutingServiceProvider::class,
-            \Sloth\Routing\UrlServiceProvider::class,
-            \Sloth\Api\ApiServiceProvider::class,
-            \Sloth\Media\MediaServiceProvider::class,
-            \Sloth\Admin\AdminServiceProvider::class,
-            \Sloth\LayotterBridge\LayotterBridgeServiceProvider::class,
-            \Sloth\Module\ModuleServiceProvider::class,
-            \Sloth\Deployment\DeploymentServiceProvider::class,
-            \Sloth\ACF\AcfServiceProvider::class,
-            \Sloth\Options\OptionsServiceProvider::class,
-
-            // Console
-            \Sloth\Console\ConsoleServiceProvider::class,
-        ];
-
-        foreach ($providers as $provider) {
-            $this->register($provider);
-        }
-
-        // Autodiscover app/Providers/ and theme/Providers/
-        // (app('files') is now available since FilesystemServiceProvider is registered)
-        $builder = new Manifest\ProvidersManifestBuilder($this);
-        $builder->init();
-
-        foreach ($builder->getEntries() as $provider) {
-            $this->register($provider);
-        }
-
-        // Autodiscover vendor package providers from installed.json
-        // (uses extra.laravel.providers — Laravel-compatible format)
-        $vendorBuilder = new Manifest\VendorProviderManifestBuilder($this);
-        $vendorBuilder->init();
-
-        foreach ($vendorBuilder->getEntries() as $provider) {
-            $this->register($provider);
-        }
-    }
-
-    /**
-     * Register a service provider with the application.
-     *
-     * Instantiates string class names automatically. Skips already-registered
-     * providers unless $force is true.
-     *
-     * @param ServiceProvider|string $provider
-     * @param bool                   $force    force re-registration
-     *
-     * @since 1.0.0
-     */
-    public function register(string|ServiceProvider $provider, bool $force = false): ServiceProvider
-    {
-        if (!$provider instanceof ServiceProvider) {
-            $provider = new $provider($this);
-        }
-
-        $name = $provider::class;
-
-        if (isset($this->loadedProviders[$name]) && !$force) {
-            return $provider;
-        }
-
-        $this->instance($name, $provider);
-        $provider->register();
-        $this->loadedProviders[$name] = $provider;
-
-        return $provider;
-    }
-
-    /**
-     * Boot all registered providers and register their hooks and filters.
-     *
-     * Runs in two passes: first boot() on all providers, then registers
-     * WordPress hooks/filters. This ensures all bindings are available
-     * before any hook callback fires.
-     *
-     * @since 1.0.0
-     */
-    protected function bootProviders(): void
-    {
-        $providers = $this->getLoadedProviders();
-
-        $providers->each(function (ServiceProvider $provider): void {
-            $provider->boot();
-        });
-
-        $providers->each(function (ServiceProvider $provider): void {
-            foreach ($provider->getHooks() as $hook => $value) {
-                foreach ($this->normalizeCallbacks($value) as $callback) {
-                    add_action($hook, $callback['fn'], $callback['priority'], PHP_INT_MAX);
-                }
-            }
-
-            foreach ($provider->getFilters() as $filter => $value) {
-                foreach ($this->normalizeCallbacks($value) as $callback) {
-                    add_filter($filter, $callback['fn'], $callback['priority'], PHP_INT_MAX);
-                }
-            }
-        });
-    }
-
-    /**
-     * Normalize a hook/filter value into a flat array of callback descriptors.
-     *
-     * Accepts three forms:
-     * - Callable: `fn() => ...`
-     * - Array with callback key: `['callback' => fn() => ..., 'priority' => 20]`
-     * - Array of either of the above
-     *
-     * @param  mixed                                          $value
-     * @return array<int, array{fn: callable, priority: int}>
-     *
-     * @since 1.0.0
-     */
-    private function normalizeCallbacks(mixed $value): array
-    {
-        if (is_callable($value)) {
-            return [['fn' => $value, 'priority' => 10]];
-        }
-
-        if (isset($value['callback'])) {
-            return [['fn' => $value['callback'], 'priority' => $value['priority'] ?? 10]];
-        }
-
-        return array_map(function (mixed $item): array {
-            if (is_callable($item)) {
-                return ['fn' => $item, 'priority' => 10];
-            }
-
-            return ['fn' => $item['callback'], 'priority' => $item['priority'] ?? 10];
-        }, $value);
-    }
-
-    /**
-     * Get all loaded service providers as a Collection.
-     *
-     * @return Collection<string, ServiceProvider>
-     *
-     * @since 1.0.0
-     */
-    public function getLoadedProviders(): Collection
-    {
-        return collect($this->loadedProviders);
-    }
-
-    // -------------------------------------------------------------------------
     // Aliases
     // -------------------------------------------------------------------------
 
@@ -505,153 +261,4 @@ class Application extends Container
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Environment
-    // -------------------------------------------------------------------------
-
-    /**
-     * Check if running in a local/development environment.
-     *
-     * Matches WP_ENV values: 'development', 'develop', 'dev'.
-     *
-     * @since 1.0.0
-     */
-    public function isLocal(): bool
-    {
-        return in_array(env('WP_ENV', 'production'), ['local', 'development', 'develop', 'dev'], true);
-    }
-
-    /**
-     * Check if running in production.
-     *
-     * @since 1.0.0
-     */
-    public function isProduction(): bool
-    {
-        return !$this->isLocal();
-    }
-
-    /**
-     * Check if running unit tests.
-     *
-     * @since 1.0.0
-     */
-    public function runningUnitTests(): bool
-    {
-        return defined('WP_TESTS_PHASE') || env('WP_ENV') === 'testing';
-    }
-
-    /**
-     * Get the current environment name.
-     *
-     * Returns the value of WP_ENV, defaulting to 'production'.
-     *
-     * @since 1.0.0
-     */
-    public function environment(): string
-    {
-        return env('WP_ENV', 'production');
-    }
-
-    // -------------------------------------------------------------------------
-    // Backwards compatibility
-    // -------------------------------------------------------------------------
-
-    /**
-     * Get the template context.
-     *
-     * @return array<string, mixed>
-     *
-     * @since 1.0.0
-     */
-    #[Deprecated(message: "use app('context')->getContext() instead")]
-    public function getContext(): array
-    {
-        return $this->bound('context') ? $this['context']->getContext() : [];
-    }
-
-    /**
-     * Check if running in a development environment.
-     *
-     * @since 1.0.0
-     */
-    #[Deprecated(message: 'use app()->isLocal() instead')]
-    public function isDevEnv(): bool
-    {
-        return $this->isLocal();
-    }
-
-    /**
-     * Get the class name for a model by its post_type.
-     *
-     * @param string $key post type slug
-     *
-     * @throws BindingResolutionException
-     *
-     * @todo Deprecate — use app('sloth.models')[$key] directly.
-     *
-     * @since 1.0.0
-     */
-    public function getModelClass(string $key = ''): string
-    {
-        return app('sloth.models')[$key] ?? Model::class;
-    }
-
-    /**
-     * Get all registered models.
-     *
-     * @throws BindingResolutionException
-     *
-     * @todo Deprecate — use app('sloth.models') directly.
-     *
-     * @since 1.0.0
-     */
-    public function getAllModels(): Collection
-    {
-        return collect(app('sloth.models'));
-    }
-
-    /**
-     * Get the class name for a taxonomy by its slug.
-     *
-     * @param string $key taxonomy slug
-     *
-     * @throws BindingResolutionException
-     *
-     * @todo Deprecate — use app('sloth.taxonomies')[$key] directly.
-     *
-     * @since 1.0.0
-     */
-    public function getTaxonomyClass(string $key = ''): string
-    {
-        return app('sloth.taxonomies')[$key] ?? Taxonomy::class;
-    }
-
-    /**
-     * Get all registered taxonomies.
-     *
-     * @throws BindingResolutionException
-     *
-     * @todo Deprecate — use app('sloth.taxonomies') directly.
-     *
-     * @since 1.0.0
-     */
-    public function getAllTaxonomies(): Collection
-    {
-        return collect(app('sloth.taxonomies'));
-    }
-
-    // -------------------------------------------------------------------------
-    // Misc
-    // -------------------------------------------------------------------------
-
-    /**
-     * Get the application version.
-     *
-     * @since 1.0.0
-     */
-    public function version(): string
-    {
-        return self::version;
-    }
 }
