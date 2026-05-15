@@ -34,7 +34,7 @@ class ClearManifestsCommand extends Command
      */
     public function handle(): int
     {
-        $cachePath = app()->path('cache');
+        $cachePath = app()->basePath('cache');
         $cleared = 0;
 
         $manifests = app('files')->glob($cachePath . '/Manifest/*.php') ?: [];
