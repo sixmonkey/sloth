@@ -25,6 +25,7 @@
     "jgrossi/corcel": "^9.0",
     "johnbillion/args": "^2.4",
     "johnbillion/extended-cpts": "^5.1",
+    "laravel/prompts": "^0.3.17",
     "nunomaduro/termwind": "^2.4",
     "php-debugbar/php-debugbar": "^3.7",
     "spatie/image": "^1.10 || ^2.0 || ^3.0",
