@@ -61,11 +61,11 @@ class MakeModuleCommand extends MakeCommand
         $result = parent::handle();
 
         if ($result === self::SUCCESS) {
-            $name  = $this->argument('name');
+            $name = $this->argument('name');
             $class = $this->resolveClass($name);
-            $id    = Str::kebab(Str::replaceLast('Module', '', $class));
+            $id = Str::kebab(Str::replaceLast('Module', '', $class));
 
-            $viewDir  = app()->themePath("View/Module");
+            $viewDir = app()->themePath('View/Module');
             $viewPath = "{$viewDir}/{$id}.twig";
 
             if (!is_dir($viewDir)) {

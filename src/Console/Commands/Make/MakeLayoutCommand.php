@@ -1,14 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Sloth\Console\Commands\Make;
-
-use Illuminate\Support\Str;
-use Sloth\Console\Command;
 
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\suggest;
+use Illuminate\Support\Str;
+use Sloth\Console\Command;
 
 /**
  * Generate a new Layout Twig template.

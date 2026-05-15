@@ -45,7 +45,7 @@ class MakeCommandCommand extends MakeCommand
     protected function replacements(string $name): array
     {
         $class = $this->resolveClass($name);
-        $base  = Str::replaceLast('Command', '', $class);
+        $base = Str::replaceLast('Command', '', $class);
 
         return [
             '{{ signature }}'   => 'app:' . Str::kebab($base),
