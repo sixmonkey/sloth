@@ -22,8 +22,10 @@ describe('StubPublishCommand', function (): void {
 
     afterEach(function (): void {
         // Clean up
-        array_map('unlink', glob($this->tmpDir . '/stubs/*') ?: []);
-        if (is_dir($this->tmpDir . '/stubs')) rmdir($this->tmpDir . '/stubs');
+        array_map(unlink(...), glob($this->tmpDir . '/stubs/*') ?: []);
+        if (is_dir($this->tmpDir . '/stubs')) {
+            rmdir($this->tmpDir . '/stubs');
+        }
         rmdir($this->tmpDir);
     });
 

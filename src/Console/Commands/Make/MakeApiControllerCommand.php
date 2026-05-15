@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Generate a new API Controller.
@@ -36,10 +37,11 @@ class MakeApiControllerCommand extends MakeCommand
         return 'Api/' . Str::studly(basename($name)) . '.php';
     }
 
+    #[Override]
     protected function replacements(string $name): array
     {
         $class = Str::studly(basename($name));
-        $base  = str_replace(['Controller', 'controller'], '', $class);
+        $base = str_replace(['Controller', 'controller'], '', $class);
 
         return [
             '{{ api_namespace }}' => 'app/v1',

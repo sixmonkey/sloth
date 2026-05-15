@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Generate a new Service Provider.
@@ -32,6 +33,7 @@ class MakeProviderCommand extends MakeCommand
     {
         if ($this->option('theme') && $this->option('app')) {
             $this->error('Cannot use both --theme and --app.');
+
             exit(self::FAILURE);
         }
 
@@ -52,6 +54,7 @@ class MakeProviderCommand extends MakeCommand
         return 'Providers/' . Str::studly(basename($name)) . 'ServiceProvider.php';
     }
 
+    #[Override]
     protected function classSuffix(): string
     {
         return 'ServiceProvider';

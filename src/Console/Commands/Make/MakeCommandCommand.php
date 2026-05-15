@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Generate a new WP-CLI Command.
@@ -36,6 +37,7 @@ class MakeCommandCommand extends MakeCommand
         return 'Console/Commands/' . Str::studly(basename($name)) . '.php';
     }
 
+    #[Override]
     protected function replacements(string $name): array
     {
         $class = Str::studly(basename($name));

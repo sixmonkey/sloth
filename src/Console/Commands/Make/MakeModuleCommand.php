@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Generate a new Module.
@@ -40,6 +41,7 @@ class MakeModuleCommand extends MakeCommand
         return "{$class}Module.php";
     }
 
+    #[Override]
     protected function replacements(string $name): array
     {
         $class = Str::studly(basename($name));
@@ -49,19 +51,20 @@ class MakeModuleCommand extends MakeCommand
         ];
     }
 
+    #[Override]
     public function handle(): int
     {
         $result = parent::handle();
 
         if ($result === self::SUCCESS) {
             // Also create the Twig view
-            $name    = $this->argument('name');
-            $class   = Str::studly(basename($name));
-            $id      = Str::kebab($name);
+            $name = $this->argument('name');
+            $class = Str::studly(basename($name));
+            $id = Str::kebab($name);
             $viewDir = app()->path('View/Module', 'theme');
 
             if (!is_dir($viewDir)) {
-                mkdir($viewDir, 0755, true);
+                mkdir($viewDir, 0o755, true);
             }
 
             $viewPath = "{$viewDir}/{$id}.twig";
@@ -93,10 +96,13 @@ class MakeModuleCommand extends MakeCommand
         return file_get_contents(dirname(__DIR__, 4) . '/resources/stubs/' . $stubName);
     }
 
+    #[Override]
     protected function namespace($name): string
     {
         return 'Theme\\Module';
     }
+
+    #[Override]
     protected function classSuffix(): string
     {
         return 'Module';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * Generate a new Model.
@@ -36,6 +37,7 @@ class MakeModelCommand extends MakeCommand
         return 'Model/' . Str::studly(basename($name)) . '.php';
     }
 
+    #[Override]
     protected function replacements(string $name): array
     {
         $class = Str::studly(basename($name));
