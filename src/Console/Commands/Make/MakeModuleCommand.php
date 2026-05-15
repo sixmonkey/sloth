@@ -26,7 +26,7 @@ class MakeModuleCommand extends MakeCommand
 
     protected function destination(): string
     {
-        return app()->path('Module', 'theme');
+        return app()->themePath('Module');
     }
 
     protected function baseNamespace(): string
@@ -61,7 +61,7 @@ class MakeModuleCommand extends MakeCommand
             $name = $this->argument('name');
             $class = Str::studly(basename($name));
             $id = Str::kebab($name);
-            $viewDir = app()->path('View/Module', 'theme');
+            $viewDir = app()->themePath('View/Module');
 
             if (!is_dir($viewDir)) {
                 mkdir($viewDir, 0o755, true);
