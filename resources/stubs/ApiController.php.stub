@@ -9,7 +9,7 @@ use Sloth\Api\Controller;
 /**
  * {{ class }} API controller.
  *
- * GET /wp-json/{{ api_namespace }}/{{ rest_base }}
+ * GET /{{ api_namespace }}/{{ prefix }}
  *
  * @see https://folivoro.com/docs/api-controllers
  */
