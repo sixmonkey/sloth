@@ -43,7 +43,7 @@ trait ApplicationEnvironmentTrait
                 return;
             }
 
-            $dir = dirname($dir);
+            $dir = dirname((string) $dir);
         }
     }
 
