@@ -36,6 +36,7 @@ class MakeProviderCommand extends MakeCommand
     {
         if ($this->option('theme') && $this->option('app')) {
             $this->error('Cannot use both --theme and --app.');
+
             exit(self::FAILURE);
         }
 
