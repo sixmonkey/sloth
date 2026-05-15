@@ -79,10 +79,31 @@ abstract class MakeCommand extends Command
 
         file_put_contents($path, $contents);
 
-        $relative = str_replace(app()->basePath() . '/', '', $path);
+        $relative = str_replace(app()->appPath() . '/', '', $path);
         $this->info("Created: {$relative}");
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Resolve the class name from the input name — applies classSuffix() correctly.
+     *
+     * Ensures the suffix is never doubled:
+     * - make:module Foo       → FooModule
+     * - make:module FooModule → FooModule (not FooModuleModule)
+     *
+     * @since 1.0.0
+     */
+    protected function resolveClass(string $name): string
+    {
+        $class  = Str::studly(basename($name));
+        $suffix = $this->classSuffix();
+
+        if ($suffix === '') {
+            return $class;
+        }
+
+        return Str::replaceLast($suffix, '', $class) . $suffix;
     }
 
     /**
@@ -92,17 +113,13 @@ abstract class MakeCommand extends Command
      */
     protected function resolveStub(): string
     {
-        // Check for published custom stub in project
-        $custom = app()->basePath('stubs') . '/' . $this->stub();
+        $custom = app()->appPath('stubs') . '/' . $this->stub();
 
         if (file_exists($custom)) {
             return file_get_contents($custom);
         }
 
-        // Fall back to framework stub
-        $framework = dirname(__DIR__, 4) . '/resources/stubs/' . $this->stub();
-
-        return file_get_contents($framework);
+        return file_get_contents(dirname(__DIR__, 4) . '/resources/stubs/' . $this->stub());
     }
 
     /**
@@ -115,7 +132,7 @@ abstract class MakeCommand extends Command
      */
     protected function replaceStub(string $stub, string $name): string
     {
-        $class = Str::replaceEnd($this->classSuffix(), '', Str::studly(basename($name))) . $this->classSuffix();
+        $class = $this->resolveClass($name);
 
         $replacements = array_merge([
             '{{ class }}'     => $class,
