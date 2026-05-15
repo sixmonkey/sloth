@@ -5,7 +5,6 @@ namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
 use Override;
-use Sloth\Utility\Utility;
 
 /**
  * Generate a new API Controller.
@@ -25,7 +24,7 @@ class MakeApiControllerCommand extends MakeCommand
 
     protected function destination(): string
     {
-        return app()->basePath();
+        return app()->path();
     }
 
     protected function baseNamespace(): string
@@ -35,17 +34,18 @@ class MakeApiControllerCommand extends MakeCommand
 
     protected function outputPath(string $name): string
     {
-        return 'Api/' . Str::studly(basename($name)) . '.php';
+        return 'Api/' . $this->resolveClass($name) . '.php';
     }
 
     #[Override]
     protected function replacements(string $name): array
     {
-        $class = Str::studly(basename($name));
+        $class = $this->resolveClass($name);
+        $base = str_replace(['Controller', 'controller'], '', $class);
 
         return [
-            '{{ api_namespace }}' => config('app.wp_json.base_url', 'wp-json'),
-            '{{ prefix }}'     => Utility::viewize($class),
+            '{{ api_namespace }}' => 'app/v1',
+            '{{ rest_base }}'     => Str::kebab(Str::plural($base)),
         ];
     }
 }

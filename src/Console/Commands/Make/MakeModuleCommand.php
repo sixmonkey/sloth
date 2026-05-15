@@ -19,35 +19,39 @@ class MakeModuleCommand extends MakeCommand
 
     protected $description = 'Create a new Module';
 
+    #[Override]
     protected function stub(): string
     {
         return 'Module.php.stub';
     }
 
+    #[Override]
     protected function destination(): string
     {
-        return app()->themePath('Module');
+        return app()->themePath();
     }
 
-    protected function baseNamespace(): string
+    #[Override]
+    protected function classSuffix(): string
     {
         return 'Module';
     }
 
+    #[Override]
     protected function outputPath(string $name): string
     {
-        $class = Str::studly(basename($name));
+        $class = $this->resolveClass($name);
 
-        return "{$class}Module.php";
+        return "Module/{$class}.php";
     }
 
     #[Override]
     protected function replacements(string $name): array
     {
-        $class = Str::studly(basename($name));
+        $class = $this->resolveClass($name);
 
         return [
-            '{{ id }}' => Str::kebab($class),
+            '{{ id }}' => Str::kebab(Str::replaceLast('Module', '', $class)),
         ];
     }
 
@@ -57,27 +61,26 @@ class MakeModuleCommand extends MakeCommand
         $result = parent::handle();
 
         if ($result === self::SUCCESS) {
-            // Also create the Twig view
-            $name = $this->argument('name');
-            $class = Str::studly(basename($name));
-            $id = Str::kebab($name);
-            $viewDir = app()->themePath('View/Module');
+            $name  = $this->argument('name');
+            $class = $this->resolveClass($name);
+            $id    = Str::kebab(Str::replaceLast('Module', '', $class));
+
+            $viewDir  = app()->themePath("View/Module");
+            $viewPath = "{$viewDir}/{$id}.twig";
 
             if (!is_dir($viewDir)) {
                 mkdir($viewDir, 0o755, true);
             }
 
-            $viewPath = "{$viewDir}/{$id}.twig";
-
             if (!file_exists($viewPath)) {
                 $stub = str_replace(
-                    ['{{ id }}', '{{ class }}', '{{ name }}'],
-                    [$id, $class, $class],
+                    ['{{ id }}', '{{ class }}'],
+                    [$id, $class],
                     $this->resolveStubByName('Module.twig.stub'),
                 );
                 file_put_contents($viewPath, $stub);
 
-                $relative = str_replace(app()->basePath() . '/', '', $viewPath);
+                $relative = str_replace(app()->appPath() . '/', '', $viewPath);
                 $this->info("Created: {$relative}");
             }
         }
@@ -85,26 +88,20 @@ class MakeModuleCommand extends MakeCommand
         return $result;
     }
 
+    #[Override]
+    protected function namespace(string $name): string
+    {
+        return 'Theme\\Module';
+    }
+
     protected function resolveStubByName(string $stubName): string
     {
-        $custom = app()->basePath('stubs') . '/' . $stubName;
+        $custom = app()->appPath('stubs') . '/' . $stubName;
 
         if (file_exists($custom)) {
             return file_get_contents($custom);
         }
 
         return file_get_contents(dirname(__DIR__, 4) . '/resources/stubs/' . $stubName);
-    }
-
-    #[Override]
-    protected function namespace($name): string
-    {
-        return 'Theme\\Module';
-    }
-
-    #[Override]
-    protected function classSuffix(): string
-    {
-        return 'Module';
     }
 }

@@ -24,7 +24,7 @@ class MakeModelCommand extends MakeCommand
 
     protected function destination(): string
     {
-        return app()->basePath();
+        return app()->path();
     }
 
     protected function baseNamespace(): string
@@ -34,13 +34,13 @@ class MakeModelCommand extends MakeCommand
 
     protected function outputPath(string $name): string
     {
-        return 'Model/' . Str::studly(basename($name)) . '.php';
+        return 'Model/' . $this->resolveClass($name) . '.php';
     }
 
     #[Override]
     protected function replacements(string $name): array
     {
-        $class = Str::studly(basename($name));
+        $class = $this->resolveClass($name);
 
         return [
             '{{ post_type }}' => Str::snake($class),

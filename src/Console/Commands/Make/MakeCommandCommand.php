@@ -17,34 +17,39 @@ class MakeCommandCommand extends MakeCommand
 
     protected $description = 'Create a new WP-CLI Command';
 
+    #[Override]
     protected function stub(): string
     {
         return 'Command.php.stub';
     }
 
+    #[Override]
+    protected function classSuffix(): string
+    {
+        return 'Command';
+    }
+
+    #[Override]
     protected function destination(): string
     {
-        return app()->basePath();
+        return app()->appPath();
     }
 
-    protected function baseNamespace(): string
-    {
-        return 'Console\\Commands';
-    }
-
+    #[Override]
     protected function outputPath(string $name): string
     {
-        return 'Console/Commands/' . Str::studly(basename($name)) . '.php';
+        return 'Console/Commands/' . $this->resolveClass($name) . '.php';
     }
 
     #[Override]
     protected function replacements(string $name): array
     {
-        $class = Str::studly(basename($name));
+        $class = $this->resolveClass($name);
+        $base  = Str::replaceLast('Command', '', $class);
 
         return [
-            '{{ signature }}'   => 'app:' . Str::kebab(str_replace('Command', '', $class)),
-            '{{ description }}' => 'Start building',
+            '{{ signature }}'   => 'app:' . Str::kebab($base),
+            '{{ description }}' => '',
         ];
     }
 }

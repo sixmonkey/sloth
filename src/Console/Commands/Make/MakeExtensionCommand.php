@@ -23,7 +23,7 @@ class MakeExtensionCommand extends MakeCommand
 
     protected function destination(): string
     {
-        return app()->basePath();
+        return app()->path();
     }
 
     protected function baseNamespace(): string
@@ -33,6 +33,6 @@ class MakeExtensionCommand extends MakeCommand
 
     protected function outputPath(string $name): string
     {
-        return 'Extensions/View/' . Str::studly(basename($name)) . '.php';
+        return 'Extensions/View/' . $this->resolveClass($name) . '.php';
     }
 }
