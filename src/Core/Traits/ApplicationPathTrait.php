@@ -325,12 +325,13 @@ trait ApplicationPathTrait
      * Delegates to Illuminate's join_paths() helper. Accepts strings or
      * arrays — arrays are joined with '/' before being passed to join_paths().
      *
-     * @param array|string $basePath base path
-     * @param array|string $path     optional sub-path to append
+     * @param string|array|null $basePath base path
+     * @param array|string $path optional sub-path to append
      *
+     * @return string
      * @since 1.0.0
      */
-    public function joinPaths(string|array $basePath, string|array $path = ''): string
+    public function joinPaths(null|string|array $basePath, string|array $path = ''): string
     {
         if (is_array($basePath)) {
             $basePath = implode('/', $basePath);
