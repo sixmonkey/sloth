@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Sloth\Core\ServiceProvider;
+
+/**
+ * {{ class }}.
+ *
+ * @see https://folivoro.com/docs/service-providers
+ */
+class {{ class }} extends ServiceProvider
+{
+    public function register(): void
+    {
+        //
+    }
+
+    /** @return array<string, callable|array<string, mixed>> */
+    public function getHooks(): array
+    {
+        return [];
+    }
+
+    /** @return array<string, callable|array<string, mixed>> */
+    public function getFilters(): array
+    {
+        return [];
+    }
+}

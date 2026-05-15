@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Sloth\Console\Command;
+
+use function Termwind\render;
+
+/**
+ * {{ class }} command.
+ *
+ * @see https://folivoro.com/docs/cli-commands
+ */
+class {{ class }} extends Command
+{
+    protected $signature = '{{ signature }}';
+
+    protected $description = '{{ description }}';
+
+    public function handle(): int
+    {
+            render(<<<'HTML'
+                <div class="py-1 ml-2">
+                    <div class="px-1 bg-blue-300 text-black">Hello from the {{ signature }} command!</div>
+                    <div>
+                        <em class="ml-1">
+                          May the sloth be with you 🦥
+                        </em>
+                    </div>
+                </div>
+            HTML);
+
+        return self::SUCCESS;
+    }
+}

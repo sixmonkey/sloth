@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Sloth\View\Extensions\AbstractViewExtension;
+
+/**
+ * {{ class }} view extension.
+ *
+ * @see https://folivoro.com/docs/views#extending-twig
+ */
+class {{ class }} extends AbstractViewExtension
+{
+    /** @return array<int|string, string|callable> */
+    public function getHelpers(): array
+    {
+        return [];
+    }
+
+    /** @return array<int|string, string|callable> */
+    public function getDirectives(): array
+    {
+        return [];
+    }
+
+    /** @return array<string, mixed> */
+    public function share(): array
+    {
+        return [];
+    }
+}

@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Sloth\Api\Controller;
+
+/**
+ * {{ class }} API controller.
+ *
+ * GET /wp-json/{{ api_namespace }}/{{ rest_base }}
+ *
+ * @see https://folivoro.com/docs/api-controllers
+ */
+class {{ class }} extends Controller
+{
+    /** @return array<string, mixed> */
+    public function index(): array
+    {
+        return [];
+    }
+}

@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Sloth\Model\Model;
+
+/**
+ * {{ class }} model.
+ *
+ * @see https://folivoro.com/docs/models
+ */
+class {{ class }} extends Model
+{
+    public static $postType = '{{ post_type }}';
+
+    /** @var array<string, string> */
+    public static $names = [
+        'singular' => '{{ singular }}',
+        'plural'   => '{{ plural }}',
+    ];
+}

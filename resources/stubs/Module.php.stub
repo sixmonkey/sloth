@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Sloth\Module\Module;
+
+/**
+ * {{ class }} module.
+ *
+ * @see https://folivoro.com/docs/modules
+ */
+class {{ class }} extends Module
+{
+    //
+}
