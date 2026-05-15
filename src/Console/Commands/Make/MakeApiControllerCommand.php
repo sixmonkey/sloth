@@ -5,6 +5,7 @@ namespace Sloth\Console\Commands\Make;
 
 use Illuminate\Support\Str;
 use Override;
+use Sloth\Utility\Utility;
 
 /**
  * Generate a new API Controller.
