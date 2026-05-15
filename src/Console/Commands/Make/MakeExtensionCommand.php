@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace Sloth\Console\Commands\Make;
 
-use Illuminate\Support\Str;
-
 /**
  * Generate a new View Extension.
  *
