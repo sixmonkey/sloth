@@ -30,9 +30,12 @@ function makeTestApp(): Application
     $app->instance('files', new \Illuminate\Filesystem\Filesystem());
     $app->instance('events', new \Illuminate\Events\Dispatcher($app));
 
-    $app->instance('path.base', sys_get_temp_dir());
-    $app->instance('path.app', sys_get_temp_dir() . '/app');
-    $app->instance('path.theme', sys_get_temp_dir() . '/theme');
+    $app->basePath = sys_get_temp_dir();
+    $app->appPath = sys_get_temp_dir() . '/app';
+    $app->themePath = sys_get_temp_dir() . '/theme';
+    $app->instance('path.base', $app->basePath);
+    $app->instance('path.app', $app->appPath);
+    $app->instance('path.theme', $app->themePath);
     $app->instance('path.cache', sys_get_temp_dir() . '/cache');
 
     $app->instance('uri.home', 'http://example.com');

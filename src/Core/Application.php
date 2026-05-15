@@ -53,9 +53,9 @@ use Sloth\Model\Taxonomy;
  * Filesystem paths are stored under the `path.*` prefix:
  *
  * ```php
- * app()->path('theme')           // get_template_directory()
- * app()->path('config', 'app')   // app/config/
- * app()->path('', 'cache')       // theme/storage/cache/
+ * app()->themePath()             // get_template_directory()
+ * app()->configPath()            // app/config/
+ * app()->cachePath()             // theme/storage/cache/
  * ```
  *
  * URIs are stored separately under the `uri.*` prefix:

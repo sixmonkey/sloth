@@ -16,11 +16,11 @@ use Sloth\Console\Command;
  * public function boot(): void
  * {
  *     $this->publishes([
- *         __DIR__ . '/../config/my-package.php' => app()->path('config', 'app') . '/my-package.php',
+ *         __DIR__ . '/../config/my-package.php' => app()->configPath('my-package.php'),
  *     ], 'config');
  *
  *     $this->publishes([
- *         __DIR__ . '/../views/' => app()->path('theme') . '/View/vendor/my-package/',
+ *         __DIR__ . '/../views/' => app()->themePath('View/vendor/my-package'),
  *     ], 'views');
  * }
  * ```

@@ -205,7 +205,7 @@ These will become breaking in a future version. Fix them now to avoid issues lat
 ### `DIR_*` constants
 
 `DIR_ROOT`, `DIR_APP`, `DIR_CACHE` etc. will be removed in Step 6. Use
-`app()->path('app')`, `app()->path('cache')` etc. instead.
+`app()->appPath()`, `app()->cachePath()` etc. instead.
 
 ### `DS` constant
 

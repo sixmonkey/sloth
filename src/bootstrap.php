@@ -25,7 +25,7 @@
  * ## Deprecated
  *
  * The DIR_* constants are kept as a compatibility layer for themes that
- * reference them directly. Use app()->path() instead. They will be removed
+ * reference them directly. Use app()->basePath() etc. instead. They will be removed
  * in a future major version — see MIGRATE.md.
  */
 
@@ -145,7 +145,7 @@ unset($_webroot, $_wp_path);
 // -------------------------------------------------------------------------
 // Deprecated DIR_* constants
 //
-// Use app()->path('app'), app()->path('cache') etc. instead.
+// Use app()->appPath(), app()->cachePath() etc. instead.
 // Will be removed in a future major version — see MIGRATE.md.
 // -------------------------------------------------------------------------
 

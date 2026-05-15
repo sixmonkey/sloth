@@ -36,11 +36,11 @@ use Sloth\Core\ServiceProvider;
  *
  * ```php
  * // Via container
- * app('files')->allFiles(app()->path('app'));
+ * app('files')->allFiles(app()->appPath());
  *
  * // Via Facade (requires 'File' alias in Core\Sloth::$classAliases)
- * File::exists(app()->path('app') . '/config.php');
- * File::getRequire(app()->path('app') . '/config/theme.php');
+ * File::exists(app()->appPath('config.php'));
+ * File::getRequire(app()->appPath('config/theme.php'));
  * ```
  *
  * ## Usage in theme code
