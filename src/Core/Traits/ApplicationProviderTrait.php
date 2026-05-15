@@ -85,7 +85,6 @@ trait ApplicationProviderTrait
             \Sloth\Api\ApiServiceProvider::class,
             \Sloth\Media\MediaServiceProvider::class,
             \Sloth\Admin\AdminServiceProvider::class,
-            \Sloth\LayotterBridge\LayotterBridgeServiceProvider::class,
             \Sloth\Module\ModuleServiceProvider::class,
             \Sloth\Deployment\DeploymentServiceProvider::class,
             \Sloth\ACF\AcfServiceProvider::class,
