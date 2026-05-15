@@ -37,15 +37,15 @@ class StubPublishCommand extends Command
         }
 
         if (!is_dir($dest)) {
-            mkdir($dest, 0755, true);
+            mkdir($dest, 0o755, true);
         }
 
         $published = 0;
-        $skipped   = 0;
+        $skipped = 0;
 
         foreach (glob($source . '/*') as $file) {
             $filename = basename($file);
-            $target   = $dest . '/' . $filename;
+            $target = $dest . '/' . $filename;
 
             if (file_exists($target) && !$this->option('force')) {
                 $this->line("<fg=yellow>Skipped:</> {$filename}");
