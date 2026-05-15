@@ -165,6 +165,8 @@ class MakeLayoutCommand extends Command
      *
      * Uses a published custom stub if available, otherwise falls back
      * to the framework default.
+     *
+     * @param string $name
      */
     private function resolveStub(string $name): string
     {

@@ -93,10 +93,12 @@ abstract class MakeCommand extends Command
      * - make:module FooModule → FooModule (not FooModuleModule)
      *
      * @since 1.0.0
+     *
+     * @param string $name
      */
     protected function resolveClass(string $name): string
     {
-        $class  = Str::studly(basename($name));
+        $class = Str::studly(basename($name));
         $suffix = $this->classSuffix();
 
         if ($suffix === '') {
