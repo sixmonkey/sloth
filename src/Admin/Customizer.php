@@ -844,8 +844,8 @@ class Customizer
             'Sloth ' . app()->version(),
         ];
 
-        if (app('files')->exists(app()->path('base') . '/' . '.version')) {
-            $appVersion = app('files')->get(app()->path('base') . '/' . '.version');
+        if (app('files')->exists(app()->basePath('.version'))) {
+            $appVersion = app('files')->get(app()->basePath('.version'));
             $versions[] = 'App ' . $appVersion;
         }
 

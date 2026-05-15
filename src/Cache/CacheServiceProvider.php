@@ -104,7 +104,7 @@ class CacheServiceProvider extends ServiceProvider
 
         // Publish the config file for customization
         $this->publishes([
-            __DIR__ . '/config/cache.php' => app()->path('config', 'app') . '/cache.php',
+            __DIR__ . '/config/cache.php' => app()->configPath('cache.php'),
         ], 'config');
 
         // Set the file store path — this can't come from the published config

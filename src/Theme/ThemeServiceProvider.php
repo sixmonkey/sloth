@@ -66,7 +66,7 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config/theme.php' => app()->path('config', 'theme') . '/theme.php',
+            __DIR__ . '/config/theme.php' => app()->themePath('config/theme.php'),
         ], 'config');
 
         // Register theme view path — ViewServiceProvider handles the rest

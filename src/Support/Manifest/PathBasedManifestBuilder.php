@@ -65,8 +65,8 @@ abstract class PathBasedManifestBuilder extends AbstractManifestBuilder
     protected function directories(): array
     {
         return [
-            app()->path($this->directory()),
-            app()->path($this->directory(), 'theme'),
+            app()->appPath($this->directory()),
+            app()->themePath($this->directory()),
         ];
     }
 }

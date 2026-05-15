@@ -112,7 +112,7 @@ abstract class AbstractManifestBuilder
      */
     public function init(): void
     {
-        $manifest = app()->path('Manifest', 'cache') . '/' . $this->manifestName();
+        $manifest = app()->cachePath('Manifest') . '/' . $this->manifestName();
 
         if (app()->isLocal() || !app('files')->exists($manifest)) {
             $this->build($manifest);

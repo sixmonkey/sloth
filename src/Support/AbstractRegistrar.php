@@ -53,7 +53,7 @@ abstract class AbstractRegistrar
      */
     public function init(): void
     {
-        $manifest = app()->path('cache') . '/Manifest/' . static::$manifestName;
+        $manifest = app()->cachePath() . '/Manifest/' . static::$manifestName;
         app()->instance('sloth.models', []);
         app()->instance('sloth.taxonomies', []);
 
@@ -77,8 +77,8 @@ abstract class AbstractRegistrar
     {
         $generator = new ClassMapGenerator();
         collect([
-            app()->path(static::$dir),
-            app()->path(static::$dir, 'theme'),
+            app()->appPath(static::$dir),
+            app()->themePath(static::$dir),
         ])
             ->filter(fn ($path) => app('files')->isDirectory($path))
             ->each(fn ($path) => $generator->scanPaths($path))
