@@ -189,7 +189,7 @@ class ConsoleKernel
         $paths = array_filter([__DIR__ . '/Commands'], is_dir(...));
 
         try {
-            $appPath = $this->app->path('Console');
+            $appPath = $this->app->basePath('Console');
 
             if (is_dir($appPath)) {
                 $paths[] = $appPath;
@@ -199,7 +199,7 @@ class ConsoleKernel
         }
 
         try {
-            $themePath = $this->app->path('Console', 'theme');
+            $themePath = $this->app->themePath('Console');
 
             if ($themePath && is_dir($themePath)) {
                 $paths[] = $themePath;

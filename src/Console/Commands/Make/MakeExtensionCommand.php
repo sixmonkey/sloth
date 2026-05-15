@@ -21,7 +21,7 @@ class MakeExtensionCommand extends MakeCommand
 
     protected function destination(): string
     {
-        return app()->path();
+        return app()->basePath();
     }
 
     protected function baseNamespace(): string

@@ -79,7 +79,7 @@ abstract class MakeCommand extends Command
 
         file_put_contents($path, $contents);
 
-        $relative = str_replace(app()->appPath() . '/', '', $path);
+        $relative = str_replace(app()->basePath() . '/', '', $path);
         $this->info("Created: {$relative}");
 
         return self::SUCCESS;
@@ -115,7 +115,7 @@ abstract class MakeCommand extends Command
      */
     protected function resolveStub(): string
     {
-        $custom = app()->appPath('stubs') . '/' . $this->stub();
+        $custom = app()->basePath('stubs') . '/' . $this->stub();
 
         if (file_exists($custom)) {
             return file_get_contents($custom);
