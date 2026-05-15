@@ -42,11 +42,10 @@ class MakeApiControllerCommand extends MakeCommand
     protected function replacements(string $name): array
     {
         $class = Str::studly(basename($name));
-        $base = str_replace(['Controller', 'controller'], '', $class);
 
         return [
-            '{{ api_namespace }}' => 'app/v1',
-            '{{ rest_base }}'     => Str::kebab(Str::plural($base)),
+            '{{ api_namespace }}' => config('app.wp_json.base_url', 'wp-json'),
+            '{{ prefix }}'     => Utility::viewize($class),
         ];
     }
 }
