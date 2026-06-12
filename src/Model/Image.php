@@ -30,7 +30,7 @@ use Override;
  * @see Model For the base implementation
  * @see \Sloth\Field\Image For the presentation/manipulation layer
  *
- * @property int    $ID                    The attachment ID
+ * @property int $ID                    The attachment ID
  * @property string $post_title            The attachment title (filename)
  * @property string $post_excerpt          The caption text
  * @property string $post_content          The description text
@@ -42,9 +42,9 @@ use Override;
  * @property object|null $attachmentMetaData  Unserialized _wp_attachment_metadata
  * @property string|null $attachmentFile      Resolved absolute filesystem path
  * @property string $imageUrl              Full URL via sloth_get_attachment_link filter
- * @property int    $imageWidth            Width in pixels (from metadata)
- * @property int    $imageHeight           Height in pixels (from metadata)
- * @property bool   $isResizable           Whether GD/Imagick can process this file
+ * @property int $imageWidth            Width in pixels (from metadata)
+ * @property int $imageHeight           Height in pixels (from metadata)
+ * @property bool $isResizable           Whether GD/Imagick can process this file
  *
  * @example
  * ```php
@@ -265,9 +265,9 @@ class Image extends Model
      * WordPress stores attachment alt text in the
      * _wp_attachment_image_alt meta field.
      *
-     * @since 1.0.0
-     *
      * @return string the alt text, or an empty string if not set
+     *
+     * @since 1.0.0
      */
     public function getAltAttribute(): string
     {
@@ -280,9 +280,9 @@ class Image extends Model
      * WordPress stores attachment captions in the post_excerpt
      * column. This accessor provides a clearer name for the same data.
      *
-     * @since 1.0.0
-     *
      * @return string the caption text, or an empty string if not set
+     *
+     * @since 1.0.0
      */
     public function getCaptionAttribute(): string
     {
@@ -295,9 +295,9 @@ class Image extends Model
      * WordPress stores attachment descriptions in the post_content
      * column. This accessor provides a clearer name for the same data.
      *
-     * @since 1.0.0
-     *
      * @return string the description text, or an empty string if not set
+     *
+     * @since 1.0.0
      */
     public function getDescriptionAttribute(): string
     {
@@ -311,10 +311,10 @@ class Image extends Model
      * file path information as a serialised array in the
      * _wp_attachment_metadata meta field.
      *
-     * @since 1.0.0
-     *
      * @return object|null the metadata as a stdClass, or null
      *                     if the meta field is missing or invalid
+     *
+     * @since 1.0.0
      */
     public function getAttachmentMetaDataAttribute(): ?object
     {
@@ -323,10 +323,10 @@ class Image extends Model
         if (!is_string($raw)) {
             return null;
         }
-
         $data = @unserialize($raw);
 
-        return is_object($data) ? $data : null;
+        // WP gibt ein Array zurück, kein Objekt
+        return is_array($data) ? (object) $data : null;
     }
 
     /**
@@ -338,9 +338,9 @@ class Image extends Model
      * Returns null when the meta value is missing or the file
      * does not exist on disk.
      *
-     * @since 1.0.0
-     *
      * @return string|null the resolved absolute path, or null
+     *
+     * @since 1.0.0
      */
     public function getAttachmentFileAttribute(): ?string
     {
@@ -362,9 +362,9 @@ class Image extends Model
      * it through the sloth_get_attachment_link filter for
      * CDN or domain customisation.
      *
-     * @since 1.0.0
-     *
      * @return string the image URL, or an empty string on failure
+     *
+     * @since 1.0.0
      */
     public function getImageUrlAttribute(): string
     {
@@ -376,9 +376,9 @@ class Image extends Model
      *
      * Falls back to 0 when metadata is unavailable.
      *
-     * @since 1.0.0
-     *
      * @return int the width in pixels, or 0
+     *
+     * @since 1.0.0
      */
     public function getImageWidthAttribute(): int
     {
@@ -390,9 +390,9 @@ class Image extends Model
      *
      * Falls back to 0 when metadata is unavailable.
      *
-     * @since 1.0.0
-     *
      * @return int the height in pixels, or 0
+     *
+     * @since 1.0.0
      */
     public function getImageHeightAttribute(): int
     {
@@ -408,9 +408,9 @@ class Image extends Model
      * Non-image files (PDFs, SVGs without raster dimensions)
      * and missing files return false.
      *
-     * @since 1.0.0
-     *
      * @return bool true when GD/Imagick can process this image
+     *
+     * @since 1.0.0
      */
     public function getIsResizableAttribute(): bool
     {

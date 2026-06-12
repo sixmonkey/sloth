@@ -573,11 +573,16 @@ class Model extends Eloquent
      */
     protected function loadPreview(self $model): ?static
     {
-        return $model->revision()
+        $postType = static::$postType;
+        static::$postType = 'revision';
+        $preview = $model->revision()
             ->where('post_author', get_current_user_id())
             ->newest()
             ->first()
         ;
+        static::$postType = $postType;
+
+        return $preview;
     }
 
     // -------------------------------------------------------------------------
