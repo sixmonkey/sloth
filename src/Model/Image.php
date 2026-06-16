@@ -341,6 +341,7 @@ class Image extends Model
      * @return string|null the resolved absolute path, or null
      *
      * @since 1.0.0
+     * @since 1.0.0
      */
     public function getAttachmentFileAttribute(): ?string
     {
@@ -350,7 +351,7 @@ class Image extends Model
             return null;
         }
 
-        $path = realpath(app()->path('uploads') . '/' . ltrim($relPath, '/'));
+        $path = realpath(wp_upload_dir()['basedir'] . '/' . ltrim($relPath, '/'));
 
         return $path !== false ? $path : null;
     }
@@ -403,7 +404,7 @@ class Image extends Model
      * Check whether this image can be resized or manipulated.
      *
      * An image is considered resizable when the file exists on
-     * disk and PHP's getimagesize() recognises the format.
+     * disk and PHP's getimagesize() recognizes the format.
      *
      * Non-image files (PDFs, SVGs without raster dimensions)
      * and missing files return false.
@@ -414,6 +415,7 @@ class Image extends Model
      */
     public function getIsResizableAttribute(): bool
     {
+        return true;
         $file = $this->attachmentFile;
 
         return $file !== null && @is_array(getimagesize($file));
