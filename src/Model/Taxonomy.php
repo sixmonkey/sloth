@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace Sloth\Model;
 
+use Illuminate\Database\Eloquent\Builder;
+use Sloth\Model\Traits\HasACF;
 use function admin_url;
 use function esc_attr;
 use function esc_attr__;
@@ -69,6 +71,8 @@ class Taxonomy extends CorcelModel
     use HasAliases;
 
     use HasMetaFields;
+
+    use HasACF;
 
     // -------------------------------------------------------------------------
     // Corcel-inherited properties — cannot be typed (PHP 8.4 compat)
@@ -377,5 +381,32 @@ class Taxonomy extends CorcelModel
     protected function getMetaForeignKey(): string
     {
         return 'term_id';
+    }
+
+    /**
+     * Get a new query builder filtered by this taxonomy's slug.
+     *
+     * @return Builder the filtered query builder
+     *
+     * @since 1.0.0
+     */
+    public function newQuery()
+    {
+        return isset($this->taxonomy) && $this->taxonomy ?
+            parent::newQuery()->where('taxonomy', $this->taxonomy) :
+            parent::newQuery();
+    }
+
+
+    /**
+     * Get the ACF key for this taxonomy.
+     *
+     * Returns the WordPress user meta key format: 'term_{id}'.
+     *
+     * @return string|null The ACF field group key
+     */
+    public function getAcfKey(): ?string
+    {
+        return 'term_' . $this->term_id;
     }
 }
