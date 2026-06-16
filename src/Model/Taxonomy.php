@@ -390,6 +390,7 @@ class Taxonomy extends CorcelModel
      *
      * @since 1.0.0
      */
+    #[\Override]
     public function newQuery()
     {
         return isset($this->taxonomy) && $this->taxonomy ?
