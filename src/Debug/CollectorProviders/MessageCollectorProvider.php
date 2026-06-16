@@ -58,7 +58,7 @@ class MessageCollectorProvider extends AbstractCollectorProvider
 
         $messageCollector->collectFileTrace(true);
         $messageCollector->addBacktraceExcludePaths([
-            '/src/',
+            __DIR__,
         ]);
         $messageCollector->setEditorLinkTemplate(config('debugger.editor', 'phpstorm'));
 
