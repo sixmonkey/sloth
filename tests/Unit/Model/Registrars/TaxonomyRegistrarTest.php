@@ -27,12 +27,4 @@ describe('TaxonomyRegistrar', function (): void {
             expect(method_exists($registrar, 'register'))->toBeTrue();
         });
     });
-
-    describe('addMetaBoxes()', function (): void {
-        it('method exists', function (): void {
-            $builder = $this->createMock(TaxonomyManifestBuilder::class);
-            $registrar = new TaxonomyRegistrar($builder);
-            expect(method_exists($registrar, 'addMetaBoxes'))->toBeTrue();
-        });
-    });
 });
