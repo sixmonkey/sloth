@@ -291,7 +291,7 @@ class Image implements Stringable
             return '';
         }
 
-        $uploadDir = realpath(app()->path('uploads'));
+        $uploadDir = realpath(wp_upload_dir()['basedir']);
         $suffix = sprintf('%sx%s', $options['width'], $options['height']);
 
         unset($options['width'], $options['height']);
@@ -470,10 +470,11 @@ class Image implements Stringable
 
         if (is_array($imageSizes)) {
             foreach (array_keys($imageSizes) as $size) {
-                $sizes[$size] = $this->getThemeSized($size);
+                $this->getThemeSized($size);
+                $sizes[$size] = wp_get_attachment_image_url($this->post->ID, $size) ?? null;
             }
         }
 
-        return $sizes;
+        return array_filter($sizes);
     }
 }

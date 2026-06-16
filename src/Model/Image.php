@@ -416,8 +416,5 @@ class Image extends Model
     public function getIsResizableAttribute(): bool
     {
         return true;
-        $file = $this->attachmentFile;
-
-        return $file !== null && @is_array(getimagesize($file));
     }
 }
