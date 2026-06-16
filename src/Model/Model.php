@@ -579,6 +579,7 @@ class Model extends Eloquent
             ->first()
         ;
         static::$postType = $postType;
+
         return $preview;
     }
 
