@@ -111,7 +111,7 @@ class CacheServiceProvider extends ServiceProvider
         // because the path is resolved at runtime from the application.
         $this->app['config']->set('cache.stores.file', [
             'driver' => 'file',
-            'path'   => $this->app->path('Cache', 'cache'),
+            'path'   => $this->app->cachePath(),
         ]);
 
         $this->app['config']->set('cache.stores.array', [
