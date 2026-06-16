@@ -137,12 +137,13 @@ class TaxonomyManifestBuilder extends PathBasedManifestBuilder
      */
     private function buildArgs(string $taxonomyClass): array
     {
-        $args = $taxonomyClass::$options;
+        $defaults = [
+            'show_admin_column' => true,
+        ];
+        $args = array_merge($defaults, $taxonomyClass::$options);
 
         if ($taxonomyClass::$unique) {
-            $args['hierarchical'] = false;
-            $args['parent_item'] = null;
-            $args['parent_item_colon'] = null;
+            $args['exclusive'] = true;
         }
 
         return $args;

@@ -150,9 +150,6 @@ class ModelServiceProvider extends ServiceProvider
                 $this->initTaxonomies(...),
                 $this->initModels(...),
             ],
-            'add_meta_boxes' => [
-                fn () => app(TaxonomyRegistrar::class)->addMetaBoxes(),
-            ],
             'registered_post_type' => $this->onPostTypeRegistered(...),
         ];
     }

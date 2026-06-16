@@ -84,44 +84,6 @@ class TaxonomyRegistrar
                 $entry['args'],
                 $entry['names'],
             );
-
-            if ($entry['unique']) {
-                foreach ($entry['postTypes'] as $postType) {
-                    remove_meta_box('tagsdiv-' . $entry['slug'], $postType, null);
-                }
-            }
-        }
-    }
-
-    /**
-     * Add custom radio metaboxes for unique taxonomies.
-     *
-     * Iterates over unique taxonomies and registers a custom metabox
-     * that displays radio buttons instead of checkboxes. The metabox
-     * template is provided by Taxonomy::metabox().
-     *
-     * This method is called on the WordPress `add_meta_boxes` hook
-     * via ModelServiceProvider.
-     *
-     * @since 1.0.0
-     */
-    public function addMetaBoxes(): void
-    {
-        foreach ($this->builder->getEntries() as $taxonomyClass => $entry) {
-            if (!$entry['unique']) {
-                continue;
-            }
-
-            $taxonomy = new $taxonomyClass();
-            $singular = $entry['names']['singular'] ?? ucfirst((string) $entry['slug']);
-
-            add_meta_box(
-                'sloth-taxonomy-' . $entry['slug'],
-                $singular,
-                $taxonomy->metabox(...),
-                $entry['postTypes'],
-                'side',
-            );
         }
     }
 }
