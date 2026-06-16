@@ -206,7 +206,7 @@ class ApiServiceProvider extends ServiceProvider
                             $controller->response->headers,
                         );
                     },
-                ],
+                    'permission_callback' => method_exists($controllerClass, 'permissionCallback') ? (new $controllerClass)->permissionCallback() : '__return_true'                ],
             );
         }
     }
