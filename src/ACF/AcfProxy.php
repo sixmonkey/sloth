@@ -40,4 +40,17 @@ class AcfProxy
     {
         return $this->fields[$name] ?? null;
     }
+
+    /**
+     * Magic method to get field values.
+     *
+     * @param  string $name the field name
+     * @return mixed  the field value or null if not found
+     *
+     * @since 1.0.0
+     */
+    public function __get(string $name): mixed
+    {
+        return $this->fields[$name] ?? null;
+    }
 }
