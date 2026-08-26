@@ -98,10 +98,10 @@ class DebugServiceProvider extends ServiceProvider
 
                         if (!empty($entry['is_string'])) {
                             $value = $entry['message'] ?? '';
-                        } elseif (!empty($entry['message_html'])) {
-                            $value = strip_tags((string) $entry['message_html']);
                         } elseif (!empty($entry['message_json'])) {
                             $value = $entry['message_json'];
+                        } elseif (!empty($entry['message_html'])) {
+                            $value = strip_tags((string) $entry['message_html']);
                         } else {
                             $value = '[dump]';
                         }

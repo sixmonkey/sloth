@@ -6,6 +6,7 @@ namespace Sloth\Debug;
 use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\TimeDataCollector;
+use Sloth\Debug\Collectors\SlothMessagesCollector;
 use DebugBar\DebugBar;
 use Sloth\Core\Application;
 
@@ -75,7 +76,7 @@ class SlothDebugBar extends DebugBar
         $start = defined('SLOTH_START') ? SLOTH_START : microtime(true);
 
         $this->timeCollector = new TimeDataCollector($start);
-        $this->messagesCollector = new MessagesCollector();
+        $this->messagesCollector = new SlothMessagesCollector();
         $this->exceptionsCollector = new ExceptionsCollector();
     }
 
