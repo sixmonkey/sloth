@@ -68,6 +68,9 @@ trait ApplicationProviderTrait
             // Theme — config + view paths before other providers read them
             \Sloth\Theme\ThemeServiceProvider::class,
 
+            // Theme config overrides — must come after providers merge their defaults
+            \Sloth\Configure\ConfigureServiceProvider::class,
+
             // Framework
             \Sloth\Finder\FinderServiceProvider::class,
             \Sloth\View\ViewServiceProvider::class,
