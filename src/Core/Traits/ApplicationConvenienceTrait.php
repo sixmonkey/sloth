@@ -6,6 +6,7 @@ namespace Sloth\Core\Traits;
 use Deprecated;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
+use Sloth\Context\Context;
 use Sloth\Model\Model;
 use Sloth\Model\Taxonomy;
 
@@ -26,12 +27,12 @@ trait ApplicationConvenienceTrait
     /**
      * Get the template context.
      *
-     * @return array<string, mixed>
+     * @return array|Context
      *
      * @since 1.0.0
      */
     #[Deprecated(message: "use app('context')->getContext() instead")]
-    public function getContext(): array
+    public function getContext(): array|Context
     {
         return $this->bound('context') ? $this['context']->getContext() : [];
     }
