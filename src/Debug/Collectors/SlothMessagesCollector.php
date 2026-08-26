@@ -25,23 +25,21 @@ class SlothMessagesCollector extends MessagesCollector
 
         if ($isString) {
             $messageText = $this->getDataFormatter()->formatVar($message);
+        } elseif ($message instanceof MessageInterface) {
+            $messageText = $message->getText();
+            $messageHtml = $message->getHtml();
         } else {
-            if ($message instanceof MessageInterface) {
-                $messageText = $message->getText();
-                $messageHtml = $message->getHtml();
-            } else {
-                $messageHtml = $this->getDataFormatter()->formatVar($message);
+            $messageHtml = $this->getDataFormatter()->formatVar($message);
 
-                if ($this->compactDumps) {
-                    $messageHtml = $this->compactMessageDump($messageHtml);
-                }
-
-                $messageJson = $this->getJsonFormatter()->formatVar($message);
+            if ($this->compactDumps) {
+                $messageHtml = $this->compactMessageDump($messageHtml);
             }
+
+            $messageJson = $this->getJsonFormatter()->formatVar($message);
         }
 
         $contextJson = null;
-        if ($context) {
+        if ($context !== []) {
             foreach ($context as $key => $value) {
                 $formatted = $this->getDataFormatter()->formatVar($value);
                 if ($this->isJsonVarDumperUsed()) {
@@ -74,7 +72,7 @@ class SlothMessagesCollector extends MessagesCollector
             'context_json' => $contextJson,
             'label' => $label,
             'time' => microtime(true),
-            'xdebug_link' => $stackItem ? $this->getXdebugLink($stackItem['file'], $stackItem['line'] ?? null) : null,
+            'xdebug_link' => $stackItem !== [] ? $this->getXdebugLink($stackItem['file'], $stackItem['line'] ?? null) : null,
         ];
 
         if ($this->hasTimeDataCollector()) {
