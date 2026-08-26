@@ -11,6 +11,7 @@ class SlothMessagesCollector extends MessagesCollector
 {
     protected ?JsonDataFormatter $jsonFormatter = null;
 
+    #[\Override]
     public function addMessage(mixed $message, string $label = 'info', array $context = []): void
     {
         if (is_string($message) && $context) {
