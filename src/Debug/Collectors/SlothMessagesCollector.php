@@ -82,7 +82,7 @@ class SlothMessagesCollector extends MessagesCollector
 
     protected function getJsonFormatter(): JsonDataFormatter
     {
-        if ($this->jsonFormatter === null) {
+        if (!$this->jsonFormatter instanceof \DebugBar\DataFormatter\JsonDataFormatter) {
             $this->jsonFormatter = new JsonDataFormatter();
         }
         return $this->jsonFormatter;
