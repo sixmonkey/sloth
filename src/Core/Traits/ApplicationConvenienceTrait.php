@@ -23,11 +23,9 @@ trait ApplicationConvenienceTrait
     // -------------------------------------------------------------------------
     // Backwards compatibility
     // -------------------------------------------------------------------------
-
     /**
      * Get the template context.
      *
-     * @return array|Context
      *
      * @since 1.0.0
      */
