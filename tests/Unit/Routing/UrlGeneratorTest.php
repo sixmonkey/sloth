@@ -74,14 +74,14 @@ describe('UrlGenerator', function (): void {
             $this->generator = $setup();
         });
 
-        it('prepends public/ to the path', function (): void {
+        it('falls back to assets/ when manifest is unavailable', function (): void {
             expect($this->generator->asset('css/app.css'))
-                ->toBe('https://example.com/wp-content/themes/my-theme/public/css/app.css');
+                ->toBe('https://example.com/wp-content/themes/my-theme/assets/css/app.css');
         });
 
         it('handles leading slash in path', function (): void {
             expect($this->generator->asset('/css/app.css'))
-                ->toBe('https://example.com/wp-content/themes/my-theme/public/css/app.css');
+                ->toBe('https://example.com/wp-content/themes/my-theme/assets/css/app.css');
         });
     });
 

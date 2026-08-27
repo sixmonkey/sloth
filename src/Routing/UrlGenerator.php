@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Sloth\Routing;
 
+use Error;
 use InvalidArgumentException;
 use Sloth\Core\Application;
 
@@ -130,7 +131,13 @@ class UrlGenerator
             return $this->manifest;
         }
 
-        $manifestPath = $this->app->themePath('assets/manifest.json');
+        try {
+            $manifestPath = $this->app->themePath('assets/manifest.json');
+        } catch (Error) {
+            $this->manifest = [];
+
+            return $this->manifest;
+        }
 
         if (is_file($manifestPath)) {
             $contents = file_get_contents($manifestPath);
