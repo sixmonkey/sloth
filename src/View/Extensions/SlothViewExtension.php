@@ -83,7 +83,8 @@ class SlothViewExtension extends AbstractViewExtension
             },
 
             // URL
-            'url' => url(...),
+            'url'   => url(...),
+            'asset' => fn (string $path): string => app('url')->asset($path),
 
             // Options
             'options' => fn (?string $key = null, mixed $default = null): mixed => options($key, $default),
